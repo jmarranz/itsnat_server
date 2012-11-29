@@ -1,0 +1,27 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>"Disconnected Nodes" is a powerful feature to save server memory alongside node caching provided
+        by templates. The idea is simple, remove all of child nodes of the selected parent node with no action performed in client
+        (only elements are supported as parents). 
+        By this way, the parent node does not contain child nodes but the client part remains 
+        untouched saving memory in server. 
+    </p>
+    <p>Furthermore, the client nodes below the parent node can be freely modified (including removing 
+        and insertion) by user defined JavaScript code.  
+    </p>
+
+    <p>Reconnection is possible, when reconnecting the client DOM subtree is cleared and now client
+       and server and again in sync, when you add new child nodes the same nodes will be added in client.
+    </p>
+
+</div>
+
+</body>
+</html>

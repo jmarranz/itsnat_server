@@ -1,0 +1,6 @@
+
+ Batik 1.7 tiene dependencias con Xerces 2.5 y Xalan 2.6
+
+ La documentación dice que debe estar alineado con la versión concreta de Xerces, yo creo que esto no es tan importante porque utilizamos una parte pequeña de Batik y de una forma no muy habitual.
+
+

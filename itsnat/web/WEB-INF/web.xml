@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <servlet>
+        <servlet-name>feashow_servlet</servlet-name>
+        <servlet-class>feashow_servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servlet</servlet-name>
+        <servlet-class>org.itsnat.manual.core.servlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>comp_ex_servlet</servlet-name>
+        <servlet-class>org.itsnat.manual.comp.comp_ex_servlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>feashow_servlet</servlet-name>
+        <url-pattern>/feashow_servlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>feashow_servlet</servlet-name>
+        <url-pattern>/index.jsp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>feashow_servlet</servlet-name>
+        <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet</servlet-name>
+        <url-pattern>/servlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>comp_ex_servlet</servlet-name>
+        <url-pattern>/comp_ex_servlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+	<welcome-file>
+            index.jsp
+        </welcome-file>        
+    </welcome-file-list>
+</web-app>

@@ -1,0 +1,43 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true" id="containerId">
+
+        <input type="text" id="inputElemId" size="30" value="Change this text and click the link" />
+        <br />
+        <a href="javascript:void(0)" id="linkToResolveId">Resolve Variable</a>
+        <br />
+        <p id="elementId"><b><i>${variable_to_resolve}</i></b></p>
+
+        <p>Pattern rendered using a Variable Resolver:</p>
+        <table id="elementId2" border="1px" cellspacing="0" cellpadding="10px">
+            <tbody>
+                <tr><td>Year:</td><td>${year}</td></tr>
+                <tr><td>Month:</td><td>${month}</td></tr>
+                <tr><td>Day:</td><td>${day}</td></tr>
+            </tbody>
+        </table>
+
+        <p>Pattern rendered using a Variable Resolver and introspection:</p>
+        <table id="elementId3" border="1px" cellspacing="0" cellpadding="10px">
+            <tbody>
+                <tr><td>First Name:</td><td>${person.firstName}</td></tr>
+                <tr><td>Last Name:</td><td>${person.lastName}</td></tr>
+                <tr><td>Age:</td><td>${person.age}</td></tr>
+                <tr><td>Married:</td><td>${person.married}</td></tr>
+            </tbody>
+        </table>
+
+        <script type="text/javascript">
+            var elem = document.getElementById("inputElemId");
+            elem.focus();
+            elem.select();
+        </script>
+    </div>
+</body>
+</html>
+

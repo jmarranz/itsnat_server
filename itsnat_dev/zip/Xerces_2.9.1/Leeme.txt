@@ -1,0 +1,6 @@
+
+ Xerces 2.9.1
+
+* Es la versión usada en ItsNat
+
+ Deben añadirse xercesImpl.jar y xml-apis.jar 

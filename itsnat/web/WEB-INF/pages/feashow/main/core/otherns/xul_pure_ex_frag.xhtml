@@ -1,0 +1,30 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+<div itsnat:nocache="true">
+
+    <p>This example only works in Gecko based browsers and MSIE with <a href="http://www.savarese.com/software/svgplugin/" target="_blank">Savarese Ssrc SVG/XUL</a> plugin</p>
+
+    <a id="linkId" href="feashow_servlet?itsnat_doc_name=feashow.ext.core.otherns.xulPureExample" target="_blank">
+        Launch stand alone
+    </a>
+    <br /><br />
+    <iframe id="frameId" style="width:550px; height:500px;" frameborder="0" src="?itsnat_doc_name=feashow.ext.core.otherns.xulPureExample"></iframe>
+
+    <script type="text/javascript">
+    if (!isXULCapable())
+    {
+        document.getElementById("linkId").style.display = "none";
+        var iframe = document.getElementById("frameId");
+        iframe.style.display = "none";
+        iframe.src="";
+    }
+    </script>
+</div>
+
+</body>
+</html>

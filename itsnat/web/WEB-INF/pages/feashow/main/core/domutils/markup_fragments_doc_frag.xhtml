@@ -1,0 +1,64 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>When new markup must be included in a document using DOM may be very verbose
+        if this markup is big. <code>ItsNatDocument.toDOM(String)</code>
+        is an alternative but this method should be used with small pieces of markup
+        because is ever parsed from scratch and there is no caching.
+    </p>
+    <p>ItsNat provides a new alternative, markup fragments
+    Markup fragments are normal HTML (or XML) files registered as template fragments
+    calling <code>ItsNatServlet.registerItsNatDocFragmentTemplate(...)</code> with a user defined name.
+    </p>
+    <p>When the fragment is included, only the HTML body content (or XML content below the root node)
+    is the markup used (the header content can be used too).
+    </p>
+    <p>Static parts of markup fragments are automatically cached to save memory,
+    a cached subtree is saved as text once in memory and is not included
+    as DOM in the target document saving memory.</p>
+
+    <p>These fragment templates may be included in documents dynamically or statically.</p>
+
+    <h5>Static inclusion</h5>
+
+    <p>A fragment can be included statically using special markup (the "itsnat" namespace need to be declared),
+    this markup is resolved and replaced on load time:</p>
+    <ul>
+        <li>Using <code>&lt;itsnat:include name="<i>FragmentName</i>" /&gt;</code> : this element
+        is fully replaced with the fragment markup.
+        </li>
+        <br />
+        <li>Using <code>itsnat:include="<i>FragmentName</i>"</code> attribute : the element
+            containing the include attribute is fully replaced with the fragment markup.
+            This version is less intrusive than the <code>include</code> element version.
+        </li>
+        <br />
+        <li>Using <code>itsnat:includeInside="<i>FragmentName</i>"</code> attribute : the element
+            <i>content</i> is fully replaced with the fragment markup.
+        </li>
+    </ul>
+    <p>If this special markup is located inside an HTML &lt;body&gt; the fragment
+        included will be the "body fragment", if located inside &lt;head&gt; the head
+        fragment will be included. In XML there is no body/head discrimination.
+    </p>
+
+    <h5>Dynamic inclusion</h5>
+
+    <p>A fragment can be included programmatically calling
+        <code>ItsNatHTMLDocFragmentTemplate.loadDocumentFragmentBody</code> or
+        <code>ItsNatHTMLDocFragmentTemplate.loadDocumentFragmentHead</code>
+        or in general <code>ItsNatDocFragmentTemplate.loadDocumentFragment</code>
+        (by default uses the body fragment in HTML). These methods return a
+        <code>org.w3c.dom.DocumentFragment</code> object containing the markup
+        ready to be included using normal DOM methods.
+    </p>
+
+</div>
+
+</body>
+</html>

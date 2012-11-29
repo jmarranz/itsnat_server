@@ -1,0 +1,33 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>In any typical ItsNat application, markup templates (for documents and fragments) are based
+       on local files specified by the file path when the template is registered,
+       notwithstanding there are more options like remote files specified by URLs
+       or user defined sources implementing <code>TemplateSource</code>.
+    </p>
+    <p>When a remote file is specified by its URL (as a String) ItsNat loads the remote
+       file the first time the template is needed (to build one document or fragment)
+       and there is no further reloading.
+    </p>
+    <p>Because previous approaches may be not flexible enough, ItsNat provides a mechanism
+       to specify custom template sources implementing the interface <code>TemplateSource</code>.
+       By this interface developers can return the required template to be used in
+       a per request basis. This feature opens ItsNat to build sophisticated
+       front ends/proxies/filters of any web application/site.
+    </p>
+    
+    <p>This example shows how we can use ItsNat as a front end of Google Search taking
+        on demand the pages returned by Google as template sources, modifying them
+        including events transported with AJAX.
+    </p>
+</div>
+
+</body>
+</html>

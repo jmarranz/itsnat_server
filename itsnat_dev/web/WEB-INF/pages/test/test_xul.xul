@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window>
+<!-- Comentario para fastidiar -->
+<window title="XUL Example" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        xmlns:itsnat="http://itsnat.org/itsnat"
+        itsnat:nocache="true">
+
+<vbox style="margin:20px">
+    <description>XUL Example</description>
+    <hbox>
+        <listbox id="listId" seltype="multiple" rows="3" flex="1">
+          <listitem label="Pattern" />
+        </listbox>
+        <spacer flex="2" />
+    </hbox>
+    <hbox>
+        <button id="addItemId" label="Add Item" />
+        <spacer flex="1" />
+    </hbox>
+
+    <itsnat:include name="test_xul_fragment" xmlns:itsnat="http://itsnat.org/itsnat" />
+
+    <hbox>
+        <button id="includeFragId" label="Include Fragment" />
+
+        <button id="toDOMId">
+        Click to Include using toDOM()
+        </button>
+    </hbox>
+
+    <hbox>
+        <button id="testModalLayerId">
+        Test Modal Layer
+        </button>
+        <label id="cleanModeId1">First Use Clean Mode</label>
+        <label id="cleanModeId2">Second Use Clean Mode</label>
+    </hbox>
+
+    <hbox>
+        <html:a id="referrerId" href="${servletURL}?itsnat_doc_name=test_xul">
+            Test Referrer
+        </html:a>
+    </hbox>
+
+    <vbox>
+
+        <html:script><![CDATA[ 
+            function doIt(elem)
+                {
+                    //elem.innerHTML='<i>QUE PASA</i>'; alert(elem.innerHTML);
+                    elem.setAttributeNS("http://www.w3.org/1999/xhtml","onmouseup","alert('MOUSEUP')");
+                    if (true) return;
+
+                    var attrName = "html:onmouseup";
+                    var localName = "onmouseup";
+                    var attr = elem.getAttributeNode(attrName);
+                    if (attr) alert(attr.namespaceURI + " " + attr.name + " " + attr.value);
+                    else alert("NO 1");
+                    var attr = elem.getAttributeNodeNS("http://www.w3.org/1999/xhtml",localName);
+                    if (attr) alert(attr.namespaceURI + " " + attr.name + " " + attr.value);
+                    else alert("NO 2");
+                }
+        ]]></html:script>
+        <html:div onclick="doIt(this)" xmlns:html2="http://www.w3.org/1999/xhtml">PRUEBA</html:div>
+
+        <html:br />
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=1000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</html:a> &#160;&#160;
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=1000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false" target="_blank">Full Control</html:a><html:br />
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</html:a> &#160;&#160;
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false" target="_blank">Full Control</html:a><html:br />
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=none&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</html:a> &#160;&#160;
+        <html:a href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=none&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false" target="_blank">Full Control</html:a><html:br />
+        <html:a href="index.html">Return</html:a>
+
+    </vbox>
+
+</vbox>
+
+</window>

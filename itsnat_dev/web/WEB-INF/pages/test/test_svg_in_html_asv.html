@@ -1,0 +1,72 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:test="http://foo/foo">
+<head>
+
+<title>Test SVG in HTML/XHTML with Adobe SVG Viewer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <!-- ISO-8859-1 -->
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="pragma" content="no-cache" />
+</head>
+<body xmlns:itsnat="http://itsnat.org/itsnat" itsnat:nocache="true" >
+
+<h3>Test SVG in HTML/XHTML with Adobe SVG Viewer (and native SVG browsers)</h3>
+
+
+<span id="objectContainerId" style="margin:30px">
+    <span style="display:none;">
+        <object id="AdobeSVG" classid="clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2"></object>
+    </span>
+    <span> <?import namespace="svg" urn="http://www.w3.org/2000/svg" implementation="#AdobeSVG"?> </span>
+</span>
+
+<span id="objectContainerReferenceId" />
+
+<span id="svgContainerId">
+    <svg:svg id="svgId" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" width="350px" height="200px" style="border: red 1px solid">
+        <svg:g id="circleListId">
+            <svg:circle id="circleId" cx="50" cy="50" r="50" fill="#ff0000" stroke="#000000" stroke-width="2px"/>            
+        </svg:g><!-- Comentario para fastidiar -->
+        <svg:text id="textId" x="150" y="150"><!-- Comentario
+          para fastidiar -->HELLO</svg:text>
+    </svg:svg>
+</span>
+
+<span id="svgContainerReferenceId" />
+
+
+<br /><br />
+<a id="addCircleId" href="javascript:;">Add Circle</a>&nbsp;
+<a id="removeCircleId" href="javascript:;">Remove Circle</a>
+<br />
+<a id="biggerCircleId" href="javascript:;">Bigger Selected Circle</a>&nbsp;
+<a id="smallerCircleId" href="javascript:;">Smaller Selected Circle</a>
+<br />
+<a id="addRemoveTextId" href="javascript:;">Add/Remove Text</a>&nbsp;
+<a id="changeTextId" href="javascript:;">Change Text (click twice)</a>
+<br />
+<a id="testSubTreeInsertionId" href="javascript:;">Test Subtree Re-Insertion</a>&nbsp;
+
+
+<br /><br />
+<a id="reinsertId" href="javascript:;">Eliminar</a>
+
+<br /><br />
+<a href="javascript:window.location.href=window.location.href">RELOAD</a>
+
+<br /><br />
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+<br />
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+<br />
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+<a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+<br />
+<a href="index.html">Return</a>
+
+
+</body>
+</html>

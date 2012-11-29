@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hybrid Client-Server Centric Programming</title>
+
+<link href="hybridcs/jcarousel/style.css" rel="stylesheet" type="text/css" />
+<!-- jQuery library -->
+<script type="text/javascript" src="hybridcs/jcarousel/lib/jquery-1.4.2.min.js"></script>
+<!-- jCarousel library -->
+<script type="text/javascript" src="hybridcs/jcarousel/lib/jquery.jcarousel.min.js"></script>
+<!-- jCarousel skin stylesheet -->
+<link rel="stylesheet" type="text/css" href="hybridcs/jcarousel/skins/tango/skin.css" />
+</head>
+<body xmlns:itsnat="http://itsnat.org/itsnat" >
+
+  <h1>Hybrid Client-Server Centric Programming</h1>
+
+  <p>This example shows how <a href="http://www.itsnat.org">ItsNat</a> can cooperate with client
+     JavaScript libraries like <a href="http://jquery.com/" target="_blank">jQuery</a> and black-boxed JS components like <a href="http://sorgalla.com/jcarousel/" target="_blank">jCarousel</a>.
+  </p>
+
+  <br />
+  <div id="carouselContainerId" itsnat:nocache="true" style="height:130px">
+      <ul id="carouselId" class="jcarousel-skin-tango">
+        <li><img src="hybridcs/img/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481072_b4a0d09597_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481087_33ae73a8de_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481108_4359e6b971_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481218_264ce20da0_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199481255_fdfe885f87_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt="" /></li>
+        <li><img src="hybridcs/img/229228324_08223b70fa_s.jpg" width="75" height="75" alt="" /></li>
+      </ul>
+  </div>
+
+
+  <br/>
+  <div itsnat:nocache="true">
+    URL of the new Image: <br/>
+    <input id="imgURLId" type="text" size="50" /> <br/>
+    <button id="addImageFirstId">Add to the Begining</button>
+    <button id="addImageLastId">Add to the End</button>
+  </div>
+
+    <br />
+    <a href="index.jsp">RETURN</a>
+
+</body>
+</html>

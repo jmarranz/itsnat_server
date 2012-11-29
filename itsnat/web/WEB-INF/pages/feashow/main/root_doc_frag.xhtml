@@ -1,0 +1,149 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+<div class="explanation">
+
+    <h5>Overview</h5>
+
+    <p>Welcome to the ItsNat's Feature Showcase, this is a special <a href="http://www.uxmatters.com/mt/archives/2006/11/improving-user-workflows-with-single-page-user-interfaces.php" target="_blank">Single Page Interface</a>
+    Java AJAX web application using <a href="http://www.itsnat.org">ItsNat</a> to show its capabilities with many examples and the source code used.
+    </p>
+
+    <p>ItsNat is an innovative open source GNU Lesser General Public License v3 (LGPL v3) licensed
+    Java AJAX Component based Web Framework, it offers a <b>natural</b> approach
+    to modern web development.
+    </p>
+
+    <p>Why natural? ItsNat leverages the old tools to build the new AJAX based Web 2.0 applications:
+        <b>pure (X)HTML and pure Java W3C DOM for the view logic!</b>
+    </p>
+
+    <p>ItsNat is server centric using a unique approach called <b>TBITS, "The Browser Is The Server"</b>.
+    ItsNat simulates a <b>Universal W3C Java Browser</b> at the server, with ItsNat the
+    server mimics the behavior of a web browser, containing a W3C DOM Level 2 node tree
+    and receiving W3C DOM Events.
+    </p>
+
+    <p>ItsNat virtually supports 100% of browser market including mobile devices with AJAX support:</p>
+
+    <ul>
+        <li>Desktop Browsers:<br /><br />
+            Adobe AIR HTML Component, Arora, Google Chrome, FireFox 1+, Internet Explorer v6,7,8,
+            Internet Explorer v9, Moblin 2.0, Opera 9+, QtWebKit (Qt 4.4), Safari 3+.
+            <br /><br />
+        </li>
+        <li>Mobile Browsers: <br /><br />
+            Android 1.0+, BlackBerry JDE 4.6+ (Flip, Bold, Storm... including JDE 6.0 Torch), Bolt, Fennec 1.0a1 (a.k.a FireFox Mobile),
+            Pocket IE 6 (Windows Mobile 6 and 6.1), IE Mobile 6 (since Windows Mobile 6.1.4),
+            iPhone/iPod Touch 2.0+, Iris 1.0.8+, Minimo 0.2, Motorola Symphony 1.1, NetFront 3.4+,
+            Opera Mini 4.x, Opera Mobile 8.6x (WinMob and UIQ), 9.5, 9.7 and 10, S60WebKit (since S60 3rd), S40WebKit (since S40 6th),
+            Palm Pre webOS, QtWebKit of Qt for Embedded Linux (Qt v4.4) and Windows CE,
+            SkyFire 1.0 and UCWEB (Java and WinMob).
+            <br /><br />
+        </li>
+        <li>SVG plugins: <br /><br />
+            Adobe SVG Viewer v3 and v6 beta, Renesis Player v1.1.1, Savarese Ssrc SVG (adds XUL to MSIE too), SVGWeb,
+            and <a href="http://xmlgraphics.apache.org/batik/" target="_blank">Batik</a> as applet.
+        </li>
+    </ul>
+
+    <h5>How ItsNat works</h5>
+
+    <p>When the Java user code modifies the server DOM tree this modification is detected
+    (using DOM mutation events) and automatically sent to the real web browser
+    as JavaScript DOM based code, synchronizing the client DOM with the server.
+    This approach fits perfectly well with AJAX! AJAX is not an addition is
+    a core part of ItsNat.
+    </p>
+
+    <p>From server the developer can register W3C DOM Event listeners
+    listening for W3C DOM events. This registry is automatically propagated to the client,
+    when the user, for instance, clicks a "listened" element the real browser event is sent
+    to the server using AJAX, converted to a W3C DOM event and received by the server based listener(s).
+    </p>
+
+    <p>The DOM is used to modify the original tree/layout on loading time
+    or as a response of a AJAX event, this original layout is defined using
+    <b>pure (X)HTML based templates</b> with absolutely <b>NO logic!</b> (extreme separation of view and logic).
+    If the modification is big ItsNat provides "template fragments",
+    a template fragment is a piece of (X)HTML (or XML) markup that can be inserted (included) as DOM
+    into the main tree statically or dynamically (typically as a response of a user/AJAX event).
+    </p>
+
+    <p>In addition to AJAX, events can be transported by auxiliary SCRIPT elements.</p>
+
+    <p>Do not worry about the memory size of a DOM tree, ItsNat provides
+    <b>a smart DOM tree cache in a serialized form (pure text not DOM)</b>. For instance this text
+    you are reading (the "explanation box") is saved in memory once and
+    as pure text not DOM.
+    </p>
+
+    <h5>Core features</h5>
+
+    <p>These are the basics, ItsNat provides many more things: client to server synchronization, web-continuations (continue events),
+    user defined event types, timers, long running server tasks, <b>COMET</b>, DOM utils
+    (to simplify DOM manipulation), resolution of ${} based variables in markup,
+    <code>ElementCSSInlineStyle</code> support in server,
+    <b>automatic page remote/view control of other users/sessions!!</b>,
+    XML generation, <b>non-HTML namespaces support like SVG embedded in XHTML</b> or <b>pure SVG and XUL
+    documents with AJAX/SCRIPT events</b>,
+    JavaScript generation utilities, <b>server-sent events (events fired by the server sent to the client)
+    simulating user actions for instance to test the view using the server</b>, custom pretty URLs,
+    previous/forward document navigation (pull and push referrers) with <b>back button support</b>,
+    degraded modes (events disabled and JavaScript disabled modes), automatic
+    synchronization of server forms with client etc.
+    </p>
+
+    <h5>A Component System</h5>
+
+    <p>Previous features are defined in the ItsNat <b>Core</b> level, ItsNat
+    provides a <b>Component</b> system (constructed over the Core level) too.
+    These components are event (AJAX or SCRIPT) based from the scratch inspired in Swing and reusing Swing as far as possible
+    such as data and selection models (but ItsNat does not want to be a Swing forced clone in web,
+    is not a pixel based web framework). ItsNat provides several button types,
+    text based components, labels, lists, tables and trees (all of them with content editable "in place").
+    </p>
+
+    <p>The most interesting feature is: any element can
+    be a component, for instance any element can be a normal button, a check box,
+    a radio button, any element list may be a combo or a list component, for instance
+    a group of SVG circles may be a multiple selection list component.
+    Furthermore components can be used to generate XML!!
+    </p>
+
+    <p>ItsNat <b>components are not intrusive</b>, they are not "black boxes",
+    you can customize and control every element used, every attribute. Components
+    are highly extensible and customizable, for instance there is no default decoration when selection
+    ItsNat tells you when and what has been selected, ItsNat may be seen as a meta-framework.
+    </p>
+
+    <p>To do user defined components, for instance compound components, is amazingly easy.</p>
+
+    <p>Furthermore: you can specify that server form controls are updated
+    when the client changes automatically without components! (components are used behind the scenes
+    configured as "markup driven").
+    This way client-server synchronization is bidirectional and the server fully simulates
+    a web browser including client state simulation of form controls.
+    </p>
+
+    <h5>What ItsNat is NOT, what is MISSING (deliberately)!</h5>
+
+    <p>No XML configuration (use Spring or the configuration technique you like more),
+    no declarative navigation, no JSP, no custom tags,
+    no declarative programming, no view-Java bindings, no logic mixed with view, no new (expression or templating) languages,
+    no "pull/active views" (ItsNat pushes data/markup to the view), not page based development (ItsNat is event based),
+    not highly closed not customizable and intrusive components, not obscure HTML and JavaScript generation,
+    not fully programmatic view definition (ItsNat uses pure HTML/XHTML/SVG/XUL/XML templates),
+    not JavaScript centric, no big and obscure JavaScript libraries hard to debug and maintain open to
+    modifications by malicious users in runtime, not AJAX as a forced add-on, not oriented to tools (use your favorite
+    X/HTML designer and pure Java IDE), not developer/designer substitution by the framework,
+    <b>no loss of developer control</b>.
+    </p>
+
+</div>
+
+</body>
+</html>

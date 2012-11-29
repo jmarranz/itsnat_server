@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+    itsnat:nocache="true" xmlns:itsnat="http://itsnat.org/itsnat">
+
+    <text x="130" y="30" font-size="20">Click on any circle</text>
+
+    <circle id="circle1" cx='70' cy='100' r='50' fill='#0000ff' fill-opacity='0.5'/>
+
+    <circle id="circle2" cx='200' cy='100' r='50' fill='#0000ff' fill-opacity='0.5'/>
+
+    <circle id="circle3" cx='330' cy='100' r='50' fill='#0000ff' fill-opacity='0.5'/>
+
+
+<script>
+    //alert("ANTES");
+
+</script>
+
+<!--
+<script xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/itsnat_dev/ItsNatServletExample?itsnat_action=load_script&amp;itsnat_file=itsnat.js&amp;time=1264580134937" id="itsnat_load_script_1" type="text/ecmascript"/><script xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/itsnat_dev/ItsNatServletExample?itsnat_action=load_script&amp;itsnat_file=itsnat_w3c.js&amp;time=1264580134937" id="itsnat_load_script_2" type="text/ecmascript"/><script xmlns="http://www.w3.org/2000/svg" type="text/ecmascript" id="itsnat_load_script_3">
+alert("DENTRO");
+(function(){
+
+try { Packages.org.itsnat.batik.applet.NOVALE.fix(window); }catch(ex) { }
+Packages.ItsNatBatikAppletScriptUtil.fix(window);
+alert("DESP de Packages.org.itsnat..");
+
+var win = window;
+
+var itsnat = itsnat_init_w3c(win);
+
+var itsNatDoc = new itsnat.W3COtherNSDocument();
+   
+itsNatDoc.init(document,win,8,-1,"1264581177484_7756","ss_1","cd_5","http://localhost:8080/itsnat_dev/ItsNatServletExample",true,"null",4,true,3);
+
+itsNatDoc.addDOMEventListener([null,"cn_2","de,1",["cn_3"]],"click","el_1",null,false,2,-1,2);
+
+itsNatDoc.addDOMEventListener(["cn_3","cn_5","2"],"click","el_4",null,false,2,-1,2);
+itsNatDoc.addDOMEventListener(["cn_3","cn_7","3"],"click","el_6",null,false,2,-1,2);
+itsNatDoc.addUserEventListener(null,"update_svg","el_8",null,2,-1);
+itsNatDoc.addDOMEventListener("cn_3","SVGUnload","el_9",null,false,2,-1,0);
+})();
+alert("FIN");
+</script> --> </svg>

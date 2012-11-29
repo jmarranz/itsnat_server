@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Test ASV and Native SVG Bound to Parent: OBJECT</title>
+</head>
+<body xmlns:itsnat="http://itsnat.org/itsnat" itsnat:nocache="true">
+    <h1>Test ASV and Native SVG Bound to Parent: OBJECT</h1>
+
+    <p>Selected Circle: <span id="circleSelectedId">none</span>
+    </p>
+    <p>Radio: <input id="radioId" type="text" size="5" />
+    </p>
+    <p>
+       <input id="updateId" type="button" value="Update" />
+    </p>
+
+    <object id="containerSVGId"
+               data="?itsnat_doc_name=test_svg_bound"
+               src="?itsnat_doc_name=test_svg_bound" type="image/svg+xml" style="width:400px; height:180px;" >
+        <param name="src" value="?itsnat_doc_name=test_svg_bound" />
+    </object>
+
+    <br /><br />
+    <button id="reinsertId">Reinsert</button>&nbsp;
+    <button id="changeURLId">Change URL</button>
+
+    <br /><br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="index.html">Return</a>
+    <br /><br />
+
+    <script>
+    function mostrar(node)
+    {
+        var i = 0;
+        var str = "";
+        for(var name in node)
+        {
+          if (name.indexOf("on") == 0) continue;
+          str += name + "-";
+          //try { str += typeof node[name]; } catch(e) { }
+          str += " \n";
+          if (i == 20)
+          {
+            alert(str);
+            str = "";
+            i = 0;
+          }
+          i++;
+        }
+        alert(str);
+    }
+
+        function test()
+        {
+            var elem = document.getElementById("containerSVGId");
+
+            //mostrar(elem);
+            alert(elem.src);
+            elem.loadFromURI(elem.src);
+            
+            //elem.data = elem.BaseHref;
+            //elem.src = elem.src + " ";
+            alert("BIEN");
+        }
+        // document.onclick = test;
+    </script>
+
+</body>
+</html>
+

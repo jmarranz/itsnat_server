@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:itsnat="http://itsnat.org/itsnat"
+    itsnat:nocache="true" version="1.1" width="100%" height="100%">
+
+    <g id="compId" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" >
+        <circle cx="70" cy="70" r="70" fill-opacity="0.5" fill="#0000ff" stroke="black" stroke-width="3px" />
+    </g>
+
+    <foreignObject x="20" width="450" y="120" height="150">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+        <br />
+        <input id="removeId" type="button" value="Remove Selected" />
+        <br /><br />
+        Radio: <input id="itemId" type="text" size="15" value="" />
+        Pos: <input id="posId" type="text" value="" size="4" />
+        <input id="updateId" type="button" value="Update" />
+        <input id="insertId" type="button" value="Insert" />
+        <br />
+    </body>
+    </foreignObject>
+
+</svg>
+

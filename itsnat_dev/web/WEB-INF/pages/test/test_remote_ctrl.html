@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html >
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <title>Remote Control</title>
+    </head>
+    <body itsnat:nocache="true" xmlns:itsnat="http://itsnat.org/itsnat">
+
+        <h1>Remote Control</h1>
+
+        <script>
+            function toggleTargetBlank()
+            {
+                var anchors = document.getElementsByTagName("a");
+                for(var i = 0; i < anchors.length; i++)
+                    if (anchors[i].target == "_blank")
+                        anchors[i].target = "";
+                    else
+                        anchors[i].target = "_blank";
+            }
+        </script>
+        <p><input type="checkbox" onclick="toggleTargetBlank()" />Toggle target=blank</p>
+
+        <div id="sessions">
+            <div>Session: ${sessionId} ${agentInfo}
+                <span id="docs">
+                    <ul>
+                        <li>
+                            Remote Doc: ${docId} ${docName}
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=2000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Timer</a>
+                            &nbsp;
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=2000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Timer Full Control</a>
+                            &nbsp;
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Comet</a>
+                            &nbsp;
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Comet Full Control</a>
+                            &nbsp;
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">No Refresh</a>
+                            &nbsp;
+                            <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">No Refresh Full Control</a>
+                        </li>
+                    </ul>
+                    <ul><li>No documents loaded</li></ul>
+                </span>
+            </div>
+        </div>
+
+        <!-- El caso "No documents loaded"
+        es cuando otro navegador o usuario estuvo viendo una página ItsNat y se salió (o cerró) la página y la sesión sigue viva -->
+
+        <br /><br />
+        <a href="index.html">Return</a>
+
+    </body>
+</html>
+

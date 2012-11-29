@@ -1,0 +1,24 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div class="explanation">
+    <p>A timeout may be specified in any AJAX/SCRIPT event listener.
+    This is the maximum time an asynchronous (or asynchronous-hold)
+    AJAX/SCRIPT request will wait to the server before aborting the request.
+    A negative value specifies no timeout.
+    </p>
+    <p>In synchronous AJAX events the timeout is ignored (a synchronous
+        event cannot be aborted).
+    </p>
+    <p>Use this feature with care (by default there is no timeout), an aborted request may stop a COMET process,
+       a timer, a remote view/control process etc, and the worst thing client may remain unsynchronized.
+    </p>
+</div>
+
+</body>
+</html>

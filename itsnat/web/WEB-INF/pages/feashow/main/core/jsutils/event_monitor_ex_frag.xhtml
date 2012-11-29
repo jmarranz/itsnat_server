@@ -1,0 +1,44 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+    <div itsnat:nocache="true">
+
+        <script type="text/javascript">
+        function EventMonitor()
+        {
+            this.before = before;
+            this.after = after;
+
+            this.monitor = document.getElementById("monitorId");
+            this.count = 0;
+
+            function before(evt)
+            {
+                if (this.count == 0)
+                    this.monitor.style.display = "block";
+
+                this.count++;
+            }
+
+            function after(evt)
+            {
+                if (this.count == 0) return; // to avoid some pending event before registering
+
+                this.count--;
+
+                if (this.count == 0)
+                    this.monitor.style.display = "none";
+            }
+        }
+        </script>
+
+        <span id="monitorId" style="color:white; background:red; display:none;">Wait a moment!</span>
+
+        <br />
+        <a id="linkId" href="javascript:void(0)">Click Me</a>
+    </div>
+</body>
+</html>

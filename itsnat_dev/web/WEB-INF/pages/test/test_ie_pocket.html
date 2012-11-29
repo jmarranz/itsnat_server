@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Test IE Pocket</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <!-- ISO-8859-1 -->
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <style type="text/css">
+        td a { text-decoration:none; color:black; }
+    </style>
+    <script type="text/javascript">
+    function init(evt)
+    {
+        alert("HTML ONLOAD " + evt.type);
+    }
+    </script>
+
+    </head>
+    <body onload="init(event)" itsnat:nocache="true" xmlns:itsnat="http://itsnat.org/itsnat">
+
+    <!--  Este comentario es para fastidiar (testear) pues en IE Pocket no es reflejado en el DOM -->
+    <h3>Test IE Pocket/MotoWebKit</h3>
+
+    <!-- En IE Pocket este test provoca una regeneracion de toda la página via innerHTML -->
+    <a id="setTextNodeTestId" href="javascript:void(0)">Test setTextNode</a>
+    <img src="img/address-book-new.png"/><img id="setTextNodeTestId2" src="img/address-book-new.png"/>
+    <br /><br />
+
+    <a href="http://www.google.com" onclick="var evt = window.event? window.event : event; alert(evt.type + ' Must be A: ' + this.tagName); return false;" id="linkId"><b>Click Here </b><i>wait an OK</i></a>
+
+    <!-- javascript:void(0) -->
+
+    <p align="right" id="testAttrId">Must be <b>left-aligned</b></p>
+
+    <div id="newContentId"></div>
+
+    <br />
+    <select id="selectIdMultiple" multiple="multiple" size="5" style="width:100px;">
+        <option>Item 1</option>
+        <option>Item 2</option>
+    </select>
+    <br />
+    <a href="javascript:;" id="addRowsId">Add Rows</a>&nbsp;
+    <a href="javascript:;" id="removeRowsId">Remove Rows</a>
+    <br />
+    Check Box Test<input id="checkboxId" type="checkbox" value="ON" />
+
+    <br /><br />
+    <table border="1px">
+        <tbody id="freeListMultipleId">
+            <tr><td><a href="javascript:;"><b>Pattern</b></a></td></tr>
+        </tbody>
+    </table>
+
+
+    <button id="addRowsFreeListId">Add Rows</button>
+    <button id="removeRowsFreeListId">Remove Rows</button>
+    &nbsp; <input id="editInplaceId" type="checkbox" value="ON" /> Edit In Place
+
+    <br /> <br />
+    <a href="?itsnat_doc_name=test_referrer_pull">Test Referrer Pull</a>
+
+    <br /><br />
+    <a href="?itsnat_doc_name=test_referrer_push">Test Referrer Push</a>
+
+    <br /><br />
+    <a href="http://www.google.com">Test Back Button</a>
+
+    <br /><br />
+    <a href="index.html">Return</a>
+
+    <p id="logId" />
+
+    </body>
+</html>

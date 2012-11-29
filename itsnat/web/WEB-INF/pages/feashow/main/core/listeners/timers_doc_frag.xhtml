@@ -1,0 +1,25 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>"AJAX Timers" are a sort of COMET. ItsNat provides a "conceptual" port of the standard <code>java.util.Timer</code> class
+        to the web, the <code>ItsNatTimer</code> interface. An ItsNat timer
+        is created calling <code>ClientDocument.createItsNatTimer(...)</code>.
+        Timers can also be configured to be transported by auxiliary SCRIPT elements.
+    </p>
+
+    <p>The <code>ItsNatTimer</code> interface has methods very similar to the standard class
+         (signature and behavior), the main difference is that timing is done in the client (no background thread is used) and
+        timer events are send by the client using AJAX or auxiliary SCRIPT elements and received by timer listeners
+        as <code>ItsNatTimerEvent</code> objects.
+    </p>
+
+</div>
+
+</body>
+</html>

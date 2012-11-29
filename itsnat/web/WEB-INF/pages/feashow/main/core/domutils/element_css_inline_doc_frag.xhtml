@@ -1,0 +1,27 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>ItsNat uses <a href="http://xmlgraphics.apache.org/batik/" target="_blank">Batik DOM</a> under the hood
+    as the W3C DOM Level 2 provider, Batik DOM does not support the W3C DOM Style Level 2.
+    </p>
+    <p>For ItsNat user the most interesting W3C DOM Style interface is the
+        <code>org.w3c.dom.css.ElementCSSInlineStyle</code> because it helps
+        to manage the <code>style</code> attribute decomposing it as property name/value pairs.
+    </p>
+    <p>Any DOM <code>org.w3c.dom.Element</code> in ItsNat implements the interface <code>org.w3c.dom.css.ElementCSSInlineStyle</code>,
+    </p>
+    <p>The <code>ElementCSSInlineStyle</code> goes beyond the standard because
+        is <i>write capable</i>: the <code>style</code> attribute can be modified using
+        the CSS related objects, furthermore, is tolerant to direct changes
+        to the <code>style</code> attribute.
+    </p>
+    <p>Current <code>ElementCSSInlineStyle</code> implementation is not fully complete but is highly usable.</p>
+</div>
+
+</body>
+</html>

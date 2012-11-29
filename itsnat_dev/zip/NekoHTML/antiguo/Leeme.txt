@@ -1,0 +1,30 @@
+
+
+* NekoHTML:
+
+http://people.apache.org/~andyc/neko/doc/html/
+
+Es un HTML parser que deriva del DOMParser del Xerces y que utiliza las clases DOM HTML del Xerces. Útil porque la forma que tiene el Xerces de construir un HTMLDocument es a través de HTMLBuilder o usando:
+
+        parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",
+                "org.apache.html.dom.HTMLDocumentImpl");
+
+ NekoHTML es más tolerante según parece que el parser de Xerces.
+
+ Respecto al error documentado en:
+
+http://people.apache.org/~andyc/neko/doc/html/
+http://marc.theaimsgroup.com/?l=xerces-j-dev&m=102075758610295&w=2
+
+ Parece resuelto, el fallo sólo afecta a 2.0.1 (creo).
+
+ No confundir este error con el soporte de XHTML, el problema es de Xerces que al 
+parsear un XHTML crea un XML DOM pero no un HTML DOM, este problema se puede corregir
+derivando de HTMLDocumentImpl y parcheando:
+ public Element createElementNS( String namespaceURI, String qualifiedName )
+
+ Dicho nuevo HTMLDocumentImpl puede usarse en Xerces con:
+
+  DOMParser parser = ...
+  parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",
+                HTMLDocumentImplXercesPatch.class.getName()); 

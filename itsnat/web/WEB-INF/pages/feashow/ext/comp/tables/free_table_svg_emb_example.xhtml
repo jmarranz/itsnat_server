@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Free Table with SVG Elements</title>
+</head>
+<body style="background-color:white;" xmlns:itsnat="http://itsnat.org/itsnat" >
+
+    <h3>Free Table with SVG Elements</h3>
+
+    <div itsnat:nocache="true" style="border:1px solid black; padding:10px;">
+
+        <p>Desktop: Shift/Ctrl buttons can be used to select/unselect. Mobile: keyboard is not needed for selection.</p>
+
+        <input id="removeId" type="button" value="Remove Selected" />
+
+        <p style="margin-bottom:0;">
+            Radio 1: <input id="itemId0" type="text" size="15" value="" />
+            Radio 2: <input id="itemId1" type="text" size="15" value="" />
+            <br />
+            Radio 3: <input id="itemId2" type="text" size="15" value="" />
+            Radio 4: <input id="itemId3" type="text" size="15" value="" />
+        </p>
+        <p style="margin-top:0;">
+            Row: <input id="posId" type="text" value="" size="4" />
+            <input id="updateId" type="button" value="Update" />
+            <input id="insertId" type="button" value="Insert" />
+        </p>
+
+        <svg id="compId" itsnat:nocache="true" width="100%" height="300" xmlns="http://www.w3.org/2000/svg">
+            <g>
+                <circle cx="70" cy="150" r="70" fill="#0000ff" fill-opacity="0.5" />
+            </g>
+        </svg>
+    </div>
+</body>
+</html>
+

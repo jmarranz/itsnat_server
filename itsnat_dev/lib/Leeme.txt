@@ -1,0 +1,6 @@
+
+servlet-api.jar se ha obtenido del directorio common/lib del Tomcat del NetBeans 5.5.1
+
+Creo que el Tomcat es la versión 5.5.17 compilado para Java 1.4
+
+ Sólo se usa para el javadoc

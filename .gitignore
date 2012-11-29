@@ -1,0 +1,24 @@
+# Si ya fueron anyadidos la regla no se aplica, hay que hacer antes: git rm -cached file
+
+/bodadc
+/GnuPlot
+/insites
+/itsnat_web
+/itstagsme
+
+/inexperiments/build
+/inexperiments/dist
+
+/itsnat/build
+/itsnat/dist
+
+/itsnat_dev/build
+/itsnat_dev/dist
+/itsnat_dev/docs
+/itsnat_dev/tmp
+
+/itsnat_spring/build
+/itsnat_spring/dist
+
+/ItsNatBatikApplet/build
+/ItsNatBatikApplet/dist

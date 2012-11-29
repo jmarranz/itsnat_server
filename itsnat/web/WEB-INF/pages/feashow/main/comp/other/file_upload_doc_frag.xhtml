@@ -1,0 +1,37 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>This example shows how to upload a file using &lt;iframe&gt;
+       and &lt;input type=file&gt; elements.
+    </p>
+    <p>A component <code>ItsNatHTMLIFrame</code> is used to wrap the &lt;iframe&gt; element
+       working as a factory of the file upload action, managed by <code>HTMLIFrameFileUpload</code>.
+    </p>
+    <p>When a <code>HTMLIFrameFileUpload</code> is created, a file upload request is sent
+       to the client, ItsNat automatically creates a temporary <code>&lt;form&gt;</code>
+       to send to the &lt;iframe&gt; the file upload request with the file path
+       obtained from the &lt;input type=file&gt; element.
+    </p>
+    <p>&lt;input type=file&gt; does not need an enclosing form and a <code>name</code> attribute, but this
+        attribute is mandatory in &lt;iframe&gt; and cannot be changed after insertion
+        (this is not an ItsNat limitation it is imposed by browsers and has to do with security).
+    </p>
+    <p>Because file uploading may be a long task and taken place in a different "page" (an iframe)
+       the thread of the web request uploading the file is not synchronized with the associated
+       <code>ItsNatDocument</code>, any access to the <code>ItsNatDocument</code> or dependent
+       objects must be synchronized before (for instance to cancel the timer).
+    </p>
+    <p>Of course the &lt;iframe&gt; element may be hidden and can be dynamically inserted
+       when the file upload is requested, and removed when file uploading finishes.
+    </p>
+
+</div>
+
+</body>
+</html>

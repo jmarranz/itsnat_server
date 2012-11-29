@@ -1,0 +1,73 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p><a href="http://code.google.com/p/svgweb/" target="_blank">SVGWeb</a> is a Flash based technology
+        promoted by Google to provide SVG to Internet Explorer (it also works on other browsers with native SVG if
+        forceflash is set to true).
+    </p>
+    <p>ItsNat automatically detects when SVGWeb is used and provides server side support
+        to this technology. Furthermore, ItsNat hides some requisites imposed by SVGWeb, for instance:
+        <ul>
+            <li>No need to enclose your SVG markup inside a &lt;script type="image/svg+xml"&gt; element, you just need
+                to declare your SVG root node to be processed by SVGWeb with <code>itsnat:svgengine="svgweb" xmlns:itsnat="http://itsnat.org/itsnat"</code> attributes
+                (as alternative <code>svgengine="svgweb"</code> is enough, without namespaces).
+                Neither &lt;script type="image/svg+xml"&gt; nor &lt;object&gt;/&lt;embed&gt; elements used by SVGWeb in client are
+                reflected in server side DOM. <br/><br/>
+            </li>
+            <li>No special SVGWeb methods, use pure DOM in server included dynamic insertion/removal of
+                SVG root nodes, ItsNat automatically generates the appropriated
+                JavaScript code. In fact, because <code>svgweb.insertBefore(...)</code> is provided by ItsNat in client (missing in SVGWeb) you can add new SVG root nodes
+                in any place and in any time. <br/><br/>
+            </li>
+            <li>Dynamic insertion of new SVG root nodes do not require further SVGLoad listeners as suggested by SVGWeb documentation, anyway this technique
+                is supported too. <br/><br/>
+            </li>
+            <li>You can add/remove/change text nodes, ItsNat ensures these actions are reflected visually. <br /><br />
+            </li>
+            <li>Comment nodes are supported in server, ItsNat automatically filters them in client. <br /><br />
+            </li>
+            <li>&lt;script&gt; elements can be dynamically inserted into SVG DOM and code is automatically executed
+                (SVGWeb does not support &lt;script&gt; elements on load time). <br /><br />
+            </li>
+            <li>ItsNat automatically detects the <code>forceflash</code> declaration (in URL and/or &lt;meta&gt; tag). If set to false
+                SVG markup is natively processed, ItsNat knows this fact and does not use SVGWeb to render SVG code.
+                Furthermore, SVG markup is ONLY rendered by SVGWeb if the SVG root node was declared
+                with <code>svgengine="svgweb"</code> as seen before, including MSIE (in non-MSIE browsers SVG is rendered by SVGWeb Flash if <code>forceflash</code>
+                is set to true too). In theory server code must be the same for SVG rendered by SVGWeb Flash
+                and native.<br /><br />
+            </li>
+            <li>Remote View/Control WORKS including when dynamic insertion/removal actions are performed! <br /><br />
+            </li>
+        </ul>
+    </p>
+
+    <p>This example shows how to handle the lifecycle of SVG markup and some dynamic actions
+       managed by SVGWeb and ItsNat.
+    </p>
+
+    <p>Notes:</p>
+    <ol>
+
+        <li>In spite of SVGWeb adds auxiliary elements to the client in &lt;body&gt;, these elements
+            are automatically "hidden" by ItsNat.<br /><br />
+        </li>
+        <li>ItsNat DOES NOT support SVGWeb declared as &lt;object&gt; elements loading
+           external SVG files (nor inline SVG code in <code>data</code> attributes).
+           This technique can break your ItsNat application (because SVGWeb adds auxiliary elements
+           one element per &lt;object&gt;).<br /><br />
+        </li>
+        <li>Do not mix Adobe SVG Viewer to render SVG Inline and SVGWeb in a Single Page
+            Interface application.
+        </li>
+    </ol>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+
+html
+{
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 17px;
+}
+
+body
+{
+    background-color: white;
+}
+
+h2
+{
+    color: #ED752A;
+}
+
+h3
+{
+    color: #95A22C;
+}
+
+h5
+{
+    font-size: 16px;
+}
+
+p /* Needed to fix MSIE visual bugs */
+{
+    /* Used default values of FireFox v3 */
+    margin-top:14.45px;
+    margin-bottom:14.45px;
+    margin-left:0px;
+    margin-right:0px;
+    padding:0px;
+}
+
+.mainMenuNodeList
+{
+  list-style-type: none;
+  cursor: pointer; 
+  font-size: 11px;  
+  margin-left:0px;
+  padding-left:20px;  
+}
+
+.menuFeatureBox
+{
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-left: 0;
+    cursor: pointer;
+    /* margin-right: auto; */
+}
+
+.menuFeatureBox LI
+{
+    display: inline;
+    background-color: #95A22C;
+    color: white;
+    font-weight: bold;
+    margin-right: 10px;
+    padding: 10px 10px 0 10px; /* top right bottom left */
+/*  margin-bottom: 0; */
+}
+
+.menuFeatureBox LI:hover
+{
+    /* Only works in FireFox */
+    background-color: #ED752A;
+}
+
+#featureBoxId
+{
+    border: 1px solid black;
+    border-top-width: 3px;
+    margin-top: 0;
+    padding: 20px;
+    font-size: 85%;
+    border-color: #ED752A;
+}
+
+.highlightHover:hover
+{
+    color: red;
+}
+
+.dottedBox
+{
+  border: 1px black dotted;
+  padding: 10px;
+  margin: 10px;
+}
+
+.freeButton
+{
+    border: 1px dotted black;
+    padding: 10px;
+}
+
+.logBox
+{
+    /*height:300px;*/
+    border: 1px solid;
+    padding: 5px;
+}
+
+.sourceCode
+{
+    /*height: 450px; */
+}
+
+.explanation
+{
+    min-height: 350px;
+    /*overflow: auto;*/
+}
+
+.tabPermalink
+{
+ font-size: 9px;
+}
+
+.freeCell
+{
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid;
+}
+
+.freeTreeTable
+{
+    border: 1px solid; margin:0; padding:5px;
+}
+
+.linknodeco
+{ 
+    color:black; text-decoration:none;
+}

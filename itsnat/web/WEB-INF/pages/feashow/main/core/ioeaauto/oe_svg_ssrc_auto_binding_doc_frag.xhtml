@@ -1,0 +1,28 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>This example is a variant of the previous one, in this case
+       we need MSIE with Savarese Ssrc SVG/XUL or a browser with native SVG.
+    </p>
+    <p>When a SVG document is loaded by Ssrc through an &lt;object&gt; or &lt;embed&gt;
+       when the domain is the same, we have very limited access to the child document,
+       most of properties of the child document are read-only. Fortunately we can
+       change <code>LocationURL</code> indirectly calling <code>Navigate(url)</code> and
+       using the #reference part of the URL we can "talk" to the child document
+       and vice versa.
+    </p>
+    <p>Savarese Ssrc SVG/XUL with &lt;object&gt; or &lt;embed&gt; needs absolute URLs, fortunately
+       ItsNat auto-binding feature works with absolute URLs when the path of the parent document is the same.
+    </p>
+    <p>With &lt;iframe&gt; there is no way to communicate parent and child documents in client because
+        <code>LocationURL</code> is not defined.
+    </p>
+</div>
+
+</body>
+</html>

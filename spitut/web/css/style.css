@@ -1,0 +1,34 @@
+html { width:100%; height:100%; margin:0; padding:0; border:0; font-size:14px; }
+
+body { background:#808080; width:100%; height:100%; margin:0; padding:0px; border:0; }
+
+h2 { margin-top:5px; }
+
+.main
+{
+    background:white;
+    border-color:#00F000; border-style: solid;
+    border-width:2px;
+    padding:0%;
+    height:99%; margin-top:0%; margin-bottom:0%;
+    width:88%; margin-left:5%; margin-right:5%;
+ }
+
+.mainMenu
+{
+    padding-left:0; margin-left:0;    
+    background:#95A22C; /* By default */    
+}
+
+.mainMenu td
+{
+    margin-left:5px; margin-right:5px; margin-bottom:0px;
+    padding:8px; 
+}
+
+#menuOpOverviewId,#menuOpDetailId { width:100px; text-align:center; }
+
+.menuOpSelected { background:#ED752A; }
+
+.menuLink { text-decoration:none; color:white; font-weight: bold; }
+

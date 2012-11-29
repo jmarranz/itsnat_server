@@ -1,0 +1,26 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>This example shows how ItsNat can work with other namespaces like SVG
+        embedded in XHTML. In browsers with SVG support (like Mozilla/FireFox, Opera, Safari, IPhone 2.1+,
+        MSIV v9 or MSIE v6,7,8 with a SVG plugin etc), a SVG element embedded in an HTML document can receive DOM events,
+        so this element can be used as an event target in the server too.
+    </p>
+    <p>The example also shows how a DOM utility like <code>ElementList</code>
+        can be used to manage a SVG element list, because DOM utilities are
+        namespace and tag agnostic.
+    </p>
+    <p>Note: in this case the XHTML document containing SVG is served with MIME type "text/html"
+       so an iframe is used. Internet Explorer (v6,7 and 8) doesn't support "application/xhtml+xml"
+       (in this case a SVG plugin does not help). Do not worry, ItsNat supports SVG in X/HTML
+       served with MIME type "text/html", this feature is shown in another example.
+    </p>
+</div>
+
+</body>
+</html>

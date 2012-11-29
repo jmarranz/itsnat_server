@@ -1,0 +1,8 @@
+
+RELEASE NOTES - Example of ItsNat configuration with Spring
+--------------------------------------------------------------------
+
+* 2011 February 21 (First Release)
+
+  - Based on ItsNat 1.1.1 and Spring 3.0.5
+

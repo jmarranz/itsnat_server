@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!--
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta content="no-cache,no-store,must-revalidate" http-equiv="cache-control" />
+-->
+
+        <!-- <style> da problemas en MSIE DOM, en FireFox
+         es peor, se procesa pero desaparece del DOM si se incluye en el BODY -->
+        <style type="text/css">
+            .styleTest { color: red; }
+        </style>
+    </head>
+    <body xmlns:itsnat="http://itsnat.org/itsnat">
+        Test entities and caching:
+        Copyright:© Acute:á Amp:& Num entity (A): &#65;
+
+
+
+        End test entities.
+        <!-- Dejamos cerca de 100 espacios antes para asegurar que se cachea -->
+
+        <p>Code Inserted as a Fragment</p>
+
+
+        <!-- Para testear que un texto grande es cacheado (más de 100 char) como fragmento -->
+        <div style="height:20px; overflow:hidden;">
+            <!-- Hacemos que haya varios nodos hijo para que se cachee -->
+            <b>
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+            </b>
+            <i>
+            The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham. 	Where can I get some?
+            </i>
+        </div>
+
+        <!-- Para testear la creación de componentes -->
+        <button onclick="alert('Ok!')">Click Me</button><br />
+
+        <!-- Para testear que onclick se define como propiedad en MSIE -->
+        <a onclick="alert('Ok!')" href="javascript:;">Click Me!</a>
+
+        <!-- La inserción de un <script> con DOM en MSIE en problemática,
+        más aún si ya está cargado el documento -->
+
+        <p id="scriptInsertedAsFragmentTestId">BAD SCRIPT TEST!!!!!!</p>
+
+        <script type="text/javascript">
+            var elem = document.getElementById("scriptInsertedAsFragmentTestId");
+            if (elem) // es null en el caso de remote view/control pues ya se ejecutó
+            {
+                elem.innerHTML = "OK script";
+                if (elem.removeAttribute) elem.removeAttribute("id"); // Para permitir que se hagan varios includes en el mismo documento
+                else elem.id = "";
+            }
+        </script>
+
+        <p class="styleTest">Must be Red</p>
+
+        <div itsnat:nocache="true" >
+            <!-- Idem <script> y <style> pero ahora
+            intentando añadirlos dentro del innertHTML del <div>, pero se detectará y no se usará innerHTML -->
+            <p id="scriptInsertedAsFragmentTestId2">BAD SCRIPT TEST!!!!!!</p>
+            <script type="text/javascript">
+            var elem = document.getElementById("scriptInsertedAsFragmentTestId2");
+            if (elem) // es null en el caso de remote view/control pues ya se ejecutó
+            {
+                elem.innerHTML = "OK script";
+                if (elem.removeAttribute) elem.removeAttribute("id"); // Para permitir que se hagan varios includes en el mismo documento
+                else elem.id = "";
+            }
+            </script>
+        </div>
+
+        <!-- Testeamos include dentro a su vez de un fragmento -->
+        <itsnat:include name="test_html_fragment" />
+
+    </body>
+</html>

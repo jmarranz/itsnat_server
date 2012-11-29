@@ -1,0 +1,28 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true">
+
+        <p>Shift/Ctrl buttons can be used to select/unselect.</p>
+        <span>
+            <select id="compId" multiple="multiple" size="5"></select>
+            <input id="removeId" type="button" value="Remove Selected" />
+        </span>
+        <br /><br />
+        <span>
+            <input id="itemId" type="text" size="15" value="" />
+            Pos: <input id="posId" type="text" value="" size="4" />
+            <input id="updateId" type="button" value="Update" />
+            <input id="insertId" type="button" value="Insert" />
+        </span>
+        <br /><br />
+
+        <itsnat:include name="feashow.util.log" />
+
+    </div>
+</body>
+</html>

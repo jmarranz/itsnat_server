@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="deploy_to_distribute" name="ItsNat_dev">
+
+    <property file="conf/conf.properties"/>
+    <property name="java.source.version" value="1.4" />
+    <property name="java.target.version" value="1.4" />
+
+    <path id="classPath">
+        <pathelement location="${program.web.WEB-INF.lib}/nekohtml.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/xercesImpl.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/serializer.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/xml-apis.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/batik-dom.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/batik-util.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/batik-xml.jar"/>
+        <pathelement location="${program.lib}/servlet-api.jar"/>
+    </path>
+
+    <property name="distribution_project" value="${program}/../itsnat" />
+
+    <target name="deploy_to_distribute" depends="deploy_javadoc,deploy_manual">
+        <echo message="NO OLVIDAR ACTUALIZAR conf.properties, ItsNatImpl.getVersion() y regenerar PDF y HTML " />
+        <ant antfile="build.xml" target="clean" inheritAll="false" />
+        <ant antfile="build.xml" target="run-deploy" inheritAll="false" />
+        <property name="distribution_project_dist" value="${distribution_project}/fw_dist" />
+        <property name="distribution_project_dist_lib" value="${distribution_project_dist}/lib" />
+        <property name="distribution_project_src" value="${distribution_project}/fw_src" />
+
+        <!-- Copiamos el código fuente -->
+        <delete dir="${distribution_project_src}" />
+        <copy todir="${distribution_project_src}" >
+            <fileset dir="${program.src}/java" > <!-- Se copia también el archivo licencia -->
+                <include name="ITSNAT_LICENSE.txt" />
+                <include name="org/**" />
+            </fileset>
+        </copy>
+        <exec executable="cmd.exe"> <!-- <chmod> no funciona en Windows -->
+          <arg line="/c attrib +R /S "/>
+          <arg file="${distribution_project_src}/*.*"/>
+        </exec>
+        <zip basedir="${distribution_project_src}" destfile="${distribution_project_dist}/ItsNat_src.zip" />
+
+        <!-- Copiamos las clases compiladas -->
+        <property name="unjar_dir_tmp" value="${program.dist}/itsnat" />
+        <unjar src="${program.dist}/itsnat_dev.war" dest="${unjar_dir_tmp}"/>
+        <property name="unjar_dir_tmp_classes" value="${unjar_dir_tmp}/WEB-INF/classes" />
+        <jar basedir="${unjar_dir_tmp_classes}"
+             destfile="${distribution_project_dist_lib}/ItsNat.jar"
+             includes="org/**,ITSNAT_LICENSE.txt">
+            <manifest>
+                <attribute name="Built-By" value="${user.name} - Jose Maria Arranz"/>
+                <attribute name="Implementation-Title" value="${program.name}" />
+                <attribute name="Implementation-Vendor" value="Innowhere Software Services S.L." />
+                <attribute name="Implementation-Version" value="${program.version}" />
+            </manifest>
+        </jar>
+
+        <!-- Copiamos el jar y código fuente del applet Batik al web y al fw_dist, los demás archivos (jar etc) se suponen que no cambian -->
+        <copy file="${program.web}/batik/ItsNatBatikApplet.jar" todir="${distribution_project}/web/batik" preservelastmodified="true"   />
+
+        <copy file="${program.web}/batik/ItsNatBatikApplet.jar" todir="${distribution_project}/fw_dist/batik_applet/public" preservelastmodified="true"   />
+        <delete dir="${distribution_project}/fw_dist/batik_applet/src" />
+        <copy todir="${distribution_project}/fw_dist/batik_applet/src" >
+            <fileset dir="${program}/src_other/batik_applet/" >
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <!-- Las librerías externas -->
+        <copy todir="${distribution_project}/web/WEB-INF/lib" preservelastmodified="true" >
+            <fileset dir="${unjar_dir_tmp}/WEB-INF/lib" />
+        </copy>
+        <copy todir="${distribution_project_dist_lib}" preservelastmodified="true" >
+            <fileset dir="${unjar_dir_tmp}/WEB-INF/lib" />
+        </copy>
+        <!-- Limpieza temporales -->
+        <delete dir="${unjar_dir_tmp}" />
+
+        <!-- Deploy en el destino -->
+        <ant antfile="${distribution_project}/build.xml" target="clean" inheritAll="false" />
+        <ant antfile="${distribution_project}/build.xml" target="run-deploy" inheritAll="false" />
+    </target>
+
+    <target name="deploy_javadoc">
+        <property name="javadoc_dir" value="${distribution_project}/docs/javadoc" />
+        <delete dir="${javadoc_dir}" />
+        <javadoc packagenames="org.itsnat.*"
+               sourcepath="${program.src}/java"
+               excludepackagenames="org.itsnat.impl.*,org.apache.*,org.w3c.*"
+               defaultexcludes="yes"
+               destdir="${javadoc_dir}"
+               author="true"
+               version="true"
+               use="true"
+               windowtitle="${program.name} v${program.javadoc.prog.version}, doc. version v${program.javadoc.doc.version}">
+
+            <classpath>
+                <path refid="classPath"/>
+            </classpath>
+
+            <doctitle>
+                <![CDATA[
+                <h1>${program.name} v${program.javadoc.prog.version} <font size="-1">(doc. version ${program.javadoc.doc.version})</font></h1>
+                ]]>
+            </doctitle>
+            <bottom>
+                <![CDATA[
+                Copyright © 2007 Innowhere Software Services S.L. All Rights Reserved.
+                ]]>
+            </bottom>
+        </javadoc>
+    </target>
+
+    <target name="deploy_manual">
+        <echo message="Se supone que el PDF y HTML del manual están actualizados" />
+        <copy file="${program}/src_doc/manual.pdf" todir="${distribution_project}/docs" preservelastmodified="true"   />
+        <copy file="${program}/src_doc/manual.htm" todir="${distribution_project}/docs" preservelastmodified="true"   />
+        <delete dir="${distribution_project}/docs/manual_archivos" />
+        <copy todir="${distribution_project}/docs/manual_archivos" >
+            <fileset dir="${program}/src_doc/manual_archivos" />
+        </copy>
+        <exec executable="cmd.exe"> <!-- <chmod> no funciona en Windows -->
+          <arg line="/c attrib +R /S"/>
+          <arg file="${distribution_project}/docs/*.*"/>
+        </exec>
+    </target>
+
+    <target name="copy_to_web">
+        <echo message="Se supone que se ha llamado antes a deploy_to_distribute" />
+        <property name="web_project" value="${program}/../itsnat_web" />
+        <property name="htdocs_dir" value="${web_project}/htdocs" />
+
+        <!-- Copia producto como zip a /upload -->
+        <property name="ItsNat_dist_zip" value="${web_project}/upload/ItsNat_${program.version}.zip" />
+        <zip basedir="${distribution_project}" destfile="${ItsNat_dist_zip}" /> <!-- Si ya existe y no ha cambiado nada lo detecta y no hace nada -->
+
+        <property name="htdocs_dir_docs" value="${htdocs_dir}/php/support/docs" />
+        <delete dir="${htdocs_dir_docs}" />
+        <copy todir="${htdocs_dir_docs}" >
+            <fileset dir="${distribution_project}/docs" />
+        </copy>
+
+        <copy file="${distribution_project}/RELEASE_NOTES.html" todir="${htdocs_dir}/php/download" preservelastmodified="true"   />
+        <copy file="${distribution_project}/RELEASE_NOTES_OLD.html" todir="${htdocs_dir}/php/download" preservelastmodified="true"   />
+            <!-- El viejo (RELEASE_NOTES_OLD) no haría falta pero por si acaso hacemos alguna corrección -->
+    </target>
+
+    <target name="update_ItsNatBatikApplet">
+        <echo message="Se supone que los jar de infraestructura no han cambiado (copiar manualmente)" />
+        <property name="ItsNatBatikApplet_project" value="${program}/../ItsNatBatikApplet" />
+
+        <copy file="${ItsNatBatikApplet_project}/dist/ItsNatBatikApplet.jar" todir="${program.web}/batik" preservelastmodified="true"   />
+
+        <property name="src_target" value="${program}/src_other/batik_applet" />
+        <delete dir="${src_target}" />
+        <copy todir="${src_target}" >
+            <fileset dir="${ItsNatBatikApplet_project}/src" />
+        </copy>
+    </target>
+</project>

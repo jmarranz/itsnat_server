@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window>
+<window title="XUL Example" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:itsnat="http://itsnat.org/itsnat"
+        itsnat:nocache="true">
+
+<vbox style="margin:20px">
+    <description>XUL Example</description>
+    <hbox>
+        <listbox id="listId" seltype="single" rows="3" flex="1"></listbox>
+        <spacer flex="2" />
+    </hbox>
+    <hbox>
+        <button id="removeItemId" label="Remove Selected" />
+        <spacer flex="1" />
+    </hbox>
+
+    <hbox>
+        <textbox id="valueItemId" />
+        <label value="Pos:" />
+        <textbox id="posItemId" size="3" />
+        <button id="updateItemId" label="Update Item" />
+        <button id="addItemId" label="Add Item" />
+        <spacer flex="1" />
+    </hbox>
+</vbox>
+
+</window>
+
+
+

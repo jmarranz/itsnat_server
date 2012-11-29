@@ -1,0 +1,30 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>The standard way to request an ItsNat based new page includes
+        the target servlet (ItsNat based) and an <code>itsnat_doc_name</code>
+        with the template used to build the new page.
+        This URL is not "pretty", ItsNat does not provide an "out of the box"
+        pretty URL pattern but it offers some support to build the preferred
+        style.
+    </p>
+    <p>When a new page request is received by an ItsNat based servlet (not an event),
+        ItsNat ever executes the global <code>ItsNatServletRequestListener</code> registered,
+        calling <code>ItsNatServlet.addItsNatServletRequestListener</code>, if any.
+        If the request does not include the <code>itsnat_doc_name</code> parameter (or attribute) there is no
+        <code>ItsNatDocument</code> created. This global listener may detect this scenario
+        and analyze the URL used (for instance a pretty URL) to build an <code>itsnat_doc_name</code>
+        attribute to set to the request, and forward again the request and response
+        objects to the ItsNat servlet. ItsNat looks for <code>itsnat_doc_name</code> first
+        as an attribute if not found the as a request parameter.
+    </p>
+
+</div>
+
+</body>
+</html>

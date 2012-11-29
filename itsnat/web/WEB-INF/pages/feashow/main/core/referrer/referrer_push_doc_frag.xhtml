@@ -1,0 +1,33 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>This example does the same as the "pull" example but using the referrer "push" technique.</p>
+    <p>The referrer "push" technique is the opposite to the pull approach,
+        in this case the source page actively <i>pushes</i> DOM nodes or data to the
+        target page <i>before</i> the target listeners are executed and before
+        the source page is destroyed (replaced with the target page in the browser).
+    </p>
+    <p>To enable the push technique the source page must register
+        an <code>ItsNatServletRequestListener</code> object calling
+        <code>ItsNatDocument.addReferrerItsNatServletRequestListener</code>,
+        this listener is called when the page is going to be replaced with
+        a new ItsNat page (only if this target page accepts to be "pushed", see
+        <code>ItsNatDocumentTemplate.setReferrerPushEnabled</code>).
+        The <code>request</code> and <code>response</code>
+        parameters are the objects going to be processed in the normal
+        target load process. This is an opportunity to the source to "push" DOM nodes
+        and data to the target <code>ItsNatDocument</code> before the source is
+        destroyed.
+    </p>
+    <p>The push technique needs events, again events (AJAX or SCRIPT) are used to improve classical navigation,
+        and again may be used to detect the back and forward buttons, reload etc.
+    <p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>In this example the initial page is based on a normal template with state disabled
+       (scripting is disabled) and no processing, this is basically the same as loading
+       a static file. This client page will be sent to the server converted to DOM
+       inside an <code>ItsNatDocument</code> and processed by Java code, in this case
+       the same Java code of the Core example in manual.
+    </p>
+
+    <p>One "attached server template" must be registered in server calling
+    the method <code>ItsNatServlet.registerItsNatDocumentTemplateAttachedServer(...)</code>
+    specifying the Java class going to process the client page as if it was a normal template.
+    </p>
+
+    <p>Refer to the Reference Manual for a complete description of extreme mashups
+      (and why <code>onclick</code> attributes are needed for MSIE v6).
+    </p>
+
+</div>
+
+</body>
+</html>

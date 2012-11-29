@@ -1,0 +1,7 @@
+
+ Los archivos que hay aquí no son funcionales, son los trozos de código 
+usados en el manual para ver si compilan.
+
+ Seleccionando y usando el "Print to HTML" se obtiene una página HTML
+con el código fuente en colores, que abierta con el 
+Internet Explorer permite copiar y pegar en Word conservando el formato y colores.

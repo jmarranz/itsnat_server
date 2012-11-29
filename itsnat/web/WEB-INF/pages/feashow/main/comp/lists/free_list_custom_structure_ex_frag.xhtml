@@ -1,0 +1,38 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true">
+
+        <p>Desktop: Shift/Ctrl buttons can be used to select/unselect. Mobile: keyboard is not needed for selection. Double click to edit in place (<input id="useSingleClickId" type="checkbox" />use single click).</p>
+
+        <table border="1px" cellspacing="0" cellpadding="5px">
+            <tbody id="compId">
+                <tr><td>City:</td><td><b>Content</b></td></tr>
+            </tbody>
+        </table>
+
+        <input id="removeId" type="button" value="Remove Selected" />
+        <br /><br />
+        <span>
+            <input id="itemId" type="text" size="15" value="" />
+            Pos: <input id="posId" type="text" value="" size="4" />
+            <br /><br />
+            <input id="updateId" type="button" value="Update" />
+            <input id="insertId" type="button" value="Insert" />
+            <br /><br />
+            <input id="joystickModeId" type="checkbox" />Joystick Mode
+        </span>
+        <p id="ucwebId" style="display:none">
+            <br />For UCWEB: <a  href="javascript:;">Contact Server</a>
+        </p>
+
+        <br /><br />
+        <itsnat:include name="feashow.util.log" />
+
+    </div>
+</body>
+</html>

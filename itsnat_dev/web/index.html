@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- -->
+<!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>ItsNat</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <!--  -->
+    <meta http-equiv="Expires" CONTENT="0" />
+    <meta http-equiv="Expires" content="Tue, 20 Aug 1996 14:25:27 GMT" />
+    <meta http-equiv="Pragma" CONTENT="no-cache" />
+    
+    <script>
+    function carga(evt)
+    {
+        alert("SI load");
+        //document.body.bgColor = "yellow";
+        //document.body.style.background = "yellow";
+    }
+
+    function descarga()
+    {
+        //document.body.bgColor = "red";
+        //alert("DESCARGA");
+    }
+
+    </script>
+
+
+</head>
+<body onloadNO="alert('LOAD');" onclickNO="log('inline body,')" onunloadNO="descarga()" onbeforeunloadNO="return false;" ><!-- Comentario -->
+
+
+<br /><br />
+
+<a href="." >RELOAD</a><br />
+
+<p id="logId"></p>
+
+<div id="pruebaId" ><!-- HOLA --></div>
+
+
+<script>
+//alert(document.body.tagName && document.body.tagName.toLowerCase());
+
+    var elem = document.getElementById("pruebaId");
+    var logelem = document.getElementById("logId");
+
+//swindow.addEventListener("DOMContentLoaded",function(){alert("MOLA");},false);
+
+    function log(txt) { logelem.appendChild(document.createTextNode(txt)); }
+
+    function test(evt)
+    {
+        log(evt.type + " " + evt.currentTarget + " ");
+    }
+
+    function mostrar(object)
+    {
+        var str = "";
+        for(var name in object)
+        {
+            if (name.indexOf("on") == 0) continue;
+            if (name == "innerHTML") continue;
+            if (name == "outerHTML") continue;
+            //alert(name + " " + object[name]);
+            str += " " + name  + "-" + object[name];
+        }
+        alert(str);
+    }
+
+    log("FIN");
+
+    function IteratorLinkedList(node)
+    {
+        this.child = node.firstChild;
+
+        this.hasNext = hasNext;
+        function hasNext() { return this.child != null; }
+
+        this.next = next;
+        function next()
+        {
+            var nextChild = this.child;
+            this.child = this.child.nextSibling;
+            return nextChild;
+        }
+    }
+
+    function IteratorChildNodes(node)
+    {
+        this.childNodes = node.childNodes;
+        this.index = 0;
+
+        this.hasNext = hasNext;
+        function hasNext() { return this.index < this.childNodes.length; }
+
+        this.next = next;
+        function next()
+        {
+            var nextChild = this.childNodes.item(this.index);
+            this.index++;
+            return nextChild;
+        }
+    }
+
+    function testPrueba()
+    {
+
+        var withIt = confirm("With Iterator (YES) or Without Iterator (NO)");
+        var elem = document.getElementById("tableId");
+        var start = new Date().getTime();
+
+        for(var k = 0; k < 10000000; k++)
+        {
+            if (withIt)
+            {
+                var it = new IteratorLinkedList(elem);
+                while (it.hasNext())
+                {
+                    var node = it.next();
+                }
+            }
+            else
+            {
+                var child = elem.firstChild;
+                while (child != null)
+                {
+                    var node = child;
+                    child = child.nextSibling;
+                }
+            }
+
+        }
+
+        var end = new Date().getTime();
+        alert(withIt + " " + (end - start));
+    }
+
+</script>
+
+<br />
+<p><button onclick="testPrueba()">Test</button> &nbsp;</p>
+
+<br />
+<h1>ItsNat</h1>
+
+<table border="1px" cellspacing="0px" cellpadding="5px">
+    <tbody id="tableId">
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_core">
+                Core Tests
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_core_attached_server_launcher&_method=script"> <!-- _method no es el nombre estandar para que quede claro -->
+                Core Tests Attached Server SCRIPT method
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_core_attached_server_launcher&_method=form&_timeout=600000"> <!-- timeout 10 minutos en miliseg (ni _method ni _timeout son los nombres estándar -->
+                Core Tests Attached Server FORM method
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_core_iframe">
+                Core IFRAME Tests
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_components">
+                Test Components
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_client_mutation">
+                Client Mutation Tests
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_client_mutation_svg">
+                (SVG)
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_remote_ctrl">
+                Test Remote Control
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_cache">
+                Test Cache
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_autosync_forms">
+                Test Auto Sync Forms
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_xml">
+                Test XML
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_xml_comp">
+                Test XML Components
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg">
+                Test SVG
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_attached_server_launcher&_method=script"> <!-- _method no es el nombre estandar para que quede claro -->
+                Test SVG Attached Server SCRIPT method
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_attached_server_launcher&_method=form&_timeout=600000"> <!-- timeout 10 minutos en miliseg (ni _method ni _timeout son los nombres estándar -->
+                Test SVG Attached Server FORM method
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_batik">
+                Test SVG Batik
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_in_xhtml">
+                Test SVG in XHTML, XHTML MIME
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_in_html">
+                Test SVG in XHTML, HTML MIME
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_in_html_asv">
+                Test SVG in HTML ASV
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svgweb">
+                Test SVG in HTML SVGWeb
+            </a>
+        </td>
+        <td>
+
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_asv_iframe_parent">
+                Test SVG ASV IFRAME Auto-Binding
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_asv_object_parent">
+                Test SVG ASV OBJECT Auto-Binding
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_asv_embed_parent">
+                Test SVG ASV EMBED Auto-Binding
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_ssrc_object_parent">
+                Test SVG OBJECT Auto-Binding <br />&nbsp;&nbsp; with Savarese Plugin
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_ssrc_embed_parent">
+                Test SVG EMBED Auto-Binding <br />&nbsp;&nbsp; with Savarese Plugin
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_batik_applet_autob_parent">
+                Test SVG Batik in APPLET Auto-Binding
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_batik_object_autob_parent">
+                Test SVG Batik in OBJECT Auto-Binding
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_svg_batik_embed_autob_parent">
+                Test SVG Batik in EMBED Auto-Binding
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_no_ajax">
+                Test No AJAX
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_no_script">
+                Test No JavaScript
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_pretty_url">
+                Test Pretty URL (no pretty)
+            </a>
+        </td>
+        <td>
+            <a href="page/test/pretty/url">
+                Test Pretty URL
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_ie_pocket">
+                Test IE Pocket/Symphony
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_mobile">
+                Test Mobile Browsers
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_remote_url">
+                Test Remote URL
+            </a>
+        </td>
+        <td>
+            <a href="ItsNatServletExample?itsnat_action=itsnat_info">
+                Request Version
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="ItsNatServletExample?itsnat_doc_name=test_xul">
+                Test XUL
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_xul_attached_server_launcher&_method=script"> <!-- _method no es el nombre estandar para que quede claro -->
+                Test XUL Attached Server SCRIPT method
+            </a>
+            <br />
+            <a href="ItsNatServletExample?itsnat_doc_name=test_xul_attached_server_launcher&_method=form&_timeout=600000"> <!-- timeout 10 minutos en miliseg (ni _method ni _timeout son los nombres estándar -->
+                Test XUL Attached Server FORM method
+            </a>
+        </td>
+        <td>
+            <a href="AnyThingServlet?itsnat_doc_name=test_anything">
+                Test Any Thing
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!--
+    <h2>ItsNat Experiments</h2>
+    <a href="ItsNatServletExample?itsnat_doc_name=extjsexample">Table based on ExtJS CSS styles and layout</a>
+-->
+
+</body>
+</html>
+

@@ -1,0 +1,11 @@
+
+https://xhtmlrenderer.dev.java.net/
+
+An XML/XHTML/CSS 2.1 Renderer
+
+Útil para que el applet de Batik pueda renderizar XHTML dentro de <foreignObject>, en
+ese caso se necesita el jar core-renderer-minimal.jar
+
+Bueno realmente no renderiza, es para evitar que de error.
+
+

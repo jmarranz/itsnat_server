@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+    <div itsnat:nocache="true">
+
+    <p>This example uses an applet based on <a href="http://xmlgraphics.apache.org/batik/">Batik</a> SVG toolkit.
+       Use a browser with Java applets support and <a href="http://www.java.com/getjava/">Java JRE</a> installed (Java 1.6 recommended).
+       The first load takes some seconds (Batik has many classes).
+    </p>
+    <hr />
+    <p>Selected Circle: <span id="circleSelectedId">none</span></p>
+    <p>Radio: <input id="radioId" type="text" size="5" />
+       <input id="updateId" type="button" value="Update" />
+    </p>
+    <br />
+    <applet id="containerId" style="width:420px; height:200px;"
+          code="ItsNatBatikAppletLauncher.class"
+          codebase="batik"
+          archive="ItsNatBatikApplet.jar,batik-awt-util.jar,batik-bridge.jar,batik-css.jar,batik-dom.jar,batik-ext.jar,batik-gvt.jar,batik-parser.jar,batik-svg-dom.jar,batik-script.jar,batik-swing.jar,batik-util.jar,batik-xml.jar,batik-svggen.jar,xml-apis-dom3.jar,js.jar,core-renderer-minimal.jar">
+        <param name="src" value="?itsnat_doc_name=feashow.ext.core.ioeaauto.oeaSVGBatikAutoBindingExample" />
+        Your browser doesn't seem to support Java applets, which is required for this demo.
+    </applet>
+
+    <br /><br />
+    <select id="selectContId">
+        <option selected="selected">APPLET</option>
+        <option>OBJECT</option>
+        <option>EMBED</option>
+    </select>
+    </div>
+</body>
+</html>

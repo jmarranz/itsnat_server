@@ -1,0 +1,44 @@
+
+RELEASE NOTES - Tutorial: Single Page Interface Web Site With ItsNat
+--------------------------------------------------------------------
+
+* 2011 March 17
+
+  - Upgraded to ItsNat v.1.1.2
+
+* 2011 February 11
+
+  - Changed spi_bookmarking.js
+
+    * Fixed: timer to detect URL changes registered several times.
+    * Avoids rewritting the URL adding a normal st parameter on load time
+    * Now the first page is ever the default page and then the state specified
+      initially in URL by #!st= is loaded by AJAX later, now only one page load happens.
+
+* 2011 February 10
+
+  - Updated with ItsNat v1.1.1.
+  - Exit of popup dialog also works with JavaScript disabled.
+
+* 2011 January 5
+
+  - Added support of Google AJAX Crawling Specification (fragments #!)
+
+  - Updated with ItsNat v1.0 final release.
+
+* 2010 May 14
+
+  - Added a plugable detection of back/forward buttons to delegate
+    to the server back/forward button processing without reloading.
+
+  - Improved "Overview" and "Overview Popup" coordination.
+
+  - Updated with ItsNat v0.7.0.6 final release.
+
+* 2010 March 29
+
+  - First release, based on ItsNat 0.7.0.6 pre release, using NetBeans 6.8, 
+    Java 1.6 (compiled to Java 1.5 binary format) and Tomcat 6.0.
+
+    Note: ItsNat 0.7.0.6 pre release fixes some problems of this example with
+    Pocket IE WM 6.0, v0.7.0.5 is OK for any other browser.

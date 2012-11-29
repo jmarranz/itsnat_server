@@ -1,0 +1,28 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>The <code>ElementLabel</code> utility interface is the first
+        example of the ItsNat pattern based utilities.
+        The pattern approach uses a markup fragment as a pattern to
+        create new markup fragments.
+    </p>
+    <p>An <code>ElementLabel</code> object is created calling
+        an <code>ElementGroupManager.createElementLabel</code> method and
+        is attached to a DOM element, it copies the original element
+        content as the pattern, and removes the content
+        initially (this behavior may be changed), when a Java data object is set to the label
+        the pattern is used to fill again the element content then the Java object
+        is rendered using the associated user defined <code>ElementLabelRenderer</code>
+        (if not provided the default is used).
+        The element content may be removed and added again.
+    </p>
+    <p>The <code>ElementLabel</code> may be seen as a 0-1 element manager.</p>
+</div>
+
+</body>
+</html>
