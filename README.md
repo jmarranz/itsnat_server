@@ -5,7 +5,7 @@ ItsNat : Natural AJAX. Component Based Java Web Application Framework
 
 Project web site: http://www.itsnat.org
 
-Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com:8080/itsnat/feashow_servlet?itsnat_doc_name=feashow.main] (inline documentation and sample code)
+Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com:8080/itsnat/feashow_servlet?itsnat_doc_name=feashow.main)(inline documentation and sample code)
 (Contains inline documentation and source code)
 
 Core features
