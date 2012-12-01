@@ -60,15 +60,13 @@ ItsNat provides many more (core) features:
 
 - XML generation
 
-- IFrame/Object/Embed/Applet Auto-Binding: in server child documents opened by
-
->- IFRAME, OBJECT, EMBED or APPLET tags are automatically bound to the parent document in server . This feature works with:
+- IFrame/Object/Embed/Applet Auto-Binding: in server child documents opened by IFRAME, OBJECT, EMBED or APPLET tags are automatically bound to the parent document in server . This feature works with:
 
 >- X/HTML loaded by an IFRAME
 
 >- SVG loaded by an IFRAME/OBJECT/EMBED in browsers with native SVG or MSIE with Adobe SVG Viewer or Renesis   or Savarese Ssrc SVG/XUL (only OBJECT and EMBED)
 
-- SVG loaded by Batik applet (custom version for ItsNat) in an APPLET/OBJECT/EMBED
+>- SVG loaded by Batik applet (custom version for ItsNat) in an APPLET/OBJECT/EMBED
 
 - Java to JavaScript generation utilities
 
