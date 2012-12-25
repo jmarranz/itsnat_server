@@ -19,6 +19,7 @@ package org.itsnat.impl.core.resp;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import java.io.IOException;
 import java.io.Writer;
+import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.UseGZip;

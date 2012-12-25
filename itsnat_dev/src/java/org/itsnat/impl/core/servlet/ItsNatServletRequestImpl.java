@@ -53,23 +53,8 @@ public abstract class ItsNatServletRequestImpl extends ItsNatUserDataImpl implem
         super(false);
 
         this.itsNatServlet = itsNatServlet;
-        this.request = request;
+        this.request = request; 
         this.itsNatResponse = createItsNatServletResponse(response);
-        try
-        {
-            request.setCharacterEncoding("UTF-8");
-            // Lo hacemos antes de tocar nada, es fundamental para caracteres no ASCII (ej. acentos),
-            // es el encoding por defecto y además nos viene "encoded" con encodeURIComponent que codifica
-            // como Unicode ej. %C3%A1 es la á, sin "UTF-8" el getAttrOrParam devuelve dos caracteres, con "UTF-8" devuelve la á
-            // Tenemos el problema de que no podemos poner otro encoding pues depende del documento,
-            // y el encoding hay que definirlo antes de obtener valores de parámetros
-            // No confundir el encoding del request con el de la respuesta que es el que es configurable en ItsNat
-        }
-        catch(UnsupportedEncodingException ex)
-        {
-            throw new ItsNatException(ex,this);
-        }
-
     }
 
     public abstract ItsNatServletResponseImpl createItsNatServletResponse(ServletResponse response);

@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.servlet.http;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import org.itsnat.impl.core.ItsNatImpl;
 import org.itsnat.core.http.ItsNatHttpServlet;
@@ -25,6 +26,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
@@ -64,7 +66,27 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
 
     public void processRequest(HttpServletRequest request, HttpServletResponse response)
     {
-        String action = (String)ItsNatServletRequestImpl.getAttrOrParam(request,"itsnat_action");
+        try
+        {
+            request.setCharacterEncoding("UTF-8");
+            // Lo hacemos antes de tocar nada y llamar a un primer getParameter() o de otra manera es ignorado, es fundamental para caracteres no ASCII (ej. acentos),
+            // es el encoding por defecto y además nos viene "encoded" con encodeURIComponent que codifica
+            // como Unicode ej. %C3%A1 es la á, sin "UTF-8" el getAttrOrParam devuelve dos caracteres, con "UTF-8" devuelve la á
+            // Tenemos el problema de que no podemos poner otro encoding pues depende del documento,
+            // y el encoding hay que definirlo antes de obtener valores de parámetros
+            // No confundir el encoding del request con el de la respuesta que es el que es configurable en ItsNat
+            // En teoría no sería necesaria esta llamada si se especificara el encoding en la request
+            // por ejemplo en un POST AJAX tipo x-www-form-urlencoded tendríamos que especificar: 
+            // XMLHttpRequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded,charset=UTF-8");             
+            // en el caso del GET no sería necesario pues lo normal es que sea el UTF-8 por defecto.
+            // pero de esta manera lo imponemos nosotros SIEMPRE.
+        }
+        catch(UnsupportedEncodingException ex)
+        {
+            throw new ItsNatException(ex,this);
+        }
+        
+        String action = ItsNatServletRequestImpl.getAttrOrParam(request,"itsnat_action");
         if ((action != null)&& action.equals(ACTION_SERVLET_WEAK_UP))
             return; // NO HACEMOS ABSOLUTAMENTE NADA, es para que se inicie en servlet y se registren
                     // los templates, útil en de-serialización en GAE,
