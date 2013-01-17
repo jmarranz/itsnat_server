@@ -39,6 +39,7 @@ public class ItsNatHTMLCellEditorClientGeckoUCWEBImpl extends ItsNatCellEditorCl
     {
     }
 
+    @Override
     public void handleGlobalEvent(Event evt,ItsNatCellEditorImpl parent)
     {
         // Redefinimos totalmente en UCWEB porque en este navegador
@@ -90,6 +91,7 @@ public class ItsNatHTMLCellEditorClientGeckoUCWEBImpl extends ItsNatCellEditorCl
         }
     }
 
+    @Override
     public void handleEvent(Event evt,ItsNatCellEditorImpl parent,ClientDocumentStfulImpl clientDoc)
     {
         super.handleEvent(evt, parent, clientDoc);
@@ -106,6 +108,7 @@ public class ItsNatHTMLCellEditorClientGeckoUCWEBImpl extends ItsNatCellEditorCl
             parent.stopCellEditing();
     }
 
+    @Override
     public void registerEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulImpl clientDoc)
     {
         super.registerEventListeners(parent,clientDoc);
@@ -122,6 +125,7 @@ public class ItsNatHTMLCellEditorClientGeckoUCWEBImpl extends ItsNatCellEditorCl
             clientDoc.addEventListener((EventTarget)nodeEditor,"click",parent,false);
     }
 
+    @Override
     public void unregisterEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulImpl clientDoc)
     {
         super.unregisterEventListeners(parent,clientDoc);

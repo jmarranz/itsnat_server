@@ -16,7 +16,6 @@
 
 package org.itsnat.comp.list;
 
-import org.itsnat.comp.list.ItsNatFreeList;
 import org.itsnat.comp.*;
 
 /**

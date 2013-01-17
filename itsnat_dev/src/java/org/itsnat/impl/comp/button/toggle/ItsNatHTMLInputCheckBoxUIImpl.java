@@ -18,7 +18,6 @@ package org.itsnat.impl.comp.button.toggle;
 
 import org.itsnat.comp.button.toggle.ItsNatButtonCheckBox;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputCheckBox;
-import org.itsnat.impl.comp.button.toggle.ItsNatHTMLInputCheckBoxImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.w3c.dom.html.HTMLInputElement;
 

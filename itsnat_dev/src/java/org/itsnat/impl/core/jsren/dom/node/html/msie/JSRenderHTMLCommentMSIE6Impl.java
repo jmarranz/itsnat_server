@@ -16,8 +16,8 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.w3c.dom.Node;
 import org.w3c.dom.CharacterData;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLAppletElement;
 import org.w3c.dom.html.HTMLObjectElement;
 
@@ -29,7 +29,7 @@ public class JSRenderHTMLCommentMSIE6Impl extends JSRenderHTMLCommentMSIEOldImpl
 {
     public static final JSRenderHTMLCommentMSIE6Impl SINGLETON = new JSRenderHTMLCommentMSIE6Impl();
 
-    /** Creates a new instance of JSRenderHTMLCommentMSIEPocketImpl */
+    /** Creates a new instance of JSRenderHTMLCommentMSIE6Impl */
     public JSRenderHTMLCommentMSIE6Impl()
     {
     }

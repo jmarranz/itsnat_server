@@ -55,7 +55,7 @@ function AJAX(itsNatDoc,win)
     {  
         if (method == "GET") { url += "?" + content; content = null; }
         this.xhr.open(method, url, async);
-        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); // imprescindible el charset al menos en Tomcat
+        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
         this.xhr.setRequestHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT"); // Para WebKit viejos http://lists.apple.com/archives/dashboard-dev/2005/May/msg00196.html
         this.xhr.setRequestHeader("Cache-Control","no-cache");      
         this.xhr.send(content);

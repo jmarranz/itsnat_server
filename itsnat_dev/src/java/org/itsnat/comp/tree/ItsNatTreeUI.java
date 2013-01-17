@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.tree;
 
-import org.itsnat.comp.ItsNatElementComponentUI;
 import javax.swing.tree.TreePath;
+import org.itsnat.comp.ItsNatElementComponentUI;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

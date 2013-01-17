@@ -16,7 +16,6 @@
 
 package org.itsnat.comp.text;
 
-import org.itsnat.comp.text.ItsNatTextField;
 import java.beans.PropertyVetoException;
 import java.text.Format;
 import java.text.ParseException;

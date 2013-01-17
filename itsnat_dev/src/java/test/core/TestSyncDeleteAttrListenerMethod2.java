@@ -43,22 +43,8 @@ public class TestSyncDeleteAttrListenerMethod2 implements EventListener,Serializ
     {
         Element deleteAttrSyncOnClick = itsNatDoc.getDocument().getElementById("deleteAttrSyncOnClick2");
 
-        if (BrowserUtil.isPocketIE(request))
-        {
-            EventListener listener = new EventListenerSerial()
-            {
-                public void handleEvent(Event evt)
-                {
-                    itsNatDoc.addCodeToSend("alert('Do not work in PocketIE');");
-                }
-            };
-            ((EventTarget)deleteAttrSyncOnClick).addEventListener("click",listener,false);
-        }
-        else
-        {
-            // Nos traemos todos los atributos
-            itsNatDoc.addEventListener((EventTarget)deleteAttrSyncOnClick,"click",this,false,new ParamTransport[]{new NodeAllAttribTransport()});        
-        }
+        // Nos traemos todos los atributos
+        itsNatDoc.addEventListener((EventTarget)deleteAttrSyncOnClick,"click",this,false,new ParamTransport[]{new NodeAllAttribTransport()});                
     }
 
     public void handleEvent(Event evt)

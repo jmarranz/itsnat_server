@@ -7,7 +7,6 @@ public class LoadScriptImpl
 {
     public static final String ITSNAT = "itsnat.js";
     public static final String ITSNAT_MSIE_OLD = "itsnat_msie_old.js";
-    public static final String ITSNAT_MSIE_POCKET = "itsnat_msie_pocket.js";
     public static final String ITSNAT_W3C = "itsnat_w3c.js";
     public static final String ITSNAT_SVGWEB = "itsnat_svgweb.js";
     public static final String ITSNAT_OPERA_8_MOBILE = "itsnat_opera_8_mobile.js";
@@ -18,7 +17,6 @@ public class LoadScriptImpl
     {
         if (!fileName.equals(ITSNAT) &&
             !fileName.equals(ITSNAT_MSIE_OLD) &&
-            !fileName.equals(ITSNAT_MSIE_POCKET) &&
             !fileName.equals(ITSNAT_W3C) &&
             !fileName.equals(ITSNAT_SVGWEB) &&
             !fileName.equals(ITSNAT_OPERA_8_MOBILE) &&

@@ -16,20 +16,20 @@
 
 package org.itsnat.impl.comp;
 
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.comp.ItsNatHTMLForm;
-import org.itsnat.comp.ItsNatComponentUI;
 import javax.swing.ButtonModel;
-import org.itsnat.core.event.ParamTransport;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.ItsNatHTMLForm;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLFormElement;
@@ -62,6 +62,7 @@ public class ItsNatHTMLFormImpl extends ItsNatHTMLElementComponentImpl implement
         return new ItsNatCompDOMListenersByClientDefaultImpl(this,clientDoc);
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();

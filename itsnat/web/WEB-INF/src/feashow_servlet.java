@@ -36,10 +36,6 @@ import org.itsnat.feashow.features.comp.degraded.DisabledScriptAndCompLoadListen
 import org.itsnat.feashow.features.comp.other.custom.LoginCreationItsNatComponentListener;
 import org.itsnat.feashow.features.comp.layers.ModalLayerSVGLoadListener;
 import org.itsnat.feashow.features.comp.layers.ModalLayerXULLoadListener;
-import org.itsnat.feashow.features.comp.pocketie.PocketIEFreeComboBoxLoadListener;
-import org.itsnat.feashow.features.comp.pocketie.PocketIEFreeListLoadListener;
-import org.itsnat.feashow.features.comp.pocketie.PocketIETableLoadListener;
-import org.itsnat.feashow.features.comp.pocketie.PocketIETreeLoadListener;
 import org.itsnat.feashow.features.comp.lists.FreeListSVGLoadListener;
 import org.itsnat.feashow.features.comp.tables.FreeTableSVGLoadListener;
 import org.itsnat.feashow.features.comp.xmlcomp.XMLAndCompLoadListener;
@@ -238,18 +234,6 @@ public class feashow_servlet extends HttpServletWrapper
 
         docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.xmlAndCompExample","text/xml",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new XMLAndCompLoadListener());
-
-        docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.pocketie.freeComboBoxExample","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new PocketIEFreeComboBoxLoadListener());
-
-        docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.pocketie.freeListExample","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new PocketIEFreeListLoadListener());
-
-        docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.pocketie.tableExample","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new PocketIETableLoadListener());
-
-        docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.pocketie.treeExample","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new PocketIETreeLoadListener());
 
         // HTML fragments
 

@@ -16,8 +16,8 @@
 
 package org.itsnat.core;
 
-import org.itsnat.core.event.ItsNatTimerHandle;
 import java.util.Date;
+import org.itsnat.core.event.ItsNatTimerHandle;
 import org.itsnat.core.event.ParamTransport;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;

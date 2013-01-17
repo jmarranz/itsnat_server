@@ -16,15 +16,15 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.comp.button.ItsNatButtonGroup;
-import org.itsnat.comp.button.toggle.ItsNatFreeRadioButton;
-import org.itsnat.comp.ItsNatComponentUI;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.ItsNatButtonGroup;
+import org.itsnat.comp.button.toggle.ItsNatFreeRadioButton;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -68,6 +68,7 @@ public abstract class ItsNatFreeRadioButtonImpl extends ItsNatFreeButtonToggleIm
         return (ItsNatButtonRadioUIInternal)compUI;
     }
 
+    @Override
     public void initialSyncWithDataModel()
     {
         getItsNatButtonRadioShared().initialSyncWithDataModel();
@@ -80,11 +81,13 @@ public abstract class ItsNatFreeRadioButtonImpl extends ItsNatFreeButtonToggleIm
         return super.getToggleButtonModel();
     }
 
+    @Override
     public ButtonModel getButtonModel()
     {
         return getToggleButtonModel();
     }
 
+    @Override
     public void setButtonModel(ButtonModel dataModel)
     {
         super.setButtonModel(dataModel);
@@ -92,6 +95,7 @@ public abstract class ItsNatFreeRadioButtonImpl extends ItsNatFreeButtonToggleIm
         getToggleButtonModel(); // Para que se actualice el group del nuevo data model
     }
 
+    @Override
     public ToggleButtonModel getToggleButtonModel()
     {
         // Como el cambio de ButtonGroup en el data model no genera eventos hemos de sincronizar en cuanto se pueda
@@ -100,6 +104,7 @@ public abstract class ItsNatFreeRadioButtonImpl extends ItsNatFreeButtonToggleIm
         return model;
     }
 
+    @Override
     public void setToggleButtonModel(ToggleButtonModel dataModel)
     {
         super.setToggleButtonModel(dataModel);

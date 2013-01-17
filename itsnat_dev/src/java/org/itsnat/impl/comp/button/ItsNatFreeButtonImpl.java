@@ -16,16 +16,16 @@
 
 package org.itsnat.impl.comp.button;
 
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.comp.button.ItsNatButtonUI;
 import javax.swing.ButtonModel;
 import javax.swing.event.ChangeEvent;
+import org.itsnat.comp.button.ItsNatButtonUI;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.*;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
@@ -66,6 +66,7 @@ public abstract class ItsNatFreeButtonImpl extends ItsNatFreeElementComponentImp
         return null;
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -128,6 +129,7 @@ public abstract class ItsNatFreeButtonImpl extends ItsNatFreeElementComponentImp
         // Nada que hacer
     }
 
+    @Override
     public void processDOMEvent(Event evt)
     {
         // Evento click al menos

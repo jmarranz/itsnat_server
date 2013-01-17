@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.comp.button.normal;
 
-import org.itsnat.impl.comp.button.ItsNatButtonBasedUIImpl;
 import org.itsnat.comp.button.normal.ItsNatButtonNormal;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.button.ItsNatButtonBasedUIImpl;
 
 /**
  * Los métodos isSelected,setSelected,getSelectedObjects de la clase base

@@ -16,8 +16,6 @@
 
 package org.itsnat.comp.text;
 
-import org.itsnat.comp.text.ItsNatTextAreaUI;
-
 /**
  * Is the base interface of text based components which text is rendered/edited
  * with multiple lines.

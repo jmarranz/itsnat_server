@@ -67,7 +67,6 @@ import manual.comp.CityListCustomStructure;
 import manual.comp.custom.LoginComponent;
 import manual.comp.custom.LoginCreationItsNatComponentListener;
 import manual.comp.custom.ValidateLoginListener;
-import manual.comp.iemob.PocketIEFreeComboBoxSelectionDecorator;
 import manual.comp.labels.PersonCustomLabelEditor;
 import manual.comp.labels.PersonCustomLabelRenderer;
 import manual.comp.lists.ComboBoxSelectionDecorator;
@@ -2942,8 +2941,6 @@ button.addEventListener("click", listener);
     dataModel.addElement("Sevilla");
     dataModel.addElement("Segovia");
     dataModel.addElement("Barcelona");
-
-    comboComp.addItemListener(new PocketIEFreeComboBoxSelectionDecorator(comboComp));
 
     dataModel.setSelectedItem("Segovia");
     }

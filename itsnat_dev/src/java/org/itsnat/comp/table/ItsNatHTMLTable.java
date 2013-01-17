@@ -17,8 +17,6 @@
 package org.itsnat.comp.table;
 
 import org.itsnat.comp.ItsNatHTMLElementComponent;
-import org.itsnat.comp.table.ItsNatTable;
-import org.itsnat.comp.table.ItsNatHTMLTableUI;
 import org.w3c.dom.html.HTMLTableElement;
 
 /**

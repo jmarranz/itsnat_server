@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.otherns;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
@@ -35,10 +34,7 @@ public abstract class JSRenderOtherNSElementMSIEOldImpl extends JSRenderOtherNSE
 
     protected static JSRenderOtherNSElementMSIEOldImpl getJSRenderOtherNSElementMSIEOld(Browser browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderOtherNSElementMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderOtherNSElementMSIE6Impl.SINGLETON;
+        return JSRenderOtherNSElementMSIE6Impl.SINGLETON;
     }
 
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulImpl clientDoc)

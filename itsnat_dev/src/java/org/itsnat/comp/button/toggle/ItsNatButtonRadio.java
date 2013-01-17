@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.button.toggle;
 
-import org.itsnat.comp.button.ItsNatButtonGroup;
 import javax.swing.ButtonGroup;
+import org.itsnat.comp.button.ItsNatButtonGroup;
 
 /**
  * Is the base interface of radio button components.

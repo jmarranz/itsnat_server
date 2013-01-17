@@ -125,9 +125,8 @@ public class FuncTestUsingBrowserExample
 
         fillTextInput(inputElem,value);
 
-        // ItsNat sends a "blur" event when a "change" event is fired in Pocket IE
-        // otherwise this event is not fired. This blur event removes the editor element used in place.
-        // then we check first if this node is present in the document (not in Pocket IE).
+        // ItsNat sends a "blur" event when a "change" event to ensure is fired. This blur event removes the editor element used in place.
+        // then we check first if this node is present in the document .
         if (ItsNatDOMUtil.isNodeInside(inputElem,itsNatDoc.getDocument()))
             util.sendHTMLEvent(inputElem,"blur",true);
     }

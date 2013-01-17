@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -34,7 +33,7 @@ public abstract class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElement
     /** Creates a new instance of JSRenderHTMLElementMSIEOldImpl */
     public JSRenderHTMLElementMSIEOldImpl()
     {
-        // Internet Explorer (MSIE 6+) válidos también para Pocket IE:
+        // Internet Explorer (MSIE 6+) :
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/innerhtml.asp
         // COL, COLGROUP, FRAMESET, HTML, STYLE, TABLE, TBODY, TFOOT, THEAD, TITLE, TR
         // tienen innerHTML como "readonly"
@@ -104,10 +103,7 @@ public abstract class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElement
 
     public static JSRenderHTMLElementMSIEOldImpl getJSMSIEHTMLElementRender(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLElementMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLElementMSIE6Impl.SINGLETON;
+        return JSRenderHTMLElementMSIE6Impl.SINGLETON;
     }
 
     protected boolean isChildNotValidInsideInnerHTMLElementNotHTML(Element elem,MarkupTemplateVersionImpl template)

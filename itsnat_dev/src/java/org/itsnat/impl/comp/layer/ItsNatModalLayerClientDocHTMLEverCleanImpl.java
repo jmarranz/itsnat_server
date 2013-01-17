@@ -18,17 +18,11 @@ package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitBolt;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
- * Pocket IE: no admite posicionamiento absoluto ni z-index por lo que usamos la técnica
- * de ocultar los elementos bajo body ANTES de que el programador añada la "vista modal".
- * En este caso el elemento layer modal no sirve para nada pero es necesario para los demás
- * navegadores en el caso de control remoto.
- *
  * Opera Mini: admite posicionamiento absoluto pero los elementos ocultos son pulsables.
  *
  * @author jmarranz
@@ -42,35 +36,35 @@ public class ItsNatModalLayerClientDocHTMLEverCleanImpl extends ItsNatModalLayer
 
     public static boolean isEverCleanNeeded(Browser browser)
     {
-        return (browser instanceof BrowserMSIEPocket)||
-               (browser instanceof BrowserOpera9Mini)||
+        return (browser instanceof BrowserOpera9Mini)||
                (browser instanceof BrowserGeckoUCWEB)||
                (browser instanceof BrowserWebKitBolt);
     }
 
+    @Override
     public boolean isCleanBelowMode()
     {
         // Redefinimos, es siempre "clean"
         return true;
     }
 
+    @Override
     public void initModalLayer()
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();
-        if ((browser instanceof BrowserMSIEPocket)||
-            (browser instanceof BrowserGeckoUCWEB))
+        if (browser instanceof BrowserGeckoUCWEB)
             return; // No sirve para nada todo esto en este caso, no soporta posicionamiento absoluto
         else
             super.initModalLayer();
     }
 
+    @Override
     public void preRemoveLayer()
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();
-        if ((browser instanceof BrowserMSIEPocket)||
-            (browser instanceof BrowserGeckoUCWEB))
+        if (browser instanceof BrowserGeckoUCWEB)
             return; // No sirve para nada en este caso
         else
             super.preRemoveLayer();

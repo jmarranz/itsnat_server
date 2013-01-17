@@ -35,8 +35,6 @@ public class TestComments
 
         ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
         String userAgent = session.getUserAgent();
-        if (userAgent.indexOf(" IEMobile") != -1) // Pocket IE no soporta comentarios por lo que ScriptUtil.getNodeRefenrence() dará error (pues los comentarios no son usados en el cálculo de paths)
-            return;
 
         Document doc = itsNatDoc.getDocument();
 

@@ -17,20 +17,20 @@
 package org.itsnat.impl.comp.iframe;
 
 import java.util.LinkedList;
+import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.iframe.HTMLIFrameFileUpload;
 import org.itsnat.comp.iframe.ItsNatHTMLIFrame;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.core.ClientDocument;
-import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatHTMLElementComponentImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
@@ -57,6 +57,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         init();
     }
 
+    @Override
     protected void disposeEffective(boolean updateClient)
     {
         super.disposeEffective(updateClient);

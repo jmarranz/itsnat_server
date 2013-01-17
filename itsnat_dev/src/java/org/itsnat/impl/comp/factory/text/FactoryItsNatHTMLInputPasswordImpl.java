@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.comp.factory.text;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.text.ItsNatHTMLInputPassword;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.comp.text.ItsNatHTMLInputPasswordImpl;
 import org.w3c.dom.html.HTMLElement;

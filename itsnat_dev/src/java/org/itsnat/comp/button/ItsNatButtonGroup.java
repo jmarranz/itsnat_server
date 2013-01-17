@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.button;
 
-import org.itsnat.comp.*;
 import javax.swing.ButtonGroup;
+import org.itsnat.comp.*;
 
 /**
  * Represents a button group.

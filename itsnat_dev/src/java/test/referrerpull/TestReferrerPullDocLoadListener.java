@@ -87,18 +87,7 @@ public class TestReferrerPullDocLoadListener implements ItsNatServletRequestList
                 Document docRef = itsNatDocRef.getDocument();
 
                 String docNameRef = itsNatDocRef.getItsNatDocumentTemplate().getName();
-                /*
-                if (docNameRef.equals("test_core") ||
-                    docNameRef.equals("test_ie_pocket"))
-                {
-                    Element h = doc.createElement("h3");
-                    h.appendChild(doc.createTextNode("Markup Transported"));
-                    outElem.appendChild(h);
-
-                    Element link = doc.getElementById("testReloadId");
-                    link.setAttribute("style",""); // Visible
-                }
-                else */ if (docNameRef.equals("test_referrer_pull") || // Reload
+                if (docNameRef.equals("test_referrer_pull") || // Reload
                          docNameRef.equals("test_referrer_pull_next")) // Back button
                 {
                     Element outRefElem = docRef.getElementById("outId");

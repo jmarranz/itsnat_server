@@ -46,7 +46,7 @@ public class DelegateHTMLInputCheckBoxEditorImpl extends DelegateHTMLElementComp
 
     public void setValue(Object value)
     {
-        boolean selected = false;
+        boolean selected;
         if (value instanceof Boolean)
             selected = ((Boolean)value).booleanValue();
         else

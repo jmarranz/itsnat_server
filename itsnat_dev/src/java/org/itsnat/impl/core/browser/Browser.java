@@ -103,7 +103,7 @@ public abstract class Browser implements Serializable
     public static boolean isMSIE(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
          // Opera en algunas versiones (Opera Mobile 8.x y algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
-        //  UCWEB puede simular ser un MSIE 4 (un antiguo Pocket IE)
+        //  UCWEB puede simular ser un MSIE 4 
         return (userAgent.indexOf("MSIE") != -1) &&
                 !BrowserOpera.isOpera(userAgent,itsNatRequest) &&
                 !BrowserGeckoUCWEB.isUCWEB(userAgent,itsNatRequest);
@@ -229,7 +229,6 @@ public abstract class Browser implements Serializable
 
     public boolean isEventTimeoutSupported()
     {
-        // Se redefine en un caso (PocketIE)
         return isSetTimeoutSupported();
     }
 

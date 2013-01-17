@@ -19,9 +19,8 @@ package org.itsnat.impl.core.jsren.dom.node.html.msie;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.BrowserMSIE6;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
@@ -88,10 +87,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
 
     public static JSRenderHTMLPropertyMSIEOldImpl getJSRenderHTMLPropertyMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLPropertyMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLPropertyMSIE6Impl.SINGLETON;
+        return JSRenderHTMLPropertyMSIE6Impl.SINGLETON;
     }
 
     protected void addGlobalFunction(String propName)

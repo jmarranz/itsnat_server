@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.button.ItsNatButtonBasedUIImpl;
 import org.itsnat.comp.button.toggle.ItsNatButtonToggle;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.button.ItsNatButtonBasedUIImpl;
 
 /**
  *

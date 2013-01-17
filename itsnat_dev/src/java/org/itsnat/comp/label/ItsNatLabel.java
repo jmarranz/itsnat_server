@@ -15,9 +15,8 @@
 */
 package org.itsnat.comp.label;
 
-import org.itsnat.comp.*;
 import java.beans.PropertyVetoException;
-import org.itsnat.comp.label.ItsNatLabelUI;
+import org.itsnat.comp.ItsNatElementComponent;
 
 /**
  * Is the base interface of label components.

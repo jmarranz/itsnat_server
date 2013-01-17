@@ -35,6 +35,7 @@ public class KnownSizeInputStreamImpl extends FilterInputStream
         return sizeMax;
     }
 
+    @Override
     public int read() throws IOException
     {
         int res = super.read();
@@ -44,6 +45,7 @@ public class KnownSizeInputStreamImpl extends FilterInputStream
         return res;
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
         int res = super.read(b, off, len);
@@ -53,6 +55,7 @@ public class KnownSizeInputStreamImpl extends FilterInputStream
         return res;
     }
 
+    @Override
     public long skip(long n) throws IOException
     {
         long res = super.skip(n);
@@ -62,6 +65,7 @@ public class KnownSizeInputStreamImpl extends FilterInputStream
         return res;
     }
 
+    @Override
     public int available() throws IOException
     {
 	int res = super.available();

@@ -17,14 +17,14 @@
 package org.itsnat.impl.comp.button.toggle;
 
 import java.io.Serializable;
-import org.itsnat.core.ItsNatException;
-import org.itsnat.comp.button.ItsNatButtonGroup;
-import org.itsnat.comp.button.toggle.ItsNatButtonRadio;
-import org.itsnat.comp.ItsNatComponent;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.ItsNatComponent;
+import org.itsnat.comp.button.ItsNatButtonGroup;
+import org.itsnat.comp.button.toggle.ItsNatButtonRadio;
+import org.itsnat.core.ItsNatException;
 
 
 

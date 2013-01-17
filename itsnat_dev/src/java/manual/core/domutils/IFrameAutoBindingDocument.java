@@ -92,7 +92,7 @@ public class IFrameAutoBindingDocument implements EventListener
 
         // Notify the parent document
         StringBuffer code = new StringBuffer();
-        code.append("if (window.parent == window) alert('NOT SUPPORTED');"); // For instance: Pocket IE
+        code.append("if (window.parent == window) alert('NOT SUPPORTED');"); // A algún navegador antiguo no soportado ya le pasaba
         code.append("else window.parent.document.getItsNatDoc().fireUserEvent(null,'update');");
         itsNatDoc.addCodeToSend(code.toString());
     }

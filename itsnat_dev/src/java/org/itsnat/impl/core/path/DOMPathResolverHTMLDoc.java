@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.core.path;
 
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.w3c.dom.Comment;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLDocument;
 
@@ -28,7 +28,7 @@ import org.w3c.dom.html.HTMLDocument;
  *
  * @author jmarranz
  */
-public abstract class DOMPathResolverHTMLDoc extends DOMPathResolver
+public class DOMPathResolverHTMLDoc extends DOMPathResolver
 {
     /** Creates a new instance of DOMPathResolverHTMLDoc */
     public DOMPathResolverHTMLDoc(ClientDocumentStfulImpl clientDoc)
@@ -43,11 +43,7 @@ public abstract class DOMPathResolverHTMLDoc extends DOMPathResolver
 
     public static DOMPathResolverHTMLDoc createDOMPathResolverHTMLDoc(ClientDocumentStfulImpl clientDoc)
     {
-        Browser browser = clientDoc.getBrowser();
-        if (browser instanceof BrowserMSIEPocket)
-            return new DOMPathResolverHTMLDocMSIEPocket(clientDoc);
-        else
-            return new DOMPathResolverHTMLDocOther(clientDoc);
+        return new DOMPathResolverHTMLDoc(clientDoc);
     }
 
     protected Node getChildNodeFromStrPos(Node parentNode,String posStr)
@@ -86,4 +82,29 @@ public abstract class DOMPathResolverHTMLDoc extends DOMPathResolver
         }
         return super.getNodeChildPosition(node);
     }
+    
+    public boolean isFilteredInClient(Node node)
+    {
+        SVGWebInfoImpl svgWebInfo = clientDoc.getSVGWebInfo();
+        if (svgWebInfo == null)
+        {
+            return false;
+        }
+        else
+        {
+            // SVGWeb definido:
+            // En teoría hasta después del evento onload no tiene sentido
+            // (no funciona) acceder a los elementos SVG procesados por SVGWeb
+            // por lo que este método suponemos que ha sido llamado tras el evento
+            // onload cuando ya claramente se sabe si la página contiene SVGWeb
+            // (y objeto SVGWebInfo está determinado, lo cual se hace en carga).
+
+            // Los comentarios no son soportados (no reflejados en el DOM)
+            // en un trozo de SVG procesado por SVGWeb
+            if (node instanceof Comment)
+                return svgWebInfo.isSVGNodeProcessedBySVGWebFlash(node);
+            else
+                return false;
+        }
+    }    
 }

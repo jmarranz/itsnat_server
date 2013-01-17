@@ -16,12 +16,12 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.button.ItsNatFreeButtonImpl;
-import org.itsnat.comp.button.toggle.ItsNatFreeButtonToggle;
 import javax.swing.ButtonModel;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.button.toggle.ItsNatFreeButtonToggle;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.ItsNatFreeButtonImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
 /**

@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.table;
 
-import org.itsnat.comp.*;
 import javax.swing.CellEditor;
+import org.itsnat.comp.*;
 import org.w3c.dom.Element;
 
 /**

@@ -144,7 +144,6 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         code.append( "  }" );
         code.append( "  if ((zIndexMax < zIndex1)||(zIndexMax >= zIndex2)) return;" ); // zIndexMax debe estar en el conjunto [zIndex1,zIndex2)
 
-        // Como no pasa por aquí IE Pocket (no tiene z-index) no hay problema con añadir una propiedad a style
         code.append( "  if (show)"); // Si el elemento no fue oculto no pasa nada, el código de restauración del backup detecta que no hay backup de la propiedad
         code.append( "  {" );
         code.append( "    " + render.getRestoreBackupStyleProperty("elem","visibility",clientDoc) );

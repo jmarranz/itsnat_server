@@ -62,7 +62,6 @@ public class ResponseDelegateHTMLLoadDocMSIE6Impl extends ResponseDelegateHTMLLo
         // Al serializar siempre se genera un finalizador </embed> para los <embed>
         // En MSIE 6,7,8 </embed> es convertido en un elemento desconocido.
         // http://msdn.microsoft.com/en-us/library/ms535245%28VS.85%29.aspx#
-        // Curiosamente esto no ocurre en Pocket IE
 
         // docMarkup = docMarkup.replaceAll("></embed>","/>");
 

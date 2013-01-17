@@ -16,9 +16,8 @@
 
 package org.itsnat.impl.comp.button.normal;
 
-import org.itsnat.impl.comp.button.ItsNatButtonInternal;
-import org.itsnat.impl.comp.*;
 import org.itsnat.comp.button.normal.ItsNatButtonNormal;
+import org.itsnat.impl.comp.button.ItsNatButtonInternal;
 
 /**
  *

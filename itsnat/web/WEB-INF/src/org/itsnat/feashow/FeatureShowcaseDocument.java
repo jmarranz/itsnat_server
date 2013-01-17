@@ -136,8 +136,8 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
 
         // Adaptors are called *after* tabs combo box construction because this
         // component requires special processing.
-        if (PocketIEMotoWebKitAdaptor.isPIEOrMotoWebKit(request))
-            this.browserAdaptor = new PocketIEMotoWebKitAdaptor(this);
+        if (MotoWebKitAdaptor.isMotoWebKit(request))
+            this.browserAdaptor = new MotoWebKitAdaptor(this);
         else if (UCWEBAdaptor.isUCWEB(request))
             this.browserAdaptor = new UCWEBAdaptor(this,request);
         else if (SkyFireAdaptor.isSkyFire(request))

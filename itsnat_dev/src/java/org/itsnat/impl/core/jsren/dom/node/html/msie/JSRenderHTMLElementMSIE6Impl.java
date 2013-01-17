@@ -99,16 +99,5 @@ public class JSRenderHTMLElementMSIE6Impl extends JSRenderHTMLElementMSIEOldImpl
         return super.createElement(elem,tagName,clientDoc);
     }
 
-/*
-    protected InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulImpl clientDoc)
-    {
-        // El tag </embed> es convertido en un elemento desconocido.
-        // http://msdn.microsoft.com/en-us/library/ms535245%28VS.85%29.aspx#
-        // Curiosamente esto no ocurre en Pocket IE
-        childrenCode = childrenCode.replaceAll("></embed>","/>");
-        return super.appendChildrenCodeAsMarkup(parentVarName, parentNode, childrenCode, clientDoc);
-    }
- *
- */
 }
 

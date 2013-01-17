@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.button.toggle;
 
-import org.itsnat.comp.button.ItsNatButton;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.button.ItsNatButton;
 
 /**
  * Is the base interface of toggle button components. Toggle buttons can be selected.

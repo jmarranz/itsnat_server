@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.comp;
 
+import org.itsnat.comp.ItsNatHTMLComponentManager;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.ItsNatHTMLElementComponentUI;
-import org.itsnat.comp.ItsNatHTMLComponentManager;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;

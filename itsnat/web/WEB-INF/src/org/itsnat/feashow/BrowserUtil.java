@@ -43,7 +43,7 @@ public class BrowserUtil
                (userAgent.indexOf("SAMSUNG-SGH-i900") != -1) || // Opera Mobile 9.5 (Omnia)
                ( ((userAgent.indexOf("MOT-") != -1) || (userAgent.indexOf("Motorola") != -1)) && (userAgent.indexOf("Opera") != -1)) || // Opera Mobile 8.x on some Motorola devices
                (userAgent.indexOf("NetFront") != -1) ||
-               (userAgent.indexOf("Windows CE") != -1) || // Opera Mobile 8/9.5 & Pocket IE
+               (userAgent.indexOf("Windows CE") != -1) || // Opera Mobile 8/9.5 
                (userAgent.indexOf("Symbian") != -1) ||  // Opera Mobile 8/9.5 & S60WebKit
                (userAgent.indexOf("Nokia6600s") != -1) || // S40WebKit
                (userAgent.indexOf("Android") != -1) ||
@@ -92,7 +92,7 @@ public class BrowserUtil
     {
         if (!BrowserUtil.isUCWEB(request))
             return false;
-        // UCWEB Win Mobile user agent simulates an old Pocket IE
+        // UCWEB Win Mobile user agent simulates an old IE mobile
         ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
         String userAgent = session.getUserAgent();
         return (userAgent.indexOf("Windows CE") != -1);
@@ -103,14 +103,6 @@ public class BrowserUtil
         ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
         String userAgent = session.getUserAgent();
         return (userAgent.indexOf("BOLT") != -1);
-    }
-
-    public static boolean isPocketIE(ItsNatServletRequest request)
-    {
-        ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
-        String userAgent = session.getUserAgent();
-        // Space in " IEMobile" is necessary to distinguish between Pocket IE and IE Mobile (WM 6.1.4)
-        return (userAgent.indexOf(" IEMobile") != -1);
     }
 
     public static boolean isMotoWebKit(ItsNatServletRequest request)

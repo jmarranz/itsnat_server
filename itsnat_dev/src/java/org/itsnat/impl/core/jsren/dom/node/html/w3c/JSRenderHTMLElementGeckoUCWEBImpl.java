@@ -428,8 +428,8 @@ public class JSRenderHTMLElementGeckoUCWEBImpl extends JSRenderHTMLElementGeckoI
                 // Procesamos siempre los anchor aunque no tengan onclick para generar un evento click
                 // de esta manera podemos usar los anchor para generar clicks que son procesados
                 // por elementos más arriba (bubble/capture) que por si mismo no generan click (ej. <div> o <p> en 6.3 Win CE),
-                // este es el mismo tipo de técnica que se usa en Pocket IE o MotoWebKit,
-                // además permite que funcionen ejemplos de código diseñados para Pocket IE o MotoWebKit
+                // este es el mismo tipo de técnica que se usa en MotoWebKit,
+                // además permite que funcionen ejemplos de código diseñados para MotoWebKit
                 // en donde se usan anchors "desnudos" (que no hacen nada por sí mismos pues sirven para generar eventos),
                 // pues de otra manera estos anchors son los pulsados (no nodos padre con onclick) pero
                 // al no tener el onclick especial ItsNat no se genera un evento normal click para ser procesado por nodos padre.

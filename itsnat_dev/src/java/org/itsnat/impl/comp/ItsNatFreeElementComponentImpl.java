@@ -17,11 +17,10 @@
 package org.itsnat.impl.comp;
 
 import org.itsnat.comp.ItsNatElementComponent;
-import org.itsnat.core.NameValue;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.ItsNatElementComponentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

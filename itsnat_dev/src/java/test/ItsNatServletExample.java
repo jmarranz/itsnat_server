@@ -35,7 +35,6 @@ import test.core.TestCoreDocLoadListener;
 import test.coreiframe.TestCoreIFrameDocLoadListener;
 import test.noajax.TestNoAJAXDocLoadListener;
 import test.noscript.TestNoScriptDocLoadListener;
-import test.iepocket.TestIEPocketDocLoadListener;
 import test.iframehtml.TestIFrameHTMLDocLoadListener;
 import test.ioeasvg.TestSVGBoundDocLoadListener;
 import test.ioeasvg.TestIFrameObjEmbAppletSVGParentDocLoadListener;
@@ -297,14 +296,6 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new TestPrettyURLDocLoadListener());
         docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
         //docTemplate.setFrameworkScriptFilesBasePath("/itsnat_dev/js");
-
-        /* IE Mobile admite application/xhtml+xml pero parece que el JavaScript no funciona
-         * Sobre XHTML y móviles: http://www.forteach.net/xmls/mobile/200611/33134.html
-         */
-        docTemplate = registerDocument("test_ie_pocket","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new TestIEPocketDocLoadListener());
-        docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
-        //docTemplate.setReferrerEnabled(true);
 
         docTemplate = registerDocument("test_mobile","text/html",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestMobileDocLoadListener());

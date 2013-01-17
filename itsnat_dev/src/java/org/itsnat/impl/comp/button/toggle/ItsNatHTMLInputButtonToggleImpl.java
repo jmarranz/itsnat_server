@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.button.ItsNatHTMLInputButtonBaseImpl;
-import org.itsnat.comp.button.toggle.ItsNatHTMLInputButtonToggle;
 import javax.swing.ButtonModel;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.button.toggle.ItsNatHTMLInputButtonToggle;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.ItsNatHTMLInputButtonBaseImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -101,6 +101,7 @@ public abstract class ItsNatHTMLInputButtonToggleImpl extends ItsNatHTMLInputBut
         }
     }
 
+    @Override
     public void initialSyncUIWithDataModel()
     {
         super.initialSyncUIWithDataModel();
@@ -109,6 +110,7 @@ public abstract class ItsNatHTMLInputButtonToggleImpl extends ItsNatHTMLInputBut
             markupDrivenUtil.initialSyncUIWithDataModel();
     }
 
+    @Override
     public void setDefaultDataModel(Object dataModel)
     {
         if (markupDrivenUtil != null)
@@ -117,6 +119,7 @@ public abstract class ItsNatHTMLInputButtonToggleImpl extends ItsNatHTMLInputBut
         super.setDefaultDataModel(dataModel);
     }
 
+    @Override
     public void disposeEffective(boolean updateClient)
     {
         super.disposeEffective(updateClient);

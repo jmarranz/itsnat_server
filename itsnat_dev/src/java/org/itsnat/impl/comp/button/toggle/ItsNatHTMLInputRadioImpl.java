@@ -16,12 +16,12 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.comp.button.ItsNatButtonGroup;
-import org.itsnat.comp.button.toggle.ItsNatHTMLInputRadio;
-import org.itsnat.comp.ItsNatComponentUI;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.ItsNatButtonGroup;
+import org.itsnat.comp.button.toggle.ItsNatHTMLInputRadio;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
@@ -45,6 +45,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         init();
     }
 
+    @Override
     public void init()
     {
         super.init();
@@ -74,6 +75,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         return "radio";
     }
 
+    @Override
     public ButtonModel createDefaultButtonModel()
     {
         ToggleButtonModel dataModel = (ToggleButtonModel)super.createDefaultButtonModel();
@@ -108,11 +110,13 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         return super.getToggleButtonModel();
     }
 
+    @Override
     public ButtonModel getButtonModel()
     {
         return getToggleButtonModel();
     }
 
+    @Override
     public void setButtonModel(ButtonModel dataModel)
     {
         super.setButtonModel(dataModel);
@@ -120,6 +124,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         getToggleButtonModel(); // Para que se actualice el group del nuevo data model
     }
 
+    @Override
     public ToggleButtonModel getToggleButtonModel()
     {
         // Como el cambio de ButtonGroup en el data model no genera eventos hemos de sincronizar en cuanto se pueda
@@ -128,6 +133,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         return model;
     }
 
+    @Override
     public void setToggleButtonModel(ToggleButtonModel dataModel)
     {
         super.setToggleButtonModel(dataModel);
@@ -165,6 +171,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
         getItsNatButtonRadioShared().setItsNatButtonGroup(this.itsNatButtonGroup,addToGroup,updateUI);
     }
 
+    @Override
     public void initialSyncWithDataModel()
     {
         getItsNatButtonRadioShared().initialSyncWithDataModel();

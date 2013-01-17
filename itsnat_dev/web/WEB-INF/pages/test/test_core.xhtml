@@ -40,7 +40,7 @@ tiende a meterlo bajo <html> o <head> -->
                     if (document.body) // En XHTML y Safari document no es HTMLDocument
                     {
                         var style = document.body.style;
-                        if (typeof style.cursor != "undefined") // IE Pocket no lo soporta
+                        if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
                             style.cursor = "wait";
                     }
                 }
@@ -58,7 +58,7 @@ tiende a meterlo bajo <html> o <head> -->
                     if (document.body) // En XHTML y Safari document no es HTMLDocument
                     {
                         var style = document.body.style;
-                        if (typeof style.cursor != "undefined") // IE Pocket no lo soporta
+                        if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
                             style.cursor = "";
                     }
                 }
@@ -150,10 +150,6 @@ tiende a meterlo bajo <html> o <head> -->
     </span>
     <br /><br />
 
-    <!-- En IE Pocket este test provoca una regeneracion de toda la página,
-    se podría arreglar metiendo las imágenes dentro de en un simple <span>, pero
-    así testeamos la eficiencia de los algoritmos JavaScript para IE Pocket
-    -->
     <a id="setTextNodeTestId" href="javascript:void(0)">Test setTextNode</a>
     <img src="img/address-book-new.png"/><img id="setTextNodeTestId2" src="img/address-book-new.png"/>
     <br /><br />
@@ -216,7 +212,7 @@ this INITIAL text</textarea>
         var value = "(" + evt.screenX + "," + evt.screenY + ")";
         if (link.setAttribute)
             link.setAttribute("pos",value);  // pos inicialmente no existe en el servidor, se crea aquí
-        else // IE Pocket
+        else // Pasaba en un móvil muy antiguo
             link = document.getItsNatDoc().setAttribute(link,"pos",value);
         link.style.color = "red"; // style es problemático en MSIE, para testear si se envía bien en MSIE
     }
@@ -236,7 +232,7 @@ this INITIAL text</textarea>
         // pos existe en el servidor inicialmente
         if (link.setAttribute)
             link.setAttribute("pos",value);
-        else // IE Pocket
+        else // Pasaba en un móvil muy antiguo
             link = document.getItsNatDoc().setAttribute(link,"pos",value);
         link.style.color = "red"; // style es problemático en MSIE, para testear
     }
@@ -257,7 +253,7 @@ this INITIAL text</textarea>
     {
         if (link.removeAttribute)
             link.removeAttribute("pos");
-        else // IE Pocket
+        else // Pasaba en un móvil muy antiguo
             document.getItsNatDoc().removeAttribute(link,"pos");
     }
     </script>
@@ -277,7 +273,7 @@ this INITIAL text</textarea>
         link.appendChild(elem);
         if (document.createTextNode)
             elem.appendChild(document.createTextNode(text));
-        else // IE Pocket
+        else // Pasaba en un móvil muy antiguo
             itsNatDoc.appendFilteredNode(elem,text);
     }
     </script>

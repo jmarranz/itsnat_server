@@ -17,9 +17,9 @@
 package org.itsnat.impl.comp;
 
 import java.io.Serializable;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.domutil.ElementRenderer;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
 import org.w3c.dom.Element;
 

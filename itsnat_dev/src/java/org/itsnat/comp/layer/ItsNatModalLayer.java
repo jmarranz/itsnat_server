@@ -41,10 +41,6 @@ import org.w3c.dom.events.EventListener;
  * in this case HTML SELECT elements are hidden when covered by a modal layer
  * (stacked layers are supported too).
  * </p>
- * <p>In Pocket IE 6 (WM 6 &amp; 6.1) there is no support of absolute positioning and z-index,
- * in this case covered elements are visually removed using the CSS property dispose
- * with value "none".
- * </p>
  * <p>If no element is provided when the component is created, the default implementation
  * creates one used internally.
  * </p>

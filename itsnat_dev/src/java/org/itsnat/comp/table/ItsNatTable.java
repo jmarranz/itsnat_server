@@ -16,10 +16,9 @@
 
 package org.itsnat.comp.table;
 
-import org.itsnat.comp.*;
-import org.itsnat.comp.table.ItsNatTableUI;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableModel;
+import org.itsnat.comp.ItsNatElementComponent;
 
 
 /**

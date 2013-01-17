@@ -54,7 +54,6 @@ public class ResponseDelegateHTMLLoadDocOpera9MiniImpl extends ResponseDelegateH
         // Si se vuelve via back o similares es posible que la página a la que se vuelve
         // haya ya ejecutado el evento unload, en ese caso lo que hay que hacer es recargar la página
         // en cuanto el usuario toque algo.
-        // La misma solución que en Pocket IE
 
         Document doc = clientDoc.getItsNatStfulDocument().getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();

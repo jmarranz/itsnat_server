@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLTextImpl;
 
 /**
@@ -34,9 +33,6 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
 
     public static JSRenderHTMLTextMSIEOldImpl getJSRenderHTMLTextMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLTextMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLTextMSIE6Impl.SINGLETON;
+        return JSRenderHTMLTextMSIE6Impl.SINGLETON;
     }
 }

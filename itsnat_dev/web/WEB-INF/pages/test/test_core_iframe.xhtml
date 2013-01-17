@@ -28,7 +28,7 @@
                         if (document.body) // En XHTML y Safari document no es HTMLDocument
                         {
                             var style = document.body.style;
-                            if (typeof style.cursor != "undefined") // IE Pocket no lo soporta
+                            if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
                                 style.cursor = "wait";
                         }
                     }
@@ -45,7 +45,7 @@
                         if (document.body) // En XHTML y Safari document no es HTMLDocument
                         {
                             var style = document.body.style;
-                            if (typeof style.cursor != "undefined") // IE Pocket no lo soporta
+                            if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
                                 style.cursor = "";
                         }
                     }

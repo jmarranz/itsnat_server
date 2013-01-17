@@ -17,8 +17,8 @@
 package org.itsnat.impl.comp;
 
 import java.io.Serializable;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.core.event.ItsNatEvent;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;

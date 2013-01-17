@@ -17,11 +17,8 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import java.util.LinkedList;
-import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.BrowserMSIE6;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 
 /**
@@ -39,8 +36,6 @@ public abstract class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDel
     {
         if (browser instanceof BrowserMSIE6)
             return new ResponseDelegateHTMLLoadDocMSIE6Impl(responseParent);
-        else if (browser instanceof BrowserMSIEPocket)
-            return new ResponseDelegateHTMLLoadDocMSIEPocketImpl(responseParent);
         else
             return null; // No hay más
     }

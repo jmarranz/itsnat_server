@@ -270,7 +270,7 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         if (url.startsWith("?")) // URL relativa
         {
             StringBuffer urlAbs = new StringBuffer();
-            urlAbs.append("http://localhost:8080/context/servlet");
+            urlAbs.append("http://localhost:8080/context/servlet");  // URL de patrón para poder manipular el resto de URL 
             urlAbs.append(url); // Añadimos la query y la posible parte ref (tras #)
 
             try
@@ -344,9 +344,9 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         java.net.URL urlObj = null;
         if (url.startsWith("?"))
         {
-            // El urlObj es únicamente para obtener después el #ref
             try
             {
+                // El urlObj es únicamente para obtener después el #ref                
                 urlObj = new java.net.URL("http://localhost:8080/context/servlet" + url);
             }
             catch(IOException ex) { throw new ItsNatException(ex); }

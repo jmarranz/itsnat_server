@@ -16,9 +16,8 @@
 
 package org.itsnat.comp.text;
 
-import org.itsnat.comp.*;
-import org.itsnat.comp.text.ItsNatTextComponentUI;
 import javax.swing.text.Document;
+import org.itsnat.comp.*;
 
 /**
  * Is the base interface of text based components.

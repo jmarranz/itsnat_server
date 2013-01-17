@@ -22,7 +22,6 @@ import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
 import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -49,12 +48,7 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
     {
         Browser browser = clientDoc.getBrowser();
         if (browser instanceof BrowserMSIEOld)
-        {
-            if (browser instanceof BrowserMSIEPocket)
-                return new ClientMutationEventListenerHTMLMSIEPocketImpl(clientDoc);
-            else // MSIE 6
-                return new ClientMutationEventListenerHTMLMSIE6Impl(clientDoc);
-        }
+            return new ClientMutationEventListenerHTMLMSIE6Impl(clientDoc);        
         else if (browser instanceof BrowserBlackBerryOld)
             return new ClientMutationEventListenerHTMLBlackBerryOldImpl(clientDoc);
         else if (browser instanceof BrowserWebKit)

@@ -306,7 +306,7 @@ public abstract class TestFreeTreeBase extends TestBaseHTMLDocument implements E
         Element handle = nodeInfo.getHandleElement();
         Element icon = nodeInfo.getIconElement();
         HTMLImageElement iconImg;
-        if (icon instanceof HTMLAnchorElement) // Pocket IE
+        if (icon instanceof HTMLAnchorElement) 
             iconImg = (HTMLImageElement)icon.getFirstChild();
         else
             iconImg = (HTMLImageElement)icon;
@@ -397,7 +397,7 @@ public abstract class TestFreeTreeBase extends TestBaseHTMLDocument implements E
     {
         Element handle = nodeInfo.getHandleElement();
         HTMLImageElement handleImg;
-        if (handle instanceof HTMLAnchorElement) // Pocket IE
+        if (handle instanceof HTMLAnchorElement) 
             handleImg = (HTMLImageElement)handle.getFirstChild();
         else
             handleImg = (HTMLImageElement)handle;

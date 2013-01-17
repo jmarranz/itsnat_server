@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.comp.button.toggle.ItsNatFreeCheckBox;
 import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.toggle.ItsNatFreeCheckBox;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
 /**

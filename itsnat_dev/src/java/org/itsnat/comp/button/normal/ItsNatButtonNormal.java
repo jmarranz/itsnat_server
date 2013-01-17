@@ -17,7 +17,6 @@
 package org.itsnat.comp.button.normal;
 
 import org.itsnat.comp.button.ItsNatButton;
-import org.itsnat.comp.*;
 
 /**
  * Is the base interface of normal button components.

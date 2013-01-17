@@ -19,7 +19,6 @@ package org.itsnat.impl.core.jsren.dom.node.html.msie;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
@@ -88,10 +87,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
 
     public static JSRenderHTMLAttributeMSIEOldImpl getJSRenderHTMLAttributeMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLAttributeMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLAttributeMSIE6Impl.SINGLETON;
+        return JSRenderHTMLAttributeMSIE6Impl.SINGLETON;
     }
 
     private static void addAttribute(String attrName)

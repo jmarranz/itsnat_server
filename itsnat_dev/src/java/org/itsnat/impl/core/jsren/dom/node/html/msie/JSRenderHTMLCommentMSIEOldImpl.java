@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderCommentImpl;
 
 /**
@@ -34,9 +33,6 @@ public abstract class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
 
     public static JSRenderHTMLCommentMSIEOldImpl getJSRenderHTMLCommentMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLCommentMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLCommentMSIE6Impl.SINGLETON;
+        return JSRenderHTMLCommentMSIE6Impl.SINGLETON;
     }
 }

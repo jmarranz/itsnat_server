@@ -17,14 +17,12 @@
 package org.itsnat.impl.core.browser;
 
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.w3c.dom.html.HTMLElement;
 
 /**
  * User agents:
  *
- * MSIE_OLD 6:      Mozilla/4.0 (compatible; MSIE_OLD 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)
- * Pocket IE 6: Mozilla/4.0 (compatible; MSIE_OLD 6.0; Windows CE; IEMobile 6.12)
+ * MSIE 6:      Mozilla/4.0 (compatible; MSIE_OLD 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30)
  * IE Mobile 6:
  *    Desktop Mode: Mozilla/4.0 (compatible; MSIE_OLD 6.0; Windows NT 5.1)
  *    Mobile Mode:  Mozilla/4.0 (compatible; MSIE_OLD 6.0; Windows CE; IEMobile 8.12; MSIEMobile 6.0)
@@ -34,8 +32,7 @@ import org.w3c.dom.html.HTMLElement;
 public abstract class BrowserMSIEOld extends Browser
 {
     public static final int MSIE_DESKTOP = 1;
-    public static final int MSIE_POCKET = 2;
-    public static final int MSIE_MOBILE = 3;
+    public static final int MSIE_MOBILE = 2;
 
     /** Creates a new instance of BrowserMSIEOld */
     public BrowserMSIEOld(String userAgent)
@@ -50,10 +47,8 @@ public abstract class BrowserMSIEOld extends Browser
         // http://blogs.msdn.com/iemobile/archive/2006/08/03/Detecting_IE_Mobile.aspx
         // Sólo está soportado IE Mobile 6 (Windows Mobile 6 y 6.1)
 
-        if (userAgent.indexOf("MSIEMobile") != -1) // Modo "mobile" de IE Mobile 6. Debe llamarse antes de la detección de Pocket IE
+        if (userAgent.indexOf("MSIEMobile") != -1) // Modo "mobile" de IE Mobile 6. 
             return new BrowserMSIE6(userAgent,version,true);
-        else if (userAgent.indexOf(" IEMobile") != -1) // El espacio es para evitar confundirlo con IE Mobile (conteniendo "MSIEMobile")
-            return new BrowserMSIEPocket(userAgent);
         else
         {
             // Puede ser la versión mobile en modo "desktop", el User Agent es exacto al de desktop

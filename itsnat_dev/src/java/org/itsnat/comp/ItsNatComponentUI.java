@@ -16,8 +16,6 @@
 
 package org.itsnat.comp;
 
-import org.itsnat.comp.ItsNatComponent;
-
 /**
  * Is the base interface of the User Interface utility object associated to
  * the component.

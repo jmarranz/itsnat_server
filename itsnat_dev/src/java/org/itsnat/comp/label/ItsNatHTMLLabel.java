@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.label;
 
-import org.itsnat.comp.ItsNatHTMLFormComponent;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
+import org.itsnat.comp.ItsNatHTMLFormComponent;
 import org.w3c.dom.html.HTMLLabelElement;
 
 /**

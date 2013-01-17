@@ -91,7 +91,7 @@ public class ChildHTMLAutoBindingDocument implements EventListener
 
         // Notify the client parent document
         StringBuffer code = new StringBuffer();
-        code.append("if (window.parent == window) alert('NOT SUPPORTED');"); // For instance: Pocket IE
+        code.append("if (window.parent == window) alert('NOT SUPPORTED');"); 
         code.append("else window.parent.document.getItsNatDoc().fireUserEvent(null,'update');");
         itsNatDoc.addCodeToSend(code.toString());
     }

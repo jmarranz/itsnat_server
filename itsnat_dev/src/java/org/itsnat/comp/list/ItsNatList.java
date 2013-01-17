@@ -16,9 +16,8 @@
 
 package org.itsnat.comp.list;
 
-import org.itsnat.comp.*;
-import org.itsnat.comp.list.ItsNatListUI;
 import javax.swing.ListModel;
+import org.itsnat.comp.*;
 
 /**
  * Is the base interface of list based components.

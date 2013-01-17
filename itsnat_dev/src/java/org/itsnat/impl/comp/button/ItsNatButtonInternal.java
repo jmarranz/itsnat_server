@@ -16,9 +16,10 @@
 
 package org.itsnat.impl.comp.button;
 
-import org.itsnat.impl.comp.*;
 import javax.swing.event.ChangeListener;
 import org.itsnat.comp.button.ItsNatButton;
+import org.itsnat.impl.comp.ItsNatComponentInternal;
+
 
 /**
  *

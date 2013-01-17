@@ -273,9 +273,8 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     protected String bindBackupAndSetStylePropertyMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
         // Usamos variables temporales asociadas al objeto Element y no al propio "style",
-        // por dos razones:
-        // 1) Safari (3.1 al menos) parece que recrea el objeto style tras un display='none" en algunos casos por lo que perderíamos la variable backup.
-        // 2) Pocket IE no admite variables asociadas al objeto style
+        // por:
+        // Safari (3.1 al menos) parece que recrea el objeto style tras un display='none" en algunos casos por lo que perderíamos la variable backup.
 
         // Aseguramos que no se asigne un valor "undefined" pues navegadores como Gecko ignoran una asignación con valor "undefined" y no cambian el valor,
         // el problema es que debemos restaurar el valor anterior y está claro que restaurar un undefined no es posible,

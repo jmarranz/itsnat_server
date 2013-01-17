@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.factory.list;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.list.ItsNatHTMLSelectComboBox;
 import org.itsnat.comp.list.ItsNatHTMLSelectMult;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.list.ItsNatHTMLSelectComboBoxImpl;
 import org.itsnat.impl.comp.list.ItsNatHTMLSelectMultImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;

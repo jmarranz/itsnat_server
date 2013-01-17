@@ -16,8 +16,8 @@
 
 package org.itsnat.core.http;
 
-import org.itsnat.core.ItsNatSession;
 import javax.servlet.http.HttpSession;
+import org.itsnat.core.ItsNatSession;
 
 /**
  * Is the ItsNat wrapper of a <code>javax.servlet.http.HttpSession</code> object.

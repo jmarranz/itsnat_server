@@ -16,8 +16,8 @@
 
 package org.itsnat.core.http;
 
-import org.itsnat.core.ItsNatServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import org.itsnat.core.ItsNatServletRequest;
 
 /**
  * Is the ItsNat wrapper of the <code>javax.servlet.http.HttpServletRequest</code> object.

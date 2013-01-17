@@ -49,6 +49,7 @@ public class FactoryItsNatHTMLButtonLabelImpl extends FactoryItsNatHTMLButtonImp
         return "buttonLabel";
     }
 
+    @Override
     public String getLocalName()
     {
         return "button";

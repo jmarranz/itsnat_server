@@ -46,21 +46,7 @@ public class TestSyncCompleteNodeListener implements EventListener,Serializable
     {
         Element nodeCompleteSyncOnClick = itsNatDoc.getDocument().getElementById("nodeCompleteSyncOnClick");
 
-        if (BrowserUtil.isPocketIE(request))
-        {
-            EventListener listener = new EventListenerSerial()
-            {
-                public void handleEvent(Event evt)
-                {
-                    itsNatDoc.addCodeToSend("alert('Do not work in PocketIE');");
-                }
-            };
-            ((EventTarget)nodeCompleteSyncOnClick).addEventListener("click",listener,false);
-        }
-        else
-        {
-            itsNatDoc.addEventListener((EventTarget)nodeCompleteSyncOnClick,"click",this,false,new ParamTransport[]{new NodeCompleteTransport()});
-        }
+        itsNatDoc.addEventListener((EventTarget)nodeCompleteSyncOnClick,"click",this,false,new ParamTransport[]{new NodeCompleteTransport()});        
     }
 
     public void handleEvent(Event evt)

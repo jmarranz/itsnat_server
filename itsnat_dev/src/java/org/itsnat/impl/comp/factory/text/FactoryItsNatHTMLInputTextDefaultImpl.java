@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.comp.factory.text;
 
-import org.itsnat.impl.comp.mgr.ItsNatHTMLDocComponentManagerImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.NameValue;

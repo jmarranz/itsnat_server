@@ -982,35 +982,6 @@ public class FeatureTreeBuilder
                     "XML & Components",
                     null,childNodeL1);
 
-            childNodeL2 = addNode(false,true,false,
-                    "feashow.comp.pocketie",
-                    "PIE/Moto/UCWEB Examples",
-                    "Pocket IE/Moto. Symphony/UCWEB Examples",
-                    null,childNodeL1);
-
-                childNodeL3 = addNode(true,true,true,
-                        "feashow.comp.pocketie.freeComboBox",
-                        "PIE/Moto/UCWEB Free Combo Box",
-                        "Pocket IE/Moto. Symphony/UCWEB Free Combo Box",
-                        null,childNodeL2);
-
-                childNodeL3 = addNode(true,true,true,
-                        "feashow.comp.pocketie.freeList",
-                        "PIE/Moto/UCWEB Free List",
-                        "Pocket IE/Moto. Symphony/UCWEB Free List",
-                        null,childNodeL2);
-
-                childNodeL3 = addNode(true,true,true,
-                        "feashow.comp.pocketie.table",
-                        "PIE/Moto/UCWEB Table",
-                        "Pocket IE/Moto. Symphony/UCWEB Table",
-                        null,childNodeL2);
-
-                childNodeL3 = addNode(true,true,true,
-                        "feashow.comp.pocketie.tree",
-                        "PIE/Moto/UCWEB Tree",
-                        "Pocket IE/Moto. Symphony/UCWEB Tree",
-                        null,childNodeL2);
 
         return rootNode;
     }
