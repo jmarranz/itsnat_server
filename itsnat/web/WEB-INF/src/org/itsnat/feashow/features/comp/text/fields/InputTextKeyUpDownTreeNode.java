@@ -53,11 +53,6 @@ public class InputTextKeyUpDownTreeNode extends FeatureTreeNode implements Event
         inputComp.focus();
         inputComp.select();
 
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

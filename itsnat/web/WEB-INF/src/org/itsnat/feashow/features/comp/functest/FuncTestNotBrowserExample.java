@@ -184,13 +184,8 @@ public class FuncTestNotBrowserExample
         if (res) msg = "Test OK";
         else msg = "Test WRONG! Don't touch anything!";
 
-        if (treeNode.isUCWEB())
-            treeNode.log(msg);
-        else
-        {
-            ItsNatDocument itsNatDoc = getItsNatDocument();
-            itsNatDoc.addCodeToSend("alert(\"" + msg + "\");");
-        }
+        ItsNatDocument itsNatDoc = getItsNatDocument();
+        itsNatDoc.addCodeToSend("alert(\"" + msg + "\");");        
     }
 
 }

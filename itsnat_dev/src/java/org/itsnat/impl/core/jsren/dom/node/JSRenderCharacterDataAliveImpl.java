@@ -55,7 +55,7 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
             // ni siquiera reinsertando se ejecuta o eliminando el contenido y volviéndolo a añadir (o con otro código diferente),
             // Lo anterior es positivo en nuestra solución, pues si una versión más moderna del navegador soluciona
             // este problema y seguimos aplicando la reinserción, la reinserción no ejecutará el script de nuevo.
-            // Afortunadamente la reinserción nos sirve a nosotros en el caso de S60WebKit y MotoWebKit.
+            // Afortunadamente la reinserción nos sirve a nosotros en el caso de S60WebKit.
             // Si la solución de la reinserción no funciona la única alternativa es el eval
 
             StringBuffer code = new StringBuffer();

@@ -178,7 +178,7 @@ public class IFrObjEmbSVGASVAutoBindingTreeNode extends FeatureTreeNode implemen
             try
             {
                 Method method = container.getClass().getMethod("getContentDocument",null);
-                childDoc = (Document)method.invoke(container,null);
+                childDoc = (Document)method.invoke(container,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }
@@ -206,7 +206,7 @@ public class IFrObjEmbSVGASVAutoBindingTreeNode extends FeatureTreeNode implemen
             String ref = itsNatDoc.getScriptUtil().getNodeReference(container);
             StringBuffer code = new StringBuffer();
             code.append("var elem = " + ref + ";");
-            code.append("var childDoc = elem.contentDocument ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument in MSIE
+            code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument in MSIE
             code.append("childDoc.getItsNatDoc().fireUserEvent(null,'update');");
             itsNatDoc.addCodeToSend(code.toString());
         }

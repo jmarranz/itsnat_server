@@ -233,10 +233,7 @@ public class FuncTestUsingBrowserExample
         ItsNatDocument itsNatDoc = getItsNatDocument();
         synchronized(itsNatDoc)
         {
-            if (treeNode.isUCWEB())
-                treeNode.log(msg);
-            else
-                itsNatDoc.addCodeToSend("alert(\"" + msg + "\");");
+            itsNatDoc.addCodeToSend("alert(\"" + msg + "\");");
         }
     }
 

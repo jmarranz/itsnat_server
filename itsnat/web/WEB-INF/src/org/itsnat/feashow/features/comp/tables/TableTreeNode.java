@@ -112,12 +112,6 @@ public class TableTreeNode extends FeatureTreeNode implements EventListener,Tabl
         this.joystickModeComp = (ItsNatHTMLInputCheckBox)compMgr.createItsNatComponentById("joystickModeId");
         joystickModeComp.getToggleButtonModel().addItemListener(this);
         joystickModeComp.setSelected(isJoystickModePreferred());
-
-        if (isUCWEB())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

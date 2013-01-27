@@ -381,7 +381,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     /* Problema de SVG */
     public abstract boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulImpl clientDoc);
 
-    // Algunos navegadores WebKit tal y como el primer S60WebKit y MotoWebKit
+    // Algunos navegadores WebKit tal y como el primer S60WebKit 
     // no ejecutan el código dentro del <script> si se añade después de estar ya insertado en el documento
     public abstract boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulImpl clientDoc);
 
@@ -445,7 +445,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulImpl clientDoc)
     {
-        // Algunos navegadores WebKit tal y como el primer S60WebKit y MotoWebKit
+        // Algunos navegadores WebKit tal y como el primer S60WebKit 
         // no ejecutan el código dentro del <script> una vez insertado en el documento
         // si dicho código se inserta después de la inserción del <script> en el documento
         // Esto es la forma normal de inserción en ItsNat, por ello en este caso

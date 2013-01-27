@@ -156,7 +156,7 @@ function W3CMutationEventUtil()
         if (type == "DOMNodeInserted")
         {
             var newNode = evt.target;
-            if (itsNatDoc.browser.isASVRenesis())
+            if (itsNatDoc.browser.isAdobeSVG())
                 newValue = itsNatDoc.win.printNode(newNode);
             else
             {
@@ -299,7 +299,7 @@ function W3CDocument()
 
         var svgweb = elem.fake;
         var rootElem;
-        if (this.browser.isASVRenesis()||this.browser.isBatik())
+        if (this.browser.isAdobeSVG()||this.browser.isBatik())
         {
             var docFrag = this.win.parseXML(value,this.doc);
             rootElem = docFrag.firstChild; // ya importados

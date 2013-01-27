@@ -125,7 +125,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
         if (opera)
             itsNatDoc.addCodeToSend("alert('Dynamic script insertion does not work in Opera and SVGWeb');");
         else
-            new TestSVGWebScriptInsertion(itsNatDoc,svgElem).testAddScripts(false);
+            new TestSVGWebScriptInsertion(itsNatDoc,svgElem).testAddScripts();
 
         // Testeamos el atributo "style" que está inicialmente con valores exagerados
         // Hay que tener en cuenta que style.cssText no funciona en SVGWeb y

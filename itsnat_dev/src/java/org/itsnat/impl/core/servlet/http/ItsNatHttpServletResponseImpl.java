@@ -96,31 +96,6 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
         // Problemas:
         // http://support.microsoft.com/kb/q222064/
 
-/*
-        // SOLUCIONADO EN: IE 8 RC 1
-
-        Browser browser = getItsNatHttpSessionImpl().getBrowser();
-        if ((browser instanceof BrowserMSIE6) &&
-            ((BrowserMSIE6)browser).getVersion() >= 8)
-        {
-            // MSIE 8 beta 2 (no se si anteriores) no funciona bien en modo standard (IE=8)
-            // que es el de por defecto, hay un error grave y es que no se renderiza bien
-            // la inserción via JavaScript de controles form HTML (input, select etc) sin <form>
-            // pues estos se llevan muy mal con <br /> adyacentes y elementos de texto con espacios insertados
-            // via insertBefore/appendChild (no con innerHTML), el caso es que la pantalla se pone en blanco
-            // Es un problema grave en ItsNat pues los controles form sin <form> mezclados con <br />
-            // y espacios insertados con JavaScript es EXTREMADAMENTE común.
-            // De todas formas no es definitivo, el programador puede cambiarlo llamando
-            // a HttpServletResponse.setHeader(String,String) (addHeader no vale pues el primero es que cuenta)
-            // o con:
-            // <meta http-equiv="X-UA-Compatible" content="IE=8" /> o similar
-            // Aunque MSIE 8 solucione este error el modo EmulateIE7 es el más estándar hoy día.
-            // Referencia:
-            // http://msdn.microsoft.com/en-us/library/cc288325(VS.85).aspx#SetMode
-
-            response.addHeader("X-UA-Compatible","IE=EmulateIE7");
-        }
- */
     }
 
     public ServletResponseAttachedServer createServletResponseAttachedServer()

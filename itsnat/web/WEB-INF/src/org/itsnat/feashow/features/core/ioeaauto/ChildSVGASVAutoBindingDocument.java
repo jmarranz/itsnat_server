@@ -113,9 +113,10 @@ public class ChildSVGASVAutoBindingDocument implements EventListener,Serializabl
         // Notify the client parent document
         StringBuffer code = new StringBuffer();
         code.append("var parentDoc;");
-        code.append("if (window.top.frameElement)"); // Renesis
+        /* code.append("if (window.top.frameElement)"); // Renesis
         code.append("  parentDoc = window.top.frameElement.document;");
         code.append("else");
+        */ 
         code.append("  parentDoc = window.top.document;"); // window.top needed in ASV v3 (window.parent is not valid)
         code.append("parentDoc.getItsNatDoc().fireUserEvent(null,'update');");
         itsNatDoc.addCodeToSend(code.toString());

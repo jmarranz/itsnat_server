@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
@@ -34,9 +33,7 @@ public abstract class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3
 
     public static JSRenderHTMLElementOperaImpl getJSRenderHTMLElementOpera(BrowserOpera browser)
     {
-        if (browser instanceof BrowserOpera8Mobile)
-            return JSRenderHTMLElementOpera8MobileImpl.SINGLETON;
-        else if (browser instanceof BrowserOpera9)
+        if (browser instanceof BrowserOpera9)
             return JSRenderHTMLElementOpera9Impl.SINGLETON; // Opera Desktop y Opera Mini
         else
             return null; // No hay más

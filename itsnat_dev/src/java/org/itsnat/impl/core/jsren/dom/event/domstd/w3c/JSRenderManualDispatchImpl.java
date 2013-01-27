@@ -195,7 +195,7 @@ public class JSRenderManualDispatchImpl
 
     private static void getEventListenerIds(EventTarget target,Event evt,LinkedList captureList,LinkedList atTargetList,LinkedList bubbleList,ClientDocumentStfulImpl clientDoc)
     {
-        // NetFront:
+        // NetFront:  (YA NO VALE NO ESTA SOPORTADO, REVISAR ESTO)
         // El método EventTarget.dispatchEvent() de NetFront y en general los métodos que lanzan eventos
         // tal y como focus() y blur() se ejecuta asíncronamente, más exactamente después
         // de que termine el código que lo ejecuta. Por otra parte dispatchEvent() no soporta
@@ -211,7 +211,7 @@ public class JSRenderManualDispatchImpl
 
         // Ver ServerItsNatDOMEventImpl para saber más sobre el proceso de eventos DOM W3C
 
-        // En el caso de Adobe SVG Viewer v3 y Renesis 1.1.1 el problema es que
+        // En el caso de Adobe SVG Viewer v3 el problema es que
         // aunque existe dispatchEvent (en ASV v3 al menos) no existe document.createEvent
         // por lo que no he encontrado
 

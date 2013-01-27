@@ -62,10 +62,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         code.append("  style.id = 'testIgnoreIntrusiveNodesId';");
         code.append("  document.documentElement.insertBefore(style,body);");
         code.append("}catch(e){");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes 1';");
-        else
-            code.append("alert('ERROR TestIgnoreIntrusiveNodes 1'); throw 'ERROR';");
+        code.append("  alert('ERROR TestIgnoreIntrusiveNodes 1'); throw 'ERROR';");
         code.append("}");
         itsNatDoc.addCodeToSend(code.toString());
         code = null;
@@ -94,10 +91,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         code.append("  var elem = " + refBody + ";" );
         code.append("  if (elem.tagName.toLowerCase() != \"body\")");
         code.append("  {");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("  document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes Head-Body 2';");
-        else
-            code.append("  alert('ERROR TestIgnoreIntrusiveNodes Head-Body 2'); throw 'ERROR';");
+        code.append("    alert('ERROR TestIgnoreIntrusiveNodes Head-Body 2'); throw 'ERROR';");
         code.append("  }");
         code.append("  document.documentElement.removeChild(document.getElementById('testIgnoreIntrusiveNodesId'));");
         itsNatDoc.addCodeToSend(code.toString());
@@ -106,10 +100,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
 
         code = new StringBuffer();
         code.append("}catch(e){");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes Head-Body 3';");
-        else
-            code.append("alert('ERROR TestIgnoreIntrusiveNodes Head-Body 3'); throw 'ERROR';");
+        code.append("  alert('ERROR TestIgnoreIntrusiveNodes Head-Body 3'); throw 'ERROR';");
         code.append("}");
         
         itsNatDoc.addCodeToSend(code.toString());       
@@ -136,10 +127,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         code.append("  style.id = 'testIgnoreIntrusiveNodesId';");
         code.append("  parentNode.appendChild(style);");
         code.append("}catch(e){");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 1';");
-        else
-            code.append("alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 1'); throw 'ERROR';");
+        code.append("  alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 1'); throw 'ERROR';");
         code.append("}");
         itsNatDoc.addCodeToSend(code.toString());
         code = null;
@@ -168,17 +156,11 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         code.append("  var elem2 = " + refValidChildElem2 + ";" );
         code.append("  if ((elem1.tagName.toLowerCase() != \"input\")||(elem2.tagName.toLowerCase() != \"textarea\"))");
         code.append("  {");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("  document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 2';");
-        else
-            code.append("  alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 2'); throw 'ERROR';");
+        code.append("    alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 2'); throw 'ERROR';");
         code.append("  }");
         code.append("  parentNode.removeChild(document.getElementById('testIgnoreIntrusiveNodesId'));");
         code.append("}catch(e){");
-        if (BrowserUtil.isUCWEB(request))
-            code.append("document.body.innerHTML = 'ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 3';");
-        else
-            code.append("alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 3'); throw 'ERROR';");
+        code.append("  alert('ERROR TestIgnoreIntrusiveNodes EndOfHeadOrBody 3'); throw 'ERROR';");
         code.append("}");
 
         itsNatDoc.addCodeToSend(code.toString());

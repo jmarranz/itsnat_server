@@ -21,7 +21,7 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9Mobile;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -65,8 +65,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
     // sin embargo window.location.href = window.location.href; sí recarga
     // si no hay una referencia en el URL (#prueba) esto será raro en SVG.
     // Evitamos el código de desactivación de eventos por si acaso falla.
-    // Renesis no estudiado.
-    private static final String RELOAD_CODE_ASVRenesis = "window.location.href = window.location.href;"; 
+    private static final String RELOAD_CODE_AdobeSVG = "window.location.href = window.location.href;"; 
     
 
     protected boolean loaded = false;
@@ -82,8 +81,8 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
     {
         if (browser instanceof BrowserOpera9Mobile)
             return RELOAD_CODE_OperaMobile9;
-        else if (browser instanceof BrowserASVRenesis)
-            return RELOAD_CODE_ASVRenesis;
+        else if (browser instanceof BrowserAdobeSVG)
+            return RELOAD_CODE_AdobeSVG;
         else
             return RELOAD_CODE_NORMAL;
     }
@@ -100,7 +99,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
 
     public void handleEvent(Event evt)
     {
-        // En Opera 9 y NetFront este listener tiene la finalidad
+        // En Opera 9 este listener tiene la finalidad
         // de detectar que la página del navegador no ha sido
         // cargada desde el servidor sino de la cache normalmente
         // ante un back/forward unido a que Opera no siempre genera unload
@@ -108,7 +107,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
 
         // En Opera 9 gracias a window.history.navigationMode = "compatible" (y la otra forma)
         // el evento load y DOMContentLoaded se envían aunque la página
-        // se lea de la cache. NetFront ejecuta el evento load al volver via back
+        // se lea de la cache. 
 
         // Si ya pasó por aquí significa que se han enviado dos eventos
         // load o DOMContentLoaded, esto es posible si el evento unload

@@ -51,12 +51,6 @@ public class MarkupDrivenTextAreaTreeNode extends FeatureTreeNode implements Eve
 
         this.changeElem = doc.getElementById("changeFromServerId");
         ((EventTarget)changeElem).addEventListener("click",this,false);
-
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

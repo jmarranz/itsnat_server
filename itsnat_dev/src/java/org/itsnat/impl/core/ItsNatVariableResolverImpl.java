@@ -107,7 +107,7 @@ public class ItsNatVariableResolverImpl implements ItsNatVariableResolver
                 PropertyDescriptor property = props[i];
                 String propName = property.getName();
                 Method method = property.getReadMethod();
-                Object res = method.invoke(obj,(Object[])null);  // El cast es para evitar un warning si se compila con JDK 1.5 (caso varargs)
+                Object res = method.invoke(obj,(Object[])(Object[])null);  // El cast es para evitar un warning si se compila con JDK 1.5 (caso varargs)
                 setLocalVariable(prefix + propName,res);
             }
         }

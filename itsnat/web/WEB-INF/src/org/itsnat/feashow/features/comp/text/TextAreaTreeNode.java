@@ -50,12 +50,6 @@ public class TextAreaTreeNode extends FeatureTreeNode implements EventListener,D
 
         comp.focus();
         comp.select();
-        
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

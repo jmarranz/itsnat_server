@@ -20,9 +20,7 @@ import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
@@ -48,23 +46,13 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
     {
         Browser browser = clientDoc.getBrowser();
         if (browser instanceof BrowserMSIEOld)
-            return new ClientMutationEventListenerHTMLMSIE6Impl(clientDoc);        
+            return new ClientMutationEventListenerHTMLMSIEOldImpl(clientDoc);        
         else if (browser instanceof BrowserBlackBerryOld)
             return new ClientMutationEventListenerHTMLBlackBerryOldImpl(clientDoc);
         else if (browser instanceof BrowserWebKit)
             return ClientMutationEventListenerHTMLWebKitImpl.createClientMutationEventListenerHTMLWebKit(clientDoc);
-        else if (browser instanceof BrowserOpera8Mobile)
-            return new ClientMutationEventListenerHTMLOpera8MobileImpl(clientDoc);
         else if (browser instanceof BrowserGecko)
-        {
-            BrowserGecko browserGecko = (BrowserGecko)browser;
-            if (browserGecko instanceof BrowserGeckoUCWEB)
-                return new ClientMutationEventListenerHTMLGeckoUCWEBImpl(clientDoc);
-            else if (browserGecko.isSkyFire())
-                return new ClientMutationEventListenerHTMLGeckoSkyFireImpl(clientDoc);
-            else
-                return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);
-        }
+            return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);        
         else
             return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);
     }

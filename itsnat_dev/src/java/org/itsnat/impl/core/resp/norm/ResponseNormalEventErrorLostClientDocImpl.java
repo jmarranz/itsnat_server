@@ -51,7 +51,7 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
 
         /*
          Casos:
-         1) Ocurre en Opera 9, NetFront y BlackBerryOld pudiendo ser un back o forward volviendo
+         1) Ocurre en Opera 9 y BlackBerryOld pudiendo ser un back o forward volviendo
          a una página que salió haciendo un unload y que por tanto
          ya no existe (la sesión está bien), el problema es que el navegador no recarga la página del servidor
          sino que usa la caché y no recarga la página desde el servidor,

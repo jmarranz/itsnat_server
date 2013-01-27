@@ -18,12 +18,10 @@ package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
 import org.itsnat.impl.core.browser.BrowserMSIE9;
-import org.itsnat.impl.core.browser.BrowserNetFront;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.w3c.dom.Element;
 
@@ -64,15 +62,13 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             if (background == null) // Transparente (valor por defecto normal)
             {
                 // Vemos qué casos el fondo transparente no es válido
-                if ((browser instanceof BrowserMSIE6)||(browser instanceof BrowserMSIE9))
+                if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserMSIE9))
                 {
                     // El fondo transparente ignora el z-index, los elementos por debajo son pulsables,
                     // evitamos así esto.
                     backgroundProp = "white";
                     opacity = 0;
                 }
-                else if (browser instanceof BrowserWebKitMoto) // Sin background (transparente) todos los elementos "ocultos" son pulsables incluso los <a> y los <button>
-                    backgroundProp = "black"; // Al menos así oculta los <a> y los <button>
                 else
                     backgroundProp = null;
             }
@@ -83,26 +79,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         String elemLayerRef = clientDoc.getNodeReference(layerElem,true,true);
         code.append( "var elem = " + elemLayerRef + ";\n" );
 
-/*
-        if (browser instanceof BrowserOpera8Mobile)
-        {
-            // Opera Mobile 8 no soporta style.cssText
 
-            code.append( "elem.style.position = \"absolute\";\n" );
-            code.append( "elem.style.zIndex = \"" + zIndex + "\";\n" );
-            code.append( "elem.style.top = \"0px\";\n" );
-            code.append( "elem.style.left = \"0px\";\n" );
-            code.append( "elem.style.width = \"1px\";\n" );
-            code.append( "elem.style.height = \"1px\";\n" );
-            code.append( "elem.style.margin = \"0px\";\n" );
-            code.append( "elem.style.padding = \"0px\";\n" );
-            code.append( "elem.style.border = \"0px\";\n" );
-            code.append( "elem.style.opacity = \"" + opacity + "\";\n" );  // Opera Mobile 8 no soporta opacity pero lo dejamos por si añadimos más navegadores en este caso
-            if (backgroundProp != null)
-                code.append( "elem.style.background = \"" + backgroundProp + "\";\n" );
-
-        }
-        else */
         {
             StringBuffer styleCode = new StringBuffer();
             styleCode.append( "position:absolute; top:0px; left:0px; width:1px; height:1px; margin:0px; padding:0px; border:0px; " ); // border:1px red solid; para testear
@@ -111,7 +88,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             {
                 styleCode.append( "opacity:" + opacity + "; " );
 
-                if (browser instanceof BrowserMSIE6)
+                if (browser instanceof BrowserMSIEOld)
                 {
                     // Por script sería: http://msdn.microsoft.com/en-us/library/ms532847(VS.85).aspx#Scripting_Filters
                     int opInt = (int)(100*opacity);
@@ -127,7 +104,6 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
                 {
                     // El color transparente por sí solo no respeta el z-index, hay que "ayudar"
                     // Probado en Opera 9.63 y Mobile v9.5, 9.7 y 9.8 (la v10). Podemos arreglarlo con una imagen transparente.
-                    // Esta técnica no vale para Bolt y MotoWebKit, probado
                     styleCode.append( "background-image:url('data:image/gif;base64,R0lGODlhCgAKAIAAAP///////yH5BAEKAAEALAAAAAAKAAoAAAIIjI+py+0PYysAOw==');");
                 }
             }
@@ -135,7 +111,6 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             // code.append( "elem.style.cssText = \"" + styleCode.toString() + "\";\n" );
 
             // En el caso de MSIE el cliente sabe que hay que utilizar cssText
-            // Nota: si se cambiara a elem.style.cssText no usar con Opera Mobile 8 pues no soporta style.cssText
             code.append("itsNatDoc.setAttribute(elem,\"style\",\"" + styleCode.toString() + "\");\n");
         }
 
@@ -210,7 +185,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         code.append("      style.width =  currW + 'px';\n");
         code.append("      style.height = currH + 'px';\n");
 
-    if ((browser instanceof BrowserMSIE6)||(browser instanceof BrowserWebKit))
+    if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserWebKit))
     {
         // Hay un bug en MSIE (v6 al menos), el scrollWith/scrollHeight del HTML coinciden
         // siempre erróneamente con el offsetWidth/offsetHeight. Esto no ocurre con el BODY
@@ -230,10 +205,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
     }
     else
     {
-        if (browser instanceof BrowserNetFront) // En document.documentElement los scrollX son nulos
-            code.append("  var top = itsNatDoc.doc.body;\n");
-        else
-            code.append("  var top = itsNatDoc.doc.documentElement;\n");
+        code.append("      var top = itsNatDoc.doc.documentElement;\n");
         code.append("      maxW = top.scrollWidth;\n");
         code.append("      maxH = top.scrollHeight;\n");
     }

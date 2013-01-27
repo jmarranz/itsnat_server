@@ -209,7 +209,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         }
         else
         {
-            // En algunos plugins no se dispara por ejemplo ASV (v3 y v6) o Batik o Renesis.
+            // En algunos plugins no se dispara por ejemplo ASV (v3 y v6) o Batik.
             target = (EventTarget)doc.getDocumentElement();
             eventType = "SVGUnload";
         }

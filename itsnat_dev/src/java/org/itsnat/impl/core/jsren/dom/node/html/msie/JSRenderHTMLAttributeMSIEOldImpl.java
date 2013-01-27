@@ -30,9 +30,10 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
+public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
 {
-
+    public static final JSRenderHTMLAttributeMSIEOldImpl SINGLETON = new JSRenderHTMLAttributeMSIEOldImpl();
+    
     // Algunos atributos tal y como "cellSpacing" o "cellPadding" o "rowSpan" o "colSpan" si no se ponen
     // con la letra de en medio en mayúscula en el setAttribute() son ignorados en el MSIE
     // es decir considera que son atributos desconocidos, el nombre ha de coincidir
@@ -87,7 +88,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
 
     public static JSRenderHTMLAttributeMSIEOldImpl getJSRenderHTMLAttributeMSIEOld(BrowserMSIEOld browser)
     {
-        return JSRenderHTMLAttributeMSIE6Impl.SINGLETON;
+        return JSRenderHTMLAttributeMSIEOldImpl.SINGLETON;
     }
 
     private static void addAttribute(String attrName)

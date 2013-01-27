@@ -114,9 +114,11 @@ public class TestSVGBoundDocument implements EventListener,Serializable
         // Notify the client parent document
         StringBuffer code = new StringBuffer();
         code.append("var parentDoc;");
-        code.append("if (window.top.frameElement)"); // Renesis
+        /* Este código era al parecer sólo útil para Renesis SVG player
+        code.append("if (window.top.frameElement)"); 
         code.append("  parentDoc = window.top.frameElement.document;");
         code.append("else");
+        */ 
         code.append("  parentDoc = typeof window.top != \"undefined\"? window.top.document : window.parent.document;"); // window.top needed in ASV v3 (window.parent is not valid)
         code.append("parentDoc.getItsNatDoc().fireUserEvent(null,'update_svg');");
         itsNatDoc.addCodeToSend(code.toString());

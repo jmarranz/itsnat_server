@@ -87,14 +87,9 @@ public abstract class TestHTMLModalLayerBase extends TestBaseHTMLDocument implem
             public void handleEvent(Event evt)
             {
                 StringBuffer code = new StringBuffer();
-                ItsNatServletRequest request = ((ItsNatEvent)evt).getItsNatServletRequest();
-                if (BrowserUtil.isUCWEB(request))
-                    code.append("document.body.innerHTML = 'Received an unexpected event by a hidden element';");
-                else
-                {
-                    code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
-                    code.append("  window.location.reload(true);");
-                }
+                code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
+                code.append("  window.location.reload(true);");
+                
                 itsNatDoc.addCodeToSend(code.toString());
             }
         };

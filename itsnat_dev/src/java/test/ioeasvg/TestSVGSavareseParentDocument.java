@@ -183,7 +183,7 @@ public class TestSVGSavareseParentDocument implements EventListener,Serializable
             try
             {
                 Method method = containerElem.getClass().getMethod("getContentDocument",(Class[])null); // El cast es para evitar un warnning en Java 1.5+
-                childDoc = (Document)method.invoke(containerElem,null);
+                childDoc = (Document)method.invoke(containerElem,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }

@@ -31,12 +31,6 @@ public class InputTextFormattedTreeNode extends FeatureTreeNode implements Prope
         inputComp.addPropertyChangeListener("value",this);
 
         inputComp.addVetoableChangeListener(this);
-        
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

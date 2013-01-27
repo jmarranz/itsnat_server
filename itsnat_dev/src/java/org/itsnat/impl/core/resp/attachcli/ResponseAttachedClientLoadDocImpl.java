@@ -126,7 +126,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         else
         {
             nodeRefForUnload = "itsNatDoc.doc.documentElement";
-            unloadType = "SVGUnload";  // En ASV y Renesis no se ejecuta pero en fin, por coherencia
+            unloadType = "SVGUnload";  // En ASV  no se ejecuta pero en fin, por coherencia
         }
 
         String code = "itsNatDoc.addAttachUnloadListener(" + nodeRefForUnload + ",\"" + unloadType + "\"," + commMode + ");\n";

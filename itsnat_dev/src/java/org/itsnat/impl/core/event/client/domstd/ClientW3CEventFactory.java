@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.event.client.domstd;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
@@ -25,17 +25,16 @@ import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.event.client.domstd.w3c.BlackBerryOldKeyEventImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.W3CEventImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.GeckoKeyEventImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.OperaKeyEventImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.W3CEventDefaultImpl;
+import org.itsnat.impl.core.event.client.domstd.w3c.W3CEventImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.W3CHTMLEventImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.WebKitKeyEventImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.W3CMouseEventImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.W3CMouseEventSkyFireImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.W3CMutationEventASVRenesisImpl;
+import org.itsnat.impl.core.event.client.domstd.w3c.W3CMutationEventAdobeSVGImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.W3CMutationEventDefaultImpl;
 import org.itsnat.impl.core.event.client.domstd.w3c.W3CUIEventDefaultImpl;
+import org.itsnat.impl.core.event.client.domstd.w3c.WebKitKeyEventImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
@@ -74,17 +73,14 @@ public class ClientW3CEventFactory extends ClientItsNatDOMStdEventFactory
                 event = new W3CUIEventDefaultImpl(evtListener,request);
                 break;
             case DOMStdEventTypeInfo.MOUSE_EVENT:
-                if ((browser instanceof BrowserGecko) && ((BrowserGecko)browser).isSkyFire())
-                    event = new W3CMouseEventSkyFireImpl(evtListener,request);
-                else
-                    event = new W3CMouseEventImpl(evtListener,request);
+                event = new W3CMouseEventImpl(evtListener,request);
                 break;
             case DOMStdEventTypeInfo.HTML_EVENT:
                 event = new W3CHTMLEventImpl(evtListener,request);
                 break;
             case DOMStdEventTypeInfo.MUTATION_EVENT:
-                if (browser instanceof BrowserASVRenesis) // ASV v6 (v3 no tiene mutation events)
-                    event = new W3CMutationEventASVRenesisImpl(evtListener,request);
+                if (browser instanceof BrowserAdobeSVG) // ASV v6 (v3 no tiene mutation events)
+                    event = new W3CMutationEventAdobeSVGImpl(evtListener,request);
                 else
                     event = new W3CMutationEventDefaultImpl(evtListener,request);
                 break;

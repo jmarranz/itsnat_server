@@ -214,10 +214,7 @@ public class RemoteControlSupervision implements ItsNatAttachedClientEventListen
         }
         else // ItsNatAttachedClientEvent.REFRESH
         {
-            if (BrowserUtil.isUCWEB(event.getItsNatServletRequest()))
-                response.addCodeToSend("document.body.innerHTML = 'Session is expired';");
-            else
-                response.addCodeToSend("if (confirm('Session is expired. Close Window?')) window.close();");
+            response.addCodeToSend("if (confirm('Session is expired. Close Window?')) window.close();");
         }
     }
 }

@@ -78,8 +78,7 @@ public abstract class ClientItsNatDOMEventImpl extends ClientItsNatNormalEventIm
     public boolean getParameterBoolean(String name)
     {
         // Usamos getBooleanRelaxed que no provoca error si por ejemplo
-        // el parámetro es "undefined", es el caso por ejemplo de NetFront 3.5
-        // que no define shiftKey etc en los eventos de ratón.
+        // el parámetro es "undefined".
         return MiscUtil.getBooleanRelaxed(getParameter(name));
     }
 

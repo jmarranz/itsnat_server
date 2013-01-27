@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.BrowserBatik;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.BrowserW3C;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
 
@@ -34,9 +33,7 @@ public abstract class JSRenderHTMLPropertyW3CImpl extends JSRenderHTMLPropertyIm
 
     public static JSRenderHTMLPropertyW3CImpl getJSRenderHTMLPropertyW3C(BrowserW3C browser)
     {
-        if (browser instanceof BrowserGeckoUCWEB)
-            return JSRenderHTMLPropertyGeckoUCWEBImpl.SINGLETON;
-        else if (browser instanceof BrowserBatik)
+        if (browser instanceof BrowserBatik)
             return null; // A día de hoy Batik no renderiza <foreigObject> y el intento de definir propiedades necesitaría el uso de setUserData porque el elemento no es ScriptableObject, así por ahora devolvemos nulo pues no vale la pena, devolver nulo es válido
         else
             return JSRenderHTMLPropertyW3CDefaultImpl.SINGLETON;

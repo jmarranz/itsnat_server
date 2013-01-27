@@ -112,16 +112,6 @@ public abstract class FeatureTreeNode
         this.swingTreeNode = swingTreeNode;
     }
 
-    public boolean isUCWEB()
-    {
-        return featShowDoc.isUCWEB();
-    }
-
-    public boolean isBolt()
-    {
-        return featShowDoc.isBolt();
-    }
-
     public FeatureTreeNode getFeatureTreeNodeParent()
     {
         return parentFeatureNode;

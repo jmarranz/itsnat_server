@@ -90,8 +90,6 @@ public class TestComponentsDocument
         Document doc = itsNatDoc.getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();
         ((EventTarget)view).addEventListener("load",new TestOnLoadListener(itsNatDoc),false);
-        if (TestMotoWebKitAdaptor.isMotoWebKit(request))
-            TestMotoWebKitAdaptor.adapt(itsNatDoc);  // Antes de construir los componentes
 
         //ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
         if (!itsNatDoc.getItsNatDocumentTemplate().isAutoBuildComponents())

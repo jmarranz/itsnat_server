@@ -23,11 +23,9 @@ import java.util.Set;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserNetFront;
 import org.itsnat.impl.core.browser.BrowserW3C;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSAttributeW3CImpl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
@@ -37,7 +35,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -62,8 +59,6 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
             return ResponseDelegateHTMLLoadDocWebKitImpl.createResponseDelegateLoadHTMLDocWebKit(responseParent);
         else if (browser instanceof BrowserOpera)
             return ResponseDelegateHTMLLoadDocOperaImpl.createResponseDelegateHTMLLoadDocOpera((BrowserOpera)browser, responseParent);
-        else if (browser instanceof BrowserNetFront)
-            return new ResponseDelegateHTMLLoadDocNetFrontImpl(responseParent);
         else if (browser instanceof BrowserBlackBerryOld)
             return new ResponseDelegateHTMLLoadDocBlackBerryOld2Impl(responseParent);
         else

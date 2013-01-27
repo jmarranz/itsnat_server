@@ -66,8 +66,6 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
     protected Map features = new HashMap();
     protected BrowserAdaptor browserAdaptor;
     protected boolean joystickModePreferred;
-    protected boolean ucweb;
-    protected boolean bolt;
 
     public FeatureShowcaseDocument(ItsNatServletRequest request)
     {
@@ -89,14 +87,9 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
                 {
                     ex.printStackTrace();
 
-                    ItsNatServletRequest request = itsNatEvt.getItsNatServletRequest();
-                    if (BrowserUtil.isUCWEB(request))
-                        itsNatDoc.addCodeToSend("document.body.innerHTML = 'Unexpected Error! Reload';");
-                    else
-                    {
-                        itsNatDoc.addCodeToSend("var res = confirm('Unexpected Error! Reload?');");
-                        itsNatDoc.addCodeToSend("if (res) window.location.reload(true);");
-                    }
+                    itsNatDoc.addCodeToSend("var res = confirm('Unexpected Error! Reload?');");
+                    itsNatDoc.addCodeToSend("if (res) window.location.reload(true);");
+                    
                     itsNatDoc.setInvalid();
                     chain.stop();
                 }
@@ -134,17 +127,6 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
         this.codeTabLink = (HTMLAnchorElement)ItsNatTreeWalker.getFirstChildElement(codeTab);
         this.docTabLink = (HTMLAnchorElement)ItsNatTreeWalker.getFirstChildElement(docTab);
 
-        // Adaptors are called *after* tabs combo box construction because this
-        // component requires special processing.
-        if (MotoWebKitAdaptor.isMotoWebKit(request))
-            this.browserAdaptor = new MotoWebKitAdaptor(this);
-        else if (UCWEBAdaptor.isUCWEB(request))
-            this.browserAdaptor = new UCWEBAdaptor(this,request);
-        else if (SkyFireAdaptor.isSkyFire(request))
-            SkyFireAdaptor.fix(this);
-        this.ucweb = BrowserUtil.isUCWEB(request);
-        this.bolt = BrowserUtil.isBolt(request);
-
         Element treeElem = doc.getElementById("examplesTreeId");
         this.tree = compMgr.createItsNatFreeTree(treeElem,null);
         tree.setJoystickMode(joystickModeCheck.isSelected());
@@ -179,16 +161,6 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
     public String getRequestURLOfDocument()
     {
         return requestURL;
-    }
-
-    public boolean isUCWEB()
-    {
-        return ucweb;
-    }
-
-    public boolean isBolt()
-    {
-        return bolt;
     }
 
     public boolean isJoystickModePreferred()

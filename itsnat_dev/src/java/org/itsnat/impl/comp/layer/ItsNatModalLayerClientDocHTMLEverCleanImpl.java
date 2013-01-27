@@ -17,9 +17,7 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitBolt;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
@@ -36,9 +34,7 @@ public class ItsNatModalLayerClientDocHTMLEverCleanImpl extends ItsNatModalLayer
 
     public static boolean isEverCleanNeeded(Browser browser)
     {
-        return (browser instanceof BrowserOpera9Mini)||
-               (browser instanceof BrowserGeckoUCWEB)||
-               (browser instanceof BrowserWebKitBolt);
+        return (browser instanceof BrowserOpera9Mini);
     }
 
     @Override
@@ -47,27 +43,4 @@ public class ItsNatModalLayerClientDocHTMLEverCleanImpl extends ItsNatModalLayer
         // Redefinimos, es siempre "clean"
         return true;
     }
-
-    @Override
-    public void initModalLayer()
-    {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-        if (browser instanceof BrowserGeckoUCWEB)
-            return; // No sirve para nada todo esto en este caso, no soporta posicionamiento absoluto
-        else
-            super.initModalLayer();
-    }
-
-    @Override
-    public void preRemoveLayer()
-    {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-        if (browser instanceof BrowserGeckoUCWEB)
-            return; // No sirve para nada en este caso
-        else
-            super.preRemoveLayer();
-    }
-
 }

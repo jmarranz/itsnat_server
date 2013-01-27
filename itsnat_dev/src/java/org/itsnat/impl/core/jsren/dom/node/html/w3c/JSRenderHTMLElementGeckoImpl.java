@@ -17,16 +17,16 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLElementGeckoImpl extends JSRenderHTMLElementW3CImpl
+public class JSRenderHTMLElementGeckoImpl extends JSRenderHTMLElementW3CImpl
 {
-
+    public static final JSRenderHTMLElementGeckoImpl SINGLETON = new JSRenderHTMLElementGeckoImpl();
+    
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
     public JSRenderHTMLElementGeckoImpl()
     {
@@ -49,12 +49,7 @@ public abstract class JSRenderHTMLElementGeckoImpl extends JSRenderHTMLElementW3
 
     public static JSRenderHTMLElementGeckoImpl getJSRenderHTMLElementGeckoImpl(BrowserGecko browser)
     {
-        if (browser instanceof BrowserGeckoUCWEB)
-            return JSRenderHTMLElementGeckoUCWEBImpl.SINGLETON;
-        else if (browser.isSkyFire())
-            return JSRenderHTMLElementGeckoSkyFireImpl.SINGLETON;
-        else
-            return JSRenderHTMLElementGeckoDefaultImpl.SINGLETON;
+         return JSRenderHTMLElementGeckoImpl.SINGLETON;
     }
 
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulImpl clientDoc)

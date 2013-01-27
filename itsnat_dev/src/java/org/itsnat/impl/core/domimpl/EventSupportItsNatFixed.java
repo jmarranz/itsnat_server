@@ -49,8 +49,7 @@ public class EventSupportItsNatFixed extends EventSupport
         // El orden de los listener es FUNDAMENTAL para ItsNat pues ItsNat
         // usa mutation event listeners, en donde el primero que se ha de ejecutar
         // es el mutation event listener renderizador, pero en ciertos casos es interesante
-        // que el usuario añada sus mutation listeners (por ejemplo para modificar el DOM adaptándolo a un browser concreto
-        // tal y como se hace con MotoWebKit y UCWEB).
+        // que el usuario añada sus mutation listeners 
         // Hay que tener en cuenta que el array NO es una copia del que almacena
         // Batik en el registro, por lo que DEBEMOS crear una copia con el orden cambiado.
 

@@ -51,10 +51,7 @@ public class TestGlobalRemoteControlListener implements ItsNatAttachedClientEven
         }
         else // ItsNatAttachedClientEvent.REFRESH
         {
-            if (BrowserUtil.isUCWEB(event.getItsNatServletRequest()))
-                response.addCodeToSend("document.body.innerHTML = 'Session is expired or observed doc lost';");
-            else
-                response.addCodeToSend("if (confirm('Session is expired or observed doc lost. Close?')) window.close();");
+           response.addCodeToSend("if (confirm('Session is expired or observed doc lost. Close?')) window.close();");
         }
 
         event.getItsNatEventListenerChain().stop();

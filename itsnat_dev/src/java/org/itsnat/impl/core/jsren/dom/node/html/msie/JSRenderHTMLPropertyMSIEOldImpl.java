@@ -19,7 +19,6 @@ package org.itsnat.impl.core.jsren.dom.node.html.msie;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
@@ -32,8 +31,10 @@ import org.w3c.dom.html.HTMLOptionElement;
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
+public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
 {
+    public static final JSRenderHTMLPropertyMSIEOldImpl SINGLETON = new JSRenderHTMLPropertyMSIEOldImpl();
+    
     // No es necesario sincronizar esta colección va a ser sólo leída
     public final Map propertiesByAttrNameMSIE = new HashMap();  // Propiedades/Atributos comunes a todos los elementos
 
@@ -87,7 +88,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
 
     public static JSRenderHTMLPropertyMSIEOldImpl getJSRenderHTMLPropertyMSIEOld(BrowserMSIEOld browser)
     {
-        return JSRenderHTMLPropertyMSIE6Impl.SINGLETON;
+        return JSRenderHTMLPropertyMSIEOldImpl.SINGLETON;
     }
 
     protected void addGlobalFunction(String propName)
@@ -151,8 +152,8 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
             propName.equals("selected") ) // (type == BOOLEAN)
         {
             Browser browser = clientDoc.getBrowser();
-            if ((browser instanceof BrowserMSIE6)&&
-                ((BrowserMSIE6)browser).getVersion() < 8 )
+            if ((browser instanceof BrowserMSIEOld)&&
+                ((BrowserMSIEOld)browser).getVersion() < 8 )
             {
                 // Es un error estúpido de MSIE, detectado en el "selected" de los OPTION de un SELECT en el script de carga del documento
                 // la causa es que la propiedad es posible que esté bloqueada por otro hilo porque el MSIE hace cosas en background

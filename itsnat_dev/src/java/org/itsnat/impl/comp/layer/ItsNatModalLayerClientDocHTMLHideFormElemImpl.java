@@ -23,8 +23,8 @@ import java.util.Set;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLInputElement;
@@ -33,7 +33,7 @@ import org.w3c.dom.html.HTMLInputElement;
  * Caso por ejemplo de MSIE v6, la versión 7 ya soluciona el problema de los HTML Select y el z-index.
  * http://blogs.msdn.com/ie/archive/2006/01/17/514076.aspx
  *
- * SkyFire (0.85 al menos), Android (v1.0 r2), Opera Mobile 8.6x etc tienen también este problema
+ * Android (v1.0 r2) etc tienen también este problema
  *
  * @author jmarranz
  */

@@ -59,11 +59,6 @@ public class InputTextFormattedWithFactoryTreeNode extends FeatureTreeNode imple
 
         inputComp.addVetoableChangeListener(this);
 
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

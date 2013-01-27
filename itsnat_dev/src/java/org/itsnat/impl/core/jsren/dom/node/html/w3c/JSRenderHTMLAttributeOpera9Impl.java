@@ -55,7 +55,6 @@ public class JSRenderHTMLAttributeOpera9Impl extends JSRenderHTMLAttributeW3CImp
             // Esto es importante en ItsNat pues los modal layers ocultan los <select> que estén
             // "detrás" en Opera Mobile 9.5+ dejándolos entonces en un estado "erróneo".
             // Esto no ocurre con display="none"
-            // Esto no pasa tampoco en Opera Mobile 8.x
             // La solución es reinsertar el elemento el poner como display="none"
             // no funciona.
 

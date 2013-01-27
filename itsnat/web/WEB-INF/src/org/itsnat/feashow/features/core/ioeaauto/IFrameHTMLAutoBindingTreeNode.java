@@ -96,7 +96,7 @@ public class IFrameHTMLAutoBindingTreeNode extends FeatureTreeNode implements Ev
             try
             {
                 Method method = iframe.getClass().getMethod("getContentDocument",null);
-                iframeDoc = (Document)method.invoke(iframe,null);
+                iframeDoc = (Document)method.invoke(iframe,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }
@@ -118,7 +118,7 @@ public class IFrameHTMLAutoBindingTreeNode extends FeatureTreeNode implements Ev
             String ref = itsNatDoc.getScriptUtil().getNodeReference(iframe);
             StringBuffer code = new StringBuffer();
             code.append("var elem = " + ref + ";");
-            code.append("var doc = elem.contentDocument ? elem.contentDocument : elem.contentWindow.document;"); // contentWindow in MSIE
+            code.append("var doc = (typeof elem.contentDocument != \"undefined\") ? elem.contentDocument : elem.contentWindow.document;"); // contentWindow in MSIE
             code.append("doc.getItsNatDoc().fireUserEvent(null,'update');");
             itsNatDoc.addCodeToSend(code.toString());
         }

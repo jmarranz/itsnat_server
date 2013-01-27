@@ -50,12 +50,6 @@ public class MarkupDrivenInputTextTreeNode extends FeatureTreeNode implements Ev
 
         this.changeElem = doc.getElementById("changeFromServerId");
         ((EventTarget)changeElem).addEventListener("click",this,false);
-
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

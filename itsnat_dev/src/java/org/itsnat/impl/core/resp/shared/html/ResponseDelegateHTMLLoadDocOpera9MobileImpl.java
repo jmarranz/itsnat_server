@@ -98,7 +98,7 @@ public class ResponseDelegateHTMLLoadDocOpera9MobileImpl extends ResponseDelegat
 
         if (domInvalidLoading)
         {
-        code.append( "  var evt = document.createEvent(\"Events\");\n" ); // "Events" también vale para Opera Mobile 8 evento "load"
+        code.append( "  var evt = document.createEvent(\"Events\");\n" ); 
         code.append( "  evt.initEvent(\"DOMContentLoaded\",false,false);\n" );
         code.append( "  window.dispatchEvent(evt);\n" );
         code.append( "};\n" );

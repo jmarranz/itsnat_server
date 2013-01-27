@@ -20,20 +20,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLElementMSIE6Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementASVRenesisImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementAdobeSVGImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBatikImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBlackBerryOldImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoDefaultImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoSkyFireImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoUCWEBImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementNetFrontImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOpera8MobileImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOpera9Impl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitAndroidImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitDefaultImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitMotoImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitS60Impl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -60,25 +55,19 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
     public JSRenderHTMLElementAllBrowsersImpl()
     {
         // MSIE Old
-        addBrowser(JSRenderHTMLElementMSIE6Impl.SINGLETON);
+        addBrowser(JSRenderHTMLElementMSIEOldImpl.SINGLETON);
 
         // W3C
-        addBrowser(JSRenderHTMLElementASVRenesisImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementAdobeSVGImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementBatikImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementBlackBerryOldImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementGeckoUCWEBImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementGeckoSkyFireImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementGeckoDefaultImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementNetFrontImpl.SINGLETON);
-
-        addBrowser(JSRenderHTMLElementOpera8MobileImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementOpera9Impl.SINGLETON);
 
         addBrowser(JSRenderHTMLElementWebKitAndroidImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitDefaultImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementWebKitMotoImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitS60Impl.SINGLETON);
         
         addBrowser(JSRenderHTMLElementMSIE9Impl.SINGLETON);

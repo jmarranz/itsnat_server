@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.jsren.dom.node.otherns;
 
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.BrowserW3C;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -40,8 +40,8 @@ public abstract class JSRenderOtherNSElementW3CImpl extends JSRenderOtherNSEleme
 
     public static JSRenderOtherNSElementW3CImpl getJSRenderOtherNSElementW3C(BrowserW3C browser)
     {
-        if (browser instanceof BrowserASVRenesis)
-            return JSRenderOtherNSElementW3CASVRenesisImpl.SINGLETON;
+        if (browser instanceof BrowserAdobeSVG)
+            return JSRenderOtherNSElementW3CAdobeSVGImpl.SINGLETON;
         else if (browser instanceof BrowserBatik)
             return JSRenderOtherNSElementW3CBatikImpl.SINGLETON;
         else

@@ -119,10 +119,6 @@ tiende a meterlo bajo <html> o <head> -->
     -->
     <input type="file" value="TEST" style="display:none" />
 
-    <!-- Testeo de la presencia de un <button> dentro de un <p> en Opera Mobile 8.6,
-     se trata de evitar que se saque del <p> fastidiando el cáculo de paths de lo que sigue
-    -->
-    <p style="display:none"><button>Test Opera Mobile 8.6</button></p>
 
     <!-- Testeo del problema del </embed> en MSIE 6,7 y 8, si aparece un </embed>
     el cálculo de paths sería erróneo pues MSIE lo considera un elemento desconocido.
@@ -325,7 +321,7 @@ this INITIAL text</textarea>
 
     <br /><br />
     <a href="javascript:;" id="testServerEventsWithBrowserId" >Test Server Events (With Browser):</a>
-        <a id="testServerEventsToClickPressId" style="display:none;" onclick="/* Testea NetFront */var msg = 'BAD'; if (this.tagName == 'A') msg = 'OK'; alert(msg + ' click inline handler');">Clicked/Keypressed with a Server Event</a>
+        <a id="testServerEventsToClickPressId" style="display:none;" onclick="var msg = 'BAD'; if (this.tagName == 'A') msg = 'OK'; alert(msg + ' click inline handler');">Clicked/Keypressed with a Server Event</a>
 
     <br /><br />
     <a id="testServerEventsNoBrowserId" href="javascript:;" >Test Server Events (No Browser):</a>

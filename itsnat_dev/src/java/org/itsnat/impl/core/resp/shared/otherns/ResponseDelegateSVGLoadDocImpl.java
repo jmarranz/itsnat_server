@@ -17,9 +17,9 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -44,10 +44,10 @@ public abstract class ResponseDelegateSVGLoadDocImpl extends ResponseDelegateOth
     public static ResponseDelegateSVGLoadDocImpl createResponseDelegateSVGLoadDoc(ResponseLoadStfulDocumentValid response)
     {
         Browser browser = response.getClientDocumentStful().getBrowser();
-        if (browser instanceof BrowserMSIE6)
-            return new ResponseDelegateSVGLoadDocMSIE6Impl(response);
-        else if (browser instanceof BrowserASVRenesis)
-            return new ResponseDelegateSVGLoadDocASVRenesisImpl(response);
+        if (browser instanceof BrowserMSIEOld)
+            return new ResponseDelegateSVGLoadDocMSIEOldImpl(response);
+        else if (browser instanceof BrowserAdobeSVG)
+            return new ResponseDelegateSVGLoadDocAdobeSVGImpl(response);
         else if (browser instanceof BrowserBatik)
             return new ResponseDelegateSVGLoadDocBatikImpl(response);
         else if (browser instanceof BrowserOpera9)

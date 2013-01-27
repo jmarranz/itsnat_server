@@ -151,7 +151,7 @@ public class FreeTreeDecorator implements TreeModelListener,TreeSelectionListene
 
         Element handle = nodeInfo.getHandleElement();
         HTMLImageElement handleImg;
-        if (handle instanceof HTMLAnchorElement) // Motorola Symphony and UCWEB
+        if (handle instanceof HTMLAnchorElement) 
             handleImg = (HTMLImageElement)handle.getFirstChild();
         else
             handleImg = (HTMLImageElement)handle;
@@ -163,7 +163,7 @@ public class FreeTreeDecorator implements TreeModelListener,TreeSelectionListene
 
         Element icon = nodeInfo.getIconElement();
         HTMLImageElement iconImg;
-        if (icon instanceof HTMLAnchorElement) // MotoWebKit etc
+        if (icon instanceof HTMLAnchorElement) 
             iconImg = (HTMLImageElement)icon.getFirstChild();
         else
             iconImg = (HTMLImageElement)icon;

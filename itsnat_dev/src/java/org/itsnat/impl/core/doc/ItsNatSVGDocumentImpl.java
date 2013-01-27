@@ -38,7 +38,7 @@ public class ItsNatSVGDocumentImpl extends ItsNatOtherNSDocumentImpl
         super(doc,docLoader,browser,requestURL,parentSession);
 
         if (docLoader.isGeneratedDocumentFake(browser))
-            this.scriptingEnabled = false; // MSIE no tiene ni idea de SVG, para ello están los plugins (ASV y Renesis)
+            this.scriptingEnabled = false; // MSIE no tiene ni idea de SVG, para ello están los plugins (ASV)
     }
 
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()

@@ -86,13 +86,8 @@ public class ModalLayerHTMLTreeNode extends FeatureTreeNode implements EventList
             {
                 StringBuffer code = new StringBuffer();
                 ItsNatServletRequest request = ((ItsNatEvent)evt).getItsNatServletRequest();
-                if (BrowserUtil.isUCWEB(request))
-                    code.append("alert('Received an unexpected event by a hidden element. Reload recommended');");
-                else
-                {
-                    code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
-                    code.append("  window.location.reload(true);");
-                }
+                code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
+                code.append("  window.location.reload(true);");                
                 itsNatDoc.addCodeToSend(code.toString());
             }
         };

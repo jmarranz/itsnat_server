@@ -17,14 +17,13 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseDelegateHTMLLoadDocGeckoImpl extends ResponseDelegateHTMLLoadDocW3CImpl
+public class ResponseDelegateHTMLLoadDocGeckoImpl extends ResponseDelegateHTMLLoadDocW3CImpl
 {
     public ResponseDelegateHTMLLoadDocGeckoImpl(ResponseLoadStfulDocumentValid responseParent)
     {
@@ -33,14 +32,7 @@ public abstract class ResponseDelegateHTMLLoadDocGeckoImpl extends ResponseDeleg
 
     public static ResponseDelegateHTMLLoadDocGeckoImpl createResponseDelegateHTMLLoadDocGecko(BrowserGecko browser,ResponseLoadStfulDocumentValid responseParent)
     {
-        if (browser instanceof BrowserGeckoUCWEB)
-            return new ResponseDelegateHTMLLoadDocGeckoUCWEBImpl(responseParent);
-        else if (browser.isSkyFire())
-            return new ResponseDelegateHTMLLoadDocGeckoSkyFireImpl(responseParent);
-        else // Desktop
-            return new ResponseDelegateHTMLLoadDocGeckoDefaultImpl(responseParent);
+         return new ResponseDelegateHTMLLoadDocGeckoImpl(responseParent);
     }
-
-
 }
 

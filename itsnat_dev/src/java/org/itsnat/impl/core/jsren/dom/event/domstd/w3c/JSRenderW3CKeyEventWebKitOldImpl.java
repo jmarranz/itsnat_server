@@ -52,9 +52,6 @@ public class JSRenderW3CKeyEventWebKitOldImpl extends JSRenderW3CKeyEventWebKitI
         // Un truco SUCIO pero que ¡¡funciona con dispatchEvent en todos los S60WebKit!! es usar
         // "HTMLEvents" aunque en teoría es erróneo luego usar iniEvent con "keypress" etc.
 
-        // Este truco también funciona en MotoWebKit con el dispatchEvent (por ej. con keypress en <input>) aunque evitemos en ItsNat usar el dispatchEvent nativo
-        // pues no siempre funciona para todos los tipos eventos.
-
         return "HTMLEvents"; // ¡¡NO es un error ver notas!!
     }
 

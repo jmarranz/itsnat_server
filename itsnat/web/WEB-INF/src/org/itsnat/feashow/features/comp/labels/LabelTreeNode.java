@@ -88,11 +88,6 @@ public class LabelTreeNode extends FeatureTreeNode implements EventListener,Prop
             throw new RuntimeException(ex);
         }
 
-        if (isUCWEB())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

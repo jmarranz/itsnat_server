@@ -28,8 +28,7 @@ public class BrowserUtil2
     {
         HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
         String userAgent = httpReq.getHeader("User-Agent");
-        return (userAgent.indexOf("Opera") != -1) &&
-                !BrowserUtil.isUCWEB(request);
+        return (userAgent.indexOf("Opera") != -1);
     }
 
     public static boolean isMSIE(ItsNatServletRequest request)
@@ -37,8 +36,7 @@ public class BrowserUtil2
         HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
         String userAgent = httpReq.getHeader("User-Agent");
         return (userAgent.indexOf("MSIE") != -1) &&
-                !isOpera(request) &&
-                !BrowserUtil.isUCWEB(request);
+                !isOpera(request);
     }
 
     public static boolean isMSIE6(ItsNatServletRequest request)

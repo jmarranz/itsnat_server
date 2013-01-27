@@ -204,7 +204,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         if (clientDoc.canReceiveALLNormalEvents() &&
             browser.isCachedBackForwardExecutedScripts())
         {
-            // Opera 9, NetFront y BlackBerryOld tienen este problema
+            // Opera 9 y BlackBerryOld tienen este problema
             // Opera 9 soporta DOMContentLoaded
             // el cual se envía *antes* del evento load, es importante porque Opera
             // no recarga la página en un back/forward y la emisión de este evento
@@ -674,7 +674,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected String getWindowReference()
     {
-        // Se redefine en ASVRenesis
+        // Se redefine en AdobeSVG
         return "window";
     }
 

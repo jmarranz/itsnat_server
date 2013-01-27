@@ -32,15 +32,10 @@ public class GlobalEventListener implements EventListener
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         if (itsNatEvt.getItsNatDocument() == null)
         {
-            ItsNatServletRequest request = itsNatEvt.getItsNatServletRequest();
             ItsNatServletResponse response = itsNatEvt.getItsNatServletResponse();
-            if (BrowserUtil.isUCWEB(request))
-                response.addCodeToSend("document.body.innerHTML = 'Session or page was lost';");
-            else
-            {
-                response.addCodeToSend("if (confirm('Session or page was lost. Reload?'))");
-                response.addCodeToSend("  window.location.reload(true);");
-            }
+            response.addCodeToSend("if (confirm('Session or page was lost. Reload?'))");
+            response.addCodeToSend("  window.location.reload(true);");
+            
             itsNatEvt.getItsNatEventListenerChain().stop();
         }
     }

@@ -18,10 +18,8 @@ package org.itsnat.impl.core.jsren.dom.node.html;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserNetFront;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderTextImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLTextMSIEOldImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLTextNetFrontImpl;
 
 
 /**
@@ -46,8 +44,6 @@ public abstract class JSRenderHTMLTextImpl extends JSRenderTextImpl
 
         if (browser instanceof BrowserMSIEOld)
             render = JSRenderHTMLTextMSIEOldImpl.getJSRenderHTMLTextMSIEOld((BrowserMSIEOld)browser);
-        else if (browser instanceof BrowserNetFront)
-            render = JSRenderHTMLTextNetFrontImpl.SINGLETON;
         else
             render = JSRenderHTMLTextDefaultImpl.SINGLETON;
 

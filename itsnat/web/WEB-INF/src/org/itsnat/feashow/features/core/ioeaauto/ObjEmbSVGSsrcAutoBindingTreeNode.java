@@ -198,7 +198,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
             try
             {
                 Method method = container.getClass().getMethod("getContentDocument",null);
-                childDoc = (Document)method.invoke(container,null);
+                childDoc = (Document)method.invoke(container,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }
@@ -235,7 +235,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
             code.append("}");
             code.append("else"); // Not loaded yet or other browsers.
             code.append("{");
-            code.append("  var childDoc = elem.contentDocument ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument useful in FireFox and <embed>
+            code.append("  var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument useful in FireFox and <embed>
             code.append("  if (childDoc) childDoc.getItsNatDoc().fireUserEvent(null,'update');");
             code.append("}");
             itsNatDoc.addCodeToSend(code.toString());

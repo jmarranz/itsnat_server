@@ -105,7 +105,7 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
 
         cellElem.appendChild(nodeEditor);  // Se detecta y se añaden los DOM listeners automáticamente en el componente, cuando se quite del árbol también se detecta y se quitan los listeners antes
 
-        delegate.setValue(value); // Conviene llamar antes que focus() por ejemplo en NetFront
+        delegate.setValue(value); // Conviene llamar antes que focus() 
         delegate.setFocus();
 
         registerEventListeners();

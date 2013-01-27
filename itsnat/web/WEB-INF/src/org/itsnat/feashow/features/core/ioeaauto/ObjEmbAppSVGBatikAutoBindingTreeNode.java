@@ -212,7 +212,7 @@ public class ObjEmbAppSVGBatikAutoBindingTreeNode extends FeatureTreeNode implem
             try
             {
                 Method method = container.getClass().getMethod("getContentDocument",null);
-                childDoc = (Document)method.invoke(container,null);
+                childDoc = (Document)method.invoke(container,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }

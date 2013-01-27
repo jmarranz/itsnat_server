@@ -118,18 +118,13 @@ public class FreeListCompoundTreeNode extends FeatureTreeNode implements EventLi
                     "text".equals(((HTMLInputElement)target).getAttribute("type")))
                 {
                     // Avoids item selection when modifying text fields,
-                    // fix weird behavior in UCWEB.
+                    // fix weird behavior in old browsers.
                     ((ItsNatEvent)evt).getItsNatEventListenerChain().stop();
                 }
             }
         };
         itsNatDoc.addEventListener(globalListener);
-        
-        if (isUCWEB())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
+
     }
 
     public void endExamplePanel()

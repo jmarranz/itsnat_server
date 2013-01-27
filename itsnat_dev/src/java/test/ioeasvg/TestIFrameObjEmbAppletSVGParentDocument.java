@@ -165,7 +165,7 @@ public class TestIFrameObjEmbAppletSVGParentDocument implements EventListener,Se
             try
             {
                 Method method = containerElem.getClass().getMethod("getContentDocument",(Class[])null); // El cast es para evitar un warnning en Java 1.5+
-                childDoc = (Document)method.invoke(containerElem,null);
+                childDoc = (Document)method.invoke(containerElem,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }
@@ -192,8 +192,9 @@ public class TestIFrameObjEmbAppletSVGParentDocument implements EventListener,Se
             // Notify containerElem child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(containerElem);
             StringBuffer code = new StringBuffer();
-            code.append("var elem = " + ref + ";");
-            code.append("var childDoc = elem.contentDocument ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument in MSIE or with Batik
+            code.append("var elem = " + ref + "; ");
+            // code.append("var childDoc = (typeof elem.contentDocument != \"undefined\") ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument in MSIE or with Batik
+            code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument in MSIE or with Batik
             code.append("childDoc.getItsNatDoc().fireUserEvent(null,'update_svg');");
             itsNatDoc.addCodeToSend(code.toString());
         }

@@ -58,12 +58,6 @@ public class InputTextBasedTreeNode extends FeatureTreeNode implements EventList
         this.inputFileComp = (ItsNatHTMLInputFile)compMgr.createItsNatComponentById("inputFileId");
         // inputFileComp.setText("Change this text and lost the focus");
         addListeners(inputFileComp);
-
-        if (isUCWEB() || isBolt())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

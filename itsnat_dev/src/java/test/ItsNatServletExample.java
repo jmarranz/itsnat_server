@@ -54,7 +54,7 @@ import test.shared.TestSerialization;
 import test.svg.TestSVGAttachServerLauncherDocLoadListener;
 import test.svg.TestSVGDocLoadListener;
 import test.svgweb.TestSVGWebDocLoadListener;
-import test.svgxhtml.TestSVGInXHTMLASVDocLoadListener;
+import test.svgxhtml.TestSVGInXHTMLAdobeSVGDocLoadListener;
 import test.svgxhtml.TestSVGInXHTMLDocLoadListener;
 import test.xml.TestXMLDocLoadListener;
 import test.xml_comp.TestXMLComponentsDocLoadListener;
@@ -224,7 +224,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
 
         docTemplate = registerDocument("test_svg_in_html_asv","text/html",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new TestSVGInXHTMLASVDocLoadListener());
+        docTemplate.addItsNatServletRequestListener(new TestSVGInXHTMLAdobeSVGDocLoadListener());
         docTemplate.setAutoBuildComponents(true); // No sirve para nada, simplemente para que se pase por los elementos svg y detectar que no de error por no ser HTML
         docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
 

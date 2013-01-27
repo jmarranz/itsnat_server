@@ -222,7 +222,6 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
          - Safari 3.1: ejecuta el listener capture antes de un no capture pero **en la fase AT_TARGET**
          - FireFox 2 y 3: ejecuta ambos listener en el orden en el que se registraron ignorando si son capture o no y **en la fase AT_TARGET**
          - Opera 9.27: ejecuta sólo el no capture 
-         - NetFront 3.5: idem Opera 
 
            El comportamiento de Safari y FireFox NO es estándar,
            el estándar habla de "ancestor" (DOM Level 2 Events):

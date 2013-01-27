@@ -86,12 +86,6 @@ public class FreeLabelTreeNode extends FeatureTreeNode implements EventListener,
         {
             throw new RuntimeException(ex);
         }
-
-        if (isUCWEB())
-        {
-            Element ucwebElem = itsNatDoc.getDocument().getElementById("ucwebId");
-            ucwebElem.removeAttribute("style");
-        }
     }
 
     public void endExamplePanel()

@@ -34,15 +34,9 @@ public class TestGlobalEventListener implements EventListener,Serializable
             // El ClientDocument es especial para el caso de documento no encontrado
             // aún así algunas cosas funcionan.
             ClientDocument clientDoc = itsNatEvt.getClientDocument();
-            ItsNatServletRequest request = itsNatEvt.getItsNatServletRequest();
-            if (BrowserUtil.isUCWEB(request))
-                clientDoc.addCodeToSend("document.body.innerHTML = 'Session or page is lost';");
-            else
-            {
-                clientDoc.addCodeToSend("if (confirm('Session or page is lost. Reloading...'))");
-                clientDoc.addCodeToSend("  window.location.reload(true);");
-            }
-
+            clientDoc.addCodeToSend("if (confirm('Session or page is lost. Reloading...'))");
+            clientDoc.addCodeToSend("  window.location.reload(true);");
+            
             itsNatEvt.getItsNatEventListenerChain().stop();
         }
     }

@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9Desktop;
 import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
@@ -48,8 +47,6 @@ public abstract class ResponseDelegateHTMLLoadDocOperaImpl extends ResponseDeleg
             else
                 return null; // No hay más
         }
-        else if (browser instanceof BrowserOpera8Mobile)
-            return new ResponseDelegateHTMLLoadDocOpera8MobileImpl(responseParent);
         else
             return null; // No hay más
     }

@@ -16,19 +16,17 @@
 
 package org.itsnat.impl.core.resp;
 
-import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import java.io.IOException;
 import java.io.Writer;
-import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.UseGZip;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.req.RequestImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
 /**
  *
@@ -120,11 +118,7 @@ public abstract class ResponseImpl
         String mime;
         if (this instanceof ResponseJavaScript)
         {
-            Browser browser = getBrowser();
-            if (browser instanceof BrowserOpera8Mobile)
-                mime = "text/plain"; // no soporta "text/javascript"
-            else
-                mime = "text/javascript";
+             mime = "text/javascript";
         }
         else
         {

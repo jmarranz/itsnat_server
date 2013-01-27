@@ -68,8 +68,6 @@ public class TestCoreDocument implements Serializable
 
         new TestInputFileInsertion(itsNatDoc);
 
-        new TestUCWEBAnchorHRef(itsNatDoc,request);
-
         new TestComments(itsNatDoc,request);
 
         new TestEmbedRenderingMSIE(itsNatDoc);

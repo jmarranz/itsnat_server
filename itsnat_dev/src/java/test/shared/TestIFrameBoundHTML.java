@@ -130,7 +130,7 @@ public class TestIFrameBoundHTML implements EventListener,Serializable
             try
             {
                 Method method = iframe.getClass().getMethod("getContentDocument",(Class[])null); // El cast es para evitar un warnning en Java 1.5+
-                iframeDoc = (Document)method.invoke(iframe,null);
+                iframeDoc = (Document)method.invoke(iframe,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }
         }

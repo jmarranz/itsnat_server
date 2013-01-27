@@ -59,7 +59,6 @@ public abstract class ResponseDelegStfulLoadDocByBOpera9Impl extends ResponseDel
         // La única "solución" razonable encontrada:
         // http://www.experts-exchange.com/Programming/Languages/Scripting/JavaScript/Q_21907326.html
         // En Opera Mini a día de hoy no sirve para nada (se acepta) pero por si acaso sirve en el futuro para eliminar el cacheado.
-        // En Opera Mobile 8.x no está soportado.
 
         StringBuffer code = new StringBuffer();
 

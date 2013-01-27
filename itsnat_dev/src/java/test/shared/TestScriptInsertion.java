@@ -38,9 +38,7 @@ public abstract class TestScriptInsertion implements EventListener,Serializable
         {
             public void handleEvent(Event evt)
             {
-                ItsNatHttpSession session = (ItsNatHttpSession)((ItsNatEvent)evt).getClientDocument().getItsNatSession();
-                boolean netFront = session.getUserAgent().indexOf("NetFront") != -1;
-                testAddScripts(netFront);
+                testAddScripts();
             }
         };
 
@@ -50,16 +48,14 @@ public abstract class TestScriptInsertion implements EventListener,Serializable
         clientDoc.addContinueEventListener(null, listener);
     }
 
-    public void testAddScripts(boolean netFront)
+    public void testAddScripts()
     {
-        testAddScript(true,netFront);
-        testAddScript(false,netFront);
+        testAddScript(true);
+        testAddScript(false);
     }
 
-    public void testAddScript(boolean before,boolean netFront)
+    public void testAddScript(boolean before)
     {
-        if (netFront && before) return; // El importante es before = false y ejecutar los dos test a la vez no se puede con NetFront (habría que cambiar el diseño del test)
-
         Document doc = itsNatDoc.getDocument();
         Element script = createScriptElement();
         // No usamos window.itsNatTestScript para comprobar que el contexto
@@ -87,20 +83,9 @@ public abstract class TestScriptInsertion implements EventListener,Serializable
             script.appendChild(text);
         }
 
-        if (netFront) // NetFront ejecuta el <script> después de que termine este script
-            itsNatDoc.addCodeToSend("var func = function() {");
-
-
         itsNatDoc.addCodeToSend("if (!window.itsNatTestScript) { alert('ERROR TestScriptInsertion'); throw 'ERROR'; } \n");
         itsNatDoc.addCodeToSend("window.itsNatTestScript = false; "); // Para detectar doble ejecución
         itsNatDoc.addCodeToSend("try{ delete window.itsNatTestScript; } catch(e){ }\n"); // Quitamos la propiedad, el try/catch es por si acaso el delete no vale.
-
-        // En Renesis 1.1.1 da un falso error debido a que la llamada
-        // window.itsNatTestScript = false; y el delete NO HACEN NADA y sigue estando a true
-        // por lo que da un error de doble ejecución.
-
-        if (netFront)
-            itsNatDoc.addCodeToSend("}; window.setTimeout(func,0);");
 
         rootElem.removeChild(script);
     }

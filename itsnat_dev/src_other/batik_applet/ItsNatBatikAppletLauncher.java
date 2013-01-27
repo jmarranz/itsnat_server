@@ -59,7 +59,7 @@ public class ItsNatBatikAppletLauncher extends JApplet
 
     public Document getSVGDocument()
     {
-        // Simulamos el método getSVGDocument() que por ejemplo definen ASV y Renesis
+        // Simulamos el método getSVGDocument() que por ejemplo definen ASV 
         // No devolvemos SVGOMDocument sino un wrapper.
         // No podemos pasar el objeto wrapper a canvas.setDocument(doc);
         // porque internamente hace un cast a la clase SVGOMDocument

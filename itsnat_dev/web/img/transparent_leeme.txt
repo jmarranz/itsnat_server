@@ -1,6 +1,4 @@
 
- No se utiliza directamente es simplemente para guardar la imagen usada para Bolt para
-conseguir que un área pueda ser pulsada, pues Bolt sólo permite pulsar la zona en donde está un texto y las imágenes.
 
  Esta imagen es usada por ItsNat usando la técnica <img src="data:image/gif;base64,..." />
 

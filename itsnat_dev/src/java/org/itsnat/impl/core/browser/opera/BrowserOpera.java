@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.core.browser.opera;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.browser.*;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 
 /**
   En Opera el unload no se dispara siempre y onbeforeunload no está definido
@@ -45,8 +45,6 @@ public abstract class BrowserOpera extends BrowserW3C
     {
         if (BrowserOpera9Mini.isOperaMini(userAgent))
             return new BrowserOpera9Mini(userAgent);
-        else if (BrowserOpera8Mobile.isOpera8Mobile(userAgent))
-            return new BrowserOpera8Mobile(userAgent);
         else if (BrowserOpera9Mobile.isOperaMobile9(userAgent))
             return new BrowserOpera9Mobile(userAgent);
         else
@@ -55,9 +53,7 @@ public abstract class BrowserOpera extends BrowserW3C
 
     public static boolean isOpera(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
-        // Hay que tener en cuenta que UCWEB puede simular ser un Opera
-        return (userAgent.indexOf("Opera") != -1) &&
-                !BrowserGeckoUCWEB.isUCWEB(userAgent,itsNatRequest);
+        return (userAgent.indexOf("Opera") != -1);
     }
 
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)

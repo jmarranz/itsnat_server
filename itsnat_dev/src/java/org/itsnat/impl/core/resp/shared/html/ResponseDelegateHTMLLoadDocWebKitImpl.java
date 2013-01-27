@@ -19,8 +19,6 @@ package org.itsnat.impl.core.resp.shared.html;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitAndroid;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitBolt;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitS40;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
@@ -41,10 +39,6 @@ public abstract class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDele
         BrowserWebKit browser = (BrowserWebKit)responseParent.getClientDocument().getBrowser();
         if (browser instanceof BrowserWebKitAndroid)
             return new ResponseDelegateHTMLLoadDocWebKitAndroidImpl(responseParent);
-        if (browser instanceof BrowserWebKitMoto)
-            return new ResponseDelegateHTMLLoadDocWebKitMotoImpl(responseParent);
-        if (browser instanceof BrowserWebKitBolt)
-            return new ResponseDelegateHTMLLoadDocWebKitBoltImpl(responseParent);
         else
             return new ResponseDelegateHTMLLoadDocWebKitDefaultImpl(responseParent);
     }
@@ -54,7 +48,7 @@ public abstract class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDele
         BrowserWebKit browser = (BrowserWebKit)getClientDocumentStful().getBrowser();
         if (browser.isFilteredCommentsInMarkup())
         {
-            // Los comentarios son filtrados en la primera versión del S60WebKit (incluido en el S60 3rd Feature Pack 1), MotoWebKit
+            // Los comentarios son filtrados en la primera versión del S60WebKit (incluido en el S60 3rd Feature Pack 1), 
             // y BlackBerry.
             // Esto no ocurre en el S60WebKit FP 2 pero la solución adoptada en teoría funciona aunque no se filtren los comentarios
             // Ver notas en ResponseNormalLoadHTMLDocBlackBerryImpl sobre la estrategia

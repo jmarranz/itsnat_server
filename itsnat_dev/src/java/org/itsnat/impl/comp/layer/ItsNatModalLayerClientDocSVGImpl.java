@@ -17,13 +17,13 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.BrowserGecko;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderElementImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.jsren.dom.node.JSRenderElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -147,7 +147,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         Browser browser = clientDoc.getBrowser();
         if ((browser instanceof BrowserGecko)||
             (browser instanceof BrowserOpera)||
-            (browser instanceof BrowserASVRenesis)|| // ASV (en Renesis 1.1.1 nos da igual porque no funcionan los modal layers)
+            (browser instanceof BrowserAdobeSVG)|| // ASV 
             (browser instanceof BrowserBatik)) // En Batik applet no hay redimensionamiento porque no es normal cambiar las dimensiones del applet
             return -1; // No es necesario el redimensionamiento, se redimensiona automáticamente cuando cambia el cuadro (gracias a los valores "100%")
 
@@ -176,7 +176,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
 
             ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
             Browser browser = clientDoc.getBrowser();
-            if (browser instanceof BrowserASVRenesis)
+            if (browser instanceof BrowserAdobeSVG)
             {
                 // El <foreignObject> tampoco tiene objeto style en ASV3
                 // este elemento ES visual pero como no está reconocido

@@ -83,10 +83,7 @@ public class DOMEventListenerTreeNode extends FeatureTreeNode implements EventLi
     public void handleEvent(Event evt)
     {
         ItsNatDocument itsNatDoc = getItsNatDocument();
-        if (BrowserUtil.isUCWEB(((ItsNatEvent)evt).getItsNatServletRequest()))
-            log("Clicked!!"); // alert() works bad in UCWEB
-        else
-            itsNatDoc.addCodeToSend("alert('Clicked!!');");
+        itsNatDoc.addCodeToSend("alert('Clicked!!');");
 
         EventTarget currTarget = evt.getCurrentTarget();
         if (currTarget == clickable1)
