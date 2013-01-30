@@ -30,9 +30,9 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public class ResponseDelegateHTMLLoadDocOpera9MiniImpl extends ResponseDelegateHTMLLoadDocOpera9Impl
+public class ResponseDelegateHTMLLoadDocOperaMiniImpl extends ResponseDelegateHTMLLoadDocOperaImpl
 {
-    public ResponseDelegateHTMLLoadDocOpera9MiniImpl(ResponseLoadStfulDocumentValid responseParent)
+    public ResponseDelegateHTMLLoadDocOperaMiniImpl(ResponseLoadStfulDocumentValid responseParent)
     {
         super(responseParent);
     }

@@ -131,16 +131,14 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
     {
         // Los navegadores móviles no tienen redimensionamiento de la ventana, sin embargo el tamaño de la página puede
         // verse afectado por lo que se ponga encima de los layers modales. Por tanto es deseable
-        // la actualización por timer pero no es necesario forzar porque son máquinas poco ponentes.
+        // la actualización por timer pero no es necesario forzar porque son máquinas poco potentes.
         Browser browser = clientDoc.getBrowser();
-        if (!browser.isSetTimeoutSupported())
-            return -1;
 
         if (browser.isMobile())
         {
             if (browser instanceof BrowserBlackBerryOld)
                 return -1; // Leer notas en BrowserBlackBerryOld.tagNamesIgnoreZIndex
-            //else if (browser instanceof BrowserOpera9Mobile)
+            //else if (browser instanceof BrowserOperaMobile)
             //    return -1; // No se porqué pero da error JavaScript a veces, quizás porque el posicionamiento absoluto da problemas (con y sin timer, pero al menos sin timer minimizamos problemas)
             else
                 return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos

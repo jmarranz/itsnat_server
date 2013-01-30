@@ -18,7 +18,6 @@ package org.itsnat.impl.core.resp.shared.bybrow;
 import java.util.LinkedList;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
@@ -39,8 +38,8 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
         Browser browser = parent.getClientDocumentStful().getBrowser();
         if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera9)
-                return ResponseDelegStfulLoadDocByBOpera9Impl.createResponseDelegStfulLoadDocByBOpera9(parent);
+            if (browser instanceof BrowserOpera)
+                return ResponseDelegStfulLoadDocByBOperaImpl.createResponseDelegStfulLoadDocByBOpera(parent);
             else
                 return null; // No hay más
         }

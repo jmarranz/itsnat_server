@@ -96,16 +96,6 @@ public class BrowserMSIEOld extends Browser
         return false;
     }
 
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return false; // No soporta SVG por ejemplo.
@@ -126,6 +116,7 @@ public class BrowserMSIEOld extends Browser
         return true;
     }
     
+    @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
         // Nota: el evento beforeunload se emite **siempre** cuando se pulsa un link
@@ -138,7 +129,7 @@ public class BrowserMSIEOld extends Browser
         // 1) Poniendo un href="#" con el consabido problema de movimiento de la página (scroll) al ppio
         // 2) Añadiendo un onclick="return false;" que evite el proceso del href (y antes evita el beforeunload)
         // De todas formas este es un problema menor
-        return true;
+        return super.hasBeforeUnloadSupport(itsNatDoc);
     }
 
     public boolean isReferrerReferenceStrong()

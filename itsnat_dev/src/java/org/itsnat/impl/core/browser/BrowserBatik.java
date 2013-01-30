@@ -49,11 +49,6 @@ public class BrowserBatik extends BrowserW3C
         return false;
     }
 
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        return false;
-    }
-
     public boolean isReferrerReferenceStrong()
     {
         return false;
@@ -97,19 +92,9 @@ public class BrowserBatik extends BrowserW3C
         return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
     }
 
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return false; // Por poner algo, Batik no renderiza documentos HTML
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false; // Por poner algo.
     }
 
     public boolean isInsertedSVGScriptNotExecuted()

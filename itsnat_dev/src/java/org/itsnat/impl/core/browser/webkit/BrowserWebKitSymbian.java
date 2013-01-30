@@ -58,8 +58,4 @@ public abstract class BrowserWebKitSymbian extends BrowserWebKit
         return false;
     }
 
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
 }

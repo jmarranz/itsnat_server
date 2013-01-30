@@ -26,8 +26,7 @@ import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBatikImpl
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBlackBerryOldImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOpera9Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitAndroidImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOperaImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitDefaultImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitS60Impl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
@@ -64,9 +63,8 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
 
         addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementOpera9Impl.SINGLETON);
+        addBrowser(JSRenderHTMLElementOperaImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementWebKitAndroidImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitDefaultImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitS60Impl.SINGLETON);
         

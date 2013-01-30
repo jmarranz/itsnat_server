@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitAndroid;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitS60;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
@@ -53,9 +52,7 @@ public abstract class JSRenderHTMLElementWebKitImpl extends JSRenderHTMLElementW
 
     public static JSRenderHTMLElementWebKitImpl getJSRenderHTMLElementWebKit(BrowserWebKit browser)
     {
-        if (browser instanceof BrowserWebKitAndroid)
-            return JSRenderHTMLElementWebKitAndroidImpl.SINGLETON;
-        else if (browser instanceof BrowserWebKitS60)
+        if (browser instanceof BrowserWebKitS60)
             return JSRenderHTMLElementWebKitS60Impl.SINGLETON;
         else
             return JSRenderHTMLElementWebKitDefaultImpl.SINGLETON; // Los demás

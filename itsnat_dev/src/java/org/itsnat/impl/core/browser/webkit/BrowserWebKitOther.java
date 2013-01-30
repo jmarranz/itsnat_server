@@ -58,11 +58,6 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false;
     }
 
-    public boolean isFilteredCommentsInMarkup()
-    {
-        return false;
-    }
-
     public boolean hasBeforeUnloadSupportHTML()
     {
         switch(browserSubType)
@@ -125,26 +120,11 @@ public class BrowserWebKitOther extends BrowserWebKit
         return true;
     }
 
-    public boolean isOldEventSystem()
-    {
-        return false;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true;
     }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
-    }
-
+    
     public boolean isInsertedSVGScriptNotExecuted()
     {
         switch(browserSubType)

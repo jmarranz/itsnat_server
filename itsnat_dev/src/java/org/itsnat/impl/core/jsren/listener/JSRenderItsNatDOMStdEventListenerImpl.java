@@ -20,7 +20,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
@@ -51,8 +51,8 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
             return JSRenderItsNatDOMStdEventListenerSVGWebRootImpl.SINGLETON;        
         else if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera9Mini)
-                return JSRenderItsNatDOMStdEventListenerOpera9MiniImpl.SINGLETON;
+            if (browser instanceof BrowserOperaMini)
+                return JSRenderItsNatDOMStdEventListenerOperaMiniImpl.SINGLETON;
             else
                 return JSRenderItsNatDOMStdEventListenerDefaultImpl.SINGLETON;
         }

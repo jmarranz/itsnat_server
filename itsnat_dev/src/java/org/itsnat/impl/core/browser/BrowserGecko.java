@@ -25,7 +25,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
- * Vale para FireFox +1 
+ * Vale para FireFox 
  *
  * Versiones de Gecko: http://developer.mozilla.org/En/Gecko
  *
@@ -82,11 +82,6 @@ public class BrowserGecko extends BrowserW3C
         return false;
     }
 
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
-    }
-
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false; 
@@ -107,12 +102,6 @@ public class BrowserGecko extends BrowserW3C
         return true;
     }
     
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        // En XUL está soportado
-        return ! (itsNatDoc instanceof ItsNatSVGDocumentImpl);
-    }
-
     public boolean isReferrerReferenceStrong()
     {
         // El nuevo documento siempre se carga antes de que el anterior se destruya
@@ -136,10 +125,7 @@ public class BrowserGecko extends BrowserW3C
 
     public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
     {
-        if (geckoVersion < (float)1.9) // FireFox 2.0 y anteriores
-            return DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
-
-        return false; // FireFox 3.0
+        return false; // Desde FireFox 3.0
     }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
@@ -157,8 +143,4 @@ public class BrowserGecko extends BrowserW3C
         return true;
     }
 
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }    
 }

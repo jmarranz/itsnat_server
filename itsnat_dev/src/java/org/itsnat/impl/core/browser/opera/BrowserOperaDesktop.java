@@ -20,10 +20,13 @@ import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
 
 /**
- * Soportado desde la versión 9 (9.26 al menos)
+ * Soportado desde la versión 12.12
  *
  * Ejemplos user agent: (parece que "Presto" se introdujo en 9.6 según listado de botsvsbrowsers.com)
  *
+     Opera/9.80 (Windows NT 5.1) Presto/2.12.388 Version/12.12
+      
+    Antiguas:
  *  "Opera/9.26 (Windows NT 5.1; U; en)"
  *  "Opera/9.63 (Windows NT 5.1; U; en) Presto/2.1.1"
  *  Opera 10: "Opera/9.80 (Windows NT 5.1; U; en) Presto/2.2.15 Version/10.00"
@@ -31,12 +34,12 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserOpera9Desktop extends BrowserOpera9
+public class BrowserOperaDesktop extends BrowserOpera
 {
     /**
-     * Creates a new instance of BrowserOpera9Desktop
+     * Creates a new instance of BrowserOperaDesktop
      */
-    public BrowserOpera9Desktop(String userAgent)
+    public BrowserOperaDesktop(String userAgent)
     {
         super(userAgent);
 
@@ -64,13 +67,4 @@ public class BrowserOpera9Desktop extends BrowserOpera9
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
-    {
-        return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
 }

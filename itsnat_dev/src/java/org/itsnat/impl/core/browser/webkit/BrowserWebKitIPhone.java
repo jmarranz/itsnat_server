@@ -146,11 +146,6 @@ public class BrowserWebKitIPhone extends BrowserWebKit
         return true;
     }
 
-    public boolean isFilteredCommentsInMarkup()
-    {
-        return false;
-    }
-
     public boolean hasBeforeUnloadSupportHTML()
     {
         return false;
@@ -242,21 +237,6 @@ public class BrowserWebKitIPhone extends BrowserWebKit
     public boolean hasHTMLCSSOpacity()
     {
         return true;
-    }
-
-    public boolean isOldEventSystem()
-    {
-        return false;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
     }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()

@@ -17,7 +17,7 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
@@ -34,7 +34,7 @@ public class ItsNatModalLayerClientDocHTMLEverCleanImpl extends ItsNatModalLayer
 
     public static boolean isEverCleanNeeded(Browser browser)
     {
-        return (browser instanceof BrowserOpera9Mini);
+        return (browser instanceof BrowserOperaMini);
     }
 
     @Override

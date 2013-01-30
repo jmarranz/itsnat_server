@@ -45,11 +45,6 @@ public class BrowserWebKitS40 extends BrowserWebKitSymbian
         return false;
     }
 
-    public boolean isFilteredCommentsInMarkup()
-    {
-        return false;
-    }
-
     public boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem)
     {
         // Nota: elem puede ser null.
@@ -61,16 +56,6 @@ public class BrowserWebKitS40 extends BrowserWebKitSymbian
 
         return elem.hasAttribute("multiple") ||
                elem.hasAttribute("size");
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
-    }
-
-    public boolean isOldEventSystem()
-    {
-        return false;
     }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)

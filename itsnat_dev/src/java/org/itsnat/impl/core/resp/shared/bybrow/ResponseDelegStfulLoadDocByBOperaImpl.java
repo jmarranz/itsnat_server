@@ -18,11 +18,9 @@ package org.itsnat.impl.core.resp.shared.bybrow;
 
 import org.itsnat.core.CommMode;
 import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.resp.shared.*;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mobile;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -33,20 +31,16 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public abstract class ResponseDelegStfulLoadDocByBOpera9Impl extends ResponseDelegStfulLoadDocByBW3CImpl
+public class ResponseDelegStfulLoadDocByBOperaImpl extends ResponseDelegStfulLoadDocByBW3CImpl
 {
-    public ResponseDelegStfulLoadDocByBOpera9Impl(ResponseDelegateStfulLoadDocImpl parent)
+    public ResponseDelegStfulLoadDocByBOperaImpl(ResponseDelegateStfulLoadDocImpl parent)
     {
         super(parent);
     }
 
-    public static ResponseDelegStfulLoadDocByBOpera9Impl createResponseDelegStfulLoadDocByBOpera9(ResponseDelegateStfulLoadDocImpl parent)
+    public static ResponseDelegStfulLoadDocByBOperaImpl createResponseDelegStfulLoadDocByBOpera(ResponseDelegateStfulLoadDocImpl parent)
     {
-        Browser browser = parent.getClientDocumentStful().getBrowser();
-        if (browser instanceof BrowserOpera9Mobile)
-            return new ResponseDelegStfulLoadDocByBOpera9MobileImpl(parent);
-        else
-            return new ResponseDelegStfulLoadDocByBOpera9DefaultImpl(parent);
+        return new ResponseDelegStfulLoadDocByBOperaImpl(parent);
     }
 
     public String getOnInitScriptContentCodeFixDOMCode()
@@ -94,7 +88,7 @@ public abstract class ResponseDelegStfulLoadDocByBOpera9Impl extends ResponseDel
         Document doc = itsNatDoc.getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();
 
-        EventListener listener = new RewriteClientUIControlPropsOpera9LoadListenerImpl(clientDoc);
+        EventListener listener = new RewriteClientUIControlPropsOperaLoadListenerImpl(clientDoc);
 
         int commMode;
         int syncDefaultMode = clientDoc.getCommMode();

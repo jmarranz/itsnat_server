@@ -22,7 +22,7 @@ import org.w3c.dom.html.HTMLElement;
 /**
  * Soportado al menos la versión 4
  *
- * Derivamos de BrowserOpera9 porque el motor en el servidor es a partir de Opera 9
+ * Derivamos de BrowserOpera porque el motor en el servidor es a partir de Opera 9
  *
  * User agent: Opera/9.60 (J2ME/MIDP; Opera Mini/4.0.10406/538; U; en) Presto/2.2.0
  *
@@ -44,11 +44,11 @@ import org.w3c.dom.html.HTMLElement;
 
  * @author jmarranz
  */
-public class BrowserOpera9Mini extends BrowserOpera9
+public class BrowserOperaMini extends BrowserOpera
 {
 
-    /** Creates a new instance of BrowserOpera9Mini */
-    public BrowserOpera9Mini(String userAgent)
+    /** Creates a new instance of BrowserOperaMini */
+    public BrowserOperaMini(String userAgent)
     {
         super(userAgent);
 
@@ -76,16 +76,5 @@ public class BrowserOpera9Mini extends BrowserOpera9
         // El focus() se procesa (se genera evento) el problema es que el blur creo que no se lanza
         // aunque en edición inplace se hacen trucos específicos para Opera Mini
         return false;
-    }
-
-    public Map getHTMLFormControlsIgnoreZIndex()
-    {
-        return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        // La verdad es que da un poco igual
-        return true;
     }
 }

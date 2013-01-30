@@ -112,11 +112,7 @@ public abstract class JSRenderItsNatEventListenerImpl
 
     public long getEventTimeout(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        Browser browser = clientDoc.getBrowser();
-        if (browser.isEventTimeoutSupported())
-            return itsNatListener.getEventTimeout();
-        else
-            return -1;
+        return itsNatListener.getEventTimeout();
     }
 
     // clientDoc NO puede ser nulo

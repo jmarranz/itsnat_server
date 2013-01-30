@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Map;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.doc.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
@@ -165,7 +166,6 @@ public abstract class Browser implements Serializable
         this.jsRenderHtmlAttr = jsRenderHtmlAttr;
     }
 
-    public abstract boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc);
 
     /* Si usamos una referencia strong para almacenar el referrer.
      * Aplicar cuando no hay garantía de que el nuevo documento se cargue antes del unload del anterior.
@@ -215,23 +215,17 @@ public abstract class Browser implements Serializable
      */
     public abstract boolean hasHTMLCSSOpacity();
 
-    /* Hay navegadores tipo proxy en los que no funciona bien el setTimeout
-     */ 
-    public abstract boolean isSetTimeoutSupported();
-
-    public boolean isEventTimeoutSupported()
-    {
-        return isSetTimeoutSupported();
-    }
-
     /* Si es capaz de renderizar nativamente markup con namespace no X/HTML, por ejemplo SVG, MathML
      * Si la respuesta es true equivale a preguntar si soporta SVG pues al menos es siempre SVG
        el primer namespace no X/HTML (Gecko soporta también XUL y MathML).
      */
     public abstract boolean canNativelyRenderOtherNSInXHTMLDoc();
 
-    /* Si al insertar un <script> no se ejecuta el código cuando dicho código se añade después del elemento, ocurre en WebKits muy antiguos */
-    public abstract boolean isTextAddedToInsertedHTMLScriptNotExecuted();
+    /* Si al insertar un <script> no se ejecuta el código cuando dicho código se añade después del elemento, ocurría en navegadores muy antiguos, ya no, redefinir si vuelve a ocurrir */
+    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
+    {
+        return false; 
+    }                
 
     /* Un elemento <script> con código no es ejecutado cuando es insertado como tal
      * (incluído el código) ya sea el código insertado antes o después
@@ -263,4 +257,12 @@ public abstract class Browser implements Serializable
     {
         return false;
     }
+
+    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
+    {
+        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado        
+        // En SVG no existe conceptualmente, es más propio de HTML aunque en XUL está también soportado
+        // En Opera y BlackBerryOld se redefine porque no se soporta nunca
+        return ! (itsNatDoc instanceof ItsNatSVGDocumentImpl);
+    }    
 }

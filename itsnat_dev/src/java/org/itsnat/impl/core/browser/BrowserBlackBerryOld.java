@@ -138,9 +138,10 @@ public class BrowserBlackBerryOld extends BrowserW3C
         return true;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
-        return false;
+        return false; // Tampoco en HTML
     }
 
     public boolean isReferrerReferenceStrong()
@@ -187,16 +188,6 @@ public class BrowserBlackBerryOld extends BrowserW3C
     }
 
     public boolean hasHTMLCSSOpacity()
-    {
-        return false;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
     {
         return false;
     }

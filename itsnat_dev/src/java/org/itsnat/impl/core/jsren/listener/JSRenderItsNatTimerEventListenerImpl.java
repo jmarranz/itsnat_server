@@ -38,9 +38,6 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
 
     private String addItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        if (!clientDoc.getBrowser().isSetTimeoutSupported())
-            return "";
-
         StringBuffer code = new StringBuffer();
 
         long delay = itsNatListener.getDelayFirstTime();
@@ -62,9 +59,6 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
 
     private String removeItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        if (!clientDoc.getBrowser().isSetTimeoutSupported())
-            return "";
-        
         String listenerId = itsNatListener.getId();
 
         StringBuffer code = new StringBuffer();

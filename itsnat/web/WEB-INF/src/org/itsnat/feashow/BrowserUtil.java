@@ -30,16 +30,14 @@ public class BrowserUtil
             return true;
         ItsNatHttpSession session = (ItsNatHttpSession)request.getItsNatSession();
         String userAgent = session.getUserAgent();
-        return (userAgent.indexOf("Opera Mini") != -1) ||
-               (userAgent.indexOf("Opera Mobi") != -1) || // Opera Mobile 9.5 beta
-               (userAgent.indexOf("SAMSUNG-SGH-i900") != -1) || // Opera Mobile 9.5 (Omnia)
-               (userAgent.indexOf("Windows CE") != -1) || // Opera Mobile 9.5 
+        return (userAgent.indexOf("Android") != -1) ||  // Opera Mobile
+               (userAgent.indexOf("S60") != -1) || // Opera Mobile
                (userAgent.indexOf("Symbian") != -1) ||  // Opera Mobile 9.5 & S60WebKit
                (userAgent.indexOf("Nokia6600s") != -1) || // S40WebKit
-               (userAgent.indexOf("Android") != -1) ||
                (userAgent.indexOf("Aspen Simulator") != -1) ||
                (userAgent.indexOf("iPod") != -1) ||
                (userAgent.indexOf("iPhone") != -1) ||
+               (userAgent.indexOf("iPad") != -1) ||                
                (userAgent.indexOf("BlackBerry") != -1);
     }
 

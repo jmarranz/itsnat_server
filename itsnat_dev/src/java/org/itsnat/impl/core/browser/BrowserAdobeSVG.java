@@ -53,11 +53,6 @@ public class BrowserAdobeSVG extends BrowserW3C
         return false;
     }
 
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        return false;
-    }
-
     public boolean isReferrerReferenceStrong()
     {
         // No funciona la navegación desde el SVG por lo que nos
@@ -102,21 +97,9 @@ public class BrowserAdobeSVG extends BrowserW3C
         return false;
     }
 
-    public boolean isSetTimeoutSupported()
-    {
-        // window.setTimeout funciona aunque "raro" (el código debe ser una string)
-        // se soluciona en tiempo de carga.
-        return true;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return false; // Renderiza SVG pero no el propio XHTML.
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
     }
 
     public boolean isInsertedSVGScriptNotExecuted()

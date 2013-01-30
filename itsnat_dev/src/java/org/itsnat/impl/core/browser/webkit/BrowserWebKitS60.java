@@ -88,21 +88,6 @@ public class BrowserWebKitS60 extends BrowserWebKitSymbian
         return false;
     }
 
-    public boolean isFilteredCommentsInMarkup()
-    {
-        return false; 
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false; 
-    }
-
-    public boolean isOldEventSystem()
-    {
-        return false;
-    }
-
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // En principio no hay problema, el focus() es procesado, el problema es que

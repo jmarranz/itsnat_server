@@ -22,7 +22,6 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserAdobeSVG;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mobile;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.Event;
@@ -58,7 +57,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
     // sí funcionan excepto cuando hay un #ref al final y window.history.go(0) recarga incondicionalmente.
     // Otra alternativa (peor) sería añadir un onmousedown al BODY el cual será pulsado
     // compulsivamente por el usuario y hará el reload.
-    private static final String RELOAD_CODE_OperaMobile9 = RELOAD_CODE_NORMAL + " window.history.go(0); window.location = window.location; \n"; // Tres oportunidades para recargar
+    // private static final String RELOAD_CODE_OperaMobile = RELOAD_CODE_NORMAL + " window.history.go(0); window.location = window.location; \n"; // Tres oportunidades para recargar
 
     // En el caso de Adobe SVG Viewer el window.location.reload(true) es como
     // si hiciéramos un reload manual y no se recarga (se borra la pantalla)
@@ -79,9 +78,9 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
 
     public static String getReloadCode(Browser browser)
     {
-        if (browser instanceof BrowserOpera9Mobile)
-            return RELOAD_CODE_OperaMobile9;
-        else if (browser instanceof BrowserAdobeSVG)
+        /*if (browser instanceof BrowserOperaMobile)
+            return RELOAD_CODE_OperaMobile;
+        else*/ if (browser instanceof BrowserAdobeSVG)
             return RELOAD_CODE_AdobeSVG;
         else
             return RELOAD_CODE_NORMAL;

@@ -26,12 +26,12 @@ import org.w3c.dom.html.HTMLOptionElement;
  *
  * @author jmarranz
  */
-public class JSRenderHTMLAttributeOpera9Impl extends JSRenderHTMLAttributeW3CImpl
+public class JSRenderHTMLAttributeOperaImpl extends JSRenderHTMLAttributeW3CImpl
 {
-    public final static JSRenderHTMLAttributeOpera9Impl SINGLETON = new JSRenderHTMLAttributeOpera9Impl();
+    public final static JSRenderHTMLAttributeOperaImpl SINGLETON = new JSRenderHTMLAttributeOperaImpl();
 
-    /** Creates a new instance of JSRenderHTMLAttributeOpera9Impl */
-    public JSRenderHTMLAttributeOpera9Impl()
+    /** Creates a new instance of JSRenderHTMLAttributeOperaImpl */
+    public JSRenderHTMLAttributeOperaImpl()
     {
     }
 
@@ -62,7 +62,7 @@ public class JSRenderHTMLAttributeOpera9Impl extends JSRenderHTMLAttributeW3CImp
 
             code.append( super.removeAttributeWithProperty(attr,attrName,elem,elemVarName,prop,clientDoc) );
 
-            String methodName = "opera9FixHTMLSelect";
+            String methodName = "operaFixHTMLSelect";
             if (!clientDoc.isClientMethodBounded(methodName))
                 code.append(bindFixHTMLSelectMethod(methodName,clientDoc));
 

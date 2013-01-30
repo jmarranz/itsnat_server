@@ -93,6 +93,7 @@ public abstract class BrowserWebKit extends BrowserW3C
             return new BrowserWebKitAndroid(userAgent);
         else if ((userAgent.indexOf("iPhone") != -1) ||
                  (userAgent.indexOf("iPod") != -1) ||
+                 (userAgent.indexOf("iPad") != -1) ||                
                  (userAgent.indexOf("Aspen Simulator") != -1))
             return new BrowserWebKitIPhone(userAgent);
         else
@@ -114,11 +115,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         // Podría usarse "Safari" pero algún navegador antiguo no la tenía
         return (userAgent.indexOf("WebKit") != -1);
     }
-
-    /* Ocurre en WebKit muy antiguos, anteriores a Safari desktop 3.0.
-       por ejemplo algún S60WebKit
-     */
-    public abstract boolean isFilteredCommentsInMarkup();
 
     /* Si soporta request síncronos el XMLHttpRequest
      * No está soportado normalmente en WebKits antiguos, pues tardo tiempo en añadirse
@@ -171,12 +167,14 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
-        // El evento beforeunload fue introducido por MSIE_OLD, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
-        if (!(itsNatDoc instanceof ItsNatHTMLDocumentImpl))
+        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
+        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
+            return hasBeforeUnloadSupportHTML();
+        else
             return false; // Caso de SVG
-        return hasBeforeUnloadSupportHTML();
     }
     
     public abstract boolean hasBeforeUnloadSupportHTML();
@@ -210,12 +208,7 @@ public abstract class BrowserWebKit extends BrowserW3C
         return (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
-
-    /* En versiones de WebKit muy anteriores a Safari 3.0, o anteriores a 420 aunque no es 100% seguro,
-       el sistema de eventos es W3C pero muy incompleto */
-    public abstract boolean isOldEventSystem();
-
-    
+   
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         // Cuando la inserción del script funciona funciona bien
