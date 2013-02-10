@@ -38,7 +38,7 @@ public class TestComments
 
         Document doc = itsNatDoc.getDocument();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("try {");
 
@@ -56,7 +56,7 @@ public class TestComments
         itsNatDoc.addCodeToSend(code.toString());
     }
 
-    public void testChildren(Element elem,StringBuffer code)
+    public void testChildren(Element elem,StringBuilder code)
     {
         ScriptUtil util = itsNatDoc.getScriptUtil();
         NodeList children = elem.getChildNodes();

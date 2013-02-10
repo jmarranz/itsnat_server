@@ -204,7 +204,7 @@ public class IFrObjEmbSVGASVAutoBindingTreeNode extends FeatureTreeNode implemen
 
             // Notify container child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(container);
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + ";");
             code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument in MSIE
             code.append("childDoc.getItsNatDoc().fireUserEvent(null,'update');");

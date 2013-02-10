@@ -64,7 +64,7 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
 
     protected static String getUserCode(ItsNatDOMEventListenerWrapperImpl itsNatListener)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String extraParams = itsNatListener.getCodeToSendParamTransports();
         String preSendCode = itsNatListener.getPreSendCode();
@@ -77,7 +77,7 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
         return code.toString();
     }
 
-    public static String addCustomCodeFunction(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuffer code)
+    public static String addCustomCodeFunction(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
     {
         String userCode = getUserCode(itsNatListener);
         if ((userCode != null) && !userCode.equals(""))

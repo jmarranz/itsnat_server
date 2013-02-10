@@ -41,7 +41,7 @@ public class ResponseDelegateSVGLoadDocMSIEOldImpl extends ResponseDelegateSVGLo
         // ItsNatSVGDocumentTemplateVersionImpl.isGeneratedDocumentFake(Browser)
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // NO HACER nada es el caso de documento "fake"
     }

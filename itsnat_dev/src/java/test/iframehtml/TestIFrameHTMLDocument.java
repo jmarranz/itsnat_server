@@ -105,7 +105,7 @@ public class TestIFrameHTMLDocument implements EventListener,Serializable
         contElem.appendChild(buttonInParent);
 
         // Notify the parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("if (window.parent == window) alert('NOT SUPPORTED');"); // Pasaba en algún browser antiguo móvil
         code.append("else window.parent.document.getItsNatDoc().fireUserEvent(null,'update');");
         ClientDocument clientDoc = ((ItsNatEvent)evt).getClientDocument();

@@ -129,7 +129,7 @@ public class TestDisconnectNode implements EventListener,Serializable
         ItsNatDOMUtil.setTextContent(link, "Click To Test Reconnect Node");
         if (changeClientWithJS)
         {
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = document.getElementById('disconnectNode_3_Id');");
             code.append("elem.innerHTML = \"<span style='border: solid blue 1px'><b>Rewritten By JavaScript: OK</b></span>\"; ");
             itsNatDoc.addCodeToSend(code.toString());

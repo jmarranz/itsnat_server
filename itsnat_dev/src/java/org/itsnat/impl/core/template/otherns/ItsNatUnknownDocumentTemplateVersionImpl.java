@@ -37,7 +37,7 @@ public class ItsNatUnknownDocumentTemplateVersionImpl
 
         // No tenemos ni idea de cual es el elemento root, no se si esto funciona
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (encoding != null) // Si no espeficica es que no es necesaria la cabecera xml
             code.append( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>" );
 // No funciona en MSIE y loadXML: code.append( "<!DOCTYPE root>" );

@@ -49,7 +49,7 @@ public class TestSVGAttachServerLauncherDocLoadListener implements ItsNatServlet
             if (timeout == null) throw new RuntimeException("Missing _timeout");
         }
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("<script><![CDATA[");
 
         code.append("var doc_name = \"test_svg_attached_server\";");

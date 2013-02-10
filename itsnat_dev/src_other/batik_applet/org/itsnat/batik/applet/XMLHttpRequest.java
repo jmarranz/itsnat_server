@@ -385,7 +385,7 @@ public class XMLHttpRequest extends ScriptableObject
         try {
 
             InputStream is = urlCon.getInputStream();
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             setReadyState(3);
 

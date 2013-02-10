@@ -51,7 +51,7 @@ public class JSRenderW3CKeyEventBlackBerryOldImpl extends JSRenderW3CKeyboardEve
         return "KeyboardEvents"; // "KeyboardEvent" NO VALE, es con "s" al final
     }
 
-    public String getInitKeyboardEvent(StringBuffer code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc)
+    public String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc)
     {
         // La documentación oficial (JDE 4.6) documenta initKeyboardEvent como:
         // KeyboardEvent.initKeyboardEvent( typeArg, canBubbleArg, cancelableArg, viewArg,
@@ -72,7 +72,7 @@ public class JSRenderW3CKeyEventBlackBerryOldImpl extends JSRenderW3CKeyboardEve
         // usamos las dos versiones para evitar
         // que una versión posterior del motor nos haga fallar.
 
-        StringBuffer modifiersListArg = new StringBuffer();
+        StringBuilder modifiersListArg = new StringBuilder();
         if (keyEvt.getCtrlKey())  addModifier("Control",modifiersListArg);
         if (keyEvt.getAltKey())   addModifier("Alt",modifiersListArg);
         if (keyEvt.getShiftKey()) addModifier("Shift",modifiersListArg);
@@ -108,7 +108,7 @@ public class JSRenderW3CKeyEventBlackBerryOldImpl extends JSRenderW3CKeyboardEve
     }
 
 
-    public static void addModifier(String name,StringBuffer code)
+    public static void addModifier(String name,StringBuilder code)
     {
         if (code.length() > 0) code.append(" " + name);
         else code.append(name);

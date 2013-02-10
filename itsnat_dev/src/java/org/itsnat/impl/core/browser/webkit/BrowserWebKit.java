@@ -91,11 +91,10 @@ public abstract class BrowserWebKit extends BrowserW3C
             return new BrowserWebKitS40(userAgent);
         else if (userAgent.indexOf("Android") != -1)
             return new BrowserWebKitAndroid(userAgent);
-        else if ((userAgent.indexOf("iPhone") != -1) ||
-                 (userAgent.indexOf("iPod") != -1) ||
-                 (userAgent.indexOf("iPad") != -1) ||                
-                 (userAgent.indexOf("Aspen Simulator") != -1))
-            return new BrowserWebKitIPhone(userAgent);
+        else if ((userAgent.indexOf("iPod") != -1) ||
+                 (userAgent.indexOf("iPhone") != -1) ||
+                 (userAgent.indexOf("iPad") != -1))              
+            return new BrowserWebKitIOS(userAgent);
         else
         {
             int browserSubType;

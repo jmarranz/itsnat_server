@@ -67,7 +67,7 @@ public class HexNumber extends Token
     public void parse(Cursor cursor)
     {
         // cursor apunta a la #
-        StringBuffer valueTmp = new StringBuffer();
+        StringBuilder valueTmp = new StringBuilder();
         valueTmp.append( cursor.getCurrentChar() );
         int i = cursor.inc(); // segunda letra (si hay)
         while(cursor.isValidPosition() &&

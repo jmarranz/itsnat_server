@@ -54,7 +54,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         // Insertamos un nodo intrusivo antes de <body> y vemos si rompe o no el cálculo de paths
         // (no debería)
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("try{");
         code.append("  var body = document.body;");
         code.append("  if (!body) body = document.getElementsByTagName(\"body\")[0];"); // WebKits en MIME XHTML
@@ -70,7 +70,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         // Esto lo hacemos para asegurar que al obtener la referencia la orden de cacheado
         // que se emite antes, si falla por alguna razón, sea dentro de nuestro try/catch de control para enterarnos
         
-        code = new StringBuffer();
+        code = new StringBuilder();
         code.append("try{");
         itsNatDoc.addCodeToSend(code.toString());
         code = null;
@@ -87,7 +87,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
 
         String refBody = itsNatDoc.getScriptUtil().getNodeReference(body);
 
-        code = new StringBuffer();
+        code = new StringBuilder();
         code.append("  var elem = " + refBody + ";" );
         code.append("  if (elem.tagName.toLowerCase() != \"body\")");
         code.append("  {");
@@ -98,7 +98,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         code = null;
         
 
-        code = new StringBuffer();
+        code = new StringBuilder();
         code.append("}catch(e){");
         code.append("  alert('ERROR TestIgnoreIntrusiveNodes Head-Body 3'); throw 'ERROR';");
         code.append("}");
@@ -120,7 +120,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         // Insertamos un nodo intrusivo al final de <parentNode> o <body> y vemos si rompe o no el cálculo de paths
         // (no debería)
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("try{");
         code.append("  var parentNode = document.getElementsByTagName(\"" + tagName + "\")[0];");
         code.append("  var style = document.createElement(\"style\");");
@@ -150,7 +150,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         String refValidChildElem1 = itsNatDoc.getScriptUtil().getNodeReference(validChildElem1);
         String refValidChildElem2 = itsNatDoc.getScriptUtil().getNodeReference(validChildElem2);
 
-        code = new StringBuffer();
+        code = new StringBuilder();
         code.append("try{");
         code.append("  var elem1 = " + refValidChildElem1 + ";" );
         code.append("  var elem2 = " + refValidChildElem2 + ";" );

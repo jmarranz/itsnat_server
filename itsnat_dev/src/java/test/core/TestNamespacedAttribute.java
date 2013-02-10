@@ -44,7 +44,7 @@ public class TestNamespacedAttribute implements EventListener,Serializable
 
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         ItsNatDocument itsNatDoc = itsNatEvt.getItsNatDocument();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "var elem = document.getElementById('testNamespacedAttrId');" );
         code.append( "if (elem.getAttributeNS) alert(elem.getAttributeNS('http://prefix.org/prefix','myattr'));" );
         code.append( "else alert('NOT SUPPORTED');");

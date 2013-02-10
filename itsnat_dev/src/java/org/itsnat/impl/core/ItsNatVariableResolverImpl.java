@@ -158,7 +158,7 @@ public class ItsNatVariableResolverImpl implements ItsNatVariableResolver
 
         boolean resolvedSomeVar = false;
 
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         int pos = 0;
         do
         {

@@ -195,7 +195,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         if ((nodeCacheOwner == null) || nodeCacheOwner.isEmpty())
             return;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         NodeCacheRegistryImpl nodeCacheObserver = clientAttached.getNodeCache(); // DEBE existir
         if (!nodeCacheObserver.isEmpty()) throw new ItsNatException("INTERNAL ERROR"); // Debe estar "virgen" no sea que hayamos ya antes cacheado nodos en el observador y estaríamos cacheando dos veces aunque sea con el mismo id lo cual no está permitido, provocamos error antes.
         ArrayList cacheCopy = nodeCacheOwner.getOrderedByHeight();

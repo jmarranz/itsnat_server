@@ -110,7 +110,7 @@ public class ChildSVGBatikAutoBindingDocument implements EventListener
         inputRadio.setAttribute("value",circle.getAttribute("r"));
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var parentDoc = window.top.document;"); // window.top or window.parent are valid
         code.append("parentDoc.getItsNatDoc().fireUserEvent(null,'update');");
         itsNatDoc.addCodeToSend(code.toString());

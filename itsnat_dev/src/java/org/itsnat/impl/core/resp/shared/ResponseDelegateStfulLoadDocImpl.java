@@ -68,7 +68,7 @@ import org.w3c.dom.views.DocumentView;
 public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateStfulImpl
 {
     protected static final String scriptLoadTimeStamp = Long.toString(System.currentTimeMillis());
-    protected StringBuffer fixDOMCode; // Código JavaScript que se ejecutará al comienzo de todo con la finalidad de arreglar el árbol DOM cliente antes de que se accedan a los nodos. NO debería accederse a los nodos usando paths ItsNat o accediendo a la cache
+    protected StringBuilder fixDOMCode; // Código JavaScript que se ejecutará al comienzo de todo con la finalidad de arreglar el árbol DOM cliente antes de que se accedan a los nodos. NO debería accederse a los nodos usando paths ItsNat o accediendo a la cache
     protected ResponseDelegStfulLoadDocByBrowserImpl delegByBrowser;
     protected LinkedList scriptFilesToLoad;
     
@@ -113,9 +113,9 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         return (fixDOMCode != null);
     }
 
-    public StringBuffer getFixDOMCodeToSend()
+    public StringBuilder getFixDOMCodeToSend()
     {
-        if (fixDOMCode == null) this.fixDOMCode = new StringBuffer();
+        if (fixDOMCode == null) this.fixDOMCode = new StringBuilder();
         return fixDOMCode;
     }
 
@@ -283,7 +283,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
         Document doc = itsNatDoc.getDocument();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         Element elem = doc.getDocumentElement();
         do
         {
@@ -296,10 +296,10 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         return code.toString();
     }
 
-    protected abstract void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code);
+    protected abstract void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code);
 
 
-    protected boolean rewriteClientHTMLUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected boolean rewriteClientHTMLUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // Actualizamos la propiedad "value" en todos los tipos de control que lo utilizan
         // cuando revertJSChanges = true, porque en caso de revertir el autofill de formularios por parte del browser
@@ -372,15 +372,15 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         return true;
     }
 
-    protected abstract void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuffer code);
+    protected abstract void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code);
 
-    protected void processUIControlProperty(Element elem,String attrName,StringBuffer code,ClientDocumentStfulImpl clientDoc)
+    protected void processUIControlProperty(Element elem,String attrName,StringBuilder code,ClientDocumentStfulImpl clientDoc)
     {
         code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
         code.append( JSRenderPropertyImpl.renderUIControlProperty(elem,"elem",attrName,clientDoc) );
     }
 
-    protected void processUIControlProperty(Element elem,String elemVarName,String attrName,StringBuffer code,ClientDocumentStfulImpl clientDoc)
+    protected void processUIControlProperty(Element elem,String elemVarName,String attrName,StringBuilder code,ClientDocumentStfulImpl clientDoc)
     {
         code.append( JSRenderPropertyImpl.renderUIControlProperty(elem,elemVarName,attrName,clientDoc) );
     }
@@ -404,7 +404,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected String generateFinalScriptsMarkup()
     {
-        StringBuffer scriptsMarkup = new StringBuffer();
+        StringBuilder scriptsMarkup = new StringBuilder();
 
         LinkedList list = new LinkedList();
         list.add(LoadScriptImpl.ITSNAT);
@@ -414,7 +414,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         if (hasScriptFilesToLoad())
             list.addAll(getScriptFilesToLoad());
 
-        StringBuffer fileNameList = new StringBuffer();
+        StringBuilder fileNameList = new StringBuilder();
         int i = 0;
         for(Iterator it = list.iterator(); it.hasNext(); i++)
         {
@@ -459,7 +459,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected void loadFrameworkScriptElementWithURL(Element scriptElem,String jsFileNameList)
     {
-        StringBuffer jsPathFile = new StringBuffer();
+        StringBuilder jsPathFile = new StringBuilder();
         String servletPath = getServletPath();
         jsPathFile.append(servletPath + "?itsnat_action=load_script&itsnat_file=" + jsFileNameList + "&");
         jsPathFile.append("time=" + scriptLoadTimeStamp); // Evita el problema de la caché del MSIE que no actualiza el archivo .js ante cambios del mismo salvo haciendo "reload/actualizar", así se genera un URL único al cargar la aplicación, por otra parte el número no cambia durante la vida de la aplicación por lo que el archivo es cacheado por MSIE, si se cambia el .js deberá pararse/recargarse la aplicación web lo cual sólo es necesario en tiempo de desarrollo de ItsNat, al recargarse esta clase el scriptLoadTimeStamp se actualiza
@@ -527,7 +527,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         // se realizan en el constructor de RhinoInterpreter.java
         // evitando variables globales minimizamos el problema
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         Browser browser = getClientDocumentStful().getBrowser();
         boolean enclosing = browser.isFunctionEnclosingByBracketSupported();
@@ -553,7 +553,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
             clientDoc.setScriptLoadCode(code.toString());
 
-            StringBuffer url = new StringBuffer();
+            StringBuilder url = new StringBuilder();
             url.append(getServletPath());
             url.append("?itsnat_action=load_script&itsnat_file=initial");
             url.append("&itsnat_client_id=" + clientDoc.getId());
@@ -565,7 +565,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected String getInitScriptContentCode(final int prevScriptsToRemove)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // Llamamos antes de llamar a getInitDocumentAndLoadJSCode pues es la última oportunidad de enviar código "FixDOM" antes de iniciar el documento ItsNat
         code.append( getPreInitDocumentJSCode() );
@@ -577,7 +577,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected String getPreInitDocumentJSCode()
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         if (hasFixDOMCodeToSend())
             code.append( getFixDOMCodeToSend() );
@@ -591,7 +591,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     protected String getInitDocumentAndLoadJSCode(final int prevScriptsToRemove)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( getInitJSDocumentCode(prevScriptsToRemove) );
 
@@ -615,7 +615,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         String servletPath = delegByBrowser.getServletPathForEvents();
 
         int errorMode = itsNatDoc.getClientErrorMode();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String attachType = null;
         if (clientDoc instanceof ClientDocumentAttachedClientImpl)
@@ -680,7 +680,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     public static String loadScriptList(String scriptNameList)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String[] scriptNameArray = scriptNameList.split(",");
         for(int i = 0; i < scriptNameArray.length; i++)
         {
@@ -690,7 +690,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         return code.toString();
     }
 
-    public static void loadScript(String scriptName,StringBuffer code)
+    public static void loadScript(String scriptName,StringBuilder code)
     {
         LoadScriptImpl.checkFileName(scriptName);
         try

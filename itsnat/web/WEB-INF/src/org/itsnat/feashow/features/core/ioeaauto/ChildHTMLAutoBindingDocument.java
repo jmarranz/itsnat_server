@@ -90,7 +90,7 @@ public class ChildHTMLAutoBindingDocument implements EventListener
         contElem.appendChild(buttonInParent);
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("if (window.parent == window) alert('NOT SUPPORTED');"); 
         code.append("else window.parent.document.getItsNatDoc().fireUserEvent(null,'update');");
         itsNatDoc.addCodeToSend(code.toString());

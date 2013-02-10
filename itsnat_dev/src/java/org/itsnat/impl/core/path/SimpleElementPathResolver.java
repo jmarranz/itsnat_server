@@ -40,7 +40,7 @@ public class SimpleElementPathResolver
     {
         String method = getMethodNameGetElementFromPath();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "var func = function(path)" );
         code.append( "{" );
         code.append( "  var node = this;" );  // this es "document"
@@ -84,7 +84,7 @@ public class SimpleElementPathResolver
         // reconstruimos el objeto función a partir del código fuente el cual no
         // tiene problema de "perderse".
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String method = getMethodNameGetElementFromPath();
         if (!clientDoc.isClientMethodBounded(method))
@@ -178,7 +178,7 @@ public class SimpleElementPathResolver
     public static String getPathFromElementJS(Element elem)
     {
         int[] path = getPathFromElement(elem);
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("[");
         for(int i = 0; i < path.length; i++)
         {

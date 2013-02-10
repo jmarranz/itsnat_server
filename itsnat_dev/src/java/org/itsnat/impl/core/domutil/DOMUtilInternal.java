@@ -104,7 +104,7 @@ public class DOMUtilInternal
             // por ejemplo a un <textarea>
             if (textNode == elem.getLastChild()) // Sólo hay uno
                 return res;
-            StringBuffer resBuff = new StringBuffer();
+            StringBuilder resBuff = new StringBuilder();
             resBuff.append(res);
             textNode = (Text)textNode.getNextSibling();
             while(textNode != null)

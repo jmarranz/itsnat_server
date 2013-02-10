@@ -33,7 +33,7 @@ public class JavaToJavaScriptGenTreeNode extends FeatureTreeNode
 
         if (itsNatDoc.isLoading())
         {
-            StringBuffer msg = new StringBuffer();
+            StringBuilder msg = new StringBuilder();
             msg.append("alert(\"This example (Java to JavaScript Generation) do not work in load time, ");
             msg.append("the value attribute do not change a textarea on load time, ");
             msg.append("click on any tab and return here\");");

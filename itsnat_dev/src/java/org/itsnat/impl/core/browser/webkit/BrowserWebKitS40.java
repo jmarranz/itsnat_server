@@ -20,7 +20,9 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
-     S40WebKit (simulador S40 6th Edition SDK v0.9, la primera versión)
+ *   S40WebKit desde S40 6th Edition
+ * 
+     User agent (simulador S40 6th Edition SDK v0.9, la primera versión)
         Mozilla/5.0 ( Nokia6600s/2.0 (04.08) Profile/MIDP-2.1 Configuration/CLDC-1.1) AppleWebKit/420+ (KHTML, like Gecko) Safari/420+
 
         Nota: la "s" es de "slide" por el modelo Nokia 6600 slide: http://europe.nokia.com/A41005068

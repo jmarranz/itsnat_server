@@ -39,7 +39,7 @@ public class RewriteClientUIControlPropsOperaLoadListenerImpl implements EventLi
 
     public void handleEvent(Event evt)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // Registramos antes de que se ejecute el auto-complete
         // Filtramos los eventos change generados por el navegador por el autocomplete

@@ -39,7 +39,7 @@ public abstract class JSRenderHTMLElementSVGPluginImpl extends JSRenderHTMLEleme
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulImpl clientDoc)
     {
         // Redefinimos setInnerHTML antes de que sea usada (también indirectamente al llamar a setInnerHTML2)
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         final String methodName = "setInnerHTML";
         if (!clientDoc.isClientMethodBounded(methodName))

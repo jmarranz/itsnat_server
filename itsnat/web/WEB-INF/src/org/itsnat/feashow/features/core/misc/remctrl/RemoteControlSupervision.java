@@ -89,7 +89,7 @@ public class RemoteControlSupervision implements ItsNatAttachedClientEventListen
                     {
                         ItsNatDocument itsNatDoc = event.getItsNatDocument();
                         final ClientDocument clientOwner = itsNatDoc.getClientDocumentOwner();
-                        StringBuffer note = new StringBuffer();
+                        StringBuilder note = new StringBuilder();
                         note.append("alert(\"Dear user, you have accepted that another user can modify the document in server ");
                         note.append("in the same way you can. To help you almost instantaneously see ");
                         note.append("what the other user is doing, a timer has been added to update your page ");

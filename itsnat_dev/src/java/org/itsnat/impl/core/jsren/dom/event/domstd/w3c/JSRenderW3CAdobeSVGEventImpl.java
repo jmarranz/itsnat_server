@@ -71,7 +71,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
 
     public String getInitEventSystem(ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( super.getInitEventSystem(clientDoc) ); // Por si acaso
 
@@ -102,7 +102,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
         // Como el evento es creado manualmente, el type está ya definido
         // pero no bubble ni cancelabe. Para que sea compatible con la v6
         // que no admite escritura, añadimos try/catch
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "if (!asv6)" );
         code.append( "{\n" );
         code.append(   JSRenderManualDispatchImpl.getInitEvent(evt, evtVarName) );
@@ -113,7 +113,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
 
     public String getCallDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt,String evtVarName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var " + varResName + ";");
         code.append("if (asv6)");
@@ -130,7 +130,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
 
     public String getCallDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("if (asv6)");
         code.append("{");

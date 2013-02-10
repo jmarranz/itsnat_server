@@ -141,7 +141,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
     {
         // Consideramos que puede haber comentarios (raro)
         // o bien varios nodos de texto seguidos
-        StringBuffer text = new StringBuffer();
+        StringBuilder text = new StringBuilder();
         Node child = getFirstChild();
         while ( child != null )
         {

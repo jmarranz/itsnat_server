@@ -45,7 +45,7 @@ public class NodePropertyTransportUtil extends SingleParamTransportUtil
     public String getCodeToSend(ParamTransport param)
     {
         NodePropertyTransport item = (NodePropertyTransport)param;
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("    var value = event.getCurrentTarget()." + item.getName() + ";\n " );
         code.append("    if (value != null) event.setExtraParam(\"" + item.getName() + "\",value);\n" );
         return code.toString();

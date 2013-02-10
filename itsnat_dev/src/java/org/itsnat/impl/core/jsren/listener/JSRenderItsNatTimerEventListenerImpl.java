@@ -38,7 +38,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
 
     private String addItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         long delay = itsNatListener.getDelayFirstTime();
 
@@ -61,7 +61,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
     {
         String listenerId = itsNatListener.getId();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
         code.append( "itsNatDoc.removeTimerEventListener(\"" + listenerId + "\");\n" );
@@ -73,7 +73,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
     {
         String listenerId = itsNatListener.getId();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
         code.append( "itsNatDoc.updateTimerEventListener(\"" + listenerId + "\"," + computedPeriod + ");\n" );

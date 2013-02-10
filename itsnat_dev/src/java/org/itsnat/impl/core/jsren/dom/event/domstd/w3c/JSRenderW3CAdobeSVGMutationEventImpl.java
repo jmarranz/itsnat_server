@@ -39,7 +39,7 @@ public class JSRenderW3CAdobeSVGMutationEventImpl extends JSRenderW3CAdobeSVGEve
     {
         MutationEvent mutEvt = (MutationEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( super.getInitEvent(evt,evtVarName,clientDoc) );
 
         code.append( evtVarName + ".relatedNode = " + clientDoc.getNodeReference(mutEvt.getRelatedNode(),true,false) + ";\n" );  // No estoy seguro si el relatedNode puede ser null pero evitamos lanzar error en ese caso (la opción más prudente)

@@ -37,7 +37,7 @@ import org.itsnat.impl.core.template.MarkupTemplateImpl;
 public abstract class ClientDocumentAttachedServerImpl extends ClientDocumentNoServerDocImpl
 {
     protected transient ItsNatStfulDocumentTemplateAttachedServerImpl docTemplate;
-    protected StringBuffer clientMarkup = new StringBuffer();
+    protected StringBuilder clientMarkup = new StringBuilder();
 
     public ClientDocumentAttachedServerImpl(ItsNatSessionImpl session,
                 ItsNatStfulDocumentTemplateAttachedServerImpl docTemplate)

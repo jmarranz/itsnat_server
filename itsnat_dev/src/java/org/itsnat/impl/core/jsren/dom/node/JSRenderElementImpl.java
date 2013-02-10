@@ -72,7 +72,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulImpl clientDoc)
     {
         Element elem = (Element)node;
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         NamedNodeMap attribList = elem.getAttributes();
         for(int i = 0; i < attribList.getLength(); i++)
         {
@@ -168,7 +168,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     {
         // Se supone que hay nodos hijo (si no no llamar).
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        StringBuffer childrenCode = new StringBuffer();
+        StringBuilder childrenCode = new StringBuilder();
 
         if (parentNode.hasChildNodes())
         {
@@ -282,7 +282,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
         // Nota: Opera Mobile 9.5 SVG ignora la propiedad "dispose" (sin error), solucionado en 9.7
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName,newValue)" );
         code.append( "{" );
@@ -308,7 +308,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String bindBackupAndSetStylePropertyMethod(ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getBackupAndSetStylePropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -319,7 +319,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String getBackupAndSetStyleProperty(String elemVarName,String propName,String newValue,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getBackupAndSetStylePropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -331,7 +331,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     protected String bindRestoreBackupStylePropertyMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName)" );
         code.append( "{" );
@@ -357,7 +357,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String bindRestoreBackupStylePropertyMethod(ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getRestoreBackupPropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -368,7 +368,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String getRestoreBackupStyleProperty(String elemVarName,String propName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getRestoreBackupPropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -408,7 +408,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
             // newNodeCode debe ser la variable del nuevo <script>
 
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( super.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode,clientDoc) );
 
             // Lo anterior no sirve, no se ha ejecutado, lo ejecutamos "manualmente"
@@ -431,7 +431,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             // de texto hijo entonces necesariamente newNodeCode es una variable JavaScript
             // pues dicha variable se necesita para insertar después de este método
             // los nodos hijos
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( super.getInsertCompleteNodeCode(newNode, newNodeCode,clientDoc) );
 
             // Lo anterior no sirve, no se ha ejecutado, lo ejecutamos "manualmente"

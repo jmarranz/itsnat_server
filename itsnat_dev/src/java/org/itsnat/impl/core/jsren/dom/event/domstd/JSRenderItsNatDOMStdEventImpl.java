@@ -63,7 +63,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
     {
         EventInternal evtInt = (EventInternal)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (evtInt.getStopPropagation())
             code.append(getStopPropagation(evtVarName,clientDoc));
 
@@ -88,7 +88,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
         // aunque se ejecutarán los handlers, es mejor usar el método
         // click() que funciona exactamente igual que un click de ratón.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( getInitEventSystem(clientDoc) );
 
@@ -103,7 +103,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
 
     public String getDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( getCreateEventCode(evt,"evt",nodeLoc.getClientDocumentStful()) );
 
@@ -114,7 +114,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
 
     public String getDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( getCreateEventCode(evt,evtVarName,clientDoc) );
 

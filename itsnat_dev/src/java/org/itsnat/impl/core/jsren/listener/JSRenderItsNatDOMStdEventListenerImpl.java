@@ -79,7 +79,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String functionVarName = addCustomCodeFunction(itsNatListener,code);
 
@@ -94,7 +94,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
 
     protected String removeItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String listenerId = itsNatListener.getId();
         if (needsRemoveListenerReturnElement())
             code.append( "var elem = ");

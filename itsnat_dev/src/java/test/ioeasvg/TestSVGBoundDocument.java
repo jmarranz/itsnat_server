@@ -112,7 +112,7 @@ public class TestSVGBoundDocument implements EventListener,Serializable
         inputRadio.setAttribute("value",circle.getAttribute("r"));
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var parentDoc;");
         /* Este código era al parecer sólo útil para Renesis SVG player
         code.append("if (window.top.frameElement)"); 

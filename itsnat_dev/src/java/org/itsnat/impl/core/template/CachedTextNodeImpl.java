@@ -78,7 +78,7 @@ public class CachedTextNodeImpl extends CachedSubtreeImpl
     {
         if (resolveEntities && (entities != null))
         {
-            StringBuffer dom = new StringBuffer();
+            StringBuilder dom = new StringBuilder();
             int prevPosMarkup = 0;
             int posMarkup = 0;
             for(Iterator it = entities.iterator(); it.hasNext(); )

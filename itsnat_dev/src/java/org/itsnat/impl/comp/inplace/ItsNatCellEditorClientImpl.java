@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
 import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitIPhone;
+import org.itsnat.impl.core.browser.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
@@ -101,7 +101,7 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.addCodeToSend("var nodeEditor = " + clientDoc.getNodeReference(nodeEditor,true,true) + ";\n");
 
-        StringBuffer codeListener = new StringBuffer();
+        StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
         codeListener.append( "try{" );
         codeListener.append( "var node = arguments.callee.nodeEditor;\n" );
@@ -120,7 +120,7 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
 
-        if (browser instanceof BrowserWebKitIPhone)
+        if (browser instanceof BrowserWebKitIOS)
         {
             // En iPhone los eventos de ratón no llegan al document, <body> o <html>
             // si el elemento pulsado "no es clickable" es decir si no tiene un listener
@@ -151,7 +151,7 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.removeEventListener((EventTarget)doc,"click", parent, true);
 
-        if (browser instanceof BrowserWebKitIPhone)
+        if (browser instanceof BrowserWebKitIOS)
             clientDoc.removeEventListener((EventTarget)doc,"touchend", parent, true);
     }
 }

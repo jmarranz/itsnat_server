@@ -61,7 +61,7 @@ public class RemoteControlUserRequestEventListener implements EventListener
 
         String readWriteStr = readOnly ? "Read Only" : "FULL CONTROL!!";
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var itsNatDoc = document.getItsNatDoc();");
         code.append("var evt = itsNatDoc.createUserEvent('rem_ctrl_request');");
         code.append("var res = confirm('A Remote User Wants To Monitor (" + readWriteStr + ") Your Page. Accept?');");

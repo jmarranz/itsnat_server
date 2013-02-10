@@ -17,16 +17,18 @@
 package org.itsnat.impl.core.browser.webkit;
 
 import java.util.Map;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
 
-  Soportado desde el iPhone 2.0
-
+  Soportado desde el Safari del iOS 6.1
+ 
   User agents:
 
+   Mozilla/5.0 (iPad; CPU OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25  
+   Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25 
+  
     - User agents antiguos
 
         La que más se muestra en Google (la primera versión seguramente):
@@ -106,21 +108,21 @@ import org.w3c.dom.html.HTMLSelectElement;
 
  */
 
-public class BrowserWebKitIPhone extends BrowserWebKit
+public class BrowserWebKitIOS extends BrowserWebKit
 {
     protected int iPhoneMainVersion;
     protected int iPhoneSubVersion;
 
-    public BrowserWebKitIPhone(String userAgent)
+    public BrowserWebKitIOS(String userAgent)
     {
         super(userAgent,IPHONE);
 
-        // Versión del iPhone:
+        // Versión:
         // Formato: "iPhone OS V_v " o "iPhone OS V_v_v " (ej "iPhone OS 2_0 ")
         try
         {
-            int start = userAgent.indexOf("iPhone OS ");
-            start += "iPhone OS ".length();
+            int start = userAgent.indexOf(" OS ");
+            start += " OS ".length();
             int end = start;
             while(true)
             {
@@ -136,8 +138,8 @@ public class BrowserWebKitIPhone extends BrowserWebKit
         }
         catch(Exception ex) // Caso de user agent de formato desconocido
         {
-            this.iPhoneMainVersion = 1;
-            this.iPhoneSubVersion =  0;
+            this.iPhoneMainVersion = 6;
+            this.iPhoneSubVersion =  1;
         }
     }
 
@@ -184,22 +186,17 @@ public class BrowserWebKitIPhone extends BrowserWebKit
 
         // El iPhone 3.0 soluciona el problema 1) pero SIGUE EXISTIENDO el 2)
         // por lo que es aconsejable ignorar el change en este caso también
-
-        if ((iPhoneMainVersion > 2) ||
-            ((iPhoneMainVersion == 2)&&(iPhoneSubVersion >= 2))) // Desde 2.2
-            return DOMUtilHTML.isHTMLSelectMultiple(elem);
-        else
-            return false; // iPhone 2.0 y 2.1 (no lanzan el change)
+        
+        // En iPhone iOS 6.1 parece que esto ya no es problema
+        return false;
+//        return DOMUtilHTML.isHTMLSelectMultiple(elem); // Desde 2.2 (antes no se lanzaba el change)
     }
 
     public boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem)
     {
         // Hasta iPhone 2.0 y 2.1 no se lanza el change
-        if ((iPhoneMainVersion < 2) ||
-            ((iPhoneMainVersion == 2)&&(iPhoneSubVersion <= 1)))
-            return true;
-        else
-            return false; // Desde el iPhone 2.2 el problema es otro
+        // Desde el iPhone 2.2 el problema es otro
+        return false; 
     }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
@@ -245,8 +242,7 @@ public class BrowserWebKitIPhone extends BrowserWebKit
         // La 2.1 ya lo soporta aunque la versión del
         // WebKit no cambia 
 
-        return ((iPhoneMainVersion > 2) ||
-                ((iPhoneMainVersion == 2)&&(iPhoneSubVersion >= 1)));
+        return true;
     }
 
     public boolean isInsertedSVGScriptNotExecuted()
@@ -256,6 +252,6 @@ public class BrowserWebKitIPhone extends BrowserWebKit
         // WebKit no cambia (¿no fue incluído?)
         // Hasta la v3 la ejecución del <script> no se hace
 
-        return (iPhoneMainVersion < 3);
+        return false;
     }
 }

@@ -227,7 +227,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
     {
         addScriptFileToLoad(LoadScriptImpl.ITSNAT_FIX_OTHERNS_IN_HTML);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         Set tagNames = new HashSet();
         for(Iterator it = otherNSElemsInHTML.iterator(); it.hasNext(); )

@@ -101,7 +101,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
         }
 
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(int i = 0; i < reverseBodyElements.length; i++ )
         {
             Element elem = reverseBodyElements[i];
@@ -114,7 +114,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
         clientDoc.addCodeToSend(code.toString());
     }
 
-    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuffer code,JSRenderElementImpl render)
+    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuilder code,JSRenderElementImpl render)
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (hide)

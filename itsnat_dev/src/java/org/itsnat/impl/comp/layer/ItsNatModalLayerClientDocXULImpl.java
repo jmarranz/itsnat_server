@@ -36,7 +36,7 @@ public class ItsNatModalLayerClientDocXULImpl extends ItsNatModalLayerClientDocI
     {
         Element layerElem = parentComp.getElement(); // Debería usarse siempre un <panel>
         String ref = clientDoc.getNodeReference(layerElem,true,true);
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "var elem = " + ref + ";\n" );
         code.append( "if (elem.openPopupAtScreen) elem.openPopupAtScreen(0,0,false);\n" );
 
@@ -60,7 +60,7 @@ public class ItsNatModalLayerClientDocXULImpl extends ItsNatModalLayerClientDocI
     {
     }
 
-    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuffer code,JSRenderElementImpl render)
+    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuilder code,JSRenderElementImpl render)
     {
         if (NamespaceUtil.isXULElement(elem) &&
             "panel".equals(elem.getLocalName()))

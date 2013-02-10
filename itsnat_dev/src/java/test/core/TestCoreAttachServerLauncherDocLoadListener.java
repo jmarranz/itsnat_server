@@ -53,7 +53,7 @@ public class TestCoreAttachServerLauncherDocLoadListener implements ItsNatServle
         ItsNatDocumentTemplate template = itsNatDoc.getItsNatDocumentTemplate();
         String mime = template.getMIME();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("<script>");
 
         code.append("var doc_name = \"test_core_attached_server\";");

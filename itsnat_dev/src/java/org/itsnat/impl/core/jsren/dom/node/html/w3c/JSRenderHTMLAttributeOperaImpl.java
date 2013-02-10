@@ -58,7 +58,7 @@ public class JSRenderHTMLAttributeOperaImpl extends JSRenderHTMLAttributeW3CImpl
             // La solución es reinsertar el elemento el poner como display="none"
             // no funciona.
 
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
 
             code.append( super.removeAttributeWithProperty(attr,attrName,elem,elemVarName,prop,clientDoc) );
 
@@ -76,7 +76,7 @@ public class JSRenderHTMLAttributeOperaImpl extends JSRenderHTMLAttributeW3CImpl
 
     private static String bindFixHTMLSelectMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem)" );
         code.append( "{" );

@@ -177,7 +177,7 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         {
             if (url.startsWith("?"))
             {
-                StringBuffer path = new StringBuffer();
+                StringBuilder path = new StringBuilder();
                 path.append("http://localhost:8080/context/servlet");
                 path.append(url); // Añadimos la query y la posible parte ref (tras #)
 
@@ -229,7 +229,7 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         this.elemWrap = null; // Para que no pueda reutilizarse
     }
 
-    protected static java.net.URL buildAbsURLUntilQuery(String url,StringBuffer newURL)
+    protected static java.net.URL buildAbsURLUntilQuery(String url,StringBuilder newURL)
     {
         java.net.URL urlObj;
         try
@@ -265,11 +265,11 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         String url = urlOriginal;
         url = url.trim(); // Los navegadores son tolerantes a los espacios al ppio y al final
 
-        StringBuffer newURL = new StringBuffer();
+        StringBuilder newURL = new StringBuilder();
         java.net.URL urlObj;
         if (url.startsWith("?")) // URL relativa
         {
-            StringBuffer urlAbs = new StringBuffer();
+            StringBuilder urlAbs = new StringBuilder();
             urlAbs.append("http://localhost:8080/context/servlet");  // URL de patrón para poder manipular el resto de URL 
             urlAbs.append(url); // Añadimos la query y la posible parte ref (tras #)
 
@@ -340,7 +340,7 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
         String url = urlOriginal;
         url = url.trim(); // Los navegadores son tolerantes a los espacios al ppio y al final
 
-        StringBuffer newURL = new StringBuffer();
+        StringBuilder newURL = new StringBuilder();
         java.net.URL urlObj = null;
         if (url.startsWith("?"))
         {

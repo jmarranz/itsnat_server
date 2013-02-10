@@ -38,7 +38,7 @@ public class JSRenderW3CAdobeSVGMouseEventImpl extends JSRenderW3CAdobeSVGEventI
     {
         MouseEvent mouseEvt = (MouseEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( super.getInitEvent(evt,evtVarName,clientDoc) );
 
         code.append( evtVarName + ".view = " + getViewPath(mouseEvt.getView(),clientDoc) + ";\n" );

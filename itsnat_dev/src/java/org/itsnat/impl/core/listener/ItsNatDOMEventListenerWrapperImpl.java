@@ -134,7 +134,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
         if (extraParams == null)
             return null;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(int i = 0; i < extraParams.length; i++)
         {
             ParamTransport param = extraParams[i];

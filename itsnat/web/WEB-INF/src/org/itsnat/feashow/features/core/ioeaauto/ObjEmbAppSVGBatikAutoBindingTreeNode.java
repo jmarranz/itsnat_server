@@ -238,7 +238,7 @@ public class ObjEmbAppSVGBatikAutoBindingTreeNode extends FeatureTreeNode implem
 
             // Notify container child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(container);
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + ";");
             code.append("var childDoc = elem.getSVGDocument();");
             code.append("childDoc.getItsNatDoc().fireUserEvent(null,'update');");

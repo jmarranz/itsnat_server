@@ -61,7 +61,7 @@ public abstract class TestScriptInsertion implements EventListener,Serializable
         // No usamos window.itsNatTestScript para comprobar que el contexto
         // de ejecución del <script> es window pues así vemos si
         // una función declarada en el <script> será visible a nivel de window (globalmente).
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("if ((typeof window.itsNatTestScript != 'undefined') && window.itsNatTestScript) alert('ERROR: TestScriptInsertion, duplicated execution ' + window.itsNatTestScript);");
         code.append("itsNatTestScript = true; ");
         Node text;

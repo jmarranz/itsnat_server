@@ -53,7 +53,7 @@ public class JSRenderManualDispatchImpl
 
     public static String getInitEventSystem(ClientDocumentStfulImpl clientDoc,boolean useAttrInHandler)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName1 = getDispatchMethodName();
         if (!clientDoc.isClientMethodBounded(methodName1))
@@ -68,7 +68,7 @@ public class JSRenderManualDispatchImpl
 
     public static String getInitEvent(Event evt,String evtVarName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append(   evtVarName + ".itsnat_stopPropagation = false;\n" );
         code.append(   evtVarName + ".stopPropagation = function(){ this.itsnat_stopPropagation = true; };\n" );
         code.append(   evtVarName + ".itsnat_preventDefault = false;\n" );
@@ -114,7 +114,7 @@ public class JSRenderManualDispatchImpl
 
     private static String bindDispatchEventManualMethod(String methodName,boolean useAttrInHandler)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var func = function (node,evt,captureIds,atTargetIds,bubbleIds)\n");
         code.append("{\n");
@@ -163,7 +163,7 @@ public class JSRenderManualDispatchImpl
 
     private static String bindDispatchEventManualMethod2(String methodName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var func = function (idObj,evt,captureIds,atTargetIds,bubbleIds)\n");
         code.append("{\n");
@@ -180,7 +180,7 @@ public class JSRenderManualDispatchImpl
     private static String idListToString(LinkedList idList)
     {
         if (idList.isEmpty()) return "null";
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("[");
         for(Iterator it = idList.iterator(); it.hasNext(); )
         {

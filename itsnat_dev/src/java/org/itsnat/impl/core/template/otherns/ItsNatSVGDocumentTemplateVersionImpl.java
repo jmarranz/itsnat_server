@@ -152,7 +152,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
 
         if ((prefix == null)&&(defaultNS != null)) throw new ItsNatException("INTERNAL ERROR");
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (encoding != null) // Si no espeficica es que no es necesaria la cabecera xml (de hecho no la soporta ASV v6)
             code.append( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>" );
 // No funciona en MSIE y loadXML:  code.append( "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">" );

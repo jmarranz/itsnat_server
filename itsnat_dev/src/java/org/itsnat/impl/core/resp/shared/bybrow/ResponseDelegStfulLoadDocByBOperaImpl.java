@@ -54,7 +54,7 @@ public class ResponseDelegStfulLoadDocByBOperaImpl extends ResponseDelegStfulLoa
         // http://www.experts-exchange.com/Programming/Languages/Scripting/JavaScript/Q_21907326.html
         // En Opera Mini a día de hoy no sirve para nada (se acepta) pero por si acaso sirve en el futuro para eliminar el cacheado.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("window.opera.setOverrideHistoryNavigationMode(\"compatible\");\n");
         code.append("window.history.navigationMode = \"compatible\";\n");

@@ -75,13 +75,13 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             else backgroundProp = background;
         }
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String elemLayerRef = clientDoc.getNodeReference(layerElem,true,true);
         code.append( "var elem = " + elemLayerRef + ";\n" );
 
 
         {
-            StringBuffer styleCode = new StringBuffer();
+            StringBuilder styleCode = new StringBuilder();
             styleCode.append( "position:absolute; top:0px; left:0px; width:1px; height:1px; margin:0px; padding:0px; border:0px; " ); // border:1px red solid; para testear
             styleCode.append( "z-index:" + zIndex + "; " );
             if (browser.hasHTMLCSSOpacity()) // Evitamos poner la opacidad si no se soporta, por ej. en Opera Mobile 9.7 beta hay un bug que hace que se oculte el nodo si opacity < 1
@@ -155,7 +155,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
 
         Browser browser = clientDoc.getBrowser();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function (elem)\n");
         code.append("{\n");
         code.append("  var listener = function ()\n");

@@ -65,7 +65,7 @@ public class JSRenderMethodCallHTMLImpl extends JSRenderMethodCallImpl
         evt.setTarget((EventTarget)elem);
 
         JSRenderEventImpl render = JSRenderEventImpl.getJSEventRender(evt, clientDoc.getBrowser());
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( render.getDispatchEvent(elemRef, evt, "evtTmp", clientDoc) );
         code.append("evtTmp = null;"); // El null es para que quede claro que ya no se usa
 

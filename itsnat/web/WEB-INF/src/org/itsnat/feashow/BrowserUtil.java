@@ -34,7 +34,6 @@ public class BrowserUtil
                (userAgent.indexOf("S60") != -1) || // Opera Mobile
                (userAgent.indexOf("Symbian") != -1) ||  // Opera Mobile 9.5 & S60WebKit
                (userAgent.indexOf("Nokia6600s") != -1) || // S40WebKit
-               (userAgent.indexOf("Aspen Simulator") != -1) ||
                (userAgent.indexOf("iPod") != -1) ||
                (userAgent.indexOf("iPhone") != -1) ||
                (userAgent.indexOf("iPad") != -1) ||                

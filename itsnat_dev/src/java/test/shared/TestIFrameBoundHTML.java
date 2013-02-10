@@ -150,7 +150,7 @@ public class TestIFrameBoundHTML implements EventListener,Serializable
 
             // Notify child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(iframe);
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + ";");
             code.append("var doc = elem.contentDocument ? elem.contentDocument : elem.contentWindow.document;"); // contentWindow in MSIE
             code.append("doc.getItsNatDoc().fireUserEvent(null,'update');");

@@ -44,7 +44,7 @@ public abstract class JSRenderOtherNSElementW3CSVGPluginImpl extends JSRenderOth
         // pues el style no es un ScriptableObject, es el CSSStyleDeclaration nativo, en ASV es opcional,
         // una cadena vacía vale.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName,newValue)" );
         code.append( "{" );
@@ -65,7 +65,7 @@ public abstract class JSRenderOtherNSElementW3CSVGPluginImpl extends JSRenderOth
 
     protected String bindRestoreBackupStylePropertyMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName)" );
         code.append( "{" );

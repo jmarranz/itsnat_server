@@ -146,13 +146,13 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
         // => document.namespaces : http://msdn.microsoft.com/en-us/library/ms537470%28VS.85%29.aspx
         // => namespace object : http://msdn.microsoft.com/en-us/library/ms535854%28VS.85%29.aspx
 
-        StringBuffer code = fixTreeNamespaces(node,null);
+        StringBuilder code = fixTreeNamespaces(node,null);
 
         if ((code != null) && (code.length() > 0))
             clientDoc.addCodeToSend(code.toString());
     }
 
-    private StringBuffer fixTreeNamespaces(Node node,StringBuffer code)
+    private StringBuilder fixTreeNamespaces(Node node,StringBuilder code)
     {
         if (node.getNodeType() != Node.ELEMENT_NODE) return code;
 
@@ -181,7 +181,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
                     // Si el namespace ya estuviera definido lo actualiza con el nuevo URL (no hay duplicidad)
                     // esto hace que este método no sirva para casos en donde se utiliza el mismo prefijo para varios
                     // URLs diferentes.
-                    if (code == null) code = new StringBuffer();
+                    if (code == null) code = new StringBuilder();
                     code.append("itsNatDoc.doc.namespaces.add(\"" + localName + "\",\"" + value + "\");\n");
                 }
             }
@@ -199,7 +199,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
 
     private void fixTreeInsertedSVGNodeInAdobeSVGInline(Node node)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "fixSVGNodeInsertedAdobeSVG";
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -242,7 +242,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
         // a que nodos elemento hijos). De esta forma evitaremos indirectamente los nodos
         // con espacios etc que esos sí que estarán mezclados con elementos.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function(node)\n");
         code.append("{\n");
         code.append("  if (node == null) return;"); // Posible caso de nodo texto con cadena nula (en el servidor puede existir en el cliente puede que no)
@@ -301,7 +301,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
     {
         // Si el nodo a eliminar está dentro del SVG necesitamos remover los peer también
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "fixSVGNodeRemovedAdobeSVG";
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -316,7 +316,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
 
     private String bindFixSVGNodeRemovedAdobeSVGMethod(String methodName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function(node)\n");
         code.append("{\n");
         code.append("  if (node == null) return;"); // Posible caso de nodo texto con cadena nula (en el servidor puede existir en el cliente puede que no)
@@ -369,7 +369,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
             // No hay más casos
         }
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "fixSVGNodeAttrAdobeSVG";
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -384,7 +384,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
 
     private String bindFixSVGNodeAttrAdobeSVGMethod(String methodName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function(node,name,value,action)\n");
         code.append("{\n");
         code.append("  var nodePeer = node._svg_peer;");
@@ -404,7 +404,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
         JSRenderHTMLTextMSIEOldImpl render = JSRenderHTMLTextMSIEOldImpl.SINGLETON;
         String dataJS = render.dataTextToJS(node, clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "fixSVGNodeTextModAdobeSVG";
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -419,7 +419,7 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
 
     private String bindFixSVGNodeTextModifiedAdobeSVGMethod(String methodName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function(node,data)\n");
         code.append("{\n");
         code.append("  if (node == null) return;"); // Posible caso de nodo texto con cadena nula (en el servidor puede existir en el cliente puede que no)

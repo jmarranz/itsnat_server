@@ -104,7 +104,7 @@ public class TestSVGInXHTMLDocument implements EventListener,ListSelectionListen
    </P:Parent>
 */
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         ScriptUtil util = itsNatDoc.getScriptUtil();
 
         code.append( "try{" );

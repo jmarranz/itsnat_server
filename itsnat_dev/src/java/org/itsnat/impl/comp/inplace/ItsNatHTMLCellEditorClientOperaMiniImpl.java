@@ -44,7 +44,7 @@ public class ItsNatHTMLCellEditorClientOperaMiniImpl extends ItsNatCellEditorCli
         // podríamos usar un event listener global a nivel de documento en el servidor para quitar
         // el editor antes de procesar el evento.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String method = "operaMiniInitInplaceEditor";
         if (!clientDoc.isClientMethodBounded(method))
         {

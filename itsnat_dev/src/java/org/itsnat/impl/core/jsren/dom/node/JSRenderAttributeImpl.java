@@ -204,7 +204,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
 
     protected String removeAttributeWithProperty(Attr attr,String attrName,Element elem,PropertyImpl prop,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
         code.append( removeAttributeWithProperty(attr,attrName,elem,"elem",prop,clientDoc) );
         return code.toString();
@@ -212,7 +212,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
 
     protected String removeAttributeWithProperty(Attr attr,String attrName,Element elem,String elemVarName,PropertyImpl prop,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         JSRenderPropertyImpl render = prop.getJSRenderProperty();
         code.append( render.renderRemoveProperty(prop,elem,elemVarName,clientDoc) );
 
@@ -228,7 +228,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
 
     protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,PropertyImpl prop,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
         code.append( setAttributeWithProperty(attr,attrName,jsValue,elem,"elem",newElem,prop,clientDoc) );
         return code.toString();
@@ -238,7 +238,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     {
         if (isRenderAttributeAlongsideProperty(attrName,elem))
         {
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( "var value = " + jsValue + ";\n" );
             code.append( setAttributeAndProperty(attr,attrName,"value",elem,elemVarName,newElem,prop,clientDoc) );
             return code.toString();
@@ -251,7 +251,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
 
     protected String setAttributeAndProperty(Attr attr,String attrName,String valueJS,Element elem,String elemVarName,boolean newElem,PropertyImpl prop,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( setAttributeOnlyCode(attr,attrName,valueJS,new NodeJSRefImpl(elemVarName,clientDoc),newElem) );
         code.append( renderSetProperty(attr,valueJS,elem,elemVarName,prop,clientDoc) );

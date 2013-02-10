@@ -28,30 +28,30 @@ import java.util.ListIterator;
 public class SourceCode implements Serializable
 {
     protected LinkedList tokens;
-    protected StringBuffer code;
+    protected StringBuilder code;
 
     /** Creates a new instance of SourceCode */
     public SourceCode(String code)
     {
         this.tokens = Token.parse(code);
-        this.code = new StringBuffer(code);
+        this.code = new StringBuilder(code);
     }
 
     public SourceCode()
     {
         this.tokens = new LinkedList();
-        this.code = new StringBuffer();
+        this.code = new StringBuilder();
     }
 
     public SourceCode(LinkedList tokens)
     {
         this.tokens = tokens;
-        this.code = new StringBuffer(toStringTokens(tokens));
+        this.code = new StringBuilder(toStringTokens(tokens));
     }
 
     public SourceCode(String code,LinkedList tokens)
     {
-        this.code = new StringBuffer(code);
+        this.code = new StringBuilder(code);
         this.tokens = tokens;
         // Se supone que code se corresponde con los tokens
     }
@@ -103,7 +103,7 @@ public class SourceCode implements Serializable
 
     public static String toStringTokens(LinkedList tokens)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(Iterator it = tokens.iterator(); it.hasNext(); )
         {
             Token token = (Token)it.next();

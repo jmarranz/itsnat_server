@@ -98,7 +98,7 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
                     // se elimina del DOM pero no se actualiza visualmente
                     // sin embargo he descubierto que simplemente reinsertando
                     // el nodo padre se actualiza.
-                    StringBuffer code = new StringBuffer();
+                    StringBuilder code = new StringBuilder();
 
                     Node parentNode = removedNode.getParentNode(); // Será un elemento
                     String jsRef = clientDoc.getNodeReference(parentNode,true,true);
@@ -131,20 +131,20 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
         // por eso antes de hacer el borrado normal del nodo padre buscamos
         // nodos hijos SVG de SVGWeb para eliminarlos antes liberando recursos.
 
-        StringBuffer code = fixTreeRemovedSVGRootSVGWeb(node,null);
+        StringBuilder code = fixTreeRemovedSVGRootSVGWeb(node,null);
 
         if ((code != null) && (code.length() > 0))
             clientDoc.addCodeToSend(code.toString());
     }
 
-    protected StringBuffer fixTreeRemovedSVGRootSVGWeb(Node node,StringBuffer code)
+    protected StringBuilder fixTreeRemovedSVGRootSVGWeb(Node node,StringBuilder code)
     {
         if (node.getNodeType() != Node.ELEMENT_NODE) return code;
 
         Element elem = (Element)node;
         if (SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash(elem,clientDoc))
         {
-            if (code == null) code = new StringBuffer();
+            if (code == null) code = new StringBuilder();
 
             String jsRef = clientDoc.getNodeReference(elem,false,true); // No cacheamos pues lo vamos a eliminar
             code.append("var elem = " + jsRef + ";\n");

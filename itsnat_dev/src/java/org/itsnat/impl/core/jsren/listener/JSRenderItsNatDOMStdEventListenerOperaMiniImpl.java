@@ -53,7 +53,7 @@ public class JSRenderItsNatDOMStdEventListenerOperaMiniImpl extends JSRenderItsN
         if (itsNatListener.getCurrentTarget() instanceof Element)
         {
             String attrName = "\"on" + itsNatListener.getType() + "\"";
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( super.addItsNatDOMStdEventListenerCode(itsNatListener,clientDoc) );
             code.append( "if (!elem.hasAttribute(" + attrName + ")) elem.setAttribute(" + attrName + ",\"\");\n" );
             return code.toString();

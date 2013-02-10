@@ -265,7 +265,7 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         //    el cambio del atributo/propiedad src no es suficiente,
         //    ASV define setSrc(url) y Ssrc Navigate.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String refJS = clientDoc.getNodeReference(elem, true, true);
 

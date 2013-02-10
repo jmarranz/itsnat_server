@@ -89,7 +89,7 @@ public class CSSValueListImpl extends CSSValueImpl implements CSSValueList
     public void notifyToElementChangedCSSText(SourceCode cssText, Object requester)
     {
         // Basta que haya cambiado uno para regenerar la cadena con todos los elementos
-        StringBuffer parentCssText = new StringBuffer();
+        StringBuilder parentCssText = new StringBuilder();
         for(int i = 0; i < values.size(); i++)
         {
             if (i != 0) parentCssText.append(" ");

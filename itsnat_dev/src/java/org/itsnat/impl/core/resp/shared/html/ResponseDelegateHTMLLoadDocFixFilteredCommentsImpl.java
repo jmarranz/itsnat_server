@@ -238,7 +238,7 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
         ItsNatHTMLDocumentImpl itsNatDoc = responseParent.getItsNatHTMLDocument();
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // Metemos una función para evitar dejar variables globales
         code.append("var func = function()\n");

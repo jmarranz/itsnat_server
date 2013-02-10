@@ -224,7 +224,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
 
             // Notify container child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(container);
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + ";");
             code.append("var url = elem.LocationURL;");
             code.append("if (url)"); // MSIE + Ssrc

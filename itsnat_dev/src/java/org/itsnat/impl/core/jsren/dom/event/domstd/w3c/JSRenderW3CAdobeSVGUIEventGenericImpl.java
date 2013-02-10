@@ -40,7 +40,7 @@ public class JSRenderW3CAdobeSVGUIEventGenericImpl extends JSRenderW3CAdobeSVGEv
         // Leer notas del render del MouseEvent
         UIEvent uiEvt = (UIEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( super.getInitEvent(evt,evtVarName,clientDoc) );
 
         code.append( evtVarName + ".view = " + getViewPath(uiEvt.getView(),clientDoc) + ";\n" );

@@ -111,7 +111,7 @@ public class ChildSVGASVAutoBindingDocument implements EventListener,Serializabl
         inputRadio.setAttribute("value",circle.getAttribute("r"));
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var parentDoc;");
         /* code.append("if (window.top.frameElement)"); // Renesis
         code.append("  parentDoc = window.top.frameElement.document;");

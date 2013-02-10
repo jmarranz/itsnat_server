@@ -148,7 +148,7 @@ public class CodeToSendRegistryImpl implements Serializable
     {
         if (codeToSend.isEmpty()) return "";
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(Iterator it = codeToSend.iterator(); it.hasNext(); )
         {
             Object codeFragment = it.next();

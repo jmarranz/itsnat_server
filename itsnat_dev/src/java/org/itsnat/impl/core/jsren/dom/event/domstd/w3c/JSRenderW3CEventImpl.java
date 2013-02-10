@@ -82,7 +82,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
 
     public String getStopPropagation(String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( evtVarName + ".stopPropagation();\n" );
         return code.toString();
     }

@@ -111,7 +111,7 @@ public abstract class MarkupContainerImpl implements Serializable
             int start = text.indexOf(CachedSubtreeImpl.getMarkCodeStart());
             if (start == -1) return text;
 
-            StringBuffer textRes = new StringBuffer();
+            StringBuilder textRes = new StringBuilder();
             while (start != -1)
             {
                 int end = text.indexOf('}',start);

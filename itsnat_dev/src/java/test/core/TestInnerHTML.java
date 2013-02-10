@@ -57,7 +57,7 @@ public class TestInnerHTML implements EventListener,Serializable
         // y que el segundo no vale en ningun caso por el <script> interno, en el tercero habrá que estudiarlo pues
         // en la primera pasada no llegamos a él y se verá que el contenido sí admite innerHTML (<b>Other rectangle</b>) .
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("<div>");
         code.append(" <div style='border:solid 1px red; margin:2px'><b>One rectangle</b></div>");
         code.append(" <div style='border:solid 1px red; padding:2px;'><div style='border:solid 1px red; padding:2px;'><div style='border:solid 1px red'>Three nested rectangles <script></script></div></div></div>");

@@ -139,7 +139,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
         // Sólo tiene interés en MSIE
         // Chequeamos que los elementos auxiliares que necesita el MSIE
         // están debajo del <div> que reemplaza el <meta>
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var elem = document.getElementById('__ie__svg__onload');");
         code.append("if ((elem != null)&&(elem.parentNode.tagName != 'DIV')) alert('ERROR SVGWeb');\n");
         code.append("var elem = document.getElementById('__htc_container');");

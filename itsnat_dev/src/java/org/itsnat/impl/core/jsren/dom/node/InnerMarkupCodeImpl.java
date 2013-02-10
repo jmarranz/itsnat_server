@@ -21,7 +21,7 @@ public class InnerMarkupCodeImpl
     protected WeakReference parentNodeRef; // No usamos una referencia normal pues supondria sujetar nodos inútilmente, pues cuando es usada todavía forma parte del documento y está sujeta por referencias normales, si se pierde no pasa nada porque devuelva null, no se usa para renderizar sólo para añadir nuevos trozos (implica que sigue referenciado)
     protected String parentNodeJSLocator;
     protected boolean useNodeLocation;
-    protected StringBuffer innerMarkup = new StringBuffer();
+    protected StringBuilder innerMarkup = new StringBuilder();
 
     public InnerMarkupCodeImpl(JSRenderElementImpl jsRender,Element parentNode,String parentNodeJSLocator,boolean useNodeLocation,String firstInnerMarkup)
     {

@@ -51,7 +51,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
 
         // Ejemplo: <rect x="0" y="0" width="100%" height="100%" style="fill-opacity:0.2; fill:black;" />
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String elemLayerRef = clientDoc.getNodeReference(layerElem,true,true);
 
@@ -61,7 +61,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         code.append( "elem.setAttribute('width','100%');\n" );
         code.append( "elem.setAttribute('height','100%');\n" );
 
-        StringBuffer styleCode = new StringBuffer();
+        StringBuilder styleCode = new StringBuilder();
         styleCode.append("fill-opacity:" + opacity + ";");
         if (background != null)
             styleCode.append("fill:" + background + ";");
@@ -105,7 +105,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         // en estos si el layer se mostró al ppio con valores width y height al 100% y se hace
         // más grande la ventana no cambia el tamaño.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var func = function (elem)\n");
         code.append("{\n");
         code.append("  var listener = function ()\n");
@@ -164,7 +164,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         }
     }
 
-    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuffer code,JSRenderElementImpl render)
+    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuilder code,JSRenderElementImpl render)
     {
         if (NamespaceUtil.isSVGElement(elem))
         {

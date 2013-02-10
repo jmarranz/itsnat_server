@@ -34,7 +34,7 @@ public class ResponseDelegateSVGLoadDocDefaultImpl extends ResponseDelegateSVGLo
         super(response);
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // Que yo sepa SVG no tiene controles propios, pero admite XHTML embebido
         // dentro de <foreignObject> en navegadores como WebKit, FireFox (Gecko) y Opera

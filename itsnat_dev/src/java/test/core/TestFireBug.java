@@ -61,7 +61,7 @@ public class TestFireBug implements EventListener,Serializable
         // al calcular el path del nodo si no es filtrado el del FireBug obtendríamos
         // una referencia al del FireBug detectando así el error
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("try{ \n");
         code.append("var elem = " + itsNatDoc.getScriptUtil().getNodeReference(style) + ";");
         code.append("if (elem.id != 'firebug_test') alert('ERROR TestFireBug');");

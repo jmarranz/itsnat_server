@@ -140,7 +140,7 @@ public class MarkupDrivenSelMultTreeNode extends FeatureTreeNode implements Even
         if (currentTarget == selectElem)
         {
             updateItemForm();
-            StringBuffer msg = new StringBuffer();
+            StringBuilder msg = new StringBuilder();
             msg.append("Changed selection: ");
             HTMLCollection col = selectElem.getOptions();
             int len = col.getLength();

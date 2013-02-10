@@ -51,7 +51,7 @@ public class JSRenderW3CKeyEventMSIE9Impl extends JSRenderW3CKeyboardEventImpl
         return "KeyboardEvent"; // SIN s al final
     }
 
-    public String getInitKeyboardEvent(StringBuffer code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc)
+    public String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc)
     {
         code.append( evtVarName + ".initKeyboardEvent("
                 + "\"" + keyEvt.getType() + "\","
@@ -71,7 +71,7 @@ public class JSRenderW3CKeyEventMSIE9Impl extends JSRenderW3CKeyboardEventImpl
     }
 
 
-    public static void addModifier(String name,StringBuffer code)
+    public static void addModifier(String name,StringBuilder code)
     {
         if (code.length() > 0) code.append(" " + name);
         else code.append(name);

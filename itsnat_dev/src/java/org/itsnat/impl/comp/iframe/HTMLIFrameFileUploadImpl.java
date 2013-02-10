@@ -104,7 +104,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
         clientDoc.addHTMLIFrameFileUploadImpl(this);
         comp.addHTMLIFrameFileUploadImpl(this);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var elem = " + clientDoc.getNodeReference(inputElem,true,true) + ";\n");
         code.append("var elemClone = elem.cloneNode(true);\n");

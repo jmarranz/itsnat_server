@@ -86,7 +86,7 @@ public abstract class TestHTMLModalLayerBase extends TestBaseHTMLDocument implem
         {
             public void handleEvent(Event evt)
             {
-                StringBuffer code = new StringBuffer();
+                StringBuilder code = new StringBuilder();
                 code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
                 code.append("  window.location.reload(true);");
                 

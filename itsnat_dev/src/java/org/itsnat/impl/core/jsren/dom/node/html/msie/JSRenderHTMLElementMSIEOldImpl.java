@@ -149,12 +149,12 @@ public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
         return elemName + ".currentStyle";
     }
 
-    private StringBuffer addSpecialAttrIfDefined(Element elem,String attrName,StringBuffer spAttribs)
+    private StringBuilder addSpecialAttrIfDefined(Element elem,String attrName,StringBuilder spAttribs)
     {
         String value = elem.getAttribute(attrName);
         if (value.length() == 0) return spAttribs;
 
-        if (spAttribs == null) spAttribs = new StringBuffer();
+        if (spAttribs == null) spAttribs = new StringBuilder();
         spAttribs.append( attrName + "='" + value + "' " );
         return spAttribs;
     }
@@ -169,7 +169,7 @@ public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
         tagName = elem.getLocalName(); 
 
         // Ahora añadimos los atributos especiales si hay
-        StringBuffer spAttribs = null;
+        StringBuilder spAttribs = null;
 
         spAttribs = addSpecialAttrIfDefined(elem,"name",spAttribs);
 

@@ -43,7 +43,7 @@ public class TestEmbedRenderingMSIE implements EventListener,Serializable
         // <embed> con BlackBerry pues total no sirve para nada.
 
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var elem = document.getElementById('embedTest1Id');");
         code.append("if (elem.childNodes.length != 1) alert('ERROR TestEmbedRenderingMSIE');");
 

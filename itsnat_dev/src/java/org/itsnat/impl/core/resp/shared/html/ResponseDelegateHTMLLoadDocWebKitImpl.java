@@ -61,7 +61,7 @@ public class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDelegateHTMLL
         if (!clientDoc.isScriptingEnabled())
             return;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var func = function (evt)");
         code.append("{");

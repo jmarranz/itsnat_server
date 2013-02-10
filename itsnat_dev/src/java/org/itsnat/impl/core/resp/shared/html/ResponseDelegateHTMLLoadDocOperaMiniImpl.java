@@ -61,7 +61,7 @@ public class ResponseDelegateHTMLLoadDocOperaMiniImpl extends ResponseDelegateHT
         {
             public void handleEvent(Event evt) {}
         };
-        StringBuffer preSendCode = new StringBuffer();
+        StringBuilder preSendCode = new StringBuilder();
         preSendCode.append("event.setMustBeSent(false);"); // Evita enviar el evento unload
         preSendCode.append("var func = function()");
         preSendCode.append("  { itsNatDoc.disabledEvents = true; window.location.reload(true); return false; };"); // El return false evita que se envíe el evento y el itsNatDoc.disabledEvents = true evita otros eventos

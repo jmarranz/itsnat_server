@@ -39,7 +39,7 @@ public class JSRenderW3CAdobeSVGKeyEventImpl extends JSRenderW3CAdobeSVGEventImp
     {
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( super.getInitEvent(evt,evtVarName,clientDoc) );
 
         // En teoría los eventos KeyEvent de ASV v6 tienen las propiedades

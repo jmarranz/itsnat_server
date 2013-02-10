@@ -111,7 +111,7 @@ public class ChildSVGSsrcAutoBindingDocument implements EventListener,Serializab
         inputRadio.setAttribute("value",circle.getAttribute("r"));
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var url = window.location.href;");
         code.append("var pos = url.indexOf('#');"); // #p=n,c=n

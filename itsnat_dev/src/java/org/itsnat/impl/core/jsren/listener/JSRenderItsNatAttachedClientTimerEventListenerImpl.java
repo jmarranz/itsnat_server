@@ -37,7 +37,7 @@ public class JSRenderItsNatAttachedClientTimerEventListenerImpl extends JSRender
 
     private static String addItsNatAttachedClientTimerEventListenerCode(ItsNatAttachedClientTimerEventListenerWrapperImpl listener,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         int commMode = listener.getCommModeDeclared(); // Llama a ClientDocumentAttachedClientTimerImpl.getCommMode()
         int interval = listener.getRefreshInterval(); // Llama a ClientDocumentAttachedClientTimerImpl.getRefreshInterval()

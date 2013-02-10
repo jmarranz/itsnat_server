@@ -74,7 +74,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (!clientDoc.isScriptingEnabled()) return;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var func = function(func,delay)");
         code.append("{");
@@ -139,7 +139,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
                 ClientDocumentStfulImpl parentClientDoc = parentDoc.getClientDocumentStfulOwner();
 
 
-                StringBuffer code = new StringBuffer();
+                StringBuilder code = new StringBuilder();
 
                 code.append("\n");
                 code.append("try{\n");
@@ -161,7 +161,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
         }
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // SVG no tiene controles propios.
         // NO llamamos a rewriteClientHTMLUIControlProperties porque
@@ -182,7 +182,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
         // La solución es ejecutar las acciones de inicio
         // al procesar el evento SVGLoad (aplicado al <svg> root).
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
         code.append( "var asv6 = (window.navigator.appName.indexOf(\"Adobe\") == 0) && (window.navigator.appVersion.indexOf(\"6.\") == 0); \n" );

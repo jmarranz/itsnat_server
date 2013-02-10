@@ -59,7 +59,7 @@ public class ClientMutationEventListenerHTMLWebKitS40Impl extends ClientMutation
         // En el caso de quitar un elemento tampoco se actualiza el control, pero
         // esto no es tan grave pues no impide seleccionar.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var elem = " + clientDoc.getNodeReference(select,true,true) + ";\n"); // elem es un <SELECT>
         code.append("var elemClone = elem.cloneNode(true);\n"); // El deep = true no es necesario pero lo ponemos para evitar un posible "parpadeo" al insertar un select vacío
         code.append("elem.parentNode.replaceChild(elemClone,elem);\n");

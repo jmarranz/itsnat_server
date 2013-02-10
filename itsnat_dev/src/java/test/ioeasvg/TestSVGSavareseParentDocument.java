@@ -210,7 +210,7 @@ public class TestSVGSavareseParentDocument implements EventListener,Serializable
             // Notify child document of containerElem
             String ref = itsNatDoc.getScriptUtil().getNodeReference(containerElem);
 
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + ";");
             code.append("var url = elem.LocationURL;");
             code.append("if (url)");

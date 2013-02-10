@@ -58,7 +58,7 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
             // Afortunadamente la reinserción nos sirve a nosotros en el caso de S60WebKit.
             // Si la solución de la reinserción no funciona la única alternativa es el eval
 
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             if (newNodeCode.startsWith("itsNatDoc.doc.createTextNode(") || // Es una llamada a createTextNode (no es directamente un valor)
                 newNodeCode.startsWith("itsNatDoc.doc.createCDATASection("))
                 code.append( "var textNode = " + newNodeCode + ";\n" );

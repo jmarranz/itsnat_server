@@ -119,7 +119,7 @@ public class TestSVGModalLayer implements EventListener,ChangeListener,Serializa
             // de soporte SVG decente.
             public void handleEvent(Event evt)
             {
-                StringBuffer code = new StringBuffer();
+                StringBuilder code = new StringBuilder();
                 code.append("if (true == confirm('Received an unexpected event by a hidden element. Reload?')) ");  // (true == ...) es para Batik porque confirm devuelve un objeto Boolean no un primitivo
                 code.append("   window.location.href = window.location.href; "); // El window.location.reload(true) no funciona en ASV y el Batik esta sentencia funciona como un reload (simulado en el applet para ItsNat)
                 itsNatDoc.addCodeToSend(code.toString());

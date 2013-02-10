@@ -126,7 +126,7 @@ public class DisconnectNodesTreeNode extends FeatureTreeNode implements EventLis
         // in spite of the same DOM is missing in server. Now this client zone
         // (the content of the disconnected node) can be freely modified
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var elem = document.getElementById('disconnectChildNodeId');");
         code.append("elem.innerHTML = \"<span style='border: solid blue 1px'><b>Rewritten By JavaScript</b></span>\"; ");
         ItsNatDocument itsNatDoc = getItsNatDocument();

@@ -76,7 +76,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         int zIndex1 = prevComp != null? prevComp.getZIndex() : Integer.MIN_VALUE; // El z-index puede ser negativo
         int zIndex2 = parentComp.getZIndex();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "modalLayerShowHTMLFormCtrls";
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -121,7 +121,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         Browser browser = clientDoc.getBrowser();
         JSRenderHTMLElementImpl render = JSRenderHTMLElementImpl.getJSRenderHTMLElement(browser);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // Necesitamos enviar antes los métodos usados luego dentro de la función
         code.append( render.bindBackupAndSetStylePropertyMethod(clientDoc) );

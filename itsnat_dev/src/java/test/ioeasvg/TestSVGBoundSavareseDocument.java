@@ -111,7 +111,7 @@ public class TestSVGBoundSavareseDocument implements EventListener
         inputRadio.setAttribute("value",circle.getAttribute("r"));
 
         // Notify the client parent document
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var url = window.location.href;");
         code.append("var pos = url.indexOf('#');"); // #p=n,c=n
         code.append("url = url.substring(0,pos + 3) + 'y' + url.substring(pos + 4);");

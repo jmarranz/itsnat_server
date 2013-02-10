@@ -99,7 +99,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
 
     public String addScriptMarkupToDocMarkup(String docMarkup,String scriptsMarkup)
     {
-        StringBuffer finalMarkup = new StringBuffer();
+        StringBuilder finalMarkup = new StringBuilder();
 
         int posHTMLEnd = docMarkup.lastIndexOf('<');
         int posBODYEnd = docMarkup.lastIndexOf('<',posHTMLEnd - 1);
@@ -118,7 +118,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         return NamespaceUtil.XHTML_NAMESPACE;
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // Obviamente los documentos XHTML contienen elementos XHTML :)
         rewriteClientHTMLUIControlProperties(elem,revertJSChanges,code);
@@ -306,7 +306,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         }
     }
 
-    protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuffer code)
+    protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code)
     {
         // Se redefine en el caso de Opera 9 Desktop
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();

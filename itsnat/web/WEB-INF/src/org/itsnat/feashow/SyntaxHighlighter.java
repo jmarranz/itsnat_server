@@ -69,7 +69,7 @@ public class SyntaxHighlighter
 
     private static void highlightFile(String name,String path,String encoding,HTMLTextAreaElement textAreaElem,ItsNatDocument itsNatDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         try
         {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path),encoding));

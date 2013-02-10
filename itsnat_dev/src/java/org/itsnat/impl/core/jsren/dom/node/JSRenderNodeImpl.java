@@ -98,7 +98,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String removeNodeFromCache(LinkedList idList)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(Iterator it = idList.iterator(); it.hasNext(); )
         {
             String id = toLiteralStringJS((String)it.next());

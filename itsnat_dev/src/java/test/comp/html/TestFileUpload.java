@@ -75,7 +75,7 @@ public class TestFileUpload extends TestBaseHTMLDocument implements EventListene
             {
                 FileUploadRequest fileUpReq = iframeUpload.processFileUploadRequest(request, response);
 
-                StringBuffer html = new StringBuffer();
+                StringBuilder html = new StringBuilder();
                 html.append("<html><head /><body>");
                 html.append("<p>Content Type:\"" + fileUpReq.getContentType() + "\"</p>");
                 html.append("<p>Field Name:\"" + fileUpReq.getFieldName() + "\"</p>");

@@ -29,7 +29,7 @@ public class CodeListImpl
     
     protected String codeToString(CodeToSendRegistryImpl codeReg)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(Iterator it = list.iterator(); it.hasNext(); )
         {
             Object codeFragment = it.next();

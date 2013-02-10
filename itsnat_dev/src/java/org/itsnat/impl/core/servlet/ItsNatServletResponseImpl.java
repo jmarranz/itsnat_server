@@ -132,7 +132,7 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
 
         addCodeFromClientDocAndReset();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (!codeToSend.isEmpty())
         {
             for(Iterator it = codeToSend.iterator(); it.hasNext(); )

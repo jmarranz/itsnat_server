@@ -27,18 +27,25 @@ import org.w3c.dom.html.HTMLSelectElement;
  *
  * User agents:
 
-    - Safari 3.0.4 Mac (AppleWebKit/523.15.1) Safari 2.x no está soportado.
-        Mozilla/5.0 (Macintosh; U; Intel Mac OS X;en-us) AppleWebKit/523.15.1 (KTHTML, like Gecko) Version/3.0.4 Safari/523.15
+*   Antiguos:
+        - Safari 3.0.4 Mac (AppleWebKit/523.15.1) Safari 2.x no está soportado.
+            Mozilla/5.0 (Macintosh; U; Intel Mac OS X;en-us) AppleWebKit/523.15.1 (KTHTML, like Gecko) Version/3.0.4 Safari/523.15
 
-    - Safari 3.1 Windows (AppleWebKit/525.13)
-        Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1 Safari/525.13
+        - Safari 3.1 Windows (AppleWebKit/525.13)
+            Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1 Safari/525.13
 
-    - Safari 4 beta Windows (AppleWebKit/528.16)
-        Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16
+        - Safari 4 beta Windows (AppleWebKit/528.16)
+            Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16
 
-    - Google Chrome (1.0.154.48)
-        Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19
-
+*       - Google Chrome (1.0.154.48)
+            Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19
+* 
+*   Modernos:
+* 
+*   - Safari 5.1.7  
+*       Windows: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2
+*       Mac: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2 
+* 
     - BlackBerry JDE 6.0, desde esta versión está basado en WebKit
         Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en-GB) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.141 Mobile Safari/534.1+
 

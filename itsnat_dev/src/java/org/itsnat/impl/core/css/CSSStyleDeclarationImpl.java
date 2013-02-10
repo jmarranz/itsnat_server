@@ -104,7 +104,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
 
     public void updateCssTextFromPropertyList()
     {
-        StringBuffer cssText = new StringBuffer();
+        StringBuilder cssText = new StringBuilder();
         for(int i = 0; i < propertyList.size(); i++ )
         {
              if (i != 0) cssText.append( ';' );

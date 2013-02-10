@@ -50,7 +50,7 @@ public class DelegateHTMLInputCheckBoxEditorImpl extends DelegateHTMLElementComp
         if (value instanceof Boolean)
             selected = ((Boolean)value).booleanValue();
         else
-            selected = value.toString().equals("true"); // Se incluye así String, StringBuffer y objetos del usuario
+            selected = value.toString().equals("true"); // Se incluye así String, StringBuilder y objetos del usuario
 
         ItsNatHTMLInputCheckBox compEditor = getItsNatHTMLInputCheckBox();
         compEditor.setSelected(selected);

@@ -47,7 +47,7 @@ public abstract class StringLiteral extends Token
     {
         // cursor apunta a la primera comilla
         // Faltaría procesar los escapes \ incluidos los \" y \'
-        StringBuffer valueTmp = new StringBuffer();
+        StringBuilder valueTmp = new StringBuilder();
         cursor.inc();
         char endChar = getDelimiterChar();
         while(cursor.isValidPosition() &&

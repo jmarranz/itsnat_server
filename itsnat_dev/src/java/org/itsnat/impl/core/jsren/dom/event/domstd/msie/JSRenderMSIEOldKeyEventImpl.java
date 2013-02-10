@@ -37,7 +37,7 @@ public class JSRenderMSIEOldKeyEventImpl extends JSRenderMSIEOldUIEventImpl
     {
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( evtVarName + ".altKey=" + keyEvt.getAltKey() + ";\n" );
         code.append( evtVarName + ".ctrlKey=" + keyEvt.getCtrlKey() + ";\n" );
         code.append( evtVarName + ".shiftKey=" + keyEvt.getShiftKey() + ";\n" );

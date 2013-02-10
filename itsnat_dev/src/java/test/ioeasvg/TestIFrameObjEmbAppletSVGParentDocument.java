@@ -191,7 +191,7 @@ public class TestIFrameObjEmbAppletSVGParentDocument implements EventListener,Se
 
             // Notify containerElem child document
             String ref = itsNatDoc.getScriptUtil().getNodeReference(containerElem);
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + "; ");
             // code.append("var childDoc = (typeof elem.contentDocument != \"undefined\") ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument in MSIE or with Batik
             code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument in MSIE or with Batik

@@ -58,7 +58,7 @@ public class ItsNatXULDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
     {
         if ((prefix == null)&&(defaultNS != null)) throw new ItsNatException("INTERNAL ERROR");
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (encoding != null) // Si no espeficica es que no es necesaria la cabecera xml
             code.append( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>" );
         code.append( "<?xml-stylesheet href=\"chrome://global/skin/\" type=\"text/css\"?>" );

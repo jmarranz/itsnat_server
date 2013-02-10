@@ -62,7 +62,7 @@ public abstract class ResponseDelegateHTMLLoadDocBlackBerryOldImpl extends Respo
         ItsNatServletRequestImpl request = getResponseLoadDoc().getItsNatServletResponse().getItsNatServletRequestImpl();
         if (request.getHeader("accept").indexOf("application/x-javascript") == -1)
         {
-            StringBuffer docMarkup = new StringBuffer();
+            StringBuilder docMarkup = new StringBuilder();
 
             docMarkup.append("<html><head></head><body>");
             docMarkup.append("<h2>This page requires JavaScript and is disabled in your device</h2>");

@@ -110,7 +110,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         }
         else
         {
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( "[" + getCachedParentIdJS() + "," + getIdJS() + "," + getPathJS() );  // 3 items
             if (newCachedParentIds != null)
                 code.append( "," + toJSArrayCachedParents() ); // 4 items (array dentro de array)
@@ -121,7 +121,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
 
     protected String toJSArrayCachedParents()
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "[" ); // Array dentro de array
         for(int i = 0; i < newCachedParentIds.size(); i++)
         {

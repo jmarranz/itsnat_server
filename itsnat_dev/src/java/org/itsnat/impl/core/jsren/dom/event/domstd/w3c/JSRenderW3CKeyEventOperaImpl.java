@@ -47,7 +47,7 @@ public class JSRenderW3CKeyEventOperaImpl extends JSRenderW3CKeyEventImpl
          */
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( getInitEventDefault(evt,evtVarName,clientDoc) );
 

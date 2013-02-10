@@ -42,7 +42,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         ItsNatEventImpl userEvt = (ItsNatEventImpl)evt;
         String name = ((ItsNatUserEvent)userEvt).getName();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var evt = itsNatDoc.createUserEvent(\"" + name + "\");\n");
         if (userEvt.hasExtraParams())
         {
@@ -61,7 +61,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
 
     public String getDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( getCreateEventCode(evt,"evt",nodeLoc.getClientDocumentStful()) );
         // Hay que tener en cuenta que el nodo target puede ser nulo
         code.append( "var " + varResName + " = itsNatDoc.dispatchUserEvent2(" + nodeLoc.toJSArray(false) + ",evt);\n" );
@@ -70,7 +70,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
 
     public String getDispatchEvent(String targetVarName,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( getCreateEventCode(evt,evtVarName,clientDoc) );
         code.append( "itsNatDoc.dispatchUserEvent(" + targetVarName + "," + evtVarName + ");\n" );
         return code.toString();

@@ -58,7 +58,7 @@ public class FloatNumber extends Token
     public void parse(Cursor cursor)
     {
         // cursor apunta al comienzo del número
-        StringBuffer valueTmp = new StringBuffer();
+        StringBuilder valueTmp = new StringBuilder();
         valueTmp.append( cursor.getCurrentChar() );
         int i = cursor.inc(); // segunda letra (si hay)
         while(cursor.isValidPosition() &&
