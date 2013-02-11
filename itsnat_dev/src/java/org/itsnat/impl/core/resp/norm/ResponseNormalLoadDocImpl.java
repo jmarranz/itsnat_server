@@ -19,6 +19,7 @@ package org.itsnat.impl.core.resp.norm;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import java.util.Iterator;
+import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
@@ -102,7 +103,7 @@ public abstract class ResponseNormalLoadDocImpl extends ResponseNormalLoadDocBas
 
         ItsNatDocumentTemplateImpl docTemplate = itsNatDoc.getItsNatDocumentTemplateImpl();
         ItsNatServletImpl itsNatServlet = docTemplate.getItsNatServletImpl();
-        Iterator iterator;
+        Iterator<ItsNatServletRequestListener> iterator;
 
         iterator = itsNatServlet.getItsNatServletRequestListenerIterator();
         itsNatResponse.dispatchItsNatServletRequestListeners(iterator);

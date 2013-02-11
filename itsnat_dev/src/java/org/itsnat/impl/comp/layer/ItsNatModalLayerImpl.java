@@ -26,16 +26,16 @@ import org.itsnat.core.NameValue;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.ItsNatElementComponentImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
-import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulMapImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.EventListenerInternal;
@@ -64,7 +64,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
     protected ItsNatModalLayerImpl previous;
     protected LinkedHashSet bodyElementsBefore; // Los elementos bajo body que estaban antes en el caso de primer layer o los que se añadieron tras añadir el anterior layer. Es decir los elementos que fueron "ocultados" por este layer no ocultos antes
     protected EventListener detectUnexpectedEventListener;
-    protected LinkedList unexpectedEventListeners;
+    protected LinkedList<EventListener> unexpectedEventListeners;
 
     public ItsNatModalLayerImpl(Element element,boolean cleanBelow,int zIndex,float opacity,String background,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl compMgr)
     {
@@ -113,9 +113,9 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         super.init();
 
         ItsNatStfulDocComponentManagerImpl compMgr = getItsNatStfulDocComponentManager();
-        LinkedList layers = compMgr.getItsNatModalLayers();
+        LinkedList<ItsNatModalLayerImpl> layers = compMgr.getItsNatModalLayers();
         if (!layers.isEmpty())
-            this.previous = (ItsNatModalLayerImpl)layers.getLast();
+            this.previous = layers.getLast();
         layers.add(this);
 
         if (!boundToTree)
@@ -201,7 +201,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
     {
         if (!DOMUtilInternal.isChildOrSame(node,parentElem)) return;
 
-        ItsNatEventListenerChainImpl chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
+        ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
         if (getUnexpectedEventListenerList(chain)) // Se ha añadido alguno
             EventListenerUtil.handleEventListeners(evt,chain);
     }
@@ -212,27 +212,27 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         return !unexpectedEventListeners.isEmpty();
     }
 
-    public LinkedList getUnexpectedEventListenerList()
+    public LinkedList<EventListener> getUnexpectedEventListenerList()
     {
         if (unexpectedEventListeners == null)
-            this.unexpectedEventListeners = new LinkedList();
+            this.unexpectedEventListeners = new LinkedList<EventListener>();
         return unexpectedEventListeners;
     }
 
-    public boolean getUnexpectedEventListenerList(ItsNatEventListenerChainImpl chain)
+    public boolean getUnexpectedEventListenerList(ItsNatEventListenerChainImpl<EventListener> chain)
     {
         return chain.addFirstListenerList(unexpectedEventListeners); // Puede ser null
     }
 
     public void addUnexpectedEventListener(EventListener listener)
     {
-        LinkedList listeners = getUnexpectedEventListenerList();
+        LinkedList<EventListener> listeners = getUnexpectedEventListenerList();
         listeners.add(listener);
     }
 
     public void removeUnexpectedEventListener(EventListener listener)
     {
-        LinkedList listeners = getUnexpectedEventListenerList();
+        LinkedList<EventListener> listeners = getUnexpectedEventListenerList();
         listeners.remove(listener);
     }
 
@@ -399,10 +399,9 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         // Quitamos el layer actual recién insertado
         bodyElementsBefore.remove(getElement());
 
-        LinkedList layerList = compMgr.getItsNatModalLayers();
-        for(Iterator it = layerList.iterator(); it.hasNext(); )
+        LinkedList<ItsNatModalLayerImpl> layerList = compMgr.getItsNatModalLayers();
+        for(ItsNatModalLayerImpl currLayer : layerList)
         {
-            ItsNatModalLayerImpl currLayer = (ItsNatModalLayerImpl)it.next();
             if (currLayer == this) break; // Hemos llegado al de ahora
             LinkedHashSet currSet = currLayer.getBodyElementsBefore();
             if (currSet != null) // Puede que no fuera un layer en modo cleanBelow

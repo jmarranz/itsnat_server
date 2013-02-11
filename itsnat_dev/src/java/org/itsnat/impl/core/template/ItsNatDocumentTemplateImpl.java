@@ -44,10 +44,10 @@ import org.w3c.dom.events.EventListener;
  */
 public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl implements ItsNatDocumentTemplate
 {
-    protected LinkedList requestListeners;
-    protected LinkedList attachedEventListeners;
-    protected LinkedList domEventListeners;
-    protected LinkedList createCompListeners;
+    protected LinkedList<ItsNatServletRequestListener> requestListeners;
+    protected LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners;
+    protected LinkedList<EventListener> domEventListeners;
+    protected LinkedList<CreateItsNatComponentListener> createCompListeners;
     protected Map artifacts;
     protected int commMode;
     protected long eventTimeout;
@@ -417,14 +417,14 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return !requestListeners.isEmpty();
     }
 
-    public LinkedList getItsNatServletRequestListenerList()
+    public LinkedList<ItsNatServletRequestListener> getItsNatServletRequestListenerList()
     {
         if (requestListeners == null)
-            this.requestListeners = new LinkedList();
+            this.requestListeners = new LinkedList<ItsNatServletRequestListener>();
         return requestListeners;
     }
 
-    public Iterator getItsNatServletRequestListenerIterator()
+    public Iterator<ItsNatServletRequestListener> getItsNatServletRequestListenerIterator()
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (requestListeners == null) return null;
@@ -437,7 +437,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.add(listener);
     }
 
@@ -445,19 +445,19 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.remove(listener);
     }
 
 
-    public LinkedList getItsNatAttachedClientEventListenerList()
+    public LinkedList<ItsNatAttachedClientEventListener> getItsNatAttachedClientEventListenerList()
     {
         if (attachedEventListeners == null)
-            this.attachedEventListeners = new LinkedList();
+            this.attachedEventListeners = new LinkedList<ItsNatAttachedClientEventListener>();
         return attachedEventListeners;
     }
 
-    public void getItsNatAttachedClientEventListenerList(LinkedList list)
+    public void getItsNatAttachedClientEventListenerList(LinkedList<ItsNatAttachedClientEventListener> list)
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (attachedEventListeners == null)
@@ -479,7 +479,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListenerList();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
         attachedEventListeners.add(listener);
     }
 
@@ -487,18 +487,18 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListenerList();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
         attachedEventListeners.remove(listener);
     }
 
-    public LinkedList getGlobalEventListenerList()
+    public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (domEventListeners == null)
-            this.domEventListeners = new LinkedList();
+            this.domEventListeners = new LinkedList<EventListener>();
         return domEventListeners;
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (domEventListeners == null)
@@ -510,7 +510,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList domEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> domEventListeners = getGlobalEventListenerList();
         domEventListeners.add(listener);
     }
 
@@ -518,7 +518,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList domEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> domEventListeners = getGlobalEventListenerList();
         domEventListeners.remove(listener);
     }
 
@@ -528,14 +528,14 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return !createCompListeners.isEmpty();
     }
 
-    public LinkedList getCreateItsNatComponentList()
+    public LinkedList<CreateItsNatComponentListener> getCreateItsNatComponentList()
     {
         if (createCompListeners == null)
-            this.createCompListeners = new LinkedList(); // Sólo se crea si se necesita
+            this.createCompListeners = new LinkedList<CreateItsNatComponentListener>(); // Sólo se crea si se necesita
         return createCompListeners;
     }
 
-    public Iterator getCreateItsNatComponentListenerIterator()
+    public Iterator<CreateItsNatComponentListener> getCreateItsNatComponentListenerIterator()
     {
         if (!hasCreateItsNatComponentList()) return null;
         return createCompListeners.iterator();
@@ -545,7 +545,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.add(listener);
     }
 
@@ -553,7 +553,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.remove(listener);
     }
 

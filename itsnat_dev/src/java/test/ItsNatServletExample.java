@@ -117,6 +117,7 @@ public class ItsNatServletExample extends HttpServletWrapper
 
         itsNatConfig.setDefaultDateFormat(DateFormat.getTimeInstance(DateFormat.LONG,Locale.US));
         itsNatConfig.setDefaultNumberFormat(NumberFormat.getNumberInstance(Locale.US));
+
         
         itsNatServlet.addItsNatServletRequestListener(new TestGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestGlobalEventListener(itsNatServlet));

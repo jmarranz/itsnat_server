@@ -57,7 +57,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     protected HTMLInputElement inputElem;
     protected ClientDocumentStfulImpl clientDoc;
     protected UniqueId idObj;
-    protected LinkedList requestListeners;
+    protected LinkedList<ItsNatServletRequestListener> requestListeners;
     protected boolean receiving = false;
     protected boolean disposed = false;
     protected boolean processed = false;
@@ -217,14 +217,14 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
         return !requestListeners.isEmpty();
     }
 
-    protected LinkedList getItsNatServletRequestListenerList()
+    protected LinkedList<ItsNatServletRequestListener> getItsNatServletRequestListenerList()
     {
         if (requestListeners == null)
-            this.requestListeners = new LinkedList();
+            this.requestListeners = new LinkedList<ItsNatServletRequestListener>();
         return requestListeners;
     }
 
-    protected Iterator getItsNatServletRequestListenerIterator()
+    protected Iterator<ItsNatServletRequestListener> getItsNatServletRequestListenerIterator()
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (requestListeners == null) return null;

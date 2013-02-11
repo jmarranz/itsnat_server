@@ -17,13 +17,14 @@
 package org.itsnat.impl.comp.listener;
 
 import java.io.Serializable;
-import org.itsnat.impl.comp.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
@@ -43,8 +44,8 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
     protected ItsNatComponentImpl comp;
     protected ItsNatDOMEventListenerListSameTarget userDOMListenersBefore;
     protected ItsNatDOMEventListenerListSameTarget userDOMListenersAfter;
-    protected Set enabledDOMEvents;
-    protected Map evtListParams;
+    protected Set<String> enabledDOMEvents;
+    protected Map<String,EventListenerParamsImpl> evtListParams;
 
     public ItsNatCompDOMListenersImpl(ItsNatComponentImpl comp)
     {
@@ -67,10 +68,10 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         return !enabledDOMEvents.isEmpty();
     }
 
-    public Set getEnabledDOMEvents()
+    public Set<String> getEnabledDOMEvents()
     {
         if (enabledDOMEvents == null)
-            this.enabledDOMEvents = new HashSet();
+            this.enabledDOMEvents = new HashSet<String>();
         return enabledDOMEvents;
     }
 
@@ -112,7 +113,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
             // No se ejecutarán los global listeners de nuevo pues ya se ejecutaron antes
             // de llegar aquí y es el mismo evento que viene del cliente.
 
-            ItsNatEventListenerChainImpl chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
+            ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
             if (getUserDOMListeners(before).getItsNatDOMEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
                 EventListenerUtil.handleEventListeners(evt,chain);
         }
@@ -145,7 +146,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
 
     public void enableEventListener(String type)
     {
-        Set enabledDOMEvents = getEnabledDOMEvents();
+        Set<String> enabledDOMEvents = getEnabledDOMEvents();
         if (enabledDOMEvents.contains(type))
             return; // ya fue activado
         addInternalEventListener(type);
@@ -159,17 +160,17 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
 
     public void disableEventListener(String type,boolean updateClient)
     {
-        Set enabledDOMEvents = getEnabledDOMEvents();
+        Set<String> enabledDOMEvents = getEnabledDOMEvents();
         if (!enabledDOMEvents.contains(type))
             return;  // No fue activado
         removeInternalEventListener(type,updateClient);
         enabledDOMEvents.remove(type);
     }
 
-    public Map getEventListenerParamMap()
+    public Map<String,EventListenerParamsImpl> getEventListenerParamMap()
     {
         if (evtListParams == null)
-            this.evtListParams = new HashMap(); // lazy load
+            this.evtListParams = new HashMap<String,EventListenerParamsImpl>(); // lazy load
         return evtListParams;
     }
 
@@ -216,7 +217,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
     {
         if (evtListParams == null)
             return null;
-        return (EventListenerParamsImpl)evtListParams.get(type); // puede ser null
+        return evtListParams.get(type); // puede ser null
     }
 
     public boolean isUseCapture(EventListenerParamsImpl params)
@@ -276,13 +277,11 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
             else
             {
                 // Los dos arrays existen
-                ArrayList auxArray = new ArrayList();
-                for(int i = 0; i < extraParamsUser.length; i++)
-                    auxArray.add(extraParamsUser[i]);
-                for(int i = 0; i < extraParamsInt.length; i++)
-                    auxArray.add(extraParamsInt[i]);
+                ArrayList<ParamTransport> auxArray = new ArrayList<ParamTransport>();                
+                auxArray.addAll(Arrays.asList(extraParamsUser));
+                auxArray.addAll(Arrays.asList(extraParamsInt));
 
-                extraParamsFinal = (ParamTransport[])auxArray.toArray(new ParamTransport[auxArray.size()]);
+                extraParamsFinal = auxArray.toArray(new ParamTransport[auxArray.size()]);
             }
         }
 
@@ -297,7 +296,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         disableEventListener(type);
 
         EventListenerParamsImpl params = new EventListenerParamsImpl(useCapture,commMode,extraParams,preSendCode,eventTimeout,null);
-        Map evtListParams = getEventListenerParamMap();
+        Map<String,EventListenerParamsImpl> evtListParams = getEventListenerParamMap();
         evtListParams.put(type,params); // Substituye el que ya hubiera (si existiera)
 
         enableEventListener(type);

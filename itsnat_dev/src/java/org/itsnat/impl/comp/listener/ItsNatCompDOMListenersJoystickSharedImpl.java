@@ -276,9 +276,8 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
 
         if (listenersBase.hasEnabledDOMEvents())
         {
-            for (Iterator it = listenersBase.getEnabledDOMEvents().iterator(); it.hasNext();)
+            for (String type : listenersBase.getEnabledDOMEvents())
             {
-                String type = (String) it.next();
                 addInternalEventListenerJoystick(listeners,contentElem, type);
             }
         }
@@ -290,9 +289,8 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
 
         if (listenersBase.hasEnabledDOMEvents())
         {
-            for (Iterator it = listenersBase.getEnabledDOMEvents().iterator(); it.hasNext();)
+            for (String type : listenersBase.getEnabledDOMEvents())
             {
-                String type = (String) it.next();
                 removeInternalEventListenerJoystick(listeners,contentElem, type);
             }
         }

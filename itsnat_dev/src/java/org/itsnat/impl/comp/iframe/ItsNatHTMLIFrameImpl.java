@@ -45,7 +45,7 @@ import org.w3c.dom.html.HTMLInputElement;
 public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl implements ItsNatHTMLIFrame
 {
     protected boolean enabled = true;
-    protected LinkedList fileUploadList;
+    protected LinkedList<HTMLIFrameFileUploadImpl> fileUploadList;
 
     /**
      * Creates a new instance of ItsNatHTMLIFrameImpl
@@ -66,7 +66,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         {
             while(!fileUploadList.isEmpty())
             {
-                HTMLIFrameFileUploadImpl fileUpload = (HTMLIFrameFileUploadImpl)fileUploadList.getFirst();
+                HTMLIFrameFileUploadImpl fileUpload = fileUploadList.getFirst();
                 fileUpload.dispose(); // Se quita él solo de la lista
             }
         }
@@ -146,10 +146,10 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         return new HTMLIFrameFileUploadImpl(this,elem,(ClientDocumentStfulImpl)clientDoc);
     }
 
-    public LinkedList getHTMLIFrameFileUploadList()
+    public LinkedList<HTMLIFrameFileUploadImpl> getHTMLIFrameFileUploadList()
     {
         if (fileUploadList == null)
-            this.fileUploadList = new LinkedList(); // Así ahorramos memoria si no se usa
+            this.fileUploadList = new LinkedList<HTMLIFrameFileUploadImpl>(); // Así ahorramos memoria si no se usa
         return fileUploadList;
     }
 

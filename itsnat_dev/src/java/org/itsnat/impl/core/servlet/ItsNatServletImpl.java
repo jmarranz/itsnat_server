@@ -16,17 +16,9 @@
 
 package org.itsnat.impl.core.servlet;
 
-import org.itsnat.impl.core.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
-import org.itsnat.core.ItsNat;
-import org.itsnat.core.event.ItsNatServletRequestListener;
-import org.itsnat.core.ItsNatServlet;
-import org.itsnat.core.ItsNatServletConfig;
-import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,12 +28,20 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.comp.CreateItsNatComponentListener;
+import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatBoot;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatServlet;
+import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.ItsNatServletContext;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateAttachedServerImpl;
+import org.itsnat.core.event.ItsNatAttachedClientEventListener;
+import org.itsnat.core.event.ItsNatServletRequestListener;
+import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
+import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateAttachedServerImpl;
 import org.itsnat.impl.core.util.UniqueIdGenIntList;
 import org.w3c.dom.events.EventListener;
 
@@ -54,12 +54,12 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     protected ItsNatImpl parent;
     protected Servlet servlet;
     protected UniqueIdGenIntList idGenerator = new UniqueIdGenIntList(true);
-    protected Map pages = Collections.synchronizedMap(new HashMap());
-    protected Map fragments = Collections.synchronizedMap(new HashMap());
-    protected LinkedList requestListeners;
-    protected LinkedList attachedEventListeners;
-    protected LinkedList domEventListeners;
-    protected LinkedList createCompListeners;
+    protected Map<String,ItsNatDocumentTemplateImpl> pages = Collections.synchronizedMap(new HashMap<String,ItsNatDocumentTemplateImpl>());
+    protected Map<String,ItsNatDocFragmentTemplateImpl> fragments = Collections.synchronizedMap(new HashMap<String,ItsNatDocFragmentTemplateImpl>());
+    protected LinkedList<ItsNatServletRequestListener> requestListeners;
+    protected LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners;
+    protected LinkedList<EventListener> domEventListeners;
+    protected LinkedList<CreateItsNatComponentListener> createCompListeners;
     protected ItsNatServletConfigImpl servletConfig;
 
 
@@ -169,7 +169,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
 
     public ItsNatDocumentTemplateImpl getItsNatDocumentTemplateImpl(String name)
     {
-        return (ItsNatDocumentTemplateImpl)pages.get(name);
+        return pages.get(name);
     }
 
     public ItsNatDocFragmentTemplate registerItsNatDocFragmentTemplate(String name,String mime,Object source)
@@ -187,7 +187,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
 
     public ItsNatDocFragmentTemplateImpl getItsNatDocFragmentTemplateImpl(String name)
     {
-        return (ItsNatDocFragmentTemplateImpl)fragments.get(name);
+        return fragments.get(name);
     }
 
     public void checkIsAlreadyUsed()
@@ -203,7 +203,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         if (hasItsNatServletRequestListeners())
         {
             ItsNatServletResponseImpl itsNatResponse = itsNatRequest.getItsNatServletResponseImpl();
-            Iterator iterator = getItsNatServletRequestListenerIterator();
+            Iterator<ItsNatServletRequestListener> iterator = getItsNatServletRequestListenerIterator();
             itsNatResponse.dispatchItsNatServletRequestListeners(iterator);
             return true;
         }
@@ -217,14 +217,14 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         return !requestListeners.isEmpty();
     }
 
-    public LinkedList getItsNatServletRequestListenerList()
+    public LinkedList<ItsNatServletRequestListener> getItsNatServletRequestListenerList()
     {
         if (requestListeners == null)
-            this.requestListeners = new LinkedList();
+            this.requestListeners = new LinkedList<ItsNatServletRequestListener>();
         return requestListeners;
     }
 
-    public Iterator getItsNatServletRequestListenerIterator()
+    public Iterator<ItsNatServletRequestListener> getItsNatServletRequestListenerIterator()
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (requestListeners == null) return null;
@@ -236,7 +236,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.add(listener);
     }
 
@@ -244,14 +244,14 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.remove(listener);
     }
 
-    public LinkedList getItsNatAttachedClientEventListenerList()
+    public LinkedList<ItsNatAttachedClientEventListener> getItsNatAttachedClientEventListenerList()
     {
         if (attachedEventListeners == null)
-            this.attachedEventListeners = new LinkedList();
+            this.attachedEventListeners = new LinkedList<ItsNatAttachedClientEventListener>();
         return attachedEventListeners;
     }
 
@@ -263,7 +263,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         return !attachedEventListeners.isEmpty();
     }
 
-    public void getItsNatAttachedClientEventListenerList(LinkedList list)
+    public void getItsNatAttachedClientEventListenerList(LinkedList<ItsNatAttachedClientEventListener> list)
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (attachedEventListeners == null)
@@ -275,7 +275,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListenerList();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
         attachedEventListeners.add(listener);
     }
 
@@ -283,7 +283,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListenerList();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
         attachedEventListeners.remove(listener);
     }
 
@@ -294,14 +294,14 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         return !domEventListeners.isEmpty();
     }
 
-    public LinkedList getGlobalEventListenerList()
+    public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (domEventListeners == null)
-            this.domEventListeners = new LinkedList();
+            this.domEventListeners = new LinkedList<EventListener>();
         return domEventListeners;
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (domEventListeners == null)
@@ -313,7 +313,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList domEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> domEventListeners = getGlobalEventListenerList();
         domEventListeners.add(listener);
     }
 
@@ -321,7 +321,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList domEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> domEventListeners = getGlobalEventListenerList();
         domEventListeners.remove(listener);
     }
 
@@ -331,14 +331,14 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         return !createCompListeners.isEmpty();
     }
 
-    public LinkedList getCreateItsNatComponentList()
+    public LinkedList<CreateItsNatComponentListener> getCreateItsNatComponentList()
     {
         if (createCompListeners == null)
-            this.createCompListeners = new LinkedList(); // Sólo se crea si se necesita
+            this.createCompListeners = new LinkedList<CreateItsNatComponentListener>(); // Sólo se crea si se necesita
         return createCompListeners;
     }
 
-    public Iterator getCreateItsNatComponentListenerIterator()
+    public Iterator<CreateItsNatComponentListener> getCreateItsNatComponentListenerIterator()
     {
         if (!hasCreateItsNatComponentList()) return null;
         return createCompListeners.iterator();
@@ -348,7 +348,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.add(listener);
     }
 
@@ -356,7 +356,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.remove(listener);
     }
 

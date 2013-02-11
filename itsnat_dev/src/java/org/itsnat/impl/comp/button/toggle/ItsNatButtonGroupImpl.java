@@ -37,7 +37,7 @@ public class ItsNatButtonGroupImpl implements ItsNatButtonGroup,Serializable
 {
     protected String name;
     protected ButtonGroup group;
-    protected List buttonList = new LinkedList();
+    protected List<ItsNatButtonRadio> buttonList = new LinkedList<ItsNatButtonRadio>();
 
     /**
      * Creates a new instance of ItsNatButtonGroupImpl
@@ -96,7 +96,7 @@ public class ItsNatButtonGroupImpl implements ItsNatButtonGroup,Serializable
 
     public ItsNatComponent getButton(int index)
     {
-        return (ItsNatComponent)buttonList.get(index);
+        return buttonList.get(index);
     }
 
     public String getName()

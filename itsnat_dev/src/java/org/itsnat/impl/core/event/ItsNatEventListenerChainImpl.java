@@ -18,28 +18,29 @@ package org.itsnat.impl.core.event;
 
 import java.util.LinkedList;
 import org.itsnat.core.event.ItsNatEventListenerChain;
+import org.w3c.dom.events.EventListener;
 
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ItsNatEventListenerChainImpl implements ItsNatEventListenerChain
+public abstract class ItsNatEventListenerChainImpl<T> implements ItsNatEventListenerChain
 {
     protected boolean stop = false;
-    protected LinkedList listeners;
+    protected LinkedList<T> listeners;
 
-    public ItsNatEventListenerChainImpl(LinkedList listeners)
+    public ItsNatEventListenerChainImpl(LinkedList<T> listeners)
     {
         this.listeners = listeners;
     }
 
-    public LinkedList getListeners()
+    public LinkedList<T> getListeners()
     {
         return listeners;
     }
 
-    public boolean addFirstListenerList(LinkedList listeners)
+    public boolean addFirstListenerList(LinkedList<T> listeners)
     {
         // Este método es llamado para añadir sobre la marcha más listeners,
         // es decir, cuando se está despachando ya un listener,

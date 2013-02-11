@@ -18,10 +18,10 @@ package org.itsnat.impl.core.listener;
 
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
+import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -32,22 +32,23 @@ import org.w3c.dom.events.EventListener;
  */
 public class EventListenerUtil
 {
-    public static void handleEventListeners(Event evt,ItsNatEventListenerChainImpl chain)
+    public static void handleEventListeners(Event evt,ItsNatEventListenerChainImpl<EventListener> chain)
     {
         if (chain.isStopped()) return; // Por si acaso, hay que tener en cuenta que puede haber reentrada a este método
-        LinkedList listeners = chain.getListeners();
+        LinkedList<EventListener> listeners = chain.getListeners();
         while(!listeners.isEmpty())
         {
-            EventListener listener = (EventListener)listeners.removeFirst();
+            EventListener listener = listeners.removeFirst();
             listener.handleEvent(evt);
             if (chain.isStopped()) break;
         }
     }
 
-    public static void handleEventListeners(final Event evt,final LinkedList listeners)
+    public static void handleEventListeners(final Event evt,final LinkedList<EventListener> listeners)
     {
-        ItsNatEventListenerChainImpl chain = new ItsNatEventListenerChainImpl(listeners)
+        ItsNatEventListenerChainImpl<EventListener> chain = new ItsNatEventListenerChainImpl<EventListener>(listeners)
         {
+            @Override
            public void continueChain()
            {
                super.continueChain();
@@ -68,7 +69,7 @@ public class EventListenerUtil
         }
     }
 
-    private static void addGlobalEventListeners(Event evt,LinkedList listeners)
+    private static void addGlobalEventListeners(Event evt,LinkedList<EventListener> listeners)
     {
         ItsNatEventImpl itsNatEvt = (ItsNatEventImpl)evt;
         ItsNatServletImpl servlet = itsNatEvt.getItsNatServletRequestImpl().getItsNatServletImpl();
@@ -84,7 +85,7 @@ public class EventListenerUtil
 
     public static void handleEventIncludingGlobalListeners(EventListener listener,Event evt)
     {
-        LinkedList listeners = new LinkedList();
+        LinkedList<EventListener> listeners = new LinkedList<EventListener>();
         addGlobalEventListeners(evt,listeners);
 
         if (listener != null) listeners.add(listener);

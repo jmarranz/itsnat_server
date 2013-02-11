@@ -19,10 +19,10 @@ package org.itsnat.impl.core.listener;
 import java.util.LinkedList;
 import org.itsnat.core.event.ItsNatAttachedClientEvent;
 import org.itsnat.core.event.ItsNatAttachedClientEventListener;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 
 /**
  *
@@ -30,25 +30,26 @@ import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
  */
 public class ItsNatAttachedClientEventListenerUtil
 {
-    private static void handleEventListeners(ItsNatAttachedClientEvent event,ItsNatEventListenerChainImpl chain)
+    private static void handleEventListeners(ItsNatAttachedClientEvent event,ItsNatEventListenerChainImpl<ItsNatAttachedClientEventListener> chain)
     {
         if (chain.isStopped()) return; // Por si acaso
-        LinkedList listeners = chain.getListeners();
+        LinkedList<ItsNatAttachedClientEventListener> listeners = chain.getListeners();
         while(!listeners.isEmpty())
         {
-            ItsNatAttachedClientEventListener listener = (ItsNatAttachedClientEventListener)listeners.removeFirst();
+            ItsNatAttachedClientEventListener listener = listeners.removeFirst();
             listener.handleEvent(event);
             if (chain.isStopped()) break;
         }
     }
 
-    public static boolean handleEventListeners(final ItsNatAttachedClientEvent evt,final LinkedList listeners)
+    public static boolean handleEventListeners(final ItsNatAttachedClientEvent evt,final LinkedList<ItsNatAttachedClientEventListener> listeners)
     {
         if (listeners.isEmpty()) return false;
 
         // Hay algún listener
-        ItsNatEventListenerChainImpl chain = new ItsNatEventListenerChainImpl(listeners)
+        ItsNatEventListenerChainImpl<ItsNatAttachedClientEventListener> chain = new ItsNatEventListenerChainImpl<ItsNatAttachedClientEventListener>(listeners)
         {
+            @Override
            public void continueChain()
            {
                super.continueChain();
@@ -71,7 +72,7 @@ public class ItsNatAttachedClientEventListenerUtil
         return true;
     }
 
-    private static void addGlobalEventListeners(ItsNatAttachedClientEvent evt,LinkedList listeners)
+    private static void addGlobalEventListeners(ItsNatAttachedClientEvent evt,LinkedList<ItsNatAttachedClientEventListener> listeners)
     {
         ItsNatEventImpl itsNatEvt = (ItsNatEventImpl)evt;
         ItsNatServletImpl servlet = itsNatEvt.getItsNatServletRequestImpl().getItsNatServletImpl();
@@ -87,7 +88,7 @@ public class ItsNatAttachedClientEventListenerUtil
 
     public static boolean handleEventIncludingGlobalListeners(ItsNatAttachedClientEvent evt)
     {
-        LinkedList listeners = new LinkedList();
+        LinkedList<ItsNatAttachedClientEventListener> listeners = new LinkedList<ItsNatAttachedClientEventListener>();
         addGlobalEventListeners(evt,listeners);
 
         return handleEventListeners(evt,listeners);
