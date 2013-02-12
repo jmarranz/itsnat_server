@@ -1350,7 +1350,7 @@ docTemplate.setCommMode(CommMode.SCRIPT_HOLD);
         ItsNatServlet itsNatServlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         ItsNatServletContext appCtx = itsNatServlet.getItsNatServletConfig().getItsNatServletContext();
 
-        final List sessionList = new LinkedList();
+        final List<ItsNatSession> sessionList = new LinkedList<ItsNatSession>();
         ItsNatSessionCallback cb = new ItsNatSessionCallback()
         {
             public boolean handleSession(ItsNatSession session)

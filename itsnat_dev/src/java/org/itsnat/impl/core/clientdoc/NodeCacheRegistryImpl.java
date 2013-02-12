@@ -44,8 +44,8 @@ import org.w3c.dom.Node;
 public class NodeCacheRegistryImpl implements Serializable
 {
     protected ClientDocumentStfulImpl clientDoc;
-    protected Map mapByNode = new HashMap();
-    protected Map mapById = new HashMap();
+    protected Map<Node,String> mapByNode = new HashMap<Node,String>();
+    protected Map<String,Node> mapById = new HashMap<String,Node>();
 
     /**
      * Creates a new instance of NodeCacheRegistryImpl
@@ -65,7 +65,7 @@ public class NodeCacheRegistryImpl implements Serializable
         return clientDoc.getItsNatStfulDocument();
     }
 
-    public Iterator iterator()
+    public Iterator<Map.Entry<Node,String>> iterator()
     {
         return mapByNode.entrySet().iterator();
     }
@@ -108,7 +108,7 @@ public class NodeCacheRegistryImpl implements Serializable
         if (!isNodeTypeCacheable(node))
             return null; // Nos ahorramos tiempo en buscar
 
-        String id = (String)mapByNode.remove(node);
+        String id = mapByNode.remove(node);
         if (id == null)
             return null;
 
@@ -124,12 +124,12 @@ public class NodeCacheRegistryImpl implements Serializable
         if (!isNodeTypeCacheable(node))
             return null; // Nos ahorramos tiempo de búsqueda
 
-        return (String)mapByNode.get(node);
+        return mapByNode.get(node);
     }
 
     public Node getNodeById(String id)
     {
-        return (Node)mapById.get(id);
+        return mapById.get(id);
     }
 
     public String generateUniqueId()
@@ -178,8 +178,8 @@ public class NodeCacheRegistryImpl implements Serializable
 
         if (node == null) throw new ItsNatException("Null node is not supported",clientDoc);
 
-        String idOld = (String)mapByNode.put(node,id);
-        Node nodeOld = (Node)mapById.put(id,node);
+        String idOld = mapByNode.put(node,id);
+        Node nodeOld = mapById.put(id,node);
 
         if (idOld != null) throw new ItsNatException("INTERNAL ERROR");
         if (nodeOld != null) throw new ItsNatException("INTERNAL ERROR");
@@ -212,11 +212,11 @@ public class NodeCacheRegistryImpl implements Serializable
          * Puede haber alturas en donde no haya ningún nodo (lo normal).
          */
 
-        ArrayList cacheCopy = new ArrayList();
-        for(Iterator it = iterator(); it.hasNext(); )
+        ArrayList<LinkedList<Map.Entry<Node,String>>> cacheCopy = new ArrayList<LinkedList<Map.Entry<Node,String>>>();
+        for(Iterator<Map.Entry<Node,String>> it = iterator(); it.hasNext(); )
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            Node node = (Node)entry.getKey();
+            Map.Entry<Node,String> entry = it.next();
+            Node node = entry.getKey();
             int h = getNodeDeep(node);
             // Aseguramos que cacheCopy contiene la posición h
             if (cacheCopy.size() <= h)
@@ -225,10 +225,10 @@ public class NodeCacheRegistryImpl implements Serializable
                 for(int i = 1; i <= h - currSize + 1; i++)
                     cacheCopy.add(null);
             }
-            LinkedList sameH = (LinkedList)cacheCopy.get(h);
+            LinkedList<Map.Entry<Node,String>> sameH = cacheCopy.get(h);
             if (sameH == null)
             {
-                sameH = new LinkedList();
+                sameH = new LinkedList<Map.Entry<Node,String>>();
                 cacheCopy.set(h,sameH);
             }
             sameH.add(entry);

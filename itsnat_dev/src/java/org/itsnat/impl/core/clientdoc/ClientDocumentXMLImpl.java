@@ -261,7 +261,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // Ignorado, no hay eventos no será nunca llamado
     }

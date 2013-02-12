@@ -16,13 +16,9 @@
 
 package org.itsnat.impl.core.doc;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.itsnat.impl.core.event.CodeToSendListenersImpl;
-import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -30,31 +26,35 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.CodeToSendListener;
+import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocStfulTask;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
+import org.itsnat.impl.core.event.CodeToSendEventImpl;
+import org.itsnat.impl.core.event.CodeToSendListenersImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.jsren.JSScriptUtilFromDocImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
+import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.WeakSetImpl;
 import org.w3c.dom.DOMException;
@@ -76,14 +76,14 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
     protected ItsNatUserEventListenerRegistryImpl userListenerRegistry;
     protected boolean enabledSendCode = true;
-    protected WeakSetImpl clientDocAttachedSet; // No se utilizan ids (pues pueden ser generados por otras sesiones), se utiliza la identidad del objeto
+    protected WeakSetImpl<ClientDocumentAttachedClientImpl> clientDocAttachedSet; // No se utilizan ids (pues pueden ser generados por otras sesiones), se utiliza la identidad del objeto
     protected int commMode;
     protected long eventTimeout;
     protected CodeToSendListenersImpl codeToSendListeners;
-    protected LinkedList globalDomEventListeners;
-    protected LinkedList attachedClientListeners;
-    protected LinkedList referrerRequestListeners;
-    protected transient ThreadLocal evtDispThreadLocal = new ThreadLocal();
+    protected LinkedList<EventListener> globalDomEventListeners;
+    protected LinkedList<ItsNatAttachedClientEventListener> attachedClientListeners;
+    protected LinkedList<ItsNatServletRequestListener> referrerRequestListeners;
+    protected transient ThreadLocal<ClientDocumentStfulImpl> evtDispThreadLocal = new ThreadLocal<ClientDocumentStfulImpl>();
     protected long evtDispMaxWait;
     protected int maxOpenClients;
     protected MapUniqueId boundElemDocContainers;
@@ -107,7 +107,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        this.evtDispThreadLocal = new ThreadLocal();
+        this.evtDispThreadLocal = new ThreadLocal<ClientDocumentStfulImpl>();
 
         in.defaultReadObject();
     }
@@ -408,10 +408,10 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         return clientDocAttachedSet.size();
     }
 
-    public WeakSetImpl getClientDocumentAttachedClientSet()
+    public WeakSetImpl<ClientDocumentAttachedClientImpl> getClientDocumentAttachedClientSet()
     {
         if (clientDocAttachedSet == null)
-            this.clientDocAttachedSet = new WeakSetImpl();
+            this.clientDocAttachedSet = new WeakSetImpl<ClientDocumentAttachedClientImpl>();
         return clientDocAttachedSet;
     }
 
@@ -419,8 +419,8 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     {
         if (!hasClientDocumentAttachedClient()) return null;
 
-        WeakSetImpl attachedClients = getClientDocumentAttachedClientSet();
-        return (ClientDocumentAttachedClientImpl[])attachedClients.toArray(new ClientDocumentAttachedClientImpl[attachedClients.size()]);
+        WeakSetImpl<ClientDocumentAttachedClientImpl> attachedClients = getClientDocumentAttachedClientSet();
+        return attachedClients.toArray(new ClientDocumentAttachedClientImpl[attachedClients.size()]);
     }
 
     public void addClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
@@ -457,10 +457,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
         if (hasClientDocumentAttachedClient())
         {
-            WeakSetImpl clientDocs = getClientDocumentAttachedClientSet();
-            for(Iterator it = clientDocs.iterator(); it.hasNext(); )
+            WeakSetImpl<ClientDocumentAttachedClientImpl> clientDocs = getClientDocumentAttachedClientSet();
+            for(ClientDocumentAttachedClientImpl client : clientDocs)
             {
-                ClientDocumentAttachedClientImpl client = (ClientDocumentAttachedClientImpl)it.next();
                 if (!client.isSendCodeEnabled())
                     return false;
             }
@@ -480,13 +479,13 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (!hasClientDocumentAttachedClient())
             return new ClientDocumentStfulImpl[] { ownerClient };
 
-        WeakSetImpl attachedClients = getClientDocumentAttachedClientSet();
+        WeakSetImpl<ClientDocumentAttachedClientImpl> attachedClients = getClientDocumentAttachedClientSet();
         ClientDocumentStfulImpl[] res = new ClientDocumentStfulImpl[1 + attachedClients.size()];
         res[0] = ownerClient;
         int i = 1;
-        for(Iterator it = attachedClients.iterator(); it.hasNext(); i++)
+        for(Iterator<ClientDocumentAttachedClientImpl> it = attachedClients.iterator(); it.hasNext(); i++)
         {
-            ClientDocumentAttachedClientImpl clientDoc = (ClientDocumentAttachedClientImpl)it.next();
+            ClientDocumentAttachedClientImpl clientDoc = it.next();
             res[i] = clientDoc;
         }
         return res;
@@ -500,10 +499,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
         if (hasClientDocumentAttachedClient())
         {
-            WeakSetImpl attachedClient = getClientDocumentAttachedClientSet();
-            for(Iterator it = attachedClient.iterator(); it.hasNext(); )
+            WeakSetImpl<ClientDocumentAttachedClientImpl> attachedClient = getClientDocumentAttachedClientSet();
+            for(ClientDocumentAttachedClientImpl clientDoc : attachedClient)
             {
-                ClientDocumentAttachedClientImpl clientDoc = (ClientDocumentAttachedClientImpl)it.next();
                 cont = clientTask.doTask(clientDoc,arg);
                 if (!cont) return false;
             }
@@ -564,6 +562,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         getCodeToSendListeners().removeCodeToSendListener(listener);
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();
@@ -584,14 +583,14 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         return getItsNatDocumentTemplateVersion().isNodeCacheEnabled();
     }
 
-    public LinkedList getItsNatAttachedClientEventListeners()
+    public LinkedList<ItsNatAttachedClientEventListener> getItsNatAttachedClientEventListeners()
     {
         if (attachedClientListeners == null)
-            this.attachedClientListeners = new LinkedList();
+            this.attachedClientListeners = new LinkedList<ItsNatAttachedClientEventListener>();
         return attachedClientListeners;
     }
 
-    public void getItsNatAttachedClientEventListenerList(LinkedList list)
+    public void getItsNatAttachedClientEventListenerList(LinkedList<ItsNatAttachedClientEventListener> list)
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (attachedClientListeners == null)
@@ -609,24 +608,24 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public void addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListeners();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListeners();
         attachedEventListeners.add(listener);
     }
 
     public void removeItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
-        LinkedList attachedEventListeners = getItsNatAttachedClientEventListeners();
+        LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListeners();
         attachedEventListeners.remove(listener);
     }
 
-    public LinkedList getGlobalEventListenerList()
+    public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList();
+            this.globalDomEventListeners = new LinkedList<EventListener>();
         return globalDomEventListeners;
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         if (globalDomEventListeners == null)
             return;
@@ -635,19 +634,19 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.remove(listener);
     }
 
@@ -675,7 +674,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public boolean dispatchEvent(EventTarget target,Event evt) throws EventException
     {
-        ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)getEventDispatcherClientDocByThread();
+        ClientDocumentStfulImpl clientDoc = getEventDispatcherClientDocByThread();
         if (clientDoc != null)
             return clientDoc.dispatchEvent(target,evt);
         else
@@ -709,14 +708,14 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         getClientDocumentStfulOwner().getItsNatSessionImpl().cleanExcessClientDocumentAttachedClients(this); // Lo hacemos efectivo ya mismo
     }
 
-    public ThreadLocal getEventDispatcherThreadLocal()
+    public ThreadLocal<ClientDocumentStfulImpl> getEventDispatcherThreadLocal()
     {
         return evtDispThreadLocal;
     }
 
     public ClientDocumentStfulImpl getEventDispatcherClientDocByThread()
     {
-        return (ClientDocumentStfulImpl)evtDispThreadLocal.get();
+        return evtDispThreadLocal.get();
     }
 
     public void setEventDispatcherClientDocByThread(ClientDocumentStfulImpl clientDoc)
@@ -724,14 +723,14 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         evtDispThreadLocal.set(clientDoc);
     }
 
-    public LinkedList getReferrerItsNatServletRequestListenerList()
+    public LinkedList<ItsNatServletRequestListener> getReferrerItsNatServletRequestListenerList()
     {
         if (referrerRequestListeners == null)
-            this.referrerRequestListeners = new LinkedList();
+            this.referrerRequestListeners = new LinkedList<ItsNatServletRequestListener>();
         return referrerRequestListeners;
     }
 
-    public Iterator getReferrerItsNatServletRequestListenerIterator()
+    public Iterator<ItsNatServletRequestListener> getReferrerItsNatServletRequestListenerIterator()
     {
         if (referrerRequestListeners == null) return null;
         if (referrerRequestListeners.isEmpty()) return null;
@@ -743,7 +742,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (!isReferrerEnabled())
             throw new ItsNatException("Referrer feature is not enabled",this);
 
-        LinkedList referrerRequestListeners = getReferrerItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> referrerRequestListeners = getReferrerItsNatServletRequestListenerList();
         referrerRequestListeners.add(listener);
     }
 
@@ -756,12 +755,12 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     public void dispatchReferrerRequestListeners(ItsNatServletRequest request,ItsNatServletResponse response)
     {
         // Sincronizar el documento antes de llamar a este método
-        Iterator iterator = getReferrerItsNatServletRequestListenerIterator();
+        Iterator<ItsNatServletRequestListener> iterator = getReferrerItsNatServletRequestListenerIterator();
         if (iterator != null)
         {
             while(iterator.hasNext())
             {
-                ItsNatServletRequestListener listener = (ItsNatServletRequestListener)iterator.next();
+                ItsNatServletRequestListener listener = iterator.next();
                 listener.processRequest(request,response);
             }
         }
@@ -780,10 +779,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
         if (hasClientDocumentAttachedClient())
         {
-            WeakSetImpl clientDocs = getClientDocumentAttachedClientSet();
-            for(Iterator it = clientDocs.iterator(); it.hasNext(); )
+            WeakSetImpl<ClientDocumentAttachedClientImpl> clientDocs = getClientDocumentAttachedClientSet();
+            for(ClientDocumentAttachedClientImpl clientDocAttached : clientDocs)
             {
-                ClientDocumentAttachedClientImpl clientDocAttached = (ClientDocumentAttachedClientImpl)it.next();
                 if (clientDocAttached != clientDocSource)
                     clientDocAttached.normalEventReceivedInDocument();
             }

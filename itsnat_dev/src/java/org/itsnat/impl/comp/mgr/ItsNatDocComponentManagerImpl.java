@@ -780,12 +780,12 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public ItsNatComponent[] removeItsNatComponents(Node node,boolean dispose)
     {
-        LinkedList listComp = new LinkedList();
+        LinkedList<ItsNatComponent> listComp = new LinkedList<ItsNatComponent>();
         removeItsNatComponents(node,dispose,listComp);
-        return (ItsNatComponent[])listComp.toArray(new ItsNatComponent[listComp.size()]);
+        return listComp.toArray(new ItsNatComponent[listComp.size()]);
     }
 
-    public void removeItsNatComponents(Node node,boolean dispose,LinkedList listComp)
+    public void removeItsNatComponents(Node node,boolean dispose,LinkedList<ItsNatComponent> listComp)
     {
         // Primero los hijos por si acaso
         Node child = node.getFirstChild();

@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 
 /**
  *
@@ -31,7 +30,7 @@ import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
  */
 public class MapUniqueId implements Serializable
 {
-    protected Map map = new HashMap();
+    protected Map<String,HasUniqueId> map = new HashMap<String,HasUniqueId>();
     protected UniqueIdGenerator generator;
 
     /** Creates a new instance of MapUniqueId */
@@ -69,19 +68,19 @@ public class MapUniqueId implements Serializable
         map.putAll(otherMap.map);
     }
 
-    public Set entrySet()
+    public Set<Map.Entry<String,HasUniqueId>> entrySet()
     {
         return map.entrySet();
     }
 
-    public Collection values()
+    public Collection<HasUniqueId> values()
     {
         return map.values();
     }
 
     public HasUniqueId get(String id)
     {
-        return (HasUniqueId)map.get(id);
+        return map.get(id);
     }
 
     public HasUniqueId put(HasUniqueId obj)
@@ -89,12 +88,12 @@ public class MapUniqueId implements Serializable
         check(obj);
         UniqueId idObj = obj.getUniqueId();
         String id = idObj.getId();
-        return (HasUniqueId)map.put(id,obj);
+        return map.put(id,obj);
     }
 
     public HasUniqueId removeById(String id)
     {
-        return (HasUniqueId)map.remove(id);
+        return map.remove(id);
     }
 
     public HasUniqueId remove(HasUniqueId obj)
@@ -102,17 +101,17 @@ public class MapUniqueId implements Serializable
         check(obj);
         UniqueId idObj = obj.getUniqueId();
         String id = idObj.getId();
-        return (HasUniqueId)map.remove(id);
+        return map.remove(id);
     }
 
     public HasUniqueId[] toArray(HasUniqueId[] array)
     {
         if (array.length != size()) throw new ItsNatException("INTERNAL ERROR");
         int i = 0;
-        for(Iterator it = map.entrySet().iterator(); it.hasNext(); i++)
+        for(Iterator<Map.Entry<String,HasUniqueId>> it = map.entrySet().iterator(); it.hasNext(); i++)
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            HasUniqueId value = (HasUniqueId)entry.getValue();
+            Map.Entry<String,HasUniqueId> entry = it.next();
+            HasUniqueId value = entry.getValue();
             array[i] = value;
         }
         return array;

@@ -51,6 +51,11 @@ import org.itsnat.impl.core.util.UniqueIdGenIntList;
 public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                         implements ItsNatSession,HasUniqueId
 {
+    public static final Comparator<ClientDocumentStfulOwnerImpl> COMPARATOR_STFUL_OWNER = new LastRequestComparator<ClientDocumentStfulOwnerImpl>();    
+    public static final Comparator<ClientDocumentAttachedClientImpl> COMPARATOR_ATTACHED_CLIENTS = new LastRequestComparator<ClientDocumentAttachedClientImpl>();
+    public static final Comparator<ClientDocumentAttachedServerImpl> COMPARATOR_ATTACHED_SERVERS = new LastRequestComparator<ClientDocumentAttachedServerImpl>();    
+        
+    
     protected transient ItsNatSessionSerializeContainerImpl serialContainer;
     protected transient ItsNatServletContextImpl context; // No serializamos la instancia pero sí serializaremos el Necesita serializarse porque el generador de ids debe estar en todas las JVMs
     protected transient UniqueId idObj; // No se serializa si no se serializa el contexto pues el generador de ids debe ser el mismo objeto que hay en ItsNatServletContextImpl
@@ -344,9 +349,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentStfulOwnerImpl[] res = new ClientDocumentStfulOwnerImpl[size];
             int i = 0;
-            for(Iterator it = ownerClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = ownerClientsById.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 res[i] = (ClientDocumentStfulOwnerImpl)entry.getValue();
                 i++;
             }
@@ -410,9 +415,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         {
             ItsNatStfulDocumentImpl[] res = new ItsNatStfulDocumentImpl[docsById.size()];
             int i = 0;
-            for(Iterator it = docsById.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = docsById.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 res[i] = (ItsNatStfulDocumentImpl)entry.getValue();
                 i++;
             }
@@ -483,9 +488,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedClientImpl[] res = new ClientDocumentAttachedClientImpl[size];
             int i = 0;
-            for(Iterator it = attachedClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = attachedClientsById.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 res[i] = (ClientDocumentAttachedClientImpl)entry.getValue();
                 i++;
             }
@@ -559,9 +564,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedServerImpl[] res = new ClientDocumentAttachedServerImpl[size];
             int i = 0;
-            for(Iterator it = attachedServersById.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = attachedServersById.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 res[i] = (ClientDocumentAttachedServerImpl)entry.getValue();
                 i++;
             }
@@ -765,7 +770,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                 int excess = clients.length - maxLiveDocs;
 
                 // Invalidamos los que llevan más tiempo sin usar
-                Arrays.sort(clients,LastRequestComparator.SINGLETON);
+                Arrays.sort(clients,COMPARATOR_STFUL_OWNER);
                 for(int i = 0; i < excess; i++)
                 {
                     ClientDocumentStfulOwnerImpl clientDoc = clients[i];
@@ -794,7 +799,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
             int excess = clientList.length - maxClientAttachedNum;
 
             // Invalidamos los que llevan más tiempo sin usar
-            Arrays.sort(clientList,LastRequestComparator.SINGLETON);
+            Arrays.sort(clientList,COMPARATOR_ATTACHED_CLIENTS);
             for(int i = 0; i < excess; i++)
             {
                 ClientDocumentAttachedClientImpl clientDoc = clientList[i];
@@ -827,7 +832,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                 int excess = clientList.length - maxLiveDocs;
 
                 // Invalidamos los que llevan más tiempo sin usar
-                Arrays.sort(clientList,LastRequestComparator.SINGLETON);
+                Arrays.sort(clientList,COMPARATOR_ATTACHED_SERVERS);
                 for(int i = 0; i < excess; i++)
                 {
                     ClientDocumentAttachedServerImpl clientDoc = clientList[i];
@@ -840,11 +845,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
 }
 
-class LastRequestComparator implements Comparator
+class LastRequestComparator<T> implements Comparator<T>
 {
-    public static final Comparator SINGLETON = new LastRequestComparator();
-
-    public int compare(Object o1, Object o2)
+    public int compare(T o1, T o2)
     {
         ClientDocumentImpl clientDoc1 = (ClientDocumentImpl)o1;
         ClientDocumentImpl clientDoc2 = (ClientDocumentImpl)o2;

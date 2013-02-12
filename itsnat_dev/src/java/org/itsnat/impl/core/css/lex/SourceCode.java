@@ -27,7 +27,7 @@ import java.util.ListIterator;
  */
 public class SourceCode implements Serializable
 {
-    protected LinkedList tokens;
+    protected LinkedList<Token> tokens;
     protected StringBuilder code;
 
     /** Creates a new instance of SourceCode */
@@ -39,17 +39,17 @@ public class SourceCode implements Serializable
 
     public SourceCode()
     {
-        this.tokens = new LinkedList();
+        this.tokens = new LinkedList<Token>();
         this.code = new StringBuilder();
     }
 
-    public SourceCode(LinkedList tokens)
+    public SourceCode(LinkedList<Token> tokens)
     {
         this.tokens = tokens;
         this.code = new StringBuilder(toStringTokens(tokens));
     }
 
-    public SourceCode(String code,LinkedList tokens)
+    public SourceCode(String code,LinkedList<Token> tokens)
     {
         this.code = new StringBuilder(code);
         this.tokens = tokens;
@@ -61,6 +61,7 @@ public class SourceCode implements Serializable
         return new SourceCode(code);
     }
 
+    @Override
     public boolean equals(Object other)
     {
         if (super.equals(other))
@@ -70,6 +71,7 @@ public class SourceCode implements Serializable
         return toString().equals(other.toString());
     }
 
+    @Override
     public int hashCode()
     {
         return toString().hashCode();
@@ -88,9 +90,10 @@ public class SourceCode implements Serializable
 
     public Token getToken(int i)
     {
-        return (Token)tokens.get(i);
+        return tokens.get(i);
     }
 
+    @Override
     public String toString()
     {
         return code.toString();
@@ -101,12 +104,12 @@ public class SourceCode implements Serializable
         return toStringTokens(tokens);
     }
 
-    public static String toStringTokens(LinkedList tokens)
+    public static String toStringTokens(LinkedList<Token> tokens)
     {
         StringBuilder code = new StringBuilder();
-        for(Iterator it = tokens.iterator(); it.hasNext(); )
+        for(Iterator<Token> it = tokens.iterator(); it.hasNext(); )
         {
-            Token token = (Token)it.next();
+            Token token = it.next();
             code.append( token.toString() );
         }
         return code.toString();
@@ -119,9 +122,9 @@ public class SourceCode implements Serializable
         SourceCode current = new SourceCode();
         resTmp[0] = current;
         int i = 0;
-        for(Iterator it = tokens.iterator(); it.hasNext(); )
+        for(Iterator<Token> it = tokens.iterator(); it.hasNext(); )
         {
-            Token token = (Token)it.next();
+            Token token = it.next();
             if (token.equals(byTok))
             {
                 if (current.tokenCount() > 0) // Si no se cumple es que el actual está vacío, lo ignoramos y perdemos
@@ -146,23 +149,23 @@ public class SourceCode implements Serializable
 
     public SourceCode trim()
     {
-        LinkedList resTokens = new LinkedList();
+        LinkedList<Token> resTokens = new LinkedList<Token>();
         resTokens.addAll(this.tokens);
 
         boolean modified = false;
 
-        for(ListIterator it = resTokens.listIterator(); it.hasNext(); )
+        for(ListIterator<Token> it = resTokens.listIterator(); it.hasNext(); )
         {
-            Token token = (Token)it.next();
+            Token token = it.next();
             if (!token.getClass().equals(Space.class))
                 break;
             it.remove();
             modified = true;
         }
 
-        for(ListIterator it = resTokens.listIterator(resTokens.size()); it.hasPrevious(); )
+        for(ListIterator<Token> it = resTokens.listIterator(resTokens.size()); it.hasPrevious(); )
         {
-            Token token = (Token)it.previous();
+            Token token = it.previous();
             if (!token.getClass().equals(Space.class))
                 break;
             it.remove();

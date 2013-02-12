@@ -14,7 +14,7 @@ import java.util.LinkedList;
  */
 public class CodeListImpl
 {
-    protected LinkedList list = new LinkedList();
+    protected LinkedList<Object> list = new LinkedList<Object>();
 
     public void add(Object codeFragment)
     {
@@ -30,14 +30,14 @@ public class CodeListImpl
     protected String codeToString(CodeToSendRegistryImpl codeReg)
     {
         StringBuilder code = new StringBuilder();
-        for(Iterator it = list.iterator(); it.hasNext(); )
+        for(Object codeFragment : list)
         {
-            Object codeFragment = it.next();
             code.append( codeReg.codeToString( codeFragment ) );
         }
         return code.toString();
     }
 
+    @Override
     public String toString()
     {
         throw new RuntimeException("INTERNAL ERROR");

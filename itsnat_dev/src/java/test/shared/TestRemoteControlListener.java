@@ -125,7 +125,6 @@ public class TestRemoteControlListener implements ItsNatAttachedClientEventListe
                 break;
             case ItsNatAttachedClientEvent.UNLOAD:
                 // Nada que hacer
-                int i = 1;
                 break;
         }
 

@@ -32,9 +32,9 @@ import org.itsnat.core.ItsNatException;
  *
  * @author jmarranz
  */
-public class WeakSetImpl implements Set,Serializable
+public class WeakSetImpl<K> implements Set<K>,Serializable
 {
-    protected transient WeakHashMap map;
+    protected transient WeakHashMap<K,Object> map;
 
     public WeakSetImpl()
     {
@@ -42,9 +42,9 @@ public class WeakSetImpl implements Set,Serializable
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp = null;
+        Map<K,Object> mapTmp = null;
         if (map != null)
-            mapTmp = new HashMap(map);
+            mapTmp = new HashMap<K,Object>(map);
         out.writeObject(mapTmp);
 
         out.defaultWriteObject();
@@ -52,17 +52,17 @@ public class WeakSetImpl implements Set,Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        Map mapTmp = (Map)in.readObject();
+        Map<K,Object> mapTmp = (Map<K,Object>)in.readObject();
         if (mapTmp != null)
             getWeakHashMap().putAll(mapTmp);
 
         in.defaultReadObject();
     }
 
-    public WeakHashMap getWeakHashMap()
+    public WeakHashMap<K,Object> getWeakHashMap()
     {
         // Obviamente NO es multihilo
-        if (map == null) this.map = new WeakHashMap();
+        if (map == null) this.map = new WeakHashMap<K,Object>();
         return map;
     }
 
@@ -84,7 +84,7 @@ public class WeakSetImpl implements Set,Serializable
         return map.isEmpty();
     }
 
-    public boolean add(Object obj)
+    public boolean add(K obj)
     {
         Object res = getWeakHashMap().put(obj,null);
         // Cambiamos el comportamiento, nos interesa detectar dobles inserciones
@@ -105,27 +105,27 @@ public class WeakSetImpl implements Set,Serializable
          return res != obj; // Si res es null es que no estaba
     }
 
-    public boolean addAll(Collection col)
+    public boolean addAll(Collection<? extends K> col)
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public boolean containsAll(Collection col)
+    public boolean containsAll(Collection<?> col)
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public boolean removeAll(Collection col)
+    public boolean removeAll(Collection<?> col)
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public boolean retainAll(Collection col)
+    public boolean retainAll(Collection<?> col)
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public Iterator iterator()
+    public Iterator<K> iterator()
     {
         return getWeakHashMap().keySet().iterator();
     }
@@ -135,7 +135,7 @@ public class WeakSetImpl implements Set,Serializable
         return getWeakHashMap().keySet().toArray();
     }
 
-    public Object[] toArray(Object[] a)
+    public <T> T[] toArray(T[] a)
     {
         return getWeakHashMap().keySet().toArray(a);
     }

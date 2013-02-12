@@ -28,6 +28,7 @@ import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -159,9 +160,9 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         if (eventListenersById.isEmpty()) return;
 
         LinkedList svgWebNodes = null;
-        for(Iterator it = eventListenersById.entrySet().iterator(); it.hasNext(); )
+        for(Iterator<Map.Entry<String,HasUniqueId>> it = eventListenersById.entrySet().iterator(); it.hasNext(); )
         {
-            Map.Entry entry = (Map.Entry)it.next();
+            Map.Entry<String,HasUniqueId> entry = it.next();
             ItsNatDOMEventListenerWrapperImpl listenerWrapper =
                     (ItsNatDOMEventListenerWrapperImpl)entry.getValue();
 

@@ -91,7 +91,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
     protected SVGWebInfoImpl svgWebInfo;
     protected MapUniqueId fileUploadsMap;
     protected JSScriptUtilFromClientImpl jsScriptUtil;
-    protected LinkedList globalDomEventListeners;
+    protected LinkedList<EventListener> globalDomEventListeners;
     
     /** Creates a new instance of ClientDocumentStfulImpl */
     public ClientDocumentStfulImpl(ItsNatStfulDocumentImpl itsNatDoc,Browser browser,ItsNatSessionImpl session)
@@ -722,14 +722,14 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getUserEventListenerRegistry().removeAllItsNatUserEventListeners(target,updateClient);
     }
 
-    public LinkedList getGlobalEventListenerList()
+    public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList();
+            this.globalDomEventListeners = new LinkedList<EventListener>();
         return globalDomEventListeners;
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         if (globalDomEventListeners == null)
             return;
@@ -738,19 +738,19 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList globalDomEventListeners = getGlobalEventListenerList();
+        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
         globalDomEventListeners.remove(listener);
     }
 

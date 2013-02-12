@@ -17,8 +17,8 @@
 package org.itsnat.impl.core.css.lex;
 
 import java.io.Serializable;
-import org.itsnat.core.ItsNatException;
 import java.util.LinkedList;
+import org.itsnat.core.ItsNatException;
 
 /**
  * Una vez creado es de sólo lectura
@@ -50,15 +50,15 @@ public abstract class Token implements Serializable
         return end;
     }
 
-    public static LinkedList parse(String code)
+    public static LinkedList<Token> parse(String code)
     {
         Cursor cursor = new Cursor(code);
         return parse(cursor,false,' ');
     }
 
-    public static LinkedList parse(Cursor cursor,boolean checkEndChar,char endChar)
+    public static LinkedList<Token> parse(Cursor cursor,boolean checkEndChar,char endChar)
     {
-        LinkedList tokens = new LinkedList();
+        LinkedList<Token> tokens = new LinkedList<Token>();
         for( ; cursor.isValidPosition(); cursor.inc())
         {
             int i = cursor.getCurrentPos();
@@ -117,6 +117,7 @@ public abstract class Token implements Serializable
         return tokens;
     }
 
+    @Override
     public boolean equals(Object token)
     {
         if (super.equals(token))
@@ -126,6 +127,7 @@ public abstract class Token implements Serializable
         return toString().equals(token.toString()); // Mismo tipo y mismo contenido
     }
 
+    @Override
     public int hashCode()
     {
         return toString().hashCode();

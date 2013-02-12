@@ -39,7 +39,7 @@ public abstract class Block extends Token
         // cursor apunta al caracter de comienzo del bloque
         cursor.inc(); // interior del bloque
         char endChar = getEndBlockChar();
-        LinkedList tokens = Token.parse(cursor,true,endChar);
+        LinkedList<Token> tokens = Token.parse(cursor,true,endChar);
 
         if (cursor.isInTheEnd())
             throw new ItsNatException("Missing matching " + endChar + " start pos: " + start + " code: \"" + cursor.getCode() + "\"");

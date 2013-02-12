@@ -16,20 +16,19 @@
 
 package org.itsnat.impl.core.resp.attachcli;
 
-import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatAttachedClientEvent;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
@@ -37,6 +36,8 @@ import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
+import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 
@@ -151,6 +152,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         return request.createItsNatAttachedClientEvent(clientDoc);
     }
 
+    @Override
     public String serializeDocument()
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
@@ -159,9 +161,9 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         {
             ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
             MapUniqueId bindInfoList = itsNatDoc.getBoundElementDocContainerMap();
-            for(Iterator it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 BoundElementDocContainerImpl bindInfo =
                         (BoundElementDocContainerImpl)entry.getValue();
 
@@ -170,9 +172,9 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
 
             String docMarkup = super.serializeDocument();
 
-            for(Iterator it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,HasUniqueId>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
+                Map.Entry<String,HasUniqueId> entry = it.next();
                 BoundElementDocContainerImpl bindInfo =
                         (BoundElementDocContainerImpl)entry.getValue();
 
