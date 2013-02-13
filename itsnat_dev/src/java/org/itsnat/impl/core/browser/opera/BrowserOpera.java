@@ -120,7 +120,7 @@ public abstract class BrowserOpera extends BrowserW3C
         return true;
     }    
     
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         // En teoría todos los elementos no ignoran el z-index, sin embargo
         // aunque Opera Mobile 9.x está diseñado para pantallas táctiles,

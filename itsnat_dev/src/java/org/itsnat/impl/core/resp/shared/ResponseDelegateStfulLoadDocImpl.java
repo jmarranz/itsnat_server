@@ -53,6 +53,7 @@ import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -333,11 +334,11 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
             // El uso de HTMLSelectElement.getOptions() es terriblemente ineficiente
             // Toleramos la presencia de <optgroup>
             // Los <option> dentro de un <optgroup> se manifiestan en la colección JavaScript "options"
-            LinkedList options = DOMUtilInternal.getChildElementListWithTagNameNS(select,NamespaceUtil.XHTML_NAMESPACE,"option",true);
+            LinkedList<Node> options = DOMUtilInternal.getChildElementListWithTagNameNS(select,NamespaceUtil.XHTML_NAMESPACE,"option",true);
             if (options != null)
             {
                 int i = 0;
-                for(Iterator it = options.iterator(); it.hasNext(); i++)
+                for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
                 {
                     HTMLOptionElement optElem = (HTMLOptionElement)it.next();
                     String opref = "elem.options[" + i + "]";

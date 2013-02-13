@@ -48,7 +48,7 @@ public abstract class BrowserWebKitSymbian extends BrowserWebKit
         return true;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }

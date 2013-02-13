@@ -117,7 +117,7 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }

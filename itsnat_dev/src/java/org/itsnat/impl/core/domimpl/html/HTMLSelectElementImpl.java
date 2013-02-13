@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import org.itsnat.impl.core.domimpl.DocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
@@ -55,7 +56,7 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
         return (HTMLOptionElement)DOMUtilInternal.getChildElementWithTagNameNS(this,NamespaceUtil.XHTML_NAMESPACE,"option", index);
     }
 
-    public static LinkedList getOptionsArray(HTMLSelectElement select)
+    public static LinkedList<Node> getOptionsArray(HTMLSelectElement select)
     {
         // Puede haber <optgroup> dentro del select padre, hay que buscar recursivamente
         return DOMUtilInternal.getChildElementListWithTagNameNS(select,NamespaceUtil.XHTML_NAMESPACE,"option",true);

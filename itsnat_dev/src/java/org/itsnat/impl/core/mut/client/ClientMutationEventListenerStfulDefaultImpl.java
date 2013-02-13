@@ -31,9 +31,9 @@ public class ClientMutationEventListenerStfulDefaultImpl extends ClientMutationE
         super(clientDoc);
     }
 
-    public Map preRenderAndSendMutationCode(MutationEvent mutEvent)
+    @Override    
+    public void preRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        return null;
     }
 
 }

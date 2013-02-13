@@ -207,9 +207,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         }
     }
 
-    public abstract Map preRenderAndSendMutationCode(MutationEvent mutEvent);
+    public abstract void preRenderAndSendMutationCode(MutationEvent mutEvent);
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
         String type = mutEvent.getType();
 
@@ -311,9 +311,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         // de la caché aquí estaría en la cache posiblemente, pero en el cliente el nodo será uno nuevo,
         // así desde el punto de vista  de la caché el nodo insertado es nuevo.
 
-        LinkedList idList = null;
+        LinkedList<String> idList = null;
         if (clientDoc.isSendCodeEnabled())
-            idList = new LinkedList();
+            idList = new LinkedList<String>();
 
         removeTreeFromNodeCache(node,idList);
 

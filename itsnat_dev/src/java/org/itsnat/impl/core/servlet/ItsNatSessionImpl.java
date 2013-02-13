@@ -16,28 +16,28 @@
 
 package org.itsnat.impl.core.servlet;
 
-import org.itsnat.impl.core.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.ItsNatServletContext;
-import org.itsnat.core.ItsNatSession;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import java.util.Iterator;
 import java.util.Map;
+import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.ItsNatSession;
 import org.itsnat.core.ItsNatVariableResolver;
+import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
@@ -68,7 +68,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     protected Referrer referrer;
     protected String token;
     protected transient DeserialPendingTask sessionDeserialPendingTask;
-    protected transient MapListImpl deserialPending;
+    protected transient MapListImpl<String,DeserialPendingTask> deserialPending;
 
     /** Creates a new instance of ItsNatSessionImpl */
     public ItsNatSessionImpl(ItsNatServletContextImpl context,Browser browser)
@@ -122,9 +122,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         return !deserialPending.isEmpty();
     }
 
-    public MapListImpl getDeserialPendingTasks()
+    public MapListImpl<String,DeserialPendingTask> getDeserialPendingTasks()
     {
-        if (deserialPending == null) this.deserialPending = new MapListImpl();
+        if (deserialPending == null) this.deserialPending = new MapListImpl<String,DeserialPendingTask>();
         return deserialPending;
     }
 

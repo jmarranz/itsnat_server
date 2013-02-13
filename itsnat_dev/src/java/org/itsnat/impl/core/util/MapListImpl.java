@@ -18,7 +18,6 @@ package org.itsnat.impl.core.util;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 import java.util.Map;
@@ -27,9 +26,9 @@ import java.util.Map;
  *
  * @author jmarranz
  */
-public class MapListImpl implements Serializable
+public class MapListImpl<K,V> implements Serializable
 {
-    public Map map = new HashMap();
+    public Map<K,LinkedList<V>> map = new HashMap<K,LinkedList<V>>();
 
     /**
      * Creates a new instance of EventTargetListenerList
@@ -38,7 +37,7 @@ public class MapListImpl implements Serializable
     {
     }
 
-    public Map getMap()
+    public Map<K,LinkedList<V>> getMap()
     {
         return map;
     }
@@ -48,50 +47,48 @@ public class MapListImpl implements Serializable
         return map.isEmpty();
     }
 
-    public int add(Object key,Object value)
+    public int add(K key,V value)
     {
-        LinkedList list = (LinkedList)map.get(key);
+        LinkedList<V> list = map.get(key);
         if (list == null)
         {
-            list = new LinkedList();
+            list = new LinkedList<V>();
             map.put(key,list);
         }
         list.add(value);
         return list.size() - 1;
     }
 
-    public LinkedList get(Object key)
+    public LinkedList<V> get(K key)
     {
-        return (LinkedList)map.get(key);
+        return map.get(key);
     }
 
-    public LinkedList remove(Object key)
+    public LinkedList<V> remove(K key)
     {
-        return (LinkedList)map.remove(key);
+        return map.remove(key);
     }
     
-    public LinkedList getAllValuesCopy()
+    public LinkedList<V> getAllValuesCopy()
     {
         if (isEmpty()) return null;
 
-        LinkedList res = new LinkedList();
-        for(Iterator it = map.entrySet().iterator(); it.hasNext(); )
+        LinkedList<V> res = new LinkedList<V>();
+        for(Map.Entry<K,LinkedList<V>> entry : map.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            LinkedList list = (LinkedList)entry.getValue(); // No puede ser null
+            LinkedList<V> list = entry.getValue(); // No puede ser null
             res.addAll(list);
         }
         return res;
     }
 
-    public boolean contains(Object key,Object value)
+    public boolean contains(K key,V value)
     {
-        LinkedList list = (LinkedList)map.get(key);
+        LinkedList<V> list = map.get(key);
         if (list == null)
             return false;
-        for(Iterator it = list.iterator(); it.hasNext(); )
+        for(V currValue : list)
         {
-            Object currValue = it.next();
             if ((currValue == value) ||
                 ((value != null) && value.equals(currValue)))
                 return true;
@@ -99,14 +96,14 @@ public class MapListImpl implements Serializable
         return false;
     }
 
-    public Object remove(Object key,Object value)
+    public V remove(K key,V value)
     {
-        LinkedList list = (LinkedList)map.get(key);
+        LinkedList<V> list = map.get(key);
         if (list == null)
             return null;
-        for(ListIterator it = list.listIterator(); it.hasNext(); )
+        for(ListIterator<V> it = list.listIterator(); it.hasNext(); )
         {
-            Object currValue = it.next();
+            V currValue = it.next();
             if ((currValue == value) ||
                 ((value != null) && value.equals(currValue)))
             {

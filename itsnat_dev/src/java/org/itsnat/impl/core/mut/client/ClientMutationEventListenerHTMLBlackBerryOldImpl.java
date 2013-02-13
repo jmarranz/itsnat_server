@@ -37,9 +37,10 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
         super(clientDoc);
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         BrowserBlackBerryOld browser = (BrowserBlackBerryOld)clientDoc.getBrowser();
         String type = mutEvent.getType();

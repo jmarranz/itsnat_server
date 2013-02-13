@@ -85,9 +85,9 @@ public class JSRenderManualDispatchImpl
         ClientDocumentStfulImpl clientDoc = nodeLoc.getClientDocumentStful();
 
         EventTarget target = evt.getTarget();
-        LinkedList captureList = new LinkedList();
-        LinkedList atTargetList = new LinkedList();
-        LinkedList bubbleList = new LinkedList();
+        LinkedList<String> captureList = new LinkedList<String>();
+        LinkedList<String> atTargetList = new LinkedList<String>();
+        LinkedList<String> bubbleList = new LinkedList<String>();
         getEventListenerIds(target,evt,captureList,atTargetList,bubbleList,clientDoc);
 
         String captureIds = idListToString(captureList);
@@ -100,9 +100,9 @@ public class JSRenderManualDispatchImpl
     public static String getCallDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
         EventTarget target = evt.getTarget();
-        LinkedList captureList = new LinkedList();
-        LinkedList atTargetList = new LinkedList();
-        LinkedList bubbleList = new LinkedList();
+        LinkedList<String> captureList = new LinkedList<String>();
+        LinkedList<String> atTargetList = new LinkedList<String>();
+        LinkedList<String> bubbleList = new LinkedList<String>();
         getEventListenerIds(target,evt,captureList,atTargetList,bubbleList,clientDoc);
 
         String captureIds = idListToString(captureList);
@@ -177,14 +177,14 @@ public class JSRenderManualDispatchImpl
     }
 
 
-    private static String idListToString(LinkedList idList)
+    private static String idListToString(LinkedList<String> idList)
     {
         if (idList.isEmpty()) return "null";
         StringBuilder code = new StringBuilder();
         code.append("[");
-        for(Iterator it = idList.iterator(); it.hasNext(); )
+        for(Iterator<String> it = idList.iterator(); it.hasNext(); )
         {
-            String idOrNode = (String)it.next();
+            String idOrNode = it.next();
             code.append(idOrNode);
             if (it.hasNext())
                 code.append(",");
@@ -193,7 +193,7 @@ public class JSRenderManualDispatchImpl
         return code.toString();
     }
 
-    private static void getEventListenerIds(EventTarget target,Event evt,LinkedList captureList,LinkedList atTargetList,LinkedList bubbleList,ClientDocumentStfulImpl clientDoc)
+    private static void getEventListenerIds(EventTarget target,Event evt,LinkedList<String> captureList,LinkedList<String> atTargetList,LinkedList<String> bubbleList,ClientDocumentStfulImpl clientDoc)
     {
         // NetFront:  (YA NO VALE NO ESTA SOPORTADO, REVISAR ESTO)
         // El método EventTarget.dispatchEvent() de NetFront y en general los métodos que lanzan eventos
@@ -232,10 +232,10 @@ public class JSRenderManualDispatchImpl
         if (clientRegistry != null) capturingCount += clientRegistry.getCapturingCount();
         boolean someoneCaptures = capturingCount > 0;
 
-        ArrayList parentList = null;
+        ArrayList<Node> parentList = null;
         if (someoneCaptures || evt.getBubbles())
         {
-            parentList = new ArrayList();
+            parentList = new ArrayList<Node>();
             Node parent = targetNode.getParentNode();
             while (parent != null)
             {
@@ -269,7 +269,7 @@ public class JSRenderManualDispatchImpl
         }
     }
 
-    private static void getEventListenerIds(EventTarget currentTarget,String type,boolean useCapture,ItsNatDOMStdEventListenerRegistryImpl globalRegistry,ItsNatDOMStdEventListenerRegistryImpl clientRegistry,LinkedList idList,ClientDocumentStfulImpl clientDoc)
+    private static void getEventListenerIds(EventTarget currentTarget,String type,boolean useCapture,ItsNatDOMStdEventListenerRegistryImpl globalRegistry,ItsNatDOMStdEventListenerRegistryImpl clientRegistry,LinkedList<String> idList,ClientDocumentStfulImpl clientDoc)
     {
         if (currentTarget instanceof Element)
         {
@@ -291,16 +291,15 @@ public class JSRenderManualDispatchImpl
         }
     }
 
-    private static void getEventListenerIds(String type,boolean useCapture,ItsNatDOMEventListenerListSameTarget listSameTarget,LinkedList idList)
+    private static void getEventListenerIds(String type,boolean useCapture,ItsNatDOMEventListenerListSameTarget listSameTarget,LinkedList<String> idList)
     {
         if (listSameTarget == null) return;
 
-        LinkedList listeners = listSameTarget.getItsNatDOMEventListeners(type, useCapture);
+        LinkedList<Pair> listeners = listSameTarget.getItsNatDOMEventListeners(type, useCapture);
         if (listeners == null) return;
 
-        for(Iterator it = listeners.iterator(); it.hasNext(); )
+        for(Pair pair : listeners)
         {
-            Pair pair = (Pair)it.next();
             ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
             idList.add("\"" + listener.getId() + "\"");
         }

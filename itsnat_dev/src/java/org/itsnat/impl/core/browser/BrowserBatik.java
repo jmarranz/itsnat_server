@@ -82,7 +82,7 @@ public class BrowserBatik extends BrowserW3C
         return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }

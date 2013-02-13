@@ -48,9 +48,10 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
                !SVGWebInfoImpl.isSVGWebEnabled(clientDoc);
     }
 
-    public Map preRenderAndSendMutationCode(MutationEvent mutEvent)
+    @Override
+    public void preRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        Map ctx = super.preRenderAndSendMutationCode(mutEvent);
+        super.preRenderAndSendMutationCode(mutEvent);
 
         String type = mutEvent.getType();
 
@@ -73,13 +74,12 @@ public class ClientMutationEventListenerHTMLMSIEOldImpl extends ClientMutationEv
                 fixTreeRemovedSVGNodeInAdobeSVGInline(node);
             }
         }
-
-        return ctx;
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         // No consideramos "desregistrar" namespaces al eliminar nodos
         // con namespaces, por una parte porque la colección document.namespaces

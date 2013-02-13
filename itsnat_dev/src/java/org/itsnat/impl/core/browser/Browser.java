@@ -208,7 +208,7 @@ public abstract class Browser implements Serializable
     /**
      * Si hay elementos que ignoran el zIndex y recibe eventos.
      */
-    public abstract Map getHTMLFormControlsIgnoreZIndex();
+    public abstract Map<String,String[]> getHTMLFormControlsIgnoreZIndex();
 
     /* Si soporta opacidad aunque no sea a través de CSS opacity (caso de MSIE_OLD 6+)
      * Sólo tiene sentido en documentos X/HTML.

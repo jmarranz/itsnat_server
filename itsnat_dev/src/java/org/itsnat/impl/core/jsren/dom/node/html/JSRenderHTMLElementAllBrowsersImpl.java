@@ -48,7 +48,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
 {
     public static final JSRenderHTMLElementAllBrowsersImpl SINGLETON = new JSRenderHTMLElementAllBrowsersImpl();
 
-    protected LinkedList browsers = new LinkedList();
+    protected LinkedList<JSRenderHTMLElementImpl> browsers = new LinkedList<JSRenderHTMLElementImpl>();
 
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
     public JSRenderHTMLElementAllBrowsersImpl()
@@ -79,6 +79,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         tagNamesNotValidInsideInnerHTML.addAll(renderer.getTagNamesNotValidInsideInnerHTML());
     }
 
+    @Override
     protected boolean isChildNotValidInsideInnerHTMLHTMLElement(Element elem,MarkupTemplateVersionImpl template)
     {
         // Mismo chequeo que JSRenderHTMLElementW3CImpl.isChildNotValidInsideInnerHTMLHTMLElement(Node,Object)

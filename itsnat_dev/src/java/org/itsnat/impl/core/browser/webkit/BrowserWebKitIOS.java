@@ -226,7 +226,7 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return true; // En versiones modernas seguramente no es necesario pero así soportamos iPhones con firmware antiguos
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }

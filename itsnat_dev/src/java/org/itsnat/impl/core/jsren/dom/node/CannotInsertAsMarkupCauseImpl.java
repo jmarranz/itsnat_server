@@ -31,11 +31,11 @@ public class CannotInsertAsMarkupCauseImpl
     public static final int DO_NOT_KNOW = 3;
 
     protected Node nodeNotForInsertChildrenAsMarkup;
-    protected List childNodeListNotValidInsertedAsMarkup; // No es una lista de hijos directos, sino una rama de nodos
+    protected List<Node> childNodeListNotValidInsertedAsMarkup; // No es una lista de hijos directos, sino una rama de nodos
 
     public CannotInsertAsMarkupCauseImpl(Node parent)
     {
-        this(parent,(List)null);
+        this(parent,(List<Node>)null);
     }
 
     public CannotInsertAsMarkupCauseImpl(InsertAsMarkupInfoImpl info)
@@ -52,7 +52,7 @@ public class CannotInsertAsMarkupCauseImpl
             if (parent == childNotValidInsertedAsMarkup) throw new ItsNatException("INTERNAL ERROR");
             // Insertamos hasta el parent pero no el propio parent, pues son los hijos que han causado
             // problemas los que nos interesan
-            this.childNodeListNotValidInsertedAsMarkup = new LinkedList();
+            this.childNodeListNotValidInsertedAsMarkup = new LinkedList<Node>();
             do
             {
                 childNodeListNotValidInsertedAsMarkup.add(0,childNotValidInsertedAsMarkup);
@@ -62,7 +62,7 @@ public class CannotInsertAsMarkupCauseImpl
         }
     }
 
-    public CannotInsertAsMarkupCauseImpl(Node nodeNotForInsertChildrenAsMarkup,List childNodeListNotValidInsertedAsMarkup)
+    public CannotInsertAsMarkupCauseImpl(Node nodeNotForInsertChildrenAsMarkup,List<Node> childNodeListNotValidInsertedAsMarkup)
     {
         this.nodeNotForInsertChildrenAsMarkup = nodeNotForInsertChildrenAsMarkup;
         this.childNodeListNotValidInsertedAsMarkup = childNodeListNotValidInsertedAsMarkup;
@@ -87,7 +87,7 @@ public class CannotInsertAsMarkupCauseImpl
             // Hay más de un nodo en childNodeListNotValidInsertedAsMarkup, el primero (el de índice 0) es el más alto,
             // significa que en alguno más abajo se detectó que no podía insertarse como markup
             // por lo que implica que los padres no pueden insertar sus hijos como markup
-            Node nodeNotForInsertChildrenAsMarkup = (Node)childNodeListNotValidInsertedAsMarkup.get(0);
+            Node nodeNotForInsertChildrenAsMarkup = childNodeListNotValidInsertedAsMarkup.get(0);
             return new InsertAsMarkupInfoImpl(nodeNotForInsertChildrenAsMarkup,
                         childNodeListNotValidInsertedAsMarkup.subList(1, size));
         }

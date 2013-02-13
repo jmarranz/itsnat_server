@@ -85,7 +85,7 @@ public class BrowserAdobeSVG extends BrowserW3C
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         // No reconoce XHTML embebido.
         return null;

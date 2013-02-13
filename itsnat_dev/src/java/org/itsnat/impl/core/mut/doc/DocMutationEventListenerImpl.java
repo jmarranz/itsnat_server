@@ -34,7 +34,7 @@ import org.w3c.dom.events.MutationEvent;
 public abstract class DocMutationEventListenerImpl implements EventListener,Serializable
 {
     protected ItsNatDocumentImpl itsNatDoc;
-    protected MapListImpl beforeAfterListeners;
+    protected MapListImpl<Node,BeforeAfterMutationRenderListener> beforeAfterListeners;
     protected AutoBuildCompBeforeAfterMutationRenderListener autoBuildCompBeforeAfterListener;
     protected boolean enabled = true;
 
@@ -66,14 +66,14 @@ public abstract class DocMutationEventListenerImpl implements EventListener,Seri
         this.autoBuildCompBeforeAfterListener = listener;
     }
 
-    protected MapListImpl getBeforeAfterMutationRenderListeners()
+    protected MapListImpl<Node,BeforeAfterMutationRenderListener> getBeforeAfterMutationRenderListeners()
     {
         if (beforeAfterListeners == null)
-            this.beforeAfterListeners = new MapListImpl();
+            this.beforeAfterListeners = new MapListImpl<Node,BeforeAfterMutationRenderListener>();
         return beforeAfterListeners;
     }
 
-    protected LinkedList getBeforeAfterMutationRenderListeners(Node node)
+    protected LinkedList<BeforeAfterMutationRenderListener> getBeforeAfterMutationRenderListeners(Node node)
     {
         if (beforeAfterListeners == null)
             return null;
@@ -82,13 +82,13 @@ public abstract class DocMutationEventListenerImpl implements EventListener,Seri
 
     public void addBeforeAfterMutationRenderListener(Node node,BeforeAfterMutationRenderListener listener)
     {
-        MapListImpl listeners = getBeforeAfterMutationRenderListeners();
+        MapListImpl<Node,BeforeAfterMutationRenderListener> listeners = getBeforeAfterMutationRenderListeners();
         listeners.add(node,listener);
     }
 
     public void removeBeforeAfterMutationRenderListener(Node node,BeforeAfterMutationRenderListener listener)
     {
-        MapListImpl listeners = getBeforeAfterMutationRenderListeners();
+        MapListImpl<Node,BeforeAfterMutationRenderListener> listeners = getBeforeAfterMutationRenderListeners();
         listeners.remove(node,listener);
     }
 
@@ -168,14 +168,14 @@ public abstract class DocMutationEventListenerImpl implements EventListener,Seri
             else autoBuildCompBeforeAfterListener.afterRender(node,mutEvent);
         }
 
-        LinkedList beforeAfterListeners = getBeforeAfterMutationRenderListeners(node);
+        LinkedList<BeforeAfterMutationRenderListener> beforeAfterListeners = getBeforeAfterMutationRenderListeners(node);
         if ((beforeAfterListeners != null) && !beforeAfterListeners.isEmpty())
         {
             // De esta manera permitimos añadir y eliminar listeners de forma concurrente
-            BeforeAfterMutationRenderListener[] listenerArray = (BeforeAfterMutationRenderListener[])beforeAfterListeners.toArray(new BeforeAfterMutationRenderListener[beforeAfterListeners.size()]);
+            BeforeAfterMutationRenderListener[] listenerArray = beforeAfterListeners.toArray(new BeforeAfterMutationRenderListener[beforeAfterListeners.size()]);
             for(int i = 0; i < listenerArray.length; i++)
             {
-                BeforeAfterMutationRenderListener listener = (BeforeAfterMutationRenderListener)listenerArray[i];
+                BeforeAfterMutationRenderListener listener = listenerArray[i];
                 if (before) listener.beforeRender(node,mutEvent);
                 else listener.afterRender(node, mutEvent);
             }

@@ -30,10 +30,10 @@ public class InsertAsMarkupInfoImpl
     public static final int IS_VALID_INSERTED_AS_MARKUP = 2;
     public static final int DO_NOT_KNOW = 3;
 
-    protected List childNodeListNotValidInsertedAsMarkup;
+    protected List<Node> childNodeListNotValidInsertedAsMarkup;
     protected Node nodeNotForInsertChildrenAsMarkup;
 
-    public InsertAsMarkupInfoImpl(Node nodeNotForInsertChildrenAsMarkup,List childNodeListNotValidInsertedAsMarkup)
+    public InsertAsMarkupInfoImpl(Node nodeNotForInsertChildrenAsMarkup,List<Node> childNodeListNotValidInsertedAsMarkup)
     {
         this.nodeNotForInsertChildrenAsMarkup = nodeNotForInsertChildrenAsMarkup;
         this.childNodeListNotValidInsertedAsMarkup = childNodeListNotValidInsertedAsMarkup;
@@ -44,7 +44,7 @@ public class InsertAsMarkupInfoImpl
         return nodeNotForInsertChildrenAsMarkup;
     }
     
-    public List getChildNodeListNotValidInsertedAsMarkup()
+    public List<Node> getChildNodeListNotValidInsertedAsMarkup()
     {
         return childNodeListNotValidInsertedAsMarkup;
     }

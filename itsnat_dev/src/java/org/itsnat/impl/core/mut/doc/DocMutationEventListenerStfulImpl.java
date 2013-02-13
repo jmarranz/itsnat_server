@@ -71,9 +71,9 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
             if (mutListener.canRenderAndSendMutationJSCode()) // Si es false es que seguramente estamos en fase carga y fast load
             {
                 // Cuidado: pre and post métodos sólo se llaman si se genera código de la mutación
-                Map ctx = mutListener.preRenderAndSendMutationCode(mutEvent);
+                mutListener.preRenderAndSendMutationCode(mutEvent);
                 mutListener.renderAndSendMutationCode(mutEvent);
-                mutListener.postRenderAndSendMutationCode(mutEvent,ctx);
+                mutListener.postRenderAndSendMutationCode(mutEvent);
             }
             mutListener.afterRenderAndSendMutationCode(mutEvent);
         }

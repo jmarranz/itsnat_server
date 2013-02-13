@@ -55,8 +55,8 @@ import org.w3c.dom.html.HTMLElement;
  */
 public class BrowserBlackBerryOld extends BrowserW3C
 {
-    private static final Map tagNamesIgnoreZIndex_v4 = new HashMap();
-    private static final Map tagNamesIgnoreZIndex_v5 = new HashMap();
+    private static final Map<String,String[]> tagNamesIgnoreZIndex_v4 = new HashMap<String,String[]>();
+    private static final Map<String,String[]> tagNamesIgnoreZIndex_v5 = new HashMap<String,String[]>();
     static
     {
         // En BlackBerry el tema de tagNamesIgnoreZIndex es muy complicado. El único elemento
@@ -179,7 +179,7 @@ public class BrowserBlackBerryOld extends BrowserW3C
         return true;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         if (this.mainVersion <= 4)
             return tagNamesIgnoreZIndex_v4;

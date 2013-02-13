@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.itsnat.impl.core.jsren.dom.event.JSRenderEventImpl;
@@ -96,12 +96,12 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
         return "itsNatDoc.removeNodeCache([" + toLiteralStringJS(id) + "]);\n";
     }
 
-    public static String removeNodeFromCache(LinkedList idList)
+    public static String removeNodeFromCache(LinkedList<String> idList)
     {
         StringBuilder code = new StringBuilder();
-        for(Iterator it = idList.iterator(); it.hasNext(); )
+        for(Iterator<String> it = idList.iterator(); it.hasNext(); )
         {
-            String id = toLiteralStringJS((String)it.next());
+            String id = toLiteralStringJS(it.next());
             if (code.length() > 0) code.append("," + id);
             else code.append(id);
         }

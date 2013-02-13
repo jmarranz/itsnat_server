@@ -27,6 +27,7 @@ import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -83,16 +84,15 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
             code.append(bindModalLayerShowFormCtrlsMethod(methodName,clientDoc));
 
         Browser browser = clientDoc.getBrowser();
-        Map localNames = browser.getHTMLFormControlsIgnoreZIndex();
+        Map<String,String[]> localNames = browser.getHTMLFormControlsIgnoreZIndex();
         Document doc = clientDoc.getItsNatStfulDocument().getDocument();
 
-        for(Iterator it = localNames.entrySet().iterator(); it.hasNext(); )
+        for(Map.Entry<String,String[]> entry : localNames.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            String localName = (String)entry.getKey();
-            String[] types = (String[])entry.getValue();
+            String localName = entry.getKey();
+            String[] types = entry.getValue();
 
-            LinkedList elemList = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
+            LinkedList<Node> elemList = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
             if (elemList != null)
             {
                 for(Iterator itElem = elemList.iterator(); itElem.hasNext(); )

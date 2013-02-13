@@ -43,7 +43,7 @@ public class BrowserWebKitAndroid extends BrowserWebKit
     protected int mainVersion;
     //protected int subVersion;
 
-    private static final Map tagNamesIgnoreZIndex = new HashMap();
+    private static final Map<String,String[]> tagNamesIgnoreZIndex = new HashMap<String,String[]>();
     static
     {
         // Verificado hasta la v2 incluida:
@@ -117,7 +117,7 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return tagNamesIgnoreZIndex;
     }

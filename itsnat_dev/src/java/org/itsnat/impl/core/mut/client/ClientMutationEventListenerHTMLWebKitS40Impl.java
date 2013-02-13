@@ -34,9 +34,10 @@ public class ClientMutationEventListenerHTMLWebKitS40Impl extends ClientMutation
         super(clientDoc);
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         String type = mutEvent.getType();
         if ( type.equals("DOMNodeInserted")||type.equals("DOMNodeRemoved") )

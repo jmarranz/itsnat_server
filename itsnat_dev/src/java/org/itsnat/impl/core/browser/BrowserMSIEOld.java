@@ -47,7 +47,7 @@ public class BrowserMSIEOld extends Browser
     public static final int MSIE_DESKTOP = 1;
     public static final int MSIE_MOBILE = 2;
 
-    private static final Map tagNamesIgnoreZIndex = new HashMap();
+    private static final Map<String,String[]> tagNamesIgnoreZIndex = new HashMap<String,String[]>();
     static
     {
         tagNamesIgnoreZIndex.put("select",null);
@@ -174,7 +174,7 @@ public class BrowserMSIEOld extends Browser
         return version;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         if (version < 7) // Incluso el IE Mobile (WM 6.1.4) tiene el problema de los select no ocultables
             return tagNamesIgnoreZIndex;

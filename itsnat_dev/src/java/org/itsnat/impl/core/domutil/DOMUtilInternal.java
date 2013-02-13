@@ -382,7 +382,7 @@ public class DOMUtilInternal
 
     // Este método es mucho más eficiente que Document.getElementsByTagName
     // que tiene el problema de que es tolerante a cambios => más lento
-    public static LinkedList getChildElementListWithTagName(Node parent,final String tagName,boolean recursive)
+    public static LinkedList<Node> getChildElementListWithTagName(Node parent,final String tagName,boolean recursive)
     {
         NodeConstraints rules = new NodeConstraints()
         {
@@ -398,7 +398,7 @@ public class DOMUtilInternal
 
     // Este método es mucho más eficiente que Document.getElementsByTagName
     // que tiene el problema de que es tolerante a cambios => más lento
-    public static LinkedList getChildElementListWithTagNameNS(Node parent,
+    public static LinkedList<Node> getChildElementListWithTagNameNS(Node parent,
             final String namespaceURI,final String localName,boolean recursive)
     {
         if (namespaceURI == null)
@@ -417,12 +417,12 @@ public class DOMUtilInternal
         return getChildNodeListMatching(parent,rules,recursive,null);
     }
     
-    public static LinkedList getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,Object context)
+    public static LinkedList<Node> getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,Object context)
     {
         return getChildNodeListMatching(parent,rules,recursive,null,context);
     }
 
-    public static LinkedList getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,LinkedList nodeList,Object context)
+    public static LinkedList<Node> getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,LinkedList<Node> nodeList,Object context)
     {
         // El propio nodo no se considera
         Node child = parent.getFirstChild();
@@ -430,7 +430,7 @@ public class DOMUtilInternal
         {
             if (rules.match(child,context))
             {
-                if (nodeList == null) nodeList = new LinkedList();
+                if (nodeList == null) nodeList = new LinkedList<Node>();
                 nodeList.add(child);
             }
             if (recursive)
@@ -439,7 +439,6 @@ public class DOMUtilInternal
         }
         return nodeList;
     }
-
 
     public static void replaceContent(Element parentElem,Node newChild)
     {

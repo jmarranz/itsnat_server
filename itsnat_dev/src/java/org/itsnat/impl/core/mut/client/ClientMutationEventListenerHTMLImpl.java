@@ -57,7 +57,7 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
             return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);
     }
 
-    public Map preRenderAndSendMutationCode(MutationEvent mutEvent)
+    public void preRenderAndSendMutationCode(MutationEvent mutEvent)
     {
         String type = mutEvent.getType();
 
@@ -77,13 +77,12 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
                 }
             }
         }
-
-        return null;
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         String type = mutEvent.getType();
 

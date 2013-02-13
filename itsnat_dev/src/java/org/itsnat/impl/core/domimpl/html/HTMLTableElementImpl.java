@@ -319,19 +319,19 @@ public class HTMLTableElementImpl extends HTMLElementImpl implements HTMLTableEl
         return bodies;
     }
 
-    public static LinkedList getRowsArray(HTMLTableElement table)
+    public static LinkedList<Node> getRowsArray(HTMLTableElement table)
     {
         // Puede haber varios <thead> <tfoot> y <tbody> dentro del table padre
-        LinkedList total = null;
+        LinkedList<Node> total = null;
         Element section = ItsNatTreeWalker.getFirstChildElement(table);
         while(section != null)
         {
             if (section instanceof HTMLTableSectionElement)
             {
-                LinkedList rows = DOMUtilInternal.getChildElementListWithTagNameNS(section,NamespaceUtil.XHTML_NAMESPACE,"tr",false);
+                LinkedList<Node> rows = DOMUtilInternal.getChildElementListWithTagNameNS(section,NamespaceUtil.XHTML_NAMESPACE,"tr",false);
                 if (rows != null)
                 {
-                    if (total == null) total = new LinkedList();
+                    if (total == null) total = new LinkedList<Node>();
                     total.addAll(rows);
                 }
             }
@@ -340,7 +340,7 @@ public class HTMLTableElementImpl extends HTMLElementImpl implements HTMLTableEl
         return total;
     }
 
-    public LinkedList getRowsArray()
+    public LinkedList<Node> getRowsArray()
     {
         return getRowsArray(this);
     }
@@ -355,7 +355,7 @@ public class HTMLTableElementImpl extends HTMLElementImpl implements HTMLTableEl
         if (index < 0) throw new DOMException(DOMException.INDEX_SIZE_ERR,"Index is negative");
 
         HTMLTableRowElement newRow = (HTMLTableRowElement)getOwnerDocument().createElementNS(NamespaceUtil.XHTML_NAMESPACE,"tr");
-        LinkedList rows = getRowsArray();
+        LinkedList<Node> rows = getRowsArray();
         if (rows != null)
         {
             int len = rows.size();
@@ -392,7 +392,7 @@ public class HTMLTableElementImpl extends HTMLElementImpl implements HTMLTableEl
 
     public void deleteRow(int index)
     {
-        LinkedList rows = getRowsArray();
+        LinkedList<Node> rows = getRowsArray();
         deleteElement(index,rows);
     }
 }

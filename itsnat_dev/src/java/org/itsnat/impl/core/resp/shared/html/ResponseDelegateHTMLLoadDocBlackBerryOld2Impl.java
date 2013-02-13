@@ -29,6 +29,7 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -102,10 +103,10 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
     protected Map processTreeInputFileElements(Document doc)
     {
         Map attributes = null;
-        LinkedList elems = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"input",true);
+        LinkedList<Node> elems = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"input",true);
         if (elems != null)
         {
-            for(Iterator it = elems.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = elems.iterator(); it.hasNext(); )
             {
                 HTMLInputElement elem = (HTMLInputElement)it.next();
                 if (DOMUtilHTML.isHTMLInputFile(elem) && elem.hasAttribute("value"))

@@ -42,8 +42,8 @@ import org.w3c.dom.html.HTMLTableElement;
  */
 public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVersionDelegateImpl
 {
-    public static final Set HTML_ELEMS_NOT_USE_CHILD_TEXT = new HashSet();
-    public static final Set HTML_ELEMS_NOT_VALID_CHILD_COMMENT = new HashSet();
+    public static final Set<String> HTML_ELEMS_NOT_USE_CHILD_TEXT = new HashSet<String>();
+    public static final Set<String> HTML_ELEMS_NOT_VALID_CHILD_COMMENT = new HashSet<String>();
 
     static
     {
@@ -114,6 +114,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         super(parent);
     }
 
+    @Override
     public boolean declaredAsComponent(Element elem)
     {
         boolean decAsComp = super.declaredAsComponent(elem);
@@ -122,6 +123,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         return ItsNatStfulDocComponentManagerImpl.declaredAsHTMLComponent(elem);
     }
 
+    @Override
     public void serializeNode(Node node,Writer out,DOMRenderImpl nodeRender)
     {
         if (is_SCRIPT_or_STYLE_Text(node))
@@ -139,7 +141,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         Node parent = node.getParentNode();
         if (parent == null) return false;
 
-        if (parent.getNodeType() != node.ELEMENT_NODE)
+        if (parent.getNodeType() != Node.ELEMENT_NODE)
             return false;
 
         Element parentElem = (Element)parent;
@@ -195,6 +197,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         }
     }
 
+    @Override
     public void normalizeDocument(Document doc)
     {
         super.normalizeDocument(doc);
@@ -257,10 +260,10 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         // Firefox y MSIE añaden automáticamente TBODY cuando se inserta
         // un "<table><tr>..." serializado (no lo hace si es por DOM)
         // por eso lo añadimos nosotros porque sino los paths fallan
-        LinkedList htmlTables = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"table", true);
+        LinkedList<Node> htmlTables = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"table", true);
         if (htmlTables != null)
         {
-            for(Iterator it = htmlTables.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = htmlTables.iterator(); it.hasNext(); )
             {
                 HTMLTableElement table = (HTMLTableElement)it.next();
                 boolean hasTBody = (ItsNatTreeWalker.getFirstChildElementWithTagNameNS(table,NamespaceUtil.XHTML_NAMESPACE,"tbody") != null);
@@ -283,25 +286,25 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
             }
         }
 
-        for(Iterator it = HTML_ELEMS_NOT_USE_CHILD_TEXT.iterator(); it.hasNext(); )
+        for(Iterator<String> it = HTML_ELEMS_NOT_USE_CHILD_TEXT.iterator(); it.hasNext(); )
         {
-            String localName = (String)it.next();
+            String localName = it.next();
             removeUnusefulHTMLChildTextNodes(localName,doc);
         }
 
-        for(Iterator it = HTML_ELEMS_NOT_VALID_CHILD_COMMENT.iterator(); it.hasNext(); )
+        for(Iterator<String> it = HTML_ELEMS_NOT_VALID_CHILD_COMMENT.iterator(); it.hasNext(); )
         {
-            String localName = (String)it.next();
+            String localName = it.next();
             removeUnusefulHTMLChildComments(localName,doc);
         }
     }
 
     public static void removeUnusefulHTMLChildTextNodes(String localName,Document doc)
     {
-        LinkedList elements = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
+        LinkedList<Node> elements = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
         if (elements != null)
         {
-            for(Iterator it = elements.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = elements.iterator(); it.hasNext(); )
             {
                 Element elem = (Element)it.next();
                 DOMUtilInternal.removeAllUnusefulChildTextNodes(elem);
@@ -311,10 +314,10 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
 
     public static void removeUnusefulHTMLChildComments(String localName,Document doc)
     {
-        LinkedList elements = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
+        LinkedList<Node> elements = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
         if (elements != null)
         {
-            for(Iterator it = elements.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = elements.iterator(); it.hasNext(); )
             {
                 Element elem = (Element)it.next();
                 DOMUtilInternal.removeAllDirectChildComments(elem);

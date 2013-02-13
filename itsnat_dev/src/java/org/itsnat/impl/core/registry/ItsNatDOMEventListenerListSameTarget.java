@@ -18,7 +18,6 @@ package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.ListIterator;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.listener.*;
@@ -31,7 +30,7 @@ import org.w3c.dom.events.EventListener;
  */
 public class ItsNatDOMEventListenerListSameTarget implements Serializable
 {
-    protected MapListImpl listeners = new MapListImpl();
+    protected MapListImpl<String,Pair> listeners = new MapListImpl<String,Pair>();
 
     /**
      * Creates a new instance of ItsNatDOMEventListenerListSameTarget
@@ -74,7 +73,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
     public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListener(String type,boolean useCapture,EventListener listener)
     {
         String key = getKey(type,useCapture);
-        Pair removed = (Pair)listeners.remove(key,new Pair(listener,null));
+        Pair removed = listeners.remove(key,new Pair(listener,null));
         if (removed == null)
             return null;
         return removed.getListenerWrapper();
@@ -94,36 +93,35 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         listeners.clear();
     }
 
-    public LinkedList getAllItsNatDOMEventListenersCopy()
+    public LinkedList<Pair> getAllItsNatDOMEventListenersCopy()
     {
         return listeners.getAllValuesCopy();
     }
 
     public boolean hasItsNatDOMEventListeners(String type,boolean useCapture)
     {
-        LinkedList listeners = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> listeners = getItsNatDOMEventListeners(type,useCapture);
         return (listeners != null) && !listeners.isEmpty();
     }
 
-    public LinkedList getItsNatDOMEventListeners(String type,boolean useCapture)
+    public LinkedList<Pair> getItsNatDOMEventListeners(String type,boolean useCapture)
     {
         String key = getKey(type,useCapture);
         return listeners.get(key);
     }
 
-    public boolean getItsNatDOMEventListenerList(String type,boolean useCapture,ItsNatEventListenerChainImpl chain)
+    public boolean getItsNatDOMEventListenerList(String type,boolean useCapture,ItsNatEventListenerChainImpl<EventListener> chain)
     {
         // Ver notas en getEventListenersArrayCopy
 
-        LinkedList list = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> list = getItsNatDOMEventListeners(type,useCapture);
         if (list == null)
             return false; // no se ha añadido ninguno
 
-        LinkedList evtListeners = new LinkedList();
-        for(ListIterator it = list.listIterator(); it.hasNext(); )
+        LinkedList<EventListener> evtListeners = new LinkedList<EventListener>();
+        for(Pair currPair : list)
         {
-            Pair currPair = (Pair)it.next();
-            evtListeners.add((EventListener)currPair.getListener());
+            evtListeners.add(currPair.getListener());
         }
         
         chain.addFirstListenerList(evtListeners);
@@ -137,15 +135,14 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         // se pueda añadir o quitar a su vez un listener (el Iterator no lo permite), lo cual
         // es conveniente en los componentes (en el blur de un componente editor reutilizado)
 
-        LinkedList list = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> list = getItsNatDOMEventListeners(type,useCapture);
         if (list == null)
             return null;
 
         EventListener[] listeners = new EventListener[list.size()];
         int i = 0;
-        for(ListIterator it = list.listIterator(); it.hasNext(); )
+        for(Pair currPair : list)
         {
-            Pair currPair = (Pair)it.next();
             listeners[i] = currPair.getListener();
             i++;
         }
@@ -173,6 +170,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
             return listenerWrapper;
         }
 
+        @Override
         public boolean equals(Object other)
         {
             boolean res = super.equals(other);
@@ -182,6 +180,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
             return listener == ((Pair)other).listener;
         }
 
+        @Override
         public int hashCode()
         {
             return listener.hashCode();

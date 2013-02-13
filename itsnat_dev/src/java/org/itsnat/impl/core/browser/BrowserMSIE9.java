@@ -70,7 +70,7 @@ public class BrowserMSIE9 extends BrowserW3C
         return DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
