@@ -41,7 +41,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
  */
 public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
 {
-    protected transient WeakHashMap clientDocAttachedMap; // No se utilizan ids (pues pueden ser generados por otras sesiones), se utiliza la identidad del objeto
+    protected transient WeakHashMap<ClientDocumentImpl,Object> clientDocAttachedMap; // No se utilizan ids (pues pueden ser generados por otras sesiones), se utiliza la identidad del objeto
 
     public ClientDocumentStfulMapImpl(ItsNatStfulDocumentImpl itsNatDoc)
     {
@@ -50,9 +50,9 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp = null;
+        Map<ClientDocumentImpl,Object> mapTmp = null;
         if (clientDocAttachedMap != null)
-            mapTmp = new HashMap(clientDocAttachedMap);
+            mapTmp = new HashMap<ClientDocumentImpl,Object>(clientDocAttachedMap);
         out.writeObject(mapTmp);
 
         out.defaultWriteObject();
@@ -60,7 +60,7 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        Map mapTmp = (Map)in.readObject();
+        Map<ClientDocumentImpl,Object> mapTmp = (Map<ClientDocumentImpl,Object>)in.readObject();
         if (mapTmp != null)
             getClientDocumentAttachedClientMap().putAll(mapTmp);
 
@@ -73,41 +73,44 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
         return !clientDocAttachedMap.isEmpty();
     }
 
-    private Map getClientDocumentAttachedClientMap()
+    private Map<ClientDocumentImpl,Object> getClientDocumentAttachedClientMap()
     {
         if (clientDocAttachedMap == null)
-            this.clientDocAttachedMap = new WeakHashMap();
+            this.clientDocAttachedMap = new WeakHashMap<ClientDocumentImpl,Object>();
         return clientDocAttachedMap;
     }
 
+    @Override
     public Object get(ClientDocumentImpl clientDoc)
     {
         Object res = super.get(clientDoc);
         if (res != null) return res;
 
         // Es muy raro que no esté el client en el Map
-        Map map = getClientDocumentAttachedClientMap();
+        Map<ClientDocumentImpl,Object> map = getClientDocumentAttachedClientMap();
         return map.get(clientDoc);
     }
 
+    @Override
     public Object put(ClientDocumentImpl clientDoc,Object value)
     {
         if (clientDoc == getClientDocumentOwner())
             return super.put(clientDoc, value);
         else
         {
-            Map map = getClientDocumentAttachedClientMap();
-            return map.put((ClientDocumentAttachedClientImpl)clientDoc, value);
+            Map<ClientDocumentImpl,Object> map = getClientDocumentAttachedClientMap();
+            return map.put(clientDoc, value);
         }
     }
 
     public Object remove(ClientDocumentImpl clientDoc)
     {
         // No puede ser el owner, pues este no se puede quitar.
-        Map map = getClientDocumentAttachedClientMap();
-        return map.remove((ClientDocumentAttachedClientImpl)clientDoc);
+        Map<ClientDocumentImpl,Object> map = getClientDocumentAttachedClientMap();
+        return map.remove(clientDoc);
     }
 
+    @Override
     public int size()
     {
         int size = super.size(); // Será 1
@@ -117,6 +120,7 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
             return size + getClientDocumentAttachedClientMap().size();
     }
 
+    @Override
     public void fillAllValues(Object[] values)
     {
         super.fillAllValues(values);
@@ -124,15 +128,16 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
         if (!hasClientDocumentAttachedClient())
             return;
 
-        Map observerClients = getClientDocumentAttachedClientMap();
+        Map<ClientDocumentImpl,Object> observerClients = getClientDocumentAttachedClientMap();
         int i = 1;
-        for(Iterator it = observerClients.values().iterator(); it.hasNext(); i++)
+        for(Iterator<Object> it = observerClients.values().iterator(); it.hasNext(); i++)
         {
             Object value = it.next();
             values[i] = value;
         }
     }
 
+    @Override
     public void execAction(ClientDocumentMapAction action)
     {
         super.execAction(action);
@@ -140,11 +145,10 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
         if (!hasClientDocumentAttachedClient())
             return;
 
-        Map observerClients = getClientDocumentAttachedClientMap();
-        for(Iterator it = observerClients.entrySet().iterator(); it.hasNext(); )
+        Map<ClientDocumentImpl,Object> observerClients = getClientDocumentAttachedClientMap();
+        for(Map.Entry<ClientDocumentImpl,Object> entry : observerClients.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            action.exec((ClientDocumentAttachedClientImpl)entry.getKey(),entry.getValue());
+            action.exec(entry.getKey(),entry.getValue());
         }
     }
 }

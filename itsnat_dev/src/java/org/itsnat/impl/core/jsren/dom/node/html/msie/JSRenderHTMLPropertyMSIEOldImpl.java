@@ -36,7 +36,7 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
     public static final JSRenderHTMLPropertyMSIEOldImpl SINGLETON = new JSRenderHTMLPropertyMSIEOldImpl();
     
     // No es necesario sincronizar esta colección va a ser sólo leída
-    public final Map propertiesByAttrNameMSIE = new HashMap();  // Propiedades/Atributos comunes a todos los elementos
+    public final Map<String,PropertyImpl> propertiesByAttrNameMSIE = new HashMap<String,PropertyImpl>();  // Propiedades/Atributos comunes a todos los elementos
 
     /** Creates a new instance of JSRenderHTMLPropertyMSIEOldImpl */
     public JSRenderHTMLPropertyMSIEOldImpl()
@@ -117,7 +117,7 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
         // Lo de poner en minúsculas es para que el nombre del atributo (normalmente en minúsculas)
         // y la propiedad (podría tener alguna mayúscula) coincidan.
         String attrNameLower = attrName.toLowerCase();
-        PropertyImpl prop = (PropertyImpl)propertiesByAttrNameMSIE.get(attrNameLower);
+        PropertyImpl prop = propertiesByAttrNameMSIE.get(attrNameLower);
         if (prop != null) return prop;
         
         // Es posible que sea un inline handler nuevo del IE que desconocemos 
@@ -128,6 +128,7 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
         return null;
     }
     
+    @Override
     public String attrValueJSToPropValueJS(PropertyImpl prop,boolean setValue,String attrValueJS,String value)
     {
         if (setValue && (prop.getType() == PropertyImpl.FUNCTION))
@@ -144,6 +145,7 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
             return super.attrValueJSToPropValueJS(prop,setValue,attrValueJS,value);
     }
 
+    @Override
     protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulImpl clientDoc)
     {
         String propName = prop.getPropertyName();

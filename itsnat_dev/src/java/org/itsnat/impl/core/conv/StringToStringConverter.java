@@ -28,12 +28,12 @@ public class StringToStringConverter extends StringToObjectConverter
     {
     }
 
-    public Class getClassTarget()
+    public Class<?> getClassTarget()
     {
         return String.class;
     }
 
-    public Class getClassTargetWrapper()
+    public Class<?> getClassTargetWrapper()
     {
         return null;
     }

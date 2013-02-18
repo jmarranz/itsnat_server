@@ -139,11 +139,10 @@ public class FeatureTreeBuilder
 
     public void addFeatureChildrenToSwingTree(FeatureTreeNode feature)
     {
-        LinkedList childList = feature.getChildFeatureTreeNodes();
+        LinkedList<FeatureTreeNode> childList = feature.getChildFeatureTreeNodes();
         if (childList == null) return;
-        for(Iterator it = childList.iterator(); it.hasNext(); )
+        for(FeatureTreeNode featureChild : childList)
         {
-            FeatureTreeNode featureChild = (FeatureTreeNode)it.next();
             addFeatureToSwingTree(featureChild);
         }
     }

@@ -63,7 +63,7 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
     protected HTMLAnchorElement codeTabLink;
     protected FeatureTreeNode selectedExample;
     protected MainTreeDecorator mainTreeDecorator;
-    protected Map features = new HashMap();
+    protected Map<String,FeatureTreeNode> features = new HashMap<String,FeatureTreeNode>();
     protected BrowserAdaptor browserAdaptor;
     protected boolean joystickModePreferred;
 
@@ -178,7 +178,7 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
         return tabsCombo;
     }
 
-    public Map getFeaturesMap()
+    public Map<String,FeatureTreeNode> getFeaturesMap()
     {
         return features;
     }
@@ -240,7 +240,7 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
 
     public DefaultMutableTreeNode getDefaultMutableTreeNode(String featureName)
     {
-        FeatureTreeNode feature = (FeatureTreeNode)features.get(featureName);
+        FeatureTreeNode feature = features.get(featureName);
         if (feature == null)
             return null;
         return feature.getDefaultMutableTreeNode();

@@ -71,7 +71,7 @@ public class NodeAllAttribTransportUtil extends ParamTransportUtil
             ClientDocumentImpl clientDoc = request.getClientDocument();
             Browser browser = clientDoc.getBrowser();
             boolean toLowerCase = (browser instanceof BrowserOpera) && request.getItsNatDocument().isMIME_HTML();
-            Map remoteAttribs = new HashMap();
+            Map<String,String> remoteAttribs = new HashMap<String,String>();
             for(int i = 0; i < attrNum; i++)
             {
                 String name = request.getAttrOrParamExist("itsnat_attr_" + i);

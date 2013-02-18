@@ -16,12 +16,13 @@
 
 package org.itsnat.impl.comp.listener;
 
-import org.itsnat.impl.comp.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventListener;
 
 /**
  *
@@ -29,7 +30,7 @@ import org.w3c.dom.Element;
  */
 public class ItsNatCompDOMListenersByClientJoystickImpl extends ItsNatCompDOMListenersByClientImpl implements ItsNatCompDOMListenersJoystick
 {
-    protected Map loadScheduled = new HashMap();
+    protected Map<String,EventListener> loadScheduled = new HashMap<String,EventListener>();
     protected boolean joystickEnabled = false;
 
     public ItsNatCompDOMListenersByClientJoystickImpl(JoystickModeComponent comp,ClientDocumentImpl clientDoc)
@@ -57,10 +58,10 @@ public class ItsNatCompDOMListenersByClientJoystickImpl extends ItsNatCompDOMLis
         }
     }
 
-    public Map getLoadScheduledMap()
+    public Map<String,EventListener> getLoadScheduledMap()
     {
         if (loadScheduled == null)
-            this.loadScheduled = new HashMap();
+            this.loadScheduled = new HashMap<String,EventListener>();
         return loadScheduled;
     }
 
@@ -69,6 +70,7 @@ public class ItsNatCompDOMListenersByClientJoystickImpl extends ItsNatCompDOMLis
         return ItsNatCompDOMListenersJoystickSharedImpl.mustAddRemove(this);
     }
 
+    @Override
     protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
     {
         if (isJoystickEnabled())
@@ -77,6 +79,7 @@ public class ItsNatCompDOMListenersByClientJoystickImpl extends ItsNatCompDOMLis
             super.addInternalEventListener(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
     }
 
+    @Override
     protected void removeInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
     {
         if (isJoystickEnabled())

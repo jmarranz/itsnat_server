@@ -55,7 +55,7 @@ public class GlobalRemoteControlSupervision implements ItsNatAttachedClientEvent
         {
             ItsNatServlet servlet = response.getItsNatServlet();
             ServletRequest servRequest = event.getItsNatServletRequest().getServletRequest();
-            Map newParams = new HashMap(servRequest.getParameterMap());
+            Map<String,String[]> newParams = new HashMap<String,String[]>(servRequest.getParameterMap());
             newParams.remove("itsnat_action");
             newParams.put("itsnat_doc_name",new String[]{"feashow.ext.core.misc.remCtrlDocNotFound"});
             servRequest = servlet.createServletRequest(servRequest, newParams);

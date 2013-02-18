@@ -22,6 +22,7 @@ import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventListener;
 
 /**
  *
@@ -29,7 +30,7 @@ import org.w3c.dom.Element;
  */
 public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListenersByDocImpl implements ItsNatCompDOMListenersJoystick
 {
-    protected Map loadScheduled;
+    protected Map<String,EventListener> loadScheduled;
     protected boolean joystickEnabled = false;
 
     public ItsNatCompDOMListenersByDocJoystickImpl(JoystickModeComponent comp)
@@ -61,10 +62,10 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
         }
     }
 
-    public Map getLoadScheduledMap()
+    public Map<String,EventListener> getLoadScheduledMap()
     {
         if (loadScheduled == null)
-            this.loadScheduled = new HashMap();
+            this.loadScheduled = new HashMap<String,EventListener>();
         return loadScheduled;
     }
 

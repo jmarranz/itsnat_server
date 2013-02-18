@@ -29,36 +29,36 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.comet.NormalCometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.jsren.JSScriptUtilFromClientImpl;
-import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
 import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
+import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.itsnat.impl.core.path.NodeLocationNotParentImpl;
 import org.itsnat.impl.core.path.NodeLocationNullImpl;
 import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
+import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
+import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatNormalCometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatTimerEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.UniqueIdGenIntList;
 import org.w3c.dom.Node;
@@ -82,14 +82,14 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
     protected ItsNatAsyncTaskRegistryImpl asyncTaskRegistry;
     protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
     protected ItsNatUserEventListenerRegistryImpl userListenerRegistry;
-    protected Set cometNotifiers;
+    protected Set<NormalCometNotifierImpl> cometNotifiers;
     protected ItsNatNormalCometTaskRegistryImpl cometTaskRegistry;
-    protected Set clientCodeMethodSet;
+    protected Set<String> clientCodeMethodSet;
     protected ClientMutationEventListenerStfulImpl mutationListener;
     protected DelegateClientDocumentStfulImpl delegate;
     protected DOMPathResolver pathResolver;
     protected SVGWebInfoImpl svgWebInfo;
-    protected MapUniqueId fileUploadsMap;
+    protected MapUniqueId<HTMLIFrameFileUploadImpl> fileUploadsMap;
     protected JSScriptUtilFromClientImpl jsScriptUtil;
     protected LinkedList<EventListener> globalDomEventListeners;
     
@@ -779,10 +779,10 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return !cometNotifiers.isEmpty();
     }
 
-    public Set getCometNotifierSet()
+    public Set<NormalCometNotifierImpl> getCometNotifierSet()
     {
         if (cometNotifiers == null)
-            this.cometNotifiers = new HashSet(); // para ahorrar memoria si no se usa
+            this.cometNotifiers = new HashSet<NormalCometNotifierImpl>(); // para ahorrar memoria si no se usa
         return cometNotifiers;
     }
 
@@ -819,10 +819,10 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return !clientCodeMethodSet.isEmpty();
     }
 
-    public Set getClientMethodBoundSet()
+    public Set<String> getClientMethodBoundSet()
     {
         if (clientCodeMethodSet == null)
-            this.clientCodeMethodSet = new HashSet();
+            this.clientCodeMethodSet = new HashSet<String>();
         return clientCodeMethodSet;
     }
 
@@ -835,7 +835,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public void bindClientMethod(String methodName)
     {
-        Set methods = getClientMethodBoundSet();
+        Set<String> methods = getClientMethodBoundSet();
         boolean res = methods.add(methodName);
         if (!res) throw new ItsNatException("INTERNAL ERROR",this); // Se supone que antes de registrar se pregunta, evitamos así usar un mismo nombre para diferentes fines
     }
@@ -846,6 +846,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addCodeToSend(code);
     }
 */
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();
@@ -853,11 +854,11 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (hasCometNotifiers())
         {
             // Liberamos así los hilos bloqueados etc
-            Set notifiers = getCometNotifierSet();
-            NormalCometNotifierImpl[] array = (NormalCometNotifierImpl[])notifiers.toArray(new NormalCometNotifierImpl[notifiers.size()]);
+            Set<NormalCometNotifierImpl> notifiers = getCometNotifierSet();
+            NormalCometNotifierImpl[] array = notifiers.toArray(new NormalCometNotifierImpl[notifiers.size()]);
             for(int i = 0; i < array.length; i++)
             {
-                NormalCometNotifierImpl notifier = (NormalCometNotifierImpl)array[i];
+                NormalCometNotifierImpl notifier = array[i];
                 notifier.stop(); // Se quita solo del set
             }
             notifiers.clear(); // por si acaso
@@ -874,11 +875,11 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         {
             // Estos objetos están también registrados en otras colecciones,
             // no tienen sentido con un cliente invalidado.
-            MapUniqueId map = getHTMLIFrameFileUploadMap();
-            HTMLIFrameFileUploadImpl[] array = (HTMLIFrameFileUploadImpl[])map.toArray(new HTMLIFrameFileUploadImpl[map.size()]);
+            MapUniqueId<HTMLIFrameFileUploadImpl> map = getHTMLIFrameFileUploadMap();
+            HTMLIFrameFileUploadImpl[] array = map.toArray(new HTMLIFrameFileUploadImpl[map.size()]);
             for(int i = 0; i < array.length; i++)
             {
-                HTMLIFrameFileUploadImpl fileUp = (HTMLIFrameFileUploadImpl)array[i];
+                HTMLIFrameFileUploadImpl fileUp = array[i];
                 fileUp.dispose(); // Se quita solo de las listas
             }
             map.clear(); // Por si acaso
@@ -977,17 +978,17 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return !fileUploadsMap.isEmpty();
     }
     
-    public MapUniqueId getHTMLIFrameFileUploadMap()
+    public MapUniqueId<HTMLIFrameFileUploadImpl> getHTMLIFrameFileUploadMap()
     {
         if (fileUploadsMap == null)
-            this.fileUploadsMap = new MapUniqueId(getUniqueIdGenerator()); // Así ahorramos memoria si no se usa
+            this.fileUploadsMap = new MapUniqueId<HTMLIFrameFileUploadImpl>(getUniqueIdGenerator()); // Así ahorramos memoria si no se usa
         return fileUploadsMap;
     }
 
     public HTMLIFrameFileUploadImpl getHTMLIFrameFileUploadImpl(String id)
     {
         if (fileUploadsMap == null) return null; // RARO
-        return (HTMLIFrameFileUploadImpl)getHTMLIFrameFileUploadMap().get(id);
+        return getHTMLIFrameFileUploadMap().get(id);
     }
 
     public void addHTMLIFrameFileUploadImpl(HTMLIFrameFileUploadImpl upload)

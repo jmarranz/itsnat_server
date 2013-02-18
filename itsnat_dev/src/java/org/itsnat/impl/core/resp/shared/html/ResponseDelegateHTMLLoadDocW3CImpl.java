@@ -65,7 +65,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
             return new ResponseDelegateHTMLLoadDocW3CDefaultImpl(responseParent);
     }
 
-    protected LinkedList fixOtherNSElementsInHTMLFindRootElems()
+    protected LinkedList<Element> fixOtherNSElementsInHTMLFindRootElems()
     {
         // En tiempo de carga con MIME "text/html" los elementos inline no-X/HTML presentes
         // en el markup de carga son incorrectamente cargados en el DOM cliente en navegadores
@@ -115,13 +115,11 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         return false;
     }
 
-    protected LinkedList fixOtherNSElementsInHTMLSaveValidNames(LinkedList otherNSRootElemsInHTML)
+    protected LinkedList<Attr> fixOtherNSElementsInHTMLSaveValidNames(LinkedList<Element> otherNSRootElemsInHTML)
     {
-        LinkedList auxAttribs = new LinkedList();
-        for(Iterator it = otherNSRootElemsInHTML.iterator(); it.hasNext(); )
+        LinkedList<Attr> auxAttribs = new LinkedList<Attr>();
+        for(Element elem : otherNSRootElemsInHTML)
         {
-            Element elem = (Element)it.next();
-
             // Marcamos el elemento root como elemento que ha de procesarse con el script
             // que enviaremos al cliente, para distinguir de los casos en los que por ejemplo
             // embebamos MathML dentro de SVG etc (raro pero posible).
@@ -135,7 +133,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         return auxAttribs;
     }
 
-    protected void fixOtherNSElementsInHTMLSaveValidNames(Element elem,LinkedList auxAttribs)
+    protected void fixOtherNSElementsInHTMLSaveValidNames(Element elem,LinkedList<Attr> auxAttribs)
     {
         // Primero tomamos una foto de los atributos originales pues sobre la marcha vamos a añadir
         // atributos auxiliares seguramente.
@@ -163,7 +161,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         {
             for(int i = 0; i < originalAttribs.length; i++)
             {
-                Attr attr = (Attr)originalAttribs[i];
+                Attr attr = originalAttribs[i];
                 if (elemWithOtherNS || JSRenderOtherNSAttributeW3CImpl.isAttrWithOtherNSInMIMEHTML(attr))
                 {
                     // Aunque el atributo no tenga namespace propio, si está dentro de un elemento con namespace (no XHTML) la distinción entre mayúsculas y minúsculas es importante (por ejemplo en SVG)
@@ -191,7 +189,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         }
     }
 
-    protected void fixOtherNSElementsInHTMLSaveValidName(Element elem,String prefix,String localName,LinkedList auxAttribs)
+    protected void fixOtherNSElementsInHTMLSaveValidName(Element elem,String prefix,String localName,LinkedList<Attr> auxAttribs)
     {
         if (!hasSomeCharUpcase(prefix) && !hasSomeCharUpcase(localName)) return;
 
@@ -213,31 +211,29 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         auxAttribs.add(attr);
     }
 
-    protected void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList attribs)
+    protected void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList<Attr> attribs)
     {
         if (attribs == null) return;
-        for(Iterator it = attribs.iterator(); it.hasNext(); )
+        for(Attr attr : attribs)
         {
-            Attr attr = (Attr)it.next();
             attr.getOwnerElement().removeAttributeNode(attr);
         }
     }
 
-    protected void fixOtherNSElementsInHTMLGenCode(LinkedList otherNSElemsInHTML)
+    protected void fixOtherNSElementsInHTMLGenCode(LinkedList<Element> otherNSElemsInHTML)
     {
         addScriptFileToLoad(LoadScriptImpl.ITSNAT_FIX_OTHERNS_IN_HTML);
 
         StringBuilder code = new StringBuilder();
 
-        Set tagNames = new HashSet();
-        for(Iterator it = otherNSElemsInHTML.iterator(); it.hasNext(); )
+        Set<String> tagNames = new HashSet<String>();
+        for(Element elem : otherNSElemsInHTML)
         {
-            Element elem = (Element)it.next();
             tagNames.add(elem.getTagName().toUpperCase());
         }
 
         code.append("new ItsNatFixOtherNSInHTML().fixTreeOtherNSInHTML([");
-        for(Iterator it = tagNames.iterator(); it.hasNext(); )
+        for(Iterator<String> it = tagNames.iterator(); it.hasNext(); )
         {
             String tagName = (String)it.next();
             code.append("\"" + tagName + "\"");
@@ -251,12 +247,12 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
     }
 
 
-    protected LinkedList getOtherNSRootElementsInline(Node node)
+    protected LinkedList<Element> getOtherNSRootElementsInline(Node node)
     {
         return getOtherNSRootElementsInline(node,null);
     }
 
-    protected LinkedList getOtherNSRootElementsInline(Node node,LinkedList list)
+    protected LinkedList<Element> getOtherNSRootElementsInline(Node node,LinkedList<Element> list)
     {
         if (node.getNodeType() != Node.ELEMENT_NODE) return list;
 
@@ -270,7 +266,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         }
         else if (JSRenderOtherNSElementW3CImpl.isElementWithSomethingOtherNSInMIMEHTML(elem))
         {
-            if (list == null) list = new LinkedList();
+            if (list == null) list = new LinkedList<Element>();
 
             // Añadimos sólo el elemento padre pues el tratamiento
             // también se hará a los hijos de este padre pero via JavaScript.

@@ -102,8 +102,10 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
         processRequest((HttpServletRequest)request,(HttpServletResponse)response);
     }
 
-    public ServletRequest createServletRequest(ServletRequest request,Map params)
+    public ServletRequest createServletRequest(ServletRequest request,Map<String,String[]> params)
     {
+        // Nota: los tipos genéricos <String,String[]> son ya los claramente definidos en la spec servlet 
+        // http://docs.oracle.com/javaee/6/api/javax/servlet/ServletRequest.html#getParameterMap()
         return new HttpServletRequestNewParamsImpl((HttpServletRequest)request,params);
     }
 }

@@ -42,7 +42,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
     // http://msdn2.microsoft.com/en-us/library/ms533055.aspx Lista de Propiedades
 
     // No es necesario sincronizar esta colección porque va a ser sólo leída
-    public static final Map attributes = new HashMap();
+    public static final Map<String,String> attributes = new HashMap<String,String>();
 
     static
     {
@@ -100,7 +100,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
     protected String getAttributeName(String attrName)
     {
         String key = attrName.toLowerCase();
-        String newAttrName = (String)attributes.get(key);  // Devuelve el que debe ponerse
+        String newAttrName = attributes.get(key);  // Devuelve el que debe ponerse
         if (newAttrName != null)
             return newAttrName;
         else
@@ -123,6 +123,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
         return attName.equals("style");
     }
 
+    @Override
     protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))
@@ -145,6 +146,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
         }
     }
 
+    @Override
     public String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))
@@ -165,6 +167,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
         }
     }
 
+    @Override
     protected String removeAttributeCode(Attr attr,String attrName,Element elem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))

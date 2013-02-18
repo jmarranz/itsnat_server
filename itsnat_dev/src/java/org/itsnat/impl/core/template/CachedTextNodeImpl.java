@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.template;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -26,7 +25,7 @@ import java.util.LinkedList;
  */
 public class CachedTextNodeImpl extends CachedSubtreeImpl
 {
-    protected LinkedList entities = new LinkedList();
+    protected LinkedList<PairPosChar> entities = new LinkedList<PairPosChar>();
 
     public CachedTextNodeImpl(MarkupTemplateVersionImpl template,String markup,String dom)
     {
@@ -48,7 +47,7 @@ public class CachedTextNodeImpl extends CachedSubtreeImpl
                 // Es una entity
                 char cDOM = dom.charAt(posDOM);
                 int end = markup.indexOf(";",posMarkup + 1); // NO DEBE ser -1
-                if (entities == null) this.entities = new LinkedList();
+                if (entities == null) this.entities = new LinkedList<PairPosChar>();
                 entities.add(new PairPosChar(posMarkup,end,cDOM));
 
                 posMarkup = end + 1;
@@ -80,11 +79,9 @@ public class CachedTextNodeImpl extends CachedSubtreeImpl
         {
             StringBuilder dom = new StringBuilder();
             int prevPosMarkup = 0;
-            int posMarkup = 0;
-            for(Iterator it = entities.iterator(); it.hasNext(); )
+            int posMarkup;
+            for(PairPosChar entity : entities)
             {
-                PairPosChar entity = (PairPosChar)it.next();
-
                 posMarkup = entity.start;
                 if (prevPosMarkup < posMarkup) // Puede darse el caso de dos entities seguidos
                     dom.append(markup.substring(prevPosMarkup,posMarkup));

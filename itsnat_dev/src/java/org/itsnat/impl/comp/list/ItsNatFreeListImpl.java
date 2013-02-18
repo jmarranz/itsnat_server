@@ -32,6 +32,7 @@ import org.itsnat.comp.list.ItsNatListCellUI;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.*;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystick;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
@@ -209,7 +210,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
 
     public void addInternalEventListenerJoystickMode(int index,Element elem)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -220,7 +221,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
 
     public void removeInternalEventListenerJoystickMode(int index)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -237,7 +238,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
 
     public void removeInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 

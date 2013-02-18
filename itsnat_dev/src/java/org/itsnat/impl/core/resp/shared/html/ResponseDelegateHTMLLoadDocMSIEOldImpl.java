@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
@@ -50,22 +49,22 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
         return new ResponseDelegateHTMLLoadDocMSIEOldImpl(responseParent);        
     }
 
-    protected LinkedList fixOtherNSElementsInHTMLFindRootElems()
+    protected LinkedList<Element> fixOtherNSElementsInHTMLFindRootElems()
     {
         return null; // Nada que hacer, sólo W3C
     }
 
-    protected LinkedList fixOtherNSElementsInHTMLSaveValidNames(LinkedList otherNSRootElemsInHTML)
+    protected LinkedList<Attr> fixOtherNSElementsInHTMLSaveValidNames(LinkedList<Element> otherNSRootElemsInHTML)
     {
         return null; // Nada que hacer, sólo W3C
     }
 
-    protected void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList attribs)
+    protected void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList<Attr> attribs)
     {
         // Nada que hacer, sólo W3C
     }
 
-    protected void fixOtherNSElementsInHTMLGenCode(LinkedList otherNSElemsInHTML)
+    protected void fixOtherNSElementsInHTMLGenCode(LinkedList<Element> otherNSElemsInHTML)
     {
         // Nada que hacer, sólo W3C
     }
@@ -74,11 +73,12 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
         return "MSIEOldHTMLDocument";
     }
     
+    @Override
     public String serializeDocument()
     {
         ItsNatHTMLDocumentImpl itsNatDoc = getItsNatHTMLDocument();
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
-        Map attrNamespaces = processTreeNamespaces(doc);
+        Map<String,Attr> attrNamespaces = processTreeNamespaces(doc);
 
         String docMarkup = super.serializeDocument();
 
@@ -93,7 +93,7 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
         return docMarkup;
     }
 
-    protected Map processTreeNamespaces(HTMLDocument doc)
+    protected Map<String,Attr> processTreeNamespaces(HTMLDocument doc)
     {
         // MSIE 6 y 7 tienen un soporte muy pobre de namespaces pero algo hay
         // En tiempo de carga para que el namespace de un elemento como <svg:svg>...</svg:svg>
@@ -109,7 +109,7 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
         // No nos preocupan los namespaces de los nodos cacheados pues estos
         // no son activos en el servidor.
 
-        Map attrNamespaces = null;
+        Map<String,Attr> attrNamespaces = null;
 
         // Copiamos en la colección attrNamespaces las declaraciones que ya existan
         // de namespaces tipo xmlns:prefijo para restaurar como estaba al final.
@@ -123,7 +123,7 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
                 String prefix = attr.getPrefix();
                 if ((prefix != null) && prefix.equals("xmlns"))
                 {
-                    if (attrNamespaces == null) attrNamespaces = new HashMap();
+                    if (attrNamespaces == null) attrNamespaces = new HashMap<String,Attr>();
                     attrNamespaces.put(attr.getName(),attr);
                 }
             }
@@ -180,7 +180,7 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
         }
     }
 
-    protected static void restoreHTMLElemAttrNamespaces(Document doc,Map attrNamespaces)
+    protected static void restoreHTMLElemAttrNamespaces(Document doc,Map<String,Attr> attrNamespaces)
     {
         // Restauramos el estado original del DOM
         // attrNamespaces puede ser null
@@ -188,11 +188,10 @@ public class ResponseDelegateHTMLLoadDocMSIEOldImpl extends ResponseDelegateHTML
 
         if (attrNamespaces != null)
         {
-            for(Iterator it = attrNamespaces.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,Attr> entry : attrNamespaces.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                String name = (String)entry.getKey(); // xmlns:algo
-                Attr value = (Attr)entry.getValue();
+                String name = entry.getKey(); // xmlns:algo
+                Attr value = entry.getValue();
                 html.setAttributeNS(NamespaceUtil.XMLNS_NAMESPACE,name,value.getValue());
             }
         }

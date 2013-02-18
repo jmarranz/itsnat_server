@@ -16,10 +16,9 @@
 
 package org.itsnat.impl.comp.listener;
 
-import org.itsnat.impl.comp.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
@@ -38,10 +37,10 @@ import org.w3c.dom.views.DocumentView;
  */
 public class ItsNatCompDOMListenersJoystickSharedImpl
 {
-    public static ArrayList getMustAddRemove(JoystickModeComponent comp)
+    public static ArrayList<ItsNatCompDOMListenersJoystick> getMustAddRemove(JoystickModeComponent comp)
     {
         ItsNatCompDOMListenersAllClientsImpl domListenersByClient = ((ItsNatComponentImpl)comp).getItsNatCompDOMListenersAllClients();
-        ArrayList res = new ArrayList(1 + domListenersByClient.size()); // El 1 es el registro por documento
+        ArrayList<ItsNatCompDOMListenersJoystick> res = new ArrayList<ItsNatCompDOMListenersJoystick>(1 + domListenersByClient.size()); // El 1 es el registro por documento
 
         ItsNatCompDOMListenersByDocJoystickImpl domListenersByDoc = comp.getItsNatCompDOMListenersByDocJoystick();
         if (domListenersByDoc.mustAddRemove())
@@ -58,38 +57,38 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         return res;
     }
 
-    public static void addEventListenerJoystick(ArrayList domListeners,Element[] elemList)
+    public static void addEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element[] elemList)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = (ItsNatCompDOMListenersJoystick)domListeners.get(i);
+            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
             current.addEventListenerJoystick(elemList);
         }
     }
 
-    public static void removeEventListenerJoystick(ArrayList domListeners,Element[] elemList)
+    public static void removeEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element[] elemList)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = (ItsNatCompDOMListenersJoystick)domListeners.get(i);
+            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
             current.removeEventListenerJoystick(elemList);
         }
     }
 
-    public static void addEventListenerJoystick(ArrayList domListeners,Element elem)
+    public static void addEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element elem)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = (ItsNatCompDOMListenersJoystick)domListeners.get(i);
+            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
             current.addEventListenerJoystick(elem);
         }
     }
 
-    public static void removeEventListenerJoystick(ArrayList domListeners,Element elem)
+    public static void removeEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element elem)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = (ItsNatCompDOMListenersJoystick)domListeners.get(i);
+            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
             current.removeEventListenerJoystick(elem);
         }
     }
@@ -150,7 +149,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         ItsNatDocumentImpl itsNatDoc = listeners.getItsNatDocumentImpl();
         if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
         {
-            EventListener listener = (EventListener)listeners.getLoadScheduledMap().remove(type + "_" + useCapture);
+            EventListener listener = listeners.getLoadScheduledMap().remove(type + "_" + useCapture);
             Document doc = itsNatDoc.getDocument();
 
             Browser browser = clientDoc.getBrowser();

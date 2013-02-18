@@ -17,11 +17,6 @@
 package org.itsnat.impl.comp.table;
 
 import java.util.ArrayList;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.*;
-import org.itsnat.impl.comp.list.ListSelectionModelMgrImpl;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.TableModel;
@@ -32,7 +27,13 @@ import org.itsnat.comp.table.ItsNatTableHeaderCellUI;
 import org.itsnat.comp.table.ItsNatTableHeaderUI;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
+import org.itsnat.impl.comp.list.ListSelectionModelMgrImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystick;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -74,6 +75,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
         return null;
     }
 
+    @Override
     public void setDefaultModels()
     {
         super.setDefaultModels();
@@ -94,6 +96,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
         return null; // La estructura se debe obtener a través de ItsNatTable
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -270,7 +273,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void addInternalEventListenerJoystickMode(int index,Element elem)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
         if (domListeners.isEmpty())
             return;
 
@@ -282,7 +285,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void addInternalEventListenerJoystickMode(int index)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
         if (domListeners.isEmpty())
             return;
 
@@ -292,14 +295,14 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void removeInternalEventListenerJoystickMode(int index)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
         if (domListeners.isEmpty())
             return;
 
         removeInternalEventListenerJoystickMode(domListeners,index);
     }
 
-    public void addInternalEventListenerJoystickMode(ArrayList domListeners,int index)
+    public void addInternalEventListenerJoystickMode(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,int index)
     {
         ItsNatTableHeaderUI compUI = getItsNatTableHeaderUI();
         Element contentElem = compUI.getContentElementAt(index);
@@ -307,7 +310,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
         ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, contentElem);
     }
 
-    public void removeInternalEventListenerJoystickMode(ArrayList domListeners,int index)
+    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,int index)
     {
         ItsNatTableHeaderUI compUI = getItsNatTableHeaderUI();
         Element contentElem = compUI.getContentElementAt(index);
@@ -319,7 +322,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void addInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
         if (domListeners.isEmpty())
             return;
 
@@ -330,7 +333,7 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void removeInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
         if (domListeners.isEmpty())
             return;
 

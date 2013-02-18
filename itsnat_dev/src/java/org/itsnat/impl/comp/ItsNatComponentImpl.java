@@ -55,7 +55,7 @@ import org.w3c.dom.events.MutationEvent;
 public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements ItsNatComponentInternal,EventListener,BeforeAfterMutationRenderListener
 {
     protected ItsNatDocComponentManagerImpl componentMgr;
-    protected Map artifacts;
+    protected Map<String,Object> artifacts;
     protected ItsNatCompDOMListenersByDocImpl domListenersByDoc;
     protected ItsNatCompDOMListenersAllClientsImpl domListenersByClient;
     protected boolean disposed = false;
@@ -76,7 +76,7 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
         if (artifacts != null)
         {
-            Map artifactMap = getArtifactMap();
+            Map<String,Object> artifactMap = getArtifactMap();
             for(int i = 0; i < artifacts.length; i++)
             {
                 NameValue artif = artifacts[i];
@@ -246,16 +246,16 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         return !artifacts.isEmpty();
     }
 
-    public Map getArtifactMap()
+    public Map<String,Object> getArtifactMap()
     {
         if (artifacts == null)
-            this.artifacts = new HashMap();
+            this.artifacts = new HashMap<String,Object>();
         return artifacts;
     }
 
     public void registerArtifact(String name,Object value)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         artifacts.put(name,value);
     }
 
@@ -263,13 +263,13 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
     {
         if (!hasArtifacts()) return null;
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.get(name);
     }
 
     public Object removeArtifact(String name)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.remove(name);
     }
 

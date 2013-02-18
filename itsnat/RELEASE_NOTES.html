@@ -16,8 +16,13 @@
 
 <h3>Version 1.3</h3>
 <ul>
-    <li>Updated to Java 1.5 (source and binary) as minimum (compiled with Oracle JDK 1.6)</li>
-    <li>Fixed bug: sent data is not decoded with UTF-8 (regression introduced when GAE was supported)</li>    
+    <li>Updated to Java 1.5 (source and binary) as minimum (compiled with Oracle JDK 1.6), generics have been added to some public method</li>
+    <li>Fixed bugs: 
+        <ul>
+            <li>Sent data is not decoded with UTF-8 (regression introduced when GAE was supported)</li> 
+            <li>ItsNatDocument.getAttributeNames() returns values instead of names</li>
+        </ul>
+    </li>
     <li>Removed support of many old browsers.</li>    
     <li>Feature Showcase:
         <ul>

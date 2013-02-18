@@ -29,8 +29,8 @@ import java.util.Map;
  */
 public class W3CKeyboardEventSharedImpl
 {
-    protected Map keyCodes = new HashMap();
-    protected Map keyIdentifiers = new HashMap();
+    protected Map<String,Integer> keyCodes = new HashMap<String,Integer>();
+    protected Map<Integer,String> keyIdentifiers = new HashMap<Integer,String>();
 
     public void addKeyCodeAndIdentifier(String keyIdentifier,int value)
     {
@@ -41,12 +41,12 @@ public class W3CKeyboardEventSharedImpl
 
     public String toKeyIdentifier(int keyCode)
     {
-        return (String)keyIdentifiers.get(new Integer(keyCode));
+        return keyIdentifiers.get(new Integer(keyCode));
     }
 
     public int toKeyCode(String keyIdentifier)
     {
-        Integer keyCode = (Integer)keyCodes.get(keyIdentifier);
+        Integer keyCode = keyCodes.get(keyIdentifier);
         if (keyCode != null)
             keyCode.intValue();
 

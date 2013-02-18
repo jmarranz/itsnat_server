@@ -16,18 +16,9 @@
 
 package org.itsnat.impl.core.doc;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import org.itsnat.impl.core.*;
-import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
-import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
-import org.itsnat.impl.core.util.UserDataMonoThreadImpl;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -37,26 +28,35 @@ import java.util.Hashtable;
 import java.util.Map;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.ClientDocument;
+import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.core.domutil.ElementGroupManager;
+import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
+import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserUnknown;
-import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domimpl.ItsNatDocumentInternal;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
+import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.core.servlet.DeserialPendingTask;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionObjectInputStream;
+import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
+import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupSourceStringMarkupImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.UniqueId;
+import org.itsnat.impl.core.util.UserDataMonoThreadImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
@@ -80,9 +80,9 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
     protected transient ItsNatServletRequestImpl currentRequest;
     protected UserDataMonoThreadImpl userData;
     protected boolean invalid = false;
-    protected Hashtable attributes;
+    protected Hashtable<String,Object> attributes;
     protected ItsNatDocComponentManagerImpl componentMgr;
-    protected Map artifacts;
+    protected Map<String,Object> artifacts;
     protected boolean scriptingEnabled;
     protected DateFormat dateFormat;
     protected NumberFormat numberFormat;
@@ -153,7 +153,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
             // por lo que salvamos el propio docTemplateVersion a través de la colección
 
             int posDocTemplateVersion = -1;
-            MarkupTemplateVersionImpl[] templates = (MarkupTemplateVersionImpl[])usedTemplatesWithCachedNodes.values().toArray(new MarkupTemplateVersionImpl[size]);
+            MarkupTemplateVersionImpl[] templates = usedTemplatesWithCachedNodes.values().toArray(new MarkupTemplateVersionImpl[size]);
             for(int i = 0; i < templates.length; i++ )
             {
                 MarkupTemplateVersionImpl templateVersion = templates[i];
@@ -195,7 +195,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         {
             final int posDocTemplateVersion = in.readInt();
 
-            final ArrayList templateIds = new ArrayList(size);
+            final ArrayList<String[]> templateIds = new ArrayList<String[]>(size);
             for(int i = 0; i < size; i++)
             {
                 String[] templateId = MarkupTemplateVersionImpl.readObject(in);
@@ -214,7 +214,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
                         // en teoría los templates del documento no deben cambiar,
                         // la alternativa de serializar los MarkupTemplateVersionImpl
                         // podría ser peor
-                        String[] templateId = (String[])templateIds.get(i);
+                        String[] templateId = templateIds.get(i);
                         MarkupTemplateVersionImpl templateVersion;
                         if (i == posDocTemplateVersion)
                         {
@@ -509,10 +509,10 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         this.invalid = true;
     }
 
-    public Hashtable getAttributeMap()
+    public Hashtable<String,Object> getAttributeMap()
     {
         if (attributes == null) // para ahorrar memoria si no se usa
-            this.attributes = new Hashtable();
+            this.attributes = new Hashtable<String,Object>();
         return attributes;
     }
 
@@ -526,11 +526,11 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         getAttributeMap().put(name,value);
     }
 
-    public Enumeration getAttributeNames()
+    public Enumeration<String> getAttributeNames()
     {
         // Este método es la única razón para usar un Hashtable (el cual está sincronizado innecesariamente)
         // por seguir el patrón de ServletRequest etc
-        return getAttributeMap().elements();
+        return getAttributeMap().keys();
     }
 
     public void removeAttribute(String name)
@@ -595,16 +595,16 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return !artifacts.isEmpty();
     }
 
-    public Map getArtifactMap()
+    public Map<String,Object> getArtifactMap()
     {
         if (artifacts == null)
-            this.artifacts = new HashMap();
+            this.artifacts = new HashMap<String,Object>();
         return artifacts;
     }
 
     public void registerArtifact(String name,Object value)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         artifacts.put(name,value);
     }
 
@@ -612,13 +612,13 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
     {
         if (!hasArtifacts()) return null;
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.get(name);
     }
 
     public Object removeArtifact(String name)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.remove(name);
     }
 

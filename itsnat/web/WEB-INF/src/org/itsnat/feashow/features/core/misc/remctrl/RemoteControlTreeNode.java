@@ -94,7 +94,7 @@ public class RemoteControlTreeNode extends FeatureTreeNode implements EventListe
         ItsNatServlet itsNatServlet = thisDocTemplate.getItsNatServlet();
         ItsNatServletContext appCtx = itsNatServlet.getItsNatServletConfig().getItsNatServletContext();
 
-        final List sessionList = new LinkedList();
+        final List<ItsNatSession> sessionList = new LinkedList<ItsNatSession>();
         ItsNatSessionCallback cb = new ItsNatSessionCallback()
         {
             public boolean handleSession(ItsNatSession session)

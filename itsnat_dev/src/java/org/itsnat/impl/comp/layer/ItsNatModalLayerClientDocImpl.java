@@ -42,7 +42,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 
     public ItsNatModalLayerImpl getItsNatModalLayer()
     {
-        return (ItsNatModalLayerImpl)parentComp;
+        return parentComp;
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()
@@ -81,7 +81,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
     {
         if (!isCleanBelowMode()) return;
 
-        LinkedHashSet bodyElementsBefore = getItsNatModalLayer().getBodyElementsBefore();
+        LinkedHashSet<Element> bodyElementsBefore = getItsNatModalLayer().getBodyElementsBefore();
 
         Element[] reverseBodyElements = new Element[bodyElementsBefore.size()];
         if (hide)
@@ -89,15 +89,15 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
             // Recorreremos el orden en inverso para evitar el "parpadeo" o "efecto persiana"
             // propio de ocultar/mostrar desde el primero, es más rápido para el navegador.
             int i = reverseBodyElements.length - 1;
-            for(Iterator it = bodyElementsBefore.iterator(); it.hasNext(); i--)
+            for(Iterator<Element> it = bodyElementsBefore.iterator(); it.hasNext(); i--)
             {
-                Element elem = (Element)it.next();
+                Element elem = it.next();
                 reverseBodyElements[i] = elem;
             }
         }
         else
         {
-            reverseBodyElements = (Element[])bodyElementsBefore.toArray(reverseBodyElements);
+            reverseBodyElements = bodyElementsBefore.toArray(reverseBodyElements);
         }
 
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();

@@ -20,13 +20,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.BrowserW3C;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
+import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domimpl.html.HTMLTextAreaElementImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -35,12 +34,13 @@ import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderPropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.core.template.html.HTMLTemplateVersionDelegateImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.html.HTMLBodyElement;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLHeadElement;
@@ -124,18 +124,19 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         rewriteClientHTMLUIControlProperties(elem,revertJSChanges,code);
     }
 
+    @Override
     protected String serializeDocument()
     {
         // En este punto SVGWeb debe de estar ya detectado o no
         boolean useSVGWeb = SVGWebInfoImpl.isSVGWebEnabled(getClientDocumentStful());
 
         // Primero los que no son procesados por SVGWeb (aunque da igual)
-        LinkedList otherNSElemsAttribs = null;
-        LinkedList otherNSRootElemsInHTML = fixOtherNSElementsInHTMLFindRootElems();
+        LinkedList<Attr> otherNSElemsAttribs = null;
+        LinkedList<Element> otherNSRootElemsInHTML = fixOtherNSElementsInHTMLFindRootElems();
         if (otherNSRootElemsInHTML != null)
             otherNSElemsAttribs = fixOtherNSElementsInHTMLSaveValidNames(otherNSRootElemsInHTML);
 
-        Map svgRootElems = null;
+        Map<Element,Element> svgRootElems = null;
         if (useSVGWeb)
         {
             HTMLDocument doc = getItsNatHTMLDocument().getHTMLDocument();
@@ -197,11 +198,11 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         {
             // No está svg.render.forceflash en el URL vamos a ver si está en el <meta>
             HTMLHeadElement head = DOMUtilHTML.getHTMLHead(doc);
-            LinkedList metaList = DOMUtilInternal.getChildElementListWithTagName(head,"meta",true);
+            LinkedList<Node> metaList = DOMUtilInternal.getChildElementListWithTagName(head,"meta",true);
             if (metaList != null)
             {
                 int i = 0;
-                for(Iterator it = metaList.iterator(); it.hasNext(); )
+                for(Iterator<Node> it = metaList.iterator(); it.hasNext(); )
                 {
                     HTMLMetaElement elem = (HTMLMetaElement)it.next();
                     if (HTMLTemplateVersionDelegateImpl.isSVGWebMetaDeclarationStatic(elem))
@@ -230,17 +231,17 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         return SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash(elem,clientDoc);
     }
 
-    protected Map processTreeSVGWebElements(HTMLDocument doc)
+    protected Map<Element,Element> processTreeSVGWebElements(HTMLDocument doc)
     {
         HTMLBodyElement body = (HTMLBodyElement)doc.getBody();
-        Map svgwebElems = new HashMap();
+        Map<Element,Element> svgwebElems = new HashMap<Element,Element>();
         processTreeSVGWebElements(body,svgwebElems);
         if (svgwebElems.isEmpty())
             svgwebElems = null;
         return svgwebElems;
     }
 
-    protected Node processTreeSVGWebElements(Node node,Map svgwebElems)
+    protected Node processTreeSVGWebElements(Node node,Map<Element,Element> svgwebElems)
     {
         if (node == null) return null;
         if (node.getNodeType() != Node.ELEMENT_NODE) return node;
@@ -292,15 +293,14 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         return script; // Ha reemplazado a elem
     }
 
-    protected static void restoreSVGWebElements(Map svgRootElems)
+    protected static void restoreSVGWebElements(Map<Element,Element> svgRootElems)
     {
         if (svgRootElems != null)
         {
-            for(Iterator it = svgRootElems.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<Element,Element> entry : svgRootElems.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                Element script = (Element)entry.getKey();
-                Element elem = (Element)entry.getValue();
+                Element script = entry.getKey();
+                Element elem = entry.getValue();
                 script.getParentNode().replaceChild(elem, script);
             }
         }
@@ -351,8 +351,8 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         }
     }
 
-    protected abstract LinkedList fixOtherNSElementsInHTMLFindRootElems();
-    protected abstract LinkedList fixOtherNSElementsInHTMLSaveValidNames(LinkedList otherNSRootElemsInHTML);
-    protected abstract void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList attribs);
-    protected abstract void fixOtherNSElementsInHTMLGenCode(LinkedList otherNSElemsInHTML);
+    protected abstract LinkedList<Element> fixOtherNSElementsInHTMLFindRootElems();
+    protected abstract LinkedList<Attr> fixOtherNSElementsInHTMLSaveValidNames(LinkedList<Element> otherNSRootElemsInHTML);
+    protected abstract void fixOtherNSElementsInHTMLCleanAuxAttribs(LinkedList<Attr> attribs);
+    protected abstract void fixOtherNSElementsInHTMLGenCode(LinkedList<Element> otherNSElemsInHTML);
 }

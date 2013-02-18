@@ -35,7 +35,7 @@ import org.w3c.dom.html.HTMLInputElement;
 public class TestTimer implements EventListener,Serializable
 {
     protected ItsNatHTMLDocument itsNatDoc;
-    protected LinkedList timerHandleList = new LinkedList();
+    protected LinkedList<ItsNatTimerHandle> timerHandleList = new LinkedList<ItsNatTimerHandle>();
     protected ItsNatTimer timerMgr;
     protected HTMLButtonElement addTimerElem;
     protected HTMLInputElement checkBoxElem;
@@ -125,7 +125,7 @@ public class TestTimer implements EventListener,Serializable
     public ItsNatTimerHandle getFirstTimerHandle()
     {
         if (timerHandleList.isEmpty()) return null;
-        return (ItsNatTimerHandle)timerHandleList.getFirst();
+        return timerHandleList.getFirst();
     }
 
     public void removeFirstTimerHandle()

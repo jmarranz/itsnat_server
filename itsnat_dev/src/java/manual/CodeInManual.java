@@ -1529,7 +1529,7 @@ docTemplate.setEventsEnabled(false);
                     {
                         ItsNatServlet servlet = response.getItsNatServlet();
                         ServletRequest servRequest = request.getServletRequest();
-                        Map newParams = new HashMap(servRequest.getParameterMap());
+                        Map<String,String[]> newParams = new HashMap<String,String[]>(servRequest.getParameterMap());
                         newParams.put("itsnat_doc_name",new String[]{"feashow.docNotFound"});
                         servRequest = servlet.createServletRequest(servRequest, newParams);
                         servlet.processRequest(servRequest,response.getServletResponse());

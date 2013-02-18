@@ -34,7 +34,7 @@ public class DOMStdEventTypeInfo
     public static final int MUTATION_EVENT = 4;
     public static final int KEY_EVENT = 5;
 
-    protected static final Map eventTypes = new HashMap(); // no sincronizamos porque es sólo lectura
+    protected static final Map<String,DOMStdEventTypeInfo> eventTypes = new HashMap<String,DOMStdEventTypeInfo>(); // no sincronizamos porque es sólo lectura
     protected static final DOMStdEventTypeInfo eventTypeUnknownDefault = new DOMStdEventTypeInfo(UNKNOWN_EVENT,true,true);
 
     static
@@ -100,7 +100,7 @@ public class DOMStdEventTypeInfo
 
     public static DOMStdEventTypeInfo getEventTypeInfo(String type)
     {
-        DOMStdEventTypeInfo info = (DOMStdEventTypeInfo)eventTypes.get(type);
+        DOMStdEventTypeInfo info = eventTypes.get(type);
         if (info == null) // evento desconocido
             info = eventTypeUnknownDefault;
         return info;
@@ -108,7 +108,7 @@ public class DOMStdEventTypeInfo
 
     public static int getEventTypeCode(String type)
     {
-        DOMStdEventTypeInfo info = (DOMStdEventTypeInfo)eventTypes.get(type);
+        DOMStdEventTypeInfo info = eventTypes.get(type);
         if (info == null)
             return UNKNOWN_EVENT;
         return info.getTypeCode();

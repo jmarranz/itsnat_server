@@ -45,7 +45,7 @@ public class TestRemoteCtrlLauncherDocLoadListener implements ItsNatServletReque
     {
         ItsNatServletContext appCtx = request.getItsNatServlet().getItsNatServletConfig().getItsNatServletContext();
 
-        final List sessions = new LinkedList();
+        final LinkedList<ItsNatSession> sessions = new LinkedList<ItsNatSession>();
         ItsNatSessionCallback cb = new ItsNatSessionCallback()
         {
             public boolean handleSession(ItsNatSession session)

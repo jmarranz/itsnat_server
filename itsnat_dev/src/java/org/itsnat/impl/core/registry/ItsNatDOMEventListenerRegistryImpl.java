@@ -20,14 +20,14 @@ import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import org.itsnat.impl.core.listener.*;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
@@ -159,7 +159,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
         if (eventListenersById.isEmpty()) return;
 
-        LinkedList svgWebNodes = null;
+        LinkedList<ItsNatDOMEventListenerWrapperImpl> svgWebNodes = null;
         for(Iterator<Map.Entry<String,HasUniqueId>> it = eventListenersById.entrySet().iterator(); it.hasNext(); )
         {
             Map.Entry<String,HasUniqueId> entry = it.next();
@@ -175,7 +175,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
                 // Si el nodo es procesado por SVGWeb Flash no podemos enviar ahora el registro del listener
                 // al cliente pues el nodo SVG no existe hasta que se renderize lo cual
                 // sabemos que ha ocurrido tras el evento SVGLoad de la página.
-                if (svgWebNodes == null) svgWebNodes = new LinkedList();
+                if (svgWebNodes == null) svgWebNodes = new LinkedList<ItsNatDOMEventListenerWrapperImpl>();
                 svgWebNodes.add(listenerWrapper);
                 continue;
             }
@@ -185,7 +185,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
         if (svgWebNodes != null)
         {
-            final LinkedList svgWebNodes2 = svgWebNodes;
+            final LinkedList<ItsNatDOMEventListenerWrapperImpl> svgWebNodes2 = svgWebNodes;
             EventListener listener = new EventListenerInternal()
             {
                 public void handleEvent(Event evt)
@@ -215,8 +215,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         
         for(int i = 0; i < listenerList.length; i++)
         {
-            ItsNatDOMEventListenerWrapperImpl listener =
-                    (ItsNatDOMEventListenerWrapperImpl)listenerList[i];
+            ItsNatDOMEventListenerWrapperImpl listener = listenerList[i];
             removeItsNatDOMEventListener(listener,updateClient,false);
         }
     }

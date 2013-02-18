@@ -40,7 +40,7 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
 {
     protected ItsNatServletRequestImpl request;
     protected ServletResponse response;
-    protected List codeToSend = new LinkedList();
+    protected List<Object> codeToSend = new LinkedList<Object>();
     protected ResponseImpl delegResponse;
 
 
@@ -135,7 +135,7 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
         StringBuilder code = new StringBuilder();
         if (!codeToSend.isEmpty())
         {
-            for(Iterator it = codeToSend.iterator(); it.hasNext(); )
+            for(Iterator<Object> it = codeToSend.iterator(); it.hasNext(); )
             {
                 Object codeFragment = it.next();
                 it.remove(); // Para ir liberando memoria

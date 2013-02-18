@@ -62,7 +62,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
     protected boolean builtInElement = false;
     protected boolean boundToTree = false;
     protected ItsNatModalLayerImpl previous;
-    protected LinkedHashSet bodyElementsBefore; // Los elementos bajo body que estaban antes en el caso de primer layer o los que se añadieron tras añadir el anterior layer. Es decir los elementos que fueron "ocultados" por este layer no ocultos antes
+    protected LinkedHashSet<Element> bodyElementsBefore; // Los elementos bajo body que estaban antes en el caso de primer layer o los que se añadieron tras añadir el anterior layer. Es decir los elementos que fueron "ocultados" por este layer no ocultos antes
     protected EventListener detectUnexpectedEventListener;
     protected LinkedList<EventListener> unexpectedEventListeners;
 
@@ -108,6 +108,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         }
     }
 
+    @Override
     public void init()
     {
         super.init();
@@ -126,6 +127,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         registerUnexpectedEventListenerDetection(); // Lo último
     }
 
+    @Override
     protected void disposeEffective(boolean updateClient)
     {
         super.disposeEffective(updateClient);
@@ -174,12 +176,11 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         // navegadores de desktop podemos llegar a elementos ocultos
         // usando la tecla "tab" y "pulsar" usando "ENTER".
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
-        LinkedHashSet bodyElementsBefore = getBodyElementsBefore();
+        LinkedHashSet<Element> bodyElementsBefore = getBodyElementsBefore();
         if (!bodyElementsBefore.isEmpty())
         {
-            for(Iterator it = bodyElementsBefore.iterator(); it.hasNext(); )
+            for(Element elem : bodyElementsBefore)
             {
-                Element elem = (Element)it.next();
                 dispatchEventReceivedElementHidden(evt,elem);
                 if (itsNatEvt.getItsNatEventListenerChain().isStopped())
                     break; // No seguimos. Este chequeo no es estrictamente necesario pues se chequea más tarde pero ahorra llamadas
@@ -346,6 +347,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         }
     }
 
+    @Override
     public void addClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
         super.addClientDocumentAttachedClient(clientDoc);
@@ -356,6 +358,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         compClient.attachClientToComponent();
     }
 
+    @Override
     public void removeClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
         super.removeClientDocumentAttachedClient(clientDoc);
@@ -375,7 +378,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         return (ItsNatModalLayerClientDocImpl)clientDocMap.get(clientDoc);
     }
 
-    public LinkedHashSet getBodyElementsBefore()
+    public LinkedHashSet<Element> getBodyElementsBefore()
     {
         return bodyElementsBefore;
     }
@@ -388,7 +391,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
 
         ItsNatStfulDocComponentManagerImpl compMgr = getItsNatStfulDocComponentManager();
 
-        LinkedHashSet bodyElementsBefore = new LinkedHashSet();
+        LinkedHashSet<Element> bodyElementsBefore = new LinkedHashSet<Element>();
         Element child = ItsNatTreeWalker.getFirstChildElement(getVisualRootElement());
         while(child != null)
         {
@@ -403,7 +406,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         for(ItsNatModalLayerImpl currLayer : layerList)
         {
             if (currLayer == this) break; // Hemos llegado al de ahora
-            LinkedHashSet currSet = currLayer.getBodyElementsBefore();
+            LinkedHashSet<Element> currSet = currLayer.getBodyElementsBefore();
             if (currSet != null) // Puede que no fuera un layer en modo cleanBelow
                 bodyElementsBefore.removeAll(currSet);
         }

@@ -21,7 +21,6 @@ import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -32,8 +31,8 @@ public class JSRenderNodeRegistryByClientImpl
 {
     protected ClientDocumentStfulImpl clientDoc;
     protected String prefix;
-    protected Map idMap = new HashMap();
-    protected Map nodeMap = new HashMap();
+    protected Map<String,Node> idMap = new HashMap<String,Node>();
+    protected Map<Node,NameValue> nodeMap = new HashMap<Node,NameValue>();
 
     public JSRenderNodeRegistryByClientImpl(String prefix,ClientDocumentStfulImpl clientDoc)
     {
@@ -57,7 +56,7 @@ public class JSRenderNodeRegistryByClientImpl
 
     public String unRegisterNode(Node node,boolean throwErr)
     {
-        NameValue pair = (NameValue)nodeMap.remove(node); // Si pair es nulo dará error
+        NameValue pair = nodeMap.remove(node); // Si pair es nulo dará error
         String id = pair.getName();
         if (idMap.remove(id) == null) if (throwErr) throw new ItsNatException("INTERNAL ERROR");
         return id;
@@ -65,18 +64,18 @@ public class JSRenderNodeRegistryByClientImpl
 
     public Node getNodeById(String id)
     {
-        return (Node)idMap.get(id);
+        return idMap.get(id);
     }
 
     public String getIdByNode(Node node)
     {
-        NameValue pair = (NameValue)nodeMap.get(node);
+        NameValue pair = nodeMap.get(node);
         if (pair == null) return null;
         return pair.getName();
     }
 
     public NameValue getNameValueByNode(Node node)
     {
-        return (NameValue)nodeMap.get(node);
+        return nodeMap.get(node);
     }
 }

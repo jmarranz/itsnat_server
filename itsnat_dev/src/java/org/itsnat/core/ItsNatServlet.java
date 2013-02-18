@@ -285,5 +285,5 @@ public interface ItsNatServlet
      * @param params a collection with the new parameters.
      * @return a new request object.
      */
-    public ServletRequest createServletRequest(ServletRequest request,Map params);
+    public ServletRequest createServletRequest(ServletRequest request,Map<String,String[]> params);
 }

@@ -414,7 +414,7 @@ public interface ItsNatDocument extends ItsNatUserData
      * @return an enumeration with the registered attributes.
      * @see #getAttribute(String)
      */
-    public Enumeration getAttributeNames();
+    public Enumeration<String> getAttributeNames();
 
     /**
      * Unregisters the specified attribute with the given name.

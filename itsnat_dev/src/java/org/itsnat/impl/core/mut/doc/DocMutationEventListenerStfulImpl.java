@@ -79,6 +79,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         }
     }
 
+    @Override
     protected void beforeAfterRenderAndSendMutationCode(boolean before,MutationEvent mutEvent,ClientDocumentImpl[] allClients)
     {
         super.beforeAfterRenderAndSendMutationCode(before, mutEvent, allClients);
@@ -235,6 +236,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         }
     }
 
+    @Override
     protected void handleMutationEvent(MutationEvent mutEvent)
     {
         String type = mutEvent.getType();
@@ -291,7 +293,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
             // El fragmento removido lo guardamos para renderizarlo como markup cuando
             // se haga la serialización.
             ResponseNormalLoadStfulDocImpl loadResponse = getResponseNormalLoadStfulDoc();
-            Map disconnectedNodesFastLoadMode = loadResponse.getDisconnectedNodesFastLoadMode();
+            Map<Node,Object> disconnectedNodesFastLoadMode = loadResponse.getDisconnectedNodesFastLoadMode();
             // disconnectedFragment o es un DocumentFragment o es un nodo concreto, si es un
             // DocumentFragment debemos copiar su contenido pues luego necesitamos reinsertar
             // los nodos en el documento y al reinsertarse se quitan del DocumentFragment automáticamente
@@ -300,7 +302,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
 
             if (disconnectedFragment instanceof DocumentFragment)
             {
-                LinkedList nodeList = new LinkedList();
+                LinkedList<Node> nodeList = new LinkedList<Node>();
                 nodeList.add(disconnectedFragment); // Lo necesitamos para reconstruirlo
 
                 if (disconnectedFragment.hasChildNodes())
@@ -342,7 +344,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
             ResponseNormalLoadStfulDocImpl loadResponse = getResponseNormalLoadStfulDoc();
             if (loadResponse.hasDisconnectedNodesFastLoadMode())
             {
-                Map disconnectedNodesFastLoadMode = loadResponse.getDisconnectedNodesFastLoadMode();
+                Map<Node,Object> disconnectedNodesFastLoadMode = loadResponse.getDisconnectedNodesFastLoadMode();
                 disconnectedNodesFastLoadMode.remove(node); // En el caso de contenido nulo no llegamos a registrarlo por lo que es posible que no lo encuentre (es normal)
             }
         }

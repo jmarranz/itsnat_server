@@ -71,7 +71,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     protected static final String scriptLoadTimeStamp = Long.toString(System.currentTimeMillis());
     protected StringBuilder fixDOMCode; // Código JavaScript que se ejecutará al comienzo de todo con la finalidad de arreglar el árbol DOM cliente antes de que se accedan a los nodos. NO debería accederse a los nodos usando paths ItsNat o accediendo a la cache
     protected ResponseDelegStfulLoadDocByBrowserImpl delegByBrowser;
-    protected LinkedList scriptFilesToLoad;
+    protected LinkedList<String> scriptFilesToLoad;
     
     /**
      * Creates a new instance of ResponseDelegateStfulLoadDocImpl
@@ -130,9 +130,9 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         return (scriptFilesToLoad != null);
     }
 
-    public LinkedList getScriptFilesToLoad()
+    public LinkedList<String> getScriptFilesToLoad()
     {
-        if (scriptFilesToLoad == null) this.scriptFilesToLoad = new LinkedList();
+        if (scriptFilesToLoad == null) this.scriptFilesToLoad = new LinkedList<String>();
         return scriptFilesToLoad;
     }
 
@@ -407,7 +407,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         StringBuilder scriptsMarkup = new StringBuilder();
 
-        LinkedList list = new LinkedList();
+        LinkedList<String> list = new LinkedList<String>();
         list.add(LoadScriptImpl.ITSNAT);
 
         delegByBrowser.fillFrameworkScriptFileNamesOfBrowser(list);
@@ -417,9 +417,9 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
         StringBuilder fileNameList = new StringBuilder();
         int i = 0;
-        for(Iterator it = list.iterator(); it.hasNext(); i++)
+        for(Iterator<String> it = list.iterator(); it.hasNext(); i++)
         {
-            String fileName = (String)it.next();
+            String fileName = it.next();
             if (i > 0) fileNameList.append(',');
             fileNameList.append(fileName);
         }

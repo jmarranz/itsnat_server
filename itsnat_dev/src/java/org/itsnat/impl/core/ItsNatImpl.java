@@ -16,9 +16,6 @@
 
 package org.itsnat.impl.core;
 
-import org.itsnat.impl.core.servlet.http.ItsNatHttpServletImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletContextImpl;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +25,9 @@ import javax.servlet.http.HttpServlet;
 import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServlet;
+import org.itsnat.impl.core.servlet.ItsNatServletContextImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.servlet.http.ItsNatHttpServletImpl;
 
 /**
  *
@@ -35,8 +35,8 @@ import org.itsnat.core.ItsNatServlet;
  */
 public class ItsNatImpl implements ItsNat
 {
-    protected final Map servletsByName = new HashMap();
-    protected final Map features = Collections.synchronizedMap(new HashMap());
+    protected final Map<String,ItsNatServletImpl> servletsByName = new HashMap<String,ItsNatServletImpl>();
+    protected final Map<String,Object> features = Collections.synchronizedMap(new HashMap<String,Object>());
     protected final ItsNatUserDataImpl userData = new ItsNatUserDataImpl(true);
     // YA NO SE USA: protected static final boolean oldXerces = calcOldXerces(); // tras el primer valor no cambia
 
@@ -90,7 +90,7 @@ public class ItsNatImpl implements ItsNat
     {
         synchronized(servletsByName)
         {
-            return (ItsNatServletImpl)servletsByName.get(name);
+            return servletsByName.get(name);
         }
     }
 

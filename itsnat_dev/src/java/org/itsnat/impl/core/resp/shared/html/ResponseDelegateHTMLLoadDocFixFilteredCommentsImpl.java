@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
@@ -46,7 +45,7 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
     protected static final String PARENT_COMMENT_ID_ATTR_NAME = "idItsNatFakeCommParent";
     protected static final String NEXT_COMMENT_ID_ATTR_NAME = "idItsNatFakeCommPrevious";
 
-    public static final Set ELEMENTS_NOT_VALID_CHILD_COMMENT = new HashSet();
+    public static final Set<String> ELEMENTS_NOT_VALID_CHILD_COMMENT = new HashSet<String>();
 
     static
     {
@@ -80,9 +79,9 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
         ELEMENTS_NOT_VALID_CHILD_COMMENT.add("ul");
     }
 
-    protected LinkedList comments = new LinkedList();
-    protected LinkedList fakeCommentList = new LinkedList();
-    protected LinkedList holdCommentList = new LinkedList();
+    protected LinkedList<Comment> comments = new LinkedList<Comment>();
+    protected LinkedList<Node[]> fakeCommentList = new LinkedList<Node[]>();
+    protected LinkedList<Node[]> holdCommentList = new LinkedList<Node[]>();
     protected ResponseDelegateHTMLLoadDocImpl responseParent;
 
     /**
@@ -181,7 +180,7 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
                 fakeCommentList.add(new Node[]{node,fakeComm});
                 nodeRes = fakeComm;  // Ha sido reemplazado
             }
-            comments.add(node);
+            comments.add((Comment)node);
 
             return nodeRes;
         }
@@ -211,9 +210,8 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
         // Restauramos el estado anterior del DOM
         if (!fakeCommentList.isEmpty())
         {
-            for(Iterator it = fakeCommentList.iterator(); it.hasNext(); )
+            for(Node[] pair : fakeCommentList)
             {
-                Node[] pair = (Node[])it.next();
                 Comment comm = (Comment)pair[0];
                 Element fakeComm = (Element)pair[1];
                 fakeComm.getParentNode().replaceChild(comm,fakeComm);
@@ -222,9 +220,8 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
 
         if (!holdCommentList.isEmpty())
         {
-            for(Iterator it = holdCommentList.iterator(); it.hasNext(); )
+            for(Node[] pair : holdCommentList)
             {
-                Node[] pair = (Node[])it.next();
                 //Comment comm = (Comment)pair[0];
                 Element container = (Element)pair[1];
                 container.removeAttribute(NEXT_COMMENT_ID_ATTR_NAME);
@@ -246,9 +243,8 @@ public class ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl
         code.append("  var commMap = new Object();\n");
 
     int i = 0;
-    for(Iterator it = comments.iterator(); it.hasNext(); )
+    for(Comment comm : comments)
     {
-        Comment comm = (Comment)it.next();
         String text = comm.getData();
         // Sabemos que text es posible que contenga un ${} indicando que el comentario
         // fue cacheado, "descacheamos" aquí.

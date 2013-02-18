@@ -51,7 +51,7 @@ public abstract class FeatureTreeNode
     protected String treeNodeText;
     protected String title;
     protected ItemListener selPanelListener;
-    protected LinkedList children;
+    protected LinkedList<FeatureTreeNode> children;
     protected int onloadTargetPanel = NONE_PANEL;
 
     public FeatureTreeNode()
@@ -117,14 +117,14 @@ public abstract class FeatureTreeNode
         return parentFeatureNode;
     }
 
-    public LinkedList getChildFeatureTreeNodes()
+    public LinkedList<FeatureTreeNode> getChildFeatureTreeNodes()
     {
         return children;
     }
 
     public void addChildFeatureTreeNodes(FeatureTreeNode child)
     {
-        if (children == null) this.children = new LinkedList();
+        if (children == null) this.children = new LinkedList<FeatureTreeNode>();
         children.add(child);
     }
 

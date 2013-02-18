@@ -27,7 +27,7 @@ import org.itsnat.core.event.CodeToSendListener;
  */
 public class CodeToSendListenersImpl implements Serializable
 {
-    protected LinkedHashSet codeToSendListener = new LinkedHashSet();
+    protected LinkedHashSet<CodeToSendListener> codeToSendListener = new LinkedHashSet<CodeToSendListener>();
     protected Object target; // ClientDocument o ItsNatDocument
 
     /** Creates a new instance of CodeToSendListenersImpl */
@@ -41,7 +41,7 @@ public class CodeToSendListenersImpl implements Serializable
         return !codeToSendListener.isEmpty();
     }
 
-    private LinkedHashSet getCodeToSendListeners()
+    private LinkedHashSet<CodeToSendListener> getCodeToSendListeners()
     {
         return codeToSendListener;
     }
@@ -58,11 +58,10 @@ public class CodeToSendListenersImpl implements Serializable
 
     public CodeToSendEventImpl preProcessCodeToSend(Object code)
     {
-        LinkedHashSet listeners = getCodeToSendListeners();
+        LinkedHashSet<CodeToSendListener> listenerList = getCodeToSendListeners();
         CodeToSendEventImpl event = new CodeToSendEventImpl(code,target);
-        for(Iterator it = listeners.iterator(); it.hasNext(); )
+        for(CodeToSendListener listener : listenerList)
         {
-            CodeToSendListener listener = (CodeToSendListener)it.next();
             code = listener.preSendCode(event);
             event.setCode(code);
             if (code == null)
@@ -73,11 +72,10 @@ public class CodeToSendListenersImpl implements Serializable
 
     public void postProcessCodeToSend(CodeToSendEventImpl event)
     {
-        // Si se llega hasta aquí es que hay listeners (y si no hay porque se quitaron así mismos al procesarse, pues nada)
-        LinkedHashSet listeners = getCodeToSendListeners();
-        for(Iterator it = listeners.iterator(); it.hasNext(); )
+        // Si se llega hasta aquí es que hay listenerList (y si no hay porque se quitaron así mismos al procesarse, pues nada)
+        LinkedHashSet<CodeToSendListener> listeners = getCodeToSendListeners();
+        for(CodeToSendListener listener : listeners)
         {
-            CodeToSendListener listener = (CodeToSendListener)it.next();
             listener.postSendCode(event);
         }
     }

@@ -28,9 +28,9 @@ import org.itsnat.core.ItsNatException;
  *
  * @author jmarranz
  */
-public class MapUniqueId implements Serializable
+public class MapUniqueId<T extends HasUniqueId> implements Serializable
 {
-    protected Map<String,HasUniqueId> map = new HashMap<String,HasUniqueId>();
+    protected Map<String,T> map = new HashMap<String,T>();
     protected UniqueIdGenerator generator;
 
     /** Creates a new instance of MapUniqueId */
@@ -54,7 +54,7 @@ public class MapUniqueId implements Serializable
         map.clear();
     }
 
-    public boolean containsKey(HasUniqueId obj)
+    public boolean containsKey(T obj)
     {
         check(obj);
         UniqueId idObj = obj.getUniqueId();
@@ -62,28 +62,28 @@ public class MapUniqueId implements Serializable
         return map.containsKey(id);
     }
 
-    public void putAll(MapUniqueId otherMap)
+    public void putAll(MapUniqueId<T> otherMap)
     {
         check(otherMap.generator);
         map.putAll(otherMap.map);
     }
 
-    public Set<Map.Entry<String,HasUniqueId>> entrySet()
+    public Set<Map.Entry<String,T>> entrySet()
     {
         return map.entrySet();
     }
 
-    public Collection<HasUniqueId> values()
+    public Collection<T> values()
     {
         return map.values();
     }
 
-    public HasUniqueId get(String id)
+    public T get(String id)
     {
         return map.get(id);
     }
 
-    public HasUniqueId put(HasUniqueId obj)
+    public T put(T obj)
     {
         check(obj);
         UniqueId idObj = obj.getUniqueId();
@@ -91,12 +91,12 @@ public class MapUniqueId implements Serializable
         return map.put(id,obj);
     }
 
-    public HasUniqueId removeById(String id)
+    public T removeById(String id)
     {
         return map.remove(id);
     }
 
-    public HasUniqueId remove(HasUniqueId obj)
+    public T remove(T obj)
     {
         check(obj);
         UniqueId idObj = obj.getUniqueId();
@@ -104,20 +104,20 @@ public class MapUniqueId implements Serializable
         return map.remove(id);
     }
 
-    public HasUniqueId[] toArray(HasUniqueId[] array)
+    public T[] toArray(T[] array)
     {
         if (array.length != size()) throw new ItsNatException("INTERNAL ERROR");
         int i = 0;
-        for(Iterator<Map.Entry<String,HasUniqueId>> it = map.entrySet().iterator(); it.hasNext(); i++)
+        for(Iterator<Map.Entry<String,T>> it = map.entrySet().iterator(); it.hasNext(); i++)
         {
-            Map.Entry<String,HasUniqueId> entry = it.next();
-            HasUniqueId value = entry.getValue();
+            Map.Entry<String,T> entry = it.next();
+            T value = entry.getValue();
             array[i] = value;
         }
         return array;
     }
 
-    public void check(HasUniqueId idObj)
+    public void check(T idObj)
     {
         check(generator,idObj);
     }
