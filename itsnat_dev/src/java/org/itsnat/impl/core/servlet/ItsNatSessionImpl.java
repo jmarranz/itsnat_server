@@ -60,7 +60,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     protected transient ItsNatServletContextImpl context; // No serializamos la instancia pero sí serializaremos el Necesita serializarse porque el generador de ids debe estar en todas las JVMs
     protected transient UniqueId idObj; // No se serializa si no se serializa el contexto pues el generador de ids debe ser el mismo objeto que hay en ItsNatServletContextImpl
     protected final UniqueIdGenIntList idGenerator = new UniqueIdGenIntList(true);
-    protected final MapUniqueId docsById = new MapUniqueId(idGenerator); // Los ItsNatDocument que son propiedad de esta sesión. Los ids han sido generados por esta sesión. Es auxiliar pues los ClientDocumentOwner de ownerClientsById ya sujetan los ItsNatDocument, sirve para buscar docs por Id
+    protected final MapUniqueId<ItsNatStfulDocumentImpl> docsById = new MapUniqueId<ItsNatStfulDocumentImpl>(idGenerator); // Los ItsNatDocument que son propiedad de esta sesión. Los ids han sido generados por esta sesión. Es auxiliar pues los ClientDocumentOwner de ownerClientsById ya sujetan los ItsNatDocument, sirve para buscar docs por Id
     protected final MapUniqueId ownerClientsById = new MapUniqueId(idGenerator);
     protected final MapUniqueId attachedClientsById = new MapUniqueId(idGenerator); // Sirve para retener los attachedClients para que no sean garbage collected hasta que la sesión se pierda. Los ids han sido generados por esta sesión
     protected final MapUniqueId attachedServersById = new MapUniqueId(idGenerator); // Sirve para guardar provisionalmente datos durante la carga
@@ -139,24 +139,6 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         deserialPending.clear();
         this.deserialPending = null; // Para ahorrar memoria
     }
-
-/*
-    public LinkedList getDeserialPendingTasks(String servletName)
-    {
-        if (deserialPending == null) return null;
-        return deserialPending.get(servletName);
-    }
-
-    public void clearDeserialPendingTasks(String servletName)
-    {
-        if (deserialPending == null) return;
-
-        deserialPending.remove(servletName);
-
-        if (deserialPending.isEmpty())
-            this.deserialPending = null; // Para ahorrar memoria
-    }
-*/
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
@@ -376,7 +358,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         synchronized(ownerClientsById)
         {
             clientRes = (ClientDocumentStfulOwnerImpl)ownerClientsById.put(clientDoc);
-            docRes = (ItsNatStfulDocumentImpl)docsById.put(itsNatDoc);
+            docRes = docsById.put(itsNatDoc);
         }
 
         if (clientRes != null) throw new ItsNatException("INTERNAL ERROR");
@@ -415,10 +397,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         {
             ItsNatStfulDocumentImpl[] res = new ItsNatStfulDocumentImpl[docsById.size()];
             int i = 0;
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = docsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ItsNatStfulDocumentImpl> entry : docsById.entrySet())
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                res[i] = (ItsNatStfulDocumentImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -434,7 +415,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(ownerClientsById) // docsById está subyugada y sincronizada a ownerClientsById
         {
-            return (ItsNatStfulDocumentImpl)docsById.get(id);
+            return docsById.get(id);
         }
     }
 

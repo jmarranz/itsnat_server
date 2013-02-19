@@ -16,10 +16,7 @@
 
 package org.itsnat.impl.core.servlet;
 
-import org.itsnat.impl.core.*;
 import java.net.MalformedURLException;
-import org.itsnat.core.ItsNatServletContext;
-import org.itsnat.core.ItsNatSessionCallback;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,7 +24,10 @@ import java.util.Random;
 import javax.servlet.ServletContext;
 import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatServletContext;
+import org.itsnat.core.ItsNatSessionCallback;
 import org.itsnat.core.ItsNatVariableResolver;
+import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.util.MapUniqueId;
 
 /**
@@ -40,8 +40,8 @@ public class ItsNatServletContextImpl extends ItsNatUserDataImpl implements ItsN
 
     protected ItsNatImpl itsNat;
     protected ServletContext servletContext; 
-    protected Map sessionsByStandardId = new HashMap();
-    protected Map sessionsByItsNatId = new HashMap();
+    protected final Map<String,ItsNatSessionImpl> sessionsByStandardId = new HashMap<String,ItsNatSessionImpl>();
+    protected Map<String,ItsNatSessionImpl> sessionsByItsNatId = new HashMap<String,ItsNatSessionImpl>();
     protected ItsNatServletContextUniqueIdGenImpl idGenerator = new ItsNatServletContextUniqueIdGenImpl(this);
     protected Random random = new Random();
     protected int maxOpenDocumentsBySession = 10;
@@ -235,7 +235,7 @@ public class ItsNatServletContextImpl extends ItsNatUserDataImpl implements ItsN
         ItsNatSessionImpl itsNatSession;
         synchronized(sessionsByStandardId)
         {
-            itsNatSession = (ItsNatSessionImpl)sessionsByItsNatId.get(id);
+            itsNatSession = sessionsByItsNatId.get(id);
         }
         return itsNatSession;
     }
@@ -247,7 +247,7 @@ public class ItsNatServletContextImpl extends ItsNatUserDataImpl implements ItsN
         ItsNatSessionImpl itsNatSession;
         synchronized(sessionsByStandardId)
         {
-            itsNatSession = (ItsNatSessionImpl)sessionsByStandardId.get(id);
+            itsNatSession = sessionsByStandardId.get(id);
         }
         return itsNatSession;
     }
@@ -271,10 +271,9 @@ public class ItsNatServletContextImpl extends ItsNatUserDataImpl implements ItsN
             if (sessionsByStandardId.isEmpty())
                 return;
 
-            for(Iterator it = sessionsByStandardId.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ItsNatSessionImpl> entry : sessionsByStandardId.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ItsNatSessionImpl itsNatSession = (ItsNatSessionImpl)entry.getValue();
+                ItsNatSessionImpl itsNatSession = entry.getValue();
                 if (itsNatSession == null) // ha sido garbage collected
                     continue;
                 if (!callback.handleSession(itsNatSession))

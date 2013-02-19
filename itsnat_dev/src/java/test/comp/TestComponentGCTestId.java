@@ -36,7 +36,7 @@ import test.shared.TestBaseHTMLDocument;
 public class TestComponentGCTestId extends TestBaseHTMLDocument implements EventListener
 {
     protected ItsNatHTMLButton button;
-    protected transient WeakHashMap weakMap = new WeakHashMap();
+    protected transient WeakHashMap<ItsNatFreeButtonNormal,Object> weakMap = new WeakHashMap<ItsNatFreeButtonNormal,Object>();
 
     /**
      * Creates a new instance of TestAsyncServerResponse
@@ -50,7 +50,7 @@ public class TestComponentGCTestId extends TestBaseHTMLDocument implements Event
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp = new HashMap(weakMap);
+        Map<ItsNatFreeButtonNormal,Object> mapTmp = new HashMap<ItsNatFreeButtonNormal,Object>(weakMap);
         out.writeObject(mapTmp);
 
         out.defaultWriteObject();
@@ -58,8 +58,8 @@ public class TestComponentGCTestId extends TestBaseHTMLDocument implements Event
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        Map mapTmp = (Map)in.readObject();
-        this.weakMap = new WeakHashMap(mapTmp);
+        Map<ItsNatFreeButtonNormal,Object> mapTmp = (Map<ItsNatFreeButtonNormal,Object>)in.readObject();
+        this.weakMap = new WeakHashMap<ItsNatFreeButtonNormal,Object>(mapTmp);
 
         in.defaultReadObject();
     }

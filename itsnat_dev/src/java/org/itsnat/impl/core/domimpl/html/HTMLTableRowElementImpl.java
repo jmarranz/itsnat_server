@@ -105,10 +105,10 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
         // No admitimos que un <row> esté directamente bajo <table>
         HTMLTableSectionElement section = (HTMLTableSectionElement)getParentNode();
         HTMLTableElement table = (HTMLTableElement)section.getParentNode();
-        LinkedList rows = HTMLTableElementImpl.getRowsArray(table);
+        LinkedList<Node> rows = HTMLTableElementImpl.getRowsArray(table);
         // rows NO puede ser nulo pues está dentro este <row>
         int i = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); i++)
+        for(Iterator<Node> it = rows.iterator(); it.hasNext(); i++)
             if (it.next() == this) return i;
         return -1;
     }

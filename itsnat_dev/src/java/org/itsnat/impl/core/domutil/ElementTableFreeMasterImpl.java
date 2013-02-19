@@ -35,10 +35,11 @@ public class ElementTableFreeMasterImpl extends ElementTableFreeImpl
     {
         super(itsNatDoc,true,parentElement);
 
-        this.columnListOfRow = new ArrayList();
+        this.columnListOfRow = new ArrayList<ElementListBaseImpl>();
         createAndSyncColumnArrayList();
     }
 
+    @Override
     public Element addRow2(Element rowElem)
     {
         rowElem = super.addRow2(rowElem);
@@ -48,6 +49,7 @@ public class ElementTableFreeMasterImpl extends ElementTableFreeImpl
         return rowElem;
     }
 
+    @Override
     public Element insertRowAt2(int row,Element rowElem)
     {
         rowElem = super.insertRowAt2(row,rowElem);
@@ -57,6 +59,7 @@ public class ElementTableFreeMasterImpl extends ElementTableFreeImpl
         return rowElem;
     }
 
+    @Override
     public ElementPair setRowAt2(int row,Element rowElem)
     {
         ElementPair res = super.setRowAt2(row,rowElem);
@@ -77,7 +80,7 @@ public class ElementTableFreeMasterImpl extends ElementTableFreeImpl
 
     public ElementListBaseImpl getColumnsOfRowElementList(int row,Element rowElem)
     {
-        return (ElementListFreeImpl)columnListOfRow.get(row);
+        return columnListOfRow.get(row);
     }
 
     public TableCellElementInfoImpl getTableCellElementInfo(ListElementInfo rowInfo, ListElementInfo cellInfo)

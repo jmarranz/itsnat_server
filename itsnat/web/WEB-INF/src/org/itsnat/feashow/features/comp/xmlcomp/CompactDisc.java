@@ -21,7 +21,7 @@ public class CompactDisc
 {
     protected String title;
     protected String artist;
-    protected List songs = new ArrayList();
+    protected List<Song> songs = new ArrayList<Song>();
 
     public CompactDisc(String title,String artist)
     {
@@ -56,7 +56,7 @@ public class CompactDisc
 
     public Song getSong(int index)
     {
-        return (Song)songs.get(index);
+        return songs.get(index);
     }
 
     public void insertSong(int index,Song song)
@@ -74,7 +74,7 @@ public class CompactDisc
         songs.remove(index);
     }
 
-    public List getSongList()
+    public List<Song> getSongList()
     {
         return songs;
     }

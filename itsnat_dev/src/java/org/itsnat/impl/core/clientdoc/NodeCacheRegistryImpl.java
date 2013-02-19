@@ -193,7 +193,7 @@ public class NodeCacheRegistryImpl implements Serializable
         return res;
     }
 
-    public ArrayList getOrderedByHeight()
+    public ArrayList<LinkedList<Map.Entry<Node,String>>> getOrderedByHeight()
     {
         /* Este método es usado por el control remoto, se debe a que
          * los nodos no están ordenados de ninguna forma en la caché

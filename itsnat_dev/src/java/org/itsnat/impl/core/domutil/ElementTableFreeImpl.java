@@ -16,14 +16,14 @@
 
 package org.itsnat.impl.core.domutil;
 
-import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.domutil.ElementListFree;
 import org.itsnat.core.domutil.ElementTableFree;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -113,10 +113,8 @@ public abstract class ElementTableFreeImpl extends ElementTableBaseImpl implemen
 
         // Si la longitud de cells es menor que el número de filas dará error
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListFreeImpl columns = (ElementListFreeImpl)getColumnsOfRowElementList(row,rowElem);
             cells[row] = columns.addElement2(cells[row]);
 
@@ -131,10 +129,8 @@ public abstract class ElementTableFreeImpl extends ElementTableBaseImpl implemen
 
         // Si la longitud de cells es menor que el número de filas dará error
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListFreeImpl columns = (ElementListFreeImpl)getColumnsOfRowElementList(row,rowElem);
             cells[row] = columns.insertElementAt2(column,cells[row]);
 
@@ -151,10 +147,8 @@ public abstract class ElementTableFreeImpl extends ElementTableBaseImpl implemen
 
         // Si la longitud de cells es menor que el número de filas dará error
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListFreeImpl columns = (ElementListFreeImpl)getColumnsOfRowElementList(row,rowElem);
             ElementPair res = columns.setElementAt2(column,cells[row]);
             cells[row] = res.getNewElem();
@@ -203,7 +197,7 @@ public abstract class ElementTableFreeImpl extends ElementTableBaseImpl implemen
         return ElementListFreeUtil.contains(this,o);
     }
 
-    public boolean add(Object o)
+    public boolean add(Element o)
     {
         return ElementListFreeUtil.add(this,o);
     }
@@ -218,77 +212,77 @@ public abstract class ElementTableFreeImpl extends ElementTableBaseImpl implemen
         return ElementListFreeUtil.remove(this,o);
     }
 
-    public Object[] toArray(Object[] a)
+    public <T> T[] toArray(T[] a)
     {
         return ElementListFreeUtil.toArray(this,a);
     }
 
-    public Object get(int index)
+    public Element get(int index)
     {
         return ElementListFreeUtil.get(this,index);
     }
 
-    public Iterator iterator()
+    public Iterator<Element> iterator()
     {
         return ElementListFreeUtil.iterator(this);
     }
 
-    public ListIterator listIterator(int index)
+    public ListIterator<Element> listIterator(int index)
     {
         return ElementListFreeUtil.listIterator(this,index);
     }
 
-    public ListIterator listIterator()
+    public ListIterator<Element> listIterator()
     {
         return ElementListFreeUtil.listIterator(this);
     }
 
-    public Object remove(int index)
+    public Element remove(int index)
     {
         return ElementListFreeUtil.remove(this,index);
     }
 
-    public boolean addAll(int index, Collection c)
+    public boolean addAll(int index, Collection<? extends Element> c)
     {
         return ElementListFreeUtil.addAll(this,index,c);
     }
 
-    public boolean containsAll(Collection c)
+    public boolean containsAll(Collection<?> c)
     {
         return ElementListFreeUtil.containsAll(this,c);
     }
 
-    public boolean addAll(Collection c)
+    public boolean addAll(Collection<? extends Element> c)
     {
         return ElementListFreeUtil.addAll(this,c);
     }
 
-    public boolean removeAll(Collection c)
+    public boolean removeAll(Collection<?> c)
     {
         return ElementListFreeUtil.removeAll(this,c);
     }
 
-    public boolean retainAll(Collection c)
+    public boolean retainAll(Collection<?> c)
     {
         return ElementListFreeUtil.retainAll(this,c);
     }
 
-    public void add(int index, Object element)
+    public void add(int index, Element element)
     {
         ElementListFreeUtil.add(this,index,element);
     }
 
-    public Object set(int index, Object element)
+    public Element set(int index, Element element)
     {
         return ElementListFreeUtil.set(this,index,element);
     }
 
-    public Object[] toArray()
+    public Element[] toArray()
     {
         return ElementListFreeUtil.toArray(this);
     }
 
-    public List subList(int fromIndex, int toIndex)
+    public List<Element> subList(int fromIndex, int toIndex)
     {
         return ElementListFreeUtil.subList(this,fromIndex,toIndex);
     }

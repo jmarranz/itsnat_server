@@ -62,7 +62,7 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
         return DOMUtilInternal.getChildElementListWithTagNameNS(select,NamespaceUtil.XHTML_NAMESPACE,"option",true);
     }
 
-    public LinkedList getOptionsArray()
+    public LinkedList<Node> getOptionsArray()
     {
         return getOptionsArray(this);
     }
@@ -84,11 +84,11 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
 
     public int getSelectedIndex()
     {
-        LinkedList options = getOptionsArray();
+        LinkedList<Node> options = getOptionsArray();
         if (options != null)
         {
             int i = 0;
-            for(Iterator it = options.iterator(); it.hasNext(); i++)
+            for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
             {
                 HTMLOptionElement option = (HTMLOptionElement)it.next();
                 if (option.getSelected()) return i;
@@ -101,11 +101,11 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
     public void setSelectedIndex( int selectedIndex )
     {
         HTMLOptionElement optionSelected = null;
-        LinkedList options = getOptionsArray();
+        LinkedList<Node> options = getOptionsArray();
         if (options != null)
         {
             int i = 0;
-            for(Iterator it = options.iterator(); it.hasNext(); i++)
+            for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
             {
                 HTMLOptionElement option = (HTMLOptionElement)it.next();
                 if (i == selectedIndex) optionSelected = option;

@@ -597,14 +597,6 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
             return;
         list.addAll(attachedClientListeners);
     }
-/*
-    public Iterator getItsNatAttachedClientEventListenerIterator()
-    {
-        if (attachedClientListeners == null) return null;
-         LinkedList attachedClientListeners = getItsNatAttachedClientEventListeners();
-        return attachedClientListeners.iterator();
-    }
- */
 
     public void addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
@@ -748,7 +740,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public void removeReferrerItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
-        LinkedList referrerRequestListeners = getReferrerItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> referrerRequestListeners = getReferrerItsNatServletRequestListenerList();
         referrerRequestListeners.remove(listener);
     }
 

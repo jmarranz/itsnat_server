@@ -47,7 +47,7 @@ public class XMLAndCompLoadListener implements ItsNatServletRequestListener
         comp.setItsNatListCellRenderer(CDListRenderer.SINGLETON);
         DefaultListModel model = (DefaultListModel)comp.getListModel();
 
-        List cdList = new ArrayList();
+        List<CompactDisc> cdList = new ArrayList<CompactDisc>();
 
         CompactDisc cd;
 

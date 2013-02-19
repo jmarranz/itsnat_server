@@ -42,7 +42,6 @@ public abstract class ItsNatTableUIImpl extends ItsNatElementComponentUIImpl imp
 {
     protected boolean enabled = true;
     protected ElementTableImpl tableMgr;
-    protected ArrayList columnIdentifiers = new ArrayList();
 
     /**
      * Creates a new instance of ItsNatTableUIImpl

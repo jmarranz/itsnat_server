@@ -18,11 +18,11 @@ package org.itsnat.impl.core.css;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.itsnat.impl.core.css.lex.SourceCode;
+import org.itsnat.impl.core.css.lex.Space;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.CSSValueList;
-import org.itsnat.impl.core.css.lex.SourceCode;
-import org.itsnat.impl.core.css.lex.Space;
 
 /**
  *
@@ -30,7 +30,7 @@ import org.itsnat.impl.core.css.lex.Space;
  */
 public class CSSValueListImpl extends CSSValueImpl implements CSSValueList
 {
-    protected List values = new ArrayList();
+    protected List<CSSValueImpl> values = new ArrayList<CSSValueImpl>();
 
     /** Creates a new instance of CSSValueListImpl */
     public CSSValueListImpl(SourceCode cssTextCode,SourceCode[] parts,int code,ObjectValueParent parent)
@@ -47,7 +47,7 @@ public class CSSValueListImpl extends CSSValueImpl implements CSSValueList
 
     public CSSValue item(int index)
     {
-        return (CSSValue)values.get(index);
+        return values.get(index);
     }
 
     public short getCssValueType()
@@ -93,7 +93,7 @@ public class CSSValueListImpl extends CSSValueImpl implements CSSValueList
         for(int i = 0; i < values.size(); i++)
         {
             if (i != 0) parentCssText.append(" ");
-            CSSValueImpl valueItem = (CSSValueImpl)values.get(i);
+            CSSValueImpl valueItem = values.get(i);
             parentCssText.append( valueItem.getCssTextSourceCode(false).toString() );
         }
 

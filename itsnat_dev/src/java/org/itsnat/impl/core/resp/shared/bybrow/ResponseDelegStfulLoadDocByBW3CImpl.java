@@ -49,7 +49,7 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
             return new ResponseDelegStfulLoadDocByBW3CDefaultImpl(parent);
     }
 
-    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList list)
+    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list)
     {
         // Se redefine en más de un caso (añadiendo otro)
         list.add(LoadScriptImpl.ITSNAT_W3C);

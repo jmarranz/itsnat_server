@@ -70,10 +70,10 @@ public class HTMLOptionElementImpl extends HTMLElementImpl implements HTMLOption
         while ( (select != null) && ! ( select instanceof HTMLSelectElement ) )
             select = select.getParentNode();
 
-        LinkedList options = HTMLSelectElementImpl.getOptionsArray((HTMLSelectElement)select);
+        LinkedList<Node> options = HTMLSelectElementImpl.getOptionsArray((HTMLSelectElement)select);
         // options NO puede ser nulo pues está dentro este <option>
         int i = 0;
-        for(Iterator it = options.iterator(); it.hasNext(); i++)
+        for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
             if (it.next() == this) return i;
 
         return -1;

@@ -200,17 +200,16 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         StringBuilder code = new StringBuilder();
         NodeCacheRegistryImpl nodeCacheObserver = clientAttached.getNodeCache(); // DEBE existir
         if (!nodeCacheObserver.isEmpty()) throw new ItsNatException("INTERNAL ERROR"); // Debe estar "virgen" no sea que hayamos ya antes cacheado nodos en el observador y estaríamos cacheando dos veces aunque sea con el mismo id lo cual no está permitido, provocamos error antes.
-        ArrayList cacheCopy = nodeCacheOwner.getOrderedByHeight();
+        ArrayList<LinkedList<Map.Entry<Node,String>>> cacheCopy = nodeCacheOwner.getOrderedByHeight();
         boolean cacheParentIfPossible = false;  // De esta manera evitamos un cacheado indirecto, el objetivo de este código es copiar una caché a otra, exactamente los mismos nodos
         for(int h = 0; h < cacheCopy.size(); h++)
         {
-            LinkedList sameH = (LinkedList)cacheCopy.get(h);
+            LinkedList<Map.Entry<Node,String>> sameH = cacheCopy.get(h);
             if (sameH == null) continue;
-            for(Iterator it = sameH.iterator(); it.hasNext(); )
+            for(Map.Entry<Node,String> entry : sameH)
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                Node node = (Node)entry.getKey();
-                String id = (String)entry.getValue();
+                Node node = entry.getKey();
+                String id = entry.getValue();
                 // Los ids de los nodos son generados por el ItsNatDocumentImpl
                 // por lo que pueden compartirse entre cachés de clientes.
 

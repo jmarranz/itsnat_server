@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
  */
 public class ElementListFreeMasterImpl extends ElementListFreeImpl
 {
-    protected ArrayList elements = new ArrayList();
+    protected ArrayList<ListElementInfoMasterImpl> elements = new ArrayList<ListElementInfoMasterImpl>();
 
     /**
      * Creates a new instance of ElementListDOMMasterImpl
@@ -69,7 +69,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
 
     public ListElementInfoImpl getListElementInfo(int index)
     {
-        return (ListElementInfoMasterImpl)elements.get(index);
+        return elements.get(index);
     }
 
     public ListElementInfoImpl addListElementInfo(Element elem)
@@ -85,7 +85,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         elements.add(index,elemInfo);
         for(int i = index + 1; i < elements.size(); i++)
         {
-            ListElementInfoMasterImpl currElemInfo = (ListElementInfoMasterImpl)elements.get(i);
+            ListElementInfoMasterImpl currElemInfo = elements.get(i);
             currElemInfo.setIndex(currElemInfo.getIndex() + 1);
         }
         return elemInfo;
@@ -96,7 +96,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         elements.remove(index);
         for(int i = index; i < elements.size(); i++)
         {
-            ListElementInfoMasterImpl currElemInfo = (ListElementInfoMasterImpl)elements.get(i);
+            ListElementInfoMasterImpl currElemInfo = elements.get(i);
             currElemInfo.setIndex(currElemInfo.getIndex() - 1);
         }
     }
@@ -109,7 +109,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
 
         for(int i = fromIndex; i < elements.size(); i++)
         {
-            ListElementInfoMasterImpl currElemInfo = (ListElementInfoMasterImpl)elements.get(i);
+            ListElementInfoMasterImpl currElemInfo = elements.get(i);
             currElemInfo.setIndex(currElemInfo.getIndex() - count);
         }
     }
@@ -200,6 +200,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         }
     }
 
+    @Override
     protected void addElementInternal(Element newNode)
     {
         super.addElementInternal(newNode);
@@ -207,6 +208,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         addListElementInfo(newNode);
     }
 
+    @Override
     protected void insertBeforeElementInternal(int index,Element newNode,Element refNode)
     {
         super.insertBeforeElementInternal(index,newNode,refNode); // Si refNode es nulo se inserta al final
@@ -214,6 +216,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         insertListElementInfo(index,newNode);
     }
 
+    @Override
     protected void insertElementAtInternal(int index,Element newNode)
     {
         super.insertElementAtInternal(index,newNode);
@@ -221,6 +224,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         insertListElementInfo(index,newNode);
     }
 
+    @Override
     protected Element setElementAtInternal(int index,Element currNode,Element newNode)
     {
         Element res = super.setElementAtInternal(index,currNode,newNode);
@@ -237,6 +241,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         return elemInfo;
     }
 
+    @Override
     public void removeElement(int index,Element node)
     {
         super.removeElement(index,node);
@@ -244,6 +249,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         removeListElementInfo(index);
     }
 
+    @Override
     public Element removeElementAt(int index)
     {
         Element child = super.removeElementAt(index);
@@ -254,6 +260,7 @@ public class ElementListFreeMasterImpl extends ElementListFreeImpl
         return child;
     }
 
+    @Override
     public void removeElementRange(int fromIndex, int toIndex)
     {
         super.removeElementRange(fromIndex,toIndex);

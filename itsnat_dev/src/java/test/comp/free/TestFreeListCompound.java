@@ -46,7 +46,7 @@ public class TestFreeListCompound extends TestBaseHTMLDocument implements EventL
 
     public void load()
     {
-        List model = new ArrayList();
+        List<Person> model = new ArrayList<Person>();
         model.add(new Person("John","Smith"));
         model.add(new Person("Bill","Clinton"));
 

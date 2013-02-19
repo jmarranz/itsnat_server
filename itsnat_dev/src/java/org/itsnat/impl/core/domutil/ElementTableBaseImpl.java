@@ -17,11 +17,9 @@
 package org.itsnat.impl.core.domutil;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.domutil.ElementTableBase;
-import org.itsnat.core.domutil.ElementTableRenderer;
 import org.itsnat.core.domutil.ListElementInfo;
 import org.itsnat.core.domutil.TableCellElementInfo;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
@@ -36,7 +34,7 @@ import org.w3c.dom.html.HTMLTableSectionElement;
  */
 public abstract class ElementTableBaseImpl extends ElementGroupImpl implements ElementTableBase
 {
-    protected ArrayList columnListOfRow; // Acelera el proceso de las columnas de la fila, sólo se usa en modo master pues en modo slave (master=false) pueden añadirse/quitarse filas via DOM y quedaría desincronizada
+    protected ArrayList<ElementListBaseImpl> columnListOfRow; // Acelera el proceso de las columnas de la fila, sólo se usa en modo master pues en modo slave (master=false) pueden añadirse/quitarse filas via DOM y quedaría desincronizada
     protected ElementListBaseImpl rows;
     protected boolean isHTMLTable;
 
@@ -53,7 +51,7 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
         return rows;
     }
 
-    public ArrayList getColumnListOfRowArrayList()
+    public ArrayList<ElementListBaseImpl> getColumnListOfRowArrayList()
     {
         return columnListOfRow;
     }
@@ -149,7 +147,7 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
 
         Element rowCurrentElem = getRowElementAt(start);
         int count = end - start + 1;
-        List rowsMoved = new ArrayList(count);
+        List<Element> rowsMoved = new ArrayList<Element>(count);
 
         for(int i = start; i <= end; i++)
         {
@@ -164,7 +162,7 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
         Element refElem = getRowElementAt(to); // puede ser null (añadir al final, hay que tener en cuenta que se han borrado posibles anteriores)
         for(int i = 0; i < count; i++)
         {
-            rowCurrentElem = (Element)rowsMoved.get(i);
+            rowCurrentElem = rowsMoved.get(i);
             int row = to + i;
             rowCurrentElem = rows.insertBeforeElement(row,rowCurrentElem,refElem);
 
@@ -178,10 +176,8 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
         if (rows.isEmpty()) return; // Nada que hacer
 
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListBaseImpl columns = getColumnsOfRowElementList(row,rowElem);
             columns.removeElementAt(column);
 
@@ -196,10 +192,8 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
         if (rows.isEmpty()) return; // Nada que hacer
 
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListBaseImpl columns = getColumnsOfRowElementList(row,rowElem);
             columns.removeAllElements();
 
@@ -247,10 +241,8 @@ public abstract class ElementTableBaseImpl extends ElementGroupImpl implements E
         if (rowCount == 0) return columnElems; // Array vacío
 
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListBaseImpl columns = getColumnsOfRowElementList(row,rowElem);
             Element colElem = columns.getElementAt(column);
             columnElems[row] = colElem; // Puede ser null, caso de que esta fila no tenga ese número de columnas (ElementTableFree)

@@ -35,7 +35,7 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
     protected ElementTreeNodeStructure structure; // La que usarán los nuevos hijos, puede cambiarse
     protected ElementTreeNodeRenderer renderer; // El que usarán los nuevos hijos
     protected ElementTreeNodeImpl parentTreeNode;
-    protected ArrayList childTreeNodes;
+    protected ArrayList<ElementTreeNodeImpl> childTreeNodes;
     protected boolean usePatternMarkupToRender;
 
     /**
@@ -66,11 +66,11 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
         this.usePatternMarkupToRender = usePatternMarkupToRender;
     }
 
-    protected ArrayList getInternalTreeNodeList()
+    protected ArrayList<ElementTreeNodeImpl> getInternalTreeNodeList()
     {
         // En el caso de TreeTable puede no usarse nunca
         if (childTreeNodes == null)
-            this.childTreeNodes = new ArrayList();
+            this.childTreeNodes = new ArrayList<ElementTreeNodeImpl>();
         return childTreeNodes;
     }
 
@@ -111,7 +111,7 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
     {
         if (isOutOfRange(index)) return null;
 
-        return (ElementTreeNode)getInternalTreeNodeList().get(index);
+        return getInternalTreeNodeList().get(index);
     }
 
     public ElementTreeNode getFirstTreeNode()
@@ -199,8 +199,8 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
         Element removedElem = removeTreeNodeDOMElementAt(index);
         if (removedElem == null) return null; // out of bounds.
 
-        ArrayList childTreeNodes = getInternalTreeNodeList();
-        ElementTreeNodeImpl treeNodeRemoved = (ElementTreeNodeImpl)childTreeNodes.remove(index);
+        ArrayList<ElementTreeNodeImpl> childTreeNodes = getInternalTreeNodeList();
+        ElementTreeNodeImpl treeNodeRemoved = childTreeNodes.remove(index);
 
         recalcForwardIndices(index, -1);
 
@@ -221,11 +221,11 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
     public void recalcForwardIndices(int fromChildIndex,int count)
     {
         // Corregimos los índices
-        ArrayList childTreeNodes = getInternalTreeNodeList();
+        ArrayList<ElementTreeNodeImpl> childTreeNodes = getInternalTreeNodeList();
         int newLen = childTreeNodes.size();
         for(int i = fromChildIndex; i < newLen ; i++)
         {
-            ElementTreeNodeImpl nodeAfter = (ElementTreeNodeImpl)childTreeNodes.get(i);
+            ElementTreeNodeImpl nodeAfter = childTreeNodes.get(i);
             nodeAfter.setIndex(nodeAfter.getIndex() + count);
         }
 
@@ -237,7 +237,7 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
 
         ElementTreeNodeImpl nodeAfter = null;
         if (fromChildIndex < newLen)
-            nodeAfter = (ElementTreeNodeImpl)childTreeNodes.get(fromChildIndex);
+            nodeAfter = childTreeNodes.get(fromChildIndex);
         else
         {
             // Es el caso en el que se ha añadido el nuevo nodo como el último
@@ -304,11 +304,11 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
             return null;
         }
 
-        ArrayList childList = getInternalTreeNodeList();
+        ArrayList<ElementTreeNodeImpl> childList = getInternalTreeNodeList();
         int len = childList.size();
         for(int i = 0; i < len; i++)
         {
-            ElementTreeNodeImpl childTreeNode = (ElementTreeNodeImpl)childList.get(i);
+            ElementTreeNodeImpl childTreeNode = childList.get(i);
             ElementTreeNode result = childTreeNode.getElementTreeNodeFromNode(node,treeContainerElem);
             if (result != null)
                 return result;
@@ -325,11 +325,11 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
 
     public ElementTreeNodeImpl getElementTreeNodeFromRow(int row,int[] currRow)
     {
-        ArrayList childList = getInternalTreeNodeList();
+        ArrayList<ElementTreeNodeImpl> childList = getInternalTreeNodeList();
         int size = childList.size();
         for(int i = 0; i < size; i++)
         {
-            ElementTreeNodeImpl childTreeNode = (ElementTreeNodeImpl)childList.get(i);
+            ElementTreeNodeImpl childTreeNode = childList.get(i);
             ElementTreeNodeImpl treeNodeRes = childTreeNode.getElementTreeNodeFromRow(row,currRow);
             if (treeNodeRes != null)
                 return treeNodeRes;
@@ -341,11 +341,11 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
     public int getRowCount()
     {
         int count = 0;
-        ArrayList childList = getInternalTreeNodeList();
+        ArrayList<ElementTreeNodeImpl> childList = getInternalTreeNodeList();
         int size = childList.size();
         for(int i = 0; i < size; i++)
         {
-            ElementTreeNodeImpl childTreeNode = (ElementTreeNodeImpl)childList.get(i);
+            ElementTreeNodeImpl childTreeNode = childList.get(i);
             count += childTreeNode.getRowCount();
         }
         return count;
@@ -355,8 +355,8 @@ public abstract class ElementTreeNodeListImpl extends ElementGroupImpl implement
 
     public ElementTreeNode[] getTreeNodes()
     {
-        ArrayList childList = getInternalTreeNodeList();
-        return (ElementTreeNode[])childList.toArray(new ElementTreeNode[childList.size()]);
+        ArrayList<ElementTreeNodeImpl> childList = getInternalTreeNodeList();
+        return childList.toArray(new ElementTreeNode[childList.size()]);
     }
 
 }

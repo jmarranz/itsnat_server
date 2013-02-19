@@ -35,7 +35,7 @@ public class ResponseDelegStfulLoadDocByBMSIEOldImpl extends ResponseDelegStfulL
         return null;
     }
 
-    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList list)
+    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list)
     {
         list.add(LoadScriptImpl.ITSNAT_MSIE_OLD);
     }

@@ -31,7 +31,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
 {
     protected Node cachedParent;
     protected String cachedParentId;
-    protected ArrayList newCachedParentIds;
+    protected ArrayList<String> newCachedParentIds;
 
     private NodeLocationWithParentImpl(Node node,String id,String path,Node cachedParent,String cachedParentId,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
@@ -62,7 +62,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
                         // Hemos cacheado un nuevo nodo, DEBEMOS LLAMAR toJSArray y enviar al cliente
                         // de otra manera el cliente NO se enterará de este cacheado.
                         if (newCachedParentIds == null)
-                            this.newCachedParentIds = new ArrayList(maxParents);
+                            this.newCachedParentIds = new ArrayList<String>(maxParents);
                         newCachedParentIds.add(parentId);
                         currParent = currParent.getParentNode();
                         i++;
@@ -90,6 +90,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         return JSRenderImpl.toLiteralStringJS(getCachedParentId());
     }
 
+    @Override
     public boolean isAlreadyCached()
     {
         boolean cached = super.isAlreadyCached();
@@ -125,7 +126,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         code.append( "[" ); // Array dentro de array
         for(int i = 0; i < newCachedParentIds.size(); i++)
         {
-            String parentId = (String)newCachedParentIds.get(i);
+            String parentId = newCachedParentIds.get(i);
             String parentIdJS = JSRenderImpl.toLiteralStringJS(parentId);
             if (i != 0) code.append(",");
             code.append(parentIdJS);

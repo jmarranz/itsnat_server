@@ -246,7 +246,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.add(listener);
     }
 
@@ -254,7 +254,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.remove(listener);
     }
 

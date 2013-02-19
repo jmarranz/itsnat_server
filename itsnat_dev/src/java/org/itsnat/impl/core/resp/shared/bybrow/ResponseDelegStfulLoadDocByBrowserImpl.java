@@ -100,5 +100,5 @@ public abstract class ResponseDelegStfulLoadDocByBrowserImpl
 
     public abstract String getJSMethodInitName();
     public abstract String getOnInitScriptContentCodeFixDOMCode();
-    public abstract void fillFrameworkScriptFileNamesOfBrowser(LinkedList list);
+    public abstract void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list);
 }

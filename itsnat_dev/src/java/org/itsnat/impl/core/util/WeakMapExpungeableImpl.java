@@ -37,9 +37,9 @@ import org.itsnat.core.ItsNatException;
  */
 public class WeakMapExpungeableImpl implements Serializable
 {
-    protected transient WeakHashMap weakMap = new WeakHashMap();
-    protected transient HashMap weakRefMap = new HashMap(); // Esta colección nos sirve para obtener el objeto valor y hacer algún tipo de cleaning
-    protected transient ReferenceQueue queue = new ReferenceQueue();
+    protected transient WeakHashMap<Object,KeyValuePair> weakMap = new WeakHashMap<Object,KeyValuePair>();
+    protected transient HashMap<WeakReference<Object>,KeyValuePair> weakRefMap = new HashMap<WeakReference<Object>,KeyValuePair>(); // Esta colección nos sirve para obtener el objeto valor y hacer algún tipo de cleaning
+    protected transient ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
     protected ExpungeListener listener;
 
     /** Creates a new instance of NodeCache */
@@ -50,12 +50,11 @@ public class WeakMapExpungeableImpl implements Serializable
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp = new HashMap();
-        for(Iterator it = weakRefMap.entrySet().iterator(); it.hasNext(); )
+        Map<Object,Object> mapTmp = new HashMap<Object,Object>();
+        for(Map.Entry<WeakReference<Object>,KeyValuePair> entry : weakRefMap.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            WeakReference weakRef = (WeakReference)entry.getKey();
-            KeyValuePair pair = (KeyValuePair)entry.getValue();
+            WeakReference<Object> weakRef = entry.getKey();
+            KeyValuePair pair = entry.getValue();
             Object key = weakRef.get();
             Object value = pair.getValue();
             mapTmp.put(key, value);
@@ -67,18 +66,17 @@ public class WeakMapExpungeableImpl implements Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        this.queue = new ReferenceQueue();
-        this.weakMap = new WeakHashMap();
-        this.weakRefMap = new HashMap();
+        this.queue = new ReferenceQueue<Object>();
+        this.weakMap = new WeakHashMap<Object,KeyValuePair>();
+        this.weakRefMap = new HashMap<WeakReference<Object>,KeyValuePair>();
 
-        Map mapTmp = (Map)in.readObject();
-        for(Iterator it = mapTmp.entrySet().iterator(); it.hasNext(); )
+        Map<Object,Object> mapTmp = (Map<Object,Object>)in.readObject();
+        for(Map.Entry<Object,Object> entry : mapTmp.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
             Object key = entry.getKey();
             Object value = entry.getValue();
 
-            WeakReference weakRef = new WeakReference(key,queue);
+            WeakReference<Object> weakRef = new WeakReference<Object>(key,queue);
             KeyValuePair pair = new KeyValuePair(weakRef,value);
 
             weakMap.put(key,pair);
@@ -92,10 +90,10 @@ public class WeakMapExpungeableImpl implements Serializable
     {
         cleanUnused();
 
-        KeyValuePair pair = (KeyValuePair)weakMap.remove(key);
+        KeyValuePair pair = weakMap.remove(key);
         if (pair == null)
             return null;
-        WeakReference weakRef = pair.getKey();
+        WeakReference<Object> weakRef = pair.getKey();
         weakRefMap.remove(weakRef);
         return pair.getValue();
     }
@@ -104,7 +102,7 @@ public class WeakMapExpungeableImpl implements Serializable
     {
         cleanUnused();
 
-        KeyValuePair pair = (KeyValuePair)weakMap.get(key);
+        KeyValuePair pair = weakMap.get(key);
         if (pair == null)
             return null;
 
@@ -115,10 +113,10 @@ public class WeakMapExpungeableImpl implements Serializable
     {
         cleanUnused();
 
-        WeakReference weakKeyRef = new WeakReference(key,queue);
+        WeakReference<Object> weakKeyRef = new WeakReference<Object>(key,queue);
         KeyValuePair pair = new KeyValuePair(weakKeyRef,value); // Notar que value se sujeta con una referencia fuerte
 
-        KeyValuePair oldPair = (KeyValuePair)weakMap.put(key,pair);
+        KeyValuePair oldPair = weakMap.put(key,pair);
         weakRefMap.put(weakKeyRef,pair);
 
         if (oldPair == null)
@@ -134,7 +132,7 @@ public class WeakMapExpungeableImpl implements Serializable
         Reference weakRef = queue.poll();
         while(weakRef != null)
         {
-            KeyValuePair pair = (KeyValuePair)weakRefMap.remove(weakRef);
+            KeyValuePair pair = weakRefMap.remove(weakRef);
             if ((pair != null) && (listener != null))
                 listener.processExpunged(pair.getValue());
 
@@ -152,17 +150,17 @@ public class WeakMapExpungeableImpl implements Serializable
         return res;
     }
 
-    public Set entrySet()
+    public Set<Map.Entry<Object,KeyValuePair>> entrySet()
     {
         return weakMap.entrySet();
     }
 
     public static class KeyValuePair implements Serializable
     {
-        protected transient WeakReference key;
+        protected transient WeakReference<Object> key;
         protected Object value;
 
-        public KeyValuePair(WeakReference key,Object value)
+        public KeyValuePair(WeakReference<Object> key,Object value)
         {
             this.key = key;
             this.value = value;
@@ -181,12 +179,12 @@ public class WeakMapExpungeableImpl implements Serializable
         private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
         {
             Object obj = in.readObject();
-            if (obj != null) this.key = new WeakReference(obj);
+            if (obj != null) this.key = new WeakReference<Object>(obj);
 
             in.defaultReadObject();
         }
 
-        public WeakReference getKey()
+        public WeakReference<Object> getKey()
         {
             return key;
         }

@@ -34,7 +34,7 @@ public class TestEventListenerGC implements EventListener,Serializable
 {
     protected ItsNatHTMLDocument itsNatDoc;
     protected Element link;
-    protected transient WeakHashMap weakMap = new WeakHashMap();
+    protected transient WeakHashMap<EventListener,Object> weakMap = new WeakHashMap<EventListener,Object>();
 
     /**
      * Creates a new instance of TestAsyncServerResponse
@@ -48,7 +48,7 @@ public class TestEventListenerGC implements EventListener,Serializable
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp = new HashMap(weakMap);
+        Map<EventListener,Object> mapTmp = new HashMap<EventListener,Object>(weakMap);
         out.writeObject(mapTmp);
 
         out.defaultWriteObject();
@@ -56,8 +56,8 @@ public class TestEventListenerGC implements EventListener,Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        Map mapTmp = (Map)in.readObject();
-        this.weakMap = new WeakHashMap(mapTmp);
+        Map<EventListener,Object> mapTmp = (Map<EventListener,Object>)in.readObject();
+        this.weakMap = new WeakHashMap<EventListener,Object>(mapTmp);
 
         in.defaultReadObject();
     }

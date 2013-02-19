@@ -24,7 +24,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class ElementListFreeListIteratorImpl extends ElementListFreeIteratorImpl implements ListIterator
+public class ElementListFreeListIteratorImpl extends ElementListFreeIteratorImpl implements ListIterator<Element>
 {
     protected Element prevElem;
 
@@ -43,7 +43,7 @@ public class ElementListFreeListIteratorImpl extends ElementListFreeIteratorImpl
         return (prevElem != null);
     }
 
-    public Object previous()
+    public Element previous()
     {
         if (prevElem == null) throw new NoSuchElementException();
 
@@ -57,9 +57,9 @@ public class ElementListFreeListIteratorImpl extends ElementListFreeIteratorImpl
         return currElem;
     }
 
-    public Object next()
+    public Element next()
     {
-        Object res = super.next();
+        Element res = super.next();
 
         this.prevElem = currElem;
 
@@ -76,16 +76,16 @@ public class ElementListFreeListIteratorImpl extends ElementListFreeIteratorImpl
         return nextIndex - 1;
     }
 
-    public void set(Object o)
+    public void set(Element o)
     {
         if (currIndex == -1) throw new IllegalStateException(); // Pues es el que queremos cambiar y lo mismo nos lo cargamos antes o bien no hemos llamado a next() nunca
-        ElementPair res = list.setElementAt2(currIndex,(Element)o);
+        ElementPair res = list.setElementAt2(currIndex,o);
         this.currElem = res.getNewElem();
     }
 
-    public void add(Object o)
+    public void add(Element o)
     {
-        Element currElem = (Element)o;
+        Element currElem = o;
         this.currElem = list.insertBeforeElement(nextIndex,currElem,nextElem);
         this.prevElem = this.currElem;
         nextIndex++;

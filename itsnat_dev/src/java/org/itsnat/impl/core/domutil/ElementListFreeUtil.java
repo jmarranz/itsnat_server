@@ -58,58 +58,56 @@ public class ElementListFreeUtil
         list.removeElement(index,elem);
         return true; // Porque si no contiene el nodo se lanza una excepción
     }
-
-    public static Object[] toArray(ElementListFreeInternal list,Object[] a)
+ 
+    public static <T> T[] toArray(ElementListFreeInternal list,T[] a)        
     {
         Element[] elems = list.getElements();
         if (a.length < elems.length)
-            a = (Object[])java.lang.reflect.Array.newInstance(
+            a = (T[])java.lang.reflect.Array.newInstance(
                                 a.getClass().getComponentType(), elems.length);
-        for(int i = 0; i < elems.length; i++)
-            a[i] = elems[i];
+        System.arraycopy(elems, 0, a, 0, elems.length);
 
         return a;
     }
 
-    public static Object get(ElementListFreeInternal list,int index)
+    public static Element get(ElementListFreeInternal list,int index)
     {
         return list.getElementAt(index);
     }
 
-    public static Iterator iterator(ElementListFreeInternal list)
+    public static Iterator<Element> iterator(ElementListFreeInternal list)
     {
         return new ElementListFreeIteratorImpl(list);
     }
 
-    public static ListIterator listIterator(ElementListFreeInternal list,int index)
+    public static ListIterator<Element> listIterator(ElementListFreeInternal list,int index)
     {
         return new ElementListFreeListIteratorImpl(list,index);
     }
 
-    public static ListIterator listIterator(ElementListFreeInternal list)
+    public static ListIterator<Element> listIterator(ElementListFreeInternal list)
     {
         return new ElementListFreeListIteratorImpl(list,0);
     }
 
-    public static Object remove(ElementListFreeInternal list,int index)
+    public static Element remove(ElementListFreeInternal list,int index)
     {
         return list.removeElementAt(index);
     }
 
-    public static boolean addAll(ElementListFreeInternal list,int index, Collection c)
+    public static boolean addAll(ElementListFreeInternal list,int index, Collection<? extends Element> c)
     {
-        for(Iterator it = c.iterator(); it.hasNext(); )
+        for(Element elem : c)
         {
-            Element elem = (Element)it.next();
             list.insertElementAt(index,elem);
             index++;
         }
         return true;
     }
 
-    public static boolean containsAll(ElementListFreeInternal list,Collection c)
+    public static boolean containsAll(ElementListFreeInternal list,Collection<?> c)
     {
-	for(Iterator e = c.iterator(); e.hasNext(); )
+	for(Iterator<?> e = c.iterator(); e.hasNext(); )
         {
 	    if(!list.contains(e.next()))
 		return false;
@@ -117,20 +115,20 @@ public class ElementListFreeUtil
 	return true;
     }
 
-    public static boolean addAll(ElementListFreeInternal list,Collection c)
+    public static boolean addAll(ElementListFreeInternal list,Collection<? extends Element> c)
     {
-        for(Iterator it = c.iterator(); it.hasNext(); )
+        for(Iterator<? extends Element> it = c.iterator(); it.hasNext(); )
         {
-            Element elem = (Element)it.next();
+            Element elem = it.next();
             list.addElement(elem);
         }
         return true;
     }
 
-    public static boolean removeAll(ElementListFreeInternal list,Collection c)
+    public static boolean removeAll(ElementListFreeInternal list,Collection<?> c)
     {
 	boolean modified = false;
-	for(Iterator it = list.iterator(); it.hasNext(); )
+	for(Iterator<Element> it = list.iterator(); it.hasNext(); )
         {
 	    if(c.contains(it.next()))
             {
@@ -141,10 +139,10 @@ public class ElementListFreeUtil
 	return modified;
     }
 
-    public static boolean retainAll(ElementListFreeInternal list,Collection c)
+    public static boolean retainAll(ElementListFreeInternal list,Collection<?> c)
     {
 	boolean modified = false;
-	for(Iterator it = list.iterator(); it.hasNext(); )
+	for(Iterator<Element> it = list.iterator(); it.hasNext(); )
         {
 	    if(!c.contains(it.next()))
             {
@@ -160,17 +158,17 @@ public class ElementListFreeUtil
         list.insertElementAt(index,(Element)element);
     }
 
-    public static Object set(ElementListFreeInternal list,int index, Object element)
+    public static Element set(ElementListFreeInternal list,int index, Element element)
     {
-        return list.setElementAt(index,(Element)element);
+        return list.setElementAt(index,element);
     }
 
-    public static Object[] toArray(ElementListFreeInternal list)
+    public static Element[] toArray(ElementListFreeInternal list)
     {
         return list.getElements();
     }
 
-    public static List subList(ElementListFreeInternal list,int fromIndex, int toIndex)
+    public static List<Element> subList(ElementListFreeInternal list,int fromIndex, int toIndex)
     {
         throw new ItsNatException("Not implemented",list);
     }

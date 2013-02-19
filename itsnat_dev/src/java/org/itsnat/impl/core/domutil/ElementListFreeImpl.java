@@ -266,7 +266,7 @@ public abstract class ElementListFreeImpl extends ElementListBaseImpl implements
     {
         Element elemCurrent = getElementAt(start);
         int count = end - start + 1;
-        List movedElems = new ArrayList(count);
+        List<Element> movedElems = new ArrayList<Element>(count);
 
         for(int i = start; i <= end; i++)
         {
@@ -279,7 +279,7 @@ public abstract class ElementListFreeImpl extends ElementListBaseImpl implements
         Element refElem = getElementAt(to); // puede ser null (añadir al final)
         for(int i = 0; i < count; i++)
         {
-            elemCurrent = (Element)movedElems.get(i);
+            elemCurrent = movedElems.get(i);
             int pos = to + i;
             insertBeforeElement(pos,elemCurrent,refElem);
         }
@@ -329,7 +329,7 @@ public abstract class ElementListFreeImpl extends ElementListBaseImpl implements
         return ElementListFreeUtil.contains(this,o);
     }
 
-    public boolean add(Object o)
+    public boolean add(Element o)
     {
         return ElementListFreeUtil.add(this,o);
     }
@@ -344,67 +344,67 @@ public abstract class ElementListFreeImpl extends ElementListBaseImpl implements
         return ElementListFreeUtil.remove(this,o);
     }
 
-    public Object[] toArray(Object[] a)
+    public <T> T[] toArray(T[] a)
     {
         return ElementListFreeUtil.toArray(this,a);
     }
 
-    public Object get(int index)
+    public Element get(int index)
     {
         return ElementListFreeUtil.get(this,index);
     }
 
-    public Iterator iterator()
+    public Iterator<Element> iterator()
     {
         return ElementListFreeUtil.iterator(this);
     }
 
-    public ListIterator listIterator(int index)
+    public ListIterator<Element> listIterator(int index)
     {
         return ElementListFreeUtil.listIterator(this,index);
     }
 
-    public ListIterator listIterator()
+    public ListIterator<Element> listIterator()
     {
         return ElementListFreeUtil.listIterator(this);
     }
 
-    public Object remove(int index)
+    public Element remove(int index)
     {
         return ElementListFreeUtil.remove(this,index);
     }
 
-    public boolean addAll(int index, Collection c)
+    public boolean addAll(int index, Collection<? extends Element> c)
     {
         return ElementListFreeUtil.addAll(this,index,c);
     }
 
-    public boolean containsAll(Collection c)
+    public boolean containsAll(Collection<?> c)
     {
         return ElementListFreeUtil.containsAll(this,c);
     }
 
-    public boolean addAll(Collection c)
+    public boolean addAll(Collection<? extends Element> c)
     {
         return ElementListFreeUtil.addAll(this,c);
     }
 
-    public boolean removeAll(Collection c)
+    public boolean removeAll(Collection<?> c)
     {
         return ElementListFreeUtil.removeAll(this,c);
     }
 
-    public boolean retainAll(Collection c)
+    public boolean retainAll(Collection<?> c)
     {
         return ElementListFreeUtil.retainAll(this,c);
     }
 
-    public void add(int index, Object element)
+    public void add(int index, Element element)
     {
         ElementListFreeUtil.add(this,index,element);
     }
 
-    public Object set(int index, Object element)
+    public Element set(int index, Element element)
     {
         return ElementListFreeUtil.set(this,index,element);
     }
@@ -414,7 +414,7 @@ public abstract class ElementListFreeImpl extends ElementListBaseImpl implements
         return ElementListFreeUtil.toArray(this);
     }
 
-    public List subList(int fromIndex, int toIndex)
+    public List<Element> subList(int fromIndex, int toIndex)
     {
         return ElementListFreeUtil.subList(this,fromIndex,toIndex);
     }

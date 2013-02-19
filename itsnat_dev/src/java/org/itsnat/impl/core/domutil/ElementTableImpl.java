@@ -51,7 +51,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         this.renderer = renderer;
         this.usePatternMarkupToRender = itsNatDoc.isUsePatternMarkupToRender();
 
-        this.columnListOfRow = new ArrayList(); // Siempre es modo master
+        this.columnListOfRow = new ArrayList<ElementListBaseImpl>(); // Siempre es modo master
 
         ElementGroupManagerImpl factory = getItsNatDocumentImpl().getElementGroupManagerImpl();
         this.rows = factory.createElementListNoRenderInternal(parentElement,null,!removePattern,false);

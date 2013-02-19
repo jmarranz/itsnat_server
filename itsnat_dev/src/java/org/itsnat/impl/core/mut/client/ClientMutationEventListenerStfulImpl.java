@@ -340,7 +340,7 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         }
     }
 
-    private void removeTreeFromNodeCache(Node node,LinkedList idList)
+    private void removeTreeFromNodeCache(Node node,LinkedList<String> idList)
     {
         String id = clientDoc.removeNodeFromCache(node);
         if ((id != null)&&(idList != null))
