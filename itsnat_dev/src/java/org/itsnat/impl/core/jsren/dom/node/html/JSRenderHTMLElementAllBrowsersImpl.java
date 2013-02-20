@@ -108,9 +108,8 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         // Iteramos por si algún día se añade alguna condición más complicada
         // y nos olvidamos de ponerla aquí
 
-        for(Iterator it = browsers.iterator(); it.hasNext(); )
+        for(JSRenderHTMLElementImpl renderer : browsers)
         {
-            JSRenderHTMLElementImpl renderer = (JSRenderHTMLElementImpl)it.next();
             if (renderer.isChildNotValidInsideInnerHTMLNotElementOrText(node))
                 return true;
         }

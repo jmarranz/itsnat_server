@@ -109,10 +109,9 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else
         {
-            List l = (List)o;
-            for (Iterator li = l.iterator(); li.hasNext(); )
+            List<Element> l = (List<Element>)o;
+            for (Element e : l)
             {
-                Element e = (Element)li.next();
                 if (all || (getRoot(e) == root))
                     return e;
             }

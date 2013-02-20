@@ -758,10 +758,10 @@ public class CodeInManual
         elem = ItsNatDOMUtil.createElement("h1","Title",doc);
         elemList.setElementAt(0,elem); // Replaces <p>Item 1</p> => <h1>Title</h1>
 
-        List list = elemList;
-        for(ListIterator it = list.listIterator(); it.hasNext(); )
+        List<Element> list = elemList;
+        for(ListIterator<Element> it = list.listIterator(); it.hasNext(); )
         {
-            Element curElem = (Element)it.next();
+            Element curElem = it.next();
             System.out.println(it.nextIndex() + ":" + ItsNatDOMUtil.getTextContent(curElem));
             it.remove();
         }

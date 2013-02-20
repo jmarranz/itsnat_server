@@ -48,7 +48,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     protected LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners;
     protected LinkedList<EventListener> domEventListeners;
     protected LinkedList<CreateItsNatComponentListener> createCompListeners;
-    protected Map artifacts;
+    protected Map<String,Object> artifacts;
     protected int commMode;
     protected long eventTimeout;
     protected int useGZip;
@@ -465,16 +465,6 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         list.addAll(attachedEventListeners);
     }
 
-/*
-    public Iterator getItsNatAttachedClientEventListenerIterator()
-    {
-        // No sincronizamos porque sólo admitimos sólo lectura
-        if (attachedEventListeners == null)
-            return null;
-        if (attachedEventListeners.isEmpty()) return null;
-        return attachedEventListeners.iterator();
-    }
-*/
     public void addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -563,10 +553,10 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return !artifacts.isEmpty();
     }
 
-    public Map getArtifactMap()
+    public Map<String,Object> getArtifactMap()
     {
         if (artifacts == null)
-            this.artifacts = new HashMap();
+            this.artifacts = new HashMap<String,Object>();
         return artifacts;
     }
 
@@ -574,7 +564,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         if (!hasArtifacts()) return null;
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.get(name);
     }
 
@@ -582,7 +572,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         artifacts.put(name,value);
     }
 
@@ -590,7 +580,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.remove(name);
     }
 

@@ -86,7 +86,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     protected transient ThreadLocal<ClientDocumentStfulImpl> evtDispThreadLocal = new ThreadLocal<ClientDocumentStfulImpl>();
     protected long evtDispMaxWait;
     protected int maxOpenClients;
-    protected MapUniqueId boundElemDocContainers;
+    protected MapUniqueId<BoundElementDocContainerImpl> boundElemDocContainers;
     protected Random random;
 
     /** Creates a new instance of ItsNatStfulDocumentImpl */
@@ -792,9 +792,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         return !boundElemDocContainers.isEmpty();
     }
 
-    public MapUniqueId getBoundElementDocContainerMap()
+    public MapUniqueId<BoundElementDocContainerImpl> getBoundElementDocContainerMap()
     {
-        if (boundElemDocContainers == null) this.boundElemDocContainers = new MapUniqueId(getUniqueIdGenerator());
+        if (boundElemDocContainers == null) this.boundElemDocContainers = new MapUniqueId<BoundElementDocContainerImpl>(getUniqueIdGenerator());
         return boundElemDocContainers;
     }
 
@@ -802,7 +802,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     {
         if (!hasBoundElementDocContainers()) return null;
 
-        BoundElementDocContainerImpl bindInfo = (BoundElementDocContainerImpl)getBoundElementDocContainerMap().get(id);
+        BoundElementDocContainerImpl bindInfo = getBoundElementDocContainerMap().get(id);
         if (bindInfo == null) return null;
         if (bindInfo.getRandomNumber() != random) return null; // Podríamos provocar un error pero por si acaso es un extraño caso de expiración
         return bindInfo;

@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -319,9 +318,8 @@ public class ItsNatHttpSessionReplicationCapableImpl extends ItsNatHttpSessionIm
                     ItsNatServletRequestImpl currItsNatServReq = currItsNatServlet.createItsNatServletRequest(servRequest,servResponse,this); // Pasando la sesión como parámetro evitamos que se intente cargar de nuevo
                     ItsNatServletResponseImpl currItsNatServResp = currItsNatServReq.getItsNatServletResponseImpl();
 
-                    for(Iterator it2 = pendingTasksOfServlet.iterator(); it2.hasNext(); )
+                    for(DeserialPendingTask task : pendingTasksOfServlet)
                     {
-                        DeserialPendingTask task = (DeserialPendingTask)it2.next();
                         task.process(currItsNatServlet,currItsNatServReq,currItsNatServResp);
                     }
                 }

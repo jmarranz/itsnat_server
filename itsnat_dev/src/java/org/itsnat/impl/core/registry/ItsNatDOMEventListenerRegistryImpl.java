@@ -46,7 +46,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     protected ItsNatStfulDocumentImpl itsNatDoc;
     protected ClientDocumentStfulImpl clientDoc; // Si es null es que el registro es a nivel de documento y pertenece a todos los clientes
     protected int capturingCount;
-    protected MapUniqueId eventListenersById; // No es weak porque necesitamos sujetar el listener wrapper pues es un objeto de uso interno para este fin
+    protected MapUniqueId<ItsNatDOMEventListenerWrapperImpl> eventListenersById; // No es weak porque necesitamos sujetar el listener wrapper pues es un objeto de uso interno para este fin
 
     /**
      * Creates a new instance of ItsNatDOMEventListenerRegistryImpl
@@ -56,7 +56,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         this.itsNatDoc = itsNatDoc;
         this.clientDoc = clientDoc; // puede ser null
 
-        this.eventListenersById = new MapUniqueId(itsNatDoc.getUniqueIdGenerator());
+        this.eventListenersById = new MapUniqueId<ItsNatDOMEventListenerWrapperImpl>(itsNatDoc.getUniqueIdGenerator());
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()
@@ -122,7 +122,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
     private ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerByIdPrivate(String id,boolean updateClient)
     {
-        ItsNatDOMEventListenerWrapperImpl listenerWrapper = (ItsNatDOMEventListenerWrapperImpl)eventListenersById.removeById(id);
+        ItsNatDOMEventListenerWrapperImpl listenerWrapper = eventListenersById.removeById(id);
         if (listenerWrapper == null)
             return null; // Ya se eliminó o nunca se añadió (raro)
 
@@ -142,7 +142,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
     public ItsNatDOMEventListenerWrapperImpl getItsNatDOMEventListenerById(String listenerId)
     {
-        return (ItsNatDOMEventListenerWrapperImpl)eventListenersById.get(listenerId);
+        return eventListenersById.get(listenerId);
     }
 
     /**
@@ -160,11 +160,9 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         if (eventListenersById.isEmpty()) return;
 
         LinkedList<ItsNatDOMEventListenerWrapperImpl> svgWebNodes = null;
-        for(Iterator<Map.Entry<String,HasUniqueId>> it = eventListenersById.entrySet().iterator(); it.hasNext(); )
+        for(Map.Entry<String,ItsNatDOMEventListenerWrapperImpl> entry : eventListenersById.entrySet())
         {
-            Map.Entry<String,HasUniqueId> entry = it.next();
-            ItsNatDOMEventListenerWrapperImpl listenerWrapper =
-                    (ItsNatDOMEventListenerWrapperImpl)entry.getValue();
+            ItsNatDOMEventListenerWrapperImpl listenerWrapper = entry.getValue();
 
             if (!clientDoc.canReceiveNormalEvents(listenerWrapper.getEventListener()))
                 continue;
@@ -190,10 +188,8 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
             {
                 public void handleEvent(Event evt)
                 {
-                    for(Iterator it = svgWebNodes2.iterator(); it.hasNext(); )
+                    for(ItsNatDOMEventListenerWrapperImpl listenerWrapper : svgWebNodes2)
                     {
-                        ItsNatDOMEventListenerWrapperImpl listenerWrapper =
-                                (ItsNatDOMEventListenerWrapperImpl)it.next();
                         if (!eventListenersById.containsKey(listenerWrapper)) 
                             continue; // Ha sido eliminado mientras se procesaba el evento SVGLoad
 
@@ -210,8 +206,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     {
         if (eventListenersById.isEmpty()) return;
 
-        ItsNatDOMEventListenerWrapperImpl[] listenerList =
-                (ItsNatDOMEventListenerWrapperImpl[])eventListenersById.toArray(new ItsNatDOMEventListenerWrapperImpl[eventListenersById.size()]);
+        ItsNatDOMEventListenerWrapperImpl[] listenerList = eventListenersById.toArray(new ItsNatDOMEventListenerWrapperImpl[eventListenersById.size()]);
         
         for(int i = 0; i < listenerList.length; i++)
         {

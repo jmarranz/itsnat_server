@@ -179,7 +179,7 @@ public class ItsNatHTMLSelectMultImpl extends ItsNatHTMLSelectImpl implements It
         getItsNatListMultSelShared().setListData(listData);
     }
 
-    public void	setListData(List listData)
+    public void	setListData(List<Object> listData)
     {
         getItsNatListMultSelShared().setListData(listData);
     }

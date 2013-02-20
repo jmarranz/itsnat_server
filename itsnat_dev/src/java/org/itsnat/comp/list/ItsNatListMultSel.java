@@ -54,7 +54,7 @@ public interface ItsNatListMultSel extends ItsNatList
      * @param listData a <code>java.util.List</code> containing the items of the new list model
      * @see #setListData(Object[])
      */
-    public void	setListData(List listData);
+    public void	setListData(List<Object> listData);
 
     /**
      * Returns the current selection model.

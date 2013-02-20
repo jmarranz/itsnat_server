@@ -165,13 +165,13 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
         listener.processRequest(getItsNatServletRequestImpl(),this);
     }
 
-    public void dispatchItsNatServletRequestListeners(Iterator iterator)
+    public void dispatchItsNatServletRequestListeners(Iterator<ItsNatServletRequestListener> iterator)
     {
         if (iterator != null)
         {
             while(iterator.hasNext())
             {
-                ItsNatServletRequestListener listener = (ItsNatServletRequestListener)iterator.next();
+                ItsNatServletRequestListener listener = iterator.next();
                 dispatchRequestListener(listener);
             }
         }

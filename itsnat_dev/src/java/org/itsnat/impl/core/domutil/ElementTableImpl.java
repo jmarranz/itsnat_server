@@ -16,15 +16,15 @@
 
 package org.itsnat.impl.core.domutil;
 
-import org.itsnat.core.ItsNatException;
-import org.itsnat.core.domutil.ElementTable;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.itsnat.core.ItsNatException;
+import org.itsnat.core.domutil.ElementTable;
 import org.itsnat.core.domutil.ElementTableRenderer;
 import org.itsnat.core.domutil.ElementTableStructure;
 import org.itsnat.core.domutil.ListElementInfo;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
@@ -138,9 +138,8 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
             ElementListImpl columns = (ElementListImpl)getColumnsOfRowElementList(row,rowElem);
             // Si la longitud de rowData es menor que el número de columnas dará error
             int col = 0;
-            for(Iterator it = columns.getInternalElementListFree().iterator(); it.hasNext(); )
+            for(Element columElem : columns.getInternalElementListFree())
             {
-                Element columElem = (Element)it.next();
                 Object value = rowData[col];
                 setCellValueAt(row,col,value,columElem,isNew);
 
@@ -155,7 +154,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return addRow((Object[])null);
     }
 
-    public Element addRow(List rowData)
+    public Element addRow(List<Object> rowData)
     {
         return addRow(toObjectArray(rowData));
     }
@@ -176,7 +175,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return insertRowAt(row,(Object[])null);
     }
 
-    public Element insertRowAt(int row,List rowData)
+    public Element insertRowAt(int row,List<Object> rowData)
     {
         return insertRowAt(row,toObjectArray(rowData));
     }
@@ -192,7 +191,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return rowElem;
     }
 
-    public void setRowValuesAt(int row,List rowData)
+    public void setRowValuesAt(int row,List<Object> rowData)
     {
         setRowValuesAt(row,toObjectArray(rowData));
     }
@@ -231,10 +230,8 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
 
         // Si la longitud de columnData es menor que el número de columnas dará error
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListImpl columns = (ElementListImpl)getColumnsOfRowElementList(row,rowElem);
             Element columnElem = null;
             if (add)
@@ -257,7 +254,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return addColumn((Object[])null);
     }
 
-    public Element[] addColumn(List columnData)
+    public Element[] addColumn(List<Object> columnData)
     {
         return addColumn(toObjectArray(columnData));
     }
@@ -273,7 +270,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return insertColumnAt(column,(Object[])null);
     }
 
-    public Element[] insertColumnAt(int column,List columnData)
+    public Element[] insertColumnAt(int column,List<Object> columnData)
     {
         return insertColumnAt(column,toObjectArray(columnData));
     }
@@ -283,7 +280,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return addOrInsertColumn(column,columnData,false);
     }
 
-    public void setColumnValuesAt(int column,List columnData)
+    public void setColumnValuesAt(int column,List<Object> columnData)
     {
         setColumnValuesAt(column,toObjectArray(columnData));
     }
@@ -297,10 +294,8 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
 
         // Si la longitud de columnData es menor que el número de columnas dará error
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListImpl columns = (ElementListImpl)getColumnsOfRowElementList(row,rowElem);
             Element columnElem = columns.getElementAt(column);
             setCellValueAt(row,column,columnData[row],columnElem,false);
@@ -309,6 +304,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         }
     }
 
+    @Override
     public void removeColumnAt(int column)
     {
         ElementTableRenderer renderer = getElementTableRenderer();
@@ -324,6 +320,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         super.removeColumnAt(column);
     }
 
+    @Override
     public void removeAllColumns()
     {
         unrenderAllCells();
@@ -388,6 +385,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         }
     }
 
+    @Override
     public Element removeRowAt(int row)
     {
         ElementTableRenderer renderer = getElementTableRenderer();
@@ -401,6 +399,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return super.removeRowAt(row);
     }
 
+    @Override
     public void removeRowRange(int fromIndex, int toIndex)
     {
         ElementTableRenderer renderer = getElementTableRenderer();
@@ -415,6 +414,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         super.removeRowRange(fromIndex,toIndex);
     }
 
+    @Override
     public void removeAllRows()
     {
         unrenderAllCells();
@@ -472,14 +472,14 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
                 removeColumnAt(i);
     }
 
-    public void setTableValues(List values)
+    public void setTableValues(List<List<Object>> values)
     {
         for(int i = 0; i < values.size(); i++)
         {
-            List rowValues = (List)values.get(i);
-            for(int j = 0; j < rowValues.size(); i++)
+            List<Object> rowValues = values.get(i);
+            for(int j = 0; j < rowValues.size(); j++)
             {
-                Object cellValue = rowValues.get(i);
+                Object cellValue = rowValues.get(j);
                 setCellValueAt(i,j,cellValue);
             }
         }
@@ -492,7 +492,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
             Object[] rowValues = values[i];
             for(int j = 0; j < rowValues.length; j++)
             {
-                Object cellValue = rowValues[i];
+                Object cellValue = rowValues[j];
                 setCellValueAt(i,j,cellValue);
             }
         }
@@ -508,10 +508,8 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         if (rows.isEmpty()) return; // Nada que hacer
 
         int row = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); )
+        for(Element rowElem : rows)
         {
-            Element rowElem = (Element)it.next();
-
             ElementListImpl columns = (ElementListImpl)getColumnsOfRowElementList(row,rowElem);
             columns.moveElement(columnIndex,columnIndex,newIndex);
 
@@ -524,7 +522,7 @@ public class ElementTableImpl extends ElementTableBaseImpl implements ElementTab
         return TableCellElementInfoMasterImpl.getTableCellElementInfoMaster((ListElementInfoMasterImpl)rowInfo,(ListElementInfoMasterImpl)cellInfo,this);
     }
 
-    public static Object[] toObjectArray(List data)
+    public static Object[] toObjectArray(List<Object> data)
     {
         if (data == null) return null;
 

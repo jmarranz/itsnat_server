@@ -99,9 +99,9 @@ public class TestElementListFree
         TestUtil.checkError(elemList.getElementAt(2).getTagName().equals("input"));
 
         int count = 1;
-        for(ListIterator it = elemList.listIterator(count); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(count); it.hasNext(); )
         {
-            Element elem = (Element)it.next();
+            Element elem = it.next();
             count++;
             TestUtil.checkError(it.nextIndex() == count);
         }
@@ -109,18 +109,18 @@ public class TestElementListFree
         TestUtil.checkError(count == elemList.size());
 
         count = elemList.size();
-        for(ListIterator it = elemList.listIterator(count); it.hasPrevious(); )
+        for(ListIterator<Element> it = elemList.listIterator(count); it.hasPrevious(); )
         {
-            Element elem = (Element)it.previous();
+            Element elem = it.previous();
             count--;
             TestUtil.checkError(it.previousIndex() == count - 1);
         }
 
         TestUtil.checkError(count == 0);
 
-        for(ListIterator it = elemList.listIterator(); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(); it.hasNext(); )
         {
-            Element elem = (Element)it.next();
+            Element elem = it.next();
             it.set(doc.createElement("div"));
         }
 
@@ -129,9 +129,9 @@ public class TestElementListFree
             TestUtil.checkError(elemList.getElementAt(i).getTagName().equals("div"));
         }
 
-        for(ListIterator it = elemList.listIterator(elemList.size()); it.hasPrevious(); )
+        for(ListIterator<Element> it = elemList.listIterator(elemList.size()); it.hasPrevious(); )
         {
-            Element elem = (Element)it.previous();
+            Element elem = it.previous();
             it.set(doc.createElement("input"));
         }
 
@@ -142,11 +142,11 @@ public class TestElementListFree
 
 
         count = 0;
-        for(ListIterator it = elemList.listIterator(); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(); it.hasNext(); )
         {
-            Element elem1 = (Element)it.next();
-            Element elem2 = (Element)it.previous();
-            Element elem3 = (Element)it.next();
+            Element elem1 = it.next();
+            Element elem2 = it.previous();
+            Element elem3 = it.next();
 
             count++;
 
@@ -158,7 +158,7 @@ public class TestElementListFree
         TestUtil.checkError(count == elemList.size());
 
         count = elemList.size();
-        for(ListIterator it = elemList.listIterator(); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(); it.hasNext(); )
         {
             Element newElem = doc.createElement("input");
             it.add(newElem);
@@ -168,7 +168,7 @@ public class TestElementListFree
         TestUtil.checkError((count * 2) == elemList.size());
 
         count = elemList.size();
-        for(ListIterator it = elemList.listIterator(); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(); it.hasNext(); )
         {
             Element newElem = doc.createElement("input");
             it.add(newElem);
@@ -180,9 +180,9 @@ public class TestElementListFree
         TestUtil.checkError((count * 2) == elemList.size());
 
 
-        for(ListIterator it = elemList.listIterator(); it.hasNext(); )
+        for(ListIterator<Element> it = elemList.listIterator(); it.hasNext(); )
         {
-            Element elem = (Element)it.next();
+            Element elem = it.next();
             it.remove();
         }
 

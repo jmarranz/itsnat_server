@@ -107,9 +107,8 @@ public class SourceCode implements Serializable
     public static String toStringTokens(LinkedList<Token> tokens)
     {
         StringBuilder code = new StringBuilder();
-        for(Iterator<Token> it = tokens.iterator(); it.hasNext(); )
+        for(Token token : tokens)
         {
-            Token token = it.next();
             code.append( token.toString() );
         }
         return code.toString();
@@ -122,9 +121,8 @@ public class SourceCode implements Serializable
         SourceCode current = new SourceCode();
         resTmp[0] = current;
         int i = 0;
-        for(Iterator<Token> it = tokens.iterator(); it.hasNext(); )
+        for(Token token : tokens)
         {
-            Token token = it.next();
             if (token.equals(byTok))
             {
                 if (current.tokenCount() > 0) // Si no se cumple es que el actual está vacío, lo ignoramos y perdemos

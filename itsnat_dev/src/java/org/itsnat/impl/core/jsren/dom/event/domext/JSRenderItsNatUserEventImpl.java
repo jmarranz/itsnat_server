@@ -46,11 +46,10 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         code.append("var evt = itsNatDoc.createUserEvent(\"" + name + "\");\n");
         if (userEvt.hasExtraParams())
         {
-            Map extraParams = userEvt.getExtraParamMap();
-            for(Iterator it = extraParams.entrySet().iterator(); it.hasNext(); )
+            Map<String,Object> extraParams = userEvt.getExtraParamMap();
+            for(Map.Entry<String,Object> entry : extraParams.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                String nameParam = (String)entry.getKey();
+                String nameParam = entry.getKey();
                 Object value = entry.getValue();
                 code.append( "evt.setExtraParam(\"" + nameParam + "\"," + javaToJS(value,true,clientDoc) + ");\n" );
             }

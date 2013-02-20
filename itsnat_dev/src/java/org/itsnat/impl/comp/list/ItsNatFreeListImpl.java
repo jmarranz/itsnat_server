@@ -228,7 +228,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
         removeInternalEventListenerJoystickMode(domListeners,index);
     }
 
-    public void removeInternalEventListenerJoystickMode(ArrayList domListeners,int index)
+    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,int index)
     {
         ItsNatListUI compUI = getItsNatListUI();
         Element contentElem = compUI.getContentElementAt(index);

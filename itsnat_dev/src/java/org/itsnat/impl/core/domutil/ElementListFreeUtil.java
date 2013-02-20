@@ -117,9 +117,8 @@ public class ElementListFreeUtil
 
     public static boolean addAll(ElementListFreeInternal list,Collection<? extends Element> c)
     {
-        for(Iterator<? extends Element> it = c.iterator(); it.hasNext(); )
+        for(Element elem : c)
         {
-            Element elem = it.next();
             list.addElement(elem);
         }
         return true;

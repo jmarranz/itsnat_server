@@ -66,11 +66,13 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
             return new ResponseAttachedClientLoadDocOtherNSImpl(request);
     }
 
+    @Override
     public RequestAttachedClient getRequestAttachedClient()
     {
         return (RequestAttachedClient)request;
     }
 
+    @Override
     public RequestAttachedClientLoadDocImpl getRequestAttachedClientLoadDoc()
     {
         return (RequestAttachedClientLoadDocImpl)request;
@@ -160,23 +162,21 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         if (itsNatDoc.hasBoundElementDocContainers())
         {
             ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
-            MapUniqueId bindInfoList = itsNatDoc.getBoundElementDocContainerMap();
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            MapUniqueId<BoundElementDocContainerImpl> bindInfoList = itsNatDoc.getBoundElementDocContainerMap();
+            for(Iterator<Map.Entry<String,BoundElementDocContainerImpl>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                BoundElementDocContainerImpl bindInfo =
-                        (BoundElementDocContainerImpl)entry.getValue();
+                Map.Entry<String,BoundElementDocContainerImpl> entry = it.next();
+                BoundElementDocContainerImpl bindInfo = entry.getValue();
 
                 bindInfo.setURLForClientAttached(clientDoc);
             }
 
             String docMarkup = super.serializeDocument();
 
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,BoundElementDocContainerImpl>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                BoundElementDocContainerImpl bindInfo =
-                        (BoundElementDocContainerImpl)entry.getValue();
+                Map.Entry<String,BoundElementDocContainerImpl> entry = it.next();
+                BoundElementDocContainerImpl bindInfo = entry.getValue();
 
                 bindInfo.restoreOriginalURL(clientDoc);
             }

@@ -153,7 +153,7 @@ public class ItsNatFreeListMultSelImpl extends ItsNatFreeListImpl implements Its
         getItsNatListMultSelShared().setListData(listData);
     }
 
-    public void	setListData(List listData)
+    public void	setListData(List<Object> listData)
     {
         getItsNatListMultSelShared().setListData(listData);
     }

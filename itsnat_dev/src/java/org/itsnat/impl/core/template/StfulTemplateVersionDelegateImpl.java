@@ -286,15 +286,13 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
             }
         }
 
-        for(Iterator<String> it = HTML_ELEMS_NOT_USE_CHILD_TEXT.iterator(); it.hasNext(); )
+        for(String localName : HTML_ELEMS_NOT_USE_CHILD_TEXT)
         {
-            String localName = it.next();
             removeUnusefulHTMLChildTextNodes(localName,doc);
         }
 
-        for(Iterator<String> it = HTML_ELEMS_NOT_VALID_CHILD_COMMENT.iterator(); it.hasNext(); )
+        for(String localName : HTML_ELEMS_NOT_VALID_CHILD_COMMENT)
         {
-            String localName = it.next();
             removeUnusefulHTMLChildComments(localName,doc);
         }
     }

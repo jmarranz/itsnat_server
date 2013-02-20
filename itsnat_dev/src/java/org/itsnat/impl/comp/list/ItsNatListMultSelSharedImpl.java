@@ -99,7 +99,7 @@ public class ItsNatListMultSelSharedImpl extends ItsNatListSharedImpl
         comp.setListModel(dataModel);
     }
 
-    public void setListData(final List listData)
+    public void setListData(final List<Object> listData)
     {
         // Similar a JList
         ItsNatListMultSelInternal comp = getItsNatListMultSel();

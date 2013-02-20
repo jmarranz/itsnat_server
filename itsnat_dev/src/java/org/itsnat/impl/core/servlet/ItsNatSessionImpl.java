@@ -21,7 +21,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.Map;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatException;
@@ -61,9 +60,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     protected transient UniqueId idObj; // No se serializa si no se serializa el contexto pues el generador de ids debe ser el mismo objeto que hay en ItsNatServletContextImpl
     protected final UniqueIdGenIntList idGenerator = new UniqueIdGenIntList(true);
     protected final MapUniqueId<ItsNatStfulDocumentImpl> docsById = new MapUniqueId<ItsNatStfulDocumentImpl>(idGenerator); // Los ItsNatDocument que son propiedad de esta sesión. Los ids han sido generados por esta sesión. Es auxiliar pues los ClientDocumentOwner de ownerClientsById ya sujetan los ItsNatDocument, sirve para buscar docs por Id
-    protected final MapUniqueId ownerClientsById = new MapUniqueId(idGenerator);
-    protected final MapUniqueId attachedClientsById = new MapUniqueId(idGenerator); // Sirve para retener los attachedClients para que no sean garbage collected hasta que la sesión se pierda. Los ids han sido generados por esta sesión
-    protected final MapUniqueId attachedServersById = new MapUniqueId(idGenerator); // Sirve para guardar provisionalmente datos durante la carga
+    protected final MapUniqueId<ClientDocumentStfulOwnerImpl> ownerClientsById = new MapUniqueId<ClientDocumentStfulOwnerImpl>(idGenerator);
+    protected final MapUniqueId<ClientDocumentAttachedClientImpl> attachedClientsById = new MapUniqueId<ClientDocumentAttachedClientImpl>(idGenerator); // Sirve para retener los attachedClients para que no sean garbage collected hasta que la sesión se pierda. Los ids han sido generados por esta sesión
+    protected final MapUniqueId<ClientDocumentAttachedServerImpl> attachedServersById = new MapUniqueId<ClientDocumentAttachedServerImpl>(idGenerator); // Sirve para guardar provisionalmente datos durante la carga
     protected Browser browser; // El de la primera request, en el ClientDocumentImpl puede cambiar pero nos sirve para los casos en donde no cambia
     protected Referrer referrer;
     protected String token;
@@ -331,10 +330,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentStfulOwnerImpl[] res = new ClientDocumentStfulOwnerImpl[size];
             int i = 0;
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = ownerClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentStfulOwnerImpl> entry : ownerClientsById.entrySet())
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                res[i] = (ClientDocumentStfulOwnerImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -345,7 +343,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(ownerClientsById)
         {
-            return (ClientDocumentStfulOwnerImpl)ownerClientsById.get(id);
+            return ownerClientsById.get(id);
         }
     }
 
@@ -357,7 +355,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         synchronized(ownerClientsById)
         {
-            clientRes = (ClientDocumentStfulOwnerImpl)ownerClientsById.put(clientDoc);
+            clientRes = ownerClientsById.put(clientDoc);
             docRes = docsById.put(itsNatDoc);
         }
 
@@ -428,7 +426,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(attachedClientsById)
         {
-            return (ClientDocumentAttachedClientImpl)attachedClientsById.get(id);
+            return attachedClientsById.get(id);
         }
     }
 
@@ -437,7 +435,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedClientImpl res;
         synchronized(attachedClientsById)
         {
-            res = (ClientDocumentAttachedClientImpl)attachedClientsById.put(clientDoc);
+            res = attachedClientsById.put(clientDoc);
         }
         if (res != null) throw new ItsNatException("INTERNAL ERROR"); // Asegura el registro una sola vez
     }
@@ -447,7 +445,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedClientImpl res;
         synchronized(attachedClientsById)
         {
-            res = (ClientDocumentAttachedClientImpl)attachedClientsById.remove(clientDoc);
+            res = attachedClientsById.remove(clientDoc);
         }
         return (res != null);  // Si true es que fue removido
     }
@@ -469,10 +467,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedClientImpl[] res = new ClientDocumentAttachedClientImpl[size];
             int i = 0;
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = attachedClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentAttachedClientImpl> entry : attachedClientsById.entrySet())
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                res[i] = (ClientDocumentAttachedClientImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -504,7 +501,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(attachedServersById)
         {
-            return (ClientDocumentAttachedServerImpl)attachedServersById.get(id);
+            return attachedServersById.get(id);
         }
     }
 
@@ -513,7 +510,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedServerImpl res;
         synchronized(attachedServersById)
         {
-            res = (ClientDocumentAttachedServerImpl)attachedServersById.put(clientDoc);
+            res = attachedServersById.put(clientDoc);
         }
         if (res != null) throw new ItsNatException("INTERNAL ERROR"); // Asegura el registro una sola vez
     }
@@ -523,7 +520,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedServerImpl res;
         synchronized(attachedServersById)
         {
-            res = (ClientDocumentAttachedServerImpl)attachedServersById.remove(clientDoc);
+            res = attachedServersById.remove(clientDoc);
         }
         return (res != null);  // Si true es que fue removido
     }
@@ -545,10 +542,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedServerImpl[] res = new ClientDocumentAttachedServerImpl[size];
             int i = 0;
-            for(Iterator<Map.Entry<String,HasUniqueId>> it = attachedServersById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentAttachedServerImpl> entry : attachedServersById.entrySet())
             {
-                Map.Entry<String,HasUniqueId> entry = it.next();
-                res[i] = (ClientDocumentAttachedServerImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;

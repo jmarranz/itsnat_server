@@ -17,15 +17,15 @@
 package org.itsnat.impl.core.doc;
 
 import java.io.Serializable;
+import java.util.Date;
+import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatTimer;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
-import java.util.Date;
-import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatTimerHandle;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -36,7 +36,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public class ItsNatTimerImpl implements ItsNatTimer,Serializable
 {
-    protected MapUniqueId listeners;
+    protected MapUniqueId<ItsNatTimerEventListenerWrapperImpl> listeners;
     protected ClientDocumentStfulImpl clientDoc;
     protected boolean canceled = false;
 
@@ -68,10 +68,10 @@ public class ItsNatTimerImpl implements ItsNatTimer,Serializable
         return clientDoc;
     }
 
-    public MapUniqueId getListeners()
+    public MapUniqueId<ItsNatTimerEventListenerWrapperImpl> getListeners()
     {
         if (listeners == null)
-            this.listeners = new MapUniqueId(clientDoc.getUniqueIdGenerator());
+            this.listeners = new MapUniqueId<ItsNatTimerEventListenerWrapperImpl>(clientDoc.getUniqueIdGenerator());
         return listeners;
     }
 
@@ -79,14 +79,14 @@ public class ItsNatTimerImpl implements ItsNatTimer,Serializable
     {
         if (canceled) return;
 
-        MapUniqueId listeners = getListeners();
+        MapUniqueId<ItsNatTimerEventListenerWrapperImpl> listeners = getListeners();
         if (!listeners.isEmpty())
         {
             // Convertimos en array porque al cancelar cada timer task se modifica el propio Map (un iterador daría error)
-            ItsNatTimerEventListenerWrapperImpl[] listenerArray = (ItsNatTimerEventListenerWrapperImpl[])listeners.values().toArray(new ItsNatTimerEventListenerWrapperImpl[listeners.size()]);
+            ItsNatTimerEventListenerWrapperImpl[] listenerArray = listeners.values().toArray(new ItsNatTimerEventListenerWrapperImpl[listeners.size()]);
             for(int i = 0; i < listenerArray.length; i++)
             {
-                ItsNatTimerEventListenerWrapperImpl listener = (ItsNatTimerEventListenerWrapperImpl)listenerArray[i];
+                ItsNatTimerEventListenerWrapperImpl listener = listenerArray[i];
                 listener.cancel(); // Automáticamente desregistra de este timer y en el documento. Si en este momento está ejecutándose el método TimerEventListener.handleTimerEvent(Event)  asegura que no se genera código JavaScript para enviar más
             }
             listeners.clear(); // No hace falta pero por si acaso
@@ -97,8 +97,8 @@ public class ItsNatTimerImpl implements ItsNatTimer,Serializable
 
     public ItsNatTimerEventListenerWrapperImpl getTimerEventListenerWrapper(String id)
     {
-        MapUniqueId listeners = getListeners();
-        return (ItsNatTimerEventListenerWrapperImpl)listeners.get(id);
+        MapUniqueId<ItsNatTimerEventListenerWrapperImpl> listeners = getListeners();
+        return listeners.get(id);
     }
 
     public void removeListener(ItsNatTimerEventListenerWrapperImpl listener)
@@ -116,14 +116,14 @@ public class ItsNatTimerImpl implements ItsNatTimer,Serializable
     public void addListenerLocal(ItsNatTimerEventListenerWrapperImpl listenerWrapper)
     {
         // Registro local
-        MapUniqueId listeners = getListeners();
+        MapUniqueId<ItsNatTimerEventListenerWrapperImpl> listeners = getListeners();
         listeners.put(listenerWrapper);
     }
 
     public void removeListenerLocal(ItsNatTimerEventListenerWrapperImpl listener)
     {
         // Desregistro local
-        MapUniqueId listeners = getListeners();
+        MapUniqueId<ItsNatTimerEventListenerWrapperImpl> listeners = getListeners();
         listeners.remove(listener);
     }
 

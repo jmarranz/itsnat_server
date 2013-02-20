@@ -40,18 +40,12 @@ import org.w3c.dom.html.HTMLInputElement;
  */
 public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLayerClientDocHTMLImpl
 {
-    protected Set htmlFormElements;
-
     public ItsNatModalLayerClientDocHTMLHideFormElemImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
     {
         super(comp,clientDoc);
     }
 
-    public Set getHTMLFormElementListBelow()
-    {
-        return htmlFormElements;
-    }
-
+    @Override
     public void initModalLayer()
     {
         // Ocultamos los HTML selects, input etc
@@ -60,6 +54,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         super.initModalLayer();
     }
 
+    @Override
     public void postRemoveLayer()
     {
         super.postRemoveLayer();
@@ -95,9 +90,9 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
             LinkedList<Node> elemList = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
             if (elemList != null)
             {
-                for(Iterator itElem = elemList.iterator(); itElem.hasNext(); )
+                for(Node node : elemList)
                 {
-                    Element elem = (Element)itElem.next();
+                    Element elem = (Element)node;
                     if ((types != null) && (elem instanceof HTMLInputElement))
                     {
                         boolean found = false;

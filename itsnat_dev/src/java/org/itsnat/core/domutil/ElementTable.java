@@ -159,7 +159,7 @@ public interface ElementTable extends ElementTableBase
      * @return the new row element.
      * @see #addRow(Object[])
      */
-    public Element addRow(List rowData);
+    public Element addRow(List<Object> rowData);
 
     /**
      * Inserts a new row element at the specified position using the row pattern.
@@ -194,7 +194,7 @@ public interface ElementTable extends ElementTableBase
      * @return the new row element.
      * @see #insertRowAt(int,Object[])
      */
-    public Element insertRowAt(int row,List rowData);
+    public Element insertRowAt(int row,List<Object> rowData);
 
     /**
      * Renders the specified values into the row with the given position
@@ -218,7 +218,7 @@ public interface ElementTable extends ElementTableBase
      * @param rowData the row values to render.
      * @see #setRowValuesAt(int,Object[])
      */
-    public void setRowValuesAt(int row,List rowData);
+    public void setRowValuesAt(int row,List<Object> rowData);
 
     /**
      * Returns the "content" element of the row, this element is the parent of the row cells
@@ -274,7 +274,7 @@ public interface ElementTable extends ElementTableBase
      * @return the new cell elements.
      * @see #addColumn(Object[])
      */
-    public Element[] addColumn(List columnData);
+    public Element[] addColumn(List<Object> columnData);
 
     /**
      * Inserts a new column at the specified position using the cell pattern.
@@ -311,7 +311,7 @@ public interface ElementTable extends ElementTableBase
      * @return the new cell elements.
      * @see #insertColumnAt(int,Object[])
      */
-    public Element[] insertColumnAt(int column,List columnData);
+    public Element[] insertColumnAt(int column,List<Object> columnData);
 
     /**
      * Renders the specified values into the column with the given position
@@ -335,7 +335,7 @@ public interface ElementTable extends ElementTableBase
      * @param columnData the column values to render.
      * @see #setColumnValuesAt(int,Object[])
      */
-    public void setColumnValuesAt(int column,List columnData);
+    public void setColumnValuesAt(int column,List<Object> columnData);
 
     /**
      * Returns the number of columns.
@@ -392,7 +392,7 @@ public interface ElementTable extends ElementTableBase
      * @param values the values to render.
      * @see #setTableValues(Object[][])
      */
-    public void setTableValues(List values);
+    public void setTableValues(List<List<Object>> values);
 
     /**
      * Informs whether the original (saved as pattern) markup is used to render.
