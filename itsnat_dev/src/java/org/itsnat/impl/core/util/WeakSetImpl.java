@@ -52,6 +52,7 @@ public class WeakSetImpl<K> implements Set<K>,Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
+        @SuppressWarnings("unchecked")
         Map<K,Object> mapTmp = (Map<K,Object>)in.readObject();
         if (mapTmp != null)
             getWeakHashMap().putAll(mapTmp);

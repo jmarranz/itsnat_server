@@ -59,6 +59,7 @@ public class ElementListFreeUtil
         return true; // Porque si no contiene el nodo se lanza una excepción
     }
  
+    @SuppressWarnings("unchecked")
     public static <T> T[] toArray(ElementListFreeInternal list,T[] a)        
     {
         Element[] elems = list.getElements();

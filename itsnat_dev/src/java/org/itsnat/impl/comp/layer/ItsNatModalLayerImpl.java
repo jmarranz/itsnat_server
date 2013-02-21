@@ -202,6 +202,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
     {
         if (!DOMUtilInternal.isChildOrSame(node,parentElem)) return;
 
+        @SuppressWarnings("unchecked")
         ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
         if (getUnexpectedEventListenerList(chain)) // Se ha añadido alguno
             EventListenerUtil.handleEventListeners(evt,chain);

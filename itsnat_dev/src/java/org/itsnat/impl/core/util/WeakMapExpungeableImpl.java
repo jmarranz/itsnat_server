@@ -70,6 +70,7 @@ public class WeakMapExpungeableImpl implements Serializable
         this.weakMap = new WeakHashMap<Object,KeyValuePair>();
         this.weakRefMap = new HashMap<WeakReference<Object>,KeyValuePair>();
 
+        @SuppressWarnings("unchecked")
         Map<Object,Object> mapTmp = (Map<Object,Object>)in.readObject();
         for(Map.Entry<Object,Object> entry : mapTmp.entrySet())
         {

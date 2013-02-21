@@ -109,6 +109,7 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else
         {
+            @SuppressWarnings("unchecked")
             List<Element> l = (List<Element>)o;
             for (Element e : l)
             {
@@ -141,6 +142,7 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else
         {
+            @SuppressWarnings("unchecked")
             List<Element> l = (List<Element>)o;
             for (Iterator<Element> li = l.iterator(); li.hasNext(); )
             {
@@ -188,6 +190,7 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else // List
         {
+            @SuppressWarnings("unchecked")
             List<Element> l = (List<Element>)o;
             l.add(e);
         }

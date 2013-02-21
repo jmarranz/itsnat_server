@@ -38,7 +38,7 @@ import org.w3c.dom.events.EventTarget;
 public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEventListenerWrapperImpl
 {
     protected EventListener listener;  // Sujeta el listener, puede ser nulo (caso de async task)
-    protected transient WeakReference currTargetWeakRef;  // EventTarget
+    protected transient WeakReference<EventTarget> currTargetWeakRef;  // EventTarget
     protected ParamTransport[] extraParams;
     protected String preSendCode;
     protected String bindToListener;
@@ -49,7 +49,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
         super(itsNatDoc,clientDoc,eventTimeout);
 
         checkClient(clientDoc,listener);
-        this.currTargetWeakRef = currTarget != null ? new WeakReference(currTarget) : null; // currTargetWeakRef puede ser null
+        this.currTargetWeakRef = currTarget != null ? new WeakReference<EventTarget>(currTarget) : null; // currTargetWeakRef puede ser null
         this.extraParams = extraParams;
         this.preSendCode = preSendCode;
         this.listener = listener;
@@ -60,7 +60,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
     {
         EventTarget currTarget = null;
         if (currTargetWeakRef != null)
-            currTarget = (EventTarget)currTargetWeakRef.get();
+            currTarget = currTargetWeakRef.get();
 
         out.writeObject(currTarget);
 
@@ -71,7 +71,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
     {
         EventTarget currTarget = (EventTarget)in.readObject();
         if (currTarget != null)
-            this.currTargetWeakRef = new WeakReference(currTarget);        
+            this.currTargetWeakRef = new WeakReference<EventTarget>(currTarget);        
 
         in.defaultReadObject();
     }
@@ -117,7 +117,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
         return ((target == null) && (getEventTargetWeakRef() != null));
     }
 
-    public WeakReference getEventTargetWeakRef()
+    public WeakReference<EventTarget> getEventTargetWeakRef()
     {
         // Si no es nulo es que guardó un nodo aunque lo hayamos perdido
         return currTargetWeakRef;
@@ -126,7 +126,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
     public EventTarget getCurrentTarget()
     {
         if (currTargetWeakRef == null) return null;
-        return (EventTarget)currTargetWeakRef.get(); // Es null si se ha perdido (GC)
+        return currTargetWeakRef.get(); // Es null si se ha perdido (GC)
     }
 
     public String getCodeToSendParamTransports()

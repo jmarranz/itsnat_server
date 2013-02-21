@@ -272,6 +272,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
                 }
                 else
                 {
+                    @SuppressWarnings("unchecked")
                     LinkedList<Node> nodeList = (LinkedList<Node>)content;
                     Iterator<Node> itChildNodes = nodeList.iterator();
                     DocumentFragment childNodesFragment = (DocumentFragment)itChildNodes.next(); // Sabemos que el primero es el DocumentFragment que se le dio al usuario
@@ -313,6 +314,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
                 }
                 else
                 {
+                    @SuppressWarnings("unchecked")
                     LinkedList<Node> nodeList = (LinkedList<Node>)content;
                     Iterator<Node> itChildNodes = nodeList.iterator();
                     DocumentFragment childNodesFragment = (DocumentFragment)itChildNodes.next(); // Sabemos que el primero es el DocumentFragment que se le dio al usuario

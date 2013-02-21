@@ -78,6 +78,7 @@ public class RemoteControlSupervision implements ItsNatAttachedClientEventListen
             {
                 ItsNatServletResponse response = event.getItsNatServletResponse();
                 ItsNatServlet servlet = response.getItsNatServlet();
+                @SuppressWarnings("unchecked")
                 Map<String,String[]> newParams = new HashMap<String,String[]>(servRequest.getParameterMap());
                 newParams.remove("itsnat_action"); // Removes: itsnat_action=attach_doc
                 newParams.put("itsnat_doc_name",new String[]{"feashow.ext.core.misc.remCtrlReqRejected"});
@@ -119,6 +120,7 @@ public class RemoteControlSupervision implements ItsNatAttachedClientEventListen
         {
             ItsNatServlet servlet = response.getItsNatServlet();
             ServletRequest servRequest = event.getItsNatServletRequest().getServletRequest();
+            @SuppressWarnings("unchecked")
             Map<String,String[]> newParams = new HashMap<String,String[]>(servRequest.getParameterMap());
             newParams.remove("itsnat_action"); // Removes: itsnat_action=attach_doc
             newParams.put("itsnat_doc_name",new String[]{"feashow.ext.core.misc.remCtrlDocNotFound"});

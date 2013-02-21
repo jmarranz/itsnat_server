@@ -60,6 +60,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
                 {
                     ClientItsNatNormalCometEventImpl cometEvt = (ClientItsNatNormalCometEventImpl)evt;
 
+                    @SuppressWarnings("unchecked")
                     ItsNatEventListenerChainImpl<EventListener> chain = cometEvt.getItsNatEventListenerChainImpl();
                     if (getEventListenerList(chain))
                         EventListenerUtil.handleEventListeners(cometEvt, chain);

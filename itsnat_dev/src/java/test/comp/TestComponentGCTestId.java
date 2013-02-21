@@ -58,6 +58,7 @@ public class TestComponentGCTestId extends TestBaseHTMLDocument implements Event
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
+        @SuppressWarnings("unchecked")
         Map<ItsNatFreeButtonNormal,Object> mapTmp = (Map<ItsNatFreeButtonNormal,Object>)in.readObject();
         this.weakMap = new WeakHashMap<ItsNatFreeButtonNormal,Object>(mapTmp);
 

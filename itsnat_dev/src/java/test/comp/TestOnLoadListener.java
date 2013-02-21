@@ -49,10 +49,11 @@ public class TestOnLoadListener extends TestBaseHTMLDocument implements EventLis
 
 
         ItsNatSession session = itsNatDoc.getClientDocumentOwner().getItsNatSession();
-        WeakReference docRef = (WeakReference)session.getUserValue(itsNatDoc.getItsNatDocumentTemplate().getName());
+        @SuppressWarnings("unchecked")
+        WeakReference<ItsNatDocument> docRef = (WeakReference<ItsNatDocument>)session.getUserValue(itsNatDoc.getItsNatDocumentTemplate().getName());
         if (docRef == null)
             return false;
-        ItsNatDocument itsNatDocReg = (ItsNatDocument)docRef.get();
+        ItsNatDocument itsNatDocReg = docRef.get();
         if (itsNatDocReg == null)
             return false;
         if (itsNatDocReg.isInvalid()) // Ha sido descargado aunque el garbage collector no se lo ha llevado todavía
@@ -63,7 +64,7 @@ public class TestOnLoadListener extends TestBaseHTMLDocument implements EventLis
     public static void registerToAvoidConcurrentLoad(ItsNatHTMLDocument itsNatDoc)
     {
         ItsNatSession session = itsNatDoc.getClientDocumentOwner().getItsNatSession();
-        session.setUserValue(itsNatDoc.getItsNatDocumentTemplate().getName(),new WeakReference(itsNatDoc));
+        session.setUserValue(itsNatDoc.getItsNatDocumentTemplate().getName(),new WeakReference<ItsNatHTMLDocument>(itsNatDoc));
     }
 
     public void handleEvent(Event evt)

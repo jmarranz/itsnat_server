@@ -71,12 +71,12 @@ public class NodePropertyTransportUtil extends SingleParamTransportUtil
         else
         {
             // Ej. si name es "data" => "setData"
-            Class type = prop.getType();
+            Class<?> type = prop.getType();
             String methodName = prop.getJavaSetMethodName();
-            Class nodeClass = elem.getClass();
+            Class<?> nodeClass = elem.getClass();
             try
             {
-                Method method = nodeClass.getMethod(methodName,new Class[]{type});
+                Method method = nodeClass.getMethod(methodName,new Class<?>[]{type});
                 Object valueArg = StringToObjectConverter.convert(value,type);
                 method.invoke(elem,new Object[]{valueArg});
             }

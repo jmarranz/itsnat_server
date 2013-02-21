@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 public class InnerMarkupCodeImpl
 {
     protected JSRenderElementImpl jsRender;
-    protected WeakReference parentNodeRef; // No usamos una referencia normal pues supondria sujetar nodos inútilmente, pues cuando es usada todavía forma parte del documento y está sujeta por referencias normales, si se pierde no pasa nada porque devuelva null, no se usa para renderizar sólo para añadir nuevos trozos (implica que sigue referenciado)
+    protected WeakReference<Element> parentNodeRef; // No usamos una referencia normal pues supondria sujetar nodos inútilmente, pues cuando es usada todavía forma parte del documento y está sujeta por referencias normales, si se pierde no pasa nada porque devuelva null, no se usa para renderizar sólo para añadir nuevos trozos (implica que sigue referenciado)
     protected String parentNodeJSLocator;
     protected boolean useNodeLocation;
     protected StringBuilder innerMarkup = new StringBuilder();
@@ -26,7 +26,7 @@ public class InnerMarkupCodeImpl
     public InnerMarkupCodeImpl(JSRenderElementImpl jsRender,Element parentNode,String parentNodeJSLocator,boolean useNodeLocation,String firstInnerMarkup)
     {
         this.jsRender = jsRender;
-        this.parentNodeRef = new WeakReference(parentNode);
+        this.parentNodeRef = new WeakReference<Element>(parentNode);
         this.parentNodeJSLocator = parentNodeJSLocator;
         this.useNodeLocation = useNodeLocation;        
         innerMarkup.append(firstInnerMarkup);
@@ -34,7 +34,7 @@ public class InnerMarkupCodeImpl
 
     public Element getParentNode()
     {
-        return (Element)parentNodeRef.get();
+        return parentNodeRef.get();
     }
 
     public String getParentNodeJSLocator()
@@ -57,6 +57,7 @@ public class InnerMarkupCodeImpl
         return innerMarkup.toString();
     }
 
+    @Override
     public String toString()
     {
         throw new ItsNatException("INTERNAL ERROR");

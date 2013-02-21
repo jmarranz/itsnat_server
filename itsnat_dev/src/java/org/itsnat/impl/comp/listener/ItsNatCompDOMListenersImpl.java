@@ -113,6 +113,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
             // No se ejecutarán los global listeners de nuevo pues ya se ejecutaron antes
             // de llegar aquí y es el mismo evento que viene del cliente.
 
+            @SuppressWarnings("unchecked")
             ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
             if (getUserDOMListeners(before).getItsNatDOMEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
                 EventListenerUtil.handleEventListeners(evt,chain);

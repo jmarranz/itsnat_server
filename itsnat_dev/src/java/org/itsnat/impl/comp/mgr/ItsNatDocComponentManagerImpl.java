@@ -200,6 +200,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
         {
+            @SuppressWarnings("unchecked")
             Map<String,ItsNatButtonGroupImpl> mapTmp = (Map<String,ItsNatButtonGroupImpl>)in.readObject();
             if (mapTmp != null)
             {
@@ -214,6 +215,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         }
         
         {
+            @SuppressWarnings("unchecked")
             Map<ButtonGroup,ItsNatButtonGroupImpl> mapTmp = (Map<ButtonGroup,ItsNatButtonGroupImpl>)in.readObject();
             if (mapTmp != null)
             {
@@ -228,6 +230,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         }
         
         {
+            @SuppressWarnings("unchecked")
             Map<ItsNatComponent,Object> mapTmp = (Map<ItsNatComponent,Object>)in.readObject();
             if (mapTmp != null)
                 getItsNatComponentWeakMap().putAll(mapTmp);

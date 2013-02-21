@@ -84,7 +84,7 @@ public class IFrameAutoBindingParent implements EventListener
             // Don't worry, our required method is there.
             try
             {
-                Method method = iframe.getClass().getMethod("getContentDocument",null);
+                Method method = iframe.getClass().getMethod("getContentDocument", (Class<?>[]) null);
                 iframeDoc = (Document)method.invoke(iframe,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }

@@ -60,6 +60,7 @@ public class ClientDocumentStfulMapImpl extends ClientDocumentMapImpl
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
+        @SuppressWarnings("unchecked")
         Map<ClientDocumentImpl,Object> mapTmp = (Map<ClientDocumentImpl,Object>)in.readObject();
         if (mapTmp != null)
             getClientDocumentAttachedClientMap().putAll(mapTmp);

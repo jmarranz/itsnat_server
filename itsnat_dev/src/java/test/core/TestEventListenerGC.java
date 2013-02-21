@@ -56,6 +56,7 @@ public class TestEventListenerGC implements EventListener,Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
+        @SuppressWarnings("unchecked")
         Map<EventListener,Object> mapTmp = (Map<EventListener,Object>)in.readObject();
         this.weakMap = new WeakHashMap<EventListener,Object>(mapTmp);
 
