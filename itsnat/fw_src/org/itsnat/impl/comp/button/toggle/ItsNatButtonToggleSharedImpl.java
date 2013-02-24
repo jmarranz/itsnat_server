@@ -16,8 +16,8 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import javax.swing.JToggleButton.ToggleButtonModel;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 
 /**
  *
@@ -39,6 +39,7 @@ public abstract class ItsNatButtonToggleSharedImpl extends ItsNatButtonSharedImp
         return (ItsNatButtonToggleInternal)comp;
     }
 
+    @Override
     public void syncUIWithDataModel()
     {
         super.syncUIWithDataModel();

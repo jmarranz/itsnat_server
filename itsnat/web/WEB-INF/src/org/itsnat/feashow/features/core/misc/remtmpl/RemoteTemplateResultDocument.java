@@ -19,6 +19,8 @@ import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.css.CSSStyleDeclaration;
+import org.w3c.dom.css.ElementCSSInlineStyle;
 import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLImageElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -40,7 +42,7 @@ public class RemoteTemplateResultDocument implements Serializable
     public void load()
     {
         Document doc = itsNatDoc.getDocument();
-
+       
         HTMLInputElement inputSearch = null;
         NodeList list = doc.getElementsByTagName("input");
         int len = list.getLength();

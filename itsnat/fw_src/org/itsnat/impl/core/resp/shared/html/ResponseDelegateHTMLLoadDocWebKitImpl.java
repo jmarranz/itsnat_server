@@ -18,9 +18,6 @@ package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitAndroid;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitBolt;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitS40;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
@@ -29,7 +26,7 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
  *
  * @author jmarranz
  */
-public abstract class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDelegateHTMLLoadDocW3CImpl
+public class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDelegateHTMLLoadDocW3CImpl
 {
     public ResponseDelegateHTMLLoadDocWebKitImpl(ResponseLoadStfulDocumentValid response)
     {
@@ -38,40 +35,9 @@ public abstract class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDele
 
     public static ResponseDelegateHTMLLoadDocWebKitImpl createResponseDelegateLoadHTMLDocWebKit(ResponseLoadStfulDocumentValid responseParent)
     {
-        BrowserWebKit browser = (BrowserWebKit)responseParent.getClientDocument().getBrowser();
-        if (browser instanceof BrowserWebKitAndroid)
-            return new ResponseDelegateHTMLLoadDocWebKitAndroidImpl(responseParent);
-        if (browser instanceof BrowserWebKitMoto)
-            return new ResponseDelegateHTMLLoadDocWebKitMotoImpl(responseParent);
-        if (browser instanceof BrowserWebKitBolt)
-            return new ResponseDelegateHTMLLoadDocWebKitBoltImpl(responseParent);
-        else
-            return new ResponseDelegateHTMLLoadDocWebKitDefaultImpl(responseParent);
+        return new ResponseDelegateHTMLLoadDocWebKitImpl(responseParent);
     }
 
-    public String serializeDocument()
-    {
-        BrowserWebKit browser = (BrowserWebKit)getClientDocumentStful().getBrowser();
-        if (browser.isFilteredCommentsInMarkup())
-        {
-            // Los comentarios son filtrados en la primera versión del S60WebKit (incluido en el S60 3rd Feature Pack 1), MotoWebKit
-            // y BlackBerry.
-            // Esto no ocurre en el S60WebKit FP 2 pero la solución adoptada en teoría funciona aunque no se filtren los comentarios
-            // Ver notas en ResponseNormalLoadHTMLDocBlackBerryImpl sobre la estrategia
-
-            ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl filter = new ResponseDelegateHTMLLoadDocFixFilteredCommentsImpl(this);
-
-            filter.preSerializeDocument();
-
-            String docMarkup = super.serializeDocument();
-
-            docMarkup = filter.postSerializeDocument(docMarkup);
-
-            return docMarkup;
-        }
-        else
-            return super.serializeDocument();
-    }
 
     public void dispatchRequestListeners()
     {
@@ -95,7 +61,7 @@ public abstract class ResponseDelegateHTMLLoadDocWebKitImpl extends ResponseDele
         if (!clientDoc.isScriptingEnabled())
             return;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var func = function (evt)");
         code.append("{");

@@ -19,12 +19,10 @@ package org.itsnat.impl.core.jsren.dom.event.domstd.w3c;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.event.ItsNatKeyEvent;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserNetFront;
 import org.itsnat.impl.core.browser.BrowserW3C;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.event.HTMLEventInternal;
 import org.itsnat.impl.core.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
@@ -54,10 +52,8 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
     public static JSRenderW3CEventImpl getJSW3CEventRender(ItsNatDOMStdEvent event,BrowserW3C browser)
     {
         // Primero procesamos los navegadores cuyo soporte de W3C DOM Events es muy pobre
-        if (browser instanceof BrowserNetFront)
-            return JSRenderW3CNetFrontEventImpl.getJSRenderW3CNetFrontEvent(event); // Lo poco que tiene del estándar NetFront no sirve de gran cosa
-        else if (browser instanceof BrowserASVRenesis)
-            return JSRenderW3CASVRenesisEventImpl.getJSRenderW3CASVRenesisEvent(event);
+        if (browser instanceof BrowserAdobeSVG)
+            return JSRenderW3CAdobeSVGEventImpl.getJSRenderW3CAdobeSVGEvent(event);
 
         // Ahora los navegadores con mayor soporte de W3C DOM Events clasificados por tipo de evento
         if (event instanceof MouseEvent)
@@ -86,22 +82,13 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
 
     public String getStopPropagation(String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
-        Browser browser = clientDoc.getBrowser();
-        if (browser instanceof BrowserWebKitMoto)
-            code.append( evtVarName + ".itsnat_stopPropagation = true;\n" );
-
+        StringBuilder code = new StringBuilder();
         code.append( evtVarName + ".stopPropagation();\n" );
         return code.toString();
     }
 
     public String getPreventDefault(String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        // En el caso de MotoWebKit no es necesario definir
-        // itsnat_preventDefault porque los navegadores WebKit definen
-        // la propiedad booleana returnValue que equivale a saber si se ha llamado
-        // al preventDefault() (valor false) en este caso.
-
         return evtVarName + ".preventDefault();\n";
     }
 

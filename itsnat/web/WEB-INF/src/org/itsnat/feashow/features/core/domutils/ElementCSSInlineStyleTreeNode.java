@@ -59,7 +59,7 @@ public class ElementCSSInlineStyleTreeNode extends FeatureTreeNode implements Ev
         Element currTarget = (Element)evt.getCurrentTarget();
 
         ElementCSSInlineStyle styleElem = (ElementCSSInlineStyle)currTarget;
-        CSSStyleDeclaration cssDec = (CSSStyleDeclaration)styleElem.getStyle();
+        CSSStyleDeclaration cssDec = styleElem.getStyle();
 
         CSSValueList border = (CSSValueList)cssDec.getPropertyCSSValue("border");
         int len = border.getLength();

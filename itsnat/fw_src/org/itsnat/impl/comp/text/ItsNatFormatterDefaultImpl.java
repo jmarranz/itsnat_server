@@ -32,7 +32,7 @@ public class ItsNatFormatterDefaultImpl implements ItsNatFormattedTextField.ItsN
     {
     }
 
-    public Class getValueClass(ItsNatFormattedTextField comp)
+    public Class<?> getValueClass(ItsNatFormattedTextField comp)
     {
         // Devuelve la clase del valor actual
         Object value = comp.getValue();
@@ -44,15 +44,15 @@ public class ItsNatFormatterDefaultImpl implements ItsNatFormattedTextField.ItsN
 
     public Object stringToValue(String str,ItsNatFormattedTextField comp) throws ParseException
     {
-        Class vc = getValueClass(comp);
+        Class<?> vc = getValueClass(comp);
 
         if (vc != null)
         {
-            Constructor cons;
+            Constructor<?> cons;
 
             try
             {
-                cons = vc.getConstructor(new Class[] { String.class });
+                cons = vc.getConstructor(new Class<?>[] { String.class });
             }
             catch (NoSuchMethodException nsme)
             {

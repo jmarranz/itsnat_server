@@ -19,6 +19,7 @@ package org.itsnat.impl.comp.listener;
 import java.util.Map;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.w3c.dom.Element;
+import org.w3c.dom.events.EventListener;
 
 /**
  *
@@ -30,7 +31,7 @@ public interface ItsNatCompDOMListenersJoystick
 
     public boolean hasEnabledDOMEvents();
 
-    public Map getLoadScheduledMap();
+    public Map<String,EventListener> getLoadScheduledMap();
 
     public JoystickModeComponent getJoystickModeComponent();
 

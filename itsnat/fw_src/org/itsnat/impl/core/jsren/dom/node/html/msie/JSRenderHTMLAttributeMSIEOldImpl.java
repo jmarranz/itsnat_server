@@ -19,7 +19,6 @@ package org.itsnat.impl.core.jsren.dom.node.html.msie;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
@@ -31,9 +30,10 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
+public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
 {
-
+    public static final JSRenderHTMLAttributeMSIEOldImpl SINGLETON = new JSRenderHTMLAttributeMSIEOldImpl();
+    
     // Algunos atributos tal y como "cellSpacing" o "cellPadding" o "rowSpan" o "colSpan" si no se ponen
     // con la letra de en medio en mayúscula en el setAttribute() son ignorados en el MSIE
     // es decir considera que son atributos desconocidos, el nombre ha de coincidir
@@ -42,7 +42,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
     // http://msdn2.microsoft.com/en-us/library/ms533055.aspx Lista de Propiedades
 
     // No es necesario sincronizar esta colección porque va a ser sólo leída
-    public static final Map attributes = new HashMap();
+    public static final Map<String,String> attributes = new HashMap<String,String>();
 
     static
     {
@@ -88,10 +88,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
 
     public static JSRenderHTMLAttributeMSIEOldImpl getJSRenderHTMLAttributeMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLAttributeMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLAttributeMSIE6Impl.SINGLETON;
+        return JSRenderHTMLAttributeMSIEOldImpl.SINGLETON;
     }
 
     private static void addAttribute(String attrName)
@@ -103,7 +100,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
     protected String getAttributeName(String attrName)
     {
         String key = attrName.toLowerCase();
-        String newAttrName = (String)attributes.get(key);  // Devuelve el que debe ponerse
+        String newAttrName = attributes.get(key);  // Devuelve el que debe ponerse
         if (newAttrName != null)
             return newAttrName;
         else
@@ -126,6 +123,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
         return attName.equals("style");
     }
 
+    @Override
     protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))
@@ -148,6 +146,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
         }
     }
 
+    @Override
     public String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))
@@ -168,6 +167,7 @@ public abstract class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttri
         }
     }
 
+    @Override
     protected String removeAttributeCode(Attr attr,String attrName,Element elem,ClientDocumentStfulImpl clientDoc)
     {
         if (isStyleAttr(attrName))

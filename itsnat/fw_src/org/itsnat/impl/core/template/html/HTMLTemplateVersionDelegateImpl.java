@@ -26,6 +26,7 @@ import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLHeadElement;
 import org.w3c.dom.html.HTMLMetaElement;
@@ -56,7 +57,7 @@ public class HTMLTemplateVersionDelegateImpl extends StfulTemplateVersionDelegat
     {
         // Este problema sólo se da en documentos HTML
 
-        LinkedList styles = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"style",true);
+        LinkedList<Node> styles = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"style",true);
         if (styles != null)
         {
             /* Este chequeo es muy conveniente porque el parser de FireFox (v2 al menos)
@@ -65,7 +66,7 @@ public class HTMLTemplateVersionDelegateImpl extends StfulTemplateVersionDelegat
              * Por ello lo hacemos nosotros antes.
              */
             HTMLHeadElement head = DOMUtilHTML.getHTMLHead(doc);
-            for(Iterator it = styles.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = styles.iterator(); it.hasNext(); )
             {
                 HTMLStyleElement style = (HTMLStyleElement)it.next();
                 if (style.getParentNode() != head)

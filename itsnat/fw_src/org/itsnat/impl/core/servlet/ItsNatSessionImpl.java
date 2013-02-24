@@ -16,28 +16,27 @@
 
 package org.itsnat.impl.core.servlet;
 
-import org.itsnat.impl.core.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import java.util.Comparator;
-import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.ItsNatServletContext;
-import org.itsnat.core.ItsNatSession;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import java.util.Iterator;
 import java.util.Map;
+import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.ItsNatSession;
 import org.itsnat.core.ItsNatVariableResolver;
+import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
@@ -51,19 +50,24 @@ import org.itsnat.impl.core.util.UniqueIdGenIntList;
 public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                         implements ItsNatSession,HasUniqueId
 {
+    public static final Comparator<ClientDocumentStfulOwnerImpl> COMPARATOR_STFUL_OWNER = new LastRequestComparator<ClientDocumentStfulOwnerImpl>();    
+    public static final Comparator<ClientDocumentAttachedClientImpl> COMPARATOR_ATTACHED_CLIENTS = new LastRequestComparator<ClientDocumentAttachedClientImpl>();
+    public static final Comparator<ClientDocumentAttachedServerImpl> COMPARATOR_ATTACHED_SERVERS = new LastRequestComparator<ClientDocumentAttachedServerImpl>();    
+        
+    
     protected transient ItsNatSessionSerializeContainerImpl serialContainer;
     protected transient ItsNatServletContextImpl context; // No serializamos la instancia pero sí serializaremos el Necesita serializarse porque el generador de ids debe estar en todas las JVMs
     protected transient UniqueId idObj; // No se serializa si no se serializa el contexto pues el generador de ids debe ser el mismo objeto que hay en ItsNatServletContextImpl
     protected final UniqueIdGenIntList idGenerator = new UniqueIdGenIntList(true);
-    protected final MapUniqueId docsById = new MapUniqueId(idGenerator); // Los ItsNatDocument que son propiedad de esta sesión. Los ids han sido generados por esta sesión. Es auxiliar pues los ClientDocumentOwner de ownerClientsById ya sujetan los ItsNatDocument, sirve para buscar docs por Id
-    protected final MapUniqueId ownerClientsById = new MapUniqueId(idGenerator);
-    protected final MapUniqueId attachedClientsById = new MapUniqueId(idGenerator); // Sirve para retener los attachedClients para que no sean garbage collected hasta que la sesión se pierda. Los ids han sido generados por esta sesión
-    protected final MapUniqueId attachedServersById = new MapUniqueId(idGenerator); // Sirve para guardar provisionalmente datos durante la carga
+    protected final MapUniqueId<ItsNatStfulDocumentImpl> docsById = new MapUniqueId<ItsNatStfulDocumentImpl>(idGenerator); // Los ItsNatDocument que son propiedad de esta sesión. Los ids han sido generados por esta sesión. Es auxiliar pues los ClientDocumentOwner de ownerClientsById ya sujetan los ItsNatDocument, sirve para buscar docs por Id
+    protected final MapUniqueId<ClientDocumentStfulOwnerImpl> ownerClientsById = new MapUniqueId<ClientDocumentStfulOwnerImpl>(idGenerator);
+    protected final MapUniqueId<ClientDocumentAttachedClientImpl> attachedClientsById = new MapUniqueId<ClientDocumentAttachedClientImpl>(idGenerator); // Sirve para retener los attachedClients para que no sean garbage collected hasta que la sesión se pierda. Los ids han sido generados por esta sesión
+    protected final MapUniqueId<ClientDocumentAttachedServerImpl> attachedServersById = new MapUniqueId<ClientDocumentAttachedServerImpl>(idGenerator); // Sirve para guardar provisionalmente datos durante la carga
     protected Browser browser; // El de la primera request, en el ClientDocumentImpl puede cambiar pero nos sirve para los casos en donde no cambia
     protected Referrer referrer;
     protected String token;
     protected transient DeserialPendingTask sessionDeserialPendingTask;
-    protected transient MapListImpl deserialPending;
+    protected transient MapListImpl<String,DeserialPendingTask> deserialPending;
 
     /** Creates a new instance of ItsNatSessionImpl */
     public ItsNatSessionImpl(ItsNatServletContextImpl context,Browser browser)
@@ -117,9 +121,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         return !deserialPending.isEmpty();
     }
 
-    public MapListImpl getDeserialPendingTasks()
+    public MapListImpl<String,DeserialPendingTask> getDeserialPendingTasks()
     {
-        if (deserialPending == null) this.deserialPending = new MapListImpl();
+        if (deserialPending == null) this.deserialPending = new MapListImpl<String,DeserialPendingTask>();
         return deserialPending;
     }
 
@@ -134,24 +138,6 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         deserialPending.clear();
         this.deserialPending = null; // Para ahorrar memoria
     }
-
-/*
-    public LinkedList getDeserialPendingTasks(String servletName)
-    {
-        if (deserialPending == null) return null;
-        return deserialPending.get(servletName);
-    }
-
-    public void clearDeserialPendingTasks(String servletName)
-    {
-        if (deserialPending == null) return;
-
-        deserialPending.remove(servletName);
-
-        if (deserialPending.isEmpty())
-            this.deserialPending = null; // Para ahorrar memoria
-    }
-*/
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
@@ -344,10 +330,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentStfulOwnerImpl[] res = new ClientDocumentStfulOwnerImpl[size];
             int i = 0;
-            for(Iterator it = ownerClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentStfulOwnerImpl> entry : ownerClientsById.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                res[i] = (ClientDocumentStfulOwnerImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -358,7 +343,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(ownerClientsById)
         {
-            return (ClientDocumentStfulOwnerImpl)ownerClientsById.get(id);
+            return ownerClientsById.get(id);
         }
     }
 
@@ -370,8 +355,8 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         synchronized(ownerClientsById)
         {
-            clientRes = (ClientDocumentStfulOwnerImpl)ownerClientsById.put(clientDoc);
-            docRes = (ItsNatStfulDocumentImpl)docsById.put(itsNatDoc);
+            clientRes = ownerClientsById.put(clientDoc);
+            docRes = docsById.put(itsNatDoc);
         }
 
         if (clientRes != null) throw new ItsNatException("INTERNAL ERROR");
@@ -410,10 +395,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         {
             ItsNatStfulDocumentImpl[] res = new ItsNatStfulDocumentImpl[docsById.size()];
             int i = 0;
-            for(Iterator it = docsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ItsNatStfulDocumentImpl> entry : docsById.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                res[i] = (ItsNatStfulDocumentImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -429,7 +413,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(ownerClientsById) // docsById está subyugada y sincronizada a ownerClientsById
         {
-            return (ItsNatStfulDocumentImpl)docsById.get(id);
+            return docsById.get(id);
         }
     }
 
@@ -442,7 +426,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(attachedClientsById)
         {
-            return (ClientDocumentAttachedClientImpl)attachedClientsById.get(id);
+            return attachedClientsById.get(id);
         }
     }
 
@@ -451,7 +435,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedClientImpl res;
         synchronized(attachedClientsById)
         {
-            res = (ClientDocumentAttachedClientImpl)attachedClientsById.put(clientDoc);
+            res = attachedClientsById.put(clientDoc);
         }
         if (res != null) throw new ItsNatException("INTERNAL ERROR"); // Asegura el registro una sola vez
     }
@@ -461,7 +445,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedClientImpl res;
         synchronized(attachedClientsById)
         {
-            res = (ClientDocumentAttachedClientImpl)attachedClientsById.remove(clientDoc);
+            res = attachedClientsById.remove(clientDoc);
         }
         return (res != null);  // Si true es que fue removido
     }
@@ -483,10 +467,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedClientImpl[] res = new ClientDocumentAttachedClientImpl[size];
             int i = 0;
-            for(Iterator it = attachedClientsById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentAttachedClientImpl> entry : attachedClientsById.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                res[i] = (ClientDocumentAttachedClientImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -518,7 +501,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
     {
         synchronized(attachedServersById)
         {
-            return (ClientDocumentAttachedServerImpl)attachedServersById.get(id);
+            return attachedServersById.get(id);
         }
     }
 
@@ -527,7 +510,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedServerImpl res;
         synchronized(attachedServersById)
         {
-            res = (ClientDocumentAttachedServerImpl)attachedServersById.put(clientDoc);
+            res = attachedServersById.put(clientDoc);
         }
         if (res != null) throw new ItsNatException("INTERNAL ERROR"); // Asegura el registro una sola vez
     }
@@ -537,7 +520,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
         ClientDocumentAttachedServerImpl res;
         synchronized(attachedServersById)
         {
-            res = (ClientDocumentAttachedServerImpl)attachedServersById.remove(clientDoc);
+            res = attachedServersById.remove(clientDoc);
         }
         return (res != null);  // Si true es que fue removido
     }
@@ -559,10 +542,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
             ClientDocumentAttachedServerImpl[] res = new ClientDocumentAttachedServerImpl[size];
             int i = 0;
-            for(Iterator it = attachedServersById.entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,ClientDocumentAttachedServerImpl> entry : attachedServersById.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                res[i] = (ClientDocumentAttachedServerImpl)entry.getValue();
+                res[i] = entry.getValue();
                 i++;
             }
             return res;
@@ -765,7 +747,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                 int excess = clients.length - maxLiveDocs;
 
                 // Invalidamos los que llevan más tiempo sin usar
-                Arrays.sort(clients,LastRequestComparator.SINGLETON);
+                Arrays.sort(clients,COMPARATOR_STFUL_OWNER);
                 for(int i = 0; i < excess; i++)
                 {
                     ClientDocumentStfulOwnerImpl clientDoc = clients[i];
@@ -794,7 +776,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
             int excess = clientList.length - maxClientAttachedNum;
 
             // Invalidamos los que llevan más tiempo sin usar
-            Arrays.sort(clientList,LastRequestComparator.SINGLETON);
+            Arrays.sort(clientList,COMPARATOR_ATTACHED_CLIENTS);
             for(int i = 0; i < excess; i++)
             {
                 ClientDocumentAttachedClientImpl clientDoc = clientList[i];
@@ -827,7 +809,7 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
                 int excess = clientList.length - maxLiveDocs;
 
                 // Invalidamos los que llevan más tiempo sin usar
-                Arrays.sort(clientList,LastRequestComparator.SINGLETON);
+                Arrays.sort(clientList,COMPARATOR_ATTACHED_SERVERS);
                 for(int i = 0; i < excess; i++)
                 {
                     ClientDocumentAttachedServerImpl clientDoc = clientList[i];
@@ -840,11 +822,9 @@ public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
 
 }
 
-class LastRequestComparator implements Comparator
+class LastRequestComparator<T> implements Comparator<T>
 {
-    public static final Comparator SINGLETON = new LastRequestComparator();
-
-    public int compare(Object o1, Object o2)
+    public int compare(T o1, T o2)
     {
         ClientDocumentImpl clientDoc1 = (ClientDocumentImpl)o1;
         ClientDocumentImpl clientDoc2 = (ClientDocumentImpl)o2;

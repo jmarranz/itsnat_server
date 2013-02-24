@@ -101,7 +101,7 @@ public class ItsNatHTMLDocumentTemplateVersionImpl extends ItsNatStfulDocumentTe
         String encoding = getEncoding();
         boolean isxhtml = isMIME_XHTML();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( "<html" );
         if (isxhtml)
             code.append(" xmlns=\"" + NamespaceUtil.XHTML_NAMESPACE + "\"");

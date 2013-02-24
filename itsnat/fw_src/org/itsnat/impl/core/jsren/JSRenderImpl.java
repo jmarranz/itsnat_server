@@ -75,7 +75,7 @@ public abstract class JSRenderImpl
 
     public static String toTransportableStringLiteral(String text,boolean addQuotation,Browser browser)
     {
-        StringBuffer encoded = new StringBuffer(text);
+        StringBuilder encoded = new StringBuilder(text);
         for (int i = 0; i < encoded.length(); i++)
         {
             char c = encoded.charAt(i);
@@ -180,7 +180,7 @@ public abstract class JSRenderImpl
             throw new ItsNatException(ex);
         }
 
-        StringBuffer textBuff = new StringBuffer(text);
+        StringBuilder textBuff = new StringBuilder(text);
         for(int i = 0; i < textBuff.length(); i++)
         {
             char c = textBuff.charAt(i);
@@ -252,7 +252,7 @@ public abstract class JSRenderImpl
 
     public static String getSetPropertyCode(Object object,String propertyName,Object value,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( javaToJS(object,cacheIfPossible,clientDoc) + "." + propertyName + "=" + javaToJS(value,cacheIfPossible,clientDoc) );
         if (endSentence)
             code.append( ";" );
@@ -261,7 +261,7 @@ public abstract class JSRenderImpl
 
     public static String getGetPropertyCode(Object object,String propertyName,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( javaToJS(object,cacheIfPossible,clientDoc) + "." + propertyName );
         if (endSentence)
             code.append( ";" );

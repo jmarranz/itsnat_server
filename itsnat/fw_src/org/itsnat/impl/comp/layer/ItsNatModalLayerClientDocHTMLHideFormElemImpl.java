@@ -23,34 +23,29 @@ import java.util.Set;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
  * Caso por ejemplo de MSIE v6, la versión 7 ya soluciona el problema de los HTML Select y el z-index.
  * http://blogs.msdn.com/ie/archive/2006/01/17/514076.aspx
  *
- * SkyFire (0.85 al menos), Android (v1.0 r2), Opera Mobile 8.6x etc tienen también este problema
+ * Android (v1.0 r2) etc tienen también este problema
  *
  * @author jmarranz
  */
 public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLayerClientDocHTMLImpl
 {
-    protected Set htmlFormElements;
-
     public ItsNatModalLayerClientDocHTMLHideFormElemImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
     {
         super(comp,clientDoc);
     }
 
-    public Set getHTMLFormElementListBelow()
-    {
-        return htmlFormElements;
-    }
-
+    @Override
     public void initModalLayer()
     {
         // Ocultamos los HTML selects, input etc
@@ -59,6 +54,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         super.initModalLayer();
     }
 
+    @Override
     public void postRemoveLayer()
     {
         super.postRemoveLayer();
@@ -76,28 +72,27 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         int zIndex1 = prevComp != null? prevComp.getZIndex() : Integer.MIN_VALUE; // El z-index puede ser negativo
         int zIndex2 = parentComp.getZIndex();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = "modalLayerShowHTMLFormCtrls";
         if (!clientDoc.isClientMethodBounded(methodName))
             code.append(bindModalLayerShowFormCtrlsMethod(methodName,clientDoc));
 
         Browser browser = clientDoc.getBrowser();
-        Map localNames = browser.getHTMLFormControlsIgnoreZIndex();
+        Map<String,String[]> localNames = browser.getHTMLFormControlsIgnoreZIndex();
         Document doc = clientDoc.getItsNatStfulDocument().getDocument();
 
-        for(Iterator it = localNames.entrySet().iterator(); it.hasNext(); )
+        for(Map.Entry<String,String[]> entry : localNames.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            String localName = (String)entry.getKey();
-            String[] types = (String[])entry.getValue();
+            String localName = entry.getKey();
+            String[] types = entry.getValue();
 
-            LinkedList elemList = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
+            LinkedList<Node> elemList = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,localName,true);
             if (elemList != null)
             {
-                for(Iterator itElem = elemList.iterator(); itElem.hasNext(); )
+                for(Node node : elemList)
                 {
-                    Element elem = (Element)itElem.next();
+                    Element elem = (Element)node;
                     if ((types != null) && (elem instanceof HTMLInputElement))
                     {
                         boolean found = false;
@@ -121,7 +116,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         Browser browser = clientDoc.getBrowser();
         JSRenderHTMLElementImpl render = JSRenderHTMLElementImpl.getJSRenderHTMLElement(browser);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // Necesitamos enviar antes los métodos usados luego dentro de la función
         code.append( render.bindBackupAndSetStylePropertyMethod(clientDoc) );
@@ -144,7 +139,6 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         code.append( "  }" );
         code.append( "  if ((zIndexMax < zIndex1)||(zIndexMax >= zIndex2)) return;" ); // zIndexMax debe estar en el conjunto [zIndex1,zIndex2)
 
-        // Como no pasa por aquí IE Pocket (no tiene z-index) no hay problema con añadir una propiedad a style
         code.append( "  if (show)"); // Si el elemento no fue oculto no pasa nada, el código de restauración del backup detecta que no hay backup de la propiedad
         code.append( "  {" );
         code.append( "    " + render.getRestoreBackupStyleProperty("elem","visibility",clientDoc) );

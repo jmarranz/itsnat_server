@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.factory.table;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.table.ItsNatHTMLTable;
 import org.itsnat.comp.table.ItsNatTableStructure;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.comp.table.ItsNatHTMLTableImpl;
 import org.w3c.dom.html.HTMLElement;

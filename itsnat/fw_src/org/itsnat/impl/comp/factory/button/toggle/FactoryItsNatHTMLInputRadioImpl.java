@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.factory.button.toggle;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputRadio;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.toggle.ItsNatHTMLInputRadioImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;

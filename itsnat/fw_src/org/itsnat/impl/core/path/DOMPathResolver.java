@@ -235,7 +235,7 @@ public abstract class DOMPathResolver implements Serializable
 
     private static String getStringPathFromArray(String[] path)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(int i = 0; i < path.length; i++)
         {
             if (i != 0)

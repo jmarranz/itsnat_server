@@ -95,7 +95,7 @@ public abstract class ResponseAttachedServerLoadDocImpl extends ResponseAttached
 
         String resultMarkup = servResWrapper.getString(delegRequest.getResponse().getEncoding());
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("itsnat.clean();\n");
         code.append("try{ delete window.itsnat; }catch(ex){}\n"); // Ya ha cumplido su función
 

@@ -16,25 +16,25 @@
 
 package org.itsnat.impl.core;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletContextImpl;
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import org.itsnat.core.ItsNatVariableResolver;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.servlet.ItsNatServletContextImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.w3c.dom.Attr;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.CharacterData;
 
 /**
  *
@@ -47,7 +47,7 @@ public class ItsNatVariableResolverImpl implements ItsNatVariableResolver
     protected ItsNatDocumentImpl itsNatDoc;
     protected ItsNatSessionImpl session;
     protected ItsNatServletContextImpl context;
-    protected Map localAttribs = new HashMap();
+    protected Map<String,Object> localAttribs = new HashMap<String,Object>();
 
     /**
      * Creates a new instance of ItsNatVariableResolverImpl
@@ -88,9 +88,7 @@ public class ItsNatVariableResolverImpl implements ItsNatVariableResolver
         if ((refName != null) && !refName.equals(""))
             prefix = refName + ".";
 
-        // Podríamos usar la clase Instrospector pero "nos sobra" funcionalidad.
-        // mejor a mano.
-        Class clasz = obj.getClass();
+        Class<?> clasz = obj.getClass();
         BeanInfo beanInfo;
         try
         {
@@ -160,7 +158,7 @@ public class ItsNatVariableResolverImpl implements ItsNatVariableResolver
 
         boolean resolvedSomeVar = false;
 
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         int pos = 0;
         do
         {

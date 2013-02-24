@@ -17,15 +17,16 @@
 package org.itsnat.impl.core.jsren.dom.node.otherns;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderOtherNSElementMSIEOldImpl extends JSRenderOtherNSElementNativeImpl
+public class JSRenderOtherNSElementMSIEOldImpl extends JSRenderOtherNSElementNativeImpl
 {
+    public static final JSRenderOtherNSElementMSIEOldImpl SINGLETON = new JSRenderOtherNSElementMSIEOldImpl();
+    
     /**
      * Creates a new instance of JSRenderOtherNSElementW3CImpl
      */
@@ -35,10 +36,7 @@ public abstract class JSRenderOtherNSElementMSIEOldImpl extends JSRenderOtherNSE
 
     protected static JSRenderOtherNSElementMSIEOldImpl getJSRenderOtherNSElementMSIEOld(Browser browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderOtherNSElementMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderOtherNSElementMSIE6Impl.SINGLETON;
+        return JSRenderOtherNSElementMSIEOldImpl.SINGLETON;
     }
 
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulImpl clientDoc)

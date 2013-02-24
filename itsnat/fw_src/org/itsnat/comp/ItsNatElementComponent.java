@@ -16,7 +16,6 @@
 
 package org.itsnat.comp;
 
-import org.itsnat.comp.ItsNatElementComponentUI;
 import org.w3c.dom.Element;
 
 /**

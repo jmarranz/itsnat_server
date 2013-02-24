@@ -17,7 +17,6 @@
 package org.itsnat.comp.button.toggle;
 
 import org.itsnat.comp.button.ItsNatButtonLabel;
-import org.itsnat.comp.*;
 
 /**
  * Is the interface of the default implementation of free check boxes.

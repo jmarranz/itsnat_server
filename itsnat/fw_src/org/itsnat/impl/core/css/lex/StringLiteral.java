@@ -29,10 +29,10 @@ public abstract class StringLiteral extends Token
     /**
      * Creates a new instance of StringLiteral
      */
-    public StringLiteral(String code,Cursor cursor)
+    public StringLiteral(Cursor cursor)
     {
-        super(cursor.getPos());
-        parse(code,cursor);
+        super(cursor.getCurrentPos());
+        parse(cursor);
     }
 
     public String toString()
@@ -43,26 +43,26 @@ public abstract class StringLiteral extends Token
 
     public abstract char getDelimiterChar();
 
-    public void parse(String code,Cursor cursor)
+    public void parse(Cursor cursor)
     {
         // cursor apunta a la primera comilla
         // Faltaría procesar los escapes \ incluidos los \" y \'
-        StringBuffer valueTmp = new StringBuffer();
-        int i = cursor.inc();
+        StringBuilder valueTmp = new StringBuilder();
+        cursor.inc();
         char endChar = getDelimiterChar();
-        while((i < code.length()) &&
-              (endChar != code.charAt(i)))
+        while(cursor.isValidPosition() &&
+              (endChar != cursor.getCurrentChar()))
         {
-            valueTmp.append( code.charAt(i) );
-            i = cursor.inc();
+            valueTmp.append( cursor.getCurrentChar() );
+            cursor.inc();
         }
 
         this.value = valueTmp.toString();
 
-        int end = cursor.getPos();
-        if (end >= code.length())
-            throw new ItsNatException("Missing matching " + endChar + " start pos: " + start + " code: \"" + code + "\"");
+        if (cursor.isInTheEnd())
+            throw new ItsNatException("Missing matching " + endChar + " start pos: " + start + " code: \"" + cursor.getCode() + "\"");
 
+        int end = cursor.getCurrentPos();
         this.end = end; // apunta a la comilla finalizadora
     }
 }

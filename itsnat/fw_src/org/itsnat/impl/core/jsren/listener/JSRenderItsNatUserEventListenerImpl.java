@@ -45,7 +45,7 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String functionVarName = addCustomCodeFunction(itsNatListener,code);
 
@@ -61,7 +61,7 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
     {
         String listenerId = itsNatListener.getId();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
         code.append( "itsNatDoc.removeUserEventListener(\"" + listenerId + "\");\n" );

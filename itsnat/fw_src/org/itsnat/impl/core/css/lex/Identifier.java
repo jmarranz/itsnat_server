@@ -16,8 +16,6 @@
 
 package org.itsnat.impl.core.css.lex;
 
-import org.w3c.dom.Node;
-
 /**
  *
  * @author jmarranz
@@ -27,10 +25,10 @@ public class Identifier extends Token
     protected String value = "";
 
     /** Creates a new instance of Identifier */
-    public Identifier(String code,Cursor cursor)
+    public Identifier(Cursor cursor)
     {
-        super(cursor.getPos());
-        parse(code,cursor);
+        super(cursor.getCurrentPos());
+        parse(cursor);
     }
 
     public static boolean isIdentifierStart(char c)
@@ -52,22 +50,22 @@ public class Identifier extends Token
         return value;
     }
 
-    public void parse(String code,Cursor cursor)
+    public void parse(Cursor cursor)
     {
         // cursor apunta al comienzo del identificador
-        StringBuffer valueTmp = new StringBuffer();
-        valueTmp.append( code.charAt(cursor.getPos()) );
-        int i = cursor.inc(); // segunda letra (si hay)
-        while((i < code.length()) &&
-              isIdentifierPart(code.charAt(i)))
+        StringBuilder valueTmp = new StringBuilder();
+        valueTmp.append( cursor.getCurrentChar() );
+        cursor.inc(); // segunda letra (si hay)
+        while( cursor.isValidPosition() &&
+              isIdentifierPart(cursor.getCurrentChar()))
         {
-            valueTmp.append( code.charAt(i) );
-            i = cursor.inc();
+            valueTmp.append( cursor.getCurrentChar() );
+            cursor.inc();
         }
 
         this.value = valueTmp.toString();
 
         cursor.dec();
-        this.end = cursor.getPos(); // apunta al último caracter del identificador
+        this.end = cursor.getCurrentPos(); // apunta al último caracter del identificador
     }
 }

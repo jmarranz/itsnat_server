@@ -62,6 +62,7 @@ public abstract class HttpServletWrapper extends HttpServlet
      * Initializes the ItsNat servlet wrapping this servlet. Overload this method
      * to initialize the ItsNat servlet (setup properties, register templates etc).
      */
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -89,8 +90,9 @@ public abstract class HttpServletWrapper extends HttpServlet
      * @param request servlet request
      * @param response servlet response
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)  
+            throws ServletException, IOException
     {
         processRequest(request, response);
     }
@@ -101,8 +103,9 @@ public abstract class HttpServletWrapper extends HttpServlet
      * @param request servlet request
      * @param response servlet response
      */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException
+            throws ServletException, IOException
     {
         processRequest(request, response);
     }
@@ -110,6 +113,7 @@ public abstract class HttpServletWrapper extends HttpServlet
     /**
      * Returns a short description of the servlet.
      */
+    @Override
     public String getServletInfo()
     {
         return "ItsNat Servlet";

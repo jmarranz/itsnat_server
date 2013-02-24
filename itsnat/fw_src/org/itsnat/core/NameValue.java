@@ -86,6 +86,7 @@ public class NameValue implements Serializable
      *
      * @return  a string representation of the object.
      */
+    @Override
     public String toString()
     {
         return getName();

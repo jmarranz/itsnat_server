@@ -16,15 +16,15 @@
 
 package org.itsnat.core;
 
-import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import java.util.Map;
-import org.itsnat.core.event.ItsNatServletRequestListener;
-import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import javax.servlet.Servlet;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.comp.CreateItsNatComponentListener;
+import org.itsnat.core.event.ItsNatAttachedClientEventListener;
+import org.itsnat.core.event.ItsNatServletRequestListener;
+import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.w3c.dom.events.EventListener;
 
 /**
@@ -285,5 +285,5 @@ public interface ItsNatServlet
      * @param params a collection with the new parameters.
      * @return a new request object.
      */
-    public ServletRequest createServletRequest(ServletRequest request,Map params);
+    public ServletRequest createServletRequest(ServletRequest request,Map<String,String[]> params);
 }

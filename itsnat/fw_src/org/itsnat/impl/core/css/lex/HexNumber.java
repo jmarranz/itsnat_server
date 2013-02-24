@@ -25,10 +25,10 @@ public class HexNumber extends Token
     protected String value = "";
 
     /** Creates a new instance of HexNumber */
-    public HexNumber(String code,Cursor cursor)
+    public HexNumber(Cursor cursor)
     {
-        super(cursor.getPos());
-        parse(code,cursor);
+        super(cursor.getCurrentPos());
+        parse(cursor);
     }
 
     public static boolean isHexNumberStart(char c)
@@ -64,23 +64,23 @@ public class HexNumber extends Token
         return toIntFromHex(Character.toString(c));
     }
 
-    public void parse(String code,Cursor cursor)
+    public void parse(Cursor cursor)
     {
         // cursor apunta a la #
-        StringBuffer valueTmp = new StringBuffer();
-        valueTmp.append( code.charAt(cursor.getPos()) );
+        StringBuilder valueTmp = new StringBuilder();
+        valueTmp.append( cursor.getCurrentChar() );
         int i = cursor.inc(); // segunda letra (si hay)
-        while((i < code.length()) &&
-              isHexNumberPart(code.charAt(i)))
+        while(cursor.isValidPosition() &&
+              isHexNumberPart(cursor.getCurrentChar()))
         {
-            valueTmp.append( code.charAt(i) );
+            valueTmp.append( cursor.getCurrentChar() );
             i = cursor.inc();
         }
 
         this.value = valueTmp.toString();
 
         cursor.dec();
-        this.end = cursor.getPos(); // apunta al último caracter
+        this.end = cursor.getCurrentPos(); // apunta al último caracter
     }
 
 }

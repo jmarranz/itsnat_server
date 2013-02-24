@@ -52,7 +52,7 @@ public abstract class JSRenderMethodCallImpl extends JSRenderImpl
 
     public static String getCallMethodCode(Object object,String methodName,Object[] params,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( javaToJS(object,cacheIfPossible,clientDoc) );
         code.append( "." + methodName + "(" );
         if (params != null)

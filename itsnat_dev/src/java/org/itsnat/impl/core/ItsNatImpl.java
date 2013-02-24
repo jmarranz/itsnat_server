@@ -49,7 +49,7 @@ public class ItsNatImpl implements ItsNat
 
     public String getVersion()
     {
-        return "1.2";
+        return "1.3";
     }
 
     public ItsNatServletContextImpl getItsNatServletContext(ServletContext context)

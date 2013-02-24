@@ -17,9 +17,6 @@ package org.itsnat.impl.core.resp.shared.bybrow;
 
 import java.util.LinkedList;
 import org.itsnat.impl.core.resp.shared.*;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 
 /**
@@ -38,24 +35,13 @@ public class ResponseDelegStfulLoadDocByBMSIEOldImpl extends ResponseDelegStfulL
         return null;
     }
 
-    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList list)
+    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list)
     {
-        ClientDocumentStfulImpl clientDoc = parent.getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-
         list.add(LoadScriptImpl.ITSNAT_MSIE_OLD);
-        if (browser instanceof BrowserMSIEPocket)
-            list.add(LoadScriptImpl.ITSNAT_MSIE_POCKET);
     }
 
     public String getJSMethodInitName()
     {
-        ClientDocumentStfulImpl clientDoc = parent.getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-
-        if (browser instanceof BrowserMSIEPocket)
-            return "itsnat_init_msie_pocket";
-        else
-            return "itsnat_init_msie_old";
+        return "itsnat_init_msie_old";
     }
 }

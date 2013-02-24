@@ -130,15 +130,15 @@ public class FreeElementTableTreeNode extends FeatureTreeNode implements EventLi
         EventTarget currTarget = evt.getCurrentTarget();
         if (currTarget == sortByCityButton)
         {
-            Collections.sort(elemTable,new NodeComparator(cityColumn));
+            Collections.sort(elemTable,new ElementComparator(cityColumn));
         }
         else if (currTarget == sortBySquareButton)
         {
-            Collections.sort(elemTable,new NodeComparator(squareColumn));
+            Collections.sort(elemTable,new ElementComparator(squareColumn));
         }
         else if (currTarget == sortByMonumentButton)
         {
-            Collections.sort(elemTable,new NodeComparator(monumentColumn));
+            Collections.sort(elemTable,new ElementComparator(monumentColumn));
         }
         else if (currTarget == rotateColumnsButton)
         {
@@ -160,21 +160,18 @@ public class FreeElementTableTreeNode extends FeatureTreeNode implements EventLi
         }
     }
 
-    public static class NodeComparator implements Comparator
+    public static class ElementComparator implements Comparator<Element>
     {
         protected int col;
 
-        public NodeComparator(int col)
+        public ElementComparator(int col)
         {
             this.col = col;
         }
 
-        public int compare(Object o1, Object o2)
+        public int compare(Element row1, Element row2)
         {
-            Element row1 = (Element)o1;
             Text text1 = getCellContent(row1,col);
-
-            Element row2 = (Element)o2;
             Text text2 = getCellContent(row2,col);
 
             return text1.getData().compareTo(text2.getData());

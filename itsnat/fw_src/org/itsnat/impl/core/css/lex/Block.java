@@ -16,9 +16,8 @@
 
 package org.itsnat.impl.core.css.lex;
 
+import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  *
@@ -29,23 +28,23 @@ public abstract class Block extends Token
     protected SourceCode content;
 
     /** Creates a new instance of Block */
-    public Block(String code,Cursor cursor)
+    public Block(Cursor cursor)
     {
-        super(cursor.getPos()); // apunta al caracter de comienzo del bloque
-        parse(code,cursor);
+        super(cursor.getCurrentPos()); // apunta al caracter de comienzo del bloque
+        parse(cursor);
     }
 
-    public void parse(String code,Cursor cursor)
+    public void parse(Cursor cursor)
     {
         // cursor apunta al caracter de comienzo del bloque
         cursor.inc(); // interior del bloque
         char endChar = getEndBlockChar();
-        List tokens = Token.parse(code,cursor,true,endChar);
+        LinkedList<Token> tokens = Token.parse(cursor,true,endChar);
 
-        int end = cursor.getPos();
-        if (end >= code.length())
-            throw new ItsNatException("Missing matching " + endChar + " start pos: " + start + " code: \"" + code + "\"");
+        if (cursor.isInTheEnd())
+            throw new ItsNatException("Missing matching " + endChar + " start pos: " + start + " code: \"" + cursor.getCode() + "\"");
 
+        int end = cursor.getCurrentPos();
         this.end = end; // apunta al caracter de final del bloque
         this.content = new SourceCode(tokens);
     }

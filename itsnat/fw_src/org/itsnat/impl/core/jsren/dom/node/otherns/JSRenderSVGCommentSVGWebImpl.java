@@ -30,7 +30,7 @@ public class JSRenderSVGCommentSVGWebImpl extends JSRenderCommentImpl
 {
     public static final JSRenderSVGCommentSVGWebImpl SINGLETON = new JSRenderSVGCommentSVGWebImpl();
 
-    /** Creates a new instance of JSRenderHTMLCommentMSIEPocketImpl */
+    /** Creates a new instance of JSRenderSVGCommentSVGWebImpl */
     public JSRenderSVGCommentSVGWebImpl()
     {
     }

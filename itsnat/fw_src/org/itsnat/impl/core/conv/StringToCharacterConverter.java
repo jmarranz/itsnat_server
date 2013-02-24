@@ -30,12 +30,12 @@ public class StringToCharacterConverter extends StringToObjectConverter
     {
     }
 
-    public Class getClassTarget()
+    public Class<?> getClassTarget()
     {
         return char.class;
     }
 
-    public Class getClassTargetWrapper()
+    public Class<?> getClassTargetWrapper()
     {
         return Character.class;
     }

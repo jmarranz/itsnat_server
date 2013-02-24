@@ -63,7 +63,7 @@ public class LicenseChanger
         System.out.println(file.getAbsolutePath());
         //System.out.println(file.length());
 
-        StringBuffer str = new StringBuffer();
+        StringBuilder str = new StringBuilder();
         FileInputStream input = new FileInputStream(file);
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();

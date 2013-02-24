@@ -40,7 +40,7 @@ import org.itsnat.impl.core.util.UserDataMonoThreadImpl;
 public abstract class ItsNatEventImpl extends EventObject implements ItsNatEvent
 {
     protected UserDataMonoThreadImpl userData; // No hace falta sincronizar, deberá accederse en monohilo
-    protected Map extraParams;
+    protected Map<String,Object> extraParams;
     protected ItsNatEventListenerChainImpl listenerChain;
 
     public ItsNatEventImpl(Object source)
@@ -128,10 +128,10 @@ public abstract class ItsNatEventImpl extends EventObject implements ItsNatEvent
         return !extraParams.isEmpty();
     }
 
-    public Map getExtraParamMap()
+    public Map<String,Object> getExtraParamMap()
     {
         if (extraParams == null)
-            this.extraParams = new HashMap();
+            this.extraParams = new HashMap<String,Object>();
         return extraParams;
     }
 

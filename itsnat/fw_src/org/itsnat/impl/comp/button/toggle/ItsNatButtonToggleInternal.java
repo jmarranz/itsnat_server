@@ -16,8 +16,8 @@
 
 package org.itsnat.impl.comp.button.toggle;
 
-import org.itsnat.impl.comp.button.ItsNatButtonInternal;
 import org.itsnat.comp.button.toggle.ItsNatButtonToggle;
+import org.itsnat.impl.comp.button.ItsNatButtonInternal;
 
 public interface ItsNatButtonToggleInternal extends ItsNatButtonToggle,ItsNatButtonInternal
 {

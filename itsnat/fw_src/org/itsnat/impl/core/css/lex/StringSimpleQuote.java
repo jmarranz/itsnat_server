@@ -24,9 +24,9 @@ public class StringSimpleQuote extends StringLiteral
 {
 
     /** Creates a new instance of StringSimpleQuote */
-    public StringSimpleQuote(String code,Cursor cursor)
+    public StringSimpleQuote(Cursor cursor)
     {
-        super(code,cursor);
+        super(cursor);
     }
 
     public char getDelimiterChar()

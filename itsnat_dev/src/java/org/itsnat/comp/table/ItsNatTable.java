@@ -375,7 +375,7 @@ public interface ItsNatTable extends ItsNatElementComponent
     /**
      * Returns the current component renderer. This renderer converts a table cell value to markup.
      *
-     * @return the current renderer. By default uses the default renderer ({@link ItsNatComponentManager#createDefaultItsNatTableCellRenderer()})
+     * @return the current renderer. By default uses the default renderer ({@link org.itsnat.comp.ItsNatComponentManager#createDefaultItsNatTableCellRenderer()})
      * @see #setItsNatTableCellRenderer(ItsNatTableCellRenderer)
      */
     public ItsNatTableCellRenderer getItsNatTableCellRenderer();
@@ -392,8 +392,7 @@ public interface ItsNatTable extends ItsNatElementComponent
      * Returns the current table cell editor. This object is used to edit in place
      * a table cell value.
      *
-     * @return the current editor. By default uses the default editor
-     *      calling ({@link ItsNatComponentManager#createDefaultItsNatTableCellEditor(ItsNatComponent)}) with a null parameter.
+     * @return the current editor. By default uses the default editor calling ({@link org.itsnat.comp.ItsNatComponentManager#createDefaultItsNatTableCellEditor(ItsNatComponent)}) with a null parameter.
      * @see #setItsNatTableCellEditor(ItsNatTableCellEditor)
      */
     public ItsNatTableCellEditor getItsNatTableCellEditor();

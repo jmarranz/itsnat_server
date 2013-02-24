@@ -16,14 +16,14 @@
 
 package org.itsnat.impl.comp.button.normal;
 
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.button.ItsNatFreeButtonImpl;
-import org.itsnat.comp.button.normal.ItsNatFreeButtonNormal;
-import org.itsnat.comp.ItsNatComponentUI;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.normal.ItsNatFreeButtonNormal;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
+import org.itsnat.impl.comp.button.ItsNatFreeButtonImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
 /**

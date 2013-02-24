@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.template;
 
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -34,18 +33,19 @@ import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.UniqueId;
 import org.w3c.dom.Attr;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 
 /**
  *
@@ -57,8 +57,8 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     protected Document templateDoc;
     protected long timeStamp;
     protected MarkupTemplateVersionDelegateImpl templateDelegate;
-    protected MapUniqueId elementCacheMap;  // No sincronizamos porque sólo se modifica en tiempo de carga
-    protected LinkedList fragments = new LinkedList(); // Se recorrerá en multihilo no podemos ahorrar memoria con creación demorada
+    protected MapUniqueId<CachedSubtreeImpl> elementCacheMap;  // No sincronizamos porque sólo se modifica en tiempo de carga
+    protected LinkedList<ItsNatDocFragmentTemplateVersionImpl> fragments = new LinkedList<ItsNatDocFragmentTemplateVersionImpl>(); // Se recorrerá en multihilo no podemos ahorrar memoria con creación demorada
 
     /**
      * Creates a new instance of MarkupTemplateVersionImpl
@@ -227,9 +227,8 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
 
         // Seguimos con los fragmentos incluidos, si alguno ha sido cambiado en el disco duro el template padre es inválido y necesita recargarse
 
-        for(Iterator it = fragments.iterator(); it.hasNext(); )
+        for(ItsNatDocFragmentTemplateVersionImpl docFragTemplateIncVersion : fragments)
         {
-            ItsNatDocFragmentTemplateVersionImpl docFragTemplateIncVersion = (ItsNatDocFragmentTemplateVersionImpl)it.next();
             if (docFragTemplateIncVersion.isInvalid(request,response))
                 return true;
         }
@@ -370,7 +369,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         templateDelegate.serializeNode(node,out,nodeRender);
     }
 
-    protected boolean isNodeStaticAndFindCacheable(Node node,LinkedList cacheableList)
+    protected boolean isNodeStaticAndFindCacheable(Node node,LinkedList<Node> cacheableList)
     {
         if (node instanceof Element)
             return isElementStaticOrFindCacheableChildren((Element)node,cacheableList);
@@ -385,7 +384,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
             // en el contenido de un documento
     }
 
-    private boolean isCharacterDataStaticAndFindCacheable(CharacterData node,LinkedList cacheableList)
+    private boolean isCharacterDataStaticAndFindCacheable(CharacterData node,LinkedList<Node> cacheableList)
     {
         // Nodos de texto, comentarios etc.
         // El objetivo en este caso no es reducir el número de objetos DOM
@@ -416,14 +415,14 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         return true; // En este nivel no tenemos más razones, derivar
     }
 
-    protected boolean isElementStaticOrFindCacheableChildren(Element elem,LinkedList cacheableList)
+    protected boolean isElementStaticOrFindCacheableChildren(Element elem,LinkedList<Node> cacheableList)
     {
         if (isDeclaredNotCacheable(elem))
             return false; // Se ha declarado que el contenido del elemento será dinámico, por tanto el elemento es no estático y no cacheable
         if (declaredAsComponent(elem))
             return false; // Los componentes por su naturaleza modifican los nodos contenidos, por tanto el contenido del elemento será dinámico, por tanto el elemento es no estático y no cacheable
 
-        LinkedList cacheableChildrenLocal = new LinkedList();
+        LinkedList<Node> cacheableChildrenLocal = new LinkedList<Node>();
         boolean childrenAreStatic = areChildNodesStaticAndFindCacheable(elem,cacheableChildrenLocal);
 
         boolean elementCacheableCapable = isElementValidForCaching(elem);
@@ -445,7 +444,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         return elementCacheableCapable && attributesStatic && childrenAreStatic;
     }
 
-    protected boolean areChildNodesStaticAndFindCacheable(Element elem,LinkedList cacheableList)
+    protected boolean areChildNodesStaticAndFindCacheable(Element elem,LinkedList<Node> cacheableList)
     {
         if (!elem.hasChildNodes())
             return true; // El elemento es estático desde el pto. de vista de los hijos (no tiene), otra cosa es que no merezca la pena cachear pues el contenido es vacío, es importante devolver true y no false pues si devolvemos false hacemos creer que el contenido no es estático
@@ -466,7 +465,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         return allChildrenStatic;
     }
 
-    protected boolean isRootElementCacheableOrFindCacheableChildren(Element elem,LinkedList cacheableChildren)
+    protected boolean isRootElementCacheableOrFindCacheableChildren(Element elem,LinkedList<Node> cacheableChildren)
     {
         // Si es estático el elemento el contenido es cacheable.
         return isElementStaticOrFindCacheableChildren(elem,cacheableChildren);
@@ -518,7 +517,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         DOMRenderImpl nodeRender = createNodeDOMRender(docTemplate);
 
         Element rootElem = docTemplate.getDocumentElement();
-        LinkedList cacheableChildren = new LinkedList();
+        LinkedList<Node> cacheableChildren = new LinkedList<Node>();
         boolean cacheable = isRootElementCacheableOrFindCacheableChildren(rootElem,cacheableChildren);
         if (cacheable)
         {
@@ -526,9 +525,8 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         }
         else
         {
-            for(Iterator it = cacheableChildren.iterator(); it.hasNext(); )
+            for(Node child : cacheableChildren)
             {
-                Node child = (Node)it.next();
                 addNodeToCache(child,nodeRender);
             }
         }
@@ -571,10 +569,10 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         }
     }
 
-    public MapUniqueId getElementCacheMap()
+    public MapUniqueId<CachedSubtreeImpl> getElementCacheMap()
     {
         if (elementCacheMap == null)
-            this.elementCacheMap = new MapUniqueId(idGenerator); // Así ahorramos memoria si el cache está desactivado
+            this.elementCacheMap = new MapUniqueId<CachedSubtreeImpl>(idGenerator); // Así ahorramos memoria si el cache está desactivado
         return elementCacheMap;
     }
 
@@ -602,8 +600,8 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         if ((nodeType == Node.COMMENT_NODE) ||
             (nodeType == Node.CDATA_SECTION_NODE))
         {
-            String prefix = null;
-            String suffix = null;
+            String prefix;
+            String suffix;
             if (nodeType == Node.COMMENT_NODE)
             {
                 prefix = "<!--";
@@ -653,11 +651,12 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     protected String addToCache(Node node,String code)
     {
         CachedSubtreeImpl cachedNode = createCachedSubtree(node,code);
-        MapUniqueId elementCacheMap = getElementCacheMap();
+        MapUniqueId<CachedSubtreeImpl> elementCacheMap = getElementCacheMap();
         elementCacheMap.put(cachedNode);
         return cachedNode.getMarkCode();
     }
 
+    @Override
     public MarkupTemplateVersionImpl getUsedMarkupTemplateVersion(String id)
     {
         if (getId().equals(id))

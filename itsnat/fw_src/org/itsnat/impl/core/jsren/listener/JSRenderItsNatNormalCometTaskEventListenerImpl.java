@@ -41,7 +41,7 @@ public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsN
         int sync = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         // A día de hoy no hay código del usuario en los eventos comet, podría añadirse fácilmente
 

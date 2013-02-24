@@ -141,7 +141,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
     {
         // Consideramos que puede haber comentarios (raro)
         // o bien varios nodos de texto seguidos
-        StringBuffer text = new StringBuffer();
+        StringBuilder text = new StringBuilder();
         Node child = getFirstChild();
         while ( child != null )
         {
@@ -174,7 +174,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         }
     }
 
-    public LinkedList getChildrenArray(String localName,boolean recursive)
+    public LinkedList<Node> getChildrenArray(String localName,boolean recursive)
     {
         return DOMUtilInternal.getChildElementListWithTagNameNS(this,NamespaceUtil.XHTML_NAMESPACE,localName,recursive); // Puede ser null (no hay)
     }
@@ -184,13 +184,13 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         return insertElement(index,localName,recursive,null);
     }
 
-    public HTMLElement insertElement(int index,String localName,LinkedList children)
+    public HTMLElement insertElement(int index,String localName,LinkedList<Node> children)
     {
         if (children == null) throw new ItsNatException("INTERNAL ERROR");
         return insertElement(index,localName,true,children); // El valor de recursive da igual no se usará
     }
 
-    private HTMLElement insertElement(int index,String localName,boolean recursive,LinkedList children)
+    private HTMLElement insertElement(int index,String localName,boolean recursive,LinkedList<Node> children)
     {
         if (index < 0) throw new DOMException(DOMException.INDEX_SIZE_ERR,"Index is negative");
         HTMLElement newElem = (HTMLElement)getOwnerDocument().createElementNS(NamespaceUtil.XHTML_NAMESPACE,localName);
@@ -208,7 +208,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         return newElem;
     }
 
-    public void deleteElement(int index,LinkedList children)
+    public void deleteElement(int index,LinkedList<Node> children)
     {
         if (index < 0) throw new DOMException(DOMException.INDEX_SIZE_ERR,"Index is negative");
         if (children != null)
@@ -222,7 +222,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
 
     public void deleteElement(int index,String localName,boolean recursive)
     {
-        LinkedList children = getChildrenArray(localName,recursive);
+        LinkedList<Node> children = getChildrenArray(localName,recursive);
         deleteElement(index,children);
     }
 

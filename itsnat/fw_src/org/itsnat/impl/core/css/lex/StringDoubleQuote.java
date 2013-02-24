@@ -24,9 +24,9 @@ public class StringDoubleQuote extends StringLiteral
 {
 
     /** Creates a new instance of StringSimpleQuote */
-    public StringDoubleQuote(String code,Cursor cursor)
+    public StringDoubleQuote(Cursor cursor)
     {
-        super(code,cursor);
+        super(cursor);
     }
 
     public char getDelimiterChar()

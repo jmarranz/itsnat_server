@@ -28,12 +28,12 @@ public class StringToFloatConverter extends StringToObjectConverter
     {
     }
 
-    public Class getClassTarget()
+    public Class<?> getClassTarget()
     {
         return float.class;
     }
 
-    public Class getClassTargetWrapper()
+    public Class<?> getClassTargetWrapper()
     {
         return Float.class;
     }

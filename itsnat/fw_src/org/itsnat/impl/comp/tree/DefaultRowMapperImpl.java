@@ -167,7 +167,7 @@ public class DefaultRowMapperImpl implements RowMapper,Serializable
         if (row == 0)
             return new TreePath(root);
 
-        LinkedList path = new LinkedList();
+        LinkedList<Object> path = new LinkedList<Object>();
         //path.add(root);
         int currentRow = 0;
         getPathForRow(row,currentRow,root,path,dataModel);
@@ -176,7 +176,7 @@ public class DefaultRowMapperImpl implements RowMapper,Serializable
         return new TreePath(path.toArray());
     }
 
-    public Object getPathForRow(int row,int currentRow,Object dataNode,LinkedList path,TreeModel dataModel)
+    public Object getPathForRow(int row,int currentRow,Object dataNode,LinkedList<Object> path,TreeModel dataModel)
     {
         if (row == currentRow)
         {

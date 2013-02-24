@@ -260,15 +260,14 @@ public class TableTreeNode extends FeatureTreeNode implements EventListener,Tabl
             if (selected == -1) return;
             final int selectedCol = selected;
             DefaultTableModel dataModel = (DefaultTableModel)tableComp.getTableModel();
-            Vector vector = dataModel.getDataVector();
-            Comparator comp = new Comparator()
+            @SuppressWarnings("unchecked")
+            Vector<Vector<String>> vector = dataModel.getDataVector();
+            Comparator<Vector<String>> comp = new Comparator<Vector<String>>()
             {
-                public int compare(Object o1, Object o2)
+                public int compare(Vector<String> row1, Vector<String> row2)
                 {
-                    Vector row1 = (Vector)o1;
-                    Vector row2 = (Vector)o2;
-                    String item1 = (String)row1.get(selectedCol);
-                    String item2 = (String)row2.get(selectedCol);
+                    String item1 = row1.get(selectedCol);
+                    String item2 = row2.get(selectedCol);
                     return item1.compareTo(item2);
                 }
             };

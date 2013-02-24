@@ -35,7 +35,7 @@ import org.w3c.dom.events.EventListener;
 public class NormalCometNotifierImpl extends CometNotifierImpl
 {
     protected long eventTimeout;
-    protected LinkedList domEventListeners;
+    protected LinkedList<EventListener> domEventListeners;
     protected EventListener listenerDispatcher;
     protected int commMode;
 
@@ -60,7 +60,8 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
                 {
                     ClientItsNatNormalCometEventImpl cometEvt = (ClientItsNatNormalCometEventImpl)evt;
 
-                    ItsNatEventListenerChainImpl chain = cometEvt.getItsNatEventListenerChainImpl();
+                    @SuppressWarnings("unchecked")
+                    ItsNatEventListenerChainImpl<EventListener> chain = cometEvt.getItsNatEventListenerChainImpl();
                     if (getEventListenerList(chain))
                         EventListenerUtil.handleEventListeners(cometEvt, chain);
                 }
@@ -110,16 +111,16 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         return !domEventListeners.isEmpty();
     }
 
-    public LinkedList getEventListenerList()
+    public LinkedList<EventListener> getEventListenerList()
     {
         // No sincronizamos porque sólo debe usarse con el documento sincronizado
         // es decir en requests web.
         if (domEventListeners == null)
-            this.domEventListeners = new LinkedList();
+            this.domEventListeners = new LinkedList<EventListener>();
         return domEventListeners;
     }
 
-    public boolean getEventListenerList(ItsNatEventListenerChainImpl chain)
+    public boolean getEventListenerList(ItsNatEventListenerChainImpl<EventListener> chain)
     {
         return chain.addFirstListenerList(domEventListeners); // Puede ser null
     }
@@ -130,13 +131,13 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         // se haría de la misma forma que se hace en ItsNatComponentImpl, es decir
         // compartidos por todos los listeners, pues todos son despachados con el mismo evento-request.
 
-        LinkedList domEventListeners = getEventListenerList();
+        LinkedList<EventListener> domEventListeners = getEventListenerList();
         domEventListeners.add(listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList domEventListeners = getEventListenerList();
+        LinkedList<EventListener> domEventListeners = getEventListenerList();
         domEventListeners.remove(listener);
     }
 }

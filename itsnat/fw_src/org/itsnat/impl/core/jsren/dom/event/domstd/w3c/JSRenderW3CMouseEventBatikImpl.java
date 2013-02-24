@@ -50,7 +50,7 @@ public class JSRenderW3CMouseEventBatikImpl extends JSRenderW3CMouseEventImpl
 
         MouseEvent mouseEvt = (MouseEvent)evt;
 
-        StringBuffer modifierList = new StringBuffer();
+        StringBuilder modifierList = new StringBuilder();
         if (mouseEvt.getCtrlKey())  modifierList.append("Control ");
         if (mouseEvt.getAltKey())   modifierList.append("Alt ");
         if (mouseEvt.getShiftKey()) modifierList.append("Shift ");

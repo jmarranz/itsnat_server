@@ -82,7 +82,7 @@ public abstract class DOMRenderImpl
         if (xmlDec != null)
         {
             // Añadimos la declaración XML puesta en el template original
-            StringBuffer buffer = new StringBuffer( "<?xml" );
+            StringBuilder buffer = new StringBuilder( "<?xml" );
             String version = xmlDec.getVersion();
             if (version != null) buffer.append( " version=\"" + version + "\"");
             // Podríamos poner "1.0" en caso null pero vamos a ser respetuosos con el original

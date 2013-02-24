@@ -15,9 +15,8 @@
 */
 package org.itsnat.comp.label;
 
-import org.itsnat.comp.*;
 import java.beans.PropertyVetoException;
-import org.itsnat.comp.label.ItsNatLabelUI;
+import org.itsnat.comp.ItsNatElementComponent;
 
 /**
  * Is the base interface of label components.
@@ -55,12 +54,12 @@ public interface ItsNatLabel extends ItsNatElementComponent
      * Sets the value. The new value will be rendered automatically to markup.
      *
      * <p>This new value is "voted" before is set firing a <code>java.beans.PropertyChangeEvent</code>
-     *  event, with name "value", sent to the listeners registered with {@link ItsNatComponent#addVetoableChangeListener(VetoableChangeListener)}
+     *  event, with name "value", sent to the listeners registered with {@link org.itsnat.comp.ItsNatComponent#addVetoableChangeListener(VetoableChangeListener)}
      * if some listener does a "veto" (throws a <code>java.beans.PropertyVetoException</code>)
      * the new value is not set. If finally set the <code>PropertyChangeEvent</code> event
      * is sent to the listeners registered with
-     * {@link ItsNatComponent#addPropertyChangeListener(java.beans.PropertyChangeListener)}
-     * or {@link ItsNatComponent#addPropertyChangeListener(String,java.beans.PropertyChangeListener)}
+     * {@link org.itsnat.comp.ItsNatComponent#addPropertyChangeListener(java.beans.PropertyChangeListener)}
+     * or {@link org.itsnat.comp.ItsNatComponent#addPropertyChangeListener(String,java.beans.PropertyChangeListener)}
      * with property name "value".
      * </p>
      *
@@ -72,7 +71,7 @@ public interface ItsNatLabel extends ItsNatElementComponent
     /**
      * Returns the current component renderer. This renderer converts the label value to markup.
      *
-     * @return the current renderer. By default uses the default renderer ({@link ItsNatComponentManager#createDefaultItsNatLabelRenderer()})
+     * @return the current renderer. By default uses the default renderer ({@link org.itsnat.comp.ItsNatComponentManager#createDefaultItsNatLabelRenderer()})
      * @see #setItsNatLabelRenderer(ItsNatLabelRenderer)
      */
     public ItsNatLabelRenderer getItsNatLabelRenderer();
@@ -89,8 +88,7 @@ public interface ItsNatLabel extends ItsNatElementComponent
      * Returns the current label editor. This object is used to edit in place
      * the current label value.
      *
-     * @return the current editor. By default uses the default editor
-     *      calling ({@link ItsNatComponentManager#createDefaultItsNatLabelEditor(ItsNatComponent)}) with a null parameter.
+     * @return the current editor. By default uses the default editor calling ({@link org.itsnat.comp.ItsNatComponentManager#createDefaultItsNatLabelEditor(ItsNatComponent)}) with a null parameter.
      * @see #setItsNatLabelEditor(ItsNatLabelEditor)
      */
     public ItsNatLabelEditor getItsNatLabelEditor();

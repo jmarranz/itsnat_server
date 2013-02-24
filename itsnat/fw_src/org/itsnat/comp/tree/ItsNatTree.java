@@ -16,13 +16,13 @@
 
 package org.itsnat.comp.tree;
 
-import org.itsnat.comp.*;
 import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.RowMapper;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.itsnat.comp.*;
 import org.itsnat.comp.label.ItsNatLabel;
 
 /**

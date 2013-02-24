@@ -234,7 +234,7 @@ public class JSVGCanvasApplet extends JSVGCanvas
         }
         catch(MalformedURLException ex)
         {
-            StringBuffer newURL = new StringBuffer();
+            StringBuilder newURL = new StringBuilder();
             newURL.append(baseURL.getProtocol());
             newURL.append(":");
             newURL.append("//");

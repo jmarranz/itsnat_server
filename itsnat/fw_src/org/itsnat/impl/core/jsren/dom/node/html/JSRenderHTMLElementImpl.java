@@ -39,8 +39,8 @@ import org.w3c.dom.html.HTMLObjectElement;
  */
 public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
 {
-    protected final Set tagNamesWithoutInnerHTML = new HashSet(); // TagNames que o bien no tiene o no funciona innerHTML. No sincronizamos porque sólo se lee
-    protected final Set tagNamesNotValidInsideInnerHTML = new HashSet();
+    protected final Set<String> tagNamesWithoutInnerHTML = new HashSet<String>(); // TagNames que o bien no tiene o no funciona innerHTML. No sincronizamos porque sólo se lee
+    protected final Set<String> tagNamesNotValidInsideInnerHTML = new HashSet<String>();
 
     /** Creates a new instance of JSElementRender */
     public JSRenderHTMLElementImpl()
@@ -63,12 +63,12 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return render;
     }
 
-    protected Set getTagNamesWithoutInnerHTML()
+    protected Set<String> getTagNamesWithoutInnerHTML()
     {
         return tagNamesWithoutInnerHTML;
     }
 
-    protected Set getTagNamesNotValidInsideInnerHTML()
+    protected Set<String> getTagNamesNotValidInsideInnerHTML()
     {
         return tagNamesNotValidInsideInnerHTML;
     }

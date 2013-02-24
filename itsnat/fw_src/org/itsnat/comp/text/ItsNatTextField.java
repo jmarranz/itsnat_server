@@ -16,8 +16,6 @@
 
 package org.itsnat.comp.text;
 
-import org.itsnat.comp.text.ItsNatTextFieldUI;
-
 /**
  * Is the base interface of text based components which text is rendered/edited
  * as a single line.

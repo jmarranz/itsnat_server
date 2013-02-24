@@ -19,13 +19,13 @@ package org.itsnat.impl.core.template.otherns;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatSVGDocumentImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +48,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
     public Browser getBrowser(ItsNatServletRequestImpl itsNatRequest)
     {
         Browser browser = super.getBrowser(itsNatRequest);
-        if (browser instanceof BrowserMSIE6)
+        if (browser instanceof BrowserMSIEOld)
         {
             // Cuando se carga un documento SVG via iframe o por URL directa se dan dos requests:
             // El primer request lo hace el MSIE, al ver que la respuesta ha sido
@@ -65,12 +65,12 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
             // (sí desde el hijo al padre).
 
             // Sólo tenemos una forma de distinguir entre un request
-            // realizado por MSIE y uno de ASV/Renesis (ASV v3, v6 y Renesis 1.1.1), y es a través del header
+            // realizado por MSIE y uno de ASV (ASV v3, v6 ), y es a través del header
             // "accept", en el caso de MSIE incluye "*/*" y más cosas (MIMEs de imágenes etc,
             // algunas dependen de componentes instalados tal y como .Net, Office etc),
-            // en caso de ASV/Renesis sólo es "*/*"
-            // Es MUY interesante distinguir entre un request MSIE y uno ASV/Renesis
-            // sobre todo en el caso de SVG cargado via iframe con ASV/Renesis instalado, pues MSIE como no sabe
+            // en caso de ASV sólo es "*/*"
+            // Es MUY interesante distinguir entre un request MSIE y uno ASV
+            // sobre todo en el caso de SVG cargado via iframe con ASV instalado, pues MSIE como no sabe
             // el MIME hace un primer request, al recibir el MIME SVG delega para el segundo request
             // al plugin SVG.
             // Si evitamos que el primer request se procese de la forma normal, ganamos
@@ -85,7 +85,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
 
             String accept = itsNatRequest.getHeader("accept");
             if ("*/*".equals(accept))
-                browser = new BrowserASVRenesis(browser.getUserAgent());
+                browser = new BrowserAdobeSVG(browser.getUserAgent());
         }
         return browser;
     }
@@ -101,12 +101,12 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
         // aviso, además hay que evitar que los listeners se ejecuten
         // pues ya no es el documento esperado.
         // Esto también es útil en el caso de SVG cargado en MSIE via IFRAME o via URL directo
-        // existiendo un plugin (ASV o Renesis) pues el primer request es del MSIE que hay que ignorar
+        // existiendo un plugin (ASV) pues el primer request es del MSIE que hay que ignorar
         // para evitar ejecutar los listeners del usuario inútilmente
         // pues dicha página se pierde pues el MSIE delega en el plugin
         // para un segundo request
 
-        return (browser instanceof BrowserMSIE6);
+        return (browser instanceof BrowserMSIEOld);
     }
 
     public Document loadDocument(Browser browser)
@@ -130,7 +130,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
             text.setAttribute("y","100");
             text.setAttribute("font-family","Verdana");
             text.setAttribute("font-size","17");
-            text.appendChild(cloneDoc.createTextNode("Use a SVG plugin like Adobe SVG Viewer v3 or v6 or Renesis SVG Player v1.1.1 (the latter not recommended)."));
+            text.appendChild(cloneDoc.createTextNode("Use a SVG plugin like Adobe SVG Viewer v3 or v6."));
             root.appendChild(text);
 
             return cloneDoc;
@@ -152,7 +152,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
 
         if ((prefix == null)&&(defaultNS != null)) throw new ItsNatException("INTERNAL ERROR");
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (encoding != null) // Si no espeficica es que no es necesaria la cabecera xml (de hecho no la soporta ASV v6)
             code.append( "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>" );
 // No funciona en MSIE y loadXML:  code.append( "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">" );

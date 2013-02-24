@@ -28,12 +28,12 @@ public class StringToIntegerConverter extends StringToObjectConverter
     {
     }
 
-    public Class getClassTarget()
+    public Class<?> getClassTarget()
     {
         return int.class;
     }
 
-    public Class getClassTargetWrapper()
+    public Class<?> getClassTargetWrapper()
     {
         return Integer.class;
     }

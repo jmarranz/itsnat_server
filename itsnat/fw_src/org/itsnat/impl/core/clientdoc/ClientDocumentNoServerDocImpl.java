@@ -243,7 +243,7 @@ public abstract class ClientDocumentNoServerDocImpl extends ClientDocumentImpl
         throw new ItsNatException("Not supported in this context");
     }
 
-    public void getGlobalEventListenerList(LinkedList list)
+    public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // Este es un cliente temporal por lo que no tiene sentido los global event listeners
         // este método es llamado para hacer acopio de listeners globales,

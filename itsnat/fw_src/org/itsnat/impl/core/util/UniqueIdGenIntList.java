@@ -72,7 +72,7 @@ public class UniqueIdGenIntList implements UniqueIdGenerator,Serializable
 
         // Esto se puede ejecutar en multihilo porque el id si es necesario fue clonado
         // ahora bien NO SACAR el objeto id fuera pues cuando no se clona es el propio objeto counters.
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append(prefix + "_");
         for(int i = 0; i < id.length; i++)
         {

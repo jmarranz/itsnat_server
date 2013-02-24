@@ -47,7 +47,7 @@ public class ResponseDelegateXULLoadDocImpl extends ResponseDelegateOtherNSLoadD
         DOMUtilInternal.setAttribute(scriptElem,"src",url);
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         boolean res = rewriteClientHTMLUIControlProperties(elem,revertJSChanges,code);
         if (res) return; // Era un elemento XHTML ya procesado

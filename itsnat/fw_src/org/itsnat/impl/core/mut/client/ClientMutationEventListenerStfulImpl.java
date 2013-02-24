@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.html.ItsNatHTMLEmbedElement;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
@@ -207,9 +207,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         }
     }
 
-    public abstract Map preRenderAndSendMutationCode(MutationEvent mutEvent);
+    public abstract void preRenderAndSendMutationCode(MutationEvent mutEvent);
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
         String type = mutEvent.getType();
 
@@ -226,9 +226,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
                 {
                     mustCallSetSrc = true;
                 }
-                else if ((clientDoc.getBrowser() instanceof BrowserMSIE6) &&
+                else if ((clientDoc.getBrowser() instanceof BrowserMSIEOld) &&
                          ((elemDocCont instanceof HTMLObjectElement) ||
-                          (elemDocCont instanceof ItsNatHTMLEmbedElement))) // Posiblemente ASV o Renesis
+                          (elemDocCont instanceof ItsNatHTMLEmbedElement))) // Posiblemente ASV 
                 {
                     mustCallSetSrc = true;
                 }
@@ -261,14 +261,11 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         // como es el caso de FireFox (extraño cacheado), Chrome y Safari (el antiguo documento parece que no se quita visualmente)
         // por lo que además llamamos a setSrc que soluciona todo.
 
-        // 3) ASV o Renesis o Savarese Ssrc en <object> o <embed> (sólo MSIE carga ActiveX)
+        // 3) ASV o Savarese Ssrc en <object> o <embed> (sólo MSIE carga ActiveX)
         //    el cambio del atributo/propiedad src no es suficiente,
-        //    ASV define setSrc(url), Renesis loadFromURI y Ssrc Navigate.
-        //    El loadFromURI de Renesis 1.1.1 ha sido obtenido provocando un error en MSIE v8
-        //    lanzando el depurador, aunque parezca asociado a "contentDocument" está definido a nivel
-        //    del objeto ActiveX.
+        //    ASV define setSrc(url) y Ssrc Navigate.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String refJS = clientDoc.getNodeReference(elem, true, true);
 
@@ -293,10 +290,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         code.append("try{");
         if (elemDocCont.getElementDocContainerWrapper().isJavaApplet())
             code.append("if (typeof elem.setSrc != \"undefined\") elem.setSrc(value);"); // Sólo soportamos el Applet Batik ItsNat que tiene este método, si fuera otro applet (muy raro llegar hasta aquí) capturamos el error y no pasa nada
-        else // ASV, Renesis o Savarese Ssrc.
+        else // ASV,  Savarese Ssrc.
         {
             code.append("if (typeof elem.setSrc != \"undefined\") elem.setSrc(value);"); // ASV
-            code.append("else if (typeof elem.loadFromURI != \"undefined\") elem.loadFromURI(value);"); // Renesis
             code.append("else if (typeof elem.Navigate != \"undefined\")"); // Savarese Ssrc
             code.append("  if (value == elem.LocationURL) elem.Refresh(); else elem.Navigate(value);"); // La llamada a Refresh() asegura que la request se realiza (ignora el caché) http://msdn.microsoft.com/en-us/library/aa752098%28VS.85%29.aspx
         }
@@ -315,9 +311,9 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         // de la caché aquí estaría en la cache posiblemente, pero en el cliente el nodo será uno nuevo,
         // así desde el punto de vista  de la caché el nodo insertado es nuevo.
 
-        LinkedList idList = null;
+        LinkedList<String> idList = null;
         if (clientDoc.isSendCodeEnabled())
-            idList = new LinkedList();
+            idList = new LinkedList<String>();
 
         removeTreeFromNodeCache(node,idList);
 
@@ -344,7 +340,7 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         }
     }
 
-    private void removeTreeFromNodeCache(Node node,LinkedList idList)
+    private void removeTreeFromNodeCache(Node node,LinkedList<String> idList)
     {
         String id = clientDoc.removeNodeFromCache(node);
         if ((id != null)&&(idList != null))

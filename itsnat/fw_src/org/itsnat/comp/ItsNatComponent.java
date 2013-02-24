@@ -16,11 +16,11 @@
 
 package org.itsnat.comp;
 
-import org.itsnat.core.ItsNatDocument;
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
 import org.itsnat.comp.label.ItsNatLabel;
 import org.itsnat.core.ClientDocument;
+import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatUserData;
 import org.itsnat.core.event.ParamTransport;
 import org.w3c.dom.Node;

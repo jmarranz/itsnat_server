@@ -20,10 +20,7 @@ import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
@@ -49,33 +46,18 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
     {
         Browser browser = clientDoc.getBrowser();
         if (browser instanceof BrowserMSIEOld)
-        {
-            if (browser instanceof BrowserMSIEPocket)
-                return new ClientMutationEventListenerHTMLMSIEPocketImpl(clientDoc);
-            else // MSIE 6
-                return new ClientMutationEventListenerHTMLMSIE6Impl(clientDoc);
-        }
+            return new ClientMutationEventListenerHTMLMSIEOldImpl(clientDoc);        
         else if (browser instanceof BrowserBlackBerryOld)
             return new ClientMutationEventListenerHTMLBlackBerryOldImpl(clientDoc);
         else if (browser instanceof BrowserWebKit)
             return ClientMutationEventListenerHTMLWebKitImpl.createClientMutationEventListenerHTMLWebKit(clientDoc);
-        else if (browser instanceof BrowserOpera8Mobile)
-            return new ClientMutationEventListenerHTMLOpera8MobileImpl(clientDoc);
         else if (browser instanceof BrowserGecko)
-        {
-            BrowserGecko browserGecko = (BrowserGecko)browser;
-            if (browserGecko instanceof BrowserGeckoUCWEB)
-                return new ClientMutationEventListenerHTMLGeckoUCWEBImpl(clientDoc);
-            else if (browserGecko.isSkyFire())
-                return new ClientMutationEventListenerHTMLGeckoSkyFireImpl(clientDoc);
-            else
-                return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);
-        }
+            return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);        
         else
             return new ClientMutationEventListenerHTMLDefaultImpl(clientDoc);
     }
 
-    public Map preRenderAndSendMutationCode(MutationEvent mutEvent)
+    public void preRenderAndSendMutationCode(MutationEvent mutEvent)
     {
         String type = mutEvent.getType();
 
@@ -95,13 +77,12 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
                 }
             }
         }
-
-        return null;
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         String type = mutEvent.getType();
 
@@ -116,7 +97,7 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
                     // se elimina del DOM pero no se actualiza visualmente
                     // sin embargo he descubierto que simplemente reinsertando
                     // el nodo padre se actualiza.
-                    StringBuffer code = new StringBuffer();
+                    StringBuilder code = new StringBuilder();
 
                     Node parentNode = removedNode.getParentNode(); // Será un elemento
                     String jsRef = clientDoc.getNodeReference(parentNode,true,true);
@@ -149,20 +130,20 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
         // por eso antes de hacer el borrado normal del nodo padre buscamos
         // nodos hijos SVG de SVGWeb para eliminarlos antes liberando recursos.
 
-        StringBuffer code = fixTreeRemovedSVGRootSVGWeb(node,null);
+        StringBuilder code = fixTreeRemovedSVGRootSVGWeb(node,null);
 
         if ((code != null) && (code.length() > 0))
             clientDoc.addCodeToSend(code.toString());
     }
 
-    protected StringBuffer fixTreeRemovedSVGRootSVGWeb(Node node,StringBuffer code)
+    protected StringBuilder fixTreeRemovedSVGRootSVGWeb(Node node,StringBuilder code)
     {
         if (node.getNodeType() != Node.ELEMENT_NODE) return code;
 
         Element elem = (Element)node;
         if (SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash(elem,clientDoc))
         {
-            if (code == null) code = new StringBuffer();
+            if (code == null) code = new StringBuilder();
 
             String jsRef = clientDoc.getNodeReference(elem,false,true); // No cacheamos pues lo vamos a eliminar
             code.append("var elem = " + jsRef + ";\n");

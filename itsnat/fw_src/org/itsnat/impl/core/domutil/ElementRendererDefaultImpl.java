@@ -35,7 +35,7 @@ public class ElementRendererDefaultImpl implements ElementRenderer,Serializable
     // A día de hoy no tiene información de estado, por tanto para ahorrar memoria usamos un singleton
     protected final static ElementRendererDefaultImpl SINGLETON = new ElementRendererDefaultImpl();
 
-    public final static Set htmlTagNamesWithoutTextNode = new HashSet();
+    public final static Set<String> htmlTagNamesWithoutTextNode = new HashSet<String>();
 
     static
     {

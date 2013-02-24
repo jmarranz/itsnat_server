@@ -17,8 +17,6 @@
 package org.itsnat.impl.core.resp.norm;
 
 import java.util.HashMap;
-import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
-import org.itsnat.impl.core.resp.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
@@ -27,17 +25,19 @@ import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NodeConstraints;
-import org.itsnat.impl.core.listener.domstd.RegisterThisDocAsReferrerListenerImpl;
 import org.itsnat.impl.core.listener.domstd.OnUnloadListenerImpl;
+import org.itsnat.impl.core.listener.domstd.RegisterThisDocAsReferrerListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
+import org.itsnat.impl.core.resp.*;
+import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
@@ -52,7 +52,7 @@ import org.w3c.dom.views.DocumentView;
 public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadDocImpl implements ResponseLoadStfulDocumentValid
 {
     protected ResponseDelegateStfulLoadDocImpl responseDelegate;
-    protected Map disconnectedNodesFastLoadMode;
+    protected Map<Node,Object> disconnectedNodesFastLoadMode;
 
     /**
      * Creates a new instance of ResponseNormalLoadStfulDocImpl
@@ -209,7 +209,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         }
         else
         {
-            // En algunos plugins no se dispara por ejemplo ASV (v3 y v6) o Batik o Renesis.
+            // En algunos plugins no se dispara por ejemplo ASV (v3 y v6) o Batik.
             target = (EventTarget)doc.getDocumentElement();
             eventType = "SVGUnload";
         }
@@ -223,20 +223,21 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return !disconnectedNodesFastLoadMode.isEmpty();
     }
 
-    public Map getDisconnectedNodesFastLoadMode()
+    public Map<Node,Object> getDisconnectedNodesFastLoadMode()
     {
         if (disconnectedNodesFastLoadMode == null)
-            this.disconnectedNodesFastLoadMode = new HashMap();
+            this.disconnectedNodesFastLoadMode = new HashMap<Node,Object>();
         return disconnectedNodesFastLoadMode;
     }
 
+    @Override
     public String serializeDocument()
     {
         // Como este método inserta muchos nodos ha de ejecutarse lo antes posible para que otros procesos
         // pre-serialización puedan hacer algo con ellos
         preSerializeDocDisconnectedNodesFastLoadMode();
 
-        LinkedList boundHTMLElemDocContainerList = preSerializeDocProcessBoundElementDocContainer();
+        LinkedList<BoundElementDocContainerImpl> boundHTMLElemDocContainerList = preSerializeDocProcessBoundElementDocContainer();
 
         String docMarkup = super.serializeDocument();
 
@@ -255,12 +256,11 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         {
             // Insertamos temporalmente los nodos hijo eliminados pues el cliente
             // debe recibirlos al serializar
-            Map disconnectedNodesFastLoadMode = getDisconnectedNodesFastLoadMode();
-            for(Iterator it = disconnectedNodesFastLoadMode.entrySet().iterator(); it.hasNext(); )
+            Map<Node,Object> disconnectedNodesFastLoadMode = getDisconnectedNodesFastLoadMode();
+            for(Map.Entry<Node,Object> entry : disconnectedNodesFastLoadMode.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                Node parentNode = (Node)entry.getKey();
-                Object content = (LinkedList)entry.getValue();
+                Node parentNode = entry.getKey();
+                Object content = entry.getValue();
                 if (parentNode.hasChildNodes())
                     throw new RuntimeException("INTERNAL ERROR"); // Por si acaso
                 if (content instanceof Node) // Nodo concreto
@@ -272,12 +272,13 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
                 }
                 else
                 {
-                    LinkedList nodeList = (LinkedList)content;
-                    Iterator itChildNodes = nodeList.iterator();
+                    @SuppressWarnings("unchecked")
+                    LinkedList<Node> nodeList = (LinkedList<Node>)content;
+                    Iterator<Node> itChildNodes = nodeList.iterator();
                     DocumentFragment childNodesFragment = (DocumentFragment)itChildNodes.next(); // Sabemos que el primero es el DocumentFragment que se le dio al usuario
                     while(itChildNodes.hasNext())
                     {
-                        Node childNode = (Node)itChildNodes.next();
+                        Node childNode = itChildNodes.next();
                         if (itsNatDoc.isDebugMode() && DOMUtilInternal.isNodeBoundToDocumentTree(childNode))
                             throw new ItsNatDOMException("Child nodes removed from a disconnected node cannot be reinserted in a different place on load phase and fast mode",childNode);
                         parentNode.appendChild(childNode);
@@ -298,12 +299,11 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         {
             // Eliminamos el contenido de los nodos nuevo para dejarlos en el servidor como el programador lo hizo
             // cuando desconectó
-            Map disconnectedNodesFastLoadMode = getDisconnectedNodesFastLoadMode();
-            for(Iterator it = disconnectedNodesFastLoadMode.entrySet().iterator(); it.hasNext(); )
+            Map<Node,Object> disconnectedNodesFastLoadMode = getDisconnectedNodesFastLoadMode();
+            for(Map.Entry<Node,Object> entry : disconnectedNodesFastLoadMode.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                Node parentNode = (Node)entry.getKey();
-                Object content = (LinkedList)entry.getValue();
+                Node parentNode = entry.getKey();
+                Object content = entry.getValue();
 
                 if (content instanceof Node) // Nodo concreto
                 {
@@ -314,8 +314,9 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
                 }
                 else
                 {
-                    LinkedList nodeList = (LinkedList)content;
-                    Iterator itChildNodes = nodeList.iterator();
+                    @SuppressWarnings("unchecked")
+                    LinkedList<Node> nodeList = (LinkedList<Node>)content;
+                    Iterator<Node> itChildNodes = nodeList.iterator();
                     DocumentFragment childNodesFragment = (DocumentFragment)itChildNodes.next(); // Sabemos que el primero es el DocumentFragment que se le dio al usuario
                     DocumentFragment childNodesFragmentAux = (DocumentFragment)DOMUtilInternal.extractChildren(parentNode);
                     // Copiamos uno en otro para restaurar el DocumentFragment del usuario
@@ -330,9 +331,9 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         }
     }
 
-    public LinkedList preSerializeDocProcessBoundElementDocContainer()
+    public LinkedList<BoundElementDocContainerImpl> preSerializeDocProcessBoundElementDocContainer()
     {
-        LinkedList boundHTMLElemDocContainerList = null;
+        LinkedList<BoundElementDocContainerImpl> boundHTMLElemDocContainerList = null;
 
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
         Document doc = itsNatDoc.getDocument();
@@ -345,11 +346,11 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
                 return (node instanceof ElementDocContainer); // <iframe> y <object>
             }
         };
-        LinkedList elemList = DOMUtilInternal.getChildNodeListMatching(doc,rules,true,null);
+        LinkedList<Node> elemList = DOMUtilInternal.getChildNodeListMatching(doc,rules,true,null);
         if (elemList != null)
         {
             ClientDocumentStfulOwnerImpl cliendDoc = getClientDocumentStfulOwner();
-            for(Iterator it = elemList.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = elemList.iterator(); it.hasNext(); )
             {
                 ElementDocContainer elem = (ElementDocContainer)it.next();
                 BoundElementDocContainerImpl bindInfo = BoundElementDocContainerImpl.register(elem, itsNatDoc);
@@ -358,7 +359,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
 
                 bindInfo.setURLForClientOwner(cliendDoc);
 
-                if (boundHTMLElemDocContainerList == null) boundHTMLElemDocContainerList = new LinkedList();
+                if (boundHTMLElemDocContainerList == null) boundHTMLElemDocContainerList = new LinkedList<BoundElementDocContainerImpl>();
                 boundHTMLElemDocContainerList.add(bindInfo);
             }
         }
@@ -366,15 +367,14 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return boundHTMLElemDocContainerList;
     }
 
-    public void postSerializeDocProcessBoundElementDocContainer(LinkedList boundHTMLElemDocContainerList)
+    public void postSerializeDocProcessBoundElementDocContainer(LinkedList<BoundElementDocContainerImpl> boundHTMLElemDocContainerList)
     {
         // Restauramos los URLs originales ("src" en iframe o "data" en object)
         if (boundHTMLElemDocContainerList != null)
         {
             ClientDocumentStfulOwnerImpl cliendDoc = getClientDocumentStfulOwner();
-            for(Iterator it = boundHTMLElemDocContainerList.iterator(); it.hasNext(); )
+            for(BoundElementDocContainerImpl bindInfo : boundHTMLElemDocContainerList)
             {
-                BoundElementDocContainerImpl bindInfo = (BoundElementDocContainerImpl)it.next();
                 bindInfo.restoreOriginalURL(cliendDoc);
             }
         }

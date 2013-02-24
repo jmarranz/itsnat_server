@@ -347,7 +347,7 @@ function MSIEOldHTMLDocument()
             parentNode = this.getParentNode(parentNode);
         }
         this.dispatchEventTree(true,evt,parentList);
-        return parentList; // util para el bubbling en IE Pocket
+        return parentList; 
     }
 
     function dispatchEventTree(capture,evt,parentList)

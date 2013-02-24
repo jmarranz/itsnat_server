@@ -20,7 +20,8 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
-
+   Sólo soportados DESDE S60 5th v1.0
+  
     - User agents (varios simuladores probados, primera versión: S60 3rd FP 1)
         S60 3rd Feature Pack 1: Mozilla/5.0 (SymbianOS/9.2; U; [en]; Series60/3.1 Nokia3250/1.00 ) Profile/MIDP-2.0 Configuration/CLDC-1.1; AppleWebKit/413 (KHTML, like Gecko) Safari/413
         S60 3rd Feature Pack 2: Mozilla/5.0 (SymbianOS/9.2; U; [en]; Series60/3.2 Nokia3250/1.00; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/413 (KHTML, like Gecko) Safari/413
@@ -66,33 +67,18 @@ public class BrowserWebKitS60 extends BrowserWebKitSymbian
         }
         catch(Exception ex) // Caso de user agent de formato desconocido
         {
-            this.s60Version = 3.0f; // Primera versión conocida
+            this.s60Version = 5.0f; // La mínima soportada
         }
     }
 
     public boolean isXHRSyncSupported()
     {
-        // http://discussion.forum.nokia.com/forum/showthread.php?111061-Problems-with-synchronous-JavaScript
-        // http://discussion.forum.nokia.com/forum/showthread.php?t=122304&highlight=XMLHttpRequest+synchronous
-        // http://discussion.forum.nokia.com/forum/showthread.php?183820-XMLHttpRequest-problem
-        // La versión S60 5th v0.9 todavía tenía un WebKit antiguo
-        // aunque no esté soportada recordamos ese hecho y chequeamos
-        // el soporte a través de webKitVersion que es lo mejor
-        return (webKitVersion >= 525);
+        return true;
     }
 
     public boolean isXHRPostSupported()
     {
-        // Sólo GET, problema del emulador y en el hardware real (aunque no esta claro)
-        // http://discussion.forum.nokia.com/forum/showthread.php?p=408303#post408303
-        // http://discussion.forum.nokia.com/forum/showpost.php?p=388502&postcount=75
-        // http://discussion.forum.nokia.com/forum/showthread.php?t=102000
-        // http://blogs.forum.nokia.com/blog/hartti-suomelas-forum-nokia-blog/s60/2007/09/27/s60-3rd-edition-fp2-midp-sdk-beta-some-comments
-        // https://bugs.webkit.org/show_bug.cgi?id=9116
-        // Yo creo que es porque el WebKit es antiguo pues en el emulador de la versión 525
-        // ya funciona (en la v0.9 no funcionaba).
-
-        return (webKitVersion >= 525);
+        return true;
     }
 
     public boolean isDOMContentLoadedSupported()
@@ -100,26 +86,6 @@ public class BrowserWebKitS60 extends BrowserWebKitSymbian
         // Redefinimos el método por defecto, en el S60WebKit 5th v1.0 con WebKit 525
         // TAMPOCO NO FUNCIONA el DOMContentLoaded, lo que rompe la regla del WebKit 525
         return false;
-    }
-
-    public boolean isFilteredCommentsInMarkup()
-    {
-        // Ocurre en WebKit muy antiguos, anteriores a Safari desktop 3.0.
-        // Detectado en S60WebKit FP 1 (S60 3.1), se soluciona el problema en el FP 2
-
-        return s60Version <= 3.1f; // La "f" ES FUNDAMENTAL pues de otra manera 3.2 es double y la comparación puede no ser exacta
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        // En S60 5th (5.0) v0.9 este problema ya se solucionó y en v1.0 sigue siendo así
-        return s60Version <= 3.2f; // La "f" ES FUNDAMENTAL pues de otra manera 3.2 es double y la comparación puede no ser exacta
-    }
-
-    public boolean isOldEventSystem()
-    {
-        // En el S60 5th v1.0 el WebKit 525 ya soluciona este problema
-        return (webKitVersion < 525);
     }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)

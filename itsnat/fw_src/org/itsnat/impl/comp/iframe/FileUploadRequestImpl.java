@@ -209,7 +209,7 @@ public class FileUploadRequestImpl implements FileUploadRequest
         }
         readedBytes[0] += size;
 
-        String header = null;
+        String header;
         if (encoding != null)
         {
             try

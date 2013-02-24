@@ -94,7 +94,7 @@ public class FreeElementListTreeNode extends FeatureTreeNode implements EventLis
         EventTarget currTarget = evt.getCurrentTarget();
         if (currTarget == sortButton)
         {
-            Collections.sort(elemList,NodeComparator.SINGLETON);
+            Collections.sort(elemList,ElementComparator.SINGLETON);
         }
         else if (currTarget == rotateButton)
         {
@@ -116,16 +116,13 @@ public class FreeElementListTreeNode extends FeatureTreeNode implements EventLis
         }
     }
 
-    public static class NodeComparator implements Comparator
+    public static class ElementComparator implements Comparator<Element>
     {
-        public static final NodeComparator SINGLETON = new NodeComparator();
+        public static final ElementComparator SINGLETON = new ElementComparator();
 
-        public int compare(Object o1, Object o2)
+        public int compare(Element li1, Element li2)
         {
-            Element li1 = (Element)o1;
             Text text1 = (Text)li1.getFirstChild();
-
-            Element li2 = (Element)o2;
             Text text2 = (Text)li2.getFirstChild();
 
             return text1.getData().compareTo(text2.getData());

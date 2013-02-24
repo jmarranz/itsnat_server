@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.doc;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
+import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.w3c.dom.Attr;
@@ -78,7 +78,7 @@ public class HTMLObjectElementWrapperImpl extends ElementDocContainerWrapperImpl
         if (isJavaApplet())
             return "value";
         else
-            return "data"; // ASV, Renesis, Savarese Ssrc ...
+            return "data"; // ASV, Savarese Ssrc ...
     }
 
     public boolean isURLAttribute(Attr attr)
@@ -102,7 +102,7 @@ public class HTMLObjectElementWrapperImpl extends ElementDocContainerWrapperImpl
 
         super.setURL(url,clientDoc);
 
-        if ((clientDoc.getBrowser() instanceof BrowserMSIE6) &&
+        if ((clientDoc.getBrowser() instanceof BrowserMSIEOld) &&
              !isJavaApplet())
         {
             // En el caso al menos de Adobe SVG Viewer (en Internet Explorer desktop) el atributo/propiedad "src" es usado

@@ -55,7 +55,7 @@ public abstract class JSRenderW3CKeyboardEventImpl extends JSRenderW3CKeyEventIm
 
     public abstract boolean needsAuxiliarCharCode();
 
-    public int renderCharCodeCalcKeyCode(ItsNatKeyEvent keyEvt,String evtVarName,StringBuffer code)
+    public int renderCharCodeCalcKeyCode(ItsNatKeyEvent keyEvt,String evtVarName,StringBuilder code)
     {
         int keyCode;
         if (keyEvt.getType().equals("keypress"))
@@ -82,7 +82,7 @@ public abstract class JSRenderW3CKeyboardEventImpl extends JSRenderW3CKeyEventIm
     {
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String keyIdentifier;
         int keyLocation;
@@ -103,6 +103,6 @@ public abstract class JSRenderW3CKeyboardEventImpl extends JSRenderW3CKeyEventIm
         return getInitKeyboardEvent(code,keyEvt,evtVarName,keyIdentifier,keyLocation,keyCode,clientDoc);
     }
 
-    public abstract String getInitKeyboardEvent(StringBuffer code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc);
+    public abstract String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulImpl clientDoc);
 
 }

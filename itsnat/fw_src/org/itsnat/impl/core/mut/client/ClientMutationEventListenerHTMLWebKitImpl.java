@@ -16,13 +16,9 @@
 
 package org.itsnat.impl.core.mut.client;
 
-import java.util.Map;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitAndroid;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitS40;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.w3c.dom.events.MutationEvent;
 
 /**
  *
@@ -40,10 +36,6 @@ public abstract class ClientMutationEventListenerHTMLWebKitImpl extends ClientMu
         BrowserWebKit browser = (BrowserWebKit)clientDoc.getBrowser();
         if (browser instanceof BrowserWebKitS40)
             return new ClientMutationEventListenerHTMLWebKitS40Impl(clientDoc);
-        else if (browser instanceof BrowserWebKitAndroid)
-            return new ClientMutationEventListenerHTMLWebKitAndroidImpl(clientDoc);
-        else if (browser instanceof BrowserWebKitMoto)
-            return new ClientMutationEventListenerHTMLWebKitMotoImpl(clientDoc);
         else
             return new ClientMutationEventListenerHTMLWebKitDefaultImpl(clientDoc);
     }

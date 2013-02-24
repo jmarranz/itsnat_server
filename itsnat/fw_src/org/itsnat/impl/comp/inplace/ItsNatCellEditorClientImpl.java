@@ -22,11 +22,8 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitBolt;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitIPhone;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
@@ -37,7 +34,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLLabelElement;
 import org.w3c.dom.html.HTMLOptionElement;
 
 /**
@@ -54,12 +50,8 @@ public abstract class ItsNatCellEditorClientImpl
     {
         if (compEditor.getNode() instanceof HTMLElement)
         {
-            if (browser instanceof BrowserOpera9Mini)
-                return ItsNatHTMLCellEditorClientOpera9MiniImpl.SINGLETON;
-            else if (browser instanceof BrowserWebKitBolt)
-                return ItsNatHTMLCellEditorClientWebKitBoltImpl.SINGLETON;
-            else if (browser instanceof BrowserGeckoUCWEB)
-                return ItsNatHTMLCellEditorClientGeckoUCWEBImpl.SINGLETON;
+            if (browser instanceof BrowserOperaMini)
+                return ItsNatHTMLCellEditorClientOperaMiniImpl.SINGLETON;
             else
                 return ItsNatCellEditorClientDefaultImpl.SINGLETON;
         }
@@ -109,40 +101,11 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.addCodeToSend("var nodeEditor = " + clientDoc.getNodeReference(nodeEditor,true,true) + ";\n");
 
-        StringBuffer codeListener = new StringBuffer();
+        StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
         codeListener.append( "try{" );
         codeListener.append( "var node = arguments.callee.nodeEditor;\n" );
         codeListener.append( "var target = event.getTarget();\n" );
-        if (browser instanceof BrowserGecko)
-        {
-            // SkyFire v1.0 tiene un error muy tonto en el evento click checkbox,
-            // el "target" del evento es siempre el documento en vez del propio elemento,
-            // en nuestro caso el click normal de cambio de valor del checkbox provocaría
-            // el envío de un blur erróneo que haría perder el cambio (aunque detrás de SkyFire hay un FireFox 2.x
-            // esto no ocurre en el FireFox 2.0 al menos).
-            // Probando en SkyFire v1.0 sabemos que el "target" de un click normal
-            // en el área de la página es el elemento <body> como el más alto,
-            // nunca el documento salvo en este caso erróneo, por tanto si target
-            // es document es que estamos en este caso erróneo.
-            if (((BrowserGecko)browser).isSkyFire() &&
-                 DOMUtilHTML.isHTMLInputCheckBox(nodeEditor))
-                codeListener.append( "if (target == document) return;\n" );
-        }
-        else if (browser instanceof BrowserOpera8Mobile)
-        {
-            // En el caso de <label> en Opera Mobile 8.6x forzamos el envío de
-            // un click cuando pulsamos ENTER sobre un <label>, esto nos sirve
-            // para activar el edition in place pero cuando ya está editándose
-            // tenemos que evitar que al usar el ENTER en edición quite accidentalmente el editor
-            // a través de este listener. De todas formas no es muy importante
-            // la edición in place con <label> no es recomendada y no funciona del todo bien en Opera Mobile 8.x usando cursores.
-            // Ver JSRenderItsNatDOMStdEventListenerOpera8MobileImpl para más información.
-
-            if (nodeEditor.getParentNode() instanceof HTMLLabelElement)
-                codeListener.append( "if (node.parentNode == target) return;\n" );
-        }
-
         codeListener.append( "if (node == target) return;\n" ); // Es un click dirigido al propio elemento editándose.
 
         // El método getCallBlurFocusFormControlCode llamará a blur() o enviará un evento "blur" manualmente según si
@@ -157,7 +120,7 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
 
-        if (browser instanceof BrowserWebKitIPhone)
+        if (browser instanceof BrowserWebKitIOS)
         {
             // En iPhone los eventos de ratón no llegan al document, <body> o <html>
             // si el elemento pulsado "no es clickable" es decir si no tiene un listener
@@ -188,7 +151,7 @@ public abstract class ItsNatCellEditorClientImpl
 
         clientDoc.removeEventListener((EventTarget)doc,"click", parent, true);
 
-        if (browser instanceof BrowserWebKitIPhone)
+        if (browser instanceof BrowserWebKitIOS)
             clientDoc.removeEventListener((EventTarget)doc,"touchend", parent, true);
     }
 }

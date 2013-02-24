@@ -18,7 +18,6 @@ package org.itsnat.impl.comp.button.toggle;
 
 import org.itsnat.comp.button.toggle.ItsNatButtonCheckBox;
 import org.itsnat.comp.button.toggle.ItsNatFreeCheckBox;
-import org.itsnat.impl.comp.button.toggle.ItsNatFreeCheckBoxImpl;
 
 /**
  *

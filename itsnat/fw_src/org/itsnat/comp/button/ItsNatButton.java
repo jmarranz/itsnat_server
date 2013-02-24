@@ -16,8 +16,8 @@
 
 package org.itsnat.comp.button;
 
-import org.itsnat.comp.*;
 import javax.swing.ButtonModel;
+import org.itsnat.comp.*;
 
 /**
  * Is the base interface of button components.

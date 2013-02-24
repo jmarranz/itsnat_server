@@ -16,12 +16,12 @@
 
 package org.itsnat.impl.comp.button;
 
-import org.itsnat.impl.comp.ItsNatHTMLInputImpl;
-import org.itsnat.comp.button.ItsNatButtonUI;
 import javax.swing.ButtonModel;
 import javax.swing.event.ChangeEvent;
+import org.itsnat.comp.button.ItsNatButtonUI;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.ItsNatHTMLInputImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
@@ -49,6 +49,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         return buttonDelegate;
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -97,6 +98,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         setDataModel(dataModel);
     }
 
+    @Override
     public boolean isEnabled()
     {
         // Está propiedad está en el modelo no sólo en el DOM
@@ -104,6 +106,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         return getButtonModel().isEnabled();
     }
 
+    @Override
     public void setEnabled(boolean b)
     {
         // Está propiedad está en el modelo no sólo en el DOM
@@ -117,6 +120,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         super.setEnabled(b);
     }
 
+    @Override
     public void processDOMEvent(Event evt)
     {
         // Evento click al menos

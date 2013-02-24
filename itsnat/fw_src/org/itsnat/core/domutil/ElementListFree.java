@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
  * @see ElementGroupManager#createElementListFree(Element,boolean)
  * @author Jose Maria Arranz Santamaria
  */
-public interface ElementListFree extends ElementListBase,List
+public interface ElementListFree extends ElementListBase,List<Element>
 {
     /**
      * Informs whether the list works in master mode.

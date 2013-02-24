@@ -33,7 +33,7 @@ public class ResponseDelegateSVGLoadDocBatikImpl extends ResponseDelegateSVGLoad
         super(response);
     }
 
-    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuffer code)
+    protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // SVG no tiene controles propios.
         // NO llamamos a rewriteClientHTMLUIControlProperties porque

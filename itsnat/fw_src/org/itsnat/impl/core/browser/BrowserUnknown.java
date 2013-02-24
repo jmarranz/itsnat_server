@@ -45,11 +45,6 @@ public class BrowserUnknown extends BrowserW3C
         return false;
     }
 
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        return false;
-    }
-
     public boolean isReferrerReferenceStrong()
     {
         // Si es un robot evitamos guardar referencias fuertes.
@@ -85,7 +80,7 @@ public class BrowserUnknown extends BrowserW3C
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
@@ -93,16 +88,6 @@ public class BrowserUnknown extends BrowserW3C
     public boolean hasHTMLCSSOpacity()
     {
         return true;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
     }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()

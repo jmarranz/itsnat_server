@@ -16,14 +16,13 @@
 
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.BrowserGecko;
 import org.itsnat.impl.core.browser.BrowserMSIE9;
-import org.itsnat.impl.core.browser.BrowserNetFront;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.BrowserW3C;
+import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
@@ -64,7 +63,7 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
         //---------------------------------------------------
         // TagNames no válidos DENTRO de un innerHTML
         //---------------------------------------------------
-        /* En FireFox, Safari y NetFront el <script> es insertado via innerHTML pero por razones de seguridad
+        /* En FireFox y Safari  el <script> es insertado via innerHTML pero por razones de seguridad
            es ignorado el código del script, no se ejecuta
            Ejemplo:
            var prueba = document.getElementById("prueba");
@@ -94,16 +93,14 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
             return JSRenderHTMLElementOperaImpl.getJSRenderHTMLElementOpera((BrowserOpera)browser);
         else if (browser instanceof BrowserMSIE9)
             return JSRenderHTMLElementMSIE9Impl.SINGLETON;
-        else if (browser instanceof BrowserNetFront)
-            return JSRenderHTMLElementNetFrontImpl.SINGLETON;
         else if (browser instanceof BrowserBlackBerryOld)
             return JSRenderHTMLElementBlackBerryOldImpl.SINGLETON;
-        else if (browser instanceof BrowserASVRenesis)
-            return JSRenderHTMLElementASVRenesisImpl.SINGLETON;
+        else if (browser instanceof BrowserAdobeSVG)
+            return JSRenderHTMLElementAdobeSVGImpl.SINGLETON;
         else if (browser instanceof BrowserBatik)
             return JSRenderHTMLElementBatikImpl.SINGLETON;
         else // Desconocido
-            return JSRenderHTMLElementGeckoDefaultImpl.SINGLETON;
+            return JSRenderHTMLElementGeckoImpl.SINGLETON;
     }
 
     protected boolean isChildNotValidInsideInnerHTMLHTMLElement(Element elem,MarkupTemplateVersionImpl template)

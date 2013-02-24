@@ -1280,7 +1280,7 @@ public class CodeInManual
                 Element currTarget = (Element)evt.getCurrentTarget(); // Link
 
                 ElementCSSInlineStyle styleElem = (ElementCSSInlineStyle)currTarget;
-                CSSStyleDeclaration cssDec = (CSSStyleDeclaration)styleElem.getStyle();
+                CSSStyleDeclaration cssDec = styleElem.getStyle();
 
                 CSSValueList border = (CSSValueList)cssDec.getPropertyCSSValue("border");
                 int len = border.getLength();

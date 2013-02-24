@@ -20,7 +20,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import javax.servlet.RequestDispatcher;
@@ -268,21 +267,19 @@ public class ItsNatHttpSessionReplicationCapableImpl extends ItsNatHttpSessionIm
 
             ServletContext context = itsNatContext.getServletContext();
 
-            MapListImpl pendingTasks = getDeserialPendingTasks();
+            MapListImpl<String,DeserialPendingTask> pendingTasks = getDeserialPendingTasks();
 
-            for(Iterator it = pendingTasks.getMap().entrySet().iterator(); it.hasNext(); )
+            for(Map.Entry<String,LinkedList<DeserialPendingTask>> entry : pendingTasks.getMap().entrySet() )
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                String currServletName = (String)entry.getKey();
-                LinkedList pendingTasksOfServlet = (LinkedList)entry.getValue();
+                String currServletName = entry.getKey();
+                LinkedList<DeserialPendingTask> pendingTasksOfServlet = entry.getValue();
                 if (pendingTasksOfServlet == null) continue; // Por si acaso pero es raro que sea nulo
 
                 if (servletName.equals(currServletName))
                 {
                     // El servlet que está haciendo la request de verdad
-                    for(Iterator it2 = pendingTasksOfServlet.iterator(); it2.hasNext(); )
+                    for(DeserialPendingTask task : pendingTasksOfServlet)
                     {
-                        DeserialPendingTask task = (DeserialPendingTask)it2.next();
                         task.process(itsNatServlet,itsNatRequest,itsNatResponse);
                     }
                 }
@@ -321,9 +318,8 @@ public class ItsNatHttpSessionReplicationCapableImpl extends ItsNatHttpSessionIm
                     ItsNatServletRequestImpl currItsNatServReq = currItsNatServlet.createItsNatServletRequest(servRequest,servResponse,this); // Pasando la sesión como parámetro evitamos que se intente cargar de nuevo
                     ItsNatServletResponseImpl currItsNatServResp = currItsNatServReq.getItsNatServletResponseImpl();
 
-                    for(Iterator it2 = pendingTasksOfServlet.iterator(); it2.hasNext(); )
+                    for(DeserialPendingTask task : pendingTasksOfServlet)
                     {
-                        DeserialPendingTask task = (DeserialPendingTask)it2.next();
                         task.process(currItsNatServlet,currItsNatServReq,currItsNatServResp);
                     }
                 }

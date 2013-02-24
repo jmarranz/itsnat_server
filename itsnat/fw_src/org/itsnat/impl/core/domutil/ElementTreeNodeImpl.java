@@ -329,7 +329,7 @@ public abstract class ElementTreeNodeImpl extends ElementGroupImpl implements El
 
     public static String toString(int[] path)
     {
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         for(int i = 0; i < path.length; i++)
         {
             if (i > 0) res.append( "," );

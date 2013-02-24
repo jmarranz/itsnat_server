@@ -19,7 +19,6 @@ package org.itsnat.impl.core.template;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
-import org.itsnat.impl.core.util.ThreadLocalDCL;
 
 /**
  *
@@ -28,7 +27,6 @@ import org.itsnat.impl.core.util.ThreadLocalDCL;
 public class MarkupTemplateNormalDelegateImpl extends MarkupTemplateDelegateImpl
 {
     protected MarkupSourceImpl source;
-    protected final ThreadLocal currentTemplateThreadLocal = ThreadLocalDCL.newThreadLocal();
     protected volatile MarkupTemplateVersionImpl currentTemplateVersion; // volatile evita en JDK 1.5 y superiores el problema del "Double-checked locking", para JVM 1.4 y menores ha de usarse el ThreadLocal
     protected final Object currentTemplateVersionMonitor = new Object();
 
@@ -66,75 +64,39 @@ public class MarkupTemplateNormalDelegateImpl extends MarkupTemplateDelegateImpl
 
     public MarkupTemplateVersionImpl getNewestMarkupTemplateVersion(MarkupSourceImpl source,ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        if (currentTemplateThreadLocal != null) // JVM 1.4 o menor
+        if (currentTemplateVersion == null)
         {
-            if (currentTemplateThreadLocal.get() == null) // Por primera vez con este hilo
+            // La primera vez que se accede a la página
+            // Técnica alternativa: http://java.sun.com/developer/technicalArticles/Interviews/bloch_effective_08_qa.html en "Best Practices for Lazy Initialization"
+            synchronized(currentTemplateVersionMonitor)
             {
-                synchronized(currentTemplateVersionMonitor)
+                if (currentTemplateVersion == null)
                 {
-                    currentTemplateThreadLocal.set(Boolean.TRUE); // Este hilo así se entera que currentTemplateVersion está ya definido o se define ahora
-                    if (currentTemplateVersion == null)
-                    {
-                        this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
-                        return currentTemplateVersion;
-                    }
-                    else  // Caso de otro hilo que estaba esperando
-                        return getNewestMarkupTemplateVersionCurrentExists(source,request,response); // Es prácticamente imposible de que se haya cambiado el template mientras se cargaba la versión anterior, pero por si acaso, si no ha cambiado no hace nada
+                    this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
+                    return currentTemplateVersion;
                 }
+                else // Caso de otro hilo que estaba esperando
+                    return getNewestMarkupTemplateVersionCurrentExists(source,request,response); // Es prácticamente imposible de que se haya cambiado el template mientras se cargaba la versión anterior, pero por si acaso, si no ha cambiado no hace nada
             }
-            else return getNewestMarkupTemplateVersionCurrentExists(source,request,response);
         }
-        else // JVM 1.5 y superior
-        {
-            if (currentTemplateVersion == null)
-            {
-                // La primera vez que se accede a la página
-                // Técnica alternativa: http://java.sun.com/developer/technicalArticles/Interviews/bloch_effective_08_qa.html en "Best Practices for Lazy Initialization"
-                synchronized(currentTemplateVersionMonitor)
-                {
-                    if (currentTemplateVersion == null)
-                    {
-                        this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
-                        return currentTemplateVersion;
-                    }
-                    else // Caso de otro hilo que estaba esperando
-                        return getNewestMarkupTemplateVersionCurrentExists(source,request,response); // Es prácticamente imposible de que se haya cambiado el template mientras se cargaba la versión anterior, pero por si acaso, si no ha cambiado no hace nada
-                }
-            }
-            else return getNewestMarkupTemplateVersionCurrentExists(source,request,response);
-        }
+        else return getNewestMarkupTemplateVersionCurrentExists(source,request,response);
     }
 
 
     private MarkupTemplateVersionImpl getNewestMarkupTemplateVersionCurrentExists(MarkupSourceImpl source,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         // Ya existe un currentTemplateVersion, vemos si tenemos que crear otro porque ha cambiado el documento
-        if (currentTemplateThreadLocal != null) // JVM 1.4 o menor
+        final MarkupTemplateVersionImpl currentVersion = this.currentTemplateVersion;
+        if (currentVersion.isInvalid(source,request,response))
         {
-            // Nos curamos así en salud pues no se si la versión para 1.5 es fiable para 1.4
             synchronized(currentTemplateVersionMonitor)
             {
-                if (currentTemplateVersion.isInvalid(source,request,response))  // Verificamos si la versión que generó el hilo concurrente nos vale
-                {
-                    currentTemplateVersion.cleanDOMPattern();
-                    this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
-                }
-            }
-        }
-        else  // JVM 1.5 o superior.
-        {
-            final MarkupTemplateVersionImpl currentVersion = this.currentTemplateVersion;
-            if (currentVersion.isInvalid(source,request,response))
-            {
-                synchronized(currentTemplateVersionMonitor)
-                {
-                    if ((currentVersion != this.currentTemplateVersion) &&  // Un hilo concurrente lo cambió antes
-                         !currentTemplateVersion.isInvalid(source,request,response))    // Verificamos si la versión que generó el hilo concurrente nos vale
-                         return currentTemplateVersion;  // Caso muy raro (probabilísticamente) pero posible
+                if ((currentVersion != this.currentTemplateVersion) &&  // Un hilo concurrente lo cambió antes
+                     !currentTemplateVersion.isInvalid(source,request,response))    // Verificamos si la versión que generó el hilo concurrente nos vale
+                     return currentTemplateVersion;  // Caso muy raro (probabilísticamente) pero posible
 
-                    currentTemplateVersion.cleanDOMPattern();
-                    this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
-                }
+                currentTemplateVersion.cleanDOMPattern();
+                this.currentTemplateVersion = parent.createMarkupTemplateVersion(source.createInputSource(request,response),source.getCurrentTimestamp(request,response),request,response);
             }
         }
         return currentTemplateVersion;

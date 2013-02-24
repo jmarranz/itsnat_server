@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.comp.button;
 
-import org.itsnat.impl.comp.ItsNatElementComponentUIImpl;
 import org.itsnat.comp.button.ItsNatButton;
 import org.itsnat.comp.button.ItsNatButtonUI;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.ItsNatElementComponentUIImpl;
 
 /**
  *

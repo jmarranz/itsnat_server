@@ -38,8 +38,8 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
 {
     protected String cssText = ""; // Caché
     protected Element parent;
-    protected Map propertyMap = new HashMap();
-    protected List propertyList = new ArrayList();
+    protected Map<String,CSSPropertyImpl> propertyMap = new HashMap<String,CSSPropertyImpl>();
+    protected List<CSSPropertyImpl> propertyList = new ArrayList<CSSPropertyImpl>();
 
     /** Creates a new instance of CSSStyleDeclarationImpl */
     public CSSStyleDeclarationImpl(Element parent)
@@ -64,7 +64,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
     {
         getCssText(); // Actualiza si es necesario
         propertyName = propertyName.toLowerCase();
-        return (CSSPropertyImpl)propertyMap.get(propertyName);
+        return propertyMap.get(propertyName);
     }
 
     public String getPropertyValue(String propertyName)
@@ -104,11 +104,11 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
 
     public void updateCssTextFromPropertyList()
     {
-        StringBuffer cssText = new StringBuffer();
+        StringBuilder cssText = new StringBuilder();
         for(int i = 0; i < propertyList.size(); i++ )
         {
              if (i != 0) cssText.append( ';' );
-             CSSPropertyImpl currProperty = (CSSPropertyImpl)propertyList.get(i);
+             CSSPropertyImpl currProperty = propertyList.get(i);
              cssText.append( currProperty.getPropertyName() + ":" + currProperty.getCssTextSourceCode(false) );
         }
 
@@ -170,7 +170,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
 
     public String item(int index)
     {
-        CSSPropertyImpl currProperty = (CSSPropertyImpl)propertyList.get(index);
+        CSSPropertyImpl currProperty = propertyList.get(index);
         return currProperty.getCssTextSourceCode().toString();
     }
 

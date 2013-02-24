@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class ElementListFreeIteratorImpl implements Iterator
+public class ElementListFreeIteratorImpl implements Iterator<Element>
 {
     protected ElementListFreeInternal list;
     protected Element currElem;
@@ -57,7 +57,7 @@ public class ElementListFreeIteratorImpl implements Iterator
         return (nextElem != null);
     }
 
-    public Object next()
+    public Element next()
     {
         if (nextElem == null) throw new NoSuchElementException();
 

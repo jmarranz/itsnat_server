@@ -56,7 +56,7 @@ public class UniqueIdGenMessageDigest implements UniqueIdGenerator
 
         byte[] idBytes = newMd.digest(idRef.getBytes());
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append(prefix + "_");
         for(int i = 0; i < idBytes.length; i++)
         {

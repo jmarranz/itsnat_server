@@ -60,12 +60,10 @@ public abstract class ElementTreeNormalNodeListImpl extends ElementTreeNodeListI
 
         if (!childElemList.isEmpty())
         {
-            ArrayList childTreeNodes = getInternalTreeNodeList();
+            ArrayList<ElementTreeNodeImpl> childTreeNodes = getInternalTreeNodeList();
             int i = 0;
-            for(Iterator it = childElemList.getInternalElementListFree().iterator(); it.hasNext(); )
+            for(Element elem : childElemList.getInternalElementListFree())
             {
-                Element elem = (Element)it.next();
-
                 ElementTreeNodeImpl treeNode = createTreeNode(i,elem);
                 childTreeNodes.add(treeNode);
 

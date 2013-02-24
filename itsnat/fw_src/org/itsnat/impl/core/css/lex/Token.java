@@ -17,9 +17,8 @@
 package org.itsnat.impl.core.css.lex;
 
 import java.io.Serializable;
-import org.itsnat.core.ItsNatException;
 import java.util.LinkedList;
-import java.util.List;
+import org.itsnat.core.ItsNatException;
 
 /**
  * Una vez creado es de sólo lectura
@@ -51,20 +50,19 @@ public abstract class Token implements Serializable
         return end;
     }
 
-    public static List parse(String code)
+    public static LinkedList<Token> parse(String code)
     {
-        Cursor cursor = new Cursor();
-        return parse(code,cursor,false,' ');
+        Cursor cursor = new Cursor(code);
+        return parse(cursor,false,' ');
     }
 
-    public static List parse(String code,Cursor cursor,boolean checkEndChar,char endChar)
+    public static LinkedList<Token> parse(Cursor cursor,boolean checkEndChar,char endChar)
     {
-        List tokens = new LinkedList();
-        int len = code.length();
-        for( ; cursor.getPos() < len; cursor.inc())
+        LinkedList<Token> tokens = new LinkedList<Token>();
+        for( ; cursor.isValidPosition(); cursor.inc())
         {
-            int i = cursor.getPos();
-            char c = code.charAt(i);
+            int i = cursor.getCurrentPos();
+            char c = cursor.getCurrentChar();
             Token token;
             if (checkEndChar && (c == endChar))
                 break;
@@ -82,15 +80,15 @@ public abstract class Token implements Serializable
             }
             else if (c == '(')
             {
-                token = new ParenthesisBlock(code,cursor);
+                token = new ParenthesisBlock(cursor);
             }
             else if (c == '"')
             {
-                token = new StringDoubleQuote(code,cursor);
+                token = new StringDoubleQuote(cursor);
             }
             else if (c == '\'')
             {
-                token = new StringSimpleQuote(code,cursor);
+                token = new StringSimpleQuote(cursor);
             }
             else if (c == ':')
             {
@@ -102,23 +100,24 @@ public abstract class Token implements Serializable
             }
             else if (Identifier.isIdentifierStart(c))
             {
-                token = new Identifier(code,cursor);
+                token = new Identifier(cursor);
             }
             else if (FloatNumber.isFloatNumberStart(c))
             {
-                token = new FloatNumber(code,cursor);
+                token = new FloatNumber(cursor);
             }
             else if (HexNumber.isHexNumberStart(c))
             {
-                token = new HexNumber(code,cursor);
+                token = new HexNumber(cursor);
             }
-            else throw new ItsNatException("Unexpected char, pos: " + cursor.getPos() + " code: " + code);
+            else throw new ItsNatException("Unexpected char, pos: " + cursor.getCurrentPos() + " code: " + cursor.getCode());
 
             tokens.add(token);
         }
         return tokens;
     }
 
+    @Override
     public boolean equals(Object token)
     {
         if (super.equals(token))
@@ -128,6 +127,7 @@ public abstract class Token implements Serializable
         return toString().equals(token.toString()); // Mismo tipo y mismo contenido
     }
 
+    @Override
     public int hashCode()
     {
         return toString().hashCode();

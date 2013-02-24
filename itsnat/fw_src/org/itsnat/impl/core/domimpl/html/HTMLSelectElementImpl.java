@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import org.itsnat.impl.core.domimpl.DocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
@@ -55,13 +56,13 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
         return (HTMLOptionElement)DOMUtilInternal.getChildElementWithTagNameNS(this,NamespaceUtil.XHTML_NAMESPACE,"option", index);
     }
 
-    public static LinkedList getOptionsArray(HTMLSelectElement select)
+    public static LinkedList<Node> getOptionsArray(HTMLSelectElement select)
     {
         // Puede haber <optgroup> dentro del select padre, hay que buscar recursivamente
         return DOMUtilInternal.getChildElementListWithTagNameNS(select,NamespaceUtil.XHTML_NAMESPACE,"option",true);
     }
 
-    public LinkedList getOptionsArray()
+    public LinkedList<Node> getOptionsArray()
     {
         return getOptionsArray(this);
     }
@@ -83,11 +84,11 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
 
     public int getSelectedIndex()
     {
-        LinkedList options = getOptionsArray();
+        LinkedList<Node> options = getOptionsArray();
         if (options != null)
         {
             int i = 0;
-            for(Iterator it = options.iterator(); it.hasNext(); i++)
+            for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
             {
                 HTMLOptionElement option = (HTMLOptionElement)it.next();
                 if (option.getSelected()) return i;
@@ -100,11 +101,11 @@ public class HTMLSelectElementImpl extends HTMLElementImpl implements HTMLSelect
     public void setSelectedIndex( int selectedIndex )
     {
         HTMLOptionElement optionSelected = null;
-        LinkedList options = getOptionsArray();
+        LinkedList<Node> options = getOptionsArray();
         if (options != null)
         {
             int i = 0;
-            for(Iterator it = options.iterator(); it.hasNext(); i++)
+            for(Iterator<Node> it = options.iterator(); it.hasNext(); i++)
             {
                 HTMLOptionElement option = (HTMLOptionElement)it.next();
                 if (i == selectedIndex) optionSelected = option;

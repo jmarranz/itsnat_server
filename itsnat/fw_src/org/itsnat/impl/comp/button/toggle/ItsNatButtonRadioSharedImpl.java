@@ -18,8 +18,8 @@ package org.itsnat.impl.comp.button.toggle;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JToggleButton.ToggleButtonModel;
-import org.itsnat.comp.button.ItsNatButtonGroup;
 import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.button.ItsNatButtonGroup;
 
 /**
  *
@@ -48,6 +48,7 @@ public class ItsNatButtonRadioSharedImpl extends ItsNatButtonToggleSharedImpl
         comp.setButtonGroup(dataModel.getGroup()); // Antes de nada y por si no se hubiera definido o hubiera cambiado (pues el cambio de grupo no se notifica con eventos)
     }
 
+    @Override
     public void syncWithDataModel()
     {
         ItsNatButtonRadioInternal comp = getItsNatButtonRadio();
@@ -57,6 +58,7 @@ public class ItsNatButtonRadioSharedImpl extends ItsNatButtonToggleSharedImpl
         super.syncWithDataModel();
     }
 
+    @Override
     public void syncUIWithDataModel()
     {
         ItsNatButtonRadioInternal comp = getItsNatButtonRadio();

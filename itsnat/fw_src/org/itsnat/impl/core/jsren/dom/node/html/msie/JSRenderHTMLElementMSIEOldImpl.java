@@ -16,25 +16,28 @@
 
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
+import org.itsnat.core.html.ItsNatHTMLEmbedElement;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLObjectElement;
+import org.w3c.dom.html.HTMLSelectElement;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
+public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
 {
-
+    public static final JSRenderHTMLElementMSIEOldImpl SINGLETON = new JSRenderHTMLElementMSIEOldImpl();
+    
     /** Creates a new instance of JSRenderHTMLElementMSIEOldImpl */
     public JSRenderHTMLElementMSIEOldImpl()
     {
-        // Internet Explorer (MSIE 6+) válidos también para Pocket IE:
+        // Internet Explorer (MSIE 6+) :
         // http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/innerhtml.asp
         // COL, COLGROUP, FRAMESET, HTML, STYLE, TABLE, TBODY, TFOOT, THEAD, TITLE, TR
         // tienen innerHTML como "readonly"
@@ -104,10 +107,7 @@ public abstract class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElement
 
     public static JSRenderHTMLElementMSIEOldImpl getJSMSIEHTMLElementRender(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLElementMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLElementMSIE6Impl.SINGLETON;
+        return JSRenderHTMLElementMSIEOldImpl.SINGLETON;
     }
 
     protected boolean isChildNotValidInsideInnerHTMLElementNotHTML(Element elem,MarkupTemplateVersionImpl template)
@@ -148,4 +148,66 @@ public abstract class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElement
     {
         return elemName + ".currentStyle";
     }
+
+    private StringBuilder addSpecialAttrIfDefined(Element elem,String attrName,StringBuilder spAttribs)
+    {
+        String value = elem.getAttribute(attrName);
+        if (value.length() == 0) return spAttribs;
+
+        if (spAttribs == null) spAttribs = new StringBuilder();
+        spAttribs.append( attrName + "='" + value + "' " );
+        return spAttribs;
+    }
+
+    protected String createElement(Element elem,String tagName,ClientDocumentStfulImpl clientDoc)
+    {
+        // Es RARISIMO que un elemento X/HTML tenga un prefijo en un
+        // documento X/HTML (porque MSIE no admite más tipos de documentos con estado)
+        // pero por si acaso tomamos el localName porque createElement en JavaScript en MSIE no tolera los prefijos en el tag.
+        // Ver notas en JSRenderOtherNSElementMSIEmpl
+
+        tagName = elem.getLocalName(); 
+
+        // Ahora añadimos los atributos especiales si hay
+        StringBuilder spAttribs = null;
+
+        spAttribs = addSpecialAttrIfDefined(elem,"name",spAttribs);
+
+        // Esta chapuza está documentada en:
+        // http://www.thunderguy.com/semicolon/2005/05/23/setting-the-name-attribute-in-internet-explorer
+        // http://msdn.microsoft.com/library/default.asp?url=/workshop/author/dhtml/reference/properties/name_2.asp
+        // El atributo en sí puede ponerse con setAttribute()
+        // el problema es que MSIE no se entera si "name" tiene significado como por ejemplo en un anchor
+        // (el anchor tiene el atributo pero no funciona como anchor)
+
+        if (elem instanceof HTMLSelectElement)
+        {
+            // http://bytes.com/groups/javascript/435979-creating-select-multiple-via-dom-methods
+            spAttribs = addSpecialAttrIfDefined(elem,"multiple",spAttribs);
+            spAttribs = addSpecialAttrIfDefined(elem,"size",spAttribs);
+        }
+        else if ((elem instanceof HTMLObjectElement) ||
+                 (elem instanceof ItsNatHTMLEmbedElement))
+        {
+            // Esto lo he descubierto yo. No es que "type" haya de añadirse
+            // en el createElement sino que debe de ser añadido cuanto
+            // antes, antes del atributo "src" por ejemplo y también "data"
+            // en el caso de MSIE v8.
+            spAttribs = addSpecialAttrIfDefined(elem,"type",spAttribs);
+        }
+
+        // El caso de "type" de input (ej. <input type="...">) 
+        // no es necesario meterlo en createElement, pero sí inmediatamente después
+        // de crear el objeto, pues si es añadido antes al Document, MSIE lo define como <input type="text"> (el tipo por defecto)
+        // el problema es que no puede cambiarse después via JavaScript al algo diferente
+        // (file, submit etc) dando error o ignorándose.
+        // Esto también se aplica a select si queremos cambiar de multiple
+        // a no multiple y viceversa.
+
+        if (spAttribs != null)
+            tagName = "<" + tagName + " " + spAttribs + ">";
+
+        return super.createElement(elem,tagName,clientDoc);
+    }
+    
 }

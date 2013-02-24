@@ -177,7 +177,7 @@ public class IFrObjEmbSVGASVAutoBindingTreeNode extends FeatureTreeNode implemen
             // Don't worry, our required method is there.
             try
             {
-                Method method = container.getClass().getMethod("getContentDocument",null);
+                Method method = container.getClass().getMethod("getContentDocument",(Class<?>[])null);
                 childDoc = (Document)method.invoke(container,(Object[])null);
             }
             catch(Exception ex2) { throw new RuntimeException(ex2); }

@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp;
 
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.comp.ItsNatElementComponent;
 import org.itsnat.comp.ItsNatElementComponentUI;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.util.MiscUtil;
 import org.w3c.dom.Element;

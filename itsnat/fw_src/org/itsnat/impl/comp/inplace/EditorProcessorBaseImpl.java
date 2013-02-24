@@ -17,12 +17,12 @@
 package org.itsnat.impl.comp.inplace;
 
 import java.io.Serializable;
-import org.itsnat.impl.comp.*;
 import java.util.EventObject;
 import javax.swing.CellEditor;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import org.itsnat.comp.ItsNatComponent;
+import org.itsnat.impl.comp.ItsNatElementComponentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

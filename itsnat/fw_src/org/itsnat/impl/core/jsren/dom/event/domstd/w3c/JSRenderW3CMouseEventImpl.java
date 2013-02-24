@@ -18,7 +18,6 @@ package org.itsnat.impl.core.jsren.dom.event.domstd.w3c;
 
 import org.itsnat.impl.core.browser.BrowserBatik;
 import org.itsnat.impl.core.browser.BrowserW3C;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 
 /**
  *
@@ -36,15 +35,7 @@ public abstract class JSRenderW3CMouseEventImpl extends JSRenderW3CUIEventImpl
 
     public static JSRenderW3CMouseEventImpl getJSW3CMouseEventRender(BrowserW3C browser)
     {
-        if (browser instanceof BrowserWebKit)
-        {
-            BrowserWebKit webKit = ((BrowserWebKit)browser);
-            if (webKit.isOldEventSystem())
-                return JSRenderW3CMouseEventWebKitOldImpl.SINGLETON;
-            else
-                return JSRenderW3CMouseEventDefaultImpl.SINGLETON;
-        }
-        else if (browser instanceof BrowserBatik)
+        if (browser instanceof BrowserBatik)
             return JSRenderW3CMouseEventBatikImpl.SINGLETON;
         else
             return JSRenderW3CMouseEventDefaultImpl.SINGLETON;

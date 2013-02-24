@@ -65,7 +65,7 @@ public abstract class ResponseDelegStfulLoadDocByBrowserImpl
     {
         // Revertir cambios hechos a través de JavaScript y que el navegador ha podido memorizar para el autofill, por ejemplo la etiqueta de un botón que cambia
         // Se redefine en varios casos en los que hay auto-form-fill
-        // Llamar sólo una vez (por el caso de BrowserOpera9Desktop)
+        // Llamar sólo una vez (por el caso de BrowserOperaDesktop)
 
         // Caso de revertir las acciones del usuario en
         // navegadores sin "autofill no desactivable": FireFox, MSIE etc.
@@ -100,5 +100,5 @@ public abstract class ResponseDelegStfulLoadDocByBrowserImpl
 
     public abstract String getJSMethodInitName();
     public abstract String getOnInitScriptContentCodeFixDOMCode();
-    public abstract void fillFrameworkScriptFileNamesOfBrowser(LinkedList list);
+    public abstract void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list);
 }

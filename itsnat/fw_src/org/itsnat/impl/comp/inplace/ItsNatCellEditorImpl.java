@@ -22,8 +22,8 @@ import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -105,7 +105,7 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
 
         cellElem.appendChild(nodeEditor);  // Se detecta y se añaden los DOM listeners automáticamente en el componente, cuando se quite del árbol también se detecta y se quitan los listeners antes
 
-        delegate.setValue(value); // Conviene llamar antes que focus() por ejemplo en NetFront
+        delegate.setValue(value); // Conviene llamar antes que focus() 
         delegate.setFocus();
 
         registerEventListeners();
@@ -134,6 +134,7 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
         }
     }
 
+    @Override
     public boolean stopCellEditing()
     {
         unregisterEventListeners();
@@ -141,6 +142,7 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
         return super.stopCellEditing();
     }
 
+    @Override
     public void cancelCellEditing()
     {
         unregisterEventListeners();
@@ -178,9 +180,6 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
 
         /*
          * Último recurso cuando por alguna razón no se envía el blur
-         * Es el caso de Pocket IE en <input> y <textarea> que no emiten el blur
-         * (y en Pocket IE no hay forma de detectar pulsaciones en el documento)
-         * aunque se emite un falso blur en la medida de lo posible no es suficiente.
          */
         itsNatDoc.addEventListener(0,globalEventListener);
     }

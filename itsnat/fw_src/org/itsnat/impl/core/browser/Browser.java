@@ -17,14 +17,15 @@
 package org.itsnat.impl.core.browser;
 
 import java.io.Serializable;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
 import java.util.Map;
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.browser.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.doc.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLTextImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -38,11 +39,10 @@ public abstract class Browser implements Serializable
     public static final int GECKO  = 2;
     public static final int WEBKIT = 3;  // Navegadores basados en WebKit
     public static final int OPERA  = 4;
-    public static final int NETFRONT = 5;
-    public static final int BLACKBERRY_OLD = 6;
-    public static final int ASV_RENESIS = 7;
-    public static final int BATIK = 8;
-    public static final int MSIE_9 = 9;
+    public static final int BLACKBERRY_OLD = 5;
+    public static final int ADOBE_SVG = 6;
+    public static final int BATIK = 7;
+    public static final int MSIE_9 = 8;
 
     protected String userAgent;
     protected int browserType;
@@ -73,9 +73,6 @@ public abstract class Browser implements Serializable
 
         String userAgent = itsNatRequest.getHeader("User-Agent");
 
-//if (userAgent.indexOf("Lobo")!=-1)
-//  return new BrowserGeckoOther(userAgent,itsNatRequest);
-
         if (isMSIE(userAgent,itsNatRequest))
         {
             int version = getMSIEVersion(userAgent);
@@ -92,8 +89,6 @@ public abstract class Browser implements Serializable
             return BrowserOpera.createBrowserOpera(userAgent);
         else if (BrowserBlackBerryOld.isBlackBerryOld(userAgent))
             return new BrowserBlackBerryOld(userAgent);
-        else if (BrowserNetFront.isNetFront(userAgent))
-            return new BrowserNetFront(userAgent);
         else if (BrowserBatik.isBatik(userAgent))
             return new BrowserBatik(userAgent); 
         else // Desconocido (suponemos que es un robot)
@@ -102,11 +97,9 @@ public abstract class Browser implements Serializable
 
     public static boolean isMSIE(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
-         // Opera en algunas versiones (Opera Mobile 8.x y algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
-        //  UCWEB puede simular ser un MSIE 4 (un antiguo Pocket IE)
+         // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
         return (userAgent.indexOf("MSIE") != -1) &&
-                !BrowserOpera.isOpera(userAgent,itsNatRequest) &&
-                !BrowserGeckoUCWEB.isUCWEB(userAgent,itsNatRequest);
+                !BrowserOpera.isOpera(userAgent,itsNatRequest);
     }
 
     public static int getMSIEVersion(String userAgent)
@@ -173,7 +166,6 @@ public abstract class Browser implements Serializable
         this.jsRenderHtmlAttr = jsRenderHtmlAttr;
     }
 
-    public abstract boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc);
 
     /* Si usamos una referencia strong para almacenar el referrer.
      * Aplicar cuando no hay garantía de que el nuevo documento se cargue antes del unload del anterior.
@@ -216,22 +208,12 @@ public abstract class Browser implements Serializable
     /**
      * Si hay elementos que ignoran el zIndex y recibe eventos.
      */
-    public abstract Map getHTMLFormControlsIgnoreZIndex();
+    public abstract Map<String,String[]> getHTMLFormControlsIgnoreZIndex();
 
     /* Si soporta opacidad aunque no sea a través de CSS opacity (caso de MSIE_OLD 6+)
      * Sólo tiene sentido en documentos X/HTML.
      */
     public abstract boolean hasHTMLCSSOpacity();
-
-    /* Hay navegadores tipo proxy en los que no funciona bien el setTimeout
-     */ 
-    public abstract boolean isSetTimeoutSupported();
-
-    public boolean isEventTimeoutSupported()
-    {
-        // Se redefine en un caso (PocketIE)
-        return isSetTimeoutSupported();
-    }
 
     /* Si es capaz de renderizar nativamente markup con namespace no X/HTML, por ejemplo SVG, MathML
      * Si la respuesta es true equivale a preguntar si soporta SVG pues al menos es siempre SVG
@@ -239,8 +221,11 @@ public abstract class Browser implements Serializable
      */
     public abstract boolean canNativelyRenderOtherNSInXHTMLDoc();
 
-    /* Si al insertar un <script> no se ejecuta el código cuando dicho código se añade después del elemento, ocurre en WebKits muy antiguos */
-    public abstract boolean isTextAddedToInsertedHTMLScriptNotExecuted();
+    /* Si al insertar un <script> no se ejecuta el código cuando dicho código se añade después del elemento, ocurría en navegadores muy antiguos, ya no, redefinir si vuelve a ocurrir */
+    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
+    {
+        return false; 
+    }                
 
     /* Un elemento <script> con código no es ejecutado cuando es insertado como tal
      * (incluído el código) ya sea el código insertado antes o después
@@ -267,10 +252,17 @@ public abstract class Browser implements Serializable
 
     /*
      * Si necesita URL absolutos para requests AJAX o en carga de scripts con <script>
-     * A día de hoy apenas un par plugins SVG lo necesitan
      */
     public boolean isNeededAbsoluteURL()
     {
         return false;
     }
+
+    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
+    {
+        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado        
+        // En SVG no existe conceptualmente, es más propio de HTML aunque en XUL está también soportado
+        // En Opera y BlackBerryOld se redefine porque no se soporta nunca
+        return ! (itsNatDoc instanceof ItsNatSVGDocumentImpl);
+    }    
 }

@@ -69,6 +69,7 @@ public class GlobalItsNatServletRequestListener implements ItsNatServletRequestL
             {
                 ItsNatServlet servlet = response.getItsNatServlet();
                 ServletRequest servRequest = request.getServletRequest();
+                @SuppressWarnings("unchecked")
                 Map<String,String[]> newParams = new HashMap<String,String[]>(servRequest.getParameterMap());
                 newParams.put("itsnat_doc_name",new String[]{"feashow.docNotFound"});
                 servRequest = servlet.createServletRequest(servRequest, newParams);

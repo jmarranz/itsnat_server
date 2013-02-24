@@ -16,22 +16,7 @@
 
 package org.itsnat.impl.comp.tree;
 
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocJoystickImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientJoystickImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
 import java.util.ArrayList;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.*;
-import javax.swing.tree.RowMapper;
-import org.itsnat.comp.tree.ItsNatTreeCellEditor;
-import org.itsnat.comp.tree.ItsNatTreeCellRenderer;
-import org.itsnat.comp.ItsNatComponentUI;
-import org.itsnat.comp.tree.ItsNatTreeUI;
-import org.itsnat.comp.tree.ItsNatTreeCellUI;
-import org.itsnat.impl.comp.tree.ItsNatTreeUIImpl;
-import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
@@ -41,17 +26,32 @@ import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.RowMapper;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
+import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.tree.ItsNatTree;
+import org.itsnat.comp.tree.ItsNatTreeCellEditor;
+import org.itsnat.comp.tree.ItsNatTreeCellRenderer;
+import org.itsnat.comp.tree.ItsNatTreeCellUI;
 import org.itsnat.comp.tree.ItsNatTreeStructure;
+import org.itsnat.comp.tree.ItsNatTreeUI;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientJoystickImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocJoystickImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystick;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
 import org.itsnat.impl.comp.listener.JoystickModeComponent;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -115,6 +115,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         return new ItsNatCompDOMListenersByClientJoystickImpl(this,clientDoc);
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -125,6 +126,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         editorProcessor.enableEventListenersByDoc();
     }
 
+    @Override
     public void disableEventListenersByDoc(boolean updateClient)
     {
         super.disableEventListenersByDoc(updateClient);
@@ -137,6 +139,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         return treeTable;
     }
 
+    @Override
     public void init()
     {
         ItsNatDocComponentManagerImpl compMgr = getItsNatComponentManagerImpl();
@@ -180,6 +183,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         return (ItsNatCompDOMListenersByClientJoystickImpl)getItsNatCompDOMListenersByClient(clientDoc);
     }
 
+    @Override
     public void unbindModels()
     {
         unsetTreeSelectionModel();
@@ -193,6 +197,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         dataModel.removeTreeModelListener(this);
     }
 
+    @Override
     public void setDefaultModels()
     {
         super.setDefaultModels();
@@ -263,8 +268,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public TreeExpansionListener[] getTreeExpansionListeners()
     {
-        return (TreeExpansionListener[]) expansionListenerList.getListeners(
-                TreeExpansionListener.class);
+        return expansionListenerList.getListeners(TreeExpansionListener.class);
     }
 
     public void addTreeWillExpandListener(TreeWillExpandListener tel)
@@ -284,8 +288,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public TreeWillExpandListener[] getTreeWillExpandListeners()
     {
-        return (TreeWillExpandListener[]) willExpandListenerList.getListeners(
-                TreeWillExpandListener.class);
+        return willExpandListenerList.getListeners(TreeWillExpandListener.class);
     }
 
     public ItsNatTreeUI getItsNatTreeUI()
@@ -316,6 +319,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         dataModel.addTreeModelListener(this);
     }
 
+    @Override
     public void initialSyncWithDataModel()
     {
         super.initialSyncWithDataModel();
@@ -565,6 +569,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         return parentPath.pathByAddingChild(childNode);
     }
 
+    @Override
     public void processDOMEvent(Event evt)
     {
         String type = evt.getType();
@@ -1037,7 +1042,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void removeInternalEventListenerJoystickModeChildNodes(TreePath parentPath)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -1053,7 +1058,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void addInternalEventListenerJoystickMode()
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -1064,7 +1069,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void removeInternalEventListenerJoystickMode()
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -1075,7 +1080,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void addInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 
@@ -1086,7 +1091,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void removeInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
+        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
         if (domListeners.isEmpty())
             return;
 

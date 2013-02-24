@@ -17,11 +17,12 @@
 package org.itsnat.impl.core.resp.attachcli;
 
 import java.util.LinkedList;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventErrorImpl;
 import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 
 /**
  *
@@ -39,7 +40,7 @@ public class ResponseAttachedClientErrorSharedImpl
         if (!itsNatServlet.hasItsNatAttachedClientEventListeners())
             return false;
 
-        LinkedList listeners = new LinkedList();
+        LinkedList<ItsNatAttachedClientEventListener> listeners = new LinkedList<ItsNatAttachedClientEventListener>();
         itsNatServlet.getItsNatAttachedClientEventListenerList(listeners);
 
         ItsNatAttachedClientEventErrorImpl event = new ItsNatAttachedClientEventErrorImpl(request);

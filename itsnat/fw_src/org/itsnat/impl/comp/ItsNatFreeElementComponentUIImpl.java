@@ -16,9 +16,6 @@
 
 package org.itsnat.impl.comp;
 
-import org.itsnat.impl.comp.ItsNatElementComponentImpl;
-import org.itsnat.impl.comp.ItsNatElementComponentUIImpl;
-
 /**
  * NO hacer pública via interface pues no sirve para nada salvo para contener el "enable"
  *

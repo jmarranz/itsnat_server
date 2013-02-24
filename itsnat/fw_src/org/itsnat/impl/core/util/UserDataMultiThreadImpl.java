@@ -33,7 +33,7 @@ public class UserDataMultiThreadImpl implements UserData,Serializable
 
     private UserDataMonoThreadImpl getInternalUserData()
     {
-        // Es llamado siempre por métodos sincronizados, no hay problema de hilos
+        // Este método es interno y llamado siempre por métodos sincronizados, no hay problema de hilos
         if (userData == null)
             this.userData = new UserDataMonoThreadImpl(); // Para ahorrar memoria si no se usa
         return userData;

@@ -16,20 +16,19 @@
 
 package org.itsnat.impl.core.resp.attachcli;
 
-import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatAttachedClientEvent;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
@@ -37,6 +36,8 @@ import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
+import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 
@@ -65,11 +66,13 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
             return new ResponseAttachedClientLoadDocOtherNSImpl(request);
     }
 
+    @Override
     public RequestAttachedClient getRequestAttachedClient()
     {
         return (RequestAttachedClient)request;
     }
 
+    @Override
     public RequestAttachedClientLoadDocImpl getRequestAttachedClientLoadDoc()
     {
         return (RequestAttachedClientLoadDocImpl)request;
@@ -126,7 +129,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         else
         {
             nodeRefForUnload = "itsNatDoc.doc.documentElement";
-            unloadType = "SVGUnload";  // En ASV y Renesis no se ejecuta pero en fin, por coherencia
+            unloadType = "SVGUnload";  // En ASV  no se ejecuta pero en fin, por coherencia
         }
 
         String code = "itsNatDoc.addAttachUnloadListener(" + nodeRefForUnload + ",\"" + unloadType + "\"," + commMode + ");\n";
@@ -151,6 +154,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         return request.createItsNatAttachedClientEvent(clientDoc);
     }
 
+    @Override
     public String serializeDocument()
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
@@ -158,23 +162,21 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         if (itsNatDoc.hasBoundElementDocContainers())
         {
             ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
-            MapUniqueId bindInfoList = itsNatDoc.getBoundElementDocContainerMap();
-            for(Iterator it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            MapUniqueId<BoundElementDocContainerImpl> bindInfoList = itsNatDoc.getBoundElementDocContainerMap();
+            for(Iterator<Map.Entry<String,BoundElementDocContainerImpl>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                BoundElementDocContainerImpl bindInfo =
-                        (BoundElementDocContainerImpl)entry.getValue();
+                Map.Entry<String,BoundElementDocContainerImpl> entry = it.next();
+                BoundElementDocContainerImpl bindInfo = entry.getValue();
 
                 bindInfo.setURLForClientAttached(clientDoc);
             }
 
             String docMarkup = super.serializeDocument();
 
-            for(Iterator it = bindInfoList.entrySet().iterator(); it.hasNext(); )
+            for(Iterator<Map.Entry<String,BoundElementDocContainerImpl>> it = bindInfoList.entrySet().iterator(); it.hasNext(); )
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                BoundElementDocContainerImpl bindInfo =
-                        (BoundElementDocContainerImpl)entry.getValue();
+                Map.Entry<String,BoundElementDocContainerImpl> entry = it.next();
+                BoundElementDocContainerImpl bindInfo = entry.getValue();
 
                 bindInfo.restoreOriginalURL(clientDoc);
             }
@@ -195,20 +197,19 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         if ((nodeCacheOwner == null) || nodeCacheOwner.isEmpty())
             return;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         NodeCacheRegistryImpl nodeCacheObserver = clientAttached.getNodeCache(); // DEBE existir
         if (!nodeCacheObserver.isEmpty()) throw new ItsNatException("INTERNAL ERROR"); // Debe estar "virgen" no sea que hayamos ya antes cacheado nodos en el observador y estaríamos cacheando dos veces aunque sea con el mismo id lo cual no está permitido, provocamos error antes.
-        ArrayList cacheCopy = nodeCacheOwner.getOrderedByHeight();
+        ArrayList<LinkedList<Map.Entry<Node,String>>> cacheCopy = nodeCacheOwner.getOrderedByHeight();
         boolean cacheParentIfPossible = false;  // De esta manera evitamos un cacheado indirecto, el objetivo de este código es copiar una caché a otra, exactamente los mismos nodos
         for(int h = 0; h < cacheCopy.size(); h++)
         {
-            LinkedList sameH = (LinkedList)cacheCopy.get(h);
+            LinkedList<Map.Entry<Node,String>> sameH = cacheCopy.get(h);
             if (sameH == null) continue;
-            for(Iterator it = sameH.iterator(); it.hasNext(); )
+            for(Map.Entry<Node,String> entry : sameH)
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                Node node = (Node)entry.getKey();
-                String id = (String)entry.getValue();
+                Node node = entry.getKey();
+                String id = entry.getValue();
                 // Los ids de los nodos son generados por el ItsNatDocumentImpl
                 // por lo que pueden compartirse entre cachés de clientes.
 

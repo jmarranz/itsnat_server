@@ -17,17 +17,15 @@
 package org.itsnat.impl.core.jsren.listener;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserASVRenesis;
+import org.itsnat.impl.core.browser.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.BrowserBatik;
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
+import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -53,17 +51,13 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
             return JSRenderItsNatDOMStdEventListenerSVGWebRootImpl.SINGLETON;        
         else if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera9Mini)
-                return JSRenderItsNatDOMStdEventListenerOpera9MiniImpl.SINGLETON;
-            else if (browser instanceof BrowserOpera8Mobile)
-                return JSRenderItsNatDOMStdEventListenerOpera8MobileImpl.SINGLETON;
+            if (browser instanceof BrowserOperaMini)
+                return JSRenderItsNatDOMStdEventListenerOperaMiniImpl.SINGLETON;
             else
                 return JSRenderItsNatDOMStdEventListenerDefaultImpl.SINGLETON;
         }
-        else if (browser instanceof BrowserGeckoUCWEB)
-            return JSRenderItsNatDOMStdEventListenerGeckoUCWEBImpl.SINGLETON;
-        else if (browser instanceof BrowserASVRenesis)
-            return JSRenderItsNatDOMStdEventListenerASVRenesisImpl.SINGLETON;
+        else if (browser instanceof BrowserAdobeSVG)
+            return JSRenderItsNatDOMStdEventListenerAdobeSVGImpl.SINGLETON;
         else if (browser instanceof BrowserBatik)
             return JSRenderItsNatDOMStdEventListenerBatikImpl.SINGLETON;
         else
@@ -85,7 +79,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String functionVarName = addCustomCodeFunction(itsNatListener,code);
 
@@ -100,7 +94,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
 
     protected String removeItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String listenerId = itsNatListener.getId();
         if (needsRemoveListenerReturnElement())
             code.append( "var elem = ");

@@ -17,29 +17,31 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3CImpl
+public class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3CImpl
 {
+    public static final JSRenderHTMLElementOperaImpl SINGLETON = new JSRenderHTMLElementOperaImpl();
+    
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
     public JSRenderHTMLElementOperaImpl()
     {
+        // A partir de la lista de MSIE probados uno a uno
+
+        // No probado: tagNamesWithoutInnerHTML.add("frameset");
+        tagNamesWithoutInnerHTML.add("textarea");
+
+        /* Caso <style> dentro de un innerHTML: funciona bien y el estilo se aplica en desktop y Opera Mini.
+         */        
     }
 
     public static JSRenderHTMLElementOperaImpl getJSRenderHTMLElementOpera(BrowserOpera browser)
     {
-        if (browser instanceof BrowserOpera8Mobile)
-            return JSRenderHTMLElementOpera8MobileImpl.SINGLETON;
-        else if (browser instanceof BrowserOpera9)
-            return JSRenderHTMLElementOpera9Impl.SINGLETON; // Opera Desktop y Opera Mini
-        else
-            return null; // No hay más
+         return JSRenderHTMLElementOperaImpl.SINGLETON;
     }
 
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulImpl clientDoc)

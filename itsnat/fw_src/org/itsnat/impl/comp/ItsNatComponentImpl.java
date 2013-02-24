@@ -16,17 +16,11 @@
 
 package org.itsnat.impl.comp;
 
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.beans.VetoableChangeSupport;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.comp.ItsNatComponentManager;
@@ -35,17 +29,20 @@ import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ItsNatEvent;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersAllClientsImpl;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.ItsNatUserDataImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.core.mut.doc.BeforeAfterMutationRenderListener;
+import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -58,7 +55,7 @@ import org.w3c.dom.events.MutationEvent;
 public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements ItsNatComponentInternal,EventListener,BeforeAfterMutationRenderListener
 {
     protected ItsNatDocComponentManagerImpl componentMgr;
-    protected Map artifacts;
+    protected Map<String,Object> artifacts;
     protected ItsNatCompDOMListenersByDocImpl domListenersByDoc;
     protected ItsNatCompDOMListenersAllClientsImpl domListenersByClient;
     protected boolean disposed = false;
@@ -79,7 +76,7 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
         if (artifacts != null)
         {
-            Map artifactMap = getArtifactMap();
+            Map<String,Object> artifactMap = getArtifactMap();
             for(int i = 0; i < artifacts.length; i++)
             {
                 NameValue artif = artifacts[i];
@@ -249,16 +246,16 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         return !artifacts.isEmpty();
     }
 
-    public Map getArtifactMap()
+    public Map<String,Object> getArtifactMap()
     {
         if (artifacts == null)
-            this.artifacts = new HashMap();
+            this.artifacts = new HashMap<String,Object>();
         return artifacts;
     }
 
     public void registerArtifact(String name,Object value)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         artifacts.put(name,value);
     }
 
@@ -266,13 +263,13 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
     {
         if (!hasArtifacts()) return null;
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.get(name);
     }
 
     public Object removeArtifact(String name)
     {
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.remove(name);
     }
 

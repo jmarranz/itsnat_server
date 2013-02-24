@@ -16,12 +16,7 @@
 
 package org.itsnat.impl.core.resp.shared.bybrow;
 
-import java.util.LinkedList;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.resp.shared.*;
-import org.itsnat.impl.res.core.js.LoadScriptImpl;
 
 /**
  *
@@ -52,24 +47,4 @@ public class ResponseDelegStfulLoadDocByBWebKitImpl extends ResponseDelegStfulLo
         return true;
     }
 
-    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList list)
-    {
-        super.fillFrameworkScriptFileNamesOfBrowser(list);
-
-        ClientDocumentStfulImpl clientDoc = parent.getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-        if (browser instanceof BrowserWebKitMoto)
-            list.add(LoadScriptImpl.ITSNAT_MOTOWEBKIT);
-    }
-
-    public String getJSMethodInitName()
-    {
-        ClientDocumentStfulImpl clientDoc = parent.getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-
-        if (browser instanceof BrowserWebKitMoto)
-            return "itsnat_init_motowebkit";
-        else
-            return super.getJSMethodInitName();
-    }
 }

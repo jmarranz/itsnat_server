@@ -20,16 +20,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import org.itsnat.impl.comp.button.toggle.ItsNatButtonGroupImpl;
-import org.itsnat.impl.comp.table.ItsNatTableStructureDefaultImpl;
-import org.itsnat.impl.comp.table.ItsNatTableHeaderCellRendererDefaultImpl;
-import org.itsnat.impl.comp.table.ItsNatTableCellRendererDefaultImpl;
-import org.itsnat.impl.comp.label.ItsNatLabelRendererDefaultImpl;
-import org.itsnat.impl.comp.list.ItsNatListStructureDefaultImpl;
-import org.itsnat.impl.comp.list.ItsNatListCellRendererDefaultImpl;
-import org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl;
-import org.itsnat.impl.comp.tree.ItsNatTreeCellRendererDefaultImpl;
-import org.itsnat.impl.comp.tree.ItsNatTreeStructureDefaultImpl;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,52 +27,62 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 import javax.swing.ButtonGroup;
-import org.itsnat.comp.button.ItsNatButtonGroup;
+import org.itsnat.comp.CreateItsNatComponentListener;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.button.ItsNatButtonGroup;
 import org.itsnat.comp.button.normal.ItsNatFreeButtonNormal;
+import org.itsnat.comp.button.normal.ItsNatFreeButtonNormalLabel;
 import org.itsnat.comp.button.toggle.ItsNatFreeCheckBox;
-import org.itsnat.comp.list.ItsNatFreeComboBox;
+import org.itsnat.comp.button.toggle.ItsNatFreeCheckBoxLabel;
+import org.itsnat.comp.button.toggle.ItsNatFreeRadioButton;
+import org.itsnat.comp.button.toggle.ItsNatFreeRadioButtonLabel;
 import org.itsnat.comp.inc.ItsNatFreeInclude;
 import org.itsnat.comp.label.ItsNatFreeLabel;
-import org.itsnat.comp.list.ItsNatFreeListMultSel;
-import org.itsnat.comp.button.toggle.ItsNatFreeRadioButton;
-import org.itsnat.comp.table.ItsNatFreeTable;
-import org.itsnat.comp.tree.ItsNatFreeTree;
 import org.itsnat.comp.label.ItsNatLabelRenderer;
+import org.itsnat.comp.list.ItsNatFreeComboBox;
+import org.itsnat.comp.list.ItsNatFreeListMultSel;
 import org.itsnat.comp.list.ItsNatListCellRenderer;
 import org.itsnat.comp.list.ItsNatListStructure;
+import org.itsnat.comp.table.ItsNatFreeTable;
 import org.itsnat.comp.table.ItsNatTableCellRenderer;
 import org.itsnat.comp.table.ItsNatTableHeaderCellRenderer;
 import org.itsnat.comp.table.ItsNatTableStructure;
+import org.itsnat.comp.tree.ItsNatFreeTree;
 import org.itsnat.comp.tree.ItsNatTreeCellRenderer;
 import org.itsnat.comp.tree.ItsNatTreeStructure;
-import org.itsnat.comp.CreateItsNatComponentListener;
-import org.itsnat.comp.button.normal.ItsNatFreeButtonNormalLabel;
-import org.itsnat.comp.button.toggle.ItsNatFreeCheckBoxLabel;
-import org.itsnat.comp.button.toggle.ItsNatFreeRadioButtonLabel;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.button.toggle.ItsNatButtonGroupImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl;
 import org.itsnat.impl.comp.factory.button.normal.FactoryItsNatFreeButtonNormalDefaultImpl;
+import org.itsnat.impl.comp.factory.button.normal.FactoryItsNatFreeButtonNormalLabelImpl;
 import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeCheckBoxDefaultImpl;
-import org.itsnat.impl.comp.factory.list.FactoryItsNatFreeComboBoxImpl;
+import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeCheckBoxLabelImpl;
+import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeRadioButtonDefaultImpl;
+import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeRadioButtonLabelImpl;
 import org.itsnat.impl.comp.factory.inc.FactoryItsNatFreeIncludeImpl;
 import org.itsnat.impl.comp.factory.label.FactoryItsNatFreeLabelImpl;
+import org.itsnat.impl.comp.factory.layer.FactoryItsNatModalLayerImpl;
+import org.itsnat.impl.comp.factory.list.FactoryItsNatFreeComboBoxImpl;
 import org.itsnat.impl.comp.factory.list.FactoryItsNatFreeListMultSelImpl;
-import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeRadioButtonDefaultImpl;
 import org.itsnat.impl.comp.factory.table.FactoryItsNatFreeTableImpl;
 import org.itsnat.impl.comp.factory.tree.FactoryItsNatFreeTreeImpl;
-import org.itsnat.impl.comp.factory.button.normal.FactoryItsNatFreeButtonNormalLabelImpl;
-import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeCheckBoxLabelImpl;
-import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeRadioButtonLabelImpl;
-import org.itsnat.impl.comp.factory.layer.FactoryItsNatModalLayerImpl;
-import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
+import org.itsnat.impl.comp.label.ItsNatLabelRendererDefaultImpl;
+import org.itsnat.impl.comp.list.ItsNatListCellRendererDefaultImpl;
+import org.itsnat.impl.comp.list.ItsNatListStructureDefaultImpl;
+import org.itsnat.impl.comp.table.ItsNatTableCellRendererDefaultImpl;
+import org.itsnat.impl.comp.table.ItsNatTableHeaderCellRendererDefaultImpl;
+import org.itsnat.impl.comp.table.ItsNatTableStructureDefaultImpl;
+import org.itsnat.impl.comp.tree.ItsNatTreeCellRendererDefaultImpl;
+import org.itsnat.impl.comp.tree.ItsNatTreeStructureDefaultImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
-import org.itsnat.impl.core.listener.AutoBuildCompBeforeAfterMutationRenderListener;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.listener.AutoBuildCompBeforeAfterMutationRenderListener;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -94,7 +94,7 @@ import org.w3c.dom.Node;
  */
 public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentManager,Serializable
 {
-    protected static final Map FACTORIES = new HashMap(); // No sincronizamos porque va a ser siempre usada en modo lectura
+    protected static final Map<String,FactoryItsNatComponentImpl> FACTORIES = new HashMap<String,FactoryItsNatComponentImpl>(); // No sincronizamos porque va a ser siempre usada en modo lectura
     static
     {
         addFactory(FactoryItsNatFreeButtonNormalDefaultImpl.SINGLETON);
@@ -119,7 +119,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     protected static FactoryItsNatComponentImpl getFactoryItsNatComponentStatic(String compName)
     {
-        return (FactoryItsNatComponentImpl)FACTORIES.get(compName);
+        return FACTORIES.get(compName);
     }
 
     protected FactoryItsNatComponentImpl getFactoryItsNatComponent(Element elem,String compType)
@@ -128,15 +128,15 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     }
 
     protected ItsNatDocumentImpl itsNatDoc;
-    protected transient WeakHashMap buttonGroupsByName;  // Un ItsNatButtonGroup necesita estar asociado a un radio button si ninguno lo referencia se puede perder, así evitamos memory leaks por recreación de radio buttons
-    protected transient WeakHashMap buttonGroupsByButtonGroup;  // "
-    protected Map components;
-    protected Map excludedNodesAsComponents;
+    protected transient WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByName;  // Un ItsNatButtonGroup necesita estar asociado a un radio button si ninguno lo referencia se puede perder, así evitamos memory leaks por recreación de radio buttons
+    protected transient WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByButtonGroup;  // "
+    protected Map<Node,ItsNatComponent> components;
+    protected Map<Node,Object> excludedNodesAsComponents;
     protected boolean selectionOnComponentsUsesKeyboard;
     protected boolean markupDrivenComponents;
     protected boolean autoBuildComponents;
-    protected LinkedList createCompListeners;
-    protected transient WeakHashMap weakMapComponents;
+    protected LinkedList<CreateItsNatComponentListener> createCompListeners;
+    protected transient WeakHashMap<ItsNatComponent,Object> weakMapComponents;
 
     /** Creates a new instance of ItsNatDocComponentManagerImpl */
     public ItsNatDocComponentManagerImpl(ItsNatDocumentImpl itsNatDoc)
@@ -152,82 +152,90 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     private void writeObject(ObjectOutputStream out) throws IOException
     {
-        Map mapTmp;
-
-        mapTmp = null;
-        if (buttonGroupsByName != null)
         {
-            // Tenemos que copiar elemento a elemento porque los "values"
-            // son WeakReference (no serializables)
-            mapTmp = new HashMap();
-            for(Iterator it = buttonGroupsByName.entrySet().iterator(); it.hasNext(); )
-            {
-                Map.Entry entry = (Map.Entry)it.next();
-                String key = (String)entry.getKey(); 
-                WeakReference weakRef = (WeakReference)entry.getValue();
-                mapTmp.put(key, weakRef.get());
-            }
-        }
-        out.writeObject(mapTmp);
+            Map<String,ItsNatButtonGroupImpl> mapTmp = null;
 
-        mapTmp = null;
-        if (buttonGroupsByButtonGroup != null)
+            if (buttonGroupsByName != null)
+            {
+                // Tenemos que copiar elemento a elemento porque los "values"
+                // son WeakReference (no serializables)
+                mapTmp = new HashMap<String,ItsNatButtonGroupImpl>();
+                for(Map.Entry<String,WeakReference<ItsNatButtonGroupImpl>> entry : buttonGroupsByName.entrySet())
+                {
+                    String key = entry.getKey(); 
+                    WeakReference<ItsNatButtonGroupImpl> weakRef = entry.getValue();
+                    mapTmp.put(key, weakRef.get());
+                }
+            }
+            out.writeObject(mapTmp);
+        }
+        
         {
-            // Tenemos que copiar elemento a elemento porque los "values"
-            // son WeakReference (no serializables)
-            mapTmp = new HashMap();
-            for(Iterator it = buttonGroupsByButtonGroup.entrySet().iterator(); it.hasNext(); )
+            Map<ButtonGroup,ItsNatButtonGroupImpl> mapTmp = null;
+            if (buttonGroupsByButtonGroup != null)
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ButtonGroup key = (ButtonGroup)entry.getKey();
-                WeakReference weakRef = (WeakReference)entry.getValue();
-                mapTmp.put(key, weakRef.get());
+                // Tenemos que copiar elemento a elemento porque los "values"
+                // son WeakReference (no serializables)
+                mapTmp = new HashMap<ButtonGroup,ItsNatButtonGroupImpl>();
+                for(Map.Entry<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> entry : buttonGroupsByButtonGroup.entrySet())
+                {
+                    ButtonGroup key = entry.getKey();
+                    WeakReference<ItsNatButtonGroupImpl> weakRef = entry.getValue();
+                    mapTmp.put(key, weakRef.get());
+                }
             }
+            out.writeObject(mapTmp);
         }
-        out.writeObject(mapTmp);
-
-        mapTmp = null;
-        if (weakMapComponents != null)
-            mapTmp = new HashMap(weakMapComponents);
-        out.writeObject(mapTmp);
-
+        
+        {
+            Map<ItsNatComponent,Object> mapTmp = null;
+            if (weakMapComponents != null)
+                mapTmp = new HashMap<ItsNatComponent,Object>(weakMapComponents);
+            out.writeObject(mapTmp);
+        }
+        
         out.defaultWriteObject();
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        Map mapTmp;
-
-        mapTmp = (Map)in.readObject();
-        if (mapTmp != null)
         {
-            WeakHashMap buttonGroupsByName = getButtonGroupsByNameMap();
-            for(Iterator it = mapTmp.entrySet().iterator(); it.hasNext(); )
+            @SuppressWarnings("unchecked")
+            Map<String,ItsNatButtonGroupImpl> mapTmp = (Map<String,ItsNatButtonGroupImpl>)in.readObject();
+            if (mapTmp != null)
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                String key = (String)entry.getKey(); 
-                Object value = entry.getValue();
-                buttonGroupsByName.put(key,new WeakReference(value));
+                WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByName = getButtonGroupsByNameMap();
+                for(Map.Entry<String,ItsNatButtonGroupImpl> entry : mapTmp.entrySet())
+                {
+                    String key = entry.getKey(); 
+                    ItsNatButtonGroupImpl value = entry.getValue();
+                    buttonGroupsByName.put(key,new WeakReference<ItsNatButtonGroupImpl>(value));
+                }
             }
         }
-
-        mapTmp = (Map)in.readObject();
-        if (mapTmp != null)
+        
         {
-            WeakHashMap buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
-            for(Iterator it = mapTmp.entrySet().iterator(); it.hasNext(); )
+            @SuppressWarnings("unchecked")
+            Map<ButtonGroup,ItsNatButtonGroupImpl> mapTmp = (Map<ButtonGroup,ItsNatButtonGroupImpl>)in.readObject();
+            if (mapTmp != null)
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ButtonGroup key = (ButtonGroup)entry.getKey();
-                Object value = entry.getValue();
-                buttonGroupsByButtonGroup.put(key,new WeakReference(value));
+                WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
+                for(Map.Entry<ButtonGroup,ItsNatButtonGroupImpl> entry : mapTmp.entrySet())
+                {
+                    ButtonGroup key = entry.getKey();
+                    ItsNatButtonGroupImpl value = entry.getValue();
+                    buttonGroupsByButtonGroup.put(key,new WeakReference<ItsNatButtonGroupImpl>(value));
+                }
             }
         }
-
-        mapTmp = (Map)in.readObject();
-        if (mapTmp != null)
-            getItsNatComponentWeakMap().putAll(mapTmp);
-
+        
+        {
+            @SuppressWarnings("unchecked")
+            Map<ItsNatComponent,Object> mapTmp = (Map<ItsNatComponent,Object>)in.readObject();
+            if (mapTmp != null)
+                getItsNatComponentWeakMap().putAll(mapTmp);
+        }
+        
         in.defaultReadObject();
     }
 
@@ -283,31 +291,31 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         mutEventListener.setAutoBuildCompBeforeAfterMutationRenderListener(autoBuildListener);
     }
 
-    public Map getComponentMap()
+    public Map<Node,ItsNatComponent> getComponentMap()
     {
         if (components == null)
-            this.components = new HashMap();
+            this.components = new HashMap<Node,ItsNatComponent>();
         return components;
     }
 
-    public Map getExcludedNodesAsComponentsMap()
+    public Map<Node,Object> getExcludedNodesAsComponentsMap()
     {
         if (excludedNodesAsComponents == null)
-            this.excludedNodesAsComponents = new HashMap();
+            this.excludedNodesAsComponents = new HashMap<Node,Object>();
         return excludedNodesAsComponents;
     }
 
-    public WeakHashMap getButtonGroupsByNameMap()
+    public WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>> getButtonGroupsByNameMap()
     {
         if (buttonGroupsByName == null)
-            this.buttonGroupsByName = new WeakHashMap(); // Ahorramos memoria si no se usan componentes
+            this.buttonGroupsByName = new WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>>(); // Ahorramos memoria si no se usan componentes
         return buttonGroupsByName;
     }
 
-    public WeakHashMap getButtonGroupsByButtonGroupMap()
+    public WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> getButtonGroupsByButtonGroupMap()
     {
         if (buttonGroupsByButtonGroup == null)
-            this.buttonGroupsByButtonGroup = new WeakHashMap(); // Ahorramos memoria si no se usan componentes
+            this.buttonGroupsByButtonGroup = new WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>>(); // Ahorramos memoria si no se usan componentes
         return buttonGroupsByButtonGroup;
     }
 
@@ -315,11 +323,11 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     {
         if ((name == null) || name.equals("")) return null;
 
-        WeakHashMap buttonGroupsByName = getButtonGroupsByNameMap();
+        WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByName = getButtonGroupsByNameMap();
         ItsNatButtonGroupImpl itsNatButtonGroup = null;
-        WeakReference weakButtonGrp = (WeakReference)buttonGroupsByName.get(name);
+        WeakReference<ItsNatButtonGroupImpl> weakButtonGrp = buttonGroupsByName.get(name);
         if (weakButtonGrp != null)
-            itsNatButtonGroup = (ItsNatButtonGroupImpl)weakButtonGrp.get(); // puede ser null
+            itsNatButtonGroup = weakButtonGrp.get(); // puede ser null
         if (itsNatButtonGroup == null)
             itsNatButtonGroup = addButtonGroup(name);
         return itsNatButtonGroup;
@@ -329,11 +337,11 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     {
         if (group == null) return null;
 
-        WeakHashMap buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
+        WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
         ItsNatButtonGroupImpl itsNatButtonGroup = null;
-        WeakReference weakButtonGrp = (WeakReference)buttonGroupsByButtonGroup.get(group);
+        WeakReference<ItsNatButtonGroupImpl> weakButtonGrp = buttonGroupsByButtonGroup.get(group);
         if (weakButtonGrp != null)
-            itsNatButtonGroup = (ItsNatButtonGroupImpl)weakButtonGrp.get(); // puede ser null
+            itsNatButtonGroup = weakButtonGrp.get(); // puede ser null
         if (itsNatButtonGroup == null)
             itsNatButtonGroup = addButtonGroup(group);
         return itsNatButtonGroup;
@@ -370,12 +378,12 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     {
         // Suponemos que el ItsNatButtonGroupImpl pasado es nuevo (ya se ha comprobado).
 
-        WeakReference weakButtonGrp = new WeakReference(itsNatButtonGroup);
+        WeakReference<ItsNatButtonGroupImpl> weakButtonGrp = new WeakReference<ItsNatButtonGroupImpl>(itsNatButtonGroup);
 
-        WeakHashMap buttonGroupsByName = getButtonGroupsByNameMap();
+        WeakHashMap<String,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByName = getButtonGroupsByNameMap();
         buttonGroupsByName.put(itsNatButtonGroup.getName(),weakButtonGrp); // El objeto String name está sujeto por el propio ItsNatButtonGroupImpl, si este se pierde se pierde su Id y la entrada en el mapa lo cual es deseable
 
-        WeakHashMap buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
+        WeakHashMap<ButtonGroup,WeakReference<ItsNatButtonGroupImpl>> buttonGroupsByButtonGroup = getButtonGroupsByButtonGroupMap();
         buttonGroupsByButtonGroup.put(itsNatButtonGroup.getButtonGroup(),weakButtonGrp); // El ButtonGroup Swing está sujeto por el propio ItsNatButtonGroupImpl, si este se pierde se pierde su entrada en el mapa lo cual es deseable
 
         return itsNatButtonGroup;
@@ -383,7 +391,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public void removeItsNatComponent(ItsNatComponent comp,boolean dispose)
     {
-        Map components = getComponentMap();
+        Map<Node,ItsNatComponent> components = getComponentMap();
         components.remove(comp.getNode());
         if (dispose) comp.dispose();
     }
@@ -410,7 +418,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public void removeExcludedNodeAsItsNatComponent(Node node)
     {
-        Map nodes = getExcludedNodesAsComponentsMap();
+        Map<Node,Object> nodes = getExcludedNodesAsComponentsMap();
         nodes.remove(node);
     }
 
@@ -429,8 +437,8 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         if (node.getNodeType() != Node.ELEMENT_NODE)
             return null; // Sólo Element son componentes, así aceleramos la búsqueda
 
-        Map components = getComponentMap();
-        return (ItsNatComponent)components.get(node);
+        Map<Node,ItsNatComponent> components = getComponentMap();
+        return components.get(node);
     }
 
     public boolean isExcludedNodeAsItsNatComponent(Node node)
@@ -438,7 +446,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         if (node.getNodeType() != Node.ELEMENT_NODE)
             return true;  // Sólo pueden ser componentes los Element, otro tipo de nodos son excluidos por defecto
 
-        Map nodes = getExcludedNodesAsComponentsMap();
+        Map<Node,Object> nodes = getExcludedNodesAsComponentsMap();
         return nodes.containsKey(node);
     }
 
@@ -446,8 +454,8 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     {
         if (comp == null) return null;
 
-        Map components = getComponentMap();
-        return (ItsNatComponent)components.put(comp.getNode(),comp);
+        Map<Node,ItsNatComponent> components = getComponentMap();
+        return components.put(comp.getNode(),comp);
     }
 
     public void addExcludedNodeAsItsNatComponent(Node node)
@@ -455,7 +463,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         if (node.getNodeType() != Node.ELEMENT_NODE)
             throw new ItsNatDOMException("Only Element nodes can be associated to components",node);
 
-        Map nodes = getExcludedNodesAsComponentsMap();
+        Map<Node,Object> nodes = getExcludedNodesAsComponentsMap();
         nodes.put(node,null);
     }
 
@@ -529,10 +537,10 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         return weakMapComponents.size() > 0;
     }
 
-    public WeakHashMap getItsNatComponentWeakMap()
+    public WeakHashMap<ItsNatComponent,Object> getItsNatComponentWeakMap()
     {
         if (weakMapComponents == null)
-            this.weakMapComponents = new WeakHashMap();
+            this.weakMapComponents = new WeakHashMap<ItsNatComponent,Object>();
         return weakMapComponents;
     }
 
@@ -557,7 +565,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
     public ItsNatComponent processBeforeCreateItsNatComponentListener(Node node,String componentType,NameValue[] artifacts)
     {
         ItsNatComponent comp = null;
-        Iterator createCompIterator = null;
+        Iterator<CreateItsNatComponentListener> createCompIterator = null;
 
         ItsNatDocumentTemplateImpl docTemplate = itsNatDoc.getItsNatDocumentTemplateImpl();
         ItsNatServletImpl servlet = docTemplate.getItsNatServletImpl();
@@ -595,7 +603,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         ItsNatDocumentTemplateImpl docTemplate = itsNatDoc.getItsNatDocumentTemplateImpl();
         ItsNatServletImpl servlet = docTemplate.getItsNatServletImpl();
 
-        Iterator createCompIterator = null;
+        Iterator<CreateItsNatComponentListener> createCompIterator = null;
         createCompIterator = servlet.getCreateItsNatComponentListenerIterator();
         if (createCompIterator != null)
         {
@@ -620,7 +628,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         return comp;
     }
 
-    public ItsNatComponent processBeforeCreateItsNatComponentListener(Iterator it,Node node,String componentType,NameValue[] artifacts)
+    public ItsNatComponent processBeforeCreateItsNatComponentListener(Iterator<CreateItsNatComponentListener> it,Node node,String componentType,NameValue[] artifacts)
     {
         ItsNatComponent comp = null;
 
@@ -637,7 +645,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         // en tiempo de creación del template (init() del Servlet).
         while(it.hasNext())
         {
-            CreateItsNatComponentListener listener = (CreateItsNatComponentListener)it.next();
+            CreateItsNatComponentListener listener = it.next();
             comp = listener.before(node,componentType,artifacts,this);
             if (comp != null)
                 break;
@@ -646,7 +654,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         return comp;
     }
 
-    public ItsNatComponent processAfterCreateItsNatComponentListener(Iterator it,ItsNatComponent comp)
+    public ItsNatComponent processAfterCreateItsNatComponentListener(Iterator<CreateItsNatComponentListener> it,ItsNatComponent comp)
     {
         // Permitimos así que el usuario pueda crear sus propios componentes
         // que serán instanciados cuando sea llamado este método
@@ -654,7 +662,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         // Ver más arriba la llamada a beforeRender()
         while(it.hasNext())
         {
-            CreateItsNatComponentListener listener = (CreateItsNatComponentListener)it.next();
+            CreateItsNatComponentListener listener = it.next();
             comp = listener.after(comp);
             if (comp == null)
                 return null; // Componente rechazado
@@ -716,11 +724,11 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public ItsNatComponent[] buildItsNatComponents(Node node)
     {
-        LinkedList listComp = new LinkedList();
+        LinkedList<ItsNatComponent> listComp = new LinkedList<ItsNatComponent>();
 
         buildItsNatComponents(node,listComp);
 
-        return (ItsNatComponent[])listComp.toArray(new ItsNatComponent[listComp.size()]);
+        return listComp.toArray(new ItsNatComponent[listComp.size()]);
     }
 
     public void buildItsNatComponentsInternal()
@@ -729,7 +737,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         buildItsNatComponents(doc,null);
     }
 
-    public LinkedList buildItsNatComponents(Node node,LinkedList listComp)
+    public LinkedList<ItsNatComponent> buildItsNatComponents(Node node,LinkedList<ItsNatComponent> listComp)
     {
         // Primero procesamos el propio nodo pues si es un componente
         // puede crear y eliminar nodos hijo, luego procesamos los hijos tal y como ha quedado
@@ -738,7 +746,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         if (comp != null)
         {
             if (listComp == null)
-                listComp = new LinkedList(); // Se crea cuando se necesita
+                listComp = new LinkedList<ItsNatComponent>(); // Se crea cuando se necesita
             listComp.add(comp);
         }
 
@@ -754,15 +762,14 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public ItsNatComponent[] removeItsNatComponents(boolean dispose)
     {
-        Map components = getComponentMap();
+        Map<Node,ItsNatComponent> components = getComponentMap();
         if (!components.isEmpty())
         {
             ItsNatComponent[] listRes = new ItsNatComponent[components.size()];
             int i = 0;
-            for (Iterator it = components.entrySet().iterator(); it.hasNext();)
+            for (Map.Entry<Node,ItsNatComponent> entry : components.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ItsNatComponent comp = (ItsNatComponent)entry.getValue();
+                ItsNatComponent comp = entry.getValue();
                 if (dispose) comp.dispose();
                 listRes[i] = comp;
                 i++;
@@ -776,12 +783,12 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public ItsNatComponent[] removeItsNatComponents(Node node,boolean dispose)
     {
-        LinkedList listComp = new LinkedList();
+        LinkedList<ItsNatComponent> listComp = new LinkedList<ItsNatComponent>();
         removeItsNatComponents(node,dispose,listComp);
-        return (ItsNatComponent[])listComp.toArray(new ItsNatComponent[listComp.size()]);
+        return listComp.toArray(new ItsNatComponent[listComp.size()]);
     }
 
-    public void removeItsNatComponents(Node node,boolean dispose,LinkedList listComp)
+    public void removeItsNatComponents(Node node,boolean dispose,LinkedList<ItsNatComponent> listComp)
     {
         // Primero los hijos por si acaso
         Node child = node.getFirstChild();
@@ -959,14 +966,14 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         return !createCompListeners.isEmpty();
     }
 
-    public LinkedList getCreateItsNatComponentList()
+    public LinkedList<CreateItsNatComponentListener> getCreateItsNatComponentList()
     {
         if (createCompListeners == null)
-            this.createCompListeners = new LinkedList(); // Sólo se crea si se necesita
+            this.createCompListeners = new LinkedList<CreateItsNatComponentListener>(); // Sólo se crea si se necesita
         return createCompListeners;
     }
 
-    public Iterator getCreateItsNatComponentListenerIterator()
+    public Iterator<CreateItsNatComponentListener> getCreateItsNatComponentListenerIterator()
     {
         if (!hasCreateItsNatComponentList()) return null;
         return createCompListeners.iterator();
@@ -974,13 +981,13 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
 
     public void addCreateItsNatComponentListener(CreateItsNatComponentListener listener)
     {
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.add(listener);
     }
 
     public void removeCreateItsNatComponentListener(CreateItsNatComponentListener listener)
     {
-        LinkedList list = getCreateItsNatComponentList();
+        LinkedList<CreateItsNatComponentListener> list = getCreateItsNatComponentList();
         list.remove(listener);
     }
 

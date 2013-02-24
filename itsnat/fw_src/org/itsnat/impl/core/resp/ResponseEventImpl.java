@@ -112,7 +112,7 @@ public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl imp
 
             Browser browser = getClientDocument().getBrowser();
 
-            StringBuffer codeBuff = new StringBuffer();
+            StringBuilder codeBuff = new StringBuilder();
 
             codeBuff.append("var elem = document.getElementById(\"" + scriptId + "\");\n"); // elem es el <script> cargador del script
             codeBuff.append("if (elem != null)"); // elem puede ser null cuando hay un timeout en el cliente y se ha eliminado el <script> y por alguna razón (extraña) se ha cargado y ejecutado el script (REVISAR)

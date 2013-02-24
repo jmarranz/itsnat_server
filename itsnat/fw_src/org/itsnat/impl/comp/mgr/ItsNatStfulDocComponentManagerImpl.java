@@ -17,14 +17,12 @@
 package org.itsnat.impl.comp.mgr;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.WeakHashMap;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.ItsNatHTMLComponentManager;
 import org.itsnat.comp.ItsNatHTMLForm;
-import org.itsnat.comp.iframe.ItsNatHTMLIFrame;
 import org.itsnat.comp.button.normal.ItsNatHTMLAnchor;
 import org.itsnat.comp.button.normal.ItsNatHTMLAnchorLabel;
 import org.itsnat.comp.button.normal.ItsNatHTMLButton;
@@ -35,6 +33,7 @@ import org.itsnat.comp.button.normal.ItsNatHTMLInputReset;
 import org.itsnat.comp.button.normal.ItsNatHTMLInputSubmit;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputCheckBox;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputRadio;
+import org.itsnat.comp.iframe.ItsNatHTMLIFrame;
 import org.itsnat.comp.label.ItsNatHTMLLabel;
 import org.itsnat.comp.label.ItsNatLabelEditor;
 import org.itsnat.comp.list.ItsNatHTMLSelectComboBox;
@@ -104,7 +103,7 @@ import org.w3c.dom.html.HTMLTextAreaElement;
  */
 public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocComponentManagerImpl implements ItsNatHTMLComponentManager
 {
-    protected static final Map HTMLFACTORIES = new HashMap(); // No sincronizamos porque va a ser siempre usada en modo lectura
+    protected static final Map<String,FactoryItsNatHTMLComponentImpl> HTMLFACTORIES = new HashMap<String,FactoryItsNatHTMLComponentImpl>(); // No sincronizamos porque va a ser siempre usada en modo lectura
 
     static
     {
@@ -131,7 +130,7 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
         addHTMLFactory(FactoryItsNatHTMLTextAreaImpl.SINGLETON);
     }
 
-    protected LinkedList modalLayers;
+    protected LinkedList<ItsNatModalLayerImpl> modalLayers;
 
     /** Creates a new instance of ItsNatStfulDocComponentManagerImpl */
     public ItsNatStfulDocComponentManagerImpl(ItsNatStfulDocumentImpl itsNatDoc)
@@ -152,9 +151,10 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
         else
             key = FactoryItsNatHTMLComponentImpl.getKey(elem,compType);
 
-        return (FactoryItsNatHTMLComponentImpl)HTMLFACTORIES.get(key);
+        return HTMLFACTORIES.get(key);
     }
 
+    @Override
     protected FactoryItsNatComponentImpl getFactoryItsNatComponent(Element elem,String compType)
     {
         FactoryItsNatComponentImpl factory = super.getFactoryItsNatComponent(elem,compType);
@@ -209,9 +209,9 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
         return !modalLayers.isEmpty();
     }
 
-    public LinkedList getItsNatModalLayers()
+    public LinkedList<ItsNatModalLayerImpl> getItsNatModalLayers()
     {
-        if (modalLayers == null) this.modalLayers = new LinkedList();
+        if (modalLayers == null) this.modalLayers = new LinkedList<ItsNatModalLayerImpl>();
         return modalLayers;
     }
 
@@ -224,21 +224,19 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
             // en los observadores cuando cambia el tamaño de la ventana
             // o el layout y en MSIE v6 para ocultar también los HTML select
             // que están "detrás".
-            LinkedList modalLayers = getItsNatModalLayers();
-            for(Iterator it = modalLayers.iterator(); it.hasNext(); )
+            LinkedList<ItsNatModalLayerImpl> modalLayers = getItsNatModalLayers();
+            for(ItsNatModalLayerImpl comp : modalLayers)
             {
-                ItsNatModalLayerImpl comp = (ItsNatModalLayerImpl)it.next();
                 comp.addClientDocumentAttachedClient(clientDoc);
             }
         }
 
         if (hasItsNatComponents())
         {
-            WeakHashMap compMap = getItsNatComponentWeakMap();
-            for(Iterator it = compMap.entrySet().iterator(); it.hasNext(); )
+            WeakHashMap<ItsNatComponent,Object> compMap = getItsNatComponentWeakMap();
+            for(Map.Entry<ItsNatComponent,Object> entry : compMap.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ItsNatComponent comp = (ItsNatComponent)entry.getKey();
+                ItsNatComponent comp = entry.getKey();
                 if (comp instanceof ItsNatModalLayerImpl) continue; // Evitamos llamar dos veces, los modal layer deben llamarse en el orden de creación
                 else if (!(comp instanceof ItsNatComponentImpl)) continue; // Componente del usuario
 
@@ -251,24 +249,22 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
     {
         if (hasItsNatModalLayers())
         {
-            LinkedList modalLayers = getItsNatModalLayers();
-            for(Iterator it = modalLayers.iterator(); it.hasNext(); )
+            LinkedList<ItsNatModalLayerImpl> modalLayers = getItsNatModalLayers();
+            for(ItsNatModalLayerImpl comp : modalLayers)
             {
                 // Da igual el orden en que se itere pues total el cliente se está cerrando
                 // NO debería hacerse nada más que desregistrar pues el cliente puede
                 // estar ya invalidado.
-                ItsNatModalLayerImpl comp = (ItsNatModalLayerImpl)it.next();
                 comp.removeClientDocumentAttachedClient(clientDoc);
             }
         }
 
         if (hasItsNatComponents())
         {
-            WeakHashMap compMap = getItsNatComponentWeakMap();
-            for(Iterator it = compMap.entrySet().iterator(); it.hasNext(); )
+            WeakHashMap<ItsNatComponent,Object> compMap = getItsNatComponentWeakMap();
+            for(Map.Entry<ItsNatComponent,Object> entry : compMap.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                ItsNatComponent comp = (ItsNatComponent)entry.getKey();
+                ItsNatComponent comp = entry.getKey();
                 if (comp instanceof ItsNatModalLayerImpl) continue; // Evitamos llamar dos veces, los modal layer deben llamarse en el orden de creación
                 else if (!(comp instanceof ItsNatComponentImpl)) continue; // Componente del usuario
 

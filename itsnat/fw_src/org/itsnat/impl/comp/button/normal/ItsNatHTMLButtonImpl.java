@@ -16,17 +16,17 @@
 
 package org.itsnat.impl.comp.button.normal;
 
-import org.itsnat.impl.comp.ItsNatHTMLFormCompValueBasedImpl;
-import org.itsnat.impl.comp.button.ItsNatHTMLFormCompButtonSharedImpl;
-import org.itsnat.comp.button.normal.ItsNatHTMLButton;
-import org.itsnat.comp.button.ItsNatButtonUI;
-import org.itsnat.comp.ItsNatComponentUI;
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
 import javax.swing.event.ChangeEvent;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.ItsNatButtonUI;
+import org.itsnat.comp.button.normal.ItsNatHTMLButton;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.ItsNatHTMLFormCompValueBasedImpl;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
+import org.itsnat.impl.comp.button.ItsNatHTMLFormCompButtonSharedImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -74,6 +74,7 @@ public abstract class ItsNatHTMLButtonImpl extends ItsNatHTMLFormCompValueBasedI
         return null;
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -152,6 +153,7 @@ public abstract class ItsNatHTMLButtonImpl extends ItsNatHTMLFormCompValueBasedI
         element.setDisabled( ! b );
     }
 
+    @Override
     public void processDOMEvent(Event evt)
     {
         if (!htmlButtonDeleg.handleEvent(evt))

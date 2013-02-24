@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.factory.button.normal;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.button.normal.ItsNatHTMLInputReset;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.normal.ItsNatHTMLInputResetImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;

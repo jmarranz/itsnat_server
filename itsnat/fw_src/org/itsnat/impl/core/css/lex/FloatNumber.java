@@ -27,10 +27,10 @@ public class FloatNumber extends Token
     /**
      * Creates a new instance of FloatNumber
      */
-    public FloatNumber(String code,Cursor cursor)
+    public FloatNumber(Cursor cursor)
     {
-        super(cursor.getPos());
-        parse(code,cursor);
+        super(cursor.getCurrentPos());
+        parse(cursor);
     }
 
     public static boolean isFloatNumberStart(char c)
@@ -55,22 +55,22 @@ public class FloatNumber extends Token
         return Float.parseFloat(value);
     }
 
-    public void parse(String code,Cursor cursor)
+    public void parse(Cursor cursor)
     {
         // cursor apunta al comienzo del número
-        StringBuffer valueTmp = new StringBuffer();
-        valueTmp.append( code.charAt(cursor.getPos()) );
+        StringBuilder valueTmp = new StringBuilder();
+        valueTmp.append( cursor.getCurrentChar() );
         int i = cursor.inc(); // segunda letra (si hay)
-        while((i < code.length()) &&
-              isFloatNumberPart(code.charAt(i)))
+        while(cursor.isValidPosition() &&
+              isFloatNumberPart(cursor.getCurrentChar()))
         {
-            valueTmp.append( code.charAt(i) );
+            valueTmp.append( cursor.getCurrentChar() );
             i = cursor.inc();
         }
 
         this.value = valueTmp.toString();
 
         cursor.dec();
-        this.end = cursor.getPos(); // apunta al último caracter del número
+        this.end = cursor.getCurrentPos(); // apunta al último caracter del número
     }
 }

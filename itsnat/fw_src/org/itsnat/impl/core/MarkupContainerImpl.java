@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.core;
 
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.template.*;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.UniqueId;
@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
  */
 public abstract class MarkupContainerImpl implements Serializable
 {
-    protected transient MapUniqueId usedTemplatesWithCachedNodes; // En el caso de un MarkupTemplateVersionImpl están los fragments incluidos, en el caso de ItsNatDocumentImpl está también el propio template del documento (y también sus fragmentos)
+    protected transient MapUniqueId<MarkupTemplateVersionImpl> usedTemplatesWithCachedNodes; // En el caso de un MarkupTemplateVersionImpl están los fragments incluidos, en el caso de ItsNatDocumentImpl está también el propio template del documento (y también sus fragmentos)
     // No sincronizamos porque sólo se modifica en carga del markup del template (monohilo) o por el ItsNatDocument (usado siempre en monohilo)
     protected UniqueIdGenIntList idGenerator = new UniqueIdGenIntList(false); // No sincronizamos porque sólo se usa para cachear los nodos en tiempo de carga si es un template o para generar ids como ItsNatDocument (usado siempre en monohilo)
     protected UniqueId idObj;
@@ -58,7 +58,7 @@ public abstract class MarkupContainerImpl implements Serializable
 
     public abstract boolean hasCachedNodes();
 
-    public MapUniqueId getUsedTemplateVersionsWithCachedNodes()
+    public MapUniqueId<MarkupTemplateVersionImpl> getUsedTemplateVersionsWithCachedNodes()
     {
         if (usedTemplatesWithCachedNodes == null)
         {
@@ -68,7 +68,7 @@ public abstract class MarkupContainerImpl implements Serializable
         return usedTemplatesWithCachedNodes;
     }
 
-    protected MapUniqueId createUsedTemplateVersionsWithCachedNodesMap(ItsNatServletImpl itsNatServlet)
+    protected MapUniqueId<MarkupTemplateVersionImpl> createUsedTemplateVersionsWithCachedNodesMap(ItsNatServletImpl itsNatServlet)
     {
         // Los ids de los template versions deben estar generados siempre por el mismo
         // generador: el del servlet.
@@ -76,12 +76,12 @@ public abstract class MarkupContainerImpl implements Serializable
         // retardo de sincronización a nivel de servlet al crear el usedTemplatesWithCachedNodes del documento
         // pero es asumible sobre todo en aplicaciones AJAX (se crean pocos ItsNatDocument) ????? (NO ME ACUERDO DE ESTO)
 
-        return new MapUniqueId(itsNatServlet.getUniqueIdGenerator());
+        return new MapUniqueId<MarkupTemplateVersionImpl>(itsNatServlet.getUniqueIdGenerator());
     }
     
     public MarkupTemplateVersionImpl getUsedMarkupTemplateVersion(String id)
     {
-        return (MarkupTemplateVersionImpl)getUsedTemplateVersionsWithCachedNodes().get(id);
+        return getUsedTemplateVersionsWithCachedNodes().get(id);
     }
 
     public void addUsedMarkupTemplateVersionWithCachedNodes(MarkupTemplateVersionImpl template)
@@ -94,13 +94,13 @@ public abstract class MarkupContainerImpl implements Serializable
 
         if (!template.hasCachedNodes()) return;
 
-        MapUniqueId usedTemplates = getUsedTemplateVersionsWithCachedNodes();
+        MapUniqueId<MarkupTemplateVersionImpl> usedTemplates = getUsedTemplateVersionsWithCachedNodes();
         if (usedTemplates.containsKey(template))
             return; // Ya fue añadido, en teoría no puede cambiar (los templates contenidos son los mismos) pues ha de generarse una nueva versión, es decir un nuevo template (objecto e idObj) a todos los efectos
 
         usedTemplates.put(template);
 
-        MapUniqueId templatesOfTemplate = template.getUsedTemplateVersionsWithCachedNodes();
+        MapUniqueId<MarkupTemplateVersionImpl> templatesOfTemplate = template.getUsedTemplateVersionsWithCachedNodes();
         usedTemplates.putAll( templatesOfTemplate );
     }
 
@@ -111,7 +111,7 @@ public abstract class MarkupContainerImpl implements Serializable
             int start = text.indexOf(CachedSubtreeImpl.getMarkCodeStart());
             if (start == -1) return text;
 
-            StringBuffer textRes = new StringBuffer();
+            StringBuilder textRes = new StringBuilder();
             while (start != -1)
             {
                 int end = text.indexOf('}',start);
@@ -121,9 +121,9 @@ public abstract class MarkupContainerImpl implements Serializable
                 String templateId = CachedSubtreeImpl.getTemplateId(mark);
                 MarkupTemplateVersionImpl template = getUsedMarkupTemplateVersion(templateId);
 
-                MapUniqueId cacheMap = template.getElementCacheMap();
+                MapUniqueId<CachedSubtreeImpl> cacheMap = template.getElementCacheMap();
                 String nodeId = CachedSubtreeImpl.getNodeId(mark);
-                CachedSubtreeImpl cachedNode = (CachedSubtreeImpl)cacheMap.get(nodeId);
+                CachedSubtreeImpl cachedNode = cacheMap.get(nodeId);
 
                 textRes.append( text.substring(0,start) );
                 String cachedCode = cachedNode.getCode(resolveEntities);

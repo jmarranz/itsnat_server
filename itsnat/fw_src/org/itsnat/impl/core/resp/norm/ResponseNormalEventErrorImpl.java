@@ -17,12 +17,13 @@
 package org.itsnat.impl.core.resp.norm;
 
 import java.util.LinkedList;
-import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.event.client.ClientDOMEventErrorImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.itsnat.impl.core.req.norm.RequestNormal;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.itsnat.impl.core.resp.ResponseEventImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.w3c.dom.events.EventListener;
 
 /**
  *
@@ -60,7 +61,7 @@ public abstract class ResponseNormalEventErrorImpl extends ResponseEventImpl imp
 
         if (itsNatServlet.hasEventListenerListeners())
         {
-            LinkedList listeners = new LinkedList();
+            LinkedList<EventListener> listeners = new LinkedList<EventListener>();
             itsNatServlet.getGlobalEventListenerList(listeners);
 
             ClientDOMEventErrorImpl evt = new ClientDOMEventErrorImpl(getRequestNormalEvent());

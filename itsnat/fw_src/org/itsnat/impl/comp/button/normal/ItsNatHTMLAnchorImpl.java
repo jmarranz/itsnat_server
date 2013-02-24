@@ -16,26 +16,26 @@
 
 package org.itsnat.impl.comp.button.normal;
 
-import org.itsnat.impl.comp.ItsNatHTMLElementComponentImpl;
-import org.itsnat.comp.button.normal.ItsNatHTMLAnchor;
-import org.itsnat.comp.button.ItsNatButtonUI;
-import org.itsnat.comp.ItsNatComponentUI;
-import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
 import javax.swing.event.ChangeEvent;
-import org.itsnat.core.event.ParamTransport;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.button.ItsNatButtonUI;
+import org.itsnat.comp.button.normal.ItsNatHTMLAnchor;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.ItsNatHTMLElementComponentImpl;
+import org.itsnat.impl.comp.button.ItsNatButtonInternal;
+import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.button.ItsNatButtonInternal;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLAnchorElement;

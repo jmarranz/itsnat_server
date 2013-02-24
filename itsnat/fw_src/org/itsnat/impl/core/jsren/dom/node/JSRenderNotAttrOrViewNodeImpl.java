@@ -93,10 +93,8 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         Node parent = newNode.getParentNode();
         DOMPathResolver pathResolver = clientDoc.getDOMPathResolver();
         // Obtenemos el sibling con representación en el DOM cliente (no filtrado)
-        // Salvo Pocket IE, en donde este método se redefine totalmente,
-        // sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
-        // dichos comentarios no están en el DOM y afortunadamente no son visibles (lo que no ocurre con
-        // los nodos de texto en Pocket IE que no están en el DOM pero "están" en el innerHTML y son visibles )
+        // Sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
+        // dichos comentarios no están en el DOM y afortunadamente no son visibles 
         // No consideramos el filtrado en servidor de los nodos de texto con espacios, que a veces son filtrados
         // en algunos navegadores (MSIE por ejemplo) pues ItsNat está preparado para ello si no se encuentra en el cliente.
 

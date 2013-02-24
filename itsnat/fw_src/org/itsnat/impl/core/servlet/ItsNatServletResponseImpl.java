@@ -40,7 +40,7 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
 {
     protected ItsNatServletRequestImpl request;
     protected ServletResponse response;
-    protected List codeToSend = new LinkedList();
+    protected List<Object> codeToSend = new LinkedList<Object>();
     protected ResponseImpl delegResponse;
 
 
@@ -132,10 +132,10 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
 
         addCodeFromClientDocAndReset();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if (!codeToSend.isEmpty())
         {
-            for(Iterator it = codeToSend.iterator(); it.hasNext(); )
+            for(Iterator<Object> it = codeToSend.iterator(); it.hasNext(); )
             {
                 Object codeFragment = it.next();
                 it.remove(); // Para ir liberando memoria
@@ -165,13 +165,13 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
         listener.processRequest(getItsNatServletRequestImpl(),this);
     }
 
-    public void dispatchItsNatServletRequestListeners(Iterator iterator)
+    public void dispatchItsNatServletRequestListeners(Iterator<ItsNatServletRequestListener> iterator)
     {
         if (iterator != null)
         {
             while(iterator.hasNext())
             {
-                ItsNatServletRequestListener listener = (ItsNatServletRequestListener)iterator.next();
+                ItsNatServletRequestListener listener = iterator.next();
                 dispatchRequestListener(listener);
             }
         }

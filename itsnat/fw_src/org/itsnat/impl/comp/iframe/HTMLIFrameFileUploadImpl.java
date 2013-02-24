@@ -30,8 +30,8 @@ import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.impl.core.ItsNatUserDataImpl;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -57,7 +57,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     protected HTMLInputElement inputElem;
     protected ClientDocumentStfulImpl clientDoc;
     protected UniqueId idObj;
-    protected LinkedList requestListeners;
+    protected LinkedList<ItsNatServletRequestListener> requestListeners;
     protected boolean receiving = false;
     protected boolean disposed = false;
     protected boolean processed = false;
@@ -104,7 +104,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
         clientDoc.addHTMLIFrameFileUploadImpl(this);
         comp.addHTMLIFrameFileUploadImpl(this);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append("var elem = " + clientDoc.getNodeReference(inputElem,true,true) + ";\n");
         code.append("var elemClone = elem.cloneNode(true);\n");
@@ -217,14 +217,14 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
         return !requestListeners.isEmpty();
     }
 
-    protected LinkedList getItsNatServletRequestListenerList()
+    protected LinkedList<ItsNatServletRequestListener> getItsNatServletRequestListenerList()
     {
         if (requestListeners == null)
-            this.requestListeners = new LinkedList();
+            this.requestListeners = new LinkedList<ItsNatServletRequestListener>();
         return requestListeners;
     }
 
-    protected Iterator getItsNatServletRequestListenerIterator()
+    protected Iterator<ItsNatServletRequestListener> getItsNatServletRequestListenerIterator()
     {
         // No sincronizamos porque sólo admitimos sólo lectura
         if (requestListeners == null) return null;
@@ -246,7 +246,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.add(listener);
     }
 
@@ -254,7 +254,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        LinkedList requestListeners = getItsNatServletRequestListenerList();
+        LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
         requestListeners.remove(listener);
     }
 

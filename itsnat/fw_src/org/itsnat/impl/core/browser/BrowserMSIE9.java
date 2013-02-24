@@ -44,11 +44,6 @@ public class BrowserMSIE9 extends BrowserW3C
         return false;
     }
 
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        return true;
-    }
-
     public boolean isReferrerReferenceStrong()
     {
         return true;  // Estudiar aunque true es la opción más segura
@@ -75,7 +70,7 @@ public class BrowserMSIE9 extends BrowserW3C
         return DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
@@ -88,16 +83,6 @@ public class BrowserMSIE9 extends BrowserW3C
     public boolean hasHTMLCSSOpacity()
     {
         return true;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
     }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()

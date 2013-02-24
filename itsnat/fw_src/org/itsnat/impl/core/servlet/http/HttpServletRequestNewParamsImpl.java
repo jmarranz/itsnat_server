@@ -29,9 +29,9 @@ import javax.servlet.http.HttpServletRequestWrapper;
  */
 public class HttpServletRequestNewParamsImpl extends HttpServletRequestWrapper implements HttpServletRequest
 {
-    protected Map paramMap;
+    protected Map<String,String[]> paramMap;
 
-    public HttpServletRequestNewParamsImpl(HttpServletRequest parent, Map paramMap)
+    public HttpServletRequestNewParamsImpl(HttpServletRequest parent, Map<String,String[]> paramMap)
     {
         super(parent);
         this.paramMap = Collections.unmodifiableMap(paramMap);
@@ -42,6 +42,7 @@ public class HttpServletRequestNewParamsImpl extends HttpServletRequestWrapper i
         return (HttpServletRequest) getRequest();
     }
 
+    @Override
     public String getParameter(String arg0)
     {
         String[] values = getParameterValues(arg0);
@@ -49,20 +50,23 @@ public class HttpServletRequestNewParamsImpl extends HttpServletRequestWrapper i
             return null;
         if (values.length == 0)
             return null; // Yo creo que esto no debería ocurrir nunca pero por si acaso
-        return (String) values[0];
+        return values[0];
     }
 
-    public Enumeration getParameterNames()
+    @Override
+    public Enumeration<String> getParameterNames()
     {
         return Collections.enumeration(paramMap.keySet());
     }
 
+    @Override
     public String[] getParameterValues(String arg0)
     {
-        return (String[])paramMap.get(arg0);
+        return paramMap.get(arg0);
     }
 
-    public Map getParameterMap()
+    @Override
+    public Map<String,String[]> getParameterMap()
     {
         return paramMap;
     }

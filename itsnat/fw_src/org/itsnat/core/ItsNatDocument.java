@@ -16,17 +16,17 @@
 
 package org.itsnat.core;
 
-import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Enumeration;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.domutil.ElementGroupManager;
-import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.core.event.CodeToSendListener;
 import org.itsnat.core.event.ItsNatAttachedClientEventListener;
-import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.ItsNatServletRequestListener;
+import org.itsnat.core.event.ParamTransport;
+import org.itsnat.core.script.ScriptUtil;
+import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
@@ -414,7 +414,7 @@ public interface ItsNatDocument extends ItsNatUserData
      * @return an enumeration with the registered attributes.
      * @see #getAttribute(String)
      */
-    public Enumeration getAttributeNames();
+    public Enumeration<String> getAttributeNames();
 
     /**
      * Unregisters the specified attribute with the given name.

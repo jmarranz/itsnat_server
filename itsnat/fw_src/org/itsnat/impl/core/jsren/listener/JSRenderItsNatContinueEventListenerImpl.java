@@ -44,7 +44,7 @@ public class JSRenderItsNatContinueEventListenerImpl extends JSRenderItsNatDOMEx
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String functionVarName = addCustomCodeFunction(itsNatListener,code);
 

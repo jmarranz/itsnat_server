@@ -20,7 +20,6 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.event.ItsNatKeyEvent;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.event.HTMLEventInternal;
 import org.itsnat.impl.core.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
@@ -61,10 +60,7 @@ public abstract class JSRenderMSIEOldEventImpl extends JSRenderItsNatDOMStdEvent
 
     public String getCreateEventInstance(Event evt,ClientDocumentStfulImpl clientDoc)
     {
-        if (clientDoc.getBrowser() instanceof BrowserMSIEPocket)
-            return "new Object()";
-        else
-            return "itsNatDoc.doc.createEventObject()";
+       return "itsNatDoc.doc.createEventObject()";
     }
 
     public String getInitEventDefault(Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)

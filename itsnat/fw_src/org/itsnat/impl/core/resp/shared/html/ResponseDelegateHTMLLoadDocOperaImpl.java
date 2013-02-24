@@ -17,12 +17,11 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Desktop;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mini;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9Mobile;
+import org.itsnat.impl.core.browser.opera.BrowserOperaDesktop;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.opera.BrowserOperaMobile;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.shared.bybrow.ResponseDelegStfulLoadDocByBOperaImpl;
 
 /**
  *
@@ -37,21 +36,32 @@ public abstract class ResponseDelegateHTMLLoadDocOperaImpl extends ResponseDeleg
 
     public static ResponseDelegateHTMLLoadDocOperaImpl createResponseDelegateHTMLLoadDocOpera(BrowserOpera browser,ResponseLoadStfulDocumentValid responseParent)
     {
-        if (browser instanceof BrowserOpera9)
+        if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera9Mini)
-                return new ResponseDelegateHTMLLoadDocOpera9MiniImpl(responseParent);
-            else if (browser instanceof BrowserOpera9Mobile)
-                return new ResponseDelegateHTMLLoadDocOpera9MobileImpl(responseParent);
-            else if (browser instanceof BrowserOpera9Desktop)
-                return new ResponseDelegateHTMLLoadDocOpera9DesktopImpl(responseParent);
+            if (browser instanceof BrowserOperaMini)
+                return new ResponseDelegateHTMLLoadDocOperaMiniImpl(responseParent);
+            else if (browser instanceof BrowserOperaMobile)
+                return new ResponseDelegateHTMLLoadDocOperaMobileImpl(responseParent);
+            else if (browser instanceof BrowserOperaDesktop)
+                return new ResponseDelegateHTMLLoadDocOperaDesktopImpl(responseParent);
             else
                 return null; // No hay más
         }
-        else if (browser instanceof BrowserOpera8Mobile)
-            return new ResponseDelegateHTMLLoadDocOpera8MobileImpl(responseParent);
         else
             return null; // No hay más
     }
+    
+
+    public ResponseDelegStfulLoadDocByBOperaImpl getResponseDelegStfulLoadDocByBOpera()
+    {
+        return (ResponseDelegStfulLoadDocByBOperaImpl)delegByBrowser;
+    }
+
+    public void dispatchRequestListeners()
+    {
+        super.dispatchRequestListeners();
+
+        getResponseDelegStfulLoadDocByBOpera().afterLoadRewriteClientUIControlProperties();
+    }    
 }
 

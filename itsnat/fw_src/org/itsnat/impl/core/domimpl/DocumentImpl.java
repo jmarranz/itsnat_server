@@ -120,7 +120,7 @@ import org.w3c.dom.views.DocumentView;
 public abstract class DocumentImpl extends GenericDocument
         implements DocumentView,ItsNatDocumentInternal
 {
-    protected final static Map htmlElemFactories = new HashMap();
+    protected final static Map<String,HTMLElementImpl> htmlElemFactories = new HashMap<String,HTMLElementImpl>();
     protected final static DocumentImpl dummyDoc = new HTMLDocumentImpl(null,BatikItsNatDOMImplementationImpl.getBatikItsNatDOMImplementation());
     protected final static HTMLElementOtherImpl htmlUnkownElemFactory = new HTMLElementOtherImpl("notvalid",dummyDoc);
 
@@ -209,7 +209,7 @@ public abstract class DocumentImpl extends GenericDocument
         getDelegateNode();
     }
 
-    protected static void addHTMLFactory(HTMLElement elem)
+    protected static void addHTMLFactory(HTMLElementImpl elem)
     {
         // Los localName DEBEN estar en minúsculas para que valgan también
         // para XHTML
@@ -219,11 +219,12 @@ public abstract class DocumentImpl extends GenericDocument
     protected static HTMLElementImpl getHTMLFactory(String localName)
     {
         // Puede ser null, es el caso de localName sin una interface específica
-        HTMLElementImpl factory = (HTMLElementImpl)htmlElemFactories.get(localName);
+        HTMLElementImpl factory = htmlElemFactories.get(localName);
         if (factory != null) return factory;
         return htmlUnkownElemFactory; //Ej. el caso de <span>
     }
 
+    @Override
     public DOMImplementation getImplementation()
     {
         // Existe un caso de que al deserializar el documento se leen antes los nodos hijos
@@ -236,6 +237,7 @@ public abstract class DocumentImpl extends GenericDocument
         return super.getImplementation();
     }
 
+    @Override
     public Element getChildElementById(Node requestor, String id)
     {
         // Redefine el comportamiento por defecto para evitar el uso de elementsById
@@ -245,24 +247,28 @@ public abstract class DocumentImpl extends GenericDocument
         return elementsByIdFixed.getChildElementById(requestor, id);
     }
 
+    @Override
     public Element getElementById(String id)
     {
         // Redefine el comportamiento por defecto para evitar el uso de elementsById
         return elementsByIdFixed.getElementById(id);
     }
 
+    @Override
     public void removeIdEntry(Element e, String id)
     {
         // Redefine el comportamiento por defecto para evitar el uso de elementsById
         elementsByIdFixed.removeIdEntry(e,id);
     }
 
+    @Override
     public void addIdEntry(Element e, String id)
     {
         // Redefine el comportamiento por defecto para evitar el uso de elementsById
         elementsByIdFixed.addIdEntry(e,id);
     }
 
+    @Override
     public void updateIdEntry(Element e, String oldId, String newId)
     {
         // Redefine el comportamiento por defecto para evitar el uso de elementsById
@@ -320,6 +326,7 @@ public abstract class DocumentImpl extends GenericDocument
         this.xmlDec = new XMLDecImpl(version,encoding,standalone);
     }
 
+    @Override
     public Node cloneNode(boolean deep)
     {
         DocumentImpl docClone = (DocumentImpl)super.cloneNode(deep);
@@ -362,6 +369,7 @@ public abstract class DocumentImpl extends GenericDocument
 
     public abstract Element createElementInternal(String localName);
 
+    @Override
     public Element createElement(String tagName)
     {
         // Redefinimos el método por defecto de Batik
@@ -379,6 +387,7 @@ public abstract class DocumentImpl extends GenericDocument
         return createElementInternal(tagName); // tagName es el localName
     }
 
+    @Override
     public Element createElementNS(String namespaceURI,String qualifiedName)
     {
         // Redefinimos el método por defecto de Batik
@@ -390,21 +399,25 @@ public abstract class DocumentImpl extends GenericDocument
             return new ElementNSDefaultImpl(namespaceURI,qualifiedName,this);
     }
 
+    @Override
     public Text createTextNode(String data)
     {
         return new TextImpl(data,this);
     }
 
+    @Override
     public Comment createComment(String data)
     {
         return new CommentImpl(data,this);
     }
 
+    @Override
     public Attr createAttribute(String name) throws DOMException
     {
         return new AttrImpl(name.intern(), this);
     }
 
+    @Override
     public Attr createAttributeNS(String namespaceURI, String qualifiedName) throws DOMException
     {
         if (namespaceURI != null && namespaceURI.length() == 0) {
@@ -419,22 +432,26 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public DocumentFragment createDocumentFragment()
     {
         return new DocumentFragmentImpl(this);
     }
 
+    @Override
     public CDATASection createCDATASection(String data) throws DOMException
     {
         return new CDATASectionImpl(data, this);
     }
 
+    @Override
     public ProcessingInstruction createProcessingInstruction(String target,
                                          String data) throws DOMException
     {
         return new ProcessingInstructionImpl(target, data, this);
     }
 
+    @Override
     public EntityReference createEntityReference(String name) throws DOMException
     {
         return new EntityReferenceImpl(name, this);
@@ -480,6 +497,7 @@ public abstract class DocumentImpl extends GenericDocument
         super.removeEventListener(type,listener,useCapture);
     }
 
+    @Override
     public void fireDOMSubtreeModifiedEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -494,6 +512,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public void fireDOMNodeInsertedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -508,6 +527,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -522,6 +542,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public void fireDOMNodeInsertedIntoDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -536,6 +557,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedFromDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -550,6 +572,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public void fireDOMCharacterDataModifiedEvent(String oldv,String newv)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -564,6 +587,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public Node renameNode(Node n, String namespaceURI, String qualifiedName)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -578,6 +602,7 @@ public abstract class DocumentImpl extends GenericDocument
         }
     }
 
+    @Override
     public Node importNode(Node importedNode, boolean deep) throws DOMException
     {
         // El método importNode con tres parámetros de Batik, es únicamente
@@ -603,6 +628,7 @@ public abstract class DocumentImpl extends GenericDocument
 
     // Métodos de EventTarget
 
+    @Override
     public boolean dispatchEvent(Event evt) throws EventException
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -612,6 +638,7 @@ public abstract class DocumentImpl extends GenericDocument
             return delegate.dispatchEventRemote(evt);
     }
 
+    @Override
     public void addEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -621,6 +648,7 @@ public abstract class DocumentImpl extends GenericDocument
             delegate.addEventListenerRemote(type,listener,useCapture);
     }
 
+    @Override
     public void removeEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -644,6 +672,7 @@ public abstract class DocumentImpl extends GenericDocument
 
     // Métodos de DocumentEvent
 
+    @Override
     public Event createEvent(String eventType) throws DOMException
     {
         DelegateDocumentImpl delegate = getDelegateDocument();

@@ -37,9 +37,10 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
         super(clientDoc);
     }
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent,Map context)
+    @Override
+    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
     {
-        super.postRenderAndSendMutationCode(mutEvent,context);
+        super.postRenderAndSendMutationCode(mutEvent);
 
         BrowserBlackBerryOld browser = (BrowserBlackBerryOld)clientDoc.getBrowser();
         String type = mutEvent.getType();
@@ -81,7 +82,7 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
 
         // La solución 3) se aplicó con éxito relativo, la 1) es la que funciona siempre aunque suponga crear un nuevo elemento.
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         String methodName = "blackBerryOldFixHTMLSelect";
         if (!clientDoc.isClientMethodBounded(methodName))
             code.append(bindFixHTMLSelectMethod(methodName));
@@ -94,7 +95,7 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
 
     private String bindFixHTMLSelectMethod(String methodName)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem)" );
         code.append( "{" );
@@ -133,13 +134,13 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
 
     private void fixTreeHTMLInputFileValue(Node node)
     {
-        StringBuffer code = fixTreeHTMLInputFileValue(node,null);
+        StringBuilder code = fixTreeHTMLInputFileValue(node,null);
 
         if ((code != null) && (code.length() > 0))
             clientDoc.addCodeToSend(code.toString());
     }
 
-    private StringBuffer fixTreeHTMLInputFileValue(Node node,StringBuffer code)
+    private StringBuilder fixTreeHTMLInputFileValue(Node node,StringBuilder code)
     {
         if (node.getNodeType() != Node.ELEMENT_NODE) return code;
 
@@ -162,7 +163,7 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
         return code;
     }
 
-    private StringBuffer fixHTMLInputFileValue(HTMLInputElement elem,StringBuffer code)
+    private StringBuilder fixHTMLInputFileValue(HTMLInputElement elem,StringBuilder code)
     {
         // Solucionamos el problema de que la sola presencia del atributo
         // "value" en un <input type="file"> provoca una excepción.
@@ -171,7 +172,7 @@ public class ClientMutationEventListenerHTMLBlackBerryOldImpl extends ClientMuta
         // tenemos la oportunidad de eliminar el atributo value antes de que
         // BlackBerry muestre el control.
 
-        if (code == null) code = new StringBuffer();
+        if (code == null) code = new StringBuilder();
 
         String jsRef = clientDoc.getNodeReference(elem,true,true);
 

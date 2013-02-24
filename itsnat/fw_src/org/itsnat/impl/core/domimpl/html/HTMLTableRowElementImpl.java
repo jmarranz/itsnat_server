@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import org.itsnat.impl.core.domimpl.DocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLCollection;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLTableElement;
@@ -104,10 +105,10 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
         // No admitimos que un <row> esté directamente bajo <table>
         HTMLTableSectionElement section = (HTMLTableSectionElement)getParentNode();
         HTMLTableElement table = (HTMLTableElement)section.getParentNode();
-        LinkedList rows = HTMLTableElementImpl.getRowsArray(table);
+        LinkedList<Node> rows = HTMLTableElementImpl.getRowsArray(table);
         // rows NO puede ser nulo pues está dentro este <row>
         int i = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); i++)
+        for(Iterator<Node> it = rows.iterator(); it.hasNext(); i++)
             if (it.next() == this) return i;
         return -1;
     }
@@ -123,12 +124,14 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
     {
         // No admitimos que un <row> esté directamente bajo <table>
         HTMLTableSectionElement section = (HTMLTableSectionElement)getParentNode();
-        LinkedList rows = DOMUtilInternal.getChildElementListWithTagNameNS(section,NamespaceUtil.XHTML_NAMESPACE,"tr",false);
+        LinkedList<Node> rows = DOMUtilInternal.getChildElementListWithTagNameNS(section,NamespaceUtil.XHTML_NAMESPACE,"tr",false);
         // rows NO puede ser nulo pues está dentro este <row>
         int i = 0;
-        for(Iterator it = rows.iterator(); it.hasNext(); i++)
+        for(Iterator<Node> it = rows.iterator(); it.hasNext(); i++)
+        {
             if (it.next() == this) return i;
-
+        }
+        
         return -1;
     }
 
@@ -153,15 +156,15 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public LinkedList getCellsArray()
+    public LinkedList<Node> getCellsArray()
     {
         // Lo normal es que las celdas TH estén ANTES que las TD
-        LinkedList thCells = getChildrenArray("th",false); // Puede ser null (no hay)
-        LinkedList tdCells = getChildrenArray("td",false); // Puede ser null (no hay)
-        LinkedList cells;
+        LinkedList<Node> thCells = getChildrenArray("th",false); // Puede ser null (no hay)
+        LinkedList<Node> tdCells = getChildrenArray("td",false); // Puede ser null (no hay)
+        LinkedList<Node> cells;
         if ((thCells != null)&&(tdCells != null))
         {
-            cells = new LinkedList();
+            cells = new LinkedList<Node>();
             cells.addAll(thCells);
             cells.addAll(tdCells);
         }
@@ -176,13 +179,13 @@ public class HTMLTableRowElementImpl extends HTMLElementImpl implements HTMLTabl
 
     public HTMLElement insertCell( int index )
     {
-        LinkedList cells = getCellsArray();
+        LinkedList<Node> cells = getCellsArray();
         return insertElement(index, "td", cells);
     }
 
     public void deleteCell( int index )
     {
-        LinkedList cells = getCellsArray();
+        LinkedList<Node> cells = getCellsArray();
         deleteElement(index,cells);
     }
 }

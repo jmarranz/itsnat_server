@@ -42,7 +42,6 @@ public abstract class ItsNatTableUIImpl extends ItsNatElementComponentUIImpl imp
 {
     protected boolean enabled = true;
     protected ElementTableImpl tableMgr;
-    protected ArrayList columnIdentifiers = new ArrayList();
 
     /**
      * Creates a new instance of ItsNatTableUIImpl
@@ -215,9 +214,8 @@ public abstract class ItsNatTableUIImpl extends ItsNatElementComponentUIImpl imp
             ElementListImpl columns = (ElementListImpl)tableMgr.getColumnsOfRowElementList(row,rowElem);
             // Si la longitud de values es menor que el número de columnas dará error
             int i = 0;
-            for(Iterator it = columns.getInternalElementListFree().iterator(); it.hasNext(); )
+            for(Element columElem : columns.getInternalElementListFree())
             {
-                Element columElem = (Element)it.next();
                 setElementValueAt(row,i,values[i],selected[i],hasFocus[i],columElem,isNew);
 
                 i++;
@@ -276,12 +274,10 @@ public abstract class ItsNatTableUIImpl extends ItsNatElementComponentUIImpl imp
             {
                 // Si la longitud de columnData es menor que el número de columnas dará error
                 int row = 0;
-                for(Iterator it = rows.getInternalElementListFree().iterator(); it.hasNext(); )
+                for(Element rowElem : rows.getInternalElementListFree())
                 {
-                    Element rowElem = (Element)it.next();
-
                     ElementListBaseImpl columns = tableMgr.getColumnsOfRowElementList(row,rowElem);
-                    Element cellElem = (Element)columns.getElementAt(column);
+                    Element cellElem = columns.getElementAt(column);
                     setElementValueAt(row,column,columnData[row],selected[row],hasFocus[row],cellElem,isNew);
 
                     row++;

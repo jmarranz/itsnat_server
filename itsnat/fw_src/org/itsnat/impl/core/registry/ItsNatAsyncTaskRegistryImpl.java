@@ -34,7 +34,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public class ItsNatAsyncTaskRegistryImpl implements Serializable
 {
-    protected MapUniqueId tasks;
+    protected MapUniqueId<ItsNatAsyncTaskEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;
 
     /**
@@ -44,7 +44,7 @@ public class ItsNatAsyncTaskRegistryImpl implements Serializable
     {
         this.clientDoc = clientDoc;
 
-        this.tasks = new MapUniqueId(clientDoc.getUniqueIdGenerator());
+        this.tasks = new MapUniqueId<ItsNatAsyncTaskEventListenerWrapperImpl>(clientDoc.getUniqueIdGenerator());
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
@@ -83,7 +83,7 @@ public class ItsNatAsyncTaskRegistryImpl implements Serializable
         // En este contexto hay que recordar que el ItsNatDocument está bloqueado
         // por el hilo actual.
 
-        ItsNatAsyncTaskEventListenerWrapperImpl listener = (ItsNatAsyncTaskEventListenerWrapperImpl)tasks.removeById(id);
+        ItsNatAsyncTaskEventListenerWrapperImpl listener = tasks.removeById(id);
         if (listener == null)
             throw new ItsNatException("Asynchronous Task with id " + id + " does not exist");
 

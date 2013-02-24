@@ -17,20 +17,20 @@
 package org.itsnat.impl.comp.iframe;
 
 import java.util.LinkedList;
+import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.iframe.HTMLIFrameFileUpload;
 import org.itsnat.comp.iframe.ItsNatHTMLIFrame;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.core.ClientDocument;
-import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatHTMLElementComponentImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
@@ -45,7 +45,7 @@ import org.w3c.dom.html.HTMLInputElement;
 public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl implements ItsNatHTMLIFrame
 {
     protected boolean enabled = true;
-    protected LinkedList fileUploadList;
+    protected LinkedList<HTMLIFrameFileUploadImpl> fileUploadList;
 
     /**
      * Creates a new instance of ItsNatHTMLIFrameImpl
@@ -57,6 +57,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         init();
     }
 
+    @Override
     protected void disposeEffective(boolean updateClient)
     {
         super.disposeEffective(updateClient);
@@ -65,7 +66,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         {
             while(!fileUploadList.isEmpty())
             {
-                HTMLIFrameFileUploadImpl fileUpload = (HTMLIFrameFileUploadImpl)fileUploadList.getFirst();
+                HTMLIFrameFileUploadImpl fileUpload = fileUploadList.getFirst();
                 fileUpload.dispose(); // Se quita él solo de la lista
             }
         }
@@ -145,10 +146,10 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
         return new HTMLIFrameFileUploadImpl(this,elem,(ClientDocumentStfulImpl)clientDoc);
     }
 
-    public LinkedList getHTMLIFrameFileUploadList()
+    public LinkedList<HTMLIFrameFileUploadImpl> getHTMLIFrameFileUploadList()
     {
         if (fileUploadList == null)
-            this.fileUploadList = new LinkedList(); // Así ahorramos memoria si no se usa
+            this.fileUploadList = new LinkedList<HTMLIFrameFileUploadImpl>(); // Así ahorramos memoria si no se usa
         return fileUploadList;
     }
 

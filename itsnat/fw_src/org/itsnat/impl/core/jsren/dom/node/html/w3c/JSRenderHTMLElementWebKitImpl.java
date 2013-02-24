@@ -17,8 +17,6 @@
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitAndroid;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKitS60;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
@@ -48,18 +46,14 @@ public abstract class JSRenderHTMLElementWebKitImpl extends JSRenderHTMLElementW
         /* Caso <style> dentro de innerHTML:
            Safari acepta el nodo pero el estilo no se aplica, pero tampoco se aplica via DOM
            por lo que aceptamos usar con innerHTML.
-           Idem QtWebKit, S60WebKit e Iris.
+           Idem S60WebKit.
          */
     }
 
     public static JSRenderHTMLElementWebKitImpl getJSRenderHTMLElementWebKit(BrowserWebKit browser)
     {
-        if (browser instanceof BrowserWebKitAndroid)
-            return JSRenderHTMLElementWebKitAndroidImpl.SINGLETON;
-        else if (browser instanceof BrowserWebKitS60)
+        if (browser instanceof BrowserWebKitS60)
             return JSRenderHTMLElementWebKitS60Impl.SINGLETON;
-        else if (browser instanceof BrowserWebKitMoto)
-            return JSRenderHTMLElementWebKitMotoImpl.SINGLETON;
         else
             return JSRenderHTMLElementWebKitDefaultImpl.SINGLETON; // Los demás
     }

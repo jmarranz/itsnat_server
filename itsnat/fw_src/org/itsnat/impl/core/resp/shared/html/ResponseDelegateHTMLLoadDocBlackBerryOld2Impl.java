@@ -29,6 +29,7 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -43,6 +44,7 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
     }
 
 
+    @Override
     public String serializeDocument()
     {
         BrowserBlackBerryOld browser = (BrowserBlackBerryOld)getClientDocumentStful().getBrowser();
@@ -66,7 +68,7 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
 
             ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
             Document doc = itsNatDoc.getDocument();
-            Map attributes = processTreeInputFileElements(doc);
+            Map<Element,Attr> attributes = processTreeInputFileElements(doc);
 
             String docMarkup = super.serializeDocument();
 
@@ -99,18 +101,18 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
         }
     }
 
-    protected Map processTreeInputFileElements(Document doc)
+    protected Map<Element,Attr> processTreeInputFileElements(Document doc)
     {
-        Map attributes = null;
-        LinkedList elems = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"input",true);
+        Map<Element,Attr> attributes = null;
+        LinkedList<Node> elems = DOMUtilInternal.getChildElementListWithTagNameNS(doc,NamespaceUtil.XHTML_NAMESPACE,"input",true);
         if (elems != null)
         {
-            for(Iterator it = elems.iterator(); it.hasNext(); )
+            for(Iterator<Node> it = elems.iterator(); it.hasNext(); )
             {
                 HTMLInputElement elem = (HTMLInputElement)it.next();
                 if (DOMUtilHTML.isHTMLInputFile(elem) && elem.hasAttribute("value"))
                 {
-                    if (attributes == null) attributes = new HashMap();
+                    if (attributes == null) attributes = new HashMap<Element,Attr>();
                     processInputFileElement(elem,attributes,doc);
                 }
             }
@@ -118,7 +120,7 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
         return attributes;
     }
 
-    public static void processInputFileElement(Element elem,Map attributes,Document doc)
+    public static void processInputFileElement(Element elem,Map<Element,Attr> attributes,Document doc)
     {
         // Salvamos el atributo para restaurarlo después
         Attr attr = elem.getAttributeNode("value"); // Es seguro que no es nulo
@@ -127,14 +129,13 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
         elem.removeAttribute("value");
     }
 
-    public static void restoreAttributes(Map attributes)
+    public static void restoreAttributes(Map<Element,Attr> attributes)
     {
         // Restauramos el estado anterior del DOM
-        for(Iterator it = attributes.entrySet().iterator(); it.hasNext(); )
+        for(Map.Entry<Element,Attr> entry : attributes.entrySet())
         {
-            Map.Entry entry = (Map.Entry)it.next();
-            Element elem = (Element)entry.getKey();
-            Attr attr = (Attr)entry.getValue();
+            Element elem = entry.getKey();
+            Attr attr = entry.getValue();
             elem.setAttributeNode(attr);
         }
     }

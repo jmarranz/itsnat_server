@@ -17,7 +17,6 @@
 package org.itsnat.impl.comp.button.normal;
 
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.*;
 import javax.swing.JToggleButton.ToggleButtonModel;
 
 /**

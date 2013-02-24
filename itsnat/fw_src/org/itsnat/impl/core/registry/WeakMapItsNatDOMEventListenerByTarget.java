@@ -112,13 +112,12 @@ public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Se
         if (targetList == null)
             return 0;
 
-        LinkedList listeners = targetList.getAllItsNatDOMEventListenersCopy();
+        LinkedList<Pair> listeners = targetList.getAllItsNatDOMEventListenersCopy();
         if (listeners == null)
             return 0;
         // "listeners" es una copia por lo que es desechable e inmutable
-        for(Iterator it = listeners.iterator(); it.hasNext(); )
+        for(Pair pair : listeners)
         {
-            Pair pair = (Pair)it.next();
             ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
             parentRegistry.removeItsNatDOMEventListener(listener,updateClient,false);
         }
@@ -146,13 +145,12 @@ public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Se
     {
         ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)value;
 
-        LinkedList listeners = targetList.getAllItsNatDOMEventListenersCopy();
+        LinkedList<Pair> listeners = targetList.getAllItsNatDOMEventListenersCopy();
         if (listeners == null)
             return;
         // "listeners" es una copia por lo que es desechable e inmutable
-        for(Iterator it = listeners.iterator(); it.hasNext(); )
+        for(Pair pair : listeners)
         {
-            Pair pair = (Pair)it.next();
             ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
             parentRegistry.removeItsNatDOMEventListener(listener,false,true);
 

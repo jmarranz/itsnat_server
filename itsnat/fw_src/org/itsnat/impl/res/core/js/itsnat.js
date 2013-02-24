@@ -45,19 +45,19 @@ function AJAX(itsNatDoc,win)
     this.aborted = false;
 
     if (typeof win.XMLHttpRequest != "undefined") this.xhr = new win.XMLHttpRequest();
-    else if (typeof win.ActiveXObject != "undefined") // MSIE,ASV,Renesis
+    else if (typeof win.ActiveXObject != "undefined") // MSIE,ASV
     {
         try { this.xhr = new win.ActiveXObject("Msxml2.XMLHTTP"); }
         catch(ex) { this.xhr = new win.ActiveXObject("Microsoft.XMLHTTP"); }
     }
 
     function request(method,url,async,content)
-    {
+    {  
         if (method == "GET") { url += "?" + content; content = null; }
         this.xhr.open(method, url, async);
-        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
         this.xhr.setRequestHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT"); // Para WebKit viejos http://lists.apple.com/archives/dashboard-dev/2005/May/msg00196.html
-        this.xhr.setRequestHeader("Cache-Control","no-cache");
+        this.xhr.setRequestHeader("Cache-Control","no-cache");      
         this.xhr.send(content);
     }
 
@@ -101,7 +101,7 @@ function AJAX(itsNatDoc,win)
 
         listener.processRespBegin();
 
-        if (typeof status == "number") // Es undefined ocasionalmente en S60WebKit por ejemplo al enviar el unload y en MotoWebKit
+        if (typeof status == "number") // Es undefined ocasionalmente en S60WebKit por ejemplo al enviar el unload 
         {
             if (status == 200) listener.processRespValid(this.xhr.responseText); // "OK"
             else if (status != 0)
@@ -211,16 +211,15 @@ function Browser(type,subType)
     this.isW3C = isW3C;
     this.isGecko = isGecko;
     this.isWebKit = isWebKit;
-    this.isNetFront = isNetFront;
     this.isOpera = isOpera;
     this.isOperaMini = isOperaMini;
     this.isBlackBerryOld = isBlackBerryOld;
     this.isBlackBerryOld5 = isBlackBerryOld5;
-    this.isASVRenesis = isASVRenesis;
+    this.isAdobeSVG = isAdobeSVG;
     this.isBatik = isBatik;
     this.isMSIE9 = isMSIE9;
 
-    /* UNKNOWN=0,MSIE_OLD=1,GECKO=2,WEBKIT=3,OPERA=4,NETFRONT=5,BLACKBERRY_OLD=6,ASV_RENESIS=7,BATIK=8,MSIE_9=9 */
+    /* UNKNOWN=0,MSIE_OLD=1,GECKO=2,WEBKIT=3,OPERA=4,BLACKBERRY_OLD=5,ADOBE_SVG=6,BATIK=7,MSIE_9=8 */
     this.type = type;
     this.subType = subType;
 
@@ -230,12 +229,11 @@ function Browser(type,subType)
     function isWebKit() { return this.type == 3; }
     function isOpera() { return this.type == 4; }
     function isOperaMini() { return this.isOpera() && (this.subType == 2); }
-    function isNetFront() { return this.type == 5; }
-    function isBlackBerryOld() { return this.type == 6; }
+    function isBlackBerryOld() { return this.type == 5; }
     function isBlackBerryOld5() { return this.isBlackBerryOld() && (this.subType >= 5); }
-    function isASVRenesis() { return this.type == 7; }
-    function isBatik() { return this.type == 8; }
-    function isMSIE9() { return this.type == 9; }
+    function isAdobeSVG() { return this.type == 6; }
+    function isBatik() { return this.type == 7; }
+    function isMSIE9() { return this.type == 8; }
 }
 
 function DOMPathResolver(itsNatDoc)
@@ -533,7 +531,7 @@ function EventMgr(itsNatDoc)
 
         this.itsNatDoc.fireEventMonitors(true,false,evt);
         var win = this.itsNatDoc.win;
-        if (this.itsNatDoc.browser.isASVRenesis()) win = window; // En ASV itsNatDoc.win es _window_impl que no tiene el ActiveXObject
+        if (this.itsNatDoc.browser.isAdobeSVG()) win = window; // En ASV itsNatDoc.win es _window_impl que no tiene el ActiveXObject
         var method = this.itsNatDoc.usePost ? "POST" : "GET";
         var servletPath = this.itsNatDoc.getServletPath();
         var commMode = evt.getListener().getCommMode();
@@ -541,7 +539,7 @@ function EventMgr(itsNatDoc)
 
         if ((commMode == 1) && !this.itsNatDoc.xhrSyncSup) // XHR SYNC
         {
-            // Simulamos "el bloqueo" en lo posible, no se da el caso de navegadores con SVG/XUL (solo HTML). No hace nada con MotoWebKit
+            // Simulamos "el bloqueo" en lo posible, no se da el caso de navegadores con SVG/XUL (solo HTML). 
             var body = this.itsNatDoc.getHTMLBody();
             var layer = this.itsNatDoc.doc.createElement("div");
             layer.setAttribute("style","position:absolute; z-index:999999; left:0; top:0; width:" + body.scrollWidth + "px; height:" + body.scrollHeight + "px; ");
@@ -1105,13 +1103,7 @@ function Document()
         this.doc = doc;
         if (!this.browser.isBatik())
         {
-            var func;
-            if (this.browser.isASVRenesis()) // Renesis 1.1.1 bug
-            {
-                func = function () { return arguments.callee.itsNatDoc; };
-                func.itsNatDoc = this;
-            }
-            else func = function () { return this.itsNatDoc; };
+            var func = function () { return this.itsNatDoc; };
             doc.getItsNatDoc = func;
         }
         doc.itsNatDoc = this;

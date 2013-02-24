@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class UserDataMonoThreadImpl implements UserData,Serializable
 {
-    protected Map userData = new HashMap();
+    protected Map<String,Object> userData;
 
     /**
      * Creates a new instance of UserDataMonoThreadImpl
@@ -35,40 +35,40 @@ public class UserDataMonoThreadImpl implements UserData,Serializable
     {
     }
 
-    public Map getInternalMap()
+    public Map<String,Object> getInternalMap()
     {
-        if (userData == null) userData = new HashMap();
+        if (userData == null) userData = new HashMap<String,Object>();
         return userData;
     }
 
     public String[] getUserDataNames()
     {
-        Map userData = getInternalMap();
+        Map<String,Object> userData = getInternalMap();
         String[] names = new String[userData.size()];
-        return (String[])userData.keySet().toArray(names);
+        return userData.keySet().toArray(names);
     }
 
     public boolean containsName(String name)
     {
-        Map userData = getInternalMap();
+        Map<String,Object> userData = getInternalMap();
         return userData.containsKey(name);
     }
 
     public Object getUserData(String name)
     {
-        Map userData = getInternalMap();
+        Map<String,Object> userData = getInternalMap();
         return userData.get(name);
     }
 
     public Object setUserData(String name,Object value)
     {
-        Map userData = getInternalMap();
+        Map<String,Object> userData = getInternalMap();
         return userData.put(name,value);
     }
 
     public Object removeUserData(String name)
     {
-        Map userData = getInternalMap();
+        Map<String,Object> userData = getInternalMap();
         return userData.remove(name);
     }
 

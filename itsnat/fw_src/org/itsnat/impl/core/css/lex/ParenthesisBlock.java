@@ -16,8 +16,6 @@
 
 package org.itsnat.impl.core.css.lex;
 
-import java.util.Iterator;
-
 /**
  *
  * @author jmarranz
@@ -26,9 +24,9 @@ public class ParenthesisBlock extends Block
 {
 
     /** Creates a new instance of ParenthesisBlock */
-    public ParenthesisBlock(String code,Cursor cursor)
+    public ParenthesisBlock(Cursor cursor)
     {
-        super(code,cursor);
+        super(cursor);
     }
 
     public char getBeginBlockChar()

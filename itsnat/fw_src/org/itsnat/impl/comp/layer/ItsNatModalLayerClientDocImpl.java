@@ -42,7 +42,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 
     public ItsNatModalLayerImpl getItsNatModalLayer()
     {
-        return (ItsNatModalLayerImpl)parentComp;
+        return parentComp;
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()
@@ -81,7 +81,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
     {
         if (!isCleanBelowMode()) return;
 
-        LinkedHashSet bodyElementsBefore = getItsNatModalLayer().getBodyElementsBefore();
+        LinkedHashSet<Element> bodyElementsBefore = getItsNatModalLayer().getBodyElementsBefore();
 
         Element[] reverseBodyElements = new Element[bodyElementsBefore.size()];
         if (hide)
@@ -89,19 +89,19 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
             // Recorreremos el orden en inverso para evitar el "parpadeo" o "efecto persiana"
             // propio de ocultar/mostrar desde el primero, es más rápido para el navegador.
             int i = reverseBodyElements.length - 1;
-            for(Iterator it = bodyElementsBefore.iterator(); it.hasNext(); i--)
+            for(Iterator<Element> it = bodyElementsBefore.iterator(); it.hasNext(); i--)
             {
-                Element elem = (Element)it.next();
+                Element elem = it.next();
                 reverseBodyElements[i] = elem;
             }
         }
         else
         {
-            reverseBodyElements = (Element[])bodyElementsBefore.toArray(reverseBodyElements);
+            reverseBodyElements = bodyElementsBefore.toArray(reverseBodyElements);
         }
 
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         for(int i = 0; i < reverseBodyElements.length; i++ )
         {
             Element elem = reverseBodyElements[i];
@@ -114,7 +114,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
         clientDoc.addCodeToSend(code.toString());
     }
 
-    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuffer code,JSRenderElementImpl render)
+    protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuilder code,JSRenderElementImpl render)
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (hide)
@@ -131,16 +131,14 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
     {
         // Los navegadores móviles no tienen redimensionamiento de la ventana, sin embargo el tamaño de la página puede
         // verse afectado por lo que se ponga encima de los layers modales. Por tanto es deseable
-        // la actualización por timer pero no es necesario forzar porque son máquinas poco ponentes.
+        // la actualización por timer pero no es necesario forzar porque son máquinas poco potentes.
         Browser browser = clientDoc.getBrowser();
-        if (!browser.isSetTimeoutSupported())
-            return -1;
 
         if (browser.isMobile())
         {
             if (browser instanceof BrowserBlackBerryOld)
                 return -1; // Leer notas en BrowserBlackBerryOld.tagNamesIgnoreZIndex
-            //else if (browser instanceof BrowserOpera9Mobile)
+            //else if (browser instanceof BrowserOperaMobile)
             //    return -1; // No se porqué pero da error JavaScript a veces, quizás porque el posicionamiento absoluto da problemas (con y sin timer, pero al menos sin timer minimizamos problemas)
             else
                 return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos

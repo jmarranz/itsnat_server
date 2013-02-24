@@ -17,8 +17,15 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLTextImpl;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Node;
+import org.w3c.dom.Text;
+import org.w3c.dom.html.HTMLAppletElement;
+import org.w3c.dom.html.HTMLObjectElement;
+import org.w3c.dom.html.HTMLScriptElement;
+import org.w3c.dom.html.HTMLStyleElement;
 
 /**
  *
@@ -26,7 +33,8 @@ import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLTextImpl;
  */
 public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
 {
-
+    public static final JSRenderHTMLTextMSIEOldImpl SINGLETON = new JSRenderHTMLTextMSIEOldImpl();
+    
     /** Creates a new instance of JSRenderHTMLTextMSIEOldImpl */
     public JSRenderHTMLTextMSIEOldImpl()
     {
@@ -34,9 +42,98 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
 
     public static JSRenderHTMLTextMSIEOldImpl getJSRenderHTMLTextMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLTextMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLTextMSIE6Impl.SINGLETON;
+        return JSRenderHTMLTextMSIEOldImpl.SINGLETON;
     }
+    
+    private String setScriptTextContent(HTMLScriptElement parent,String value,ClientDocumentStfulImpl clientDoc)
+    {
+        String parentRef = clientDoc.getNodeReference(parent,true,true);
+        return setScriptTextContent(parentRef,value,clientDoc);
+    }
+
+    private String setScriptTextContent(String parentVarName,String value,ClientDocumentStfulImpl clientDoc)
+    {
+        // No vale ni innerHTML ni appendChild en estos elementos
+        // http://www.justatheory.com/computers/programming/javascript/ie_dom_help.html
+
+        String valueJS = dataTextToJS(value,clientDoc);
+        return parentVarName + ".text = " + valueJS + ";\n";
+    }
+
+    private String setStyleTextContent(HTMLStyleElement parent,String value,ClientDocumentStfulImpl clientDoc)
+    {
+        String parentRef = clientDoc.getNodeReference(parent,true,true);
+        return setStyleTextContent(parentRef,value,clientDoc);
+    }
+
+    private String setStyleTextContent(String parentVarName,String value,ClientDocumentStfulImpl clientDoc)
+    {
+        // No vale ni innerHTML ni appendChild en estos elementos
+        // http://www.phpied.com/dynamic-script-and-style-elements-in-ie/
+        String valueJS = dataTextToJS(value,clientDoc);
+        return parentVarName + ".styleSheet.cssText = " + valueJS + ";\n";
+    }
+
+    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulImpl clientDoc)
+    {
+        if (parent instanceof HTMLScriptElement)
+            return setScriptTextContent(parentVarName,((Text)newNode).getData(),clientDoc);
+        else if (parent instanceof HTMLStyleElement)
+            return setStyleTextContent(parentVarName,((Text)newNode).getData(),clientDoc);
+        else if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol
+        else
+            return super.getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
+    }
+
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulImpl clientDoc)
+    {
+        // El nodo de texto de <script> y <style> es el único hijo posible y
+        // necesitan técnicas específicas
+        Node parent = newNode.getParentNode();
+        if (parent instanceof HTMLScriptElement)
+            return setScriptTextContent((HTMLScriptElement)parent,((Text)newNode).getData(),clientDoc);
+        else if (parent instanceof HTMLStyleElement)
+            return setStyleTextContent((HTMLStyleElement)parent,((Text)newNode).getData(),clientDoc);
+        else if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol
+        else
+            return super.getInsertCompleteNodeCode(newNode,clientDoc);
+    }
+
+    public String getRemoveNodeCode(Node removedNode,ClientDocumentStfulImpl clientDoc)
+    {
+        Node parent = removedNode.getParentNode();
+        if (parent instanceof HTMLScriptElement)
+            return setScriptTextContent((HTMLScriptElement)parent,"",clientDoc);
+        else if (parent instanceof HTMLStyleElement)
+            return setStyleTextContent((HTMLStyleElement)parent,"",clientDoc);
+        else if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else
+            return super.getRemoveNodeCode(removedNode,clientDoc);
+        // En el caso de nodo texto hijo de <object> si no lo encuentra pues no hará nada
+    }
+
+    public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulImpl clientDoc)
+    {
+        Node parent = node.getParentNode();
+        if (parent instanceof HTMLScriptElement)
+            return setScriptTextContent((HTMLScriptElement)parent,((Text)node).getData(),clientDoc);
+        else if (parent instanceof HTMLStyleElement)
+            return setStyleTextContent((HTMLStyleElement)parent,((Text)node).getData(),clientDoc);
+        else if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else
+            return super.getCharacterDataModifiedCode(node, clientDoc);
+    }
+    
 }

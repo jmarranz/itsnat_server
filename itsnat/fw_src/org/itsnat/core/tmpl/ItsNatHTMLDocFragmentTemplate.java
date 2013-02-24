@@ -16,7 +16,6 @@
 
 package org.itsnat.core.tmpl;
 
-import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;

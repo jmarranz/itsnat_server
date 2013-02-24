@@ -17,8 +17,8 @@
 package org.itsnat.impl.core.browser.webkit;
 
 import org.itsnat.impl.core.browser.*;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
@@ -42,21 +42,14 @@ import org.w3c.dom.html.HTMLSelectElement;
  */
 public abstract class BrowserWebKit extends BrowserW3C
 {
+    // Los números se alternan porque se han eliminado varios subtipos
     protected static final int SAFARIDESKTOP = 1;
     protected static final int IPHONE = 2;
     protected static final int ANDROID = 3;
     protected static final int S60WEBKIT = 4;
-    protected static final int IRIS = 5;
-    protected static final int QTWEBKIT = 6; // Deberíamos disinguir versiones móviles
     protected static final int GCHROME = 7;
     protected static final int S40WEBKIT = 8;
-    protected static final int ADOBEAIR = 9;
-    protected static final int BOLT = 10;
-    protected static final int MOTOWEBKIT = 11;
-    protected static final int WEBOS = 12;
-    protected static final int BLACKBERRY = 13;
-
-//    protected static final int SWTWEBKITBROWSER = ?; // NO se usa todavía porque se detecta como Safari desktop
+    protected static final int BLACKBERRY = 12;
 
     protected int webKitVersion;
 
@@ -98,29 +91,15 @@ public abstract class BrowserWebKit extends BrowserW3C
             return new BrowserWebKitS40(userAgent);
         else if (userAgent.indexOf("Android") != -1)
             return new BrowserWebKitAndroid(userAgent);
-        else if (userAgent.indexOf("MotoWebKit") != -1)
-            return new BrowserWebKitMoto(userAgent);
-        else if ((userAgent.indexOf("iPhone") != -1) ||
-                 (userAgent.indexOf("iPod") != -1) ||
-                 (userAgent.indexOf("Aspen Simulator") != -1))
-            return new BrowserWebKitIPhone(userAgent);
-        else if (userAgent.indexOf("BOLT") != -1)
-            return new BrowserWebKitBolt(userAgent);
+        else if ((userAgent.indexOf("iPod") != -1) ||
+                 (userAgent.indexOf("iPhone") != -1) ||
+                 (userAgent.indexOf("iPad") != -1))              
+            return new BrowserWebKitIOS(userAgent);
         else
         {
             int browserSubType;
             if (userAgent.indexOf("Chrome") != -1)
                 browserSubType = GCHROME;
-            else if (userAgent.indexOf("Iris") != -1)
-                browserSubType = IRIS;
-            else if ((userAgent.indexOf("demobrowser") != -1) ||
-                     (userAgent.indexOf("Qt") != -1) || // Qt/version (ej. Qt/4.4.0 ) es el formato por defecto de Qt usado por ejemplo en QtJambi, http://doc.trolltech.com/4.4/qwebpage.html#userAgentForUrl
-                     (userAgent.indexOf("Arora") != -1)) // http://code.google.com/p/arora/
-                browserSubType = QTWEBKIT;
-            else if (userAgent.indexOf("AdobeAIR") != -1)
-                browserSubType = ADOBEAIR;
-            else if (userAgent.indexOf("webOS") != -1) // Valdría buscar "Pre" también
-                browserSubType = WEBOS;
             else if (userAgent.indexOf("BlackBerry") != -1) 
                 browserSubType = BLACKBERRY;
             else
@@ -132,20 +111,9 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public static boolean isWebKit(String userAgent)
     {
-        // Podría usarse "Safari" pero por ejemplo Adobe Air no la incluye, tampoco
-        // usar "AppleWebKit" pues Motorola Symphony no incluye el prefijo "Apple"
+        // Podría usarse "Safari" pero algún navegador antiguo no la tenía
         return (userAgent.indexOf("WebKit") != -1);
     }
-
-    public boolean isBolt()
-    {
-        return browserSubType == BOLT;
-    }
-
-    /* Ocurre en WebKit muy antiguos, anteriores a Safari desktop 3.0.
-       por ejemplo MotoWebKit y algún S60WebKit
-     */
-    public abstract boolean isFilteredCommentsInMarkup();
 
     /* Si soporta request síncronos el XMLHttpRequest
      * No está soportado normalmente en WebKits antiguos, pues tardo tiempo en añadirse
@@ -175,7 +143,7 @@ public abstract class BrowserWebKit extends BrowserW3C
     /* El retorno vacío puede dejar
        el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
        Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
-       y normalmente en WebKits antiguos hasta el AppleWebKit/420+ (Iris)
+       y normalmente en WebKits antiguos hasta el AppleWebKit/420+ (viejo Iris)
      */
     public abstract boolean isAJAXEmptyResponseFails();
 
@@ -188,7 +156,6 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public boolean isCachedBackForward()
     {
-        // Incluso en Bolt (que es proxy) al volver a la página con back se vuelve a cargar.
         // Pero en BlackBerry se redefine
         return false;
     }
@@ -199,12 +166,14 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
-        // El evento beforeunload fue introducido por MSIE_OLD, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
-        if (!(itsNatDoc instanceof ItsNatHTMLDocumentImpl))
+        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
+        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
+            return hasBeforeUnloadSupportHTML();
+        else
             return false; // Caso de SVG
-        return hasBeforeUnloadSupportHTML();
     }
     
     public abstract boolean hasBeforeUnloadSupportHTML();
@@ -220,16 +189,16 @@ public abstract class BrowserWebKit extends BrowserW3C
         // salvo el S60WebKit 5th v1.0, se redefine en ese caso
 
         // Navegadores que han tenido versiones < 525:
-        //    Safari,iPhone,Iris,QtWebKit
+        //    Safari,iPhone
         // Navegadores que NO han llegado a 525 : S40WebKit ya veremos si se cumple esta regla del 525.
-        // Los demás navegadores (Android, Chrome, SWTWebKit, Adobe Air, Bolt) parten de WebKit superior a 525.
+        // Los demás navegadores (Android, Chrome, SWTWebKit) parten de WebKit superior a 525.
         return webKitVersion >= 525;
     }
 
     public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
     {
-        // Caso S60WEBKIT antiguos con WebKit 413 (en WebKit 525 funciona ya bien)
-        // y MOTOWEBKIT (WebKit 417.19), quizás se deba a que el WebKit es muy antiguo, 413 y 417 respectivamente y se decidió cambiarlo después.
+        // Caso S60WEBKIT antiguos con WebKit 413 (en WebKit 525 funciona ya bien),
+        // quizás se deba a que el WebKit es muy antiguo, 413 y 417 respectivamente y se decidió cambiarlo después.
         // Además S60WEBKIT lanza 2 blurs cuando debe ser uno sólo
         // El S40WebKit no tiene este problema pues empieza en 420
         // Consideramos el 420 como el primer WebKit sin este "fallo" pues
@@ -238,12 +207,7 @@ public abstract class BrowserWebKit extends BrowserW3C
         return (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
-
-    /* En versiones de WebKit muy anteriores a Safari 3.0, o anteriores a 420 aunque no es 100% seguro,
-       el sistema de eventos es W3C pero muy incompleto */
-    public abstract boolean isOldEventSystem();
-
-    
+   
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         // Cuando la inserción del script funciona funciona bien

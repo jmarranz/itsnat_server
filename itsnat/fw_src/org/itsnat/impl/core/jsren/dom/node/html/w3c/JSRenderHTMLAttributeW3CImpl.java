@@ -16,15 +16,9 @@
 
 package org.itsnat.impl.core.jsren.dom.node.html.w3c;
 
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
 import org.itsnat.impl.core.browser.BrowserW3C;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitMoto;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
-import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSAttributeW3CImpl;
 import org.itsnat.impl.core.path.NodeJSRefImpl;
 import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.w3c.dom.Attr;
@@ -44,16 +38,10 @@ public abstract class JSRenderHTMLAttributeW3CImpl extends JSRenderHTMLAttribute
     {
         if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera8Mobile)
-                return JSRenderHTMLAttributeOpera8MobileImpl.SINGLETON;
-            else if (browser instanceof BrowserOpera9)
-                return JSRenderHTMLAttributeOpera9Impl.SINGLETON;
+            if (browser instanceof BrowserOpera)
+                return JSRenderHTMLAttributeOperaImpl.SINGLETON;
             else return null; // No hay más
         }
-        else if (browser instanceof BrowserWebKitMoto)
-            return JSRenderHTMLAttributeWebKitMotoImpl.SINGLETON;
-        else if (browser instanceof BrowserGeckoUCWEB)
-            return JSRenderHTMLAttributeGeckoUCWEBImpl.SINGLETON;
         else
             return JSRenderHTMLAttributeW3CDefaultImpl.SINGLETON;
     }

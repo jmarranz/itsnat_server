@@ -28,12 +28,12 @@ public class StringToLongConverter extends StringToObjectConverter
     {
     }
 
-    public Class getClassTarget()
+    public Class<?> getClassTarget()
     {
         return long.class;
     }
 
-    public Class getClassTargetWrapper()
+    public Class<?> getClassTargetWrapper()
     {
         return Long.class;
     }

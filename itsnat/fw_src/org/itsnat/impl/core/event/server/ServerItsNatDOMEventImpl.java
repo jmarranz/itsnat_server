@@ -22,12 +22,12 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.event.server.domext.ServerItsNatContinueEventImpl;
 import org.itsnat.impl.core.event.server.domext.ServerItsNatDOMExtEventImpl;
 import org.itsnat.impl.core.event.server.domext.ServerItsNatUserEventImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMEventListenerRegistryImpl;
+import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
+import org.itsnat.impl.core.registry.ItsNatDOMEventListenerRegistryImpl;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -222,16 +222,15 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
          - Safari 3.1: ejecuta el listener capture antes de un no capture pero **en la fase AT_TARGET**
          - FireFox 2 y 3: ejecuta ambos listener en el orden en el que se registraron ignorando si son capture o no y **en la fase AT_TARGET**
          - Opera 9.27: ejecuta sólo el no capture 
-         - NetFront 3.5: idem Opera 
 
            El comportamiento de Safari y FireFox NO es estándar,
            el estándar habla de "ancestor" (DOM Level 2 Events):
            "A capturing EventListener will not be triggered by events dispatched directly to the EventTarget upon which it is registered."
          */
-        ArrayList parentList = null;
+        ArrayList<Node> parentList = null;
         if (someoneCaptures || evt.getBubbles())
         {
-            parentList = new ArrayList();
+            parentList = new ArrayList<Node>();
             Node parent = targetNode.getParentNode();
             while (parent != null)
             {

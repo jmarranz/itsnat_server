@@ -15,19 +15,18 @@
 */
 package org.itsnat.impl.core.servlet;
 
-import org.itsnat.impl.core.*;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
-import org.itsnat.core.ItsNatServletConfig;
-import org.itsnat.core.ItsNatServletContext;
 import javax.servlet.ServletConfig;
 import org.itsnat.core.ClientErrorMode;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.core.CommMode;
+import org.itsnat.core.ItsNatException;
+import org.itsnat.core.ItsNatServletConfig;
+import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.core.UseGZip;
-import org.itsnat.impl.core.ItsNatImpl;
+import org.itsnat.impl.core.*;
 
 /**
  *
@@ -38,8 +37,8 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     protected ServletConfig servletConfig;
     protected ItsNatServletImpl servlet;
     protected ItsNatServletContextImpl servletContext;
-    protected Map cacheDOMNodesByMime = new HashMap();
-    protected Map artifacts;
+    protected Map<String,Boolean> cacheDOMNodesByMime = new HashMap<String,Boolean>();
+    protected Map<String,Object> artifacts;
     protected int commMode = CommMode.XHR_ASYNC_HOLD;
     protected long eventTimeout = -1; // No timeout
     protected String defaultEncoding = "UTF-8"; // "ISO-8859-1" 
@@ -104,10 +103,10 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         return !artifacts.isEmpty();
     }
 
-    public Map getArtifactMap()
+    public Map<String,Object> getArtifactMap()
     {
         if (artifacts == null)
-            this.artifacts = new HashMap();
+            this.artifacts = new HashMap<String,Object>();
         return artifacts;
     }
 
@@ -115,7 +114,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     {
         if (!hasArtifacts()) return null;
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.get(name);
     }
 
@@ -123,7 +122,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         artifacts.put(name,value);
     }
 
@@ -131,7 +130,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
 
-        Map artifacts = getArtifactMap();
+        Map<String,Object> artifacts = getArtifactMap();
         return artifacts.remove(name);
     }
 
@@ -179,7 +178,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
 
     public boolean isOnLoadCacheStaticNodes(String mime)
     {
-        Boolean value = (Boolean)cacheDOMNodesByMime.get(mime);
+        Boolean value = cacheDOMNodesByMime.get(mime);
         if (value == null)
             return false;
         return value.booleanValue();

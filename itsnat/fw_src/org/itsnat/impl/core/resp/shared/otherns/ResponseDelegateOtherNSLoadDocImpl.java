@@ -67,7 +67,7 @@ public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegat
 
     public String addScriptMarkupToDocMarkup(String docMarkup,String scriptsMarkup)
     {
-        StringBuffer finalMarkup = new StringBuffer();
+        StringBuilder finalMarkup = new StringBuilder();
 
         int posRootTagEnd = docMarkup.lastIndexOf('<');
         String preScript = docMarkup.substring(0,posRootTagEnd);
@@ -80,7 +80,7 @@ public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegat
         return finalMarkup.toString();
     }
 
-    protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuffer code)
+    protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code)
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         // Los <textarea> fuera de X/HTML ignoran el nodo de texto hijo

@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.core.conv;
 
-import org.itsnat.core.ItsNatException;
 import java.util.HashMap;
 import java.util.Map;
+import org.itsnat.core.ItsNatException;
 
 /**
  *
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public abstract class StringToObjectConverter
 {
-    public static final Map converters = new HashMap(); // No sincronizamos porque sólo leeremos
+    public static final Map<Class<?>,StringToObjectConverter> converters = new HashMap<Class<?>,StringToObjectConverter>(); // No sincronizamos porque sólo leeremos
 
     static
     {
@@ -49,22 +49,22 @@ public abstract class StringToObjectConverter
     public static void addConverter(StringToObjectConverter conv)
     {
         converters.put(conv.getClassTarget(),conv);
-        Class wrapper = conv.getClassTargetWrapper();
+        Class<?> wrapper = conv.getClassTargetWrapper();
         if (wrapper != null)
             converters.put(wrapper,conv);
     }
 
-    public static Object convert(String value,Class type)
+    public static Object convert(String value,Class<?> type)
     {
         if (value == null)
             throw new ItsNatException("Unexpected null value");
-        StringToObjectConverter conv = (StringToObjectConverter)converters.get(type);
+        StringToObjectConverter conv = converters.get(type);
         if (conv == null)
             throw new ItsNatException("Class type not supported: " + type.getName());
         return conv.convert(value);
     }
 
-    public abstract Class getClassTarget();
-    public abstract Class getClassTargetWrapper();
+    public abstract Class<?> getClassTarget();
+    public abstract Class<?> getClassTargetWrapper();
     public abstract Object convert(String value);
 }

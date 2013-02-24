@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.comp.factory.label;
 
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.label.ItsNatHTMLLabel;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.label.ItsNatHTMLLabelImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;

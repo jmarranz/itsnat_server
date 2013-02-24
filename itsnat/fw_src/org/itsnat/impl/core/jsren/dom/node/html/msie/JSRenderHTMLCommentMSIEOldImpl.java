@@ -17,16 +17,21 @@
 package org.itsnat.impl.core.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderCommentImpl;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Node;
+import org.w3c.dom.html.HTMLAppletElement;
+import org.w3c.dom.html.HTMLObjectElement;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
+public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
 {
-
+    public static final JSRenderHTMLCommentMSIEOldImpl SINGLETON = new JSRenderHTMLCommentMSIEOldImpl();
+    
     /** Creates a new instance of JSRenderHTMLCommentMSIEOldImpl */
     public JSRenderHTMLCommentMSIEOldImpl()
     {
@@ -34,9 +39,52 @@ public abstract class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
 
     public static JSRenderHTMLCommentMSIEOldImpl getJSRenderHTMLCommentMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLCommentMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLCommentMSIE6Impl.SINGLETON;
+        return JSRenderHTMLCommentMSIEOldImpl.SINGLETON;
     }
+    
+    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulImpl clientDoc)
+    {
+        if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol
+        else
+            return super.getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
+    }
+
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulImpl clientDoc)
+    {
+        // El nodo de texto de <script> y <style> es el único hijo posible y
+        // necesitan técnicas específicas
+        Node parent = newNode.getParentNode();
+        if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol
+        else
+            return super.getInsertCompleteNodeCode(newNode,clientDoc);
+    }
+
+    public String getRemoveNodeCode(Node removedNode,ClientDocumentStfulImpl clientDoc)
+    {
+        Node parent = removedNode.getParentNode();
+        if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else
+            return super.getRemoveNodeCode(removedNode,clientDoc);
+        // En el caso de nodo texto hijo de <object> si no lo encuentra pues no hará nada
+    }
+
+    public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulImpl clientDoc)
+    {
+        Node parent = node.getParentNode();
+        if (parent instanceof HTMLObjectElement)
+            return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else if (parent instanceof HTMLAppletElement)
+            return "";  // <applet> tampoco tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <applet> en el árbol, los que hubiera en carga no se reflejan en el DOM
+        else
+            return super.getCharacterDataModifiedCode(node, clientDoc);
+    }    
 }

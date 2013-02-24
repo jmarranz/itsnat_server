@@ -84,7 +84,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListener
 
         boolean sync = (event.getCommMode() == CommMode.XHR_SYNC); // Sólo XHR síncrono es completamente síncrono
 
-        StringBuffer retEvent = new StringBuffer();
+        StringBuilder retEvent = new StringBuilder();
         if (sync)
         {
             if (event.getPreventDefault())

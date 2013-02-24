@@ -16,7 +16,6 @@
 
 package org.itsnat.comp.list;
 
-import org.itsnat.comp.list.ItsNatListMultSel;
 import org.itsnat.comp.*;
 
 /**

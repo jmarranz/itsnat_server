@@ -17,12 +17,12 @@
 package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
-import org.itsnat.impl.core.listener.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.MapUniqueId;
 
 /**
@@ -31,7 +31,7 @@ import org.itsnat.impl.core.util.MapUniqueId;
  */
 public abstract class CometTaskRegistryImpl implements Serializable
 {
-    protected MapUniqueId tasks;
+    protected MapUniqueId<ItsNatEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;
 
     /**
@@ -41,7 +41,7 @@ public abstract class CometTaskRegistryImpl implements Serializable
     {
         this.clientDoc = clientDoc;
 
-        this.tasks = new MapUniqueId(clientDoc.getUniqueIdGenerator());
+        this.tasks = new MapUniqueId<ItsNatEventListenerWrapperImpl>(clientDoc.getUniqueIdGenerator());
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()

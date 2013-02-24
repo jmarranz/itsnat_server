@@ -20,22 +20,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLElementMSIE6Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLElementMSIEPocketImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementASVRenesisImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementAdobeSVGImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBatikImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitAndroidImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementBlackBerryOldImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoDefaultImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitMotoImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementNetFrontImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOpera9Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOpera8MobileImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitS60Impl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoSkyFireImpl;
-import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoUCWEBImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementOperaImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitDefaultImpl;
+import org.itsnat.impl.core.jsren.dom.node.html.w3c.JSRenderHTMLElementWebKitS60Impl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Element;
@@ -55,32 +48,24 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
 {
     public static final JSRenderHTMLElementAllBrowsersImpl SINGLETON = new JSRenderHTMLElementAllBrowsersImpl();
 
-    protected LinkedList browsers = new LinkedList();
+    protected LinkedList<JSRenderHTMLElementImpl> browsers = new LinkedList<JSRenderHTMLElementImpl>();
 
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
     public JSRenderHTMLElementAllBrowsersImpl()
     {
         // MSIE Old
-        addBrowser(JSRenderHTMLElementMSIE6Impl.SINGLETON);
-        addBrowser(JSRenderHTMLElementMSIEPocketImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementMSIEOldImpl.SINGLETON);
 
         // W3C
-        addBrowser(JSRenderHTMLElementASVRenesisImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementAdobeSVGImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementBatikImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementBlackBerryOldImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementGeckoUCWEBImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementGeckoSkyFireImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementGeckoDefaultImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementNetFrontImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementOperaImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementOpera8MobileImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementOpera9Impl.SINGLETON);
-
-        addBrowser(JSRenderHTMLElementWebKitAndroidImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitDefaultImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementWebKitMotoImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementWebKitS60Impl.SINGLETON);
         
         addBrowser(JSRenderHTMLElementMSIE9Impl.SINGLETON);
@@ -94,6 +79,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         tagNamesNotValidInsideInnerHTML.addAll(renderer.getTagNamesNotValidInsideInnerHTML());
     }
 
+    @Override
     protected boolean isChildNotValidInsideInnerHTMLHTMLElement(Element elem,MarkupTemplateVersionImpl template)
     {
         // Mismo chequeo que JSRenderHTMLElementW3CImpl.isChildNotValidInsideInnerHTMLHTMLElement(Node,Object)
@@ -122,9 +108,8 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         // Iteramos por si algún día se añade alguna condición más complicada
         // y nos olvidamos de ponerla aquí
 
-        for(Iterator it = browsers.iterator(); it.hasNext(); )
+        for(JSRenderHTMLElementImpl renderer : browsers)
         {
-            JSRenderHTMLElementImpl renderer = (JSRenderHTMLElementImpl)it.next();
             if (renderer.isChildNotValidInsideInnerHTMLNotElementOrText(node))
                 return true;
         }

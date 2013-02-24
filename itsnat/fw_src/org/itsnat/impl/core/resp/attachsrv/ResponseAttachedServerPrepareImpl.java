@@ -61,7 +61,7 @@ public abstract class ResponseAttachedServerPrepareImpl extends ResponseAttached
         ClientDocumentAttachedServerImpl clientDoc = getClientDocumentAttachedServer();
         Browser browser = clientDoc.getBrowser();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserMSIE9)) // IE 9 no tiene XMLSerializer
         {
             // MSIE ve el <!DOCTYPE> como un comentario, en el texto del mismo está

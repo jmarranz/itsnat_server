@@ -18,9 +18,9 @@ package org.itsnat.core.event;
 
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.ItsNatUserData;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.ItsNatUserData;
 
 /**
  * This interface is the parent of any ItsNat event interface: normal

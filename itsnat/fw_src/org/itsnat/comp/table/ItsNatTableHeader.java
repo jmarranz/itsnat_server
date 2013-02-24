@@ -16,9 +16,8 @@
 
 package org.itsnat.comp.table;
 
-import org.itsnat.comp.*;
 import javax.swing.ListSelectionModel;
-import org.itsnat.comp.table.ItsNatTableHeaderUI;
+import org.itsnat.comp.*;
 
 /**
  * Is the base interface of table header components.

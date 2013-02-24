@@ -72,7 +72,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulImpl clientDoc)
     {
         Element elem = (Element)node;
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         NamedNodeMap attribList = elem.getAttributes();
         for(int i = 0; i < attribList.getLength(); i++)
         {
@@ -168,7 +168,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     {
         // Se supone que hay nodos hijo (si no no llamar).
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        StringBuffer childrenCode = new StringBuffer();
+        StringBuilder childrenCode = new StringBuilder();
 
         if (parentNode.hasChildNodes())
         {
@@ -273,9 +273,8 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     protected String bindBackupAndSetStylePropertyMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
         // Usamos variables temporales asociadas al objeto Element y no al propio "style",
-        // por dos razones:
-        // 1) Safari (3.1 al menos) parece que recrea el objeto style tras un display='none" en algunos casos por lo que perderíamos la variable backup.
-        // 2) Pocket IE no admite variables asociadas al objeto style
+        // por:
+        // Safari (3.1 al menos) parece que recrea el objeto style tras un display='none" en algunos casos por lo que perderíamos la variable backup.
 
         // Aseguramos que no se asigne un valor "undefined" pues navegadores como Gecko ignoran una asignación con valor "undefined" y no cambian el valor,
         // el problema es que debemos restaurar el valor anterior y está claro que restaurar un undefined no es posible,
@@ -283,7 +282,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
         // Nota: Opera Mobile 9.5 SVG ignora la propiedad "dispose" (sin error), solucionado en 9.7
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName,newValue)" );
         code.append( "{" );
@@ -309,7 +308,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String bindBackupAndSetStylePropertyMethod(ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getBackupAndSetStylePropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -320,7 +319,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String getBackupAndSetStyleProperty(String elemVarName,String propName,String newValue,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getBackupAndSetStylePropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -332,7 +331,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     protected String bindRestoreBackupStylePropertyMethod(String methodName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         code.append( "var func = function (elem,propName)" );
         code.append( "{" );
@@ -358,7 +357,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String bindRestoreBackupStylePropertyMethod(ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getRestoreBackupPropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -369,7 +368,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public String getRestoreBackupStyleProperty(String elemVarName,String propName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String methodName = getRestoreBackupPropertyMethodName();
         if (!clientDoc.isClientMethodBounded(methodName))
@@ -382,7 +381,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     /* Problema de SVG */
     public abstract boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulImpl clientDoc);
 
-    // Algunos navegadores WebKit tal y como el primer S60WebKit y MotoWebKit
+    // Algunos navegadores WebKit tal y como el primer S60WebKit 
     // no ejecutan el código dentro del <script> si se añade después de estar ya insertado en el documento
     public abstract boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulImpl clientDoc);
 
@@ -409,7 +408,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
             // newNodeCode debe ser la variable del nuevo <script>
 
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( super.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode,clientDoc) );
 
             // Lo anterior no sirve, no se ha ejecutado, lo ejecutamos "manualmente"
@@ -432,7 +431,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             // de texto hijo entonces necesariamente newNodeCode es una variable JavaScript
             // pues dicha variable se necesita para insertar después de este método
             // los nodos hijos
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append( super.getInsertCompleteNodeCode(newNode, newNodeCode,clientDoc) );
 
             // Lo anterior no sirve, no se ha ejecutado, lo ejecutamos "manualmente"
@@ -446,7 +445,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulImpl clientDoc)
     {
-        // Algunos navegadores WebKit tal y como el primer S60WebKit y MotoWebKit
+        // Algunos navegadores WebKit tal y como el primer S60WebKit 
         // no ejecutan el código dentro del <script> una vez insertado en el documento
         // si dicho código se inserta después de la inserción del <script> en el documento
         // Esto es la forma normal de inserción en ItsNat, por ello en este caso

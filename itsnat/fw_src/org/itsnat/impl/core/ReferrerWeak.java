@@ -28,7 +28,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
  */
 public class ReferrerWeak extends Referrer
 {
-    protected transient WeakReference referrer;
+    protected transient WeakReference<ItsNatStfulDocumentImpl> referrer;
 
     /** Creates a new instance of ReferrerWeak */
     public ReferrerWeak()
@@ -39,7 +39,7 @@ public class ReferrerWeak extends Referrer
     {
         ItsNatStfulDocumentImpl itsNatDoc = null;
         if (referrer != null)
-            itsNatDoc = (ItsNatStfulDocumentImpl)referrer.get();
+            itsNatDoc = referrer.get();
 
         out.writeObject(itsNatDoc);
 
@@ -50,7 +50,7 @@ public class ReferrerWeak extends Referrer
     {
         ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)in.readObject();
         if (itsNatDoc != null)
-            this.referrer = new WeakReference(itsNatDoc);
+            this.referrer = new WeakReference<ItsNatStfulDocumentImpl>(itsNatDoc);
 
         in.defaultReadObject();
     }
@@ -58,7 +58,7 @@ public class ReferrerWeak extends Referrer
     public synchronized ItsNatStfulDocumentImpl getItsNatStfulDocument()
     {
         if (referrer == null) return null;
-        return (ItsNatStfulDocumentImpl)referrer.get();
+        return referrer.get();
     }
 
     public synchronized void pushItsNatStfulDocument(ItsNatStfulDocumentImpl itsNatDoc)
@@ -85,13 +85,13 @@ public class ReferrerWeak extends Referrer
          * ciertamente está más de acorde con el concepto de "referrer".
          **/
 
-        this.referrer = new WeakReference(itsNatDoc);
+        this.referrer = new WeakReference<ItsNatStfulDocumentImpl>(itsNatDoc);
     }
 
     public synchronized ItsNatStfulDocumentImpl popItsNatStfulDocument()
     {
         if (referrer == null) return null;
-        ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)referrer.get();
+        ItsNatStfulDocumentImpl itsNatDoc = referrer.get();
         this.referrer = null;
         return itsNatDoc;
     }

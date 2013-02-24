@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserMSIE6;
-import org.itsnat.impl.core.browser.BrowserMSIEPocket;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
@@ -33,10 +31,12 @@ import org.w3c.dom.html.HTMLOptionElement;
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
+public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
 {
+    public static final JSRenderHTMLPropertyMSIEOldImpl SINGLETON = new JSRenderHTMLPropertyMSIEOldImpl();
+    
     // No es necesario sincronizar esta colección va a ser sólo leída
-    public final Map propertiesByAttrNameMSIE = new HashMap();  // Propiedades/Atributos comunes a todos los elementos
+    public final Map<String,PropertyImpl> propertiesByAttrNameMSIE = new HashMap<String,PropertyImpl>();  // Propiedades/Atributos comunes a todos los elementos
 
     /** Creates a new instance of JSRenderHTMLPropertyMSIEOldImpl */
     public JSRenderHTMLPropertyMSIEOldImpl()
@@ -88,10 +88,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
 
     public static JSRenderHTMLPropertyMSIEOldImpl getJSRenderHTMLPropertyMSIEOld(BrowserMSIEOld browser)
     {
-        if (browser instanceof BrowserMSIEPocket)
-            return JSRenderHTMLPropertyMSIEPocketImpl.SINGLETON;
-        else
-            return JSRenderHTMLPropertyMSIE6Impl.SINGLETON;
+        return JSRenderHTMLPropertyMSIEOldImpl.SINGLETON;
     }
 
     protected void addGlobalFunction(String propName)
@@ -120,7 +117,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
         // Lo de poner en minúsculas es para que el nombre del atributo (normalmente en minúsculas)
         // y la propiedad (podría tener alguna mayúscula) coincidan.
         String attrNameLower = attrName.toLowerCase();
-        PropertyImpl prop = (PropertyImpl)propertiesByAttrNameMSIE.get(attrNameLower);
+        PropertyImpl prop = propertiesByAttrNameMSIE.get(attrNameLower);
         if (prop != null) return prop;
         
         // Es posible que sea un inline handler nuevo del IE que desconocemos 
@@ -131,6 +128,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
         return null;
     }
     
+    @Override
     public String attrValueJSToPropValueJS(PropertyImpl prop,boolean setValue,String attrValueJS,String value)
     {
         if (setValue && (prop.getType() == PropertyImpl.FUNCTION))
@@ -147,6 +145,7 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
             return super.attrValueJSToPropValueJS(prop,setValue,attrValueJS,value);
     }
 
+    @Override
     protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulImpl clientDoc)
     {
         String propName = prop.getPropertyName();
@@ -155,8 +154,8 @@ public abstract class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLProper
             propName.equals("selected") ) // (type == BOOLEAN)
         {
             Browser browser = clientDoc.getBrowser();
-            if ((browser instanceof BrowserMSIE6)&&
-                ((BrowserMSIE6)browser).getVersion() < 8 )
+            if ((browser instanceof BrowserMSIEOld)&&
+                ((BrowserMSIEOld)browser).getVersion() < 8 )
             {
                 // Es un error estúpido de MSIE, detectado en el "selected" de los OPTION de un SELECT en el script de carga del documento
                 // la causa es que la propiedad es posible que esté bloqueada por otro hilo porque el MSIE hace cosas en background

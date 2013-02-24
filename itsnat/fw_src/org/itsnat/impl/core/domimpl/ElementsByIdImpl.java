@@ -61,7 +61,7 @@ import org.w3c.dom.events.EventListener;
 public class ElementsByIdImpl implements EventListener,Serializable
 {
     protected DocumentImpl doc;
-    protected Map elementsById;
+    protected Map<String,Object> elementsById;
 
     public ElementsByIdImpl(DocumentImpl doc)
     {
@@ -109,10 +109,10 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else
         {
-            List l = (List)o;
-            for (Iterator li = l.iterator(); li.hasNext(); )
+            @SuppressWarnings("unchecked")
+            List<Element> l = (List<Element>)o;
+            for (Element e : l)
             {
-                Element e = (Element)li.next();
                 if (all || (getRoot(e) == root))
                     return e;
             }
@@ -142,10 +142,11 @@ public class ElementsByIdImpl implements EventListener,Serializable
         }
         else
         {
-            List l = (List)o;
-            for (Iterator li = l.iterator(); li.hasNext(); )
+            @SuppressWarnings("unchecked")
+            List<Element> l = (List<Element>)o;
+            for (Iterator<Element> li = l.iterator(); li.hasNext(); )
             {
-                Element currElem = (Element)li.next();
+                Element currElem = li.next();
                 if (e == currElem)
                 {
                     li.remove();
@@ -170,7 +171,7 @@ public class ElementsByIdImpl implements EventListener,Serializable
             return;
 
         if (elementsById == null)
-            this.elementsById = new HashMap();
+            this.elementsById = new HashMap<String,Object>();
 
         // Add new Id mapping.
         Object o = elementsById.get(id);
@@ -182,14 +183,15 @@ public class ElementsByIdImpl implements EventListener,Serializable
         {
             Element currElem = (Element)o;
             // Create new List for this new element (and current).
-            List l = new ArrayList(4);
+            List<Element> l = new ArrayList<Element>(4);
             l.add(currElem);
             l.add(e);
             elementsById.put(id, l);
         }
         else // List
         {
-            List l = (List)o;
+            @SuppressWarnings("unchecked")
+            List<Element> l = (List<Element>)o;
             l.add(e);
         }
     }

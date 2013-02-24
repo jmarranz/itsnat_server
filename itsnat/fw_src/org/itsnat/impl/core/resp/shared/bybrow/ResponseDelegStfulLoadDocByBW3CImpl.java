@@ -16,12 +16,10 @@
 package org.itsnat.impl.core.resp.shared.bybrow;
 
 import java.util.LinkedList;
-import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOpera8Mobile;
-import org.itsnat.impl.core.browser.opera.BrowserOpera9;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 
 /**
@@ -40,10 +38,8 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
         Browser browser = parent.getClientDocumentStful().getBrowser();
         if (browser instanceof BrowserOpera)
         {
-            if (browser instanceof BrowserOpera9)
-                return ResponseDelegStfulLoadDocByBOpera9Impl.createResponseDelegStfulLoadDocByBOpera9(parent);
-            else if (browser instanceof BrowserOpera8Mobile)
-                return new ResponseDelegStfulLoadDocByBOpera8MobileImpl(parent);
+            if (browser instanceof BrowserOpera)
+                return ResponseDelegStfulLoadDocByBOperaImpl.createResponseDelegStfulLoadDocByBOpera(parent);
             else
                 return null; // No hay más
         }
@@ -53,7 +49,7 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
             return new ResponseDelegStfulLoadDocByBW3CDefaultImpl(parent);
     }
 
-    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList list)
+    public void fillFrameworkScriptFileNamesOfBrowser(LinkedList<String> list)
     {
         // Se redefine en más de un caso (añadiendo otro)
         list.add(LoadScriptImpl.ITSNAT_W3C);

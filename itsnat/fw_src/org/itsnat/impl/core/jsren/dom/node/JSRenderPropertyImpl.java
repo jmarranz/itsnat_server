@@ -16,15 +16,14 @@
 
 package org.itsnat.impl.core.jsren.dom.node;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
 import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderXULPropertyImpl;
-import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -36,7 +35,7 @@ import org.w3c.dom.Element;
 public abstract class JSRenderPropertyImpl
 {
     // No es necesario sincronizar esta coleccion porque va a ser sólo leída
-    protected final MapListImpl propertiesByTagName = new MapListImpl();
+    protected final MapListImpl<String,PropertyImpl> propertiesByTagName = new MapListImpl<String,PropertyImpl>();
 
     public JSRenderPropertyImpl()
     {
@@ -94,22 +93,21 @@ public abstract class JSRenderPropertyImpl
     public PropertyImpl getProperty(Element elem,String attrName)
     {
         String localNameElem = elem.getLocalName(); // Al devolver el localName nos evitamos el problema de si tiene prefijo o no
-        LinkedList propList = propertiesByTagName.get(localNameElem);
+        LinkedList<PropertyImpl> propList = propertiesByTagName.get(localNameElem);
         if (propList == null) return null;
 
         String attrNameLower = attrName.toLowerCase();
         if (propList.size() == 1)
         {
             // Para evitar crear un Iterator
-            PropertyImpl prop = (PropertyImpl)propList.getFirst();
+            PropertyImpl prop = propList.getFirst();
             if (prop.getAttributeNameLower().equals(attrNameLower))
                 return prop;
         }
         else
         {
-            for(Iterator it = propList.iterator(); it.hasNext(); )
+            for(PropertyImpl prop : propList)
             {
-                PropertyImpl prop = (PropertyImpl)it.next();
                 if (prop.getAttributeNameLower().equals(attrNameLower))
                     return prop;
             }

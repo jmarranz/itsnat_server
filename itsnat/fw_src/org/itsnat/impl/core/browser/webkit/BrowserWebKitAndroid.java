@@ -22,6 +22,8 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
+ * Soportado desde 2.1
+ * 
  * User agents:
 
     - Android desde Beta r1 (0.6) hasta v1.1 r1
@@ -39,9 +41,9 @@ import org.w3c.dom.html.HTMLSelectElement;
 public class BrowserWebKitAndroid extends BrowserWebKit
 {
     protected int mainVersion;
-    protected int subVersion;
+    //protected int subVersion;
 
-    private static final Map tagNamesIgnoreZIndex = new HashMap();
+    private static final Map<String,String[]> tagNamesIgnoreZIndex = new HashMap<String,String[]>();
     static
     {
         // Verificado hasta la v2 incluida:
@@ -67,27 +69,22 @@ public class BrowserWebKitAndroid extends BrowserWebKit
             {
                 char c = userAgent.charAt(end);
                 if (c == '.') dot = end;
-                else if (c == ';') break;
+                else if (c == ';') break;  // Hay algún caso en donde no va seguido el ; del número
                 end++;
             }
             this.mainVersion = Integer.parseInt(userAgent.substring(start,dot));
-            this.subVersion =  Integer.parseInt(userAgent.substring(dot + 1,end));
+            //this.subVersion =  Integer.parseInt(userAgent.substring(dot + 1,end));
         }
         catch(Exception ex) // Caso de user agent de formato desconocido
         {
-            this.mainVersion = 1;
-            this.subVersion =  0;
+            this.mainVersion = 2;
+            //this.subVersion =  0;
         }
     }
 
     public boolean isMobile()
     {
         return true;
-    }
-
-    public boolean isFilteredCommentsInMarkup()
-    {
-        return false;
     }
 
     public boolean hasBeforeUnloadSupportHTML()
@@ -105,50 +102,14 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return true;
     }
 
-    public boolean isSelectMultipleFirstOptionEverSelected()
-    {
-        // El <select> de la v1.5 es un desastre, aparentemente funciona bien
-        // pero deja de mostrar enseguida el diálogo de cambio, es más deja en un estado erróneo
-        // el browser, la v1.6 es igual. Quizás los errores de la v1.0 se hayan solucionado
-        // pero no podemos ni estudiarlo.
-        // En la v2.0 ya no hay este problema
-
-        return (mainVersion < 2);
-    }
-
     public boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem)
     {
-        // Nota: elem puede ser null.
-        // Hasta la v2 tienen este error (aunque no en el caso de atributo "size")
-
-        if (mainVersion < 2)
-        {
-            if (elem == null) return true;
-            return elem.hasAttribute("multiple"); // Con "size" no pasa de hecho no tiene impacto visual (ni funcional)
-        }
-        else return false;
+        return false;
     }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
-        // El contexto en el que se ha probado es en edición "inplace" tras una llamada focus() en el elemento editándose.
-
-        // En Android se vuelve loco y se lanza un evento blur en seguida en cuanto se toca el control
-        // y el evento change *no se lanza* aunque se modifique el texto. Sin focus() se comporta normal
-        // aunque es preciso "tocarlo" con el cursor para que tenga el focus pues de otra manera una llamada a blur() es ignorada (no se emite el evento blur)
-        // El llamar a focus() en el ámbito de una respuesta AJAX síncrona no soluciona este problema.
-
-        // En los TextArea e Input type=text/password el focus() no funciona bien (cajas de texto), en los demás sí
-        // el caso "file" no está probado pero lo incluimos. En el resto de controles funciona bien
-
-        // En el caso de <input type=checkbox> el focus es problemático si se usan exclusivamente
-        // los cursores, idem en <select> combobox.
-
-        // Conclusión: evitamos el focus normal en todos
-
-        // En la versión 1.5 funciona mejor pero con cursores sigue existiendo el problema
-        // La versión 2 no tiene problemas
-        return (mainVersion < 2);
+        return false;
     }
 
     public boolean isAJAXEmptyResponseFails()
@@ -156,7 +117,7 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return false;
     }
 
-    public Map getHTMLFormControlsIgnoreZIndex()
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return tagNamesIgnoreZIndex;
     }
@@ -166,29 +127,15 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return true;
     }
 
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false;
-    }
-
-    public boolean isOldEventSystem()
-    {
-        return false;
-    }
-
-    public boolean isSetTimeoutSupported()
-    {
-        return true;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
-        return false; // No soporta SVG por ejemplo.
+        // http://caniuse.com/svg
+        return mainVersion >= 3; // SVG soportado.
     }
 
     public boolean isInsertedSVGScriptNotExecuted()
     {
-        // Android no soporta SVG
-        return false; // Por poner algo
+        // http://caniuse.com/svg        
+        return mainVersion < 3; // No soporta SVG por debajo del 3
     }
 }

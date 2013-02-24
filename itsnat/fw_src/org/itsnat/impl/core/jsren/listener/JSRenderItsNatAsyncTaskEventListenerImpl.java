@@ -46,7 +46,7 @@ public class JSRenderItsNatAsyncTaskEventListenerImpl extends JSRenderItsNatGene
         int sync = itsNatListener.getCommModeDeclared();
         long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         String functionVarName = addCustomCodeFunction(itsNatListener,code);
 

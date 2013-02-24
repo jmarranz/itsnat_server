@@ -32,7 +32,7 @@ package org.itsnat.core.event;
 public class NodePropertyTransport extends SingleParamTransport
 {
     private String javaSetMethodName;
-    private Class type;
+    private Class<?> type;
     private String attName;
 
     /**
@@ -100,7 +100,7 @@ public class NodePropertyTransport extends SingleParamTransport
      * @param name the property name.
      * @param type the class type of the property.
      */
-    public NodePropertyTransport(String name,Class type)
+    public NodePropertyTransport(String name,Class<?> type)
     {
         super(name,true);
 
@@ -123,7 +123,7 @@ public class NodePropertyTransport extends SingleParamTransport
      * @param name the property name.
      * @param type the class type of the property.
      */
-    public NodePropertyTransport(String name,Class type,String javaSetMethodName)
+    public NodePropertyTransport(String name,Class<?> type,String javaSetMethodName)
     {
         super(name,true);
 
@@ -147,7 +147,7 @@ public class NodePropertyTransport extends SingleParamTransport
      *
      * @return the class type or null if reflection is not used to synchronize.
      */
-    public Class getType()
+    public Class<?> getType()
     {
         return type;
     }

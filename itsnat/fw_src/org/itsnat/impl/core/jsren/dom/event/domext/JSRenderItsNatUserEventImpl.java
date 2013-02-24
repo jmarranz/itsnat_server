@@ -42,15 +42,14 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         ItsNatEventImpl userEvt = (ItsNatEventImpl)evt;
         String name = ((ItsNatUserEvent)userEvt).getName();
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append("var evt = itsNatDoc.createUserEvent(\"" + name + "\");\n");
         if (userEvt.hasExtraParams())
         {
-            Map extraParams = userEvt.getExtraParamMap();
-            for(Iterator it = extraParams.entrySet().iterator(); it.hasNext(); )
+            Map<String,Object> extraParams = userEvt.getExtraParamMap();
+            for(Map.Entry<String,Object> entry : extraParams.entrySet())
             {
-                Map.Entry entry = (Map.Entry)it.next();
-                String nameParam = (String)entry.getKey();
+                String nameParam = entry.getKey();
                 Object value = entry.getValue();
                 code.append( "evt.setExtraParam(\"" + nameParam + "\"," + javaToJS(value,true,clientDoc) + ");\n" );
             }
@@ -61,7 +60,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
 
     public String getDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( getCreateEventCode(evt,"evt",nodeLoc.getClientDocumentStful()) );
         // Hay que tener en cuenta que el nodo target puede ser nulo
         code.append( "var " + varResName + " = itsNatDoc.dispatchUserEvent2(" + nodeLoc.toJSArray(false) + ",evt);\n" );
@@ -70,7 +69,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
 
     public String getDispatchEvent(String targetVarName,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( getCreateEventCode(evt,evtVarName,clientDoc) );
         code.append( "itsNatDoc.dispatchUserEvent(" + targetVarName + "," + evtVarName + ");\n" );
         return code.toString();

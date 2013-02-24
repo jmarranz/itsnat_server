@@ -44,7 +44,7 @@ public class JSRenderMSIEOldMouseEventImpl extends JSRenderMSIEOldUIEventImpl
     {
         MouseEvent mouseEvt = (MouseEvent)evt;
 
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
         code.append( evtVarName + ".screenX=" + mouseEvt.getScreenX() + ";\n" );
         code.append( evtVarName + ".screenY=" + mouseEvt.getScreenY() + ";\n" );
         code.append( evtVarName + ".clientX=" + mouseEvt.getClientX() + ";\n" );

@@ -16,8 +16,6 @@
 
 package org.itsnat.impl.core.clientdoc;
 
-import org.itsnat.impl.core.browser.BrowserGeckoUCWEB;
-
 /**
  *
  * @author jmarranz
@@ -33,9 +31,6 @@ public abstract class DelegateClientDocumentStfulImpl
 
     public static DelegateClientDocumentStfulImpl createDelegateClientDocumentStful(ClientDocumentStfulImpl clientDoc)
     {
-        if (clientDoc.getBrowser() instanceof BrowserGeckoUCWEB)
-            return new DelegateClientDocumentStfulUCWEBImpl(clientDoc);
-        else
-            return new DelegateClientDocumentStfulDefaultImpl(clientDoc);
+        return new DelegateClientDocumentStfulDefaultImpl(clientDoc);
     }
 }

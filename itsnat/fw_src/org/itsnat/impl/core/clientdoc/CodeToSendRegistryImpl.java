@@ -36,7 +36,7 @@ import org.itsnat.impl.core.listener.WaitForEventListenerImpl;
  */
 public class CodeToSendRegistryImpl implements Serializable
 {
-    protected transient LinkedList codeToSend = new LinkedList(); // NO se serializa pues de otra manera estaríamos enviando el mismo código desde varias JVM
+    protected transient LinkedList<Object> codeToSend = new LinkedList<Object>(); // NO se serializa pues de otra manera estaríamos enviando el mismo código desde varias JVM
     protected ClientDocumentImpl clientDoc;
     protected CodeToSendListenersImpl codeToSendListeners;
     protected boolean enabledSendCode = true;
@@ -53,7 +53,7 @@ public class CodeToSendRegistryImpl implements Serializable
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
     {
-        this.codeToSend = new LinkedList();
+        this.codeToSend = new LinkedList<Object>();
 
         in.defaultReadObject();
     }
@@ -148,8 +148,8 @@ public class CodeToSendRegistryImpl implements Serializable
     {
         if (codeToSend.isEmpty()) return "";
 
-        StringBuffer code = new StringBuffer();
-        for(Iterator it = codeToSend.iterator(); it.hasNext(); )
+        StringBuilder code = new StringBuilder();
+        for(Iterator<Object> it = codeToSend.iterator(); it.hasNext(); )
         {
             Object codeFragment = it.next();
 

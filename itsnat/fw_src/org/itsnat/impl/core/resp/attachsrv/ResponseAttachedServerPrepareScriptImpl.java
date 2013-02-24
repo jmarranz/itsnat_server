@@ -37,7 +37,7 @@ public class ResponseAttachedServerPrepareScriptImpl extends ResponseAttachedSer
 
     public String genSendMarkupCodeByMethod()
     {
-        StringBuffer code = new StringBuffer();
+        StringBuilder code = new StringBuilder();
 
         ClientDocumentAttachedServerImpl clientDoc = getClientDocumentAttachedServer();
         ItsNatStfulDocumentTemplateAttachedServerImpl template = clientDoc.getItsNatStfulDocumentTemplateAttachedServer();
