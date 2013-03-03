@@ -11,14 +11,12 @@ function itsnat_fix_svgweb(win,msieOld,metaPos)
     // Dentro del svgweb.appendChild se hace un parent.appendChild() normal,
     // redefinimos temporalmente este parent.appendChild para hacer un parent.insertBefore, asi nos vale el codigo del svgweb.appendChild
     // para hacer un insertBefore indirectamente
-
-    win.svgweb.insertBefore = insertBefore;
-    function insertBefore(node,nodeRef,parentNode)
-    {
+    win.svgweb.insertBefore = function (node,nodeRef,parentNode)
+    {    
         var oldFunc = parentNode.appendChild;
         parentNode.appendChild = function(node)
-        {
-            if (nodeRef.fake) nodeRef = nodeRef._handler.flash;
+        {           
+            if (nodeRef._handler) nodeRef = nodeRef._handler.flash;
             this.insertBefore(node,nodeRef);
         };
         this.appendChild(node,parentNode);
@@ -87,7 +85,7 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
     this.createTextNode = createTextNode;
     function createTextNode(parentNode,value)
     {
-        if (parentNode.fake) return this.doc.createTextNode(value,true);
+        if (this.isSVGWebNode(parentNode)) return this.doc.createTextNode(value,true);
         else return this.SVGWebHTMLDocument_super_createTextNode(parentNode,value);
     }
 
@@ -96,14 +94,21 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
     function getValidNode(node) // Redefine
     {
         if (node == null) return null;
-        if (node.fake) return node;
+        if (this.isSVGWebNode(node)) return node;
         if (node.nodeType == 1)
         {
             if ((node.className == "embedssvg")|| // <object> (MSIE) o <embed> (W3C)
                ((node.nodeName.toLowerCase() == "script")&&(node.type == "image/svg+xml")))
             {
+                if (node.itsNatSVGWebWrapperRemoved) return this.getValidNode(node.nextSibling);                
+                
                 // Cuidado al usar un alert aqui depurando, pues mientras se muestra, el SVGLoad puede cambiar el estado del node asincronamente
-                if (node.documentElement) return node.documentElement; // object/embed ya renderizado
+                if (node.documentElement)
+                {
+                    node.documentElement.itsNatSVGWebParentNode = node.parentNode; // Necesario para un posible posterior registro de SVGLoad via ItsNat
+                    node.documentElement.itsNatSVGWebWrapper = node;                    
+                    return node.documentElement; // object/embed ya renderizado
+                }
                 else if (node.itsNatOldSVGWebRoot) return node.itsNatOldSVGWebRoot; // Insercion dinamica no renderizado
                 else return node;
             }
@@ -157,7 +162,7 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
     function isSVGWebRoot(node)
     {
         // Si node fuera un <script> or object/embed de SVGWeb es que no ha sido renderizado y puede eliminarse de forma normal
-        if (!node.fake) return false; // No es nodo SVGWeb
+        if (!this.isSVGWebNode(node)) return false; // No es nodo SVGWeb
         return (node.nodeName.toLowerCase() == 'svg'); // Es fake SVGWeb y nombre propio de root
     }
 
@@ -195,9 +200,15 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
     this.removeChild = removeChild;
     function removeChild(node)
     {
-      if (node == null) return; // Nodo de texto filtrado
-      if (this.isSVGWebRoot(node)) this.win.svgweb.removeChild(node,this.getParentNode(node));
-      else this.SVGWebHTMLDocument_super_removeChild(node);
+        if (node == null) return; // Nodo de texto filtrado          
+        if (this.isSVGWebRoot(node))
+        {          
+            var parentNode = this.getParentNode(node);
+            if (this.browser.isMSIEOld() && node.itsNatSVGWebWrapper)                      
+                node.itsNatSVGWebWrapper.itsNatSVGWebWrapperRemoved = true; // La eliminación del <object> del DOM se hace asíncronamente 
+            this.win.svgweb.removeChild(node,parentNode);
+        }
+        else this.SVGWebHTMLDocument_super_removeChild(node);
     }
 
     // Al insertar un SVG root, en su lugar se inserta realmente un EMBED en W3C y un SCRIPT en MSIE (este sera substituido despues por un OBJECT)
@@ -213,7 +224,7 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
         else this.SVGWebHTMLDocument_super_appendChild(parentNode,newChild);
     }
 
-    // svgweb.insertBefore() no esta en SVGWeb, es añadido por ItsNat en otro lugar.
+    
     this.SVGWebHTMLDocument_super_insertBefore = this.insertBefore;
     this.insertBefore = insertBefore;
     function insertBefore(parentNode,newChild,childRef)
@@ -221,13 +232,13 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
         if (childRef == null) { this.appendChild(parentNode,newChild); return; }
         if (this.isSVGWebRoot(newChild))
         {
-            if (childRef.fake) childRef = this.getSVGWebWrapper(childRef); // Es un nodo root SVG adjacente al nuevo nodo root SVG, debemos usar el verdadero nodo <object>/<embed>
-            this.win.svgweb.insertBefore(newChild,childRef,parentNode);
+            if (this.isSVGWebNode(childRef)) childRef = this.getSVGWebWrapper(childRef); // Es un nodo root SVG adjacente al nuevo nodo root SVG, debemos usar el verdadero nodo <object>/<embed>
+            this.win.svgweb.insertBefore(newChild,childRef,parentNode);  // svgweb.insertBefore() no esta en SVGWeb, es añadido por ItsNat en otro lugar.
             this.setUpNewSVGWebRoot(newChild,childRef.previousSibling);
         }
         else
         {
-            if (!newChild.fake && childRef.fake) childRef = this.getSVGWebWrapper(childRef); // Es un nodo root SVG adjacente al nuevo nodo normal, debemos usar el verdadero nodo <object>/<embed>
+            if (!this.isSVGWebNode(newChild) && this.isSVGWebNode(childRef)) childRef = this.getSVGWebWrapper(childRef); // Es un nodo root SVG adjacente al nuevo nodo normal, debemos usar el verdadero nodo <object>/<embed>
             this.SVGWebHTMLDocument_super_insertBefore(parentNode,newChild,childRef);
         }
     }
@@ -255,6 +266,9 @@ function pkg_itsnat_svgweb_msie_old(pkg)
 
 function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
 {
+    this.isSVGWebNode = isSVGWebNode; // Redefine
+    function isSVGWebNode(node) { return node.fake || node._fakeNode; } // SVGWeb en IE 8 está mal y fake no está definido (lo está en _fakeNode pero no se recubierto bien node) cosa de usar Object.defineProperty en vez de HTC
+
     // SVGWeb captura nuestros listeners onload redefiniendo window.addEventListener
     // y window.attachEvent y capturando el window.onload y el atributo onload="",
     // tal que son ejecutados DESPUES de la carga completa de SVGWeb, pero lo hace regular pues no crea un evento.
@@ -264,7 +278,7 @@ function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
     this.attachEvent = attachEvent;
     function attachEvent(node,type,func)
     {
-      if (node.fake || ((node == this.win) && ((type == "load")||(type == "SVGLoad"))) )
+      if (this.isSVGWebNode(node) || ((node == this.win) && ((type == "load")||(type == "SVGLoad"))) )
       {
           var win = this.win;
           var svgwebWrap = function(evt)
@@ -291,7 +305,7 @@ function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
     this.detachEvent = detachEvent;
     function detachEvent(node,type,func)
     {
-        if (node.fake || ((node == this.win) && ((type == "load")||(type == "SVGLoad"))) )
+        if (this.isSVGWebNode(node) || ((node == this.win) && ((type == "load")||(type == "SVGLoad"))) )
         {
           if (node == this.win) node.detachEvent("on" + type,func.svgwebWrap,false); // Sera type "load"
           else
@@ -307,7 +321,7 @@ function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
     this.setAttribute = setAttribute;
     function setAttribute(elem,name,value)
     {
-        if (elem.fake) elem.setAttribute(name,value); // style.cssText no funciona en SVGWeb
+        if (this.isSVGWebNode(elem)) elem.setAttribute(name,value); // style.cssText no funciona en SVGWeb
         else this.SVGWebMSIEOldHTMLDocument_super_setAttribute(elem,name,value);
     }
 
@@ -315,7 +329,7 @@ function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
     this.getAttribute = getAttribute;
     function getAttribute(elem,name)
     {
-        if (elem.fake) return elem.getAttribute(name); // style.cssText no funciona en SVGWeb
+        if (this.isSVGWebNode(elem)) return elem.getAttribute(name); // style.cssText no funciona en SVGWeb
         else return this.SVGWebMSIEOldHTMLDocument_super_getAttribute(elem,name);
     }
 
@@ -323,7 +337,7 @@ function SVGWebMSIEOldHTMLDocument()  // Usar como extension no como herencia
     this.setTextData = setTextData;
     function setTextData(parentNode,textNode,value)
     {
-        if (textNode.fake)
+        if (this.isSVGWebNode(textNode))
         {
             try{ this.SVGWebMSIEOldHTMLDocument_super_setTextData(parentNode,textNode,value); }
             catch(ex) // El text.data = "..." no funciona bien en el SVGLoad tras insercion dinamica.
@@ -347,11 +361,14 @@ function pkg_itsnat_svgweb_w3c(pkg)
 
 function SVGWebW3CHTMLDocument()  // Usar como extension no como herencia
 {
+    this.isSVGWebNode = isSVGWebNode; // Redefine
+    function isSVGWebNode(node) { return node.fake;  }
+
     this.SVGWebW3CHTMLDocument_super_addEventListener = this.addEventListener;
     this.addEventListener = addEventListener;
     function addEventListener(node,type,func,useCapture)
     {
-        if ( (node.fake || (node == this.win)) && ((type == "load")||(type == "SVGLoad")) )
+        if ( (this.isSVGWebNode(node) || (node == this.win)) && ((type == "load")||(type == "SVGLoad")) )
         {
             // SVGWeb en "load" o "SVGLoad" no crea un evento, simulamos un evento W3C
             var win = this.win;
@@ -372,7 +389,7 @@ function SVGWebW3CHTMLDocument()  // Usar como extension no como herencia
         else
         {
             this.SVGWebW3CHTMLDocument_super_addEventListener(node,type,func,useCapture);
-            if (!node.fake && (node != this.win) && (type == "SVGLoad")) // Es modo nativo (aunque este SVGWeb), simulamos el SVGLoad de SVGWeb
+            if (!this.isSVGWebNode(node) && (node != this.win) && (type == "SVGLoad")) // Es modo nativo (aunque este SVGWeb), simulamos el SVGLoad de SVGWeb
             {
                 var evt = this.doc.createEvent("Event");
                 evt.initEvent("SVGLoad",false,false);
@@ -385,7 +402,7 @@ function SVGWebW3CHTMLDocument()  // Usar como extension no como herencia
     this.removeEventListener = removeEventListener;
     function removeEventListener(node,type,func,useCapture)
     {
-        if ( (node.fake || (node == this.win)) && ((type == "load")||(type == "SVGLoad")) )
+        if ( (this.isSVGWebNode(node) || (node == this.win)) && ((type == "load")||(type == "SVGLoad")) )
         {
             node.removeEventListener(type,func.svgwebWrap,useCapture);
             this.fixSVGWebNodeListeners(node);
@@ -397,7 +414,7 @@ function SVGWebW3CHTMLDocument()  // Usar como extension no como herencia
     this.getChildNode = getChildNode;
     function getChildNode(i,parentNode,validNode)
     {
-        if (parentNode.fake && this.browser.isOpera()) // Soluciona algo pero en Opera funciona bastante mal
+        if (this.isSVGWebNode(parentNode) && this.browser.isOpera()) // Soluciona algo pero en Opera funciona bastante mal
         {
             var node = parentNode.firstChild;
             for(var j = 1; j < i + 1; j++) node = node.nextSibling;

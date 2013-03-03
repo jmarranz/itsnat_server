@@ -263,7 +263,7 @@ function MSIEOldHTMLDocument()
         xmlDoc.async = false;
         xmlDoc.loadXML(value);
 
-        var svgweb = elem.fake;
+        var svgweb = this.isSVGWebNode(elem);
         var rootElem = xmlDoc.documentElement;
         var child = rootElem.firstChild;
         while (child != null)
@@ -347,7 +347,7 @@ function MSIEOldHTMLDocument()
             parentNode = this.getParentNode(parentNode);
         }
         this.dispatchEventTree(true,evt,parentList);
-        return parentList; 
+        return parentList;
     }
 
     function dispatchEventTree(capture,evt,parentList)

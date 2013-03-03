@@ -52,12 +52,12 @@ function AJAX(itsNatDoc,win)
     }
 
     function request(method,url,async,content)
-    {  
+    {
         if (method == "GET") { url += "?" + content; content = null; }
         this.xhr.open(method, url, async);
-        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); 
+        if (method == "POST") this.xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
         this.xhr.setRequestHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT"); // Para WebKit viejos http://lists.apple.com/archives/dashboard-dev/2005/May/msg00196.html
-        this.xhr.setRequestHeader("Cache-Control","no-cache");      
+        this.xhr.setRequestHeader("Cache-Control","no-cache");
         this.xhr.send(content);
     }
 
@@ -101,7 +101,7 @@ function AJAX(itsNatDoc,win)
 
         listener.processRespBegin();
 
-        if (typeof status == "number") // Es undefined ocasionalmente en S60WebKit por ejemplo al enviar el unload 
+        if (typeof status == "number") // Es undefined ocasionalmente en S60WebKit por ejemplo al enviar el unload
         {
             if (status == 200) listener.processRespValid(this.xhr.responseText); // "OK"
             else if (status != 0)
@@ -539,7 +539,7 @@ function EventMgr(itsNatDoc)
 
         if ((commMode == 1) && !this.itsNatDoc.xhrSyncSup) // XHR SYNC
         {
-            // Simulamos "el bloqueo" en lo posible, no se da el caso de navegadores con SVG/XUL (solo HTML). 
+            // Simulamos "el bloqueo" en lo posible, no se da el caso de navegadores con SVG/XUL (solo HTML).
             var body = this.itsNatDoc.getHTMLBody();
             var layer = this.itsNatDoc.doc.createElement("div");
             layer.setAttribute("style","position:absolute; z-index:999999; left:0; top:0; width:" + body.scrollWidth + "px; height:" + body.scrollHeight + "px; ");
@@ -1021,6 +1021,7 @@ function Document()
     this.createScriptElement = null;
     this.sendEventByScript = sendEventByScript;
     this.getValidNode = getValidNode;
+    this.isSVGWebNode = isSVGWebNode;
     this.getParentNode = getParentNode;
     this.getLenChildNodes = getLenChildNodes;
     this.getChildNode = getChildNode;
@@ -1202,6 +1203,8 @@ function Document()
     }
 
     function getValidNode(node) { return node; } // Se extiende para SVGWeb
+
+    function isSVGWebNode(node) { return false; } // Se extiende para SVGWeb
 
     function getParentNode(node) { return node.parentNode; }
 

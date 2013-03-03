@@ -29,7 +29,7 @@ public class TestMutationEventsInternal implements EventListener,Serializable
     {
         // El método renameNode de DOM 3 es interesante porque
 
-        DocumentImpl doc = (DocumentImpl)itsNatDoc.getDocument();
+        DocumentImpl doc = (DocumentImpl)itsNatDoc.getDocument(); // Necesitamos testear las tripas de ItsNat
 
 
         Element root = doc.getDocumentElement();

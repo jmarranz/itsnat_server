@@ -297,7 +297,7 @@ function W3CDocument()
     {
         if (this.browser.isMSIE9()) { this.setInnerXMLMSIE9(elem,value); return; } // DOMParser no soportado
 
-        var svgweb = elem.fake;
+        var svgweb = this.isSVGWebNode(elem);
         var rootElem;
         if (this.browser.isAdobeSVG()||this.browser.isBatik())
         {

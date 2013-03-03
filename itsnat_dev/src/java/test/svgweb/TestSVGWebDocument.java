@@ -10,6 +10,7 @@
 package test.svgweb;
 
 import java.io.Serializable;
+import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.domutil.ElementGroupManager;
@@ -18,7 +19,6 @@ import org.itsnat.core.domutil.ItsNatDOMUtil;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.NodePropertyTransport;
 import org.itsnat.core.html.ItsNatHTMLDocument;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,6 +46,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
     protected boolean opera;
     protected Element svgContainerElem;
     protected Element svgElem;
+    protected Element svgReferenceElem;
     protected Element circleListElem;
     protected ElementList circleList;
     protected Element textElem;
@@ -58,7 +59,8 @@ public class TestSVGWebDocument implements EventListener,Serializable
     protected Element addRemoveTextElem;
     protected Element changeTextElem;
     protected Element subtreeInsertElem;
-    protected Element reinsertElem;
+    protected Element removeOrReinsertElem;
+    protected Element reinsertElem;    
     protected HTMLInputElement useSVGLoadElem;
 
     /** Creates a new instance of TestSVGWebDocument */
@@ -91,9 +93,13 @@ public class TestSVGWebDocument implements EventListener,Serializable
         this.subtreeInsertElem = doc.getElementById("testSubTreeInsertionId");
         ((EventTarget)subtreeInsertElem).addEventListener("click",this,false);
 
-        this.reinsertElem = doc.getElementById("reinsertId");
-        ((EventTarget)reinsertElem).addEventListener("click",this,false);
+        this.removeOrReinsertElem = doc.getElementById("removeOrReinsertId");
+        ((EventTarget)removeOrReinsertElem).addEventListener("click",this,false);
 
+        this.reinsertElem = doc.getElementById("reinsertId");
+        ((EventTarget)reinsertElem).addEventListener("click",this,false);        
+        
+        
         this.useSVGLoadElem = (HTMLInputElement)doc.getElementById("useSVGLoadId");
         itsNatDoc.addEventListener((EventTarget)useSVGLoadElem,"click",null,false,new NodePropertyTransport("checked",boolean.class));
 
@@ -130,9 +136,10 @@ public class TestSVGWebDocument implements EventListener,Serializable
         // Testeamos el atributo "style" que está inicialmente con valores exagerados
         // Hay que tener en cuenta que style.cssText no funciona en SVGWeb y
         // en MSIE SVGWeb lo usa internamente para sus fines (es decir, no tocar).
-        textElem.removeAttribute("style");
-        textElem.setAttribute("style","font-size:20; fill:#000000;");
-    }
+            
+        textElem.removeAttribute("style");         
+        textElem.setAttribute("style","font-size:20; fill:#000000;");    
+     }
 
     public void checkSVGWebMSIEExtraNodes()
     {
@@ -166,7 +173,9 @@ public class TestSVGWebDocument implements EventListener,Serializable
         this.svgContainerElem = doc.getElementById("svgContainerId");
 
         this.svgElem = doc.getElementById("svgId");
+        this.svgReferenceElem = doc.getElementById("svgReferenceId");        
 
+        
         ElementGroupManager egm = itsNatDoc.getElementGroupManager();
         this.circleListElem = doc.getElementById("circleListId");
         this.circleList = egm.createElementList(circleListElem, false);
@@ -175,10 +184,15 @@ public class TestSVGWebDocument implements EventListener,Serializable
         this.textElem = doc.getElementById("textId");
         Node text = textElem.getLastChild();
         if (text instanceof Text)
-            ((Text)text).setData("HELLO");
+        {
+             if (((Text)text).getData().contains("(TO BE CHANGED)"))
+                ((Text)text).setData("HELLO");
+        }
         else
+        {
             textElem.appendChild(doc.createTextNode("HELLO"));
-
+        }
+        
         // Para testear si funciona el removeEventListener:
         // NO HACEMOS ESTE TEST, en dracolisk parece que removeEventListener no
         // funciona muy bien, quizás es porque es inmediatamente seguido al addEventListener
@@ -287,7 +301,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
             else
             {
                 Document doc = itsNatDoc.getDocument();
-                text = doc.createTextNode("SOME TEXT");
+                text = doc.createTextNode("HELLO");
                 textElem.appendChild(text);
             }
         }
@@ -327,45 +341,42 @@ public class TestSVGWebDocument implements EventListener,Serializable
 
             itsNatDoc.addCodeToSend("alert('OK (must see no visual change)');");
         }
-        else if (currTarget == reinsertElem)
+        else if (currTarget == removeOrReinsertElem)
         {
             HTMLDocument doc = itsNatDoc.getHTMLDocument();
-            Node parent = doc.getBody();
             boolean inserted = (svgContainerElem.getParentNode() != null);
 
             if (inserted) // Está insertado, eliminamos
             {
                 selectCircle(null);
-                parent.removeChild(svgContainerElem);
-                ItsNatDOMUtil.setTextContent(reinsertElem,"Reinsertar");
+                svgContainerElem.getParentNode().removeChild(svgContainerElem);
+                ItsNatDOMUtil.setTextContent(removeOrReinsertElem,"Reinsertar");
+                
+                reinsertElem.setAttribute("style","display:none"); // Para que no usemos el link
+                
             }
-            else // Está eliminado alguno, reinsertamos
+            else // Está eliminado, reinsertamos
             {
+                Node parent = doc.getBody();                
                 parent.insertBefore(svgContainerElem,svgContainerReference);
 
-                if (useSVGLoadElem.getChecked())
-                {
-                    EventListener listener = new EventListenerSerial()
-                    {
-                        public void handleEvent(Event evt)
-                        {
-                            loadSVGPart(evt);
-                        }
-                    };
-                    // Evitamos registrar para todos los clientes, pues en control remoto completo significa que
-                    // se recibe el evento tantas veces como cliente y eso no tiene sentido.
-                    // por ello usamos el ClientDocumentImpl pues todavía no son públicos
-                    // los métodos ClientDocumentImpl.addEventListener...
-                    ClientDocumentImpl clientDoc = (ClientDocumentImpl)((ItsNatEvent)evt).getClientDocument();
-                    clientDoc.addEventListener((EventTarget)svgElem,"SVGLoad",listener,false);
-                }
-                else
-                {
-                    loadSVGPart(evt);
-                }
+                reinsertSVGRoot(evt);
 
-                ItsNatDOMUtil.setTextContent(reinsertElem,"Eliminar");
+                ItsNatDOMUtil.setTextContent(removeOrReinsertElem,"Eliminar");
+                
+                reinsertElem.setAttribute("style",""); // Hacemos que sea visible                
             }
+        }
+        else if (currTarget == reinsertElem)
+        {       
+            svgElem.getParentNode().removeChild(svgElem);  // En MSIE la eliminación se hace de forma asíncrona con toda clase de problemas
+
+            Node parentNode = svgReferenceElem.getParentNode();
+            parentNode.insertBefore(svgElem, svgReferenceElem);
+            
+            reinsertSVGRoot(evt);  
+                
+            itsNatDoc.addCodeToSend("alert('OK (must see just a flick and no more visual change)');");            
         }
         else itsNatDoc.addCodeToSend("alert('UNEXPECTED');");
     }
@@ -387,4 +398,27 @@ public class TestSVGWebDocument implements EventListener,Serializable
         return (xc - r <= x)&&(x <= xc + r)&&(yc - r <= y)&&(y <= yc + r);
     }
 
+    public void reinsertSVGRoot(Event evt)
+    {
+        if (useSVGLoadElem.getChecked())
+        {
+            EventListener listener = new EventListenerSerial()
+            {
+                public void handleEvent(Event evt)
+                {
+                    loadSVGPart(evt);
+                }
+            };
+            // Evitamos registrar para todos los clientes, pues en control remoto completo significa que
+            // se recibe el evento tantas veces como cliente y eso no tiene sentido.
+            // por ello usamos el ClientDocumentImpl pues todavía no son públicos
+            // los métodos ClientDocumentImpl.addEventListener...
+            ClientDocument clientDoc = ((ItsNatEvent)evt).getClientDocument();
+            clientDoc.addEventListener((EventTarget)svgElem,"SVGLoad",listener,false);
+        }
+        else
+        {
+            loadSVGPart(evt);
+        }      
+    }
 }
