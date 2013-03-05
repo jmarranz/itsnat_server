@@ -70,6 +70,12 @@ public class TestSVGWebDocument implements EventListener,Serializable
         this.opera = BrowserUtil2.isOpera(request);
 
         Document doc = itsNatDoc.getDocument();
+        
+        this.svgContainerElem = doc.getElementById("svgContainerId");
+        
+        this.svgElem = doc.getElementById("svgId");
+        this.svgReferenceElem = doc.getElementById("svgReferenceId");          
+        
         this.svgContainerReference = doc.getElementById("svgContainerReferenceId");
 
         this.addCircleElem = doc.getElementById("addCircleId");
@@ -168,13 +174,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
 
     public void loadSVGPart(Event evt)
     {
-        Document doc = itsNatDoc.getDocument();
-
-        this.svgContainerElem = doc.getElementById("svgContainerId");
-
-        this.svgElem = doc.getElementById("svgId");
-        this.svgReferenceElem = doc.getElementById("svgReferenceId");        
-
+        Document doc = itsNatDoc.getDocument();      
         
         ElementGroupManager egm = itsNatDoc.getElementGroupManager();
         this.circleListElem = doc.getElementById("circleListId");
@@ -369,13 +369,16 @@ public class TestSVGWebDocument implements EventListener,Serializable
         }
         else if (currTarget == reinsertElem)
         {       
-            svgElem.getParentNode().removeChild(svgElem);  // En MSIE la eliminación se hace de forma asíncrona con toda clase de problemas
+            // En MSIE la eliminación se hace de forma asíncrona con toda clase de problemas, la primera reinserción funciona la segunda vez se queda colgado
+            // afortunadamente este es un uso MUY atípico. Quizás tenga que ver el reutilizar el id para el nuevo elemento aunque parece que no (lo he probado)
+            svgElem.getParentNode().removeChild(svgElem);  
 
             Node parentNode = svgReferenceElem.getParentNode();
+              
             parentNode.insertBefore(svgElem, svgReferenceElem);
-            
+         
             reinsertSVGRoot(evt);  
-                
+              
             itsNatDoc.addCodeToSend("alert('OK (must see just a flick and no more visual change)');");            
         }
         else itsNatDoc.addCodeToSend("alert('UNEXPECTED');");

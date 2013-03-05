@@ -12,10 +12,10 @@ function itsnat_fix_svgweb(win,msieOld,metaPos)
     // redefinimos temporalmente este parent.appendChild para hacer un parent.insertBefore, asi nos vale el codigo del svgweb.appendChild
     // para hacer un insertBefore indirectamente
     win.svgweb.insertBefore = function (node,nodeRef,parentNode)
-    {    
+    {
         var oldFunc = parentNode.appendChild;
         parentNode.appendChild = function(node)
-        {           
+        {
             if (nodeRef._handler) nodeRef = nodeRef._handler.flash;
             this.insertBefore(node,nodeRef);
         };
@@ -100,14 +100,15 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
             if ((node.className == "embedssvg")|| // <object> (MSIE) o <embed> (W3C)
                ((node.nodeName.toLowerCase() == "script")&&(node.type == "image/svg+xml")))
             {
-                if (node.itsNatSVGWebWrapperRemoved) return this.getValidNode(node.nextSibling);                
-                
+                if (node.itsNatSVGWebWrapperRemoved) return this.getValidNode(node.nextSibling);
+
                 // Cuidado al usar un alert aqui depurando, pues mientras se muestra, el SVGLoad puede cambiar el estado del node asincronamente
                 if (node.documentElement)
                 {
-                    node.documentElement.itsNatSVGWebParentNode = node.parentNode; // Necesario para un posible posterior registro de SVGLoad via ItsNat
-                    node.documentElement.itsNatSVGWebWrapper = node;                    
-                    return node.documentElement; // object/embed ya renderizado
+                    var svgRootElem = node.documentElement;
+                    if (!svgRootElem.itsNatSVGWebParentNode) svgRootElem.itsNatSVGWebParentNode = node.parentNode;
+                    if (!svgRootElem.itsNatSVGWebWrapper) svgRootElem.itsNatSVGWebWrapper = node;
+                    return svgRootElem; // object/embed ya renderizado
                 }
                 else if (node.itsNatOldSVGWebRoot) return node.itsNatOldSVGWebRoot; // Insercion dinamica no renderizado
                 else return node;
@@ -200,13 +201,13 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
     this.removeChild = removeChild;
     function removeChild(node)
     {
-        if (node == null) return; // Nodo de texto filtrado          
+        if (node == null) return; // Nodo de texto filtrado
         if (this.isSVGWebRoot(node))
-        {          
+        {
             var parentNode = this.getParentNode(node);
-            if (this.browser.isMSIEOld() && node.itsNatSVGWebWrapper)                      
-                node.itsNatSVGWebWrapper.itsNatSVGWebWrapperRemoved = true; // La eliminación del <object> del DOM se hace asíncronamente 
             this.win.svgweb.removeChild(node,parentNode);
+            if (this.browser.isMSIEOld() && node.itsNatSVGWebWrapper)
+                node.itsNatSVGWebWrapper.itsNatSVGWebWrapperRemoved = true; // La eliminación del <object> del DOM se hace asíncronamente
         }
         else this.SVGWebHTMLDocument_super_removeChild(node);
     }
@@ -224,7 +225,7 @@ function SVGWebHTMLDocument()  // Usar como extension no como herencia
         else this.SVGWebHTMLDocument_super_appendChild(parentNode,newChild);
     }
 
-    
+
     this.SVGWebHTMLDocument_super_insertBefore = this.insertBefore;
     this.insertBefore = insertBefore;
     function insertBefore(parentNode,newChild,childRef)
