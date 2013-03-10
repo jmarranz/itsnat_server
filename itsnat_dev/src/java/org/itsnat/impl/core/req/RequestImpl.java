@@ -50,7 +50,7 @@ public abstract class RequestImpl
         if (action != null)
         {
             if (action.equals("event"))
-                return RequestEventImpl.createRequestEvent(itsNatRequest);
+                return RequestEventStfulImpl.createRequestEventStful(itsNatRequest);
             else if (action.equals("load_script"))
                 return RequestLoadScriptImpl.createRequestLoadScript(itsNatRequest);
             else if (action.equals("iframe_file_upload"))
@@ -61,6 +61,8 @@ public abstract class RequestImpl
                 return RequestAttachedServerImpl.createRequestAttachedServer(itsNatRequest);
             else if (action.equals("itsnat_info"))
                 return RequestItsNatInfoImpl.createRequestItsNatInfo(itsNatRequest);
+            else if (action.equals("event_stateless"))
+                return RequestEventStatelessImpl.createRequestEventStateless(itsNatRequest);            
             else
                 throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
         }
@@ -159,7 +161,7 @@ public abstract class RequestImpl
     // y por tanto no se ha ejecutado código del usuario que cambie el objeto sesión ItsNat.
     protected abstract boolean isMustNotifyEndOfRequestToSession();
 
-    public void notifyEndOfRequestToSession()
+    private void notifyEndOfRequestToSession()
     {
         // La finalidad de esta llamada es que se serialicen en la sesión los cambios que hayamos
         // hecho en el ItsNatDocument de trabajo en el caso de session replication capable

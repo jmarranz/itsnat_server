@@ -21,7 +21,7 @@ import org.itsnat.impl.core.event.client.ClientDOMEventErrorImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.itsnat.impl.core.req.norm.RequestNormal;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
-import org.itsnat.impl.core.resp.ResponseEventImpl;
+import org.itsnat.impl.core.resp.ResponseEventStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.w3c.dom.events.EventListener;
 
@@ -29,7 +29,7 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public abstract class ResponseNormalEventErrorImpl extends ResponseEventImpl implements ResponseNormal
+public abstract class ResponseNormalEventErrorImpl extends ResponseEventStfulImpl implements ResponseNormal
 {
     /**
      * Creates a new instance of ResponseNormalLostClientDocImpl

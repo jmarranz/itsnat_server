@@ -39,11 +39,12 @@ public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
         super(evtType,itsNatRequest);
     }
 
-    public void processClientDocument(String listenerId,ClientDocumentStfulImpl clientDoc)
+    @Override
+    protected void processClientDocument2(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
         do
         {
-            super.processClientDocument(listenerId,clientDoc);
+            super.processClientDocument2(listenerId,clientDoc);
 
             if (taskPendingToFinish != null)
             {

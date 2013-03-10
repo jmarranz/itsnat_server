@@ -35,7 +35,7 @@ import org.itsnat.impl.core.resp.norm.ResponseNormalEventErrorLostSessionImpl;
  *
  * @author jmarranz
  */
-public abstract class RequestNormalEventImpl extends RequestEventImpl implements RequestNormal
+public abstract class RequestNormalEventImpl extends RequestEventStfulImpl implements RequestNormal
 {
     protected int evtType;
 
@@ -97,10 +97,10 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
         }
 
         String listenerId = getAttrOrParamExist("itsnat_listener_id");
-        processClientDocument(listenerId,clientDoc);
+        processClientDocument2(listenerId,clientDoc);
     }
 
-    public void processClientDocument(final String listenerId,final ClientDocumentStfulImpl clientDoc)
+    protected void processClientDocument2(final String listenerId,final ClientDocumentStfulImpl clientDoc)
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
 

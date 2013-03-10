@@ -19,13 +19,13 @@ package org.itsnat.impl.core.resp.attachcli;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientErrorImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
-import org.itsnat.impl.core.resp.ResponseEventImpl;
+import org.itsnat.impl.core.resp.ResponseEventStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseAttachedClientErrorEventImpl extends ResponseEventImpl implements ResponseAttachedClient
+public abstract class ResponseAttachedClientErrorEventImpl extends ResponseEventStfulImpl implements ResponseAttachedClient
 {
     public ResponseAttachedClientErrorEventImpl(RequestAttachedClientEventImpl request)
     {

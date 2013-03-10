@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.zip.GZIPOutputStream;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.http.ItsNatHttpServletResponse;
 import org.itsnat.core.http.ItsNatHttpServlet;

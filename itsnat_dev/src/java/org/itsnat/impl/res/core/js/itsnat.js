@@ -1056,6 +1056,7 @@ function Document()
     this.dispatchUserEvent = dispatchUserEvent;
     this.dispatchUserEvent2 = dispatchUserEvent2;
     this.fireUserEvent = fireUserEvent;
+    this.dispatchUserEventStateless = dispatchUserEventStateless;    
     this.sendAttachTimerRefresh = sendAttachTimerRefresh;
     this.stopAttachTimerRefresh = stopAttachTimerRefresh;
     this.sendAttachCometTaskRefresh = sendAttachCometTaskRefresh;
@@ -1529,6 +1530,11 @@ function Document()
     {
         var evt = this.createUserEvent(name);
         this.dispatchUserEvent(currTarget,evt);
+    }
+
+    function dispatchUserEventStateless(evt)
+    {
+        // HACER
     }
 
     function sendAttachTimerRefresh(callback,interval,commMode,timeout)

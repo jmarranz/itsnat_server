@@ -16,9 +16,6 @@
 
 package org.itsnat.impl.core.resp;
 
-import java.io.IOException;
-import java.io.Writer;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.req.RequestLoadDocImpl;
 

@@ -73,11 +73,6 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
             return new ResponseNormalLoadOtherNSDocImpl(request);
     }
 
-    public RequestNormalLoadDocImpl getRequestNormalLoadDoc()
-    {
-        return (RequestNormalLoadDocImpl)request;
-    }
-
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return (ClientDocumentStfulImpl)getClientDocument();
@@ -117,6 +112,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return !itsNatDoc.isFastLoadMode();
     }
 
+    @Override
     public void dispatchRequestListeners()
     {
         // Caso de carga del documento por primera vez, el documento está recién creado

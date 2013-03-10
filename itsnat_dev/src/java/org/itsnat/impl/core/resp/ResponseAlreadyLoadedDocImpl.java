@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.resp;
 
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.req.RequestEventImpl;
 import org.itsnat.impl.core.req.RequestAlreadyLoadedDocImpl;
 
 /**
@@ -31,13 +30,13 @@ public abstract class ResponseAlreadyLoadedDocImpl extends ResponseImpl implemen
         super(request);
     }
 
-    public RequestEventImpl getRequestEvent()
+    public RequestAlreadyLoadedDocImpl getRequestAlreadyLoadedDoc()
     {
-        return (RequestEventImpl)request;
+        return (RequestAlreadyLoadedDocImpl)request;
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
     {
-        return getRequestEvent().getItsNatStfulDocument();
+        return getRequestAlreadyLoadedDoc().getItsNatStfulDocument();
     }
 }

@@ -18,6 +18,9 @@ package org.itsnat.impl.core.resp;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.UseGZip;
@@ -37,6 +40,7 @@ public abstract class ResponseImpl
     protected RequestImpl request;
     protected ItsNatServletResponseImpl itsNatResponse;
     protected Writer writer;
+    protected LinkedList<Object> codeToSend = new LinkedList<Object>();    
     
     /** Creates a new instance of ResponseImpl */
     public ResponseImpl(RequestImpl request)
@@ -68,11 +72,45 @@ public abstract class ResponseImpl
         return request.getClientDocument();
     }
 
-    public Writer getWriter()
+    private void addCodeFromClientDocAndReset()
     {
-        return writer;
-    }
+        ClientDocumentImpl listener = getClientDocument();
+        if (listener == null) return;
+        String code = listener.getCodeToSendAndReset();
+        if ((code == null) || code.equals("")) return;
 
+        codeToSend.add( code );
+    }    
+    
+    public String getCodeToSendAndReset()
+    {
+        itsNatResponse.getItsNatSessionImpl().endOfRequestBeforeSendCode();
+
+        addCodeFromClientDocAndReset();
+
+        StringBuilder code = new StringBuilder();
+        
+        if (!codeToSend.isEmpty())
+        {
+            for(Iterator<Object> it = codeToSend.iterator(); it.hasNext(); )
+            {
+                Object codeFragment = it.next();
+                it.remove(); // Para ir liberando memoria
+                code.append( codeFragment.toString() );
+            }
+            codeToSend.clear();  // por si acaso
+        }
+        return code.toString();
+    }    
+    
+    public void addCodeToSend(Object newCode)
+    {
+        // El código nuevo únicamente se puede devolver en esta request.
+        addCodeFromClientDocAndReset();
+   
+        codeToSend.add( newCode );
+    }    
+    
     public void writeResponse(String text)
     {
         try
@@ -145,7 +183,7 @@ public abstract class ResponseImpl
             return getItsNatServletResponse().getItsNatServletImpl().getItsNatServletConfigImpl().getDefaultEncoding();        
     }
 
-    public Writer initWriter() throws IOException
+    private Writer initWriter() throws IOException
     {
         boolean useGZip = false;
 

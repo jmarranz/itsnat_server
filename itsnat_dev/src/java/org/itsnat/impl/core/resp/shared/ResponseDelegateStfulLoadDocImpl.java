@@ -20,20 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.HashMap;
 import org.itsnat.impl.core.resp.shared.bybrow.ResponseDelegStfulLoadDocByBrowserImpl;
 import org.itsnat.impl.core.resp.shared.otherns.ResponseDelegateOtherNSLoadDocImpl;
 import org.itsnat.impl.core.resp.shared.html.ResponseDelegateHTMLLoadDocImpl;
 import org.itsnat.impl.core.resp.*;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
@@ -399,8 +396,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     protected String getLoadCodeUsingDocument()
     {
         // Llamar después de serializar el markup así en el proceso de serializar el documento hay una última oportunidad de generar código JavaScript
-        ItsNatServletResponseImpl itsNatResponse = getResponseLoadDoc().getItsNatServletResponse();
-        return itsNatResponse.getCodeToSendAndReset();
+        return getResponseLoadDoc().getCodeToSendAndReset();
     }
 
     protected String generateFinalScriptsMarkup()

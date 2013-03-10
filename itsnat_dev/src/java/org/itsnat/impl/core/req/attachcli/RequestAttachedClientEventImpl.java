@@ -36,7 +36,7 @@ import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClientErrorEventLostS
  *
  * @author jmarranz
  */
-public abstract class RequestAttachedClientEventImpl extends RequestEventImpl implements RequestAttachedClient
+public abstract class RequestAttachedClientEventImpl extends RequestEventStfulImpl implements RequestAttachedClient
 {
     /**
      * Creates a new instance of RequestAttachedClientEventImpl

@@ -28,7 +28,6 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.req.RequestImpl;
-import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ClientDocument;

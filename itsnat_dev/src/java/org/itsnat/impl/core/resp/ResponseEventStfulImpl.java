@@ -16,29 +16,25 @@
 
 package org.itsnat.impl.core.resp;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.io.Writer;
 import javax.servlet.ServletRequest;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.jsren.JSRenderImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
-import org.itsnat.impl.core.req.RequestEventImpl;
+import org.itsnat.impl.core.req.RequestEventStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl implements ResponseJavaScript
+public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImpl implements ResponseJavaScript
 {
     protected String scriptId = null; // Sólo es no nulo en los modos SCRIPT y SCRIPT_HOLD
 
-    public ResponseEventImpl(RequestEventImpl request)
+    public ResponseEventStfulImpl(RequestEventStfulImpl request)
     {
         super(request);
 
@@ -92,8 +88,7 @@ public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl imp
 
     public void sendPendingCode()
     {
-        ItsNatServletResponseImpl itsNatResponse = getItsNatServletResponse();
-        String code = itsNatResponse.getCodeToSendAndReset();
+        String code = getCodeToSendAndReset();
         sendPendingCode(code,false);
     }
 
@@ -104,8 +99,6 @@ public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl imp
 
     public void sendPendingCode(String code,boolean error)
     {
-        ItsNatServletResponseImpl itsNatResponse = getItsNatServletResponse();
-
         if (isScriptOrScriptHoldMode())
         {
             // Modos SCRIPT y SCRIPT_HOLD
@@ -146,9 +139,7 @@ public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl imp
             code = codeBuff.toString();
         }
 
-        if (code.length() > 0)
-            writeResponse(code);
-        else
+        if (code.length() == 0)
         {   // Este caso obviamente sólo se dará en eventos AJAX
             // por si acaso lo hacemos también con eventos SCRIPT
             ClientDocumentImpl clientDoc = getClientDocument();
@@ -156,9 +147,11 @@ public abstract class ResponseEventImpl extends ResponseAlreadyLoadedDocImpl imp
             if ((browser instanceof BrowserWebKit) &&
                 ((BrowserWebKit)browser).isAJAXEmptyResponseFails())
             {
-                writeResponse("          ");
+                code = "          ";
             }
         }
+        
+        writeResponse(code);
     }
 
     public boolean isLoadByScriptElement()

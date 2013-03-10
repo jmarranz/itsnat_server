@@ -16,18 +16,18 @@
 
 package org.itsnat.impl.core.resp;
 
-import org.itsnat.impl.core.req.RequestEventImpl;
+import org.itsnat.impl.core.req.RequestEventStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseEventDoNothingImpl extends ResponseEventImpl
+public class ResponseEventDoNothingImpl extends ResponseEventStfulImpl
 {
     /**
      * Creates a new instance of ResponseEventDoNothingImpl
      */
-    public ResponseEventDoNothingImpl(RequestEventImpl request)
+    public ResponseEventDoNothingImpl(RequestEventStfulImpl request)
     {
         super(request);
     }

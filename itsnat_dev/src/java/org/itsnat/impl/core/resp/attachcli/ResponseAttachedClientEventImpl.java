@@ -23,13 +23,13 @@ import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
-import org.itsnat.impl.core.resp.ResponseEventImpl;
+import org.itsnat.impl.core.resp.ResponseEventStfulImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseAttachedClientEventImpl extends ResponseEventImpl implements ResponseAttachedClient
+public class ResponseAttachedClientEventImpl extends ResponseEventStfulImpl implements ResponseAttachedClient
 {
     protected ItsNatAttachedClientEventListenerWrapperImpl listener;
 
