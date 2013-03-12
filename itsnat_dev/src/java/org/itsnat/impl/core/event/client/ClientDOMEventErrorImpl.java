@@ -26,7 +26,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ClientDOMEventErrorImpl extends ClientItsNatEventImpl implements ItsNatNormalEvent,EventInternal
+public class ClientDOMEventErrorImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent,EventInternal
 {
     public ClientDOMEventErrorImpl(RequestNormalEventImpl request)
     {

@@ -25,7 +25,7 @@ import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
  *
  * @author jmarranz
  */
-public class ItsNatAttachedClientEventErrorImpl extends ClientItsNatEventImpl implements ItsNatAttachedClientEvent
+public class ItsNatAttachedClientEventErrorImpl extends ClientItsNatEventStfulImpl implements ItsNatAttachedClientEvent
 {
     public ItsNatAttachedClientEventErrorImpl(RequestAttachedClient request)
     {

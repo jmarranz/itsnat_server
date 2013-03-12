@@ -45,7 +45,7 @@ public class RewriteClientUIControlPropsOperaLoadListenerImpl implements EventLi
         // Filtramos los eventos change generados por el navegador por el autocomplete
         code.append("var filter = function (evt)\n");
         code.append("{\n");
-        code.append("  var evtList = evt.getListener();\n");
+        code.append("  var evtList = evt.getListenerWrapper(); \n");
         code.append("  if (!evtList.getType) return true;\n");
         code.append("  return (evtList.getType() != \"change\");\n"); // Si devuelve false entonces no enviar al servidor este evento
         code.append("};\n");

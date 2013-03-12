@@ -75,7 +75,7 @@ public abstract class ItsNatEventImpl extends EventObject implements ItsNatEvent
     {
         ItsNatServletRequestImpl request = getItsNatServletRequestImpl();
         if (request == null)
-            return null; // En el caso de ServerItsNatEventImpl puede ser null
+            return null; // En el caso de ServerItsNatEventStfulImpl puede ser null
         return request.getItsNatServletResponseImpl();
     }
 

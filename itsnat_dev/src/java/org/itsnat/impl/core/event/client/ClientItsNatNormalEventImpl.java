@@ -25,7 +25,7 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventImpl implements ItsNatNormalEvent
+public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent
 {
     protected ItsNatNormalEventListenerWrapperImpl listenerWrapper;
 

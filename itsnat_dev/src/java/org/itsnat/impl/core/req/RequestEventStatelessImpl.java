@@ -46,7 +46,6 @@ public class RequestEventStatelessImpl extends RequestImpl
 
     public void processRequest()
     {
-        HACER;
         /*
         ItsNatServletRequestImpl request = getItsNatServletRequest();
         ItsNatServletResponseImpl itsNatResponse = request.getItsNatServletResponseImpl();

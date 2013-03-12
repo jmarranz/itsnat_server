@@ -24,7 +24,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ServerItsNatNormalEventImpl extends ServerItsNatEventImpl implements ItsNatNormalEvent
+public abstract class ServerItsNatNormalEventImpl extends ServerItsNatEventStfulImpl implements ItsNatNormalEvent
 {
     protected EventTarget currentTarget;
 
