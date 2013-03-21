@@ -7,7 +7,6 @@ package test.shared;
 
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
-import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

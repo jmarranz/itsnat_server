@@ -41,9 +41,9 @@ public abstract class RequestNormalLoadDocImpl extends RequestNormalLoadDocBaseI
     /**
      * Creates a new instance of RequestNormalLoadDocImpl
      */
-    public RequestNormalLoadDocImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest)
+    public RequestNormalLoadDocImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
-        super(itsNatRequest);
+        super(itsNatRequest,stateless);
 
         this.docTemplate = docTemplate;
         this.delegate = new RequestDelegateLoadDocImpl(this);
@@ -54,7 +54,7 @@ public abstract class RequestNormalLoadDocImpl extends RequestNormalLoadDocBaseI
         return (ResponseNormalLoadDocImpl)response;
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
 
 /*

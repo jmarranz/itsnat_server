@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.jsren.dom.event.domext;
 
-import java.util.Iterator;
 import java.util.Map;
 import org.itsnat.core.event.ItsNatUserEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;

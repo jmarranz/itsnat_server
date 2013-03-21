@@ -63,16 +63,23 @@ public abstract class RequestImpl
                 return RequestItsNatInfoImpl.createRequestItsNatInfo(itsNatRequest);
             else if (action.equals("event_stateless"))
                 return RequestEventStatelessImpl.createRequestEventStateless(itsNatRequest);            
-            else
-                throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
+            else if (action.equals("event_stateless_phase_load"))
+            {
+                String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
+                if (docName != null)
+                    return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,true);                
+                else
+                    return RequestCustomImpl.createRequestCustom(itsNatRequest,true);                
+            }
+            else throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
         }
         else
         {
             String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
             if (docName != null)
-                return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest);
+                return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,false);
             else
-                return RequestCustomImpl.createRequestCustom(itsNatRequest);
+                return RequestCustomImpl.createRequestCustom(itsNatRequest,false);
         }
     }
 
@@ -138,11 +145,11 @@ public abstract class RequestImpl
         itsNatRequest.unbindRequestFromDocument();
     }
 
-    public void process()
+    public void process(ClientDocumentImpl clientDocStateless)
     {
         try
         {
-            processRequest();
+            processRequest(clientDocStateless);
         }
         finally
         {
@@ -173,5 +180,5 @@ public abstract class RequestImpl
         }
     }
 
-    public abstract void processRequest();
+    public abstract void processRequest(ClientDocumentImpl clientDocStateless);
 }

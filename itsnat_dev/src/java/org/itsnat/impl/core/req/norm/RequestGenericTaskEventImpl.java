@@ -30,7 +30,7 @@ import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
  *
  * @author jmarranz
  */
-public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
+public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
 {
     protected ItsNatGenericTaskEventListenerWrapperImpl taskPendingToFinish = null;
 

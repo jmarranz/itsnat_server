@@ -13,25 +13,21 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
+
 package org.itsnat.impl.core.req.norm;
 
-import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerLoadDocImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class RequestNormalLoadDocDefaultImpl extends RequestNormalLoadDocImpl
+public abstract class RequestDOMExtEventImpl extends RequestDOMEventImpl
 {
-    public RequestNormalLoadDocDefaultImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
+    public RequestDOMExtEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
     {
-        super(docTemplate,itsNatRequest,stateless);
+        super(evtType,itsNatRequest);
     }
 
-    public RequestAttachedServerLoadDocImpl getParentRequestAttachedServerLoadDoc()
-    {
-        return null;
-    }
+
 }

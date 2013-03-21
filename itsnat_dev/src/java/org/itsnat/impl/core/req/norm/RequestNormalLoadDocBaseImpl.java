@@ -35,16 +35,19 @@ public abstract class RequestNormalLoadDocBaseImpl extends RequestLoadDocImpl
         implements RequestNormal,ContainsItsNatStfulDocumentReferrer
 {
     protected ItsNatStfulDocumentImpl itsNatDocReferrer;
+    protected boolean stateless;
     
     /**
      * Creates a new instance of RequestNormalLoadDocImpl
      */
-    public RequestNormalLoadDocBaseImpl(ItsNatServletRequestImpl itsNatRequest)
+    public RequestNormalLoadDocBaseImpl(ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
         super(itsNatRequest);
+        
+        this.stateless = stateless;
     }
 
-    public static RequestNormalLoadDocBaseImpl createRequestNormalLoadDocBase(String docName,ItsNatServletRequestImpl itsNatRequest)
+    public static RequestNormalLoadDocBaseImpl createRequestNormalLoadDocBase(String docName,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
         // Tenemos la seguridad de que docName no es nulo, sino no llegaríamos aquí
 
@@ -52,14 +55,14 @@ public abstract class RequestNormalLoadDocBaseImpl extends RequestLoadDocImpl
         ItsNatDocumentTemplateImpl docTemplate = itsNatServlet.getItsNatDocumentTemplateImpl(docName);
 
         if (docTemplate == null)
-            return new RequestNormalLoadDocNotFoundImpl(docName,itsNatRequest);
+            return new RequestNormalLoadDocNotFoundImpl(docName,itsNatRequest,stateless);
         else
         {
             // Provocamos una excepción sin más contemplaciones pues se detectará
             // en tiempo de desarrollo o por un intento de violación de seguridad
             if (docTemplate instanceof ItsNatStfulDocumentTemplateAttachedServerImpl)
                 throw new ItsNatException("Document/page " + docName + " is of type attached server, not valid in this context",itsNatRequest);
-            return new RequestNormalLoadDocDefaultImpl(docTemplate,itsNatRequest);
+            return new RequestNormalLoadDocDefaultImpl(docTemplate,itsNatRequest,stateless);
         }
     }
 

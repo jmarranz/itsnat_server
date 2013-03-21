@@ -79,6 +79,7 @@ public abstract class ClientItsNatEventStfulImpl extends ItsNatEventImpl
         return getRequest().getItsNatServletRequest();
     }
 
+    @Override
     public Object getExtraParam(String name)
     {
         Object value = super.getExtraParam(name);

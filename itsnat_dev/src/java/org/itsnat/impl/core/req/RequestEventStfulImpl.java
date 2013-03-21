@@ -36,7 +36,8 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
     public static final int ATTACH_TIMER_EVENT = 7;
     public static final int ATTACH_COMET_EVENT = 8;
     public static final int ATTACH_NOT_REFRESH_EVENT = 9;
-
+    public static final int STATELESS_FALSE_EVENT = 10;
+    
     public RequestEventStfulImpl(ItsNatServletRequestImpl itsNatRequest)
     {
         super(itsNatRequest);
@@ -61,6 +62,9 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
             case ATTACH_NOT_REFRESH_EVENT:
                 return RequestAttachedClientEventImpl.createRequestAttachedClientEvent(evtType,itsNatRequest);
 
+            case STATELESS_FALSE_EVENT:
+                return RequestNormalEventImpl.createRequestNormalEvent(evtType,itsNatRequest);                
+                
             default:
                 throw new ItsNatException("Malformed URL/request, bad itsnat_eventType: " + evtType);
         }
@@ -86,6 +90,8 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
             return ATTACH_COMET_EVENT;
         else if ("attach_none".equals(value))
             return ATTACH_NOT_REFRESH_EVENT;
+        else if ("stateless_false_event".equals(value))
+            return STATELESS_FALSE_EVENT;        
         else
             throw new ItsNatException("Unknown itsnat_eventType value:\"" + value + "\"");
     }

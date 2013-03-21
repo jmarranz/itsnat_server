@@ -179,10 +179,10 @@ public abstract class ItsNatServletRequestImpl extends ItsNatUserDataImpl implem
         return getItsNatSessionImpl();
     }
 
-    public void process(String action)
+    public void process(String action,ClientDocumentImpl clientDocStateless)
     {
         this.delegRequest = RequestImpl.createRequest(action,this);
-        delegRequest.process();
+        delegRequest.process(clientDocStateless);
     }
 
     public Object getVariable(String varName)

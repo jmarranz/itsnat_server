@@ -16,8 +16,14 @@
 
 package org.itsnat.impl.core.req;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.resp.ResponseEventStatelessImpl_ELIMINAR;
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
 /**
  *
@@ -44,30 +50,53 @@ public class RequestEventStatelessImpl extends RequestImpl
         return null;
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
-        /*
-        ItsNatServletRequestImpl request = getItsNatServletRequest();
-        ItsNatServletResponseImpl itsNatResponse = request.getItsNatServletResponseImpl();
-        try
+        ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
+        ItsNatServletRequestImpl itsNatRequest = getItsNatServletRequest();
+        ItsNatServletResponseImpl itsNatResponse = itsNatRequest.getItsNatServletResponseImpl();               
+        ServletRequest request = itsNatRequest.getServletRequest();
+        ServletResponse response = itsNatResponse.getServletResponse();        
+        
+        request.setAttribute("itsnat_action","event_stateless_phase_load");
+        ItsNatServletRequestImpl itsNatRequestLoadPhase = itsNatServlet.processRequestInternal(request,response,null);
+        ClientDocumentImpl clientDoc = itsNatRequestLoadPhase.getClientDocumentImpl();
+        if (clientDoc != null) 
         {
-            ServletResponse response = itsNatResponse.getServletResponse();
-            response.setContentType("text/plain");
-
-            ItsNatImpl itsNat = request.getItsNatServletImpl().getItsNatImpl();
-            OutputStream out = response.getOutputStream();
-            Properties prop = new Properties();
-            prop.setProperty("product","ItsNat");
-            prop.setProperty("version",itsNat.getVersion());
-            prop.store(out,null);
+            request.setAttribute("itsnat_action","event");
+            request.setAttribute("itsnat_eventType","stateless_false_event");            
+            
+            ItsNatServletRequestImpl itsNatRequestEventPhase = itsNatServlet.processRequestInternal(request,response,clientDoc);            
         }
-        catch(IOException ex)
-        {
-            throw new ItsNatException(ex);
-        }
-        * */
+        else
+            processClientDocumentNotCreated();
     }
 
+    public void processClientDocument_ELIMINAR(ClientDocumentImpl clientDoc)    
+    {
+        // No hace falta sincronizar el ItsNatDocument porque se ha creado nuevo para procesar el evento
+        
+        bindClientToRequest(clientDoc);
+
+        try
+        {
+            ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();            
+            
+            
+            this.response = new ResponseEventStatelessImpl_ELIMINAR(this);
+            response.process();
+        }
+        finally
+        {
+            unbindRequestFromDocument();
+        }        
+    }
+    
+    public void processClientDocumentNotCreated()    
+    {
+        // HACER
+    }    
+    
     protected boolean isMustNotifyEndOfRequestToSession()
     {
         // Así nos ahorramos una serialización inútil, estamos en stateless

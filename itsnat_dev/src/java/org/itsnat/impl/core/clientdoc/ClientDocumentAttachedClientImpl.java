@@ -108,6 +108,7 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         return commMode;
     }
 
+    @Override
     public long getEventTimeout()
     {
         return eventTimeout;

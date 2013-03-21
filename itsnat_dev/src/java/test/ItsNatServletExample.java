@@ -32,6 +32,7 @@ import test.comp.TestComponentsDocLoadListener;
 import test.comp.TestCreateItsNatComponentListener;
 import test.core.TestCoreAttachServerLauncherDocLoadListener;
 import test.core.TestCoreDocLoadListener;
+import test.core.TestCoreStatelessDocLoadListener;
 import test.coreiframe.TestCoreIFrameDocLoadListener;
 import test.noajax.TestNoAJAXDocLoadListener;
 import test.noscript.TestNoScriptDocLoadListener;
@@ -346,6 +347,15 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.setOnLoadCacheStaticNodes(false);
         docTemplate.setEventsEnabled(false); // No tiene estado esta página
 
+        // Stateless
+        
+        docTemplate = registerDocument("test_core_stateless","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
+        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessDocLoadListener());
+        docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));        
+        docTemplate.setEventsEnabled(false);
+        
+        // FRAGMENTS
+        
         ItsNatDocFragmentTemplate docFragDesc;
 
         docFragDesc = registerDocFragment("test_html_fragment","text/html",pathPrefix,pages);

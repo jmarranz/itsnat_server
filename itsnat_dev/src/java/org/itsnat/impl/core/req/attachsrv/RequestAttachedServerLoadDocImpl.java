@@ -18,6 +18,7 @@ package org.itsnat.impl.core.req.attachsrv;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerScriptImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerLoadDocFormImpl;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerLoadDocImpl;
@@ -68,7 +69,7 @@ public class RequestAttachedServerLoadDocImpl extends RequestAttachedServerImpl
         return (ResponseAttachedServerLoadDocImpl)response;
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
         ItsNatSessionImpl session = itsNatRequest.getItsNatSessionImpl();
 

@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.req.script;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -44,7 +45,7 @@ public class RequestLoadScriptInitialImpl extends RequestLoadScriptImpl implemen
         return (ItsNatStfulDocumentImpl)getItsNatDocument();
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
         String clientId = getAttrOrParamExist("itsnat_client_id"); // Si no está dará error
 

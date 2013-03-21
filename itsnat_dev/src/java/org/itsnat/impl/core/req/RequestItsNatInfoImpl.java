@@ -24,6 +24,7 @@ import java.util.Properties;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.ItsNatImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
 /**
@@ -51,7 +52,7 @@ public class RequestItsNatInfoImpl extends RequestImpl
         return null;
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
         ItsNatServletRequestImpl request = getItsNatServletRequest();
         ItsNatServletResponseImpl itsNatResponse = request.getItsNatServletResponseImpl();

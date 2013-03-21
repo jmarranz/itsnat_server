@@ -28,6 +28,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientErrorImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientNotRefreshImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
@@ -100,7 +101,7 @@ public class RequestAttachedClientLoadDocImpl extends RequestLoadDocImpl impleme
         return sessionParent.getClientDocumentAttachedClientById(clientParentId);
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
         // Procesamos el request suministrado en un URL
 

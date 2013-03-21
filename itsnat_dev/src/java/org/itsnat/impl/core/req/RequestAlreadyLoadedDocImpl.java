@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.req;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -53,22 +54,34 @@ public abstract class RequestAlreadyLoadedDocImpl extends RequestImpl implements
         return true;
     }
 
-    public void processRequest()
+    public void processRequest(ClientDocumentImpl clientDocStateless)
     {
         if (!checkValidClientSession())
             return;
 
-        // Buscamos el cliente en la sesión, sólo puede estar ahí registrado
-        // se evita toda la posibilidad de intentar
-        // acertar con el id del observador.
-
-        String clientId = itsNatRequest.getAttrOrParamExist("itsnat_client_id");
-
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStfulById(clientId);
-        if (clientDoc == null) // Cliente no encontrado
-            processClientDocumentNotFound(clientId);
+        ClientDocumentStfulImpl clientDoc;
+        if (clientDocStateless != null)
+        {
+            clientDoc = (ClientDocumentStfulImpl)clientDocStateless;
+        }
         else
-            processClientDocument(clientDoc);
+        {
+            // Buscamos el cliente en la sesión, sólo puede estar ahí registrado
+            // se evita toda la posibilidad de intentar
+            // acertar con el id del observador.
+
+            String clientId = itsNatRequest.getAttrOrParamExist("itsnat_client_id");
+
+            clientDoc = getClientDocumentStfulById(clientId);
+            
+            if (clientDoc == null) // Cliente no encontrado
+            {
+                processClientDocumentNotFound(clientId);
+                return;
+            }
+        }
+        
+        processClientDocument(clientDoc);
     }
 
     public String getRequestedSessionId()

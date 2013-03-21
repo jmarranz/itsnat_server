@@ -13,25 +13,39 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.impl.core.req.norm;
 
-import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerLoadDocImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
+package org.itsnat.impl.core.resp;
+
+import org.itsnat.impl.core.req.RequestEventStatelessImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class RequestNormalLoadDocDefaultImpl extends RequestNormalLoadDocImpl
+public class ResponseEventStatelessImpl_ELIMINAR extends ResponseImpl
 {
-    public RequestNormalLoadDocDefaultImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
+    public ResponseEventStatelessImpl_ELIMINAR(RequestEventStatelessImpl request)
     {
-        super(docTemplate,itsNatRequest,stateless);
+        super(request);
     }
 
-    public RequestAttachedServerLoadDocImpl getParentRequestAttachedServerLoadDoc()
+    public RequestEventStatelessImpl getRequestEventStateless()
     {
-        return null;
+        return (RequestEventStatelessImpl)request;
     }
+
+    /*
+    public ItsNatStfulDocumentImpl getItsNatStfulDocument()
+    {
+        return getRequestAlreadyLoadedDoc().getItsNatStfulDocument();
+    }
+    * */
+
+    @Override
+    protected void processResponse() 
+    {
+
+    }
+    
+    
 }

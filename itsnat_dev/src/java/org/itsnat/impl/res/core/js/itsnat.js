@@ -471,8 +471,7 @@ function EventMgr(itsNatDoc)
     this.processEvents = processEvents;
     this.sendEvent = sendEvent;
     this.sendEventEffective = sendEventEffective;
-    if (itsNatDoc.browser.isMSIEOld()) this.getEventUtil = itsnat.getMSIEOldEventUtil;
-    else this.getEventUtil = itsnat.getW3CEventUtil;
+    this.getEventUtil = itsNatDoc.browser.isMSIEOld() ? itsnat.getMSIEOldEventUtil : itsnat.getW3CEventUtil;
 
     this.itsNatDoc = itsNatDoc;
     this.queue = new List();
@@ -574,30 +573,10 @@ function EventMgr(itsNatDoc)
 
 function EventGeneric(listener)
 {
-    this.getListenerWrapper = getListenerWrapper; // Es público en el caso de Opera (se llama desde Java)    
+    this.getExtraParam = getExtraParam;
+    this.setExtraParam = setExtraParam;    
+    this.getListenerWrapper = getListenerWrapper; // Es público en el caso de Opera (se llama desde Java)
     this.genParamURL = genParamURL;
-    
-    // attribs
-    this.listener = listener;
-    this.itsNatDoc = listener.itsNatDoc;   
-    
-    function getListenerWrapper() { return this.listener; } 
-    
-    function genParamURL()
-    {
-        var url = "";
-        url += this.itsNatDoc.genParamURL();
-        url += this.listener.genParamURL(this);
-        return url;
-    }    
-}
-
-function EventStful(listener)
-{
-    this.EventGeneric = EventGeneric;
-    this.EventGeneric(listener);
-    
-
     this.setMustBeSent = setMustBeSent;
     this.sendEvent = sendEvent;
     this.processRespBegin = processRespBegin;
@@ -609,8 +588,33 @@ function EventStful(listener)
     this.saveEvent = null; // se implementa si es necesario
 
     // attribs
+    this.extraParams = null;    
     this.ignoreHold = false;
     this.mustBeSent = true;
+    this.listener = listener;
+    this.itsNatDoc = listener.itsNatDoc;
+
+    function getExtraParam(name)
+    {
+        if (this.extraParams == null) this.extraParams = new Object();
+        return this.extraParams[name];
+    }
+
+    function setExtraParam(name,value)
+    {
+        if (this.extraParams == null) this.extraParams = new Object();
+        this.extraParams[name] = value;
+    }
+
+    function getListenerWrapper() { return this.listener; }
+
+    function genParamURL()
+    {
+        var url = "";
+        url += this.itsNatDoc.genParamURL();
+        url += this.listener.genParamURL(this);
+        return url;
+    }
 
     function setMustBeSent(value) { this.mustBeSent = value; }
     function sendEvent() { if (this.mustBeSent) this.itsNatDoc.evtMgr.sendEvent(this); }
@@ -658,32 +662,21 @@ function EventStful(listener)
     }
 }
 
+function EventStful(listener)
+{
+    this.EventGeneric = EventGeneric;
+    this.EventGeneric(listener);
+}
+
 function NormalEvent(listener)
 {
     this.EventStful = EventStful;
     this.EventStful(listener);
 
-    this.getExtraParam = getExtraParam;
-    this.setExtraParam = setExtraParam;
     this.getCurrentTarget = getCurrentTarget;
     this.getUtil = getUtil;
 
-    // attribs
-    this.extraParams = null;
-
     function getCurrentTarget() { return this.listener.getCurrentTarget(); }
-
-    function getExtraParam(name)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        return this.extraParams[name];
-    }
-
-    function setExtraParam(name,value)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        this.extraParams[name] = value;
-    }
 
     function getUtil() { return itsnat.TransportUtil; }
 }
@@ -738,30 +731,6 @@ function UserEvent(evt,listener)
     if ((evt != null) && (evt.extraParams != null)) // evt es un UserEventPublic
         for(var name in evt.extraParams)
             this.setExtraParam(name,evt.extraParams[name]);
-}
-
-function UserEventPublic(name)
-{
-    this.getExtraParam = getExtraParam;
-    this.setExtraParam = setExtraParam;
-    this.getName = getName;
-
-    this.extraParams = null;
-    this.name = name;
-
-    function getExtraParam(name)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        return this.extraParams[name];
-    }
-
-    function setExtraParam(name,value)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        this.extraParams[name] = value;
-    }
-
-    function getName() { return this.name; }
 }
 
 function AttachEvent(commMode,timeout,itsNatDoc)
@@ -828,6 +797,57 @@ function AttachCometTaskRefreshEvent(listenerId,commMode,timeout,itsNatDoc)
     }
 }
 
+function EventPublic()
+{
+    this.getExtraParam = getExtraParam;
+    this.setExtraParam = setExtraParam;
+
+    this.extraParams = null;
+    this.name = name;
+
+    function getExtraParam(name)
+    {
+        if (this.extraParams == null) this.extraParams = new Object();
+        return this.extraParams[name];
+    }
+
+    function setExtraParam(name,value)
+    {
+        if (this.extraParams == null) this.extraParams = new Object();
+        this.extraParams[name] = value;
+    }
+}
+
+function UserEventPublic(name)
+{
+    this.EventPublic = EventPublic;
+    this.EventPublic();
+    
+    this.getName = getName;
+
+    this.name = name;
+
+    function getName() { return this.name; }
+}
+
+function EventStatelessPublic()
+{
+    this.EventPublic = EventPublic;
+    this.EventPublic();
+}
+
+function UserEventStateless(evt,itsNatDoc,commMode,timeout)
+{
+    this.EventGeneric = EventGeneric;
+    this.EventGeneric(new EventStatelessListener(itsNatDoc,commMode,timeout));
+
+    if ((evt != null) && (evt.extraParams != null)) // evt es un EventStatelessPublic    
+        for(var name in evt.extraParams)
+            this.setExtraParam(name,evt.extraParams[name]);
+    
+    this.getCurrentTarget = function() { return this.itsNatDoc.doc; } // por poner algo    
+}
+
 function MouseEventUtil()
 {
     this.genMouseEventURL = genMouseEventURL;
@@ -856,25 +876,37 @@ function MouseEventUtil()
     }
 }
 
-function EventGenericListener(itsNatDoc,commMode,timeout)
+function EventGenericListener(action,itsNatDoc,commMode,timeout)
 {
-    this.genParamURL = null; // Derivar
+    this.genParamURL = genParamURL; // Derivar
     this.getCommMode = getCommMode;
     this.getTimeout = getTimeout;
 
+    this.action = action;
     this.itsNatDoc = itsNatDoc;
     this.commMode = commMode;
     this.timeout = timeout;
 
     function getCommMode() { return this.commMode; }
     function getTimeout() { return this.timeout; }
+    
+    function genParamURL(evt)
+    {    
+        var url = "&itsnat_action=" + this.action;        
+        var params = evt.extraParams;
+        if (params != null)
+            for(var name in params)
+                url += "&" + name + "=" + encodeURIComponent(params[name]);    
+        return url;
+    }
 }
 
 function EventStfulListener(itsNatDoc,eventType,commMode,timeout)
 {
     this.EventGenericListener = EventGenericListener;
-    this.EventGenericListener(itsNatDoc,commMode,timeout);
+    this.EventGenericListener("event",itsNatDoc,commMode,timeout);
 
+    this.EventGenericListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
     this.getEventType = getEventType;
 
@@ -884,7 +916,9 @@ function EventStfulListener(itsNatDoc,eventType,commMode,timeout)
 
     function genParamURL(evt)
     {
-        return "&itsnat_action=event&itsnat_eventType=" + this.getEventType();
+        var url = this.EventGenericListener_genParamURL(evt);        
+        url += "&itsnat_eventType=" + this.getEventType();
+        return url;
     }
 }
 
@@ -916,10 +950,6 @@ function NormalEventListener(itsNatDoc,eventType,currentTarget,listener,id,commM
     {
         var url = this.EventStfulListener_genParamURL(evt);
         url += "&itsnat_listener_id=" + this.getId();
-        var params = evt.extraParams;
-        if (params != null)
-            for(var name in params)
-                url += "&" + name + "=" + encodeURIComponent(params[name]);
         return url;
     }
 
@@ -1033,6 +1063,12 @@ function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
     function createEventWrapper(evt) { return new DOMEvent(this); }
 }
 
+function EventStatelessListener(itsNatDoc,commMode,timeout)
+{
+    this.EventGenericListener = EventGenericListener;
+    this.EventGenericListener("event_stateless",itsNatDoc,commMode,timeout);
+}
+
 function Document()
 {
     this.init = init;
@@ -1076,7 +1112,8 @@ function Document()
     this.dispatchUserEvent = dispatchUserEvent;
     this.dispatchUserEvent2 = dispatchUserEvent2;
     this.fireUserEvent = fireUserEvent;
-    this.dispatchUserEventStateless = dispatchUserEventStateless;
+    this.createEventStateless = createEventStateless;
+    this.dispatchEventStateless = dispatchEventStateless;
     this.sendAttachTimerRefresh = sendAttachTimerRefresh;
     this.stopAttachTimerRefresh = stopAttachTimerRefresh;
     this.sendAttachCometTaskRefresh = sendAttachCometTaskRefresh;
@@ -1524,6 +1561,7 @@ function Document()
     }
 
     function createUserEvent(name) { return new UserEventPublic(name); }
+    function createEventStateless(name) { return new EventStatelessPublic(name); }
 
     function dispatchUserEvent(currTarget,evt)
     {
@@ -1552,10 +1590,10 @@ function Document()
         this.dispatchUserEvent(currTarget,evt);
     }
 
-    function dispatchUserEventStateless(evt)
+    function dispatchEventStateless(evt,commMode,timeout)
     {
-
-        // HACER
+        var evt = new UserEventStateless(evt,this,commMode,timeout);
+        evt.sendEvent();
     }
 
     function sendAttachTimerRefresh(callback,interval,commMode,timeout)

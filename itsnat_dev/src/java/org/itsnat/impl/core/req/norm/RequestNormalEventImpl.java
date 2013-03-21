@@ -57,7 +57,7 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
             case TIMER_EVENT:
             case CONTINUE_EVENT:
             case USER_EVENT:
-                return new RequestDOMEventDefaultImpl(evtType,itsNatRequest);
+                return new RequestDOMStdEventImpl(evtType,itsNatRequest);
 
             case ASYNC_RET_EVENT:
             case COMET_RET_EVENT:

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"  xmlns:itsnat="http://itsnat.org/itsnat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <title>TESTS: CORE STATELESS</title>
+
+    <style type="text/css">
+        .classExample
+        {
+          color: red;
+        }
+    </style>
+    <script type="text/javascript">
+        function EventMonitor()
+        {
+            this.before = before;
+            this.after = after;
+
+            this.count = 0;
+
+            function before(evt)
+            {
+                if (this.count == 0)
+                {
+                    document.getElementById("monitorId").style.display = "";
+                    if (document.body) // En XHTML y Safari document no es HTMLDocument
+                    {
+                        var style = document.body.style;
+                        if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
+                            style.cursor = "wait";
+                    }
+                }
+
+                this.count++;
+            }
+
+            function after(evt,timeout)
+            {
+                this.count--;
+
+                if (this.count == 0)
+                {
+                    document.getElementById("monitorId").style.display = "none";
+                    if (document.body) // En XHTML y Safari document no es HTMLDocument
+                    {
+                        var style = document.body.style;
+                        if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
+                            style.cursor = "";
+                    }
+                }
+
+                if (timeout) alert("AJAX Event Timeout!");
+            }
+        }
+
+        function init()
+        {
+            if (typeof document.getItsNatDoc == "undefined") return;
+            var itsNatDoc = document.getItsNatDoc();
+            var monitor = new EventMonitor();
+            var len = itsNatDoc.evtMonitors.size();
+            itsNatDoc.addEventMonitor(monitor);
+            itsNatDoc.removeEventMonitor(monitor);
+            if (itsNatDoc.evtMonitors.size() != len) alert("ERROR add/removeEventMonitor");
+
+            itsNatDoc.addEventMonitor(monitor);
+        }
+    </script>
+
+</head>
+<body onload="init();"  itsnat:nocache="true" >
+
+
+    <h2>TESTS: CORE STATELESS</h2>
+    
+    Monitor: <img style="display:none;" id="monitorId" src="img/connect_active.gif" width="20px" />
+    <br />    
+    
+    <br /><br />
+    <script>
+    function sendEventStateless()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('title',document.title);
+        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless');        
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 2000);
+        alert("Enviado");
+    }
+    </script>
+    <a href="javascript:sendEventStateless()">Test Stateless Event</a>    
+
+    <br /><br />
+    <br />
+    <a href="index.html">Return</a>
+    <br /><br />
+
+</body>
+</html>
