@@ -32,7 +32,8 @@ import test.comp.TestComponentsDocLoadListener;
 import test.comp.TestCreateItsNatComponentListener;
 import test.core.TestCoreAttachServerLauncherDocLoadListener;
 import test.core.TestCoreDocLoadListener;
-import test.core.TestCoreStatelessDocLoadListener;
+import test.core.TestCoreStatelessEventDocLoadListener;
+import test.core.TestCoreStatelessInitialDocLoadListener;
 import test.coreiframe.TestCoreIFrameDocLoadListener;
 import test.noajax.TestNoAJAXDocLoadListener;
 import test.noscript.TestNoScriptDocLoadListener;
@@ -51,6 +52,7 @@ import test.remotectrl.TestRemoteCtrlLauncherDocLoadListener;
 import test.remtmpl.GoogleSearchResultSource;
 import test.remtmpl.TestRemoteTemplateDocLoadListener;
 import test.remtmpl.TestRemoteTemplateResultDocLoadListener;
+import test.shared.TestCoreStatelessEventListener;
 import test.shared.TestSerialization;
 import test.svg.TestSVGAttachServerLauncherDocLoadListener;
 import test.svg.TestSVGDocLoadListener;
@@ -350,10 +352,15 @@ public class ItsNatServletExample extends HttpServletWrapper
 
         // Stateless
         
-        docTemplate = registerDocument("test_core_stateless","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessDocLoadListener());
+        docTemplate = registerDocument("test_core_stateless_initial","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
+        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessInitialDocLoadListener());
         docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));        
-        docTemplate.setEventsEnabled(true);
+        docTemplate.setEventsEnabled(false);
+        
+        docTemplate = registerDocument("test_core_stateless_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
+        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessEventDocLoadListener());
+        docTemplate.addEventListener(new TestCoreStatelessEventListener(docTemplate));        
+        docTemplate.setEventsEnabled(true);        
         
         // FRAGMENTS
         

@@ -16,12 +16,11 @@
 
 package org.itsnat.impl.core.req.norm;
 
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.event.client.domstd.ClientItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMEventImpl;
+import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.resp.norm.ResponseDOMStdEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
@@ -37,14 +36,14 @@ public class RequestDOMStdEventImpl extends RequestDOMEventImpl
 
     public ResponseNormalEventImpl createResponseNormalEvent(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
-        ItsNatDOMEventListenerWrapperImpl listener = clientDoc.getDOMStdEventListenerById(listenerId);
+        ItsNatDOMStdEventListenerWrapperImpl listener = clientDoc.getDOMStdEventListenerById(listenerId);
 
         // Puede ocurrir que sea nulo, por ejemplo cuando en el cliente se emiten dos eventos
         // seguidos (ej. change y blur en un <input>) y enviados asíncronamente y al procesar uno de ellos y eliminar en el servidor el listener del otro
         // el código de desregistrar no llega antes de que se envíe el segundo evento.
 
         // listener puede ser null pero puede haber código pendiente a enviar
-        return new ResponseDOMEventImpl(this,listener);
+        return new ResponseDOMStdEventImpl(this,listener);
     }
 
     public boolean isLoadEvent()

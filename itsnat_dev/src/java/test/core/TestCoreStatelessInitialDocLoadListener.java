@@ -18,18 +18,18 @@ import org.itsnat.core.html.ItsNatHTMLDocument;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessDocLoadListener implements ItsNatServletRequestListener
+public class TestCoreStatelessInitialDocLoadListener implements ItsNatServletRequestListener
 {
     /**
      * Creates a new instance of TestCoreDocLoadListener
      */
-    public TestCoreStatelessDocLoadListener()
+    public TestCoreStatelessInitialDocLoadListener()
     {
     }
    
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestCoreStatelessDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
+        new TestCoreStatelessInitialDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
     }
 
 }

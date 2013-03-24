@@ -16,29 +16,18 @@
 
 package org.itsnat.impl.core.resp.norm;
 
-import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.req.norm.RequestDOMEventImpl;
+import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.req.norm.RequestGenericTaskEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseDOMEventImpl extends ResponseNormalEventImpl
+public class ResponseGenericTaskEventImpl extends ResponseDOMEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
-    public ResponseDOMEventImpl(RequestDOMEventImpl request,ItsNatDOMEventListenerWrapperImpl listener)
+    public ResponseGenericTaskEventImpl(RequestGenericTaskEventImpl request,ItsNatGenericTaskEventListenerWrapperImpl listener)
     {
         super(request,listener);
-
-        if ((listener != null) &&
-             !getClientDocumentStful().canReceiveNormalEvents(listener.getEventListener()))
-        {
-            // Chequeo de seguridad para evitar que clientes de control remoto
-            // envíen eventos cuando no están autorizados (son read only por ejemplo). En teoría no se envió
-            // código JavaScript para ello (registro de listener) pero un malicioso usuario
-            // podría intentarlo enviando requests AJAX "a pelo".
-            throw new ItsNatException("Security violation attempt");
-        }
     }
 }

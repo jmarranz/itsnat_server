@@ -115,7 +115,8 @@ public abstract class ResponseImpl
     {
         try
         {
-            writer.write(text);
+            if (writer != null) 
+                writer.write(text);
         }
         catch(IOException ex)
         {
@@ -131,7 +132,7 @@ public abstract class ResponseImpl
         {
             this.writer = initWriter();
             processResponse();
-            writer.close();
+            if (writer != null) writer.close();
             this.writer = null;
         }
         catch(IOException ex)
@@ -183,7 +184,7 @@ public abstract class ResponseImpl
             return getItsNatServletResponse().getItsNatServletImpl().getItsNatServletConfigImpl().getDefaultEncoding();        
     }
 
-    private Writer initWriter() throws IOException
+    protected Writer initWriter() throws IOException
     {
         boolean useGZip = false;
 

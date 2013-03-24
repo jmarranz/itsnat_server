@@ -15,6 +15,8 @@
 */
 package org.itsnat.impl.core.resp.norm;
 
+import java.io.IOException;
+import java.io.Writer;
 import org.itsnat.impl.core.req.norm.RequestNormal;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocBaseImpl;
 import org.itsnat.impl.core.resp.ResponseLoadDocImpl;
@@ -40,4 +42,11 @@ public abstract class ResponseNormalLoadDocBaseImpl extends ResponseLoadDocImpl 
         return (RequestNormal)request;
     }
 
+    @Override
+    protected Writer initWriter() throws IOException 
+    {
+        if (getRequestNormalLoadDocBase().isStateless())
+            return null;
+        return super.initWriter(); 
+    }    
 }

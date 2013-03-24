@@ -66,6 +66,11 @@ public abstract class RequestNormalLoadDocBaseImpl extends RequestLoadDocImpl
         }
     }
 
+    public boolean isStateless()
+    {
+        return stateless;
+    }
+    
     public ItsNatStfulDocumentImpl getItsNatStfulDocumentReferrer()
     {
         return itsNatDocReferrer;

@@ -23,7 +23,7 @@ import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperI
 import org.itsnat.impl.core.listener.GenericTaskImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatNormalCometEventListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMEventImpl;
+import org.itsnat.impl.core.resp.norm.ResponseGenericTaskEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
@@ -82,7 +82,7 @@ public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
 
             ItsNatGenericTaskEventListenerWrapperImpl listener = this.taskPendingToFinish;
             this.taskPendingToFinish = null;
-            return new ResponseDOMEventImpl(this,listener);
+            return new ResponseGenericTaskEventImpl(this,listener);
         }
         else
         {

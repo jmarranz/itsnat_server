@@ -18,14 +18,14 @@ import org.itsnat.core.html.ItsNatHTMLDocument;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessDocument implements Serializable
+public class TestCoreStatelessInitialDocument implements Serializable
 {
     protected ItsNatHTMLDocument itsNatDoc;
 
     /**
      * Creates a new instance of TestCoreLoadListener
      */
-    public TestCoreStatelessDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
+    public TestCoreStatelessInitialDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         this.itsNatDoc = itsNatDoc;
 

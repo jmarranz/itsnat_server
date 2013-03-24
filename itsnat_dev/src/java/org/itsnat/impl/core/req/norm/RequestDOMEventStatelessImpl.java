@@ -16,11 +16,12 @@
 
 package org.itsnat.impl.core.req.norm;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatEventStatelessListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMEventImpl;
+import org.itsnat.impl.core.resp.norm.ResponseDOMEventStatelessImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
@@ -44,11 +45,14 @@ public class RequestDOMEventStatelessImpl extends RequestDOMExtEventImpl
     {
         // Nos interesa procesar la request con los listeners globales definidos en documento, en clientDoc etc, pero para ello necesitamos un listener falso (no definido por el usuario)
         // sino no se procesan estos listener globales pues el comportamiento normal es ignorar las "requests perdidas" desde el punto de vista de los listeners
+     
+        if (listenerId != null) throw new ItsNatException("INTERNAL ERROR");  // que quede claro que no sirve para nada en este contexto
+
         int commMode = Integer.parseInt(getItsNatServletRequest().getAttrOrParamExist("itsnat_commMode"));
         long eventTimeout = Integer.parseInt(getItsNatServletRequest().getAttrOrParamExist("itsnat_eventTimeout"));  
-        ItsNatDOMExtEventListenerWrapperImpl listener = new ItsNatEventStatelessListenerWrapperImpl(clientDoc.getItsNatStfulDocument(),clientDoc,commMode,eventTimeout); 
+        ItsNatEventStatelessListenerWrapperImpl listener = new ItsNatEventStatelessListenerWrapperImpl(clientDoc.getItsNatStfulDocument(),clientDoc,commMode,eventTimeout); 
 
         // listener puede ser null pero puede haber código pendiente a enviar
-        return new ResponseDOMEventImpl(this,listener);
+        return new ResponseDOMEventStatelessImpl(this,listener);
     }
 }

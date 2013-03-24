@@ -20,7 +20,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMEventImpl;
+import org.itsnat.impl.core.resp.norm.ResponseDOMExtEventOtherImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
@@ -55,7 +55,7 @@ public class RequestDOMExtEventOtherImpl extends RequestDOMExtEventImpl
         else throw new ItsNatException("Malformed URL/request",clientDoc);
 
         // listener puede ser null pero puede haber código pendiente a enviar
-        return new ResponseDOMEventImpl(this,listener);
+        return new ResponseDOMExtEventOtherImpl(this,listener);
     }
 
 }

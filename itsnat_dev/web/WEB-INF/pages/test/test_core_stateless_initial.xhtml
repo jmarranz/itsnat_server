@@ -78,7 +78,7 @@
 <body onload="init();"  itsnat:nocache="true" >
 
 
-    <h2>TESTS: CORE STATELESS</h2>
+    <h2>TESTS: CORE STATELESS INITIAL</h2>
     
     Monitor: <img style="display:none;" id="monitorId" src="img/connect_active.gif" width="20px" />
     <br />    
@@ -89,7 +89,7 @@
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title);
-        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless');        
+        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event');        
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 5000);
         alert("Enviado");
     }
