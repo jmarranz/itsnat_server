@@ -4,9 +4,21 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/web-project/3">
             <name>itsnat</name>
-            <minimum-ant-version>1.6</minimum-ant-version>
+            <minimum-ant-version>1.6.5</minimum-ant-version>
             <explicit-platform explicit-source-supported="true"/>
             <web-module-libraries>
+                <library dirs="200">
+                    <file>${file.reference.batik-dom.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.batik-util.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.batik-xml.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
                 <library dirs="200">
                     <file>${file.reference.nekohtml.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
@@ -23,24 +35,12 @@
                     <file>${file.reference.xml-apis.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library dirs="200">
-                    <file>${file.reference.batik-dom.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.batik-util.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.batik-xml.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
+                <root id="src.fw_src.dir"/>
                 <root id="src.src.dir"/>
                 <root id="src.dir"/>
-                <root id="src.fw_src.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
