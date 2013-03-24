@@ -18,6 +18,7 @@ package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
+import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerPrepareImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateAttachedServerImpl;
@@ -50,7 +51,7 @@ public class ResponseAttachedServerPrepareFormImpl extends ResponseAttachedServe
         code.append("itsnat.init = function(markupOrig)\n");
         code.append("{ \n");
 
-        code.append("  var url = \"" + url + "?itsnat_action=attach_server&itsnat_subaction=load_markup&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n"); // El timestamp es simplemente para evitar cacheos
+        code.append("  var url = \"" + url + "?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_SERVER + "&itsnat_subaction=load_markup&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n"); // El timestamp es simplemente para evitar cacheos
 
         if (template.isMIME_HTML())
         {
@@ -115,7 +116,7 @@ public class ResponseAttachedServerPrepareFormImpl extends ResponseAttachedServe
 
         code.append("itsnat.endSendMarkup = function()\n");
         code.append("{ \n");
-        code.append("  var url = \"" + url + "?itsnat_action=attach_server&itsnat_subaction=load_doc&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n"); // El timestamp es simplemente para evitar cacheos
+        code.append("  var url = \"" + url + "?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_SERVER + "&itsnat_subaction=load_doc&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n"); // El timestamp es simplemente para evitar cacheos
         code.append("  var id = \"itsnat_script_loader\";\n");
 
         if (template.isMIME_HTML() && !useOnLoad)  // Tras el onload el documento está cargado y document.write() ya no vale

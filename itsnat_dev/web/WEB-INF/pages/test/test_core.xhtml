@@ -311,20 +311,6 @@ this INITIAL text</textarea>
 
     
     <br /><br />
-    <script>
-    function sendEventStateless()
-    {
-        var userEvt = document.getItsNatDoc().createEventStateless();
-        userEvt.setExtraParam('title',document.title);
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 2000);
-        alert("BIEN");
-    }
-    </script>
-    <a href="javascript:sendEventStateless()" id="userTestId">User Listener Test Stateless</a>    
-    
-   
-    
-    <br /><br />
     <button id="syncNoBlockTestId">Sync Non Blocking Test</button>
 
     <br /><br />

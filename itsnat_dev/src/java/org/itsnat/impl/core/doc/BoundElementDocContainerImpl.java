@@ -23,6 +23,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
+import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.UniqueId;
 import org.w3c.dom.Document;
@@ -351,13 +352,13 @@ public class BoundElementDocContainerImpl implements HasUniqueId,Serializable
             }
             catch(IOException ex) { throw new ItsNatException(ex); }
 
-            newURL.append("?itsnat_action=attach_client");
+            newURL.append("?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_CLIENT);
         }
         else // URL absoluta
         {
             // Necesitamos hacer un URL absoluto hasta la query (no incluida)
             urlObj = buildAbsURLUntilQuery(url,newURL);
-            newURL.append("?itsnat_action=attach_client");
+            newURL.append("?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_CLIENT);
 
             String stdSessionId = clientDocParent.getItsNatSessionImpl().getStandardSessionId();
             newURL.append("&itsnat_jsessionid_parent=" + stdSessionId);

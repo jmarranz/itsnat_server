@@ -50,11 +50,11 @@ public abstract class RequestAttachedClientEventImpl extends RequestEventStfulIm
     {
         switch(evtType)
         {
-            case ATTACH_TIMER_EVENT:
+            case EVENT_TYPE_ATTACH_TIMER:
                 return new RequestAttachedClientEventTimerImpl(itsNatRequest);
-            case ATTACH_COMET_EVENT:
+            case EVENT_TYPE_ATTACH_COMET:
                 return new RequestAttachedClientEventCometImpl(itsNatRequest);
-            case ATTACH_NOT_REFRESH_EVENT:
+            case EVENT_TYPE_ATTACH_NOT_REFRESH:
                 return new RequestAttachedClientEventNotRefreshImpl(itsNatRequest);
             default:
                 throw new ItsNatException("Malformed URL/request");

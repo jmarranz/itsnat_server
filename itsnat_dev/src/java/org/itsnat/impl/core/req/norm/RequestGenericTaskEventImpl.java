@@ -64,11 +64,11 @@ public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
     {
         if (taskPendingToFinish == null) // Primera vez que se llega aquí
         {
-            if (evtType == ASYNC_RET_EVENT)
+            if (evtType == EVENT_TYPE_ASYNC_RET)
             {
                 this.taskPendingToFinish = (ItsNatAsyncTaskEventListenerWrapperImpl)clientDoc.removeAsynchronousTask(listenerId);
             }
-            else if (evtType == COMET_RET_EVENT)
+            else if (evtType == EVENT_TYPE_COMET_RET)
             {
                 this.taskPendingToFinish = (ItsNatNormalCometEventListenerWrapperImpl)clientDoc.removeCometTask(listenerId);
             }

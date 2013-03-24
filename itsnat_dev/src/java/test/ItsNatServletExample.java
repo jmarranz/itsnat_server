@@ -70,6 +70,7 @@ import test.xul.TestXULDocLoadListener;
  */
 public class ItsNatServletExample extends HttpServletWrapper
 {
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -352,7 +353,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate = registerDocument("test_core_stateless","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
         docTemplate.addItsNatServletRequestListener(new TestCoreStatelessDocLoadListener());
         docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));        
-        docTemplate.setEventsEnabled(false);
+        docTemplate.setEventsEnabled(true);
         
         // FRAGMENTS
         

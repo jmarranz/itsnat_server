@@ -14,29 +14,18 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.req.norm;
-
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+package org.itsnat.core.event;
 
 /**
+ * This event is created by the client calling the ItsNat JavaScript method
+ * <code>createEventStateless</code> and dispatched to the server calling the JavaScript method
+ * <code>dispatchEventStateless</code>
+ * and is received by the global listeners registered in the document loaded by request.
  *
- * @author jmarranz
+ * <p>Default implementation inherits from <code>java.util.EventObject</code>.</p>
+ *
+ * @author Jose Maria Arranz Santamaria
  */
-public abstract class RequestDOMExtEventImpl extends RequestDOMEventImpl
+public interface ItsNatEventStateless extends ItsNatDOMExtEvent
 {
-    public RequestDOMExtEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
-    {
-        super(evtType,itsNatRequest);
-    }
-
-    public boolean isLoadEvent()
-    {
-        return false;
-    }
-
-    public boolean isUnloadEvent()
-    {
-        return false;
-    }    
-
 }

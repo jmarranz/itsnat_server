@@ -14,29 +14,27 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.req.norm;
+package org.itsnat.impl.core.event.client.domext;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.core.event.ItsNatEventStateless;
+import org.itsnat.impl.core.listener.domext.ItsNatEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class RequestDOMExtEventImpl extends RequestDOMEventImpl
+public class ClientItsNatEventStatelessImpl extends ClientItsNatDOMExtEventImpl implements ItsNatEventStateless
 {
-    public RequestDOMExtEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
+    /** Creates a new instance of ContinueEventImpl */
+    public ClientItsNatEventStatelessImpl(ItsNatEventStatelessListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
     {
-        super(evtType,itsNatRequest);
+        super(listenerWrapper,request);
     }
 
-    public boolean isLoadEvent()
+    public ItsNatEventStatelessListenerWrapperImpl getEventStatelessListenerWrapper()
     {
-        return false;
+        return (ItsNatEventStatelessListenerWrapperImpl)listenerWrapper;
     }
-
-    public boolean isUnloadEvent()
-    {
-        return false;
-    }    
 
 }

@@ -58,13 +58,13 @@ public class RequestEventStatelessImpl extends RequestImpl
         ServletRequest request = itsNatRequest.getServletRequest();
         ServletResponse response = itsNatResponse.getServletResponse();        
         
-        request.setAttribute("itsnat_action","event_stateless_phase_load");
+        request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD);
         ItsNatServletRequestImpl itsNatRequestLoadPhase = itsNatServlet.processRequestInternal(request,response,null);
         ClientDocumentImpl clientDoc = itsNatRequestLoadPhase.getClientDocumentImpl();
         if (clientDoc != null) 
         {
-            request.setAttribute("itsnat_action","event");
-            request.setAttribute("itsnat_eventType","stateless_false_event");            
+            request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT);
+            request.setAttribute("itsnat_eventType","stateless");            
             
             ItsNatServletRequestImpl itsNatRequestEventPhase = itsNatServlet.processRequestInternal(request,response,clientDoc);            
         }

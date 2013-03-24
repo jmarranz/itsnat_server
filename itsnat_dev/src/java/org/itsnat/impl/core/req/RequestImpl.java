@@ -35,6 +35,15 @@ import org.itsnat.impl.core.resp.ResponseImpl;
  */
 public abstract class RequestImpl
 {
+    public static final String ITSNAT_ACTION_EVENT = "event";
+    public static final String ITSNAT_ACTION_LOAD_SCRIPT = "load_script";    
+    public static final String ITSNAT_ACTION_IFRAME_FILE_UPLOAD = "iframe_file_upload";    
+    public static final String ITSNAT_ACTION_ATTACH_CLIENT = "attach_client";     
+    public static final String ITSNAT_ACTION_ATTACH_SERVER = "attach_server";      
+    public static final String ITSNAT_ACTION_ITSNAT_INFO = "itsnat_info";      
+    public static final String ITSNAT_ACTION_EVENT_STATELESS = "event_stateless";       
+    public static final String ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD = "event_stateless_phase_load";     
+    
     protected ItsNatServletRequestImpl itsNatRequest;
     protected ResponseImpl response;
     protected ClientDocumentImpl clientDoc; // Puede ser nulo
@@ -49,21 +58,21 @@ public abstract class RequestImpl
     {
         if (action != null)
         {
-            if (action.equals("event"))
+            if (action.equals(ITSNAT_ACTION_EVENT))
                 return RequestEventStfulImpl.createRequestEventStful(itsNatRequest);
-            else if (action.equals("load_script"))
+            else if (action.equals(ITSNAT_ACTION_LOAD_SCRIPT))
                 return RequestLoadScriptImpl.createRequestLoadScript(itsNatRequest);
-            else if (action.equals("iframe_file_upload"))
+            else if (action.equals(ITSNAT_ACTION_IFRAME_FILE_UPLOAD))
                 return RequestIFrameFileUploadImpl.createRequestIFrameFileUpload(itsNatRequest);
-            else if (action.equals("attach_client"))
+            else if (action.equals(ITSNAT_ACTION_ATTACH_CLIENT))
                 return RequestAttachedClientLoadDocImpl.createRequestAttachedClientLoadDoc(itsNatRequest);
-            else if (action.equals("attach_server"))
+            else if (action.equals(ITSNAT_ACTION_ATTACH_SERVER))
                 return RequestAttachedServerImpl.createRequestAttachedServer(itsNatRequest);
-            else if (action.equals("itsnat_info"))
+            else if (action.equals(ITSNAT_ACTION_ITSNAT_INFO))
                 return RequestItsNatInfoImpl.createRequestItsNatInfo(itsNatRequest);
-            else if (action.equals("event_stateless"))
+            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS))
                 return RequestEventStatelessImpl.createRequestEventStateless(itsNatRequest);            
-            else if (action.equals("event_stateless_phase_load"))
+            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD))
             {
                 String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
                 if (docName != null)

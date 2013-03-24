@@ -891,12 +891,12 @@ function EventGenericListener(action,itsNatDoc,commMode,timeout)
     function getTimeout() { return this.timeout; }
     
     function genParamURL(evt)
-    {    
+    {           
         var url = "&itsnat_action=" + this.action;        
         var params = evt.extraParams;
         if (params != null)
             for(var name in params)
-                url += "&" + name + "=" + encodeURIComponent(params[name]);    
+                url += "&" + name + "=" + encodeURIComponent(params[name]);             
         return url;
     }
 }
@@ -1067,6 +1067,17 @@ function EventStatelessListener(itsNatDoc,commMode,timeout)
 {
     this.EventGenericListener = EventGenericListener;
     this.EventGenericListener("event_stateless",itsNatDoc,commMode,timeout);
+        
+    this.EventGenericListener_genParamURL = this.genParamURL;
+    this.genParamURL = genParamURL;
+    
+    function genParamURL(evt)
+    {      
+        var url = this.EventGenericListener_genParamURL(evt);        
+        url += "&itsnat_commMode=" + this.commMode;
+        url += "&itsnat_eventTimeout=" + this.timeout;             
+        return url;
+    }     
 }
 
 function Document()
@@ -1561,7 +1572,7 @@ function Document()
     }
 
     function createUserEvent(name) { return new UserEventPublic(name); }
-    function createEventStateless(name) { return new EventStatelessPublic(name); }
+    function createEventStateless() { return new EventStatelessPublic(); }
 
     function dispatchUserEvent(currTarget,evt)
     {

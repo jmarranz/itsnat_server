@@ -27,16 +27,16 @@ import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
  */
 public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
 {
-    public static final int DOMSTD_EVENT = 1;
-    public static final int TIMER_EVENT = 2;
-    public static final int ASYNC_RET_EVENT = 3;
-    public static final int COMET_RET_EVENT = 4;
-    public static final int CONTINUE_EVENT = 5;
-    public static final int USER_EVENT = 6;
-    public static final int ATTACH_TIMER_EVENT = 7;
-    public static final int ATTACH_COMET_EVENT = 8;
-    public static final int ATTACH_NOT_REFRESH_EVENT = 9;
-    public static final int STATELESS_FALSE_EVENT = 10;
+    public static final int EVENT_TYPE_DOMSTD = 1;
+    public static final int EVENT_TYPE_TIMER = 2;
+    public static final int EVENT_TYPE_ASYNC_RET = 3;
+    public static final int EVENT_TYPE_COMET_RET = 4;
+    public static final int EVENT_TYPE_CONTINUE = 5;
+    public static final int EVENT_TYPE_USER = 6;
+    public static final int EVENT_TYPE_ATTACH_TIMER = 7;
+    public static final int EVENT_TYPE_ATTACH_COMET = 8;
+    public static final int EVENT_TYPE_ATTACH_NOT_REFRESH = 9;
+    public static final int EVENT_TYPE_STATELESS = 10;
     
     public RequestEventStfulImpl(ItsNatServletRequestImpl itsNatRequest)
     {
@@ -49,22 +49,20 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
         int evtType = getEventTypeCode(eventTypeStr);
         switch(evtType)
         {
-            case DOMSTD_EVENT:
-            case TIMER_EVENT:
-            case CONTINUE_EVENT:
-            case USER_EVENT:
-            case ASYNC_RET_EVENT:
-            case COMET_RET_EVENT:
+            case EVENT_TYPE_DOMSTD:
+            case EVENT_TYPE_TIMER:
+            case EVENT_TYPE_CONTINUE:
+            case EVENT_TYPE_USER:
+            case EVENT_TYPE_ASYNC_RET:
+            case EVENT_TYPE_COMET_RET:
+            case EVENT_TYPE_STATELESS:                
                 return RequestNormalEventImpl.createRequestNormalEvent(evtType,itsNatRequest);
 
-            case ATTACH_TIMER_EVENT:
-            case ATTACH_COMET_EVENT:
-            case ATTACH_NOT_REFRESH_EVENT:
+            case EVENT_TYPE_ATTACH_TIMER:
+            case EVENT_TYPE_ATTACH_COMET:
+            case EVENT_TYPE_ATTACH_NOT_REFRESH:
                 return RequestAttachedClientEventImpl.createRequestAttachedClientEvent(evtType,itsNatRequest);
 
-            case STATELESS_FALSE_EVENT:
-                return RequestNormalEventImpl.createRequestNormalEvent(evtType,itsNatRequest);                
-                
             default:
                 throw new ItsNatException("Malformed URL/request, bad itsnat_eventType: " + evtType);
         }
@@ -73,25 +71,25 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
     public static int getEventTypeCode(String value)
     {
         if ("domstd".equals(value))
-            return DOMSTD_EVENT;
+            return EVENT_TYPE_DOMSTD;
         else if ("timer".equals(value))
-            return TIMER_EVENT;
+            return EVENT_TYPE_TIMER;
         else if ("asyncret".equals(value))
-            return ASYNC_RET_EVENT;
+            return EVENT_TYPE_ASYNC_RET;
         else if ("cometret".equals(value))
-            return COMET_RET_EVENT;
+            return EVENT_TYPE_COMET_RET;
         else if ("continue".equals(value))
-            return CONTINUE_EVENT;
+            return EVENT_TYPE_CONTINUE;
         else if ("user".equals(value))
-            return USER_EVENT;
+            return EVENT_TYPE_USER;
         else if ("attach_timer".equals(value))
-            return ATTACH_TIMER_EVENT;
+            return EVENT_TYPE_ATTACH_TIMER;
         else if ("attach_comet".equals(value))
-            return ATTACH_COMET_EVENT;
+            return EVENT_TYPE_ATTACH_COMET;
         else if ("attach_none".equals(value))
-            return ATTACH_NOT_REFRESH_EVENT;
-        else if ("stateless_false_event".equals(value))
-            return STATELESS_FALSE_EVENT;        
+            return EVENT_TYPE_ATTACH_NOT_REFRESH;
+        else if ("stateless".equals(value))
+            return EVENT_TYPE_STATELESS;        
         else
             throw new ItsNatException("Unknown itsnat_eventType value:\"" + value + "\"");
     }
