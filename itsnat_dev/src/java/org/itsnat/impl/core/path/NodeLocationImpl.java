@@ -81,15 +81,9 @@ public abstract class NodeLocationImpl
         return ((str == null) || str.equals("null"));
     }
 
-    public boolean isAlreadyCached()
+    protected boolean isAlreadyCached()
     {
         return !isNull(id) && isNull(path);
-    }
-
-    public boolean isJustCached()
-    {
-        // Se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
-        return !isNull(id) && !isNull(path);
     }
 
     public boolean isCached()
@@ -124,6 +118,6 @@ public abstract class NodeLocationImpl
         return toJSArray(true);
     }
 */
-    public abstract String toJSArray(boolean errIfNull);
+    public abstract String toJSNodeLocation(boolean errIfNull);
 
 }

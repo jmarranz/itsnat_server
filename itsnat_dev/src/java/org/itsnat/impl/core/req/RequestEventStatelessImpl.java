@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseEventStatelessImpl_ELIMINAR;
@@ -60,9 +61,11 @@ public class RequestEventStatelessImpl extends RequestImpl
         
         request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD);
         ItsNatServletRequestImpl itsNatRequestLoadPhase = itsNatServlet.processRequestInternal(request,response,null);
-        ClientDocumentImpl clientDoc = itsNatRequestLoadPhase.getClientDocumentImpl();
+        ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatRequestLoadPhase.getClientDocumentImpl();
         if (clientDoc != null) 
         {
+            clientDoc.getNodeCacheRegistry().clearCache();
+            
             request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT);
             request.setAttribute("itsnat_eventType","stateless");            
             

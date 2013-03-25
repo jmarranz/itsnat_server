@@ -88,7 +88,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String addNodeToCache(NodeLocationImpl nodeLoc)
     {
-        return "itsNatDoc.addNodeCache(" + nodeLoc.toJSArray(true) + ");\n";
+        return "itsNatDoc.addNodeCache(" + nodeLoc.toJSNodeLocation(true) + ");\n";
     }
 
     public static String removeNodeFromCache(String id)
@@ -136,7 +136,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
     {
-        String nodeRef = nodeLoc.toJSArray(errIfNull);
+        String nodeRef = nodeLoc.toJSNodeLocation(errIfNull);
         if (nodeRef.equals("null")) return "null";
         return "itsNatDoc.getNode(" + nodeRef + ")";
     }

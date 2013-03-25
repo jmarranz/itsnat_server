@@ -34,12 +34,12 @@ public class NodeLocationNotParentImpl extends NodeLocationImpl
         if (node == null) throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public String toJSArray(boolean errIfNull)
+    public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
 
         if (isAlreadyCached())
-            return getIdJS();
+            return "[" + getIdJS() + "]";
         else
             return "[" + getIdJS() + "," + getPathJS() + "]";
     }
@@ -51,7 +51,7 @@ public class NodeLocationNotParentImpl extends NodeLocationImpl
         String nodePathRel = null;
         boolean needNodePath = false;
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache != null)
         {
             idNode = nodeCache.getId(node);
@@ -86,7 +86,7 @@ public class NodeLocationNotParentImpl extends NodeLocationImpl
         String refChildPathRel = null;
         boolean needRefNodePath = false;
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache != null)
         {
             idRefChild = nodeCache.getId(nextSibling);

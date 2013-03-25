@@ -82,7 +82,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwner();
         clientDoc.removeNodeFromCacheAndSendCode(body);
         // Nos aseguramos
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache.getId(body) != null) throw new RuntimeException("Unexpected Error");
 
         String refBody = itsNatDoc.getScriptUtil().getNodeReference(body);
@@ -141,7 +141,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
 
         ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwner();
         // Es necesario acceder a las tripas de ItsNat para asegurarnos que está cacheado
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache.getId(validChildElem1) == null)  // DEBE estar cacheado aunque esté recién insertado, en eso consiste la protección
             throw new RuntimeException("Unexpected Error");
         if (nodeCache.getId(validChildElem2) == null)  // DEBE estar cacheado aunque esté recién insertado, en eso consiste la protección

@@ -110,7 +110,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
     public String setStyleMSIECode(Element elem,String valueJS,ClientDocumentStfulImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return "itsNatDoc.setCSSStyle(" + nodeLoc.toJSArray(true) + "," + valueJS + ");\n";
+        return "itsNatDoc.setCSSStyle(" + nodeLoc.toJSNodeLocation(true) + "," + valueJS + ");\n";
     }
 
     public String setStyleMSIECode(String elemVarName,String valueJS)

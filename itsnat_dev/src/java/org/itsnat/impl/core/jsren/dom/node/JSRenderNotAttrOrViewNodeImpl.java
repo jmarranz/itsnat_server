@@ -84,7 +84,7 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
             NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
             String childRelPath = clientDoc.getRelativeStringPathFromNodeParent(removedNode);
             childRelPath = toLiteralStringJS(childRelPath);
-            return "itsNatDoc.removeChild3(" + parentLoc.toJSArray(true) + "," + childRelPath + "," + isText + ");\n";
+            return "itsNatDoc.removeChild3(" + parentLoc.toJSNodeLocation(true) + "," + childRelPath + "," + isText + ");\n";
         }
     }
 
@@ -106,18 +106,18 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         if (nextSibling != null)
         {
             NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);
-            return "itsNatDoc.insertBefore3(" + parentLoc.toJSArray(true) + "," + newNodeCode + "," + refNodeLoc.toJSArray(true) + "," + idJS + ");\n";
+            return "itsNatDoc.insertBefore3(" + parentLoc.toJSNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toJSNodeLocation(true) + "," + idJS + ");\n";
         }
         else
         {
-            return "itsNatDoc.appendChild3(" + parentLoc.toJSArray(true) + "," + newNodeCode + "," + idJS + ");\n";
+            return "itsNatDoc.appendChild3(" + parentLoc.toJSNodeLocation(true) + "," + newNodeCode + "," + idJS + ");\n";
         }
     }
 
     public String getRemoveAllChildCode(Node parentNode,ClientDocumentStfulImpl clientDoc)
     {
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
-        return "itsNatDoc.removeAllChild2(" + parentLoc.toJSArray(true) + ");\n";
+        return "itsNatDoc.removeAllChild2(" + parentLoc.toJSNodeLocation(true) + ");\n";
     }
 
     public static String toJSNodeCacheId(String id)
@@ -142,7 +142,7 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         if (!clientDoc.getItsNatStfulDocument().isNewNodeDirectChildOfContentRoot(newNode))
             return null;
         
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache == null) return null;
         return nodeCache.addNode(newNode); // Si devuelve null es que no se puede cachear el nodo o caché "bloqueada"
     }

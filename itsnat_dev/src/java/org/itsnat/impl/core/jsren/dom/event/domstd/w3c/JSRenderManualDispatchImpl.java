@@ -94,7 +94,7 @@ public class JSRenderManualDispatchImpl
         String atTargetIds = idListToString(atTargetList);
         String bubbleIds = idListToString(bubbleList);
 
-        return "itsNatDoc." + getDispatchMethodName2() + "(" + nodeLoc.toJSArray(true) + "," + evtVarName + "," + captureIds + "," + atTargetIds + "," + bubbleIds + ")";
+        return "itsNatDoc." + getDispatchMethodName2() + "(" + nodeLoc.toJSNodeLocation(true) + "," + evtVarName + "," + captureIds + "," + atTargetIds + "," + bubbleIds + ")";
     }
 
     public static String getCallDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)

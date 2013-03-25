@@ -231,21 +231,21 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return nodeCache != null;
     }
 
-    public NodeCacheRegistryImpl getNodeCache()
+    public NodeCacheRegistryImpl getNodeCacheRegistry()
     {
         return nodeCache; // puede ser null (no caché)
     }
 
     public String getCachedNodeId(Node node)
     {
-        NodeCacheRegistryImpl cacheNode = getNodeCache();
+        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
         if (cacheNode == null) return null;
         return cacheNode.getId(node);
     }
 
     public String removeNodeFromCache(Node node)
     {
-        NodeCacheRegistryImpl cacheNode = getNodeCache();
+        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
         if (cacheNode == null)
             return null;
         return cacheNode.removeNode(node);
@@ -270,7 +270,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (pathStr.equals("null"))
             return null;
 
-        NodeCacheRegistryImpl nodeCache = getNodeCache();
+        NodeCacheRegistryImpl nodeCache = getNodeCacheRegistry();
 
         // El pathStr es generado por el navegador
         if (pathStr.startsWith("id:"))

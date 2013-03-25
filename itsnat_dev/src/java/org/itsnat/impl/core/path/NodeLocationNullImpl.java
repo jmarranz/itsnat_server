@@ -29,7 +29,7 @@ public class NodeLocationNullImpl extends NodeLocationImpl
         super(null,null,null,clientDoc);
     }
 
-    public String toJSArray(boolean errIfNull)
+    public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
 

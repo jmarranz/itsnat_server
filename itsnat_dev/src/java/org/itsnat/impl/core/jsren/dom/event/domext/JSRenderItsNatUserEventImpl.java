@@ -62,7 +62,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         StringBuilder code = new StringBuilder();
         code.append( getCreateEventCode(evt,"evt",nodeLoc.getClientDocumentStful()) );
         // Hay que tener en cuenta que el nodo target puede ser nulo
-        code.append( "var " + varResName + " = itsNatDoc.dispatchUserEvent2(" + nodeLoc.toJSArray(false) + ",evt);\n" );
+        code.append( "var " + varResName + " = itsNatDoc.dispatchUserEvent2(" + nodeLoc.toJSNodeLocation(false) + ",evt);\n" );
         return code.toString();
     }
 

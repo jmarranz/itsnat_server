@@ -193,12 +193,12 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         // usados, así aceleramos el cálculo de paths para el observador.
         ItsNatStfulDocumentImpl itsNatDoc = clientAttached.getItsNatStfulDocument();
         ClientDocumentStfulOwnerImpl clientDocOwner = itsNatDoc.getClientDocumentStfulOwner();
-        NodeCacheRegistryImpl nodeCacheOwner = clientDocOwner.getNodeCache();
+        NodeCacheRegistryImpl nodeCacheOwner = clientDocOwner.getNodeCacheRegistry();
         if ((nodeCacheOwner == null) || nodeCacheOwner.isEmpty())
             return;
 
         StringBuilder code = new StringBuilder();
-        NodeCacheRegistryImpl nodeCacheObserver = clientAttached.getNodeCache(); // DEBE existir
+        NodeCacheRegistryImpl nodeCacheObserver = clientAttached.getNodeCacheRegistry(); // DEBE existir
         if (!nodeCacheObserver.isEmpty()) throw new ItsNatException("INTERNAL ERROR"); // Debe estar "virgen" no sea que hayamos ya antes cacheado nodos en el observador y estaríamos cacheando dos veces aunque sea con el mismo id lo cual no está permitido, provocamos error antes.
         ArrayList<LinkedList<Map.Entry<Node,String>>> cacheCopy = nodeCacheOwner.getOrderedByHeight();
         boolean cacheParentIfPossible = false;  // De esta manera evitamos un cacheado indirecto, el objetivo de este código es copiar una caché a otra, exactamente los mismos nodos

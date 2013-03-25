@@ -42,7 +42,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         this.cachedParent = cachedParent;
         this.cachedParentId = cachedParentId;
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if ((nodeCache != null) && cacheIfPossible) // Aunque esté cacheado el nodo principal aprovechamos para cachear los padres.
         {
             // Cacheamos unos cuantos padres inmediatos para que los nodos "adyacentes" (de la zona en general)
@@ -79,6 +79,12 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         this(node,id,path,null,null,cacheIfPossible,clientDoc);
     }
 
+    public boolean isJustCached()
+    {
+        // Se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
+        return !isNull(id) && !isNull(path);
+    }    
+    
     private String getCachedParentId()
     {
         return cachedParentId;
@@ -98,14 +104,14 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         return cached;
     }
 
-    public String toJSArray(boolean errIfNull)
+    public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
 
         if (isAlreadyCached())
         {
             if (newCachedParentIds == null)
-                return getIdJS(); // 1 item
+                return "[" + getIdJS() + "]"; // 1 item
             else
                 return "[" + getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items
         }
@@ -171,7 +177,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
     {
         // Si cacheIfPossible es true y se cachea el nodo, el location DEBE enviarse al cliente y resolverse para cachear en el cliente
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache != null)
         {
             String id = nodeCache.getId(node);

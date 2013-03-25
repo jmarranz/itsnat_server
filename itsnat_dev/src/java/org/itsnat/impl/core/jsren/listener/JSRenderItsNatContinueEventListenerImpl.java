@@ -50,7 +50,7 @@ public class JSRenderItsNatContinueEventListenerImpl extends JSRenderItsNatDOMEx
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que el currentTarget puede ser nulo
-        code.append( "itsNatDoc.sendContinueEvent(" + nodeLoc.toJSArray(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + ");\n" );
+        code.append( "itsNatDoc.sendContinueEvent(" + nodeLoc.toJSNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + ");\n" );
 
         return code.toString();
     }

@@ -112,6 +112,12 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return !itsNatDoc.isFastLoadMode();
     }
 
+    public boolean isReferrerEnabled()
+    {
+        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();        
+        return itsNatDoc.isReferrerEnabled() && !getRequestNormalLoadDocBase().isStateless(); // El referrer se guarda en la sesión y si estamos en stateless no queremos ni oir de hablar de ello
+    }
+    
     @Override
     public void dispatchRequestListeners()
     {
@@ -123,7 +129,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();
 
-        if (itsNatDoc.isReferrerEnabled())
+        if (isReferrerEnabled())
         {
             EventTarget target;
             String eventType;

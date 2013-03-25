@@ -147,14 +147,14 @@ public abstract class JSScriptUtilImpl implements ScriptUtil,Serializable
 
     protected boolean isNodeCachedWithId(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache(); // No puede ser nula
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry(); // No puede ser nula
         Node nodeCached = nodeCache.getNodeById(id);
         return node == nodeCached;
     }
 
     protected void preventiveNodeCaching(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache(); // No puede ser nula
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry(); // No puede ser nula
         nodeCache.addNode(node,id); // node no puede ser nulo (dará error)
 
         // Con cacheIfPossible = true también cacheamos padres, minimizando problemas.
@@ -213,7 +213,7 @@ public abstract class JSScriptUtilImpl implements ScriptUtil,Serializable
 
     protected boolean preventiveNodeCachingOneClient(Node node,ClientDocumentStfulImpl clientDoc)
     {
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache(); // No puede ser nula la caché
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry(); // No puede ser nula la caché
         String oldId = nodeCache.getId(node);
         if (oldId != null) return false; // Ya está cacheado y sólo hay un cliente
 

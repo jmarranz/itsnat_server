@@ -87,7 +87,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         // El target en eventos estándar DOM NO puede ser nulo
         if (needsAddListenerReturnElement())
             code.append( "var elem = ");
-        code.append( "itsNatDoc.addDOMEventListener(" + nodeLoc.toJSArray(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventTypeCode + ");\n" );
+        code.append( "itsNatDoc.addDOMEventListener(" + nodeLoc.toJSNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventTypeCode + ");\n" );
         // El "elem" es utilizado por clases derivadas, elem puede ser window
         return code.toString();
     }

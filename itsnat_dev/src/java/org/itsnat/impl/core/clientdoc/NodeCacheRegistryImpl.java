@@ -193,6 +193,12 @@ public class NodeCacheRegistryImpl implements Serializable
         return res;
     }
 
+    public void clearCache()
+    {
+        mapById.clear();
+        mapByNode.clear();
+    }
+    
     public ArrayList<LinkedList<Map.Entry<Node,String>>> getOrderedByHeight()
     {
         /* Este método es usado por el control remoto, se debe a que

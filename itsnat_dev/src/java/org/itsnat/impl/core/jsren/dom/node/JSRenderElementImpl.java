@@ -256,7 +256,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         {
             useNodeLocation = true;
             NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
-            parentNodeJSLocator = parentLoc.toJSArray(true);
+            parentNodeJSLocator = parentLoc.toJSNodeLocation(true);
         }
         else
         {
