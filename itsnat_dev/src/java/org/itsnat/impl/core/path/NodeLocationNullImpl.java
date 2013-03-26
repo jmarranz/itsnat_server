@@ -26,7 +26,7 @@ public class NodeLocationNullImpl extends NodeLocationImpl
 {
     private NodeLocationNullImpl(ClientDocumentStfulImpl clientDoc)
     {
-        super(null,null,null,clientDoc);
+        super(null,null,clientDoc);
     }
 
     public String toJSNodeLocation(boolean errIfNull)

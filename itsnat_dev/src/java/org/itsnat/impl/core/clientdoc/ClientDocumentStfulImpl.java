@@ -48,8 +48,6 @@ import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.path.NodeLocationImpl;
-import org.itsnat.impl.core.path.NodeLocationNotParentImpl;
-import org.itsnat.impl.core.path.NodeLocationNullImpl;
 import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
@@ -333,7 +331,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
                 id = nodeCache.addNode(node);  // node no puede ser null
                 if (id != null) // Si es null es que el nodo no es cacheable o la caché está bloqueada
                 {
-                    NodeLocationWithParentImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
+                    NodeLocationImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
                     addCodeToSend( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
                 }
             }
@@ -344,24 +342,17 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public NodeLocationImpl getNodeLocation(Node node,boolean cacheIfPossible)
     {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationWithParentImpl.getNodeLocationWithParent(node,cacheIfPossible,this);
+        return NodeLocationImpl.getNodeLocation(this,node,cacheIfPossible);
     }
 
     public NodeLocationImpl getRefNodeLocationInsertBefore(Node newNode,Node nextSibling)
     {
-        // El NodeLocationImpl a obtener es el de nextSibling
-        if (nextSibling == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationNotParentImpl.getNodeLocationNotParentInsertBefore(newNode,nextSibling,this);
+        return NodeLocationImpl.getRefNodeLocationInsertBefore(this, newNode, nextSibling);
     }
 
     public NodeLocationImpl getNodeLocationRelativeToParent(Node node)
     {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationNotParentImpl.getNodeLocationNotParentRelativeToParent(node,this);
+        return NodeLocationImpl.getNodeLocationRelativeToParent(this, node);
     }
 
     public String getRelativeStringPathFromNodeParent(Node child)

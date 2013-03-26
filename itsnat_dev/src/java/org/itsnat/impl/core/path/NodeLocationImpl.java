@@ -13,7 +13,6 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
 package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
@@ -25,26 +24,75 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public abstract class NodeLocationImpl
+public abstract class NodeLocationImpl 
 {
     protected ClientDocumentStfulImpl clientDoc;
     protected String id;
-    protected String path;
-    protected Node node;
+    protected Node node;       
     protected boolean used = false;
-
-    /** Creates a new instance of NodeLocationImpl */
-    public NodeLocationImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    
+    public NodeLocationImpl(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
         this.node = node;
         this.id = id;
-        this.path = path;
-        this.clientDoc = clientDoc;
+        this.clientDoc = clientDoc;        
+    }    
+    
+    /*
+    public static NodeLocationImpl getNodeLocationAlreadyCached(ClientDocumentStfulImpl clientDoc,Node node,String id)
+    {
+        if (id == null || id.equals("")) throw new ItsNatException("INTERNAL ERROR");
+        return new NodeLocationNotParentImpl(node,id,null,clientDoc);
+    }    
+    */
+    
+    public static NodeLocationImpl getNodeLocation(ClientDocumentStfulImpl clientDoc,Node node,boolean cacheIfPossible)
+    {
+        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
 
-        if ((node != null) && isNull(id) && isNull(path))
-            throw new ItsNatException("Node not bound to document tree",node);
+        return NodeLocationWithParentImpl.getNodeLocationWithParent(node,cacheIfPossible,clientDoc);
     }
 
+    public static NodeLocationImpl getRefNodeLocationInsertBefore(ClientDocumentStfulImpl clientDoc,Node newNode,Node nextSibling)
+    {
+        // El NodeLocationImpl a obtener es el de nextSibling
+        if (nextSibling == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
+
+        return NodeLocationNotParentImpl.getNodeLocationNotParentInsertBefore(newNode,nextSibling,clientDoc);
+    }
+
+    public static NodeLocationImpl getNodeLocationRelativeToParent(ClientDocumentStfulImpl clientDoc,Node node)
+    {
+        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
+
+        return NodeLocationNotParentImpl.getNodeLocationNotParentRelativeToParent(node,clientDoc);
+    }    
+    
+    public Node getNode()
+    {
+        return node;
+    }
+
+    private String getId()
+    {
+        return id;
+    }    
+    
+    protected static String getIdJS(String id)
+    {
+        return JSRenderImpl.toLiteralStringJS(id);
+    }            
+    
+    protected String getIdJS()
+    {
+        return getIdJS(getId());
+    }        
+    
+    protected boolean isNull(String str)
+    {
+        return ((str == null) || str.equals("null"));
+    }    
+    
     public void throwNullException()
     {
         if (node == null) throw new ItsNatException("No specified node");
@@ -69,55 +117,17 @@ public abstract class NodeLocationImpl
             //ex.printStackTrace();
             //throw ex;
         }
-    }
-
-    public Node getNode()
+    }    
+    
+    public static String toJSNodeLocationOnlyId(String id)
     {
-        return node;
-    }
-
-    protected boolean isNull(String str)
+        return id != null ? "[" + getIdJS(id) + "]" : "null";
+    }    
+    
+    public String toJSNodeLocationOnlyId()
     {
-        return ((str == null) || str.equals("null"));
-    }
-
-    protected boolean isAlreadyCached()
-    {
-        return !isNull(id) && isNull(path);
-    }
-
-    public boolean isCached()
-    {
-        // O ya estaba cacheado o se acaba de cachear
-        return !isNull(id);
-    }
-
-    private String getId()
-    {
-        return id;
-    }
-
-    private String getPath()
-    {
-        return path;
-    }
-
-    protected String getIdJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getId());
-    }
-
-    /* Este método no se necesita fuera */
-    protected String getPathJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getPath());
-    }
-/*
-    public String toJSArray()
-    {
-        return toJSArray(true);
-    }
-*/
-    public abstract String toJSNodeLocation(boolean errIfNull);
-
+        return toJSNodeLocationOnlyId(id);
+    }        
+    
+    public abstract String toJSNodeLocation(boolean errIfNull);    
 }

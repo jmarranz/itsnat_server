@@ -27,7 +27,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class NodeLocationWithParentImpl extends NodeLocationImpl
+public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
 {
     protected Node cachedParent;
     protected String cachedParentId;
@@ -36,8 +36,6 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
     private NodeLocationWithParentImpl(Node node,String id,String path,Node cachedParent,String cachedParentId,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
         super(node,id,path,clientDoc);
-
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");
 
         this.cachedParent = cachedParent;
         this.cachedParentId = cachedParentId;

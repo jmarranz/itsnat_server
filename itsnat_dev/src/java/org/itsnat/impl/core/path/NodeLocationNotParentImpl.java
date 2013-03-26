@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.path;
 
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.w3c.dom.Node;
@@ -25,13 +24,11 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class NodeLocationNotParentImpl extends NodeLocationImpl
+public class NodeLocationNotParentImpl extends NodeLocationPathBasedImpl
 {
-    private NodeLocationNotParentImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    public NodeLocationNotParentImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
     {
         super(node,id,path,clientDoc);
-
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");
     }
 
     public String toJSNodeLocation(boolean errIfNull)

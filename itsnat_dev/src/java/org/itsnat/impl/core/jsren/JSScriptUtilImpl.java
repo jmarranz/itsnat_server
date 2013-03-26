@@ -25,6 +25,7 @@ import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocStfulTask;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.w3c.dom.Node;
 
