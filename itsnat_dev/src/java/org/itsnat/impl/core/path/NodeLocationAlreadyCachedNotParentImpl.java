@@ -18,52 +18,30 @@ package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
+import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class NodeLocationPathBasedImpl extends NodeLocationIdBasedImpl
+public class NodeLocationAlreadyCachedNotParentImpl extends NodeLocationIdBasedImpl
 {
-     protected String path;
-     
-    /** Creates a new instance of NodeLocationPathBasedImpl */
-    public NodeLocationPathBasedImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    public NodeLocationAlreadyCachedNotParentImpl(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
         super(node,id,clientDoc);
         
-        this.path = path;
-
         if (node == null) throw new ItsNatException("INTERNAL ERROR");        
         
-        if (isNull(id) && isNull(path))
-            throw new ItsNatException("Node not bound to document tree",node);
+        if (isNull(id))
+            throw new ItsNatException("INTERNAL ERROR",node);        
     }
 
-    public boolean isCached()
+    public String toJSNodeLocation(boolean errIfNull)
     {
-        // O ya estaba cacheado o se acaba de cachear
-        return !isNull(id);
+        this.used = true;
+        
+        return "[" + getIdJS() + "]";
     }
-    
-    private String getPath()
-    {
-        return path;
-    }
-
-    /* Este método no se necesita fuera */
-    protected String getPathJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getPath());
-    }
-/*
-    public String toJSArray()
-    {
-        return toJSArray(true);
-    }
-*/
-
 
 }

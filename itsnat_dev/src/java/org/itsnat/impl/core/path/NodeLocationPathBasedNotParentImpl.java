@@ -18,52 +18,33 @@ package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class NodeLocationPathBasedImpl extends NodeLocationIdBasedImpl
+public class NodeLocationPathBasedNotParentImpl extends NodeLocationPathBasedImpl
 {
-     protected String path;
-     
-    /** Creates a new instance of NodeLocationPathBasedImpl */
-    public NodeLocationPathBasedImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    public NodeLocationPathBasedNotParentImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
     {
-        super(node,id,clientDoc);
+        super(node,id,path,clientDoc);
         
-        this.path = path;
-
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");        
-        
-        if (isNull(id) && isNull(path))
-            throw new ItsNatException("Node not bound to document tree",node);
+        // Se supone que es para nodos no cacheados en donde necesitamos el path, el id puede ser nulo, es el caso de no poder cachear pero el path no
+        if (isNull(path))
+            throw new ItsNatException("Node not bound to document tree",node);   
     }
 
-    public boolean isCached()
+    public boolean isJustCached()
     {
-        // O ya estaba cacheado o se acaba de cachear
-        return !isNull(id);
-    }
+        // Si se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
+        return !isNull(id) && !isNull(path);
+    }      
     
-    private String getPath()
+    public String toJSNodeLocation(boolean errIfNull)
     {
-        return path;
-    }
+        this.used = true;
 
-    /* Este método no se necesita fuera */
-    protected String getPathJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getPath());
+        return "[" + getIdJS() + "," + getPathJS() + "]";
     }
-/*
-    public String toJSArray()
-    {
-        return toJSArray(true);
-    }
-*/
-
-
 }

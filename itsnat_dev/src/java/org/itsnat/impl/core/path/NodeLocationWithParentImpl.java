@@ -37,6 +37,8 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
     {
         super(node,id,path,clientDoc);
 
+        SEGUIR utilizando por delegación los otros
+        
         this.cachedParent = cachedParent;
         this.cachedParentId = cachedParentId;
 
@@ -94,10 +96,10 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
         return JSRenderImpl.toLiteralStringJS(getCachedParentId());
     }
 
-    @Override
+
     public boolean isAlreadyCached()
     {
-        boolean cached = super.isAlreadyCached();
+        boolean cached = !isNull(id) && isNull(path);
         if (cached && !isNull(cachedParentId)) throw new ItsNatException("INTERNAL ERROR");
         return cached;
     }
@@ -111,7 +113,7 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
             if (newCachedParentIds == null)
                 return "[" + getIdJS() + "]"; // 1 item
             else
-                return "[" + getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items
+                return "[" + getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items el segundo un array
         }
         else
         {

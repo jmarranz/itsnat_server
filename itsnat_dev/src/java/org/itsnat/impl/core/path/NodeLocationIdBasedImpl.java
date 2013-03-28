@@ -13,10 +13,8 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
 package org.itsnat.impl.core.path;
 
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.w3c.dom.Node;
@@ -25,45 +23,50 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public abstract class NodeLocationPathBasedImpl extends NodeLocationIdBasedImpl
+public abstract class NodeLocationIdBasedImpl extends NodeLocationImpl 
 {
-     protected String path;
-     
-    /** Creates a new instance of NodeLocationPathBasedImpl */
-    public NodeLocationPathBasedImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
-    {
-        super(node,id,clientDoc);
-        
-        this.path = path;
-
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");        
-        
-        if (isNull(id) && isNull(path))
-            throw new ItsNatException("Node not bound to document tree",node);
-    }
-
-    public boolean isCached()
-    {
-        // O ya estaba cacheado o se acaba de cachear
-        return !isNull(id);
-    }
+    protected String id;
+    protected Node node;       
     
-    private String getPath()
+    public NodeLocationIdBasedImpl(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
-        return path;
+        super(clientDoc);
+        this.node = node;
+        this.id = id;      
+    }    
+   
+    public Node getNode()
+    {
+        return node;
     }
 
-    /* Este método no se necesita fuera */
-    protected String getPathJS()
+    protected String getId()
     {
-        return JSRenderImpl.toLiteralStringJS(getPath());
-    }
-/*
-    public String toJSArray()
+        return id;
+    }    
+    
+    protected static String getIdJS(String id)
     {
-        return toJSArray(true);
-    }
-*/
-
-
+        return JSRenderImpl.toLiteralStringJS(id);
+    }            
+    
+    protected String getIdJS()
+    {
+        return getIdJS(getId());
+    }        
+    
+    protected boolean isNull(String str)
+    {
+        return ((str == null) || str.equals("null"));
+    }    
+    
+    public static String toJSNodeLocationOnlyId(String id)
+    {
+        return id != null ? "[" + getIdJS(id) + "]" : "null";
+    }    
+    
+    public String toJSNodeLocationOnlyId()
+    {
+        return toJSNodeLocationOnlyId(id);
+    }        
 }
