@@ -27,18 +27,21 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
+public class NodeLocationWithParentImpl extends NodeLocationImpl
 {
+    protected NodeLocationImpl nodeLocationDeleg;
     protected Node cachedParent;
     protected String cachedParentId;
     protected ArrayList<String> newCachedParentIds;
 
     private NodeLocationWithParentImpl(Node node,String id,String path,Node cachedParent,String cachedParentId,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
-        super(node,id,path,clientDoc);
+        super(clientDoc);
 
-        SEGUIR utilizando por delegación los otros
+        if (node == null) throw new ItsNatException("INTERNAL ERROR");           
         
+        this.nodeLocationDeleg = getNodeLocationNotParent(node, id, path, clientDoc);
+
         this.cachedParent = cachedParent;
         this.cachedParentId = cachedParentId;
 
@@ -72,6 +75,8 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
                 else currParent = null; // Ya cacheado, paramos
             }
         }
+        
+        if ((nodeLocationDeleg instanceof NodeLocationAlreadyCachedNotParentImpl) && !isNull(cachedParentId)) throw new ItsNatException("INTERNAL ERROR");        
     }
 
     public NodeLocationWithParentImpl(Node node,String id,String path,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
@@ -79,10 +84,15 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
         this(node,id,path,null,null,cacheIfPossible,clientDoc);
     }
 
+    @Override
+    public Node getNode()
+    {
+        return nodeLocationDeleg.getNode();
+    }
+    
     public boolean isJustCached()
     {
-        // Se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
-        return !isNull(id) && !isNull(path);
+        return nodeLocationDeleg.isJustCached();
     }    
     
     private String getCachedParentId()
@@ -96,34 +106,32 @@ public class NodeLocationWithParentImpl extends NodeLocationPathBasedImpl
         return JSRenderImpl.toLiteralStringJS(getCachedParentId());
     }
 
-
-    public boolean isAlreadyCached()
-    {
-        boolean cached = !isNull(id) && isNull(path);
-        if (cached && !isNull(cachedParentId)) throw new ItsNatException("INTERNAL ERROR");
-        return cached;
-    }
-
     public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
 
-        if (isAlreadyCached())
+        nodeLocationDeleg.setUsed();
+        
+        if (nodeLocationDeleg instanceof NodeLocationAlreadyCachedNotParentImpl)
         {
+            NodeLocationAlreadyCachedNotParentImpl nodeLocDeleg = (NodeLocationAlreadyCachedNotParentImpl)nodeLocationDeleg;
             if (newCachedParentIds == null)
-                return "[" + getIdJS() + "]"; // 1 item
+                return nodeLocDeleg.getIdJS(); // 1 item
             else
-                return "[" + getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items el segundo un array
+                return "[" + nodeLocDeleg.getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items el segundo un array
         }
-        else
+        else if (nodeLocationDeleg instanceof NodeLocationPathBasedNotParentImpl)
         {
+            NodeLocationPathBasedNotParentImpl nodeLocDeleg = (NodeLocationPathBasedNotParentImpl)nodeLocationDeleg;            
+            
             StringBuilder code = new StringBuilder();
-            code.append( "[" + getCachedParentIdJS() + "," + getIdJS() + "," + getPathJS() );  // 3 items
+            code.append( "[" + getCachedParentIdJS() + "," + nodeLocDeleg.getIdJS() + "," + nodeLocDeleg.getPathJS() );  // 3 items
             if (newCachedParentIds != null)
-                code.append( "," + toJSArrayCachedParents() ); // 4 items (array dentro de array)
+                code.append( "," + toJSArrayCachedParents() ); // 4 items (el último un array dentro de array)
             code.append( "]" );
             return code.toString();
         }
+        else throw new ItsNatException("INTERNAL ERROR");
     }
 
     protected String toJSArrayCachedParents()

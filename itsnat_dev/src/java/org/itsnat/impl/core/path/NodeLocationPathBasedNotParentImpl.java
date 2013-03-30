@@ -18,26 +18,49 @@ package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.jsren.JSRenderImpl;
+import static org.itsnat.impl.core.path.NodeLocationImpl.isNull;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public class NodeLocationPathBasedNotParentImpl extends NodeLocationPathBasedImpl
+public class NodeLocationPathBasedNotParentImpl extends NodeLocationNotNullImpl
 {
+     protected String path;
+     
     public NodeLocationPathBasedNotParentImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
     {
-        super(node,id,path,clientDoc);
+        super(node,id,clientDoc);
         
-        // Se supone que es para nodos no cacheados en donde necesitamos el path, el id puede ser nulo, es el caso de no poder cachear pero el path no
+        this.path = path;       
+        
+        // Se supone que esta clase es para nodos no cacheados en donde necesitamos el path, el id puede ser nulo (es el caso de no poder cachear) pero el path no
         if (isNull(path))
             throw new ItsNatException("Node not bound to document tree",node);   
     }
 
+    public boolean isCached()
+    {
+        // O ya estaba cacheado o se acaba de cachear
+        return !isNull(id);
+    }
+    
+    private String getPath()
+    {
+        return path;
+    }
+
+    /* Este método no se necesita fuera */
+    protected String getPathJS()
+    {
+        return JSRenderImpl.toLiteralStringJS(getPath());
+    }    
+    
     public boolean isJustCached()
     {
-        // Si se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
+        // Si se acaba de cachear, aparte del id el path debe de estar definido porque se va a enviar al cliente para que se cachee también allí, sea absoluto o relativo respecto al padre
         return !isNull(id) && !isNull(path);
     }      
     

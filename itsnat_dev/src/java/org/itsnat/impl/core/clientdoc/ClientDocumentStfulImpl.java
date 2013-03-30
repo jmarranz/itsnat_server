@@ -331,7 +331,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
                 id = nodeCache.addNode(node);  // node no puede ser null
                 if (id != null) // Si es null es que el nodo no es cacheable o la caché está bloqueada
                 {
-                    NodeLocationImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
+                    NodeLocationWithParentImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
                     addCodeToSend( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
                 }
             }

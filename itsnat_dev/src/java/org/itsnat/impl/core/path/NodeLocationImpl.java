@@ -18,7 +18,6 @@ package org.itsnat.impl.core.path;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -42,6 +41,12 @@ public abstract class NodeLocationImpl
         return clientDoc;
     }
 
+    protected void setUsed()    
+    {
+        this.used = true;
+    }
+    
+    @Override
     protected void finalize() throws Throwable
     {
         super.finalize();
@@ -58,35 +63,27 @@ public abstract class NodeLocationImpl
         }
     }    
      
+    protected static boolean isNull(String str)
+    {
+        return ((str == null) || str.equals("null"));
+    }        
     
-    public abstract String toJSNodeLocation(boolean errIfNull);    
+    public abstract boolean isJustCached();    
+    
+    public abstract String toJSNodeLocation(boolean errIfNodeNull);    
     
     
     public static NodeLocationImpl getNodeLocation(ClientDocumentStfulImpl clientDoc,Node node,boolean cacheIfPossible)
     {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
 
         return NodeLocationWithParentImpl.getNodeLocationWithParent(node,cacheIfPossible,clientDoc);
     }
 
     public static NodeLocationImpl getRefNodeLocationInsertBefore(ClientDocumentStfulImpl clientDoc,Node newNode,Node nextSibling)
     {
-        // El NodeLocationImpl a obtener es el de nextSibling
-        if (nextSibling == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
-
-        return NodeLocationImpl.getNodeLocationNotParentInsertBefore(newNode,nextSibling,clientDoc);
-    }
-
-    public static NodeLocationImpl getNodeLocationRelativeToParent(ClientDocumentStfulImpl clientDoc,Node node)
-    {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(clientDoc);
-
-        return NodeLocationPathBasedNotParentImpl.getNodeLocationNotParentRelativeToParent(node,clientDoc);
-    }        
-    
-    public static NodeLocationImpl getNodeLocationNotParentInsertBefore(Node newNode,Node nextSibling,ClientDocumentStfulImpl clientDoc)
-    {
-        // El NodeLocationImpl a obtener es el de nextSibling
+        // El NodeLocationImpl a obtener ¡¡¡es el de nextSibling!!!
+        if (nextSibling == null) return new NodeLocationNullImpl(clientDoc);
 
         String idRefChild = null;
         String refChildPathRel = null;
@@ -132,9 +129,11 @@ public abstract class NodeLocationImpl
         }
 
     }
-    
-    public static NodeLocationImpl getNodeLocationNotParentRelativeToParent(Node node,ClientDocumentStfulImpl clientDoc)
+
+    public static NodeLocationImpl getNodeLocationRelativeToParent(ClientDocumentStfulImpl clientDoc,Node node)
     {
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
+
         // Este método es útil cuando se dispone ya del parent en el cliente obtenido de alguna forma
         String idNode = null;
         String nodePathRel = null;
@@ -169,6 +168,18 @@ public abstract class NodeLocationImpl
         {
             // Está ya cacheado
             return new NodeLocationAlreadyCachedNotParentImpl(node,idNode,clientDoc);              
-        }        
-    }    
+        }                
+    }        
+    
+    public static NodeLocationImpl getNodeLocationNotParent(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    {    
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
+        
+        if (path != null)        
+            return new NodeLocationPathBasedNotParentImpl(node,id,path,clientDoc);                    
+        else // Está ya cacheado
+            return new NodeLocationAlreadyCachedNotParentImpl(node,id,clientDoc);                      
+    }
+
+
 }

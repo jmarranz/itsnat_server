@@ -18,30 +18,33 @@ package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public class NodeLocationAlreadyCachedNotParentImpl extends NodeLocationIdBasedImpl
+public class NodeLocationAlreadyCachedNotParentImpl extends NodeLocationNotNullImpl
 {
     public NodeLocationAlreadyCachedNotParentImpl(Node node,String id,ClientDocumentStfulImpl clientDoc)
     {
         super(node,id,clientDoc);
         
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");        
-        
         if (isNull(id))
             throw new ItsNatException("INTERNAL ERROR",node);        
     }
 
+    @Override
+    public boolean isJustCached()
+    {
+        return false;
+    }          
+    
     public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
         
-        return "[" + getIdJS() + "]";
+        return getIdJS(); // 1 item
     }
 
 }

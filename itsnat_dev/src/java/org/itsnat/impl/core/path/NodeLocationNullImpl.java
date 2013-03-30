@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  */
 public class NodeLocationNullImpl extends NodeLocationImpl
 {
-    private NodeLocationNullImpl(ClientDocumentStfulImpl clientDoc)
+    public NodeLocationNullImpl(ClientDocumentStfulImpl clientDoc)
     {
         super(clientDoc);
     }
@@ -36,17 +36,19 @@ public class NodeLocationNullImpl extends NodeLocationImpl
         return null;
     }    
     
-    public String toJSNodeLocation(boolean errIfNull)
+    @Override
+    public boolean isJustCached()
+    {
+        return false;
+    }
+    
+    public String toJSNodeLocation(boolean errIfNullNode)
     {
         this.used = true;
 
-        if (errIfNull) throw new ItsNatException("No specified node");
+        if (errIfNullNode) throw new ItsNatException("No specified node");
         
         return "null";
     }
 
-    public static NodeLocationNullImpl getNodeLocationNull(ClientDocumentStfulImpl clientDoc)
-    {
-        return new NodeLocationNullImpl(clientDoc);
-    }
 }

@@ -1385,11 +1385,8 @@ function Document()
         else // array
         {
             var len = idObj.length;
-            if (len == 1)
-            {
-                id = idObj;
-            }
-            else if (len == 2)
+            // No existe el caso de len = 1 (en ese caso es una string directamente)
+            if (len == 2)
             {
               id = idObj[0];
               newCachedParentIds = idObj[1];
