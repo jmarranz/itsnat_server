@@ -41,11 +41,7 @@ public class DOMPathResolverHTMLDoc extends DOMPathResolver
         return (ItsNatHTMLDocumentImpl)clientDoc.getItsNatStfulDocument();
     }
 
-    public static DOMPathResolverHTMLDoc createDOMPathResolverHTMLDoc(ClientDocumentStfulImpl clientDoc)
-    {
-        return new DOMPathResolverHTMLDoc(clientDoc);
-    }
-
+    @Override
     protected Node getChildNodeFromStrPos(Node parentNode,String posStr)
     {
         // Ver comentarios en getNodeChildPosition(Node)
@@ -61,6 +57,7 @@ public class DOMPathResolverHTMLDoc extends DOMPathResolver
         return super.getChildNodeFromStrPos(parentNode,posStr);
     }
 
+    @Override
     protected String getNodeChildPosition(Node node)
     {
         // Esto lo hacemos para ser tolerantes con los elementos

@@ -23,6 +23,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocBaseImpl;
@@ -154,7 +155,7 @@ public abstract class RequestImpl
         itsNatRequest.unbindRequestFromDocument();
     }
 
-    public void process(ClientDocumentImpl clientDocStateless)
+    public void process(ClientDocumentStfulImpl clientDocStateless)
     {
         try
         {
@@ -189,5 +190,5 @@ public abstract class RequestImpl
         }
     }
 
-    public abstract void processRequest(ClientDocumentImpl clientDocStateless);
+    public abstract void processRequest(ClientDocumentStfulImpl clientDocStateless);
 }

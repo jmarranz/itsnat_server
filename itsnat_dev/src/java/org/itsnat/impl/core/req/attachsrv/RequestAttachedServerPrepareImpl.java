@@ -21,6 +21,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerFormImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerScriptImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerPrepareFormImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
@@ -64,7 +65,8 @@ public class RequestAttachedServerPrepareImpl extends RequestAttachedServerPrepa
         return (ItsNatStfulDocumentTemplateAttachedServerImpl)docTemplate;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         String loadMethod = getAttrOrParam("itsnat_method");
 

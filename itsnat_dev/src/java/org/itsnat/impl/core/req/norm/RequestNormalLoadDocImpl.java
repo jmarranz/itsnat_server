@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
@@ -54,7 +55,8 @@ public abstract class RequestNormalLoadDocImpl extends RequestNormalLoadDocBaseI
         return (ResponseNormalLoadDocImpl)response;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
 
 /*

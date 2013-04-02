@@ -19,6 +19,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerScriptImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerLoadDocImpl;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerLoadMarkupFormImpl;
@@ -56,8 +57,9 @@ public class RequestAttachedServerLoadMarkupImpl extends RequestAttachedServerIm
     {
         return (ResponseAttachedServerLoadDocImpl)response;
     }
-
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    
+    @Override
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         ClientDocumentAttachedServerImpl clientDoc = itsNatRequest.getItsNatSessionImpl().getClientDocumentAttachedServersById(clientId);
         if (clientDoc == null) throw new ItsNatException("Not found in server"); // MUY raro, las requests son muy seguidas, posiblemente de un cliente malicioso

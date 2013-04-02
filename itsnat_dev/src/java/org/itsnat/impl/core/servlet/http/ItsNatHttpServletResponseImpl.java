@@ -74,7 +74,7 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
         return getItsNatHttpServletRequestImpl().getItsNatHttpSessionImpl();
     }
 
-    public void preProcess()
+    public void prepareResponse()
     {
         HttpServletResponse response = getHttpServletResponse();
         response.addHeader("Cache-Control","no-store,no-cache,must-revalidate"); //HTTP 1.1

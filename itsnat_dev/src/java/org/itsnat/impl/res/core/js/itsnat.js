@@ -172,6 +172,7 @@ function Map(useDelete) // mimics java.util.Map
     this.put = put;
     this.remove = remove;
     this.doForAll = doForAll;
+    this.clear = clear;
 
     // Attribs
     this.useDelete = useDelete;
@@ -202,6 +203,11 @@ function Map(useDelete) // mimics java.util.Map
             if (!this.useDelete && (typeof value == "undefined")) continue;
             func(key,value);
         }
+    }
+    
+    function clear()
+    {
+        this.map = new Object();
     }
 }
 
@@ -240,7 +246,7 @@ function DOMPathResolver(itsNatDoc)
 {
     this.isFiltered = null; // implementar
     this.getNodeDeep = getNodeDeep;
-    this.getNodePath = getNodePath;
+    this.getNodePathArray = getNodePathArray;
     this.getSuffix = getSuffix;
     this.getStringPathFromNode = getStringPathFromNode;
     this.getNodeFromArrayPath = getNodeFromArrayPath;
@@ -312,6 +318,11 @@ function DOMPathResolver(itsNatDoc)
             if (firstPos == "window") return this.itsNatDoc.win;
             else if (firstPos == "document") return doc;
             else if (firstPos == "doctype") return doc.doctype;
+            else if (firstPos.indexOf("eid:") == 0)
+            {
+                var id = firstPos.substring("eid:".length);
+                return doc.getElementById(id);
+            }
         }
 
         if (topParent == null) topParent = doc;
@@ -377,7 +388,7 @@ function DOMPathResolver(itsNatDoc)
         return i;
     }
 
-    function getNodePath(nodeLeaf,topParent)
+    function getNodePathArray(nodeLeaf,topParent)
     {
         if (nodeLeaf == null) return null;
         if (topParent == null) topParent = this.itsNatDoc.doc;
@@ -387,6 +398,8 @@ function DOMPathResolver(itsNatDoc)
         if (nodeType == 9) return ["document"]; // Node.DOCUMENT_NODE
         else if (nodeType == 10) return ["doctype"]; // Node.DOCUMENT_TYPE_NODE
 
+        // No usamos el locById porque los atributos especiales itsnat deberían de desaparecer en el cliente, no es imprescindible y en stateless por aquí no pasamos
+        
         var node = nodeLeaf;
         if (nodeType == 2) node = node.ownerElement; // Node.ATTRIBUTE_NODE
         var len = this.getNodeDeep(node,topParent);
@@ -413,7 +426,7 @@ function DOMPathResolver(itsNatDoc)
     function getStringPathFromNode(node,topParent)
     {
         if (node == null) return null;
-        var path = this.getNodePath(node,topParent);
+        var path = this.getNodePathArray(node,topParent);
         if (path == null) return null;
         return this.getStringPathFromArray(path);
     }
@@ -1100,12 +1113,13 @@ function Document()
     this.getServletPath = getServletPath;
     this.getPropInNative = getPropInNative;
     this.setPropInNative = setPropInNative;
-    this.removePropInNative = removePropInNative;
+    this.removePropInNative = removePropInNative;   
     this.addNodeCache = addNodeCache;
     this.addNodeCache2 = addNodeCache2;
     this.getNode = getNode;
     this.getNode2 = getNode2;
     this.getNodeCached = getNodeCached;
+    this.clearNodeCache = clearNodeCache;    
     this.removeNodeCache = removeNodeCache;
     this.getNodeCacheId = getNodeCacheId;
     this.getStringPathFromNode = getStringPathFromNode;
@@ -1349,6 +1363,11 @@ function Document()
     {
         if (id == null) return null;
         return this.nodeCacheById.get(id);
+    }
+
+    function clearNodeCache()
+    {
+        this.nodeCacheById.clear();
     }
 
     function removeNodeCache(idList)

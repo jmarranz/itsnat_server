@@ -40,6 +40,7 @@ import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateAttachedServerImpl;
@@ -366,7 +367,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         processRequestInternal(request,response,null);
     }
     
-    public abstract ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentImpl clientDocStateless);
+    public abstract ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentStfulImpl clientDocStateless);
      
     public abstract ItsNatServletRequestImpl createItsNatServletRequest(ServletRequest request,ServletResponse response,ItsNatSessionImpl itsNatSession);
 }

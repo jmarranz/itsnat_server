@@ -19,7 +19,6 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDOMEventStatelessImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;

@@ -370,6 +370,11 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getDOMPathResolver().getStringPathFromNode(node,topParent);
     }
 
+    public Node getNextSiblingInClientDOM(Node node)
+    {
+        return getDOMPathResolver().getNextSiblingInClientDOM(node);        
+    }
+    
     public String getScriptLoadCode()
     {
         if (scriptLoadCode == null)

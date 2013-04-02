@@ -22,7 +22,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.resp.ResponseEventStatelessImpl_ELIMINAR;
+import static org.itsnat.impl.core.req.RequestImpl.ITSNAT_ACTION_EVENT;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
@@ -51,7 +51,8 @@ public class RequestEventStatelessImpl extends RequestImpl
         return null;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
         ItsNatServletRequestImpl itsNatRequest = getItsNatServletRequest();
@@ -61,40 +62,23 @@ public class RequestEventStatelessImpl extends RequestImpl
         
         request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD);
         ItsNatServletRequestImpl itsNatRequestLoadPhase = itsNatServlet.processRequestInternal(request,response,null);
-        ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatRequestLoadPhase.getClientDocumentImpl();
-        if (clientDoc != null) 
+        ClientDocumentImpl clientDoc = itsNatRequestLoadPhase.getClientDocumentImpl();        
+        if (clientDoc != null && clientDoc instanceof ClientDocumentStfulImpl) 
         {
-            clientDoc.getNodeCacheRegistry().clearCache();
+            // No necesitamos un ResponseEventStatelessImpl
             
             request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT);
-            request.setAttribute("itsnat_eventType","stateless");            
+            request.setAttribute("itsnat_eventType","stateless");           
             
-            ItsNatServletRequestImpl itsNatRequestEventPhase = itsNatServlet.processRequestInternal(request,response,clientDoc);            
+            ItsNatServletRequestImpl itsNatRequestEventPhase = itsNatServlet.processRequestInternal(request,response,(ClientDocumentStfulImpl)clientDoc);
         }
         else
+        {
+            // Puede ser el caso de ClientDocumentNoServerDocDefaultImpl
             processClientDocumentNotCreated();
-    }
-
-    public void processClientDocument_ELIMINAR(ClientDocumentImpl clientDoc)    
-    {
-        // No hace falta sincronizar el ItsNatDocument porque se ha creado nuevo para procesar el evento
-        
-        bindClientToRequest(clientDoc);
-
-        try
-        {
-            ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();            
-            
-            
-            this.response = new ResponseEventStatelessImpl_ELIMINAR(this);
-            response.process();
         }
-        finally
-        {
-            unbindRequestFromDocument();
-        }        
     }
-    
+
     public void processClientDocumentNotCreated()    
     {
         // HACER

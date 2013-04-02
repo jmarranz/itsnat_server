@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.core;
+package test.stateless;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;

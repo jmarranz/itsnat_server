@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.req;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
@@ -54,7 +55,8 @@ public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfu
         this.itsNatDocReferrer = itsNatDocReferrer;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         // Casi siempre (¿siempre?) un request custom será una carga de página, aunque en teoría
         // podría ser una request AJAX a mano.

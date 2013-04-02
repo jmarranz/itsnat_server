@@ -18,6 +18,7 @@ package org.itsnat.impl.core.req.attachsrv;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.req.ContainsItsNatStfulDocumentReferrer;
 import org.itsnat.impl.core.resp.attachsrv.ResponseAttachedServerPrepareNotFoundImpl;
@@ -65,7 +66,8 @@ public class RequestAttachedServerPrepareNotFoundImpl extends RequestAttachedSer
         return (ResponseNormalLoadDocNotFoundImpl)response;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         ItsNatSessionImpl session = getItsNatSession();
         // También tiene derecho a recibir el referrer de un documento anterior stateful

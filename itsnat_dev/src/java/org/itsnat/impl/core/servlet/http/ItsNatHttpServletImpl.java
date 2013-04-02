@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
@@ -66,12 +67,12 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
     }
 
     @Override
-    public ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentImpl clientDocStateless) 
+    public ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentStfulImpl clientDocStateless) 
     {
         return processRequestInternal((HttpServletRequest)request,(HttpServletResponse)response,clientDocStateless);
     }
     
-    public ItsNatServletRequestImpl processRequestInternal(HttpServletRequest request, HttpServletResponse response,ClientDocumentImpl clientDocStateless)
+    public ItsNatServletRequestImpl processRequestInternal(HttpServletRequest request, HttpServletResponse response,ClientDocumentStfulImpl clientDocStateless)
     {
         try
         {

@@ -18,7 +18,6 @@ package org.itsnat.impl.core.jsren.dom.node;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.w3c.dom.Node;
 
@@ -89,7 +88,7 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
     protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulImpl clientDoc)
     {
         Node parent = newNode.getParentNode();
-        DOMPathResolver pathResolver = clientDoc.getDOMPathResolver();
+
         // Obtenemos el sibling con representación en el DOM cliente (no filtrado)
         // Sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
         // dichos comentarios no están en el DOM y afortunadamente no son visibles 
@@ -99,7 +98,7 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
         String idJS = cacheNewNodeIfNeededAndGenJSId(newNode,clientDoc);
         
-        Node nextSibling = pathResolver.getNextSiblingInClientDOM(newNode);
+        Node nextSibling = clientDoc.getNextSiblingInClientDOM(newNode);
         if (nextSibling != null)
         {
             NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);

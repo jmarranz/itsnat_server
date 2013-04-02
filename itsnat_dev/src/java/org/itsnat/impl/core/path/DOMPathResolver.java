@@ -21,6 +21,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,7 +64,7 @@ public abstract class DOMPathResolver implements Serializable
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         if (itsNatDoc instanceof ItsNatHTMLDocumentImpl) // NO debe ser nulo
-            return DOMPathResolverHTMLDoc.createDOMPathResolverHTMLDoc(clientDoc);
+            return new DOMPathResolverHTMLDoc(clientDoc);
         else
             return new DOMPathResolverOtherNSDoc(clientDoc);
     }
@@ -258,7 +259,7 @@ public abstract class DOMPathResolver implements Serializable
         return i;
     }
 
-    private String[] getNodePath(Node nodeLeaf,Node topParent)
+    private String[] getNodePathArray(Node nodeLeaf,Node topParent)
     {
         // Si topParent es null devuelve un path absoluto, es decir hasta el documento como padre
         if (nodeLeaf == null) return null;
@@ -273,6 +274,18 @@ public abstract class DOMPathResolver implements Serializable
             return new String[]{"document"};
         else if (nodeLeaf.equals(doc.getDoctype()))
             return new String[]{"doctype"};
+
+        if (nodeLeaf.getNodeType() == Node.ELEMENT_NODE)
+        {
+            Element elem = (Element)nodeLeaf;
+            String locbyid = elem.getAttributeNS(NamespaceUtil.ITSNAT_NAMESPACE,"locById"); // Especialmente útil en stateless para evitar resolver los nodos padres via tree paths
+            if ("true".equals(locbyid))
+            {
+                String id = elem.getAttribute("id"); // Si no existe devuelve cadena vacía
+                if (!id.equals(""))
+                    return new String[]{"eid:" + id};  // eid = element id
+            }
+        }
 
         Node node = nodeLeaf;
         if (node.getNodeType() == Node.ATTRIBUTE_NODE)
@@ -318,7 +331,7 @@ public abstract class DOMPathResolver implements Serializable
     {
         if (node == null) return null;
 
-        String[] path = getNodePath(node,topParent);
+        String[] path = getNodePathArray(node,topParent);
         if (path == null) return null;
         return getStringPathFromArray(path);
     }

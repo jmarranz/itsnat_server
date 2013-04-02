@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.core;
+package test.stateless;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatServletRequest;

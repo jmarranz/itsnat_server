@@ -128,6 +128,8 @@ public abstract class ResponseImpl
     {
         preProcess();
 
+        prepareResponse();        
+        
         try
         {
             this.writer = initWriter();
@@ -152,8 +154,20 @@ public abstract class ResponseImpl
 
     public void preProcess()
     {
-        itsNatResponse.preProcess();
+    }
 
+    public void postProcess()
+    {
+    }    
+    
+    protected void prepareResponse()
+    {
+        itsNatResponse.prepareResponse();        
+        setResponseContentType();        
+    }
+    
+    protected void setResponseContentType()
+    {
         String mime;
         if (this instanceof ResponseJavaScript)
         {
@@ -171,10 +185,9 @@ public abstract class ResponseImpl
         String encoding = getEncoding();
 
         ServletResponse response = itsNatResponse.getServletResponse();
-        response.setContentType(mime + ";charset=" + encoding);
-
+        response.setContentType(mime + ";charset=" + encoding);        
     }
-
+    
     public String getEncoding()
     {
         ItsNatDocumentImpl itsNatDoc = getItsNatDocument();
@@ -217,10 +230,7 @@ public abstract class ResponseImpl
             return itsNatResponse.getWriter();
     }
 
-    public void postProcess()
-    {
-        itsNatResponse.postProcess();
-    }
+
 
     protected abstract void processResponse();
 

@@ -31,6 +31,7 @@ import org.itsnat.impl.core.req.RequestImpl;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ClientDocument;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
  *
@@ -179,7 +180,7 @@ public abstract class ItsNatServletRequestImpl extends ItsNatUserDataImpl implem
         return getItsNatSessionImpl();
     }
 
-    public void process(String action,ClientDocumentImpl clientDocStateless)
+    public void process(String action,ClientDocumentStfulImpl clientDocStateless)
     {
         this.delegRequest = RequestImpl.createRequest(action,this);
         delegRequest.process(clientDocStateless);

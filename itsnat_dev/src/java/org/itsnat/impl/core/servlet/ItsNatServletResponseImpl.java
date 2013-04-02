@@ -121,11 +121,7 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
         delegResponse.addCodeToSend(newCode);
     }
 
-    public abstract void preProcess();
-
-    public void postProcess()
-    {
-    }
+    public abstract void prepareResponse();
 
     public void dispatchRequestListener(ItsNatServletRequestListener listener)
     {

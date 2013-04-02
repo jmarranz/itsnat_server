@@ -1,9 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<!--
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
--->
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"  xmlns:itsnat="http://itsnat.org/itsnat">
 <head>
@@ -91,11 +86,17 @@
         userEvt.setExtraParam('title',document.title);
         userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event');        
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 5000);
-        alert("Enviado");
     }
     </script>
     <a href="javascript:sendEventStateless()">Test Stateless Event</a>    
 
+
+    <br /><br />
+    <div>
+        <div>
+            <div id="testElemId" /> 
+        </div>
+    </div>
     <br /><br />
     <br />
     <a href="index.html">Return</a>

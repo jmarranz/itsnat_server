@@ -49,4 +49,12 @@ public abstract class ResponseNormalLoadDocBaseImpl extends ResponseLoadDocImpl 
             return null;
         return super.initWriter(); 
     }    
+    
+    @Override    
+    protected void prepareResponse()    
+    {
+        if (getRequestNormalLoadDocBase().isStateless())
+            return; // Las cabeceras etc se definen en la fase del evento
+        super.prepareResponse();         
+    }
 }

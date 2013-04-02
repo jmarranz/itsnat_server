@@ -18,6 +18,7 @@ package org.itsnat.impl.core.req.norm;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.req.ContainsItsNatStfulDocumentReferrer;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadDocNotFoundImpl;
@@ -51,7 +52,8 @@ public class RequestNormalLoadDocNotFoundImpl extends RequestNormalLoadDocBaseIm
         return (ResponseNormalLoadDocNotFoundImpl)response;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         ItsNatSessionImpl session = getItsNatSession();
         // También tiene derecho a recibir el referrer de un documento anterior AJAX

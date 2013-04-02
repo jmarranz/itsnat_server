@@ -54,7 +54,8 @@ public abstract class RequestAlreadyLoadedDocImpl extends RequestImpl implements
         return true;
     }
 
-    public void processRequest(ClientDocumentImpl clientDocStateless)
+    @Override
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         if (!checkValidClientSession())
             return;
@@ -62,7 +63,7 @@ public abstract class RequestAlreadyLoadedDocImpl extends RequestImpl implements
         ClientDocumentStfulImpl clientDoc;
         if (clientDocStateless != null)
         {
-            clientDoc = (ClientDocumentStfulImpl)clientDocStateless;
+            clientDoc = clientDocStateless;
         }
         else
         {
