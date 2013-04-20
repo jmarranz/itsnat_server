@@ -718,6 +718,13 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getUserEventListenerRegistry().removeAllItsNatUserEventListeners(target,updateClient);
     }
 
+    public boolean hasGlobalEventListenerListeners()
+    {
+        if (globalDomEventListeners == null)
+            return false;
+        return !globalDomEventListeners.isEmpty();
+    }     
+    
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (globalDomEventListeners == null)

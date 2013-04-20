@@ -21,6 +21,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
+import org.itsnat.impl.core.event.client.ClientDOMEventErrorImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 import org.w3c.dom.events.Event;
@@ -68,18 +69,22 @@ public class EventListenerUtil
             itsNatEvt.unsetEventListenerChain();  // El chain sólo tiene validez en este contexto
         }
     }
-
+    
     private static void addGlobalEventListeners(Event evt,LinkedList<EventListener> listeners)
     {
         ItsNatEventImpl itsNatEvt = (ItsNatEventImpl)evt;
         ItsNatServletImpl servlet = itsNatEvt.getItsNatServletRequestImpl().getItsNatServletImpl();
-        ItsNatStfulDocumentImpl itsNatDoc = itsNatEvt.getItsNatStfulDocument();
-        ItsNatDocumentTemplateImpl template = itsNatDoc.getItsNatDocumentTemplateImpl();
-        ClientDocumentImpl clientDoc = itsNatEvt.getClientDocumentImpl();
+        servlet.getGlobalEventListenerList(listeners);        
         
-        servlet.getGlobalEventListenerList(listeners);
-        template.getGlobalEventListenerList(listeners);
-        itsNatDoc.getGlobalEventListenerList(listeners);
+        ItsNatStfulDocumentImpl itsNatDoc = itsNatEvt.getItsNatStfulDocument();
+        if (itsNatDoc != null)
+        {
+            ItsNatDocumentTemplateImpl template = itsNatDoc.getItsNatDocumentTemplateImpl();
+            template.getGlobalEventListenerList(listeners);            
+            itsNatDoc.getGlobalEventListenerList(listeners);            
+        }
+        
+        ClientDocumentImpl clientDoc = itsNatEvt.getClientDocumentImpl();
         clientDoc.getGlobalEventListenerList(listeners);
     }
 
@@ -92,5 +97,5 @@ public class EventListenerUtil
 
         handleEventListeners(evt,listeners);
     }
-
+    
 }

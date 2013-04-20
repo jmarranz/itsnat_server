@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.resp;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.req.RequestEventStfulImpl;
 
 /**
@@ -32,6 +33,11 @@ public class ResponseEventDoNothingImpl extends ResponseEventStfulImpl
         super(request);
     }
 
+    public ClientDocumentWithoutDocumentDefaultImpl getClientDocumentWithoutDocumentDefault()
+    {
+        return (ClientDocumentWithoutDocumentDefaultImpl)getClientDocument();
+    }
+    
     public void processEvent()
     {
     }

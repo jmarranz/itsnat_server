@@ -16,14 +16,6 @@
 
 package org.itsnat.impl.core.resp;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import javax.servlet.ServletRequest;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.itsnat.impl.core.req.RequestEventStfulImpl;
 
 /**
@@ -32,14 +24,13 @@ import org.itsnat.impl.core.req.RequestEventStfulImpl;
  */
 public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImpl implements ResponseJavaScript
 {
-    protected String scriptId = null; // Sólo es no nulo en los modos SCRIPT y SCRIPT_HOLD
+    protected ResponseEventDelegateImpl delegate;
 
     public ResponseEventStfulImpl(RequestEventStfulImpl request)
     {
         super(request);
 
-        ServletRequest servRequest = request.getItsNatServletRequest().getServletRequest();
-        this.scriptId = servRequest.getParameter("itsnat_script_evt_id");
+        this.delegate = new ResponseEventDelegateImpl(this);
     }
 
     protected void processResponse()
@@ -48,115 +39,22 @@ public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImp
         {
             processEvent();
 
-            sendPendingCode();
+            delegate.sendPendingCode();
 
             postSendPendingCode();
         }
         catch(RuntimeException ex)
         {
-            if (isScriptOrScriptHoldMode())
-            {
-                // Modos SCRIPT y SCRIPT_HOLD
-
-                // La situación es la siguiente: en modos SCRIPT y SCRIPT_HOLD (no AJAX) si dejamos
-                // que la excepción llegue al servidor de servlets dará una respuesta de error al cliente
-                // el cual obviamente no cargará/ejecutará el texto de la excepción via <script>
-                // el problema es que tanto en FireFox como Opera el onload
-                // no se ejecuta (MSIE no probado, en Chrome funciona) quizás porque consideran que
-                // el onload sólo ha de ejecutarse cuando ciertamente el script se ha cargado, la posible
-                // alternativa onerror tampoco (no tengo claro ni si existe en general).
-
-                ex.printStackTrace();
-
-                StringWriter writer = new StringWriter();
-                PrintWriter str = new PrintWriter(writer);
-                ex.printStackTrace(str);
-                str.flush();
-
-                sendPendingCode(writer.toString(),true);
-            }
-            else // AJAX
-            {
-                throw ex;
-            }
+            delegate.processResponseOnException(ex);
         }
-    }
-
-    public abstract void processEvent();
-
-    public abstract void postSendPendingCode();
-
-    public void sendPendingCode()
-    {
-        String code = getCodeToSendAndReset();
-        sendPendingCode(code,false);
-    }
-
-    public boolean isScriptOrScriptHoldMode()
-    {
-        return (scriptId != null);
-    }
-
-    public void sendPendingCode(String code,boolean error)
-    {
-        if (isScriptOrScriptHoldMode())
-        {
-            // Modos SCRIPT y SCRIPT_HOLD
-
-            Browser browser = getClientDocument().getBrowser();
-
-            StringBuilder codeBuff = new StringBuilder();
-
-            codeBuff.append("var elem = document.getElementById(\"" + scriptId + "\");\n"); // elem es el <script> cargador del script
-            codeBuff.append("if (elem != null)"); // elem puede ser null cuando hay un timeout en el cliente y se ha eliminado el <script> y por alguna razón (extraña) se ha cargado y ejecutado el script (REVISAR)
-            codeBuff.append("{\n");
-
-            codeBuff.append("  elem.executed = true;\n");
-            if (error)
-            {
-                codeBuff.append("  elem.error = true;\n");
-                codeBuff.append("  elem.code = " + JSRenderImpl.toTransportableStringLiteral(code,browser) + ";\n");
-            }
-            else
-            {
-                if (browser instanceof BrowserMSIEOld)
-                {
-                    // Esto es porque al eliminar en el cliente el <script> la función JavaScript
-                    // contenida se invalida
-                    codeBuff.append("  elem.code = " + JSRenderImpl.toTransportableStringLiteral(code,browser) + ";\n");
-                }
-                else
-                {
-                    codeBuff.append("  elem.code = function (event,itsNatDoc)\n"); // Los mismos parámetros que processRespValid
-                    codeBuff.append("   {\n");
-                    codeBuff.append( code );
-                    codeBuff.append("   };\n");
-                }
-            }
-
-            codeBuff.append("}\n");
-
-            code = codeBuff.toString();
-        }
-
-        if (code.length() == 0)
-        {   // Este caso obviamente sólo se dará en eventos AJAX
-            // por si acaso lo hacemos también con eventos SCRIPT
-            ClientDocumentImpl clientDoc = getClientDocument();
-            Browser browser = clientDoc.getBrowser();
-            if ((browser instanceof BrowserWebKit) &&
-                ((BrowserWebKit)browser).isAJAXEmptyResponseFails())
-            {
-                code = "          ";
-            }
-        }
-        
-        writeResponse(code);
     }
 
     public boolean isLoadByScriptElement()
     {
-        return isScriptOrScriptHoldMode();
-    }
+        return delegate.isLoadByScriptElement();
+    }    
+    
+    public abstract void processEvent();
 
+    public abstract void postSendPendingCode();
 }

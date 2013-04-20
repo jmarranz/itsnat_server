@@ -610,6 +610,13 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         attachedEventListeners.remove(listener);
     }
 
+    public boolean hasGlobalEventListenerListeners()
+    {
+        if (globalDomEventListeners == null)
+            return false;
+        return !globalDomEventListeners.isEmpty();
+    }    
+    
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (globalDomEventListeners == null)

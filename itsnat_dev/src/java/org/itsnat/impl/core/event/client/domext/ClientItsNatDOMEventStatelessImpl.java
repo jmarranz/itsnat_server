@@ -16,25 +16,25 @@
 
 package org.itsnat.impl.core.event.client.domext;
 
-import org.itsnat.core.event.ItsNatEventStateless;
-import org.itsnat.impl.core.listener.domext.ItsNatEventStatelessListenerWrapperImpl;
+import org.itsnat.core.event.ItsNatEventDOMStateless;
+import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ClientItsNatEventStatelessImpl extends ClientItsNatDOMExtEventImpl implements ItsNatEventStateless
+public class ClientItsNatDOMEventStatelessImpl extends ClientItsNatDOMExtEventImpl implements ItsNatEventDOMStateless
 {
     /** Creates a new instance of ContinueEventImpl */
-    public ClientItsNatEventStatelessImpl(ItsNatEventStatelessListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
+    public ClientItsNatDOMEventStatelessImpl(ItsNatDOMEventStatelessListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
     {
         super(listenerWrapper,request);
     }
 
-    public ItsNatEventStatelessListenerWrapperImpl getEventStatelessListenerWrapper()
+    public ItsNatDOMEventStatelessListenerWrapperImpl getEventStatelessListenerWrapper()
     {
-        return (ItsNatEventStatelessListenerWrapperImpl)listenerWrapper;
+        return (ItsNatDOMEventStatelessListenerWrapperImpl)listenerWrapper;
     }
 
 }

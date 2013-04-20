@@ -19,7 +19,7 @@ package org.itsnat.impl.core.listener.domext;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.event.client.domext.ClientItsNatEventStatelessImpl;
+import org.itsnat.impl.core.event.client.domext.ClientItsNatDOMEventStatelessImpl;
 import static org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl.getTypeStatic;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
@@ -27,12 +27,12 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public class ItsNatEventStatelessListenerWrapperImpl extends ItsNatDOMExtEventListenerWrapperImpl
+public class ItsNatDOMEventStatelessListenerWrapperImpl extends ItsNatDOMExtEventListenerWrapperImpl
 {
     protected int commMode;
 
     /** Creates a new instance of ItsNatUserEventListenerWrapperImpl */
-    public ItsNatEventStatelessListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,int commMode,long eventTimeout)
+    public ItsNatDOMEventStatelessListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,int commMode,long eventTimeout)
     {
         super(itsNatDoc,clientDoc,null,null,null,null,eventTimeout,null);
 
@@ -61,6 +61,6 @@ public class ItsNatEventStatelessListenerWrapperImpl extends ItsNatDOMExtEventLi
 
     public ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request)
     {
-        return new ClientItsNatEventStatelessImpl(this,request);
+        return new ClientItsNatDOMEventStatelessImpl(this,request);
     }
 }

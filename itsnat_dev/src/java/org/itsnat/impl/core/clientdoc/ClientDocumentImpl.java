@@ -126,6 +126,7 @@ public abstract class ClientDocumentImpl extends ItsNatUserDataImpl implements C
     public abstract void addEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener);
     public abstract void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener);
     public abstract void removeEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
-
+    
+    public abstract boolean hasGlobalEventListenerListeners();    
     public abstract void getGlobalEventListenerList(LinkedList<EventListener> list);
 }

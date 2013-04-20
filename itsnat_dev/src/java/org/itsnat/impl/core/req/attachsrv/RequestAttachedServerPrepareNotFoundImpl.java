@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.req.attachsrv;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.req.ContainsItsNatStfulDocumentReferrer;
@@ -73,7 +73,7 @@ public class RequestAttachedServerPrepareNotFoundImpl extends RequestAttachedSer
         // También tiene derecho a recibir el referrer de un documento anterior stateful
         setItsNatStfulDocumentReferrer( session.getReferrer().popItsNatStfulDocument() );
 
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 

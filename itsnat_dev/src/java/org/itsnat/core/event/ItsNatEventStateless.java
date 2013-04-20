@@ -16,16 +16,18 @@
 
 package org.itsnat.core.event;
 
+import org.w3c.dom.events.Event;
+
 /**
  * This event is created by the client calling the ItsNat JavaScript method
  * <code>createEventStateless</code> and dispatched to the server calling the JavaScript method
  * <code>dispatchEventStateless</code>
- * and is received by the global listeners registered in the document loaded by request.
+ * and is received by the global servlet event listeners and global document even listeners when a document template is specified.
  *
  * <p>Default implementation inherits from <code>java.util.EventObject</code>.</p>
  *
  * @author Jose Maria Arranz Santamaria
  */
-public interface ItsNatEventStateless extends ItsNatDOMExtEvent
+public interface ItsNatEventStateless extends ItsNatEvent,Event
 {
 }

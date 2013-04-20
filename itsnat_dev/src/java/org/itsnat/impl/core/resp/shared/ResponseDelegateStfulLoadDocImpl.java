@@ -148,7 +148,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         return getResponseLoadStfulDocumentValid().isSerializeBeforeDispatching();
     }
-
+    
     public void processResponse()
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
@@ -196,7 +196,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         getResponseLoadDoc().sendMarkupToClient(docMarkup);
     }
 
-    protected void dispatchRequestListeners()
+    public void dispatchRequestListeners()
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();

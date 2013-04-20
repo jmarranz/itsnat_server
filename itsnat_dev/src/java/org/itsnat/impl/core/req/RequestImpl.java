@@ -43,7 +43,7 @@ public abstract class RequestImpl
     public static final String ITSNAT_ACTION_ATTACH_SERVER = "attach_server";      
     public static final String ITSNAT_ACTION_ITSNAT_INFO = "itsnat_info";      
     public static final String ITSNAT_ACTION_EVENT_STATELESS = "event_stateless";       
-    public static final String ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD = "event_stateless_phase_load";     
+    public static final String ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC = "event_stateless_phase_load_doc";     
     
     protected ItsNatServletRequestImpl itsNatRequest;
     protected ResponseImpl response;
@@ -73,13 +73,13 @@ public abstract class RequestImpl
                 return RequestItsNatInfoImpl.createRequestItsNatInfo(itsNatRequest);
             else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS))
                 return RequestEventStatelessImpl.createRequestEventStateless(itsNatRequest);            
-            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD))
+            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC))
             {
                 String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
                 if (docName != null)
                     return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,true);                
                 else
-                    return RequestCustomImpl.createRequestCustom(itsNatRequest,true);                
+                    throw new ItsNatException("INTERNAL ERROR");  // Hemos asegurado antes que no es nulo
             }
             else throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
         }
@@ -89,7 +89,7 @@ public abstract class RequestImpl
             if (docName != null)
                 return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,false);
             else
-                return RequestCustomImpl.createRequestCustom(itsNatRequest,false);
+                return RequestCustomImpl.createRequestCustom(itsNatRequest);
         }
     }
 

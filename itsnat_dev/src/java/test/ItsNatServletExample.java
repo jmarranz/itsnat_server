@@ -52,7 +52,7 @@ import test.remotectrl.TestRemoteCtrlLauncherDocLoadListener;
 import test.remtmpl.GoogleSearchResultSource;
 import test.remtmpl.TestRemoteTemplateDocLoadListener;
 import test.remtmpl.TestRemoteTemplateResultDocLoadListener;
-import test.stateless.TestCoreStatelessEventListener;
+import test.stateless.TestCoreStatelessTemplateLevelEventListener;
 import test.shared.TestSerialization;
 import test.svg.TestSVGAttachServerLauncherDocLoadListener;
 import test.svg.TestSVGDocLoadListener;
@@ -359,7 +359,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         
         docTemplate = registerDocument("test_core_stateless_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
         docTemplate.addItsNatServletRequestListener(new TestCoreStatelessEventDocLoadListener());
-        docTemplate.addEventListener(new TestCoreStatelessEventListener(docTemplate));        
+        docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(true);        
         
         // FRAGMENTS

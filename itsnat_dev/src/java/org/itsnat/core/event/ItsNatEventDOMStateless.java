@@ -14,24 +14,16 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.clientdoc;
-
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
+package org.itsnat.core.event;
 
 /**
- * Por ahora este objeto no sirve gran cosa, es para que haya constancia
+ * This event type is the case of event stateless when dispatched to a global document listener
+ * because a document template was specified in request.
  *
- * @author jmarranz
+ * <p>Default implementation inherits from <code>java.util.EventObject</code>.</p>
+ *
+ * @author Jose Maria Arranz Santamaria
  */
-public class ClientDocumentNoServerDocDefaultImpl extends ClientDocumentNoServerDocImpl
+public interface ItsNatEventDOMStateless extends ItsNatEventStateless,ItsNatDOMExtEvent
 {
-    public ClientDocumentNoServerDocDefaultImpl(ItsNatSessionImpl session)
-    {
-        super(session);
-    }
-
-    public void registerInSession()
-    {
-        // No se guarda
-    }
 }

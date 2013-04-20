@@ -17,7 +17,9 @@
 package org.itsnat.impl.core.resp.norm;
 
 import java.util.LinkedList;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.event.client.ClientDOMEventErrorImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatEventStatelessCustomAndDocTemplateNotFoundImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.itsnat.impl.core.req.norm.RequestNormal;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -32,7 +34,7 @@ import org.w3c.dom.events.EventListener;
 public abstract class ResponseNormalEventErrorImpl extends ResponseEventStfulImpl implements ResponseNormal
 {
     /**
-     * Creates a new instance of ResponseNormalLostClientDocImpl
+     * Creates a new instance of ResponseNormalEventErrorImpl
      */
     public ResponseNormalEventErrorImpl(RequestNormalEventImpl request)
     {
@@ -48,6 +50,11 @@ public abstract class ResponseNormalEventErrorImpl extends ResponseEventStfulImp
     {
         return (RequestNormalEventImpl)request;
     }
+    
+    public ClientDocumentWithoutDocumentDefaultImpl getClientDocumentWithoutDocumentDefault()
+    {
+        return (ClientDocumentWithoutDocumentDefaultImpl)getClientDocument();
+    }    
 
     public void postSendPendingCode()
     {
@@ -59,16 +66,12 @@ public abstract class ResponseNormalEventErrorImpl extends ResponseEventStfulImp
 
         ItsNatServletImpl itsNatServlet = request.getItsNatServletRequest().getItsNatServletImpl();
 
-        if (itsNatServlet.hasEventListenerListeners())
+        if (itsNatServlet.hasGlobalEventListenerListeners()) // No miramos más pues sabemos que no hay documento y el ClientDocument es temporal y el programador no tuvo la oportunidad de registrar listeners 
         {
-            LinkedList<EventListener> listeners = new LinkedList<EventListener>();
-            itsNatServlet.getGlobalEventListenerList(listeners);
-
             ClientDOMEventErrorImpl evt = new ClientDOMEventErrorImpl(getRequestNormalEvent());
-            EventListenerUtil.handleEventListeners(evt, listeners);
-
-            return true;
-        }
+            EventListenerUtil.handleEventIncludingGlobalListeners(null,evt);
+        }         
+        
         // Si no hay listeners globales el programador ha perdido su oportunidad
         // de informar al usuario y hacer un window.location.reload(true) o similar,
 

@@ -17,8 +17,6 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.resp.*;
-import java.io.IOException;
-import java.io.Writer;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.req.norm.RequestIFrameFileUploadImpl;

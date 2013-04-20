@@ -95,7 +95,10 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
 
     public void processResponse()
     {
-        responseDelegate.processResponse();
+        if (this.getRequestNormalLoadDoc().isStateless())
+            responseDelegate.dispatchRequestListeners(); // Evitamos la serialización innecesaria del ItsNatDocument
+        else
+            responseDelegate.processResponse();
 
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (!clientDoc.canReceiveSOMENormalEvents())

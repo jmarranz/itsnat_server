@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.req;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
@@ -29,20 +28,18 @@ import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfulDocumentReferrer
 {
     protected ItsNatStfulDocumentImpl itsNatDocReferrer;
-    protected boolean stateless;
     
     /**
      * Creates a new instance of RequestNormalImpl
      */
-    public RequestCustomImpl(ItsNatServletRequestImpl itsNatRequest,boolean stateless)
+    public RequestCustomImpl(ItsNatServletRequestImpl itsNatRequest)
     {
         super(itsNatRequest);
-        this.stateless = stateless;
     }
 
-    public static RequestCustomImpl createRequestCustom(ItsNatServletRequestImpl itsNatRequest,boolean stateless)
+    public static RequestCustomImpl createRequestCustom(ItsNatServletRequestImpl itsNatRequest)
     {
-        return new RequestCustomImpl(itsNatRequest,stateless);
+        return new RequestCustomImpl(itsNatRequest);
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocumentReferrer()
@@ -70,17 +67,15 @@ public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfu
         // lo que hacemos es "pedir" el referrer pero NO hacer un popItsNatStfulDocument() que lo perdería
         // así, si se redirecciona a una request normal de carga, dicha request hará el popItsNatStfulDocument()
         // volviendo a definir el referrer en la request
-        if (!stateless)
-            setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().getItsNatStfulDocument() );
+
+        setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().getItsNatStfulDocument() );
        
         ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
         itsNatServlet.dispatchItsNatServletRequestListeners(itsNatRequest);
     }
 
     protected boolean isMustNotifyEndOfRequestToSession()
-    {
-        if (stateless)
-            return false;        
+    {    
         // Devolvemos true porque el referrer cambia en la sesión pero no hay otra
         // razón pues lo normal es que el request se reenvíe vía
         // ItsNatServlet.processRequest(ServletRequest request, ServletResponse response)

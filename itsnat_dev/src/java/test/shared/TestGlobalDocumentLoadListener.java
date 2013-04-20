@@ -49,6 +49,7 @@ public class TestGlobalDocumentLoadListener implements ItsNatServletRequestListe
             if (docName == null) docName = (String)servReq.getAttribute("itsnat_doc_name");
             if (docName != null)
             {
+                System.out.println("Page not found " + docName);
                 try
                 {
                     Writer out = response.getServletResponse().getWriter();

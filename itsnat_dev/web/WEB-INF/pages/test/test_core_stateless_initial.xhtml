@@ -7,10 +7,7 @@
     <title>TESTS: CORE STATELESS</title>
 
     <style type="text/css">
-        .classExample
-        {
-          color: red;
-        }
+        .styleTest { color: red; }
     </style>
     <script type="text/javascript">
         function EventMonitor()
@@ -78,6 +75,29 @@
     Monitor: <img style="display:none;" id="monitorId" src="img/connect_active.gif" width="20px" />
     <br />    
     
+    <br /><br />    
+    <script>
+    function sendEventStatelessCustom()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('title',document.title);       
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }
+    </script>
+    <a href="javascript:sendEventStatelessCustom()">Test Stateless Event Custom</a>     
+    
+    <br /><br />
+    <script>
+    function sendEventStatelessBadTemplateName()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('title',document.title);
+        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event MAL');        
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }
+    </script>
+    <a href="javascript:sendEventStatelessBadTemplateName()">Test Stateless Event Document Template not found</a>       
+    
     <br /><br />
     <script>
     function sendEventStateless()
@@ -85,12 +105,14 @@
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title);
         userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event');        
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 5000);
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }
     </script>
     <a href="javascript:sendEventStateless()">Test Stateless Event</a>    
 
-
+    <br /><br />
+  
+    
     <br /><br />
     <div>
         <div>

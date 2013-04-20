@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.resp.norm;
 
-import java.util.Iterator;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.req.norm.RequestIFrameFileUploadImpl;
 import org.itsnat.impl.core.req.norm.RequestNormal;

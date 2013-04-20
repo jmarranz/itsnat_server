@@ -289,7 +289,7 @@ public abstract class ItsNatServletImpl extends ItsNatUserDataImpl implements It
         attachedEventListeners.remove(listener);
     }
 
-    public boolean hasEventListenerListeners()
+    public boolean hasGlobalEventListenerListeners()
     {
         if (domEventListeners == null)
             return false;

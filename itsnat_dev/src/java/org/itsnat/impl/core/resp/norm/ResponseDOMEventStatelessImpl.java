@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
 
 /**
@@ -27,7 +27,7 @@ import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
 public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
-    public ResponseDOMEventStatelessImpl(RequestDOMEventStatelessImpl request,ItsNatEventStatelessListenerWrapperImpl listener)
+    public ResponseDOMEventStatelessImpl(RequestDOMEventStatelessImpl request,ItsNatDOMEventStatelessListenerWrapperImpl listener)
     {
         super(request,listener);
     }

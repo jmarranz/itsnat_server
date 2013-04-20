@@ -91,4 +91,13 @@ public abstract class RequestNormalLoadDocBaseImpl extends RequestLoadDocImpl
         return (ResponseNormalLoadDocBaseImpl)response;
     }
 
+    protected boolean isMustNotifyEndOfRequestToSession()
+    {
+        if (stateless)
+            return false;
+        
+        // Devolvemos true porque incluso en el caso de documento no encontrado
+        // se cambia el referrer de la sesión.
+        return true;
+    }        
 }

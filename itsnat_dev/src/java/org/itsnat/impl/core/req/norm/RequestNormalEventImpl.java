@@ -21,7 +21,7 @@ import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.req.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
 import static org.itsnat.impl.core.req.RequestEventStfulImpl.EVENT_TYPE_STATELESS;
@@ -153,7 +153,7 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
     {
         // No hacer nada
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, no se vincula por tanto
 
@@ -164,7 +164,7 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
     public void processClientDocumentNotFoundError(String clientId)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 
@@ -175,7 +175,7 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
     public void processLostSessionError(String sessionId,String sessionToken)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 

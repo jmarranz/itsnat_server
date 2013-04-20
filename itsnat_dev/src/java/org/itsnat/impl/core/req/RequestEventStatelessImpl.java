@@ -19,12 +19,16 @@ package org.itsnat.impl.core.req;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import static org.itsnat.impl.core.req.RequestImpl.ITSNAT_ACTION_EVENT;
+import static org.itsnat.impl.core.req.RequestImpl.ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC;
+import org.itsnat.impl.core.resp.ResponseEventStatelessCustomAndDocTemplateNotFoundImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
  *
@@ -54,34 +58,63 @@ public class RequestEventStatelessImpl extends RequestImpl
     @Override    
     public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
-        ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
         ItsNatServletRequestImpl itsNatRequest = getItsNatServletRequest();
+     
+              
+        String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");        
+        if (docName != null)
+        {
+             processDocumentTemplateSpecified();
+        }
+        else
+        {
+            processCustom();
+        }
+    }
+
+    protected void processDocumentTemplateSpecified()
+    {
+        ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();            
         ItsNatServletResponseImpl itsNatResponse = itsNatRequest.getItsNatServletResponseImpl();               
         ServletRequest request = itsNatRequest.getServletRequest();
-        ServletResponse response = itsNatResponse.getServletResponse();        
-        
-        request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD);
+        ServletResponse response = itsNatResponse.getServletResponse();             
+
+        request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC);            
         ItsNatServletRequestImpl itsNatRequestLoadPhase = itsNatServlet.processRequestInternal(request,response,null);
         ClientDocumentImpl clientDoc = itsNatRequestLoadPhase.getClientDocumentImpl();        
-        if (clientDoc != null && clientDoc instanceof ClientDocumentStfulImpl) 
+        if (clientDoc instanceof ClientDocumentStfulImpl) 
         {
             // No necesitamos un ResponseEventStatelessImpl
-            
+
             request.setAttribute("itsnat_action",ITSNAT_ACTION_EVENT);
             request.setAttribute("itsnat_eventType","stateless");           
-            
+
             ItsNatServletRequestImpl itsNatRequestEventPhase = itsNatServlet.processRequestInternal(request,response,(ClientDocumentStfulImpl)clientDoc);
         }
         else
         {
-            // Puede ser el caso de ClientDocumentNoServerDocDefaultImpl
-            processClientDocumentNotCreated();
-        }
+            // Puede ser el caso de ClientDocumentWithoutDocumentDefaultImpl
+            processDocumentTemplateNotFound(clientDoc);
+        }        
     }
-
-    public void processClientDocumentNotCreated()    
+    
+    protected void processCustom()
     {
-        // HACER
+        ItsNatSessionImpl session = getItsNatSession();
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
+
+        bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
+
+        this.response = new ResponseEventStatelessCustomAndDocTemplateNotFoundImpl(this);
+        response.process();         
+    }
+    
+    public void processDocumentTemplateNotFound(ClientDocumentImpl clientDoc)    
+    {
+        bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
+
+        this.response = new ResponseEventStatelessCustomAndDocTemplateNotFoundImpl(this);
+        response.process(); 
     }    
     
     protected boolean isMustNotifyEndOfRequestToSession()
@@ -89,4 +122,24 @@ public class RequestEventStatelessImpl extends RequestImpl
         // Así nos ahorramos una serialización inútil, estamos en stateless
         return false;
     }
+    
+    public int getCommMode()
+    {
+        return getCommMode(getItsNatServletRequest());     
+    }    
+    
+    public int getEventTimeout()
+    {
+        return getEventTimeout(getItsNatServletRequest());     
+    }        
+    
+    public static int getCommMode(ItsNatServletRequestImpl itsNatRequest)
+    {
+        return Integer.parseInt(itsNatRequest.getAttrOrParamExist("itsnat_commMode"));     
+    }
+    
+    public static int getEventTimeout(ItsNatServletRequestImpl itsNatRequest)
+    {
+        return Integer.parseInt(itsNatRequest.getAttrOrParamExist("itsnat_eventTimeout"));      
+    }    
 }

@@ -6,8 +6,10 @@
 package test.shared;
 
 import java.io.Serializable;
+import javax.servlet.ServletRequest;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEvent;
+import org.itsnat.core.event.ItsNatEventStateless;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 
@@ -27,16 +29,32 @@ public class TestGlobalEventListener implements EventListener,Serializable
     public void handleEvent(Event evt)
     {
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
-        if (itsNatEvt.getItsNatDocument() == null)
+        if (itsNatEvt instanceof ItsNatEventStateless)
         {
-            // Hemos perdido la sesión o la página
-            // El ClientDocument es especial para el caso de documento no encontrado
-            // aún así algunas cosas funcionan.
-            ClientDocument clientDoc = itsNatEvt.getClientDocument();
-            clientDoc.addCodeToSend("if (confirm('Session or page is lost. Reloading...'))");
-            clientDoc.addCodeToSend("  window.location.reload(true);");
-            
-            itsNatEvt.getItsNatEventListenerChain().stop();
+            if (itsNatEvt.getItsNatDocument() == null)
+            {
+                ClientDocument clientDoc = itsNatEvt.getClientDocument();                
+                //ServletRequest request = itsNatEvt.getItsNatServletRequest().getServletRequest();
+                String docName = (String)itsNatEvt.getExtraParam("itsnat_doc_name");
+                if (docName != null)
+                    clientDoc.addCodeToSend("alert('Stateless event OK with not found itsnat_doc_name: " + docName + "');"); 
+                else
+                    clientDoc.addCodeToSend("alert('Custom stateless event OK');"); 
+            }
+        }
+        else
+        {
+            if (itsNatEvt.getItsNatDocument() == null)
+            {
+                // Hemos perdido la sesión o la página
+                // El ClientDocument es especial para el caso de documento no encontrado
+                // aún así algunas cosas funcionan.
+                ClientDocument clientDoc = itsNatEvt.getClientDocument();
+                clientDoc.addCodeToSend("if (confirm('Session or page is lost. Reloading...'))");
+                clientDoc.addCodeToSend("  window.location.reload(true);");
+
+                itsNatEvt.getItsNatEventListenerChain().stop();
+            }
         }
     }
 

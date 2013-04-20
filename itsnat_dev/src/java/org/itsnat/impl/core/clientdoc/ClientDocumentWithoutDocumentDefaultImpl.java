@@ -14,30 +14,24 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.req;
+package org.itsnat.impl.core.clientdoc;
 
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.resp.ResponseLoadDocImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
+ * Por ahora este objeto no sirve gran cosa, es para que haya constancia
  *
  * @author jmarranz
  */
-public abstract class RequestLoadDocImpl extends RequestImpl
+public class ClientDocumentWithoutDocumentDefaultImpl extends ClientDocumentWithoutDocumentImpl
 {
-
-    /**
-     * Creates a new instance of RequestNormalImpl
-     */
-    public RequestLoadDocImpl(ItsNatServletRequestImpl itsNatRequest)
+    public ClientDocumentWithoutDocumentDefaultImpl(ItsNatSessionImpl session)
     {
-        super(itsNatRequest);
+        super(session);
     }
 
-    public ResponseLoadDocImpl getResponseLoadDoc()
+    public void registerInSession()
     {
-        return (ResponseLoadDocImpl)response;
+        // No se guarda
     }
-
-
 }

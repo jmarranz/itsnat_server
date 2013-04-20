@@ -35,6 +35,7 @@ public class ResponseAttachedClientErrorEventLostClientDocImpl extends ResponseA
         this.lostClientId = lostClientId;
     }
 
+    @Override
     public boolean processGlobalListeners()
     {
         if (!super.processGlobalListeners())

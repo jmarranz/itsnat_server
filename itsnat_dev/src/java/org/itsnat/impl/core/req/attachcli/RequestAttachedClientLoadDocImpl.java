@@ -419,4 +419,9 @@ public class RequestAttachedClientLoadDocImpl extends RequestLoadDocImpl impleme
             return new ItsNatAttachedClientEventNotRefreshImpl(this);
         return null; // ERROR
     }
+    
+    protected boolean isMustNotifyEndOfRequestToSession()
+    {
+        return true;
+    }    
 }
