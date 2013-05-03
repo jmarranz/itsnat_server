@@ -26,17 +26,11 @@ ItsNat provides many more (core) features:
 
 - COMET without special application servers
 
-- Server side DOM utils (to simplify DOM manipulation like lists, trees, ElementCSSInlineStyle
+- Server side DOM utils (to simplify DOM manipulation like lists, trees, ElementCSSInlineStyle support etc)
 
-- support etc)
+- Resolution of ${} based variables in markup (helps to keep Java DOM code as agnostic as possible of the concrete layout)
 
-- Resolution of ${} based variables in markup (helps to keep Java DOM code as agnostic as
-
-- possible of the concrete layout)
-
-- Markup fragments (dynamic parts of the page to be inserted in any time very useful in
-
-- Single Page Interface)
+- Markup fragments (dynamic parts of the page to be inserted in any time very useful in Single Page Interface)
 
 - DOM subtrees in server not going to be used anymore can be removed only in server saving memory (disconnected child nodes)
 
