@@ -26,10 +26,10 @@ import org.itsnat.impl.core.event.ItsNatEventImpl;
  *
  * @author jmarranz
  */
-public abstract class ServerItsNatEventImpl extends ItsNatEventImpl
+public abstract class ServerItsNatEventStfulImpl extends ItsNatEventImpl
 {
-    /** Creates a new instance of ServerItsNatEventImpl */
-    public ServerItsNatEventImpl(ItsNatStfulDocumentImpl itsNatDoc)
+    /** Creates a new instance of ServerItsNatEventStfulImpl */
+    public ServerItsNatEventStfulImpl(ItsNatStfulDocumentImpl itsNatDoc)
     {
         super(itsNatDoc);
     }

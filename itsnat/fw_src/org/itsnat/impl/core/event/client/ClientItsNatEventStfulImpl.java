@@ -29,12 +29,12 @@ import org.itsnat.impl.core.req.RequestImpl;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatEventImpl extends ItsNatEventImpl
+public abstract class ClientItsNatEventStfulImpl extends ItsNatEventImpl
 {
     /**
-     * Creates a new instance of ClientItsNatEventImpl
+     * Creates a new instance of ClientItsNatEventStfulImpl
      */
-    public ClientItsNatEventImpl(RequestStfulDocument request)
+    public ClientItsNatEventStfulImpl(RequestStfulDocument request)
     {
         super(request);
     }
@@ -79,6 +79,7 @@ public abstract class ClientItsNatEventImpl extends ItsNatEventImpl
         return getRequest().getItsNatServletRequest();
     }
 
+    @Override
     public Object getExtraParam(String name)
     {
         Object value = super.getExtraParam(name);

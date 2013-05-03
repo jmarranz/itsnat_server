@@ -29,20 +29,23 @@ import org.w3c.dom.Node;
  */
 public class NodeLocationWithParentImpl extends NodeLocationImpl
 {
+    protected NodeLocationImpl nodeLocationDeleg;
     protected Node cachedParent;
     protected String cachedParentId;
     protected ArrayList<String> newCachedParentIds;
 
     private NodeLocationWithParentImpl(Node node,String id,String path,Node cachedParent,String cachedParentId,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
     {
-        super(node,id,path,clientDoc);
+        super(clientDoc);
 
-        if (node == null) throw new ItsNatException("INTERNAL ERROR");
+        if (node == null) throw new ItsNatException("INTERNAL ERROR");           
+        
+        this.nodeLocationDeleg = getNodeLocationNotParent(node, id, path, clientDoc);
 
         this.cachedParent = cachedParent;
         this.cachedParentId = cachedParentId;
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if ((nodeCache != null) && cacheIfPossible) // Aunque esté cacheado el nodo principal aprovechamos para cachear los padres.
         {
             // Cacheamos unos cuantos padres inmediatos para que los nodos "adyacentes" (de la zona en general)
@@ -72,6 +75,8 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
                 else currParent = null; // Ya cacheado, paramos
             }
         }
+        
+        if ((nodeLocationDeleg instanceof NodeLocationAlreadyCachedNotParentImpl) && !isNull(cachedParentId)) throw new ItsNatException("INTERNAL ERROR");        
     }
 
     public NodeLocationWithParentImpl(Node node,String id,String path,boolean cacheIfPossible,ClientDocumentStfulImpl clientDoc)
@@ -79,6 +84,17 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         this(node,id,path,null,null,cacheIfPossible,clientDoc);
     }
 
+    @Override
+    public Node getNode()
+    {
+        return nodeLocationDeleg.getNode();
+    }
+    
+    public boolean isJustCached()
+    {
+        return nodeLocationDeleg.isJustCached();
+    }    
+    
     private String getCachedParentId()
     {
         return cachedParentId;
@@ -90,34 +106,32 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         return JSRenderImpl.toLiteralStringJS(getCachedParentId());
     }
 
-    @Override
-    public boolean isAlreadyCached()
-    {
-        boolean cached = super.isAlreadyCached();
-        if (cached && !isNull(cachedParentId)) throw new ItsNatException("INTERNAL ERROR");
-        return cached;
-    }
-
-    public String toJSArray(boolean errIfNull)
+    public String toJSNodeLocation(boolean errIfNull)
     {
         this.used = true;
 
-        if (isAlreadyCached())
+        nodeLocationDeleg.setUsed();
+        
+        if (nodeLocationDeleg instanceof NodeLocationAlreadyCachedNotParentImpl)
         {
+            NodeLocationAlreadyCachedNotParentImpl nodeLocDeleg = (NodeLocationAlreadyCachedNotParentImpl)nodeLocationDeleg;
             if (newCachedParentIds == null)
-                return getIdJS(); // 1 item
+                return nodeLocDeleg.getIdJS(); // 1 item
             else
-                return "[" + getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items
+                return "[" + nodeLocDeleg.getIdJS() + "," + toJSArrayCachedParents() + "]"; // 2 items el segundo un array
         }
-        else
+        else if (nodeLocationDeleg instanceof NodeLocationPathBasedNotParentImpl)
         {
+            NodeLocationPathBasedNotParentImpl nodeLocDeleg = (NodeLocationPathBasedNotParentImpl)nodeLocationDeleg;            
+            
             StringBuilder code = new StringBuilder();
-            code.append( "[" + getCachedParentIdJS() + "," + getIdJS() + "," + getPathJS() );  // 3 items
+            code.append( "[" + getCachedParentIdJS() + "," + nodeLocDeleg.getIdJS() + "," + nodeLocDeleg.getPathJS() );  // 3 items
             if (newCachedParentIds != null)
-                code.append( "," + toJSArrayCachedParents() ); // 4 items (array dentro de array)
+                code.append( "," + toJSArrayCachedParents() ); // 4 items (el último un array dentro de array)
             code.append( "]" );
             return code.toString();
         }
+        else throw new ItsNatException("INTERNAL ERROR");
     }
 
     protected String toJSArrayCachedParents()
@@ -171,7 +185,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
     {
         // Si cacheIfPossible es true y se cachea el nodo, el location DEBE enviarse al cliente y resolverse para cachear en el cliente
 
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache != null)
         {
             String id = nodeCache.getId(node);

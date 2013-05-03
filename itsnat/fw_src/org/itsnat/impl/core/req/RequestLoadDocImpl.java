@@ -39,10 +39,5 @@ public abstract class RequestLoadDocImpl extends RequestImpl
         return (ResponseLoadDocImpl)response;
     }
 
-    protected boolean isMustNotifyEndOfRequestToSession()
-    {
-        // Devolvemos true porque incluso en el caso de documento no encontrado
-        // se cambia el referrer de la sesión.
-        return true;
-    }
+
 }

@@ -25,9 +25,9 @@ import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
  */
 public class RequestNormalLoadDocDefaultImpl extends RequestNormalLoadDocImpl
 {
-    public RequestNormalLoadDocDefaultImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest)
+    public RequestNormalLoadDocDefaultImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
-        super(docTemplate,itsNatRequest);
+        super(docTemplate,itsNatRequest,stateless);
     }
 
     public RequestAttachedServerLoadDocImpl getParentRequestAttachedServerLoadDoc()

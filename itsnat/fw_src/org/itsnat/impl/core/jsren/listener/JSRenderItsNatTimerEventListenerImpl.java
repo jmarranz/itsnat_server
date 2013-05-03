@@ -52,7 +52,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que currentTarget puede ser NULO
-        code.append( "itsNatDoc.addTimerEventListener(" + nodeLoc.toJSArray(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
+        code.append( "itsNatDoc.addTimerEventListener(" + nodeLoc.toJSNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
 
         return code.toString();
     }

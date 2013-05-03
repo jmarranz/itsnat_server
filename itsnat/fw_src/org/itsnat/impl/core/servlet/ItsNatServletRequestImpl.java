@@ -28,10 +28,10 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.req.RequestImpl;
-import java.io.UnsupportedEncodingException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ClientDocument;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**
  *
@@ -180,10 +180,10 @@ public abstract class ItsNatServletRequestImpl extends ItsNatUserDataImpl implem
         return getItsNatSessionImpl();
     }
 
-    public void process(String action)
+    public void process(String action,ClientDocumentStfulImpl clientDocStateless)
     {
         this.delegRequest = RequestImpl.createRequest(action,this);
-        delegRequest.process();
+        delegRequest.process(clientDocStateless);
     }
 
     public Object getVariable(String varName)

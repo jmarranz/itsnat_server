@@ -60,7 +60,7 @@ public class JSRenderSVGAttributeSVGWebImpl extends JSRenderOtherNSAttributeImpl
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttributeNS2(" + nodeLoc.toJSArray(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\"," + jsValue + ");\n";
+                return "itsNatDoc.setAttributeNS2(" + nodeLoc.toJSNodeLocation(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\"," + jsValue + ");\n";
             }
             else
             {
@@ -81,7 +81,7 @@ public class JSRenderSVGAttributeSVGWebImpl extends JSRenderOtherNSAttributeImpl
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.removeAttributeNS2(" + nodeLoc.toJSArray(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\");\n";
+                return "itsNatDoc.removeAttributeNS2(" + nodeLoc.toJSNodeLocation(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\");\n";
             }
             else
             {

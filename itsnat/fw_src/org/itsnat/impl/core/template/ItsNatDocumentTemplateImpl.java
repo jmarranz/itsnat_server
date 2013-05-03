@@ -481,6 +481,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         attachedEventListeners.remove(listener);
     }
 
+    public boolean hasGlobalEventListenerListeners()
+    {
+        if (domEventListeners == null)
+            return false;
+        return !domEventListeners.isEmpty();
+    }    
+    
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (domEventListeners == null)

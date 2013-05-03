@@ -6,7 +6,6 @@
 package test.shared;
 
 import java.io.Serializable;
-import javax.servlet.ServletRequest;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ItsNatEventStateless;
@@ -37,9 +36,9 @@ public class TestGlobalEventListener implements EventListener,Serializable
                 //ServletRequest request = itsNatEvt.getItsNatServletRequest().getServletRequest();
                 String docName = (String)itsNatEvt.getExtraParam("itsnat_doc_name");
                 if (docName != null)
-                    clientDoc.addCodeToSend("alert('Stateless event OK with not found itsnat_doc_name: " + docName + "');"); 
+                    clientDoc.addCodeToSend("alert('Stateless event OK with not found itsnat_doc_name: " + docName + " and title " + itsNatEvt.getExtraParam("title") + "');"); 
                 else
-                    clientDoc.addCodeToSend("alert('Custom stateless event OK');"); 
+                    clientDoc.addCodeToSend("alert('Custom stateless event OK and title " + itsNatEvt.getExtraParam("title") + "');"); 
             }
         }
         else

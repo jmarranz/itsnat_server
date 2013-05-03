@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.req;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
@@ -51,7 +52,8 @@ public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfu
         this.itsNatDocReferrer = itsNatDocReferrer;
     }
 
-    public void processRequest()
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         // Casi siempre (¿siempre?) un request custom será una carga de página, aunque en teoría
         // podría ser una request AJAX a mano.
@@ -65,6 +67,7 @@ public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfu
         // lo que hacemos es "pedir" el referrer pero NO hacer un popItsNatStfulDocument() que lo perdería
         // así, si se redirecciona a una request normal de carga, dicha request hará el popItsNatStfulDocument()
         // volviendo a definir el referrer en la request
+
         setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().getItsNatStfulDocument() );
        
         ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
@@ -72,7 +75,7 @@ public class RequestCustomImpl extends RequestImpl implements ContainsItsNatStfu
     }
 
     protected boolean isMustNotifyEndOfRequestToSession()
-    {
+    {    
         // Devolvemos true porque el referrer cambia en la sesión pero no hay otra
         // razón pues lo normal es que el request se reenvíe vía
         // ItsNatServlet.processRequest(ServletRequest request, ServletResponse response)

@@ -118,12 +118,14 @@ window.ItsNatFixOtherNSInHTML = function ()
             elem = elemClone;
         }
         else this.fixAttributes(elem,prefixes);
-        for(var i = 0; i < elem.childNodes.length; i++)
+	var childNodes = []; 
+	for(var i = 0; i < elem.childNodes.length; i++) childNodes.push(elem.childNodes[i]); // hacemos compia pues al reemplazar se cambia la colección
+        for(var i = 0; i < childNodes.length; i++)
         {
-            var node = elem.childNodes[i];
+            var node = childNodes[i];
             if (node.nodeType != 1) continue; // 1 == Node.ELEMENT_NODE
             this.processElement(node,defNS,prefixes);
-        }
+        }        
     };
 
     this.fixTreeOtherNSInHTML = function (tagNameList)

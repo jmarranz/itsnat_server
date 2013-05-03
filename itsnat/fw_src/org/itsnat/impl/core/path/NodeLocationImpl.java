@@ -13,48 +13,40 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
 package org.itsnat.impl.core.path;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
+import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class NodeLocationImpl
+public abstract class NodeLocationImpl 
 {
     protected ClientDocumentStfulImpl clientDoc;
-    protected String id;
-    protected String path;
-    protected Node node;
     protected boolean used = false;
-
-    /** Creates a new instance of NodeLocationImpl */
-    public NodeLocationImpl(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    
+    public NodeLocationImpl(ClientDocumentStfulImpl clientDoc)
     {
-        this.node = node;
-        this.id = id;
-        this.path = path;
         this.clientDoc = clientDoc;
-
-        if ((node != null) && isNull(id) && isNull(path))
-            throw new ItsNatException("Node not bound to document tree",node);
-    }
-
-    public void throwNullException()
-    {
-        if (node == null) throw new ItsNatException("No specified node");
-    }
+    }    
+   
+    public abstract Node getNode();
 
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return clientDoc;
     }
 
+    protected void setUsed()    
+    {
+        this.used = true;
+    }
+    
+    @Override
     protected void finalize() throws Throwable
     {
         super.finalize();
@@ -69,61 +61,125 @@ public abstract class NodeLocationImpl
             //ex.printStackTrace();
             //throw ex;
         }
-    }
-
-    public Node getNode()
-    {
-        return node;
-    }
-
-    protected boolean isNull(String str)
+    }    
+     
+    protected static boolean isNull(String str)
     {
         return ((str == null) || str.equals("null"));
+    }        
+    
+    public abstract boolean isJustCached();    
+    
+    public abstract String toJSNodeLocation(boolean errIfNodeNull);    
+    
+    
+    public static NodeLocationImpl getNodeLocation(ClientDocumentStfulImpl clientDoc,Node node,boolean cacheIfPossible)
+    {
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
+
+        return NodeLocationWithParentImpl.getNodeLocationWithParent(node,cacheIfPossible,clientDoc);
     }
 
-    public boolean isAlreadyCached()
+    public static NodeLocationImpl getRefNodeLocationInsertBefore(ClientDocumentStfulImpl clientDoc,Node newNode,Node nextSibling)
     {
-        return !isNull(id) && isNull(path);
+        // El NodeLocationImpl a obtener ¡¡¡es el de nextSibling!!!
+        if (nextSibling == null) return new NodeLocationNullImpl(clientDoc);
+
+        String idRefChild = null;
+        String refChildPathRel = null;
+        boolean needRefNodePath = false;
+
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
+        if (nodeCache != null)
+        {
+            idRefChild = nodeCache.getId(nextSibling);
+            if (idRefChild != null) // Está en la caché
+            {
+                needRefNodePath = false; // está cacheado, no necesitamos calcular el path
+            }
+            else
+            {
+                // No cacheado,intentamos cachear ahora, necesitamos calcular el path para que se cachee en el cliente también
+                needRefNodePath = true;
+                idRefChild = nodeCache.addNode(nextSibling); // el caso null es que no es cacheable por ejemplo, o la caché está "bloqueada"
+            }
+        }
+        else needRefNodePath = true;
+
+        if (needRefNodePath)
+        {
+            // Necesitamos calcular el path
+
+            // En el navegador todavía no se ha insertado por lo que el path de newNode
+            // es precisamente el path del nodo de referencia "desplazado" por el nuevo nodo
+            // no es el path de nextSibling.
+            // En el caso de que el nextSibling sea un Text node falta el sufijo
+            refChildPathRel = clientDoc.getRelativeStringPathFromNodeParent(newNode);
+            refChildPathRel = DOMPathResolver.removeTextNodeSuffix(refChildPathRel); // Pues nos interesa el path sólo pues este no es el verdadero nodo, es nextSibling
+            if (nextSibling.getNodeType() == Node.TEXT_NODE)
+                refChildPathRel += DOMPathResolver.getTextNodeSuffix();
+            
+            // El idParent no se necesita porque en el insertBefore se pasa el nodo parent como argumento
+            return new NodeLocationPathBasedNotParentImpl(nextSibling,idRefChild,refChildPathRel,clientDoc);            
+        }
+        else
+        {
+            // Está ya cacheado
+            return new NodeLocationAlreadyCachedNotParentImpl(nextSibling,idRefChild,clientDoc);              
+        }
+
     }
 
-    public boolean isJustCached()
+    public static NodeLocationImpl getNodeLocationRelativeToParent(ClientDocumentStfulImpl clientDoc,Node node)
     {
-        // Se acaba de cachear, aparte del id el path debe de estar definido, sea absoluto o relativo respecto al padre
-        return !isNull(id) && !isNull(path);
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
+
+        // Este método es útil cuando se dispone ya del parent en el cliente obtenido de alguna forma
+        String idNode = null;
+        String nodePathRel = null;
+        boolean needNodePath = false;
+
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
+        if (nodeCache != null)
+        {
+            idNode = nodeCache.getId(node);
+            if (idNode != null) // Está en la caché
+            {
+                needNodePath = false; // está cacheado, no necesitamos calcular el path
+            }
+            else
+            {
+                // Intentamos cachear ahora, necesitamos calcular el path para que se cachee en el cliente también
+                needNodePath = true;
+                idNode = nodeCache.addNode(node); // el caso null es que no es cacheable por ejemplo, o la caché está "bloqueada"
+            }
+        }
+        else needNodePath = true;
+
+        if (needNodePath)
+        {
+            // Necesitamos calcular el path
+            nodePathRel = clientDoc.getRelativeStringPathFromNodeParent(node);
+            
+            // El idParent no se necesita porque el nodo parent se obtiene por otras vías
+            return new NodeLocationPathBasedNotParentImpl(node,idNode,nodePathRel,clientDoc);            
+        }
+        else        
+        {
+            // Está ya cacheado
+            return new NodeLocationAlreadyCachedNotParentImpl(node,idNode,clientDoc);              
+        }                
+    }        
+    
+    public static NodeLocationImpl getNodeLocationNotParent(Node node,String id,String path,ClientDocumentStfulImpl clientDoc)
+    {    
+        if (node == null) return new NodeLocationNullImpl(clientDoc);
+        
+        if (path != null)        
+            return new NodeLocationPathBasedNotParentImpl(node,id,path,clientDoc);                    
+        else // Está ya cacheado
+            return new NodeLocationAlreadyCachedNotParentImpl(node,id,clientDoc);                      
     }
 
-    public boolean isCached()
-    {
-        // O ya estaba cacheado o se acaba de cachear
-        return !isNull(id);
-    }
-
-    private String getId()
-    {
-        return id;
-    }
-
-    private String getPath()
-    {
-        return path;
-    }
-
-    protected String getIdJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getId());
-    }
-
-    /* Este método no se necesita fuera */
-    protected String getPathJS()
-    {
-        return JSRenderImpl.toLiteralStringJS(getPath());
-    }
-/*
-    public String toJSArray()
-    {
-        return toJSArray(true);
-    }
-*/
-    public abstract String toJSArray(boolean errIfNull);
 
 }

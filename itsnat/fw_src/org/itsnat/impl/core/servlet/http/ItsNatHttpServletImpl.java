@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
@@ -64,7 +66,13 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
             return new ItsNatHttpServletRequestImpl(this,request,response); // La cargará de-serializándola o creará una nueva etc
     }
 
-    public void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    public ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentStfulImpl clientDocStateless) 
+    {
+        return processRequestInternal((HttpServletRequest)request,(HttpServletResponse)response,clientDocStateless);
+    }
+    
+    public ItsNatServletRequestImpl processRequestInternal(HttpServletRequest request, HttpServletResponse response,ClientDocumentStfulImpl clientDocStateless)
     {
         try
         {
@@ -88,20 +96,16 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
         
         String action = ItsNatServletRequestImpl.getAttrOrParam(request,"itsnat_action");
         if ((action != null)&& action.equals(ACTION_SERVLET_WEAK_UP))
-            return; // NO HACEMOS ABSOLUTAMENTE NADA, es para que se inicie en servlet y se registren
+            return null; // NO HACEMOS ABSOLUTAMENTE NADA, es para que se inicie en servlet y se registren
                     // los templates, útil en de-serialización en GAE,
                     // el mero hecho de crear un ItsNatHttpServletRequestImpl ya carga la sesión, lo evitamos
 
         ItsNatHttpServletRequestImpl itsNatReq = createItsNatHttpServletRequest(request,response,null);
-
-        itsNatReq.process(action);
+        itsNatReq.process(action,clientDocStateless);
+        
+        return itsNatReq;
     }
-
-    public void processRequest(ServletRequest request, ServletResponse response)
-    {
-        processRequest((HttpServletRequest)request,(HttpServletResponse)response);
-    }
-
+    
     public ServletRequest createServletRequest(ServletRequest request,Map<String,String[]> params)
     {
         // Nota: los tipos genéricos <String,String[]> son ya los claramente definidos en la spec servlet 

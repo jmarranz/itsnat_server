@@ -37,6 +37,7 @@ public class ResponseNormalLoadDocNotFoundImpl extends ResponseNormalLoadDocBase
         super(request);
     }
 
+    @Override
     public RequestNormal getRequestNormal()
     {
         return (RequestNormal)request;
@@ -49,11 +50,14 @@ public class ResponseNormalLoadDocNotFoundImpl extends ResponseNormalLoadDocBase
 
     protected void processResponse()
     {
+        if (getRequestNormalLoadDocNotFound().isStateless())
+            return; // Necesitamos devolver si o si JavaScript, por ello evitamos hacer un dispatch de los eventos globales ItsNatServletRequestListener que en este contexto lo normal es que devuelvan un HTML en plan documento no encontrado o bien arrojar una excepción (peor aun)
+        
         dispatchRequestListeners();
     }
 
     public void dispatchRequestListeners()
-    {
+    {   
         // Damos una oportunidad de procesar a medida el "page not found"
         // pudiendo mostrar una página de error elegante
 

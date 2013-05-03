@@ -16,7 +16,9 @@
 
 package org.itsnat.impl.core.req.norm;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.req.ContainsItsNatStfulDocumentReferrer;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadDocNotFoundImpl;
@@ -33,9 +35,9 @@ public class RequestNormalLoadDocNotFoundImpl extends RequestNormalLoadDocBaseIm
     /**
      * Creates a new instance of RequestNormalLoadDocValidImpl
      */
-    public RequestNormalLoadDocNotFoundImpl(String docName,ItsNatServletRequestImpl itsNatRequest)
+    public RequestNormalLoadDocNotFoundImpl(String docName,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
-        super(itsNatRequest);
+        super(itsNatRequest,stateless);
 
         this.docName = docName;
     }
@@ -50,13 +52,15 @@ public class RequestNormalLoadDocNotFoundImpl extends RequestNormalLoadDocBaseIm
         return (ResponseNormalLoadDocNotFoundImpl)response;
     }
 
-    public void processRequest()
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
-        ItsNatSessionImpl session = getItsNatSession();
         // También tiene derecho a recibir el referrer de un documento anterior AJAX
-        setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );
+        if (!stateless)        
+            setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );
 
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ItsNatSessionImpl session = getItsNatSession();        
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 

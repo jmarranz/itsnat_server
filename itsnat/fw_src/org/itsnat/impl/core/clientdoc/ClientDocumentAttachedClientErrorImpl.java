@@ -24,7 +24,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
  *
  * @author jmarranz
  */
-public class ClientDocumentAttachedClientErrorImpl extends ClientDocumentNoServerDocImpl
+public class ClientDocumentAttachedClientErrorImpl extends ClientDocumentWithoutDocumentImpl
 {
     protected int phase;
 

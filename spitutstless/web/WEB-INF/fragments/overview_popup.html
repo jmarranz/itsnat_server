@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:itsnat="http://itsnat.org/itsnat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Overview Popup</title>
+</head>
+<body>
+
+    <div style="position:absolute; z-index:1; background:white; width:80%; height:80%; left:10%;  top:5%; padding:30px;">
+        <h2>Overview Popup</h2>
+
+        <p>Overview + popup is also a fundamental state so this text is processed by
+            search engine crawlers (Google,Yahoo,Bing...), because you can reach this
+            state on load time with a URL <a href="?st=overview.showpopup">like this</a>
+            (you can find this text in the end of the page loaded).
+        </p>
+
+        <p><a href="?st=overview" onclick="setState('overview'); return false;"
+              itsnat:nocache="true">Click to exit</a></p>
+        <!-- This "useless" link is only needed in Pocket IE because with ItsNat
+          help it sends events to parent nodes, and to exit with JavaScript disabled -->
+    </div>
+
+</body>
+</html>

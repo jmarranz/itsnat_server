@@ -16,7 +16,9 @@
 
 package org.itsnat.impl.core.path;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -24,21 +26,29 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
  */
 public class NodeLocationNullImpl extends NodeLocationImpl
 {
-    private NodeLocationNullImpl(ClientDocumentStfulImpl clientDoc)
+    public NodeLocationNullImpl(ClientDocumentStfulImpl clientDoc)
     {
-        super(null,null,null,clientDoc);
+        super(clientDoc);
     }
 
-    public String toJSArray(boolean errIfNull)
+    public Node getNode()
+    {
+        return null;
+    }    
+    
+    @Override
+    public boolean isJustCached()
+    {
+        return false;
+    }
+    
+    public String toJSNodeLocation(boolean errIfNullNode)
     {
         this.used = true;
 
-        if (errIfNull) throwNullException();
+        if (errIfNullNode) throw new ItsNatException("No specified node");
+        
         return "null";
     }
 
-    public static NodeLocationNullImpl getNodeLocationNull(ClientDocumentStfulImpl clientDoc)
-    {
-        return new NodeLocationNullImpl(clientDoc);
-    }
 }

@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
@@ -41,9 +42,9 @@ public abstract class RequestNormalLoadDocImpl extends RequestNormalLoadDocBaseI
     /**
      * Creates a new instance of RequestNormalLoadDocImpl
      */
-    public RequestNormalLoadDocImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest)
+    public RequestNormalLoadDocImpl(ItsNatDocumentTemplateImpl docTemplate,ItsNatServletRequestImpl itsNatRequest,boolean stateless)
     {
-        super(itsNatRequest);
+        super(itsNatRequest,stateless);
 
         this.docTemplate = docTemplate;
         this.delegate = new RequestDelegateLoadDocImpl(this);
@@ -54,7 +55,8 @@ public abstract class RequestNormalLoadDocImpl extends RequestNormalLoadDocBaseI
         return (ResponseNormalLoadDocImpl)response;
     }
 
-    public void processRequest()
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
 
 /*
@@ -75,8 +77,8 @@ System.out.println();
         ItsNatStfulDocumentImpl parentItsNatDoc = bindParentItsNatDocument(itsNatDoc); // Necesario antes de sincronizar el hijo
         if (parentItsNatDoc == null) // Debe ser null porque no tiene sentido que un iframe/object/embed/applet vinculado al padre reciba el referrer de la página anterior pues en este caso el iframe no se ha cargado por navegación sino a través del documento padre
         {
-            // Aunque este documento no sea AJAX podría recibir un referrer de un documento anterior AJAX
-            setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );
+            if (!stateless)
+                setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );  // Aunque este documento no sea AJAX podría recibir un referrer de un documento anterior AJAX
         }
 
         ItsNatDocSynchronizerImpl syncTask = new ItsNatDocSynchronizerImpl()

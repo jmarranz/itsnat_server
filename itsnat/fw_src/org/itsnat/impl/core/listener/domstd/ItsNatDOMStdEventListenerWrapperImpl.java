@@ -78,6 +78,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListener
         return useCapture;
     }
 
+    @Override
     public void handleEvent(ClientItsNatDOMEventImpl event)
     {
         super.handleEvent(event);

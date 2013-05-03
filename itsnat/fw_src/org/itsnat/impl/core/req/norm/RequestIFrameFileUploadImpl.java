@@ -18,7 +18,7 @@ package org.itsnat.impl.core.req.norm;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
@@ -114,7 +114,7 @@ public class RequestIFrameFileUploadImpl extends RequestAlreadyLoadedDocImpl imp
     public void processClientDocumentNotFound(String clientId)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 
@@ -125,7 +125,7 @@ public class RequestIFrameFileUploadImpl extends RequestAlreadyLoadedDocImpl imp
     public void processLostSession(String sessionId,String sessionToken)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 

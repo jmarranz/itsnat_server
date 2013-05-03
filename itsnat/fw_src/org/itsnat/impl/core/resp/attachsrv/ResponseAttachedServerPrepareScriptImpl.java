@@ -18,6 +18,7 @@ package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
+import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerPrepareImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateAttachedServerImpl;
@@ -67,7 +68,7 @@ public class ResponseAttachedServerPrepareScriptImpl extends ResponseAttachedSer
 
         code.append("itsnat.endSendMarkup = function()\n");
         code.append("{ \n");
-        code.append("  var url = \"" + url + "?itsnat_action=attach_server&itsnat_subaction=load_doc&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n");
+        code.append("  var url = \"" + url + "?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_SERVER + "&itsnat_subaction=load_doc&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime();\n");
         code.append("  this.writeScript(url);\n");
         code.append("}; \n");
 
@@ -85,7 +86,7 @@ public class ResponseAttachedServerPrepareScriptImpl extends ResponseAttachedSer
         code.append("  if (typeof this.scriptGlobalCount == \"undefined\") this.scriptGlobalCount = 0;\n");
         code.append("  this.scriptGlobalCount++; "); // Para asegurar totalmente la unicidad en caso de envíos demasiado rápidos
 
-        code.append("  var url = \"" + url + "?itsnat_action=attach_server&itsnat_subaction=load_markup&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime() + \"-\" + this.scriptGlobalCount + \"&itsnat_markup_code=\" + markupPiece;\n");
+        code.append("  var url = \"" + url + "?itsnat_action=" + RequestImpl.ITSNAT_ACTION_ATTACH_SERVER + "&itsnat_subaction=load_markup&itsnat_client_id=" + clientDoc.getId() + "&timestamp=\" + new Date().getTime() + \"-\" + this.scriptGlobalCount + \"&itsnat_markup_code=\" + markupPiece;\n");
         code.append("  this.writeScript(url);\n");
         code.append("  this.pos1 = this.pos2; this.pos2 += this.sliceLen;\n");
         code.append("  if (this.pos2 > this.markupCode.length) this.pos2 = this.markupCode.length;\n");

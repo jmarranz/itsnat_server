@@ -68,7 +68,7 @@ public class JSScriptUtilFromDocImpl extends JSScriptUtilImpl
         // por las vistas y se quiere una nueva referencia como string.
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
         ClientDocumentStfulImpl clientDocOwner = itsNatDoc.getClientDocumentStfulOwner();
-        NodeCacheRegistryImpl nodeCache = clientDocOwner.getNodeCache(); // No puede ser nula
+        NodeCacheRegistryImpl nodeCache = clientDocOwner.getNodeCacheRegistry(); // No puede ser nula
         final String oldId = nodeCache.getId(node);
 
         ClientDocStfulTask clientTask = new ClientDocStfulTask()

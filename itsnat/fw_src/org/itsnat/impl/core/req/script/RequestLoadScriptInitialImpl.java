@@ -44,7 +44,8 @@ public class RequestLoadScriptInitialImpl extends RequestLoadScriptImpl implemen
         return (ItsNatStfulDocumentImpl)getItsNatDocument();
     }
 
-    public void processRequest()
+    @Override
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         String clientId = getAttrOrParamExist("itsnat_client_id"); // Si no está dará error
 

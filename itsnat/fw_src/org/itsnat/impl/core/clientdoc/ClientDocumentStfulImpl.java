@@ -48,8 +48,6 @@ import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.path.NodeLocationImpl;
-import org.itsnat.impl.core.path.NodeLocationNotParentImpl;
-import org.itsnat.impl.core.path.NodeLocationNullImpl;
 import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
@@ -231,21 +229,21 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return nodeCache != null;
     }
 
-    public NodeCacheRegistryImpl getNodeCache()
+    public NodeCacheRegistryImpl getNodeCacheRegistry()
     {
         return nodeCache; // puede ser null (no caché)
     }
 
     public String getCachedNodeId(Node node)
     {
-        NodeCacheRegistryImpl cacheNode = getNodeCache();
+        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
         if (cacheNode == null) return null;
         return cacheNode.getId(node);
     }
 
     public String removeNodeFromCache(Node node)
     {
-        NodeCacheRegistryImpl cacheNode = getNodeCache();
+        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
         if (cacheNode == null)
             return null;
         return cacheNode.removeNode(node);
@@ -270,7 +268,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (pathStr.equals("null"))
             return null;
 
-        NodeCacheRegistryImpl nodeCache = getNodeCache();
+        NodeCacheRegistryImpl nodeCache = getNodeCacheRegistry();
 
         // El pathStr es generado por el navegador
         if (pathStr.startsWith("id:"))
@@ -344,24 +342,17 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public NodeLocationImpl getNodeLocation(Node node,boolean cacheIfPossible)
     {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationWithParentImpl.getNodeLocationWithParent(node,cacheIfPossible,this);
+        return NodeLocationImpl.getNodeLocation(this,node,cacheIfPossible);
     }
 
     public NodeLocationImpl getRefNodeLocationInsertBefore(Node newNode,Node nextSibling)
     {
-        // El NodeLocationImpl a obtener es el de nextSibling
-        if (nextSibling == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationNotParentImpl.getNodeLocationNotParentInsertBefore(newNode,nextSibling,this);
+        return NodeLocationImpl.getRefNodeLocationInsertBefore(this, newNode, nextSibling);
     }
 
     public NodeLocationImpl getNodeLocationRelativeToParent(Node node)
     {
-        if (node == null) return NodeLocationNullImpl.getNodeLocationNull(this);
-
-        return NodeLocationNotParentImpl.getNodeLocationNotParentRelativeToParent(node,this);
+        return NodeLocationImpl.getNodeLocationRelativeToParent(this, node);
     }
 
     public String getRelativeStringPathFromNodeParent(Node child)
@@ -379,6 +370,11 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getDOMPathResolver().getStringPathFromNode(node,topParent);
     }
 
+    public Node getNextSiblingInClientDOM(Node node)
+    {
+        return getDOMPathResolver().getNextSiblingInClientDOM(node);        
+    }
+    
     public String getScriptLoadCode()
     {
         if (scriptLoadCode == null)
@@ -722,6 +718,13 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getUserEventListenerRegistry().removeAllItsNatUserEventListeners(target,updateClient);
     }
 
+    public boolean hasGlobalEventListenerListeners()
+    {
+        if (globalDomEventListeners == null)
+            return false;
+        return !globalDomEventListeners.isEmpty();
+    }     
+    
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
         if (globalDomEventListeners == null)

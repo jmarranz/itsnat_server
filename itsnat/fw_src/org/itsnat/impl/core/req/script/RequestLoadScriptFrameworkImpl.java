@@ -16,7 +16,9 @@
 
 package org.itsnat.impl.core.req.script;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.resp.script.ResponseLoadScriptFrameworkImpl;
 
@@ -42,9 +44,10 @@ public class RequestLoadScriptFrameworkImpl extends RequestLoadScriptImpl
         return scriptNameList;
     }
 
-    public void processRequest()
+    @Override    
+    public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(getItsNatSession());
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(getItsNatSession());
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, no se vincula por tanto
 

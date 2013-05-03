@@ -23,14 +23,14 @@ import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperI
 import org.itsnat.impl.core.listener.GenericTaskImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatNormalCometEventListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMEventImpl;
+import org.itsnat.impl.core.resp.norm.ResponseGenericTaskEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
+public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
 {
     protected ItsNatGenericTaskEventListenerWrapperImpl taskPendingToFinish = null;
 
@@ -39,11 +39,12 @@ public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
         super(evtType,itsNatRequest);
     }
 
-    public void processClientDocument(String listenerId,ClientDocumentStfulImpl clientDoc)
+    @Override
+    protected void processClientDocument2(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
         do
         {
-            super.processClientDocument(listenerId,clientDoc);
+            super.processClientDocument2(listenerId,clientDoc);
 
             if (taskPendingToFinish != null)
             {
@@ -63,11 +64,11 @@ public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
     {
         if (taskPendingToFinish == null) // Primera vez que se llega aquí
         {
-            if (evtType == ASYNC_RET_EVENT)
+            if (evtType == EVENT_TYPE_ASYNC_RET)
             {
                 this.taskPendingToFinish = (ItsNatAsyncTaskEventListenerWrapperImpl)clientDoc.removeAsynchronousTask(listenerId);
             }
-            else if (evtType == COMET_RET_EVENT)
+            else if (evtType == EVENT_TYPE_COMET_RET)
             {
                 this.taskPendingToFinish = (ItsNatNormalCometEventListenerWrapperImpl)clientDoc.removeCometTask(listenerId);
             }
@@ -81,7 +82,7 @@ public class RequestGenericTaskEventImpl extends RequestDOMEventImpl
 
             ItsNatGenericTaskEventListenerWrapperImpl listener = this.taskPendingToFinish;
             this.taskPendingToFinish = null;
-            return new ResponseDOMEventImpl(this,listener);
+            return new ResponseGenericTaskEventImpl(this,listener);
         }
         else
         {

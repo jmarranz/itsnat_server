@@ -20,20 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.HashMap;
 import org.itsnat.impl.core.resp.shared.bybrow.ResponseDelegStfulLoadDocByBrowserImpl;
 import org.itsnat.impl.core.resp.shared.otherns.ResponseDelegateOtherNSLoadDocImpl;
 import org.itsnat.impl.core.resp.shared.html.ResponseDelegateHTMLLoadDocImpl;
 import org.itsnat.impl.core.resp.*;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
@@ -50,6 +47,7 @@ import org.itsnat.impl.core.jsren.dom.node.JSRenderPropertyImpl;
 import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
+import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -150,7 +148,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         return getResponseLoadStfulDocumentValid().isSerializeBeforeDispatching();
     }
-
+    
     public void processResponse()
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
@@ -198,7 +196,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         getResponseLoadDoc().sendMarkupToClient(docMarkup);
     }
 
-    protected void dispatchRequestListeners()
+    public void dispatchRequestListeners()
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();
@@ -399,8 +397,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     protected String getLoadCodeUsingDocument()
     {
         // Llamar después de serializar el markup así en el proceso de serializar el documento hay una última oportunidad de generar código JavaScript
-        ItsNatServletResponseImpl itsNatResponse = getResponseLoadDoc().getItsNatServletResponse();
-        return itsNatResponse.getCodeToSendAndReset();
+        return getResponseLoadDoc().getCodeToSendAndReset();
     }
 
     protected String generateFinalScriptsMarkup()
@@ -462,7 +459,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         StringBuilder jsPathFile = new StringBuilder();
         String servletPath = getServletPath();
-        jsPathFile.append(servletPath + "?itsnat_action=load_script&itsnat_file=" + jsFileNameList + "&");
+        jsPathFile.append(servletPath + "?itsnat_action=" + RequestImpl.ITSNAT_ACTION_LOAD_SCRIPT + "&itsnat_file=" + jsFileNameList + "&");
         jsPathFile.append("time=" + scriptLoadTimeStamp); // Evita el problema de la caché del MSIE que no actualiza el archivo .js ante cambios del mismo salvo haciendo "reload/actualizar", así se genera un URL único al cargar la aplicación, por otra parte el número no cambia durante la vida de la aplicación por lo que el archivo es cacheado por MSIE, si se cambia el .js deberá pararse/recargarse la aplicación web lo cual sólo es necesario en tiempo de desarrollo de ItsNat, al recargarse esta clase el scriptLoadTimeStamp se actualiza
         setScriptURLAttribute(scriptElem,jsPathFile.toString());
     }

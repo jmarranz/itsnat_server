@@ -17,9 +17,7 @@
 package org.itsnat.impl.core.jsren.dom.node;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.CodeListImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.path.DOMPathResolver;
 import org.itsnat.impl.core.path.NodeLocationImpl;
 import org.w3c.dom.Node;
 
@@ -47,8 +45,7 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
 
     protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulImpl clientDoc)
     {
-        String id = cacheNewNodeIfNeeded(newNode,clientDoc);
-        String idJS = toJSNodeCacheId(id);        
+        String idJS = cacheNewNodeIfNeededAndGenJSId(newNode,clientDoc);      
         return "itsNatDoc.appendChild2(" + parentVarName + "," + newNodeCode + "," + idJS + ");\n";
     }
 
@@ -84,14 +81,14 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
             NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
             String childRelPath = clientDoc.getRelativeStringPathFromNodeParent(removedNode);
             childRelPath = toLiteralStringJS(childRelPath);
-            return "itsNatDoc.removeChild3(" + parentLoc.toJSArray(true) + "," + childRelPath + "," + isText + ");\n";
+            return "itsNatDoc.removeChild3(" + parentLoc.toJSNodeLocation(true) + "," + childRelPath + "," + isText + ");\n";
         }
     }
 
     protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulImpl clientDoc)
     {
         Node parent = newNode.getParentNode();
-        DOMPathResolver pathResolver = clientDoc.getDOMPathResolver();
+
         // Obtenemos el sibling con representación en el DOM cliente (no filtrado)
         // Sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
         // dichos comentarios no están en el DOM y afortunadamente no son visibles 
@@ -99,33 +96,27 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         // en algunos navegadores (MSIE por ejemplo) pues ItsNat está preparado para ello si no se encuentra en el cliente.
 
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
-        String id = cacheNewNodeIfNeeded(newNode,clientDoc);
-        String idJS = toJSNodeCacheId(id);
+        String idJS = cacheNewNodeIfNeededAndGenJSId(newNode,clientDoc);
         
-        Node nextSibling = pathResolver.getNextSiblingInClientDOM(newNode);
+        Node nextSibling = clientDoc.getNextSiblingInClientDOM(newNode);
         if (nextSibling != null)
         {
             NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);
-            return "itsNatDoc.insertBefore3(" + parentLoc.toJSArray(true) + "," + newNodeCode + "," + refNodeLoc.toJSArray(true) + "," + idJS + ");\n";
+            return "itsNatDoc.insertBefore3(" + parentLoc.toJSNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toJSNodeLocation(true) + "," + idJS + ");\n";
         }
         else
         {
-            return "itsNatDoc.appendChild3(" + parentLoc.toJSArray(true) + "," + newNodeCode + "," + idJS + ");\n";
+            return "itsNatDoc.appendChild3(" + parentLoc.toJSNodeLocation(true) + "," + newNodeCode + "," + idJS + ");\n";
         }
     }
 
     public String getRemoveAllChildCode(Node parentNode,ClientDocumentStfulImpl clientDoc)
     {
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
-        return "itsNatDoc.removeAllChild2(" + parentLoc.toJSArray(true) + ");\n";
-    }
-
-    public static String toJSNodeCacheId(String id)
-    {
-        return id != null ? "\"" + id + "\"" : "null";
+        return "itsNatDoc.removeAllChild2(" + parentLoc.toJSNodeLocation(true) + ");\n";
     }
     
-    public String cacheNewNodeIfNeeded(Node newNode,ClientDocumentStfulImpl clientDoc)
+    public String cacheNewNodeIfNeededAndGenJSId(Node newNode,ClientDocumentStfulImpl clientDoc)
     {
         // Cacheamos el  nuevo nodo (en servidor y en cliente obviamente) cuando es un nodo hijo directo
         // de <head> o <body> en el caso de HTML/XHTML o el elemento root en otros namespaces
@@ -142,8 +133,11 @@ public abstract class JSRenderNotAttrOrViewNodeImpl extends JSRenderNodeImpl
         if (!clientDoc.getItsNatStfulDocument().isNewNodeDirectChildOfContentRoot(newNode))
             return null;
         
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCache();
+        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
         if (nodeCache == null) return null;
-        return nodeCache.addNode(newNode); // Si devuelve null es que no se puede cachear el nodo o caché "bloqueada"
+        String id = nodeCache.addNode(newNode); // Si devuelve null es que no se puede cachear el nodo o caché "bloqueada"
+        
+        // Este idJS es para métodos especiales en donde opcionalmente podemos pasar el id del nodo cacheado (si se pudo cachear sino pues null), es simplemente el "id", en este caso no es necesario y no sigue el convencionalismo de arrays de NodeLocation
+        return id != null ? "\"" + id + "\"" : "null";        
     }
 }

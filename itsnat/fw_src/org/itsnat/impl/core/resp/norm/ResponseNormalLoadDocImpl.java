@@ -64,10 +64,14 @@ public abstract class ResponseNormalLoadDocImpl extends ResponseNormalLoadDocBas
         return parentRequest.getResponseAttachedServerLoadDoc(); // no nulo
     }
 
+    @Override
     public void process()
     {
-        ClientDocumentImpl clientDoc = getClientDocument();
-        clientDoc.registerInSession(); // Pasa a ser accesible el documento (aunque no se puede tocar por otros hilos hasta que se libere el lock)
+        if (!getRequestNormalLoadDocBase().isStateless())
+        {
+            ClientDocumentImpl clientDoc = getClientDocument();
+            clientDoc.registerInSession(); // Pasa a ser accesible el documento (aunque no se puede tocar por otros hilos hasta que se libere el lock)
+        }
         
         ItsNatDocumentImpl itsNatDoc = getItsNatDocument();
         try

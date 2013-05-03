@@ -30,7 +30,7 @@ public class RequestNormalLoadDocAttachedServerImpl extends RequestNormalLoadDoc
 
     public RequestNormalLoadDocAttachedServerImpl(ItsNatStfulDocumentTemplateAttachedServerImpl docTemplate,RequestAttachedServerLoadDocImpl parent,ItsNatServletRequestImpl itsNatRequest)
     {
-        super(docTemplate,itsNatRequest);
+        super(docTemplate,itsNatRequest,false);
         this.parent = parent;
     }
 

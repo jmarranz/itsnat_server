@@ -20,11 +20,11 @@ import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.req.*;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
+import static org.itsnat.impl.core.req.RequestEventStfulImpl.EVENT_TYPE_STATELESS;
 import org.itsnat.impl.core.resp.ResponseEventDoNothingImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormal;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
@@ -35,7 +35,7 @@ import org.itsnat.impl.core.resp.norm.ResponseNormalEventErrorLostSessionImpl;
  *
  * @author jmarranz
  */
-public abstract class RequestNormalEventImpl extends RequestEventImpl implements RequestNormal
+public abstract class RequestNormalEventImpl extends RequestEventStfulImpl implements RequestNormal
 {
     protected int evtType;
 
@@ -53,14 +53,19 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
     {
         switch(evtType)
         {
-            case DOMSTD_EVENT:
-            case TIMER_EVENT:
-            case CONTINUE_EVENT:
-            case USER_EVENT:
-                return new RequestDOMEventDefaultImpl(evtType,itsNatRequest);
+            case EVENT_TYPE_DOMSTD:
+                return new RequestDOMStdEventImpl(evtType,itsNatRequest); 
+                
+            case EVENT_TYPE_TIMER:
+            case EVENT_TYPE_CONTINUE:
+            case EVENT_TYPE_USER:                
+                return new RequestDOMExtEventOtherImpl(evtType,itsNatRequest);
 
-            case ASYNC_RET_EVENT:
-            case COMET_RET_EVENT:
+            case EVENT_TYPE_STATELESS:                 
+                return new RequestDOMEventStatelessImpl(evtType,itsNatRequest);                
+                
+            case EVENT_TYPE_ASYNC_RET:
+            case EVENT_TYPE_COMET_RET:
                 return new RequestGenericTaskEventImpl(evtType,itsNatRequest);
 
             default:
@@ -87,6 +92,14 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
 
     public void processClientDocument(ClientDocumentStfulImpl clientDoc)
     {
+        checkCanReceiveSOMENormalEvents(clientDoc);
+
+        String listenerId = getEventListenerId();
+        processClientDocument2(listenerId,clientDoc);
+    }
+
+    public void checkCanReceiveSOMENormalEvents(ClientDocumentStfulImpl clientDoc)
+    {
         if (!clientDoc.canReceiveSOMENormalEvents())
         {
             // Primer chequeo de seguridad para evitar que clientes de control remoto
@@ -94,13 +107,16 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
             // código JavaScript para ello (registro de listener) pero un malicioso usuario
             // podría intentarlo enviando requests AJAX "a pelo".
             throw new ItsNatException("Security violation attempt");
-        }
-
-        String listenerId = getAttrOrParamExist("itsnat_listener_id");
-        processClientDocument(listenerId,clientDoc);
+        }    
     }
-
-    public void processClientDocument(final String listenerId,final ClientDocumentStfulImpl clientDoc)
+    
+    public String getEventListenerId()
+    {
+        // En un caso se redefine para devolver null
+        return getAttrOrParamExist("itsnat_listener_id");
+    }
+    
+    protected void processClientDocument2(final String listenerId,final ClientDocumentStfulImpl clientDoc)
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
 
@@ -137,7 +153,7 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
     {
         // No hacer nada
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, no se vincula por tanto
 
@@ -148,7 +164,7 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
     public void processClientDocumentNotFoundError(String clientId)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 
@@ -159,7 +175,7 @@ public abstract class RequestNormalEventImpl extends RequestEventImpl implements
     public void processLostSessionError(String sessionId,String sessionToken)
     {
         ItsNatSessionImpl session = getItsNatSession();
-        ClientDocumentNoServerDocDefaultImpl clientDoc = new ClientDocumentNoServerDocDefaultImpl(session);
+        ClientDocumentWithoutDocumentDefaultImpl clientDoc = new ClientDocumentWithoutDocumentDefaultImpl(session);
 
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 

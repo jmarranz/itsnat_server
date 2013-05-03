@@ -37,6 +37,7 @@ import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.mut.doc.BeforeAfterMutationRenderListener;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
+import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.UniqueId;
@@ -144,7 +145,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
 
     public String getActionURL()
     {
-        return "itsNatDoc.getServletPath() + \"?itsnat_action=iframe_file_upload&\" + itsNatDoc.genParamURL() + \"&itsnat_listener_id=" + idObj.getId() + "\"";
+        return "itsNatDoc.getServletPath() + \"?itsnat_action=" + RequestImpl.ITSNAT_ACTION_IFRAME_FILE_UPLOAD + "&\" + itsNatDoc.genParamURL() + \"&itsnat_listener_id=" + idObj.getId() + "\"";
         //return "static/file_upload_res.jsp"; // Para pruebas
     }
 

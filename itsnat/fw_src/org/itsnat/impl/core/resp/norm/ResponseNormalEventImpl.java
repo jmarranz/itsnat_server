@@ -27,7 +27,7 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public class ResponseNormalEventImpl extends ResponseEventImpl implements ResponseNormal
+public class ResponseNormalEventImpl extends ResponseEventStfulImpl implements ResponseNormal
 {
     protected ItsNatNormalEventListenerWrapperImpl listener;
 

@@ -37,11 +37,11 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ClientDocumentNoServerDocImpl extends ClientDocumentImpl
+public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentImpl
 {
     protected CodeToSendRegistryImpl codeToSend = new CodeToSendRegistryImpl(this);
 
-    public ClientDocumentNoServerDocImpl(ItsNatSessionImpl session)
+    public ClientDocumentWithoutDocumentImpl(ItsNatSessionImpl session)
     {
         super(session.getBrowser(),session);
     }
@@ -243,6 +243,12 @@ public abstract class ClientDocumentNoServerDocImpl extends ClientDocumentImpl
         throw new ItsNatException("Not supported in this context");
     }
 
+    public boolean hasGlobalEventListenerListeners()
+    {
+        // ver notas en el get
+        return false;
+    }     
+    
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // Este es un cliente temporal por lo que no tiene sentido los global event listeners

@@ -73,11 +73,6 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
             return new ResponseNormalLoadOtherNSDocImpl(request);
     }
 
-    public RequestNormalLoadDocImpl getRequestNormalLoadDoc()
-    {
-        return (RequestNormalLoadDocImpl)request;
-    }
-
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return (ClientDocumentStfulImpl)getClientDocument();
@@ -100,7 +95,10 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
 
     public void processResponse()
     {
-        responseDelegate.processResponse();
+        if (this.getRequestNormalLoadDoc().isStateless())
+            responseDelegate.dispatchRequestListeners(); // Evitamos la serialización innecesaria del ItsNatDocument
+        else
+            responseDelegate.processResponse();
 
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (!clientDoc.canReceiveSOMENormalEvents())
@@ -117,6 +115,13 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return !itsNatDoc.isFastLoadMode();
     }
 
+    public boolean isReferrerEnabled()
+    {
+        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();        
+        return itsNatDoc.isReferrerEnabled() && !getRequestNormalLoadDocBase().isStateless(); // El referrer se guarda en la sesión y si estamos en stateless no queremos ni oir de hablar de ello
+    }
+    
+    @Override
     public void dispatchRequestListeners()
     {
         // Caso de carga del documento por primera vez, el documento está recién creado
@@ -127,7 +132,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         Browser browser = clientDoc.getBrowser();
 
-        if (itsNatDoc.isReferrerEnabled())
+        if (isReferrerEnabled())
         {
             EventTarget target;
             String eventType;

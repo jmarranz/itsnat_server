@@ -125,7 +125,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
 
     public String getCallDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt,String evtVarName)
     {
-        return "var " + varResName + " = itsNatDoc.dispatchEvent2(" + nodeLoc.toJSArray(true) + ",\"" + evt.getType() + "\"," + evtVarName + ");\n";
+        return "var " + varResName + " = itsNatDoc.dispatchEvent2(" + nodeLoc.toJSNodeLocation(true) + ",\"" + evt.getType() + "\"," + evtVarName + ");\n";
     }
 
     public String getCallDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulImpl clientDoc)

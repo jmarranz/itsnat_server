@@ -23,6 +23,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocBaseImpl;
@@ -35,6 +36,15 @@ import org.itsnat.impl.core.resp.ResponseImpl;
  */
 public abstract class RequestImpl
 {
+    public static final String ITSNAT_ACTION_EVENT = "event";
+    public static final String ITSNAT_ACTION_LOAD_SCRIPT = "load_script";    
+    public static final String ITSNAT_ACTION_IFRAME_FILE_UPLOAD = "iframe_file_upload";    
+    public static final String ITSNAT_ACTION_ATTACH_CLIENT = "attach_client";     
+    public static final String ITSNAT_ACTION_ATTACH_SERVER = "attach_server";      
+    public static final String ITSNAT_ACTION_ITSNAT_INFO = "itsnat_info";      
+    public static final String ITSNAT_ACTION_EVENT_STATELESS = "event_stateless";       
+    public static final String ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC = "event_stateless_phase_load_doc";     
+    
     protected ItsNatServletRequestImpl itsNatRequest;
     protected ResponseImpl response;
     protected ClientDocumentImpl clientDoc; // Puede ser nulo
@@ -49,26 +59,35 @@ public abstract class RequestImpl
     {
         if (action != null)
         {
-            if (action.equals("event"))
-                return RequestEventImpl.createRequestEvent(itsNatRequest);
-            else if (action.equals("load_script"))
+            if (action.equals(ITSNAT_ACTION_EVENT))
+                return RequestEventStfulImpl.createRequestEventStful(itsNatRequest);
+            else if (action.equals(ITSNAT_ACTION_LOAD_SCRIPT))
                 return RequestLoadScriptImpl.createRequestLoadScript(itsNatRequest);
-            else if (action.equals("iframe_file_upload"))
+            else if (action.equals(ITSNAT_ACTION_IFRAME_FILE_UPLOAD))
                 return RequestIFrameFileUploadImpl.createRequestIFrameFileUpload(itsNatRequest);
-            else if (action.equals("attach_client"))
+            else if (action.equals(ITSNAT_ACTION_ATTACH_CLIENT))
                 return RequestAttachedClientLoadDocImpl.createRequestAttachedClientLoadDoc(itsNatRequest);
-            else if (action.equals("attach_server"))
+            else if (action.equals(ITSNAT_ACTION_ATTACH_SERVER))
                 return RequestAttachedServerImpl.createRequestAttachedServer(itsNatRequest);
-            else if (action.equals("itsnat_info"))
+            else if (action.equals(ITSNAT_ACTION_ITSNAT_INFO))
                 return RequestItsNatInfoImpl.createRequestItsNatInfo(itsNatRequest);
-            else
-                throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
+            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS))
+                return RequestEventStatelessImpl.createRequestEventStateless(itsNatRequest);            
+            else if (action.equals(ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC))
+            {
+                String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
+                if (docName != null)
+                    return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,true);                
+                else
+                    throw new ItsNatException("INTERNAL ERROR");  // Hemos asegurado antes que no es nulo
+            }
+            else throw new ItsNatException("Unrecognized itsnat_action: \"" + action + "\"");
         }
         else
         {
             String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");
             if (docName != null)
-                return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest);
+                return RequestNormalLoadDocBaseImpl.createRequestNormalLoadDocBase(docName,itsNatRequest,false);
             else
                 return RequestCustomImpl.createRequestCustom(itsNatRequest);
         }
@@ -136,11 +155,11 @@ public abstract class RequestImpl
         itsNatRequest.unbindRequestFromDocument();
     }
 
-    public void process()
+    public void process(ClientDocumentStfulImpl clientDocStateless)
     {
         try
         {
-            processRequest();
+            processRequest(clientDocStateless);
         }
         finally
         {
@@ -159,7 +178,7 @@ public abstract class RequestImpl
     // y por tanto no se ha ejecutado código del usuario que cambie el objeto sesión ItsNat.
     protected abstract boolean isMustNotifyEndOfRequestToSession();
 
-    public void notifyEndOfRequestToSession()
+    private void notifyEndOfRequestToSession()
     {
         // La finalidad de esta llamada es que se serialicen en la sesión los cambios que hayamos
         // hecho en el ItsNatDocument de trabajo en el caso de session replication capable
@@ -171,5 +190,5 @@ public abstract class RequestImpl
         }
     }
 
-    public abstract void processRequest();
+    public abstract void processRequest(ClientDocumentStfulImpl clientDocStateless);
 }

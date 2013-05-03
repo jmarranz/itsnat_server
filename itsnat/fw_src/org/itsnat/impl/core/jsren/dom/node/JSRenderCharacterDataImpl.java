@@ -61,6 +61,6 @@ public abstract class JSRenderCharacterDataImpl extends JSRenderNotChildrenNodeI
         String value = dataTextToJS(node,clientDoc);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(node,true);
-        return "itsNatDoc.setCharacterData(" + nodeLoc.toJSArray(true) + "," + value + ");\n";
+        return "itsNatDoc.setCharacterData(" + nodeLoc.toJSNodeLocation(true) + "," + value + ");\n";
     }
 }

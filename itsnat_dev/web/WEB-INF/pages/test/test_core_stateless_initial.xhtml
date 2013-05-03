@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <title>TESTS: CORE STATELESS</title>
+    <title>TESTS: CORE STATELESS INITIAL</title>
 
     <style type="text/css">
         .styleTest { color: red; }
@@ -97,19 +97,25 @@
     }
     </script>
     <a href="javascript:sendEventStatelessBadTemplateName()">Test Stateless Event Document Template not found</a>       
-    
-    <br /><br />
+
     <script>
-    function sendEventStateless()
+    function sendEventStateless(sendMode)
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title);
         userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event');        
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+        document.getItsNatDoc().dispatchEventStateless(userEvt,sendMode, 1000000);
     }
-    </script>
-    <a href="javascript:sendEventStateless()">Test Stateless Event</a>    
+    </script>    
+    
+    <br /><br />
+    <a href="javascript:sendEventStateless(3 /*XHR_ASYNC_HOLD*/)">Test Stateless Event XHR_ASYNC_HOLD</a>    
 
+    <br /><br />
+    <a href="javascript:sendEventStateless(5 /*SCRIPT_HOLD*/)">Test Stateless Event SCRIPT_HOLD</a>     
+    
+    
+    
     <br /><br />
   
     

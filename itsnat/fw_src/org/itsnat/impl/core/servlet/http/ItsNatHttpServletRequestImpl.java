@@ -24,6 +24,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 

@@ -60,6 +60,7 @@ public class ClientDocumentStfulOwnerImpl extends ClientDocumentStfulImpl
         return canReceiveALLNormalEvents(); // O todos o ninguno.
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();

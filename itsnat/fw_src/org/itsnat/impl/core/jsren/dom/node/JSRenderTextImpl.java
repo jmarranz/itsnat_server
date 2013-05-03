@@ -82,7 +82,7 @@ public abstract class JSRenderTextImpl extends JSRenderCharacterDataAliveImpl
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
         NodeLocationImpl nextSiblingLoc = clientDoc.getNodeLocationRelativeToParent(nextSibling);
         // Hay que tener en cuenta que nextSibling puede ser nulo
-        return "itsNatDoc.setTextData2(" + parentLoc.toJSArray(true) + "," + nextSiblingLoc.toJSArray(false) + "," + value + ");\n"; // nextSiblingLoc puede ser una referencia nula
+        return "itsNatDoc.setTextData2(" + parentLoc.toJSNodeLocation(true) + "," + nextSiblingLoc.toJSNodeLocation(false) + "," + value + ");\n"; // nextSiblingLoc puede ser una referencia nula
     }
 
 }

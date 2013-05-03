@@ -28,7 +28,6 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.ItsNatServlet;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatSession;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseImpl;
 
@@ -40,7 +39,6 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
 {
     protected ItsNatServletRequestImpl request;
     protected ServletResponse response;
-    protected List<Object> codeToSend = new LinkedList<Object>();
     protected ResponseImpl delegResponse;
 
 
@@ -116,49 +114,14 @@ public abstract class ItsNatServletResponseImpl extends ItsNatUserDataImpl imple
         return getItsNatServletRequestImpl().getItsNatSessionImpl();
     }
 
-    public void addCodeFromClientDocAndReset()
-    {
-        ClientDocumentImpl listener = getItsNatServletRequestImpl().getClientDocumentImpl();
-        if (listener == null) return;
-        String code = listener.getCodeToSendAndReset();
-        if ((code == null) || code.equals("")) return;
-
-        codeToSend.add( code );
-    }
-
-    public String getCodeToSendAndReset()
-    {
-        getItsNatSessionImpl().endOfRequestBeforeSendCode();
-
-        addCodeFromClientDocAndReset();
-
-        StringBuilder code = new StringBuilder();
-        if (!codeToSend.isEmpty())
-        {
-            for(Iterator<Object> it = codeToSend.iterator(); it.hasNext(); )
-            {
-                Object codeFragment = it.next();
-                it.remove(); // Para ir liberando memoria
-                code.append( codeFragment.toString() );
-            }
-            codeToSend.clear();  // por si acaso
-        }
-        return code.toString();
-    }
 
     public void addCodeToSend(Object newCode)
     {
         // El código nuevo únicamente se puede devolver en esta request.
-        addCodeFromClientDocAndReset();
-
-        codeToSend.add( newCode );
+        delegResponse.addCodeToSend(newCode);
     }
 
-    public abstract void preProcess();
-
-    public void postProcess()
-    {
-    }
+    public abstract void prepareResponse();
 
     public void dispatchRequestListener(ItsNatServletRequestListener listener)
     {

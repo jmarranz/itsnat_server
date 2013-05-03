@@ -179,7 +179,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
         {
             NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-            return "itsNatDoc.setAttribute2(" + nodeLoc.toJSArray(true) + ",\"" + attrName + "\"," + jsValue + ");\n";
+            return "itsNatDoc.setAttribute2(" + nodeLoc.toJSNodeLocation(true) + ",\"" + attrName + "\"," + jsValue + ");\n";
         }
         else
         {
@@ -193,7 +193,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
         {
             NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-            return "itsNatDoc.removeAttribute2(" + nodeLoc.toJSArray(true) + ",\"" + attrName + "\");\n";
+            return "itsNatDoc.removeAttribute2(" + nodeLoc.toJSNodeLocation(true) + ",\"" + attrName + "\");\n";
         }
         else
         {

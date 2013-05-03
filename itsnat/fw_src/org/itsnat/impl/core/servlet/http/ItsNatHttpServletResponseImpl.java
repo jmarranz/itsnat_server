@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.zip.GZIPOutputStream;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.http.ItsNatHttpServletResponse;
 import org.itsnat.core.http.ItsNatHttpServlet;
@@ -75,7 +74,7 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
         return getItsNatHttpServletRequestImpl().getItsNatHttpSessionImpl();
     }
 
-    public void preProcess()
+    public void prepareResponse()
     {
         HttpServletResponse response = getHttpServletResponse();
         response.addHeader("Cache-Control","no-store,no-cache,must-revalidate"); //HTTP 1.1

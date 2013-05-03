@@ -22,6 +22,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.jsren.JSRenderImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerLoadDocImpl;
@@ -84,7 +85,7 @@ public abstract class ResponseAttachedServerLoadDocImpl extends ResponseAttached
 
         RequestNormalLoadDocAttachedServerImpl delegRequest = new RequestNormalLoadDocAttachedServerImpl(template,getRequestAttachedServerLoadDoc(),itsNatRequest);
         itsNatRequest.setRequest(delegRequest); // Para que al procesar el request el ItsNatServletRequestImpl esté correctamente conectado a request de carga normal no al attached y el código del usuario obtenga el ClientDocument normal por ejemplo
-        delegRequest.process();
+        delegRequest.process(null);
         ClientDocumentStfulImpl clientDocNormal = delegRequest.getClientDocumentStful();
         Browser browser = clientDocNormal.getBrowser();
 

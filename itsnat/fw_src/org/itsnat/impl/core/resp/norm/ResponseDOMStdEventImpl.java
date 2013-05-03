@@ -14,24 +14,20 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.clientdoc;
+package org.itsnat.impl.core.resp.norm;
 
-import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
+import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.req.norm.RequestDOMStdEventImpl;
 
 /**
- * Por ahora este objeto no sirve gran cosa, es para que haya constancia
  *
  * @author jmarranz
  */
-public class ClientDocumentNoServerDocDefaultImpl extends ClientDocumentNoServerDocImpl
+public class ResponseDOMStdEventImpl extends ResponseDOMEventImpl
 {
-    public ClientDocumentNoServerDocDefaultImpl(ItsNatSessionImpl session)
+    /** Creates a new instance of ResponseNormalEventImpl */
+    public ResponseDOMStdEventImpl(RequestDOMStdEventImpl request,ItsNatDOMStdEventListenerWrapperImpl listener)
     {
-        super(session);
-    }
-
-    public void registerInSession()
-    {
-        // No se guarda
+        super(request,listener);
     }
 }

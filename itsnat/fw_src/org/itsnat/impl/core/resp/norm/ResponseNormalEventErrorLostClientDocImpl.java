@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.clientdoc.ClientDocumentNoServerDocDefaultImpl;
 import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
@@ -37,11 +36,6 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
         super(request);
 
         this.lostClientId = lostClientId;
-    }
-
-    public ClientDocumentNoServerDocDefaultImpl getClientDocumentNoServerDocDefault()
-    {
-        return (ClientDocumentNoServerDocDefaultImpl)getClientDocument();
     }
 
     public void processEvent()
@@ -78,7 +72,7 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
          */
 
         RequestNormalEventImpl request = getRequestNormalEvent();
-        Browser browser = getClientDocumentNoServerDocDefault().getBrowser();
+        Browser browser = getClientDocumentWithoutDocumentDefault().getBrowser();
 
         if (browser.isCachedBackForwardExecutedScripts())
         {
@@ -133,7 +127,7 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
 
     public void sendReload()
     {
-        Browser browser = getClientDocumentNoServerDocDefault().getBrowser();
+        Browser browser = getClientDocumentWithoutDocumentDefault().getBrowser();
         getItsNatServletResponse().addCodeToSend(OnLoadBackForwardListenerImpl.getReloadCode(browser));
     }
 }
