@@ -350,17 +350,17 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.setOnLoadCacheStaticNodes(false);
         docTemplate.setEventsEnabled(false); // No tiene estado esta página
 
-        // Stateless
+        // Stateless main
         
         docTemplate = registerDocument("test_core_stateless_initial","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessInitialDocLoadListener());
-        docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));        
+        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessInitialDocLoadListener());       
         docTemplate.setEventsEnabled(false);
         
+        // Stateless to load fragment       
         docTemplate = registerDocument("test_core_stateless_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
         docTemplate.addItsNatServletRequestListener(new TestCoreStatelessEventDocLoadListener());
         docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
-        docTemplate.setEventsEnabled(true);        
+        docTemplate.setEventsEnabled(false);        
         
         // FRAGMENTS
         

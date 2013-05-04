@@ -45,7 +45,7 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
     public void addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;
-        if (!clientDoc.canReceiveNormalEvents(normalListener.getEventListener()))
+        if (!clientDoc.canReceiveNormalEvents(normalListener))
             return; // Si es un visor remoto sólo lectura lo ignoramos
 
         String code = addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
@@ -55,7 +55,7 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
     public void removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;
-        if (!clientDoc.canReceiveNormalEvents(normalListener.getEventListener()))
+        if (!clientDoc.canReceiveNormalEvents(normalListener))
             return; // Si es un visor remoto sólo lectura lo ignoramos
 
         String code = removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);

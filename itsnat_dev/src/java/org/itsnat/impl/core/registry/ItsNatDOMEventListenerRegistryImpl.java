@@ -164,7 +164,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         {
             ItsNatDOMEventListenerWrapperImpl listenerWrapper = entry.getValue();
 
-            if (!clientDoc.canReceiveNormalEvents(listenerWrapper.getEventListener()))
+            if (!clientDoc.canReceiveNormalEvents(listenerWrapper))
                 continue;
 
             EventTarget currTarget = listenerWrapper.getCurrentTarget();

@@ -39,8 +39,10 @@ import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.jsren.JSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
+import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
@@ -90,6 +92,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
     protected MapUniqueId<HTMLIFrameFileUploadImpl> fileUploadsMap;
     protected JSScriptUtilFromClientImpl jsScriptUtil;
     protected LinkedList<EventListener> globalDomEventListeners;
+
     
     /** Creates a new instance of ClientDocumentStfulImpl */
     public ClientDocumentStfulImpl(ItsNatStfulDocumentImpl itsNatDoc,Browser browser,ItsNatSessionImpl session)
@@ -99,12 +102,12 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         this.itsNatDoc = itsNatDoc; // NO puede ser nulo.
         this.pathResolver = DOMPathResolver.createDOMPathResolver(this);
         this.mutationListener = ClientMutationEventListenerStfulImpl.createClientMutationEventListenerStful(this);
-
+        
         // A día de hoy sólo los documentos HTML y SVG generan JavaScript necesario para mantener un caché de nodos en el cliente
         if (itsNatDoc.isNodeCacheEnabled())
             this.nodeCache = new NodeCacheRegistryImpl(this);
     }
-
+    
     public UniqueIdGenIntList getUniqueIdGenerator()
     {
         return getItsNatDocumentImpl().getUniqueIdGenerator();
@@ -136,6 +139,15 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return itsNatDoc;
     }
 
+    public boolean canReceiveNormalEvents(ItsNatDOMEventListenerWrapperImpl evtListener)
+    {
+        if (evtListener instanceof ItsNatDOMEventStatelessListenerWrapperImpl)
+            return true; // Es una excepción
+        
+        return canReceiveNormalEvents(evtListener.getEventListener());
+    }
+    
+    
     public abstract boolean isEventsEnabled();
     public abstract boolean canReceiveALLNormalEvents();
     public abstract boolean canReceiveSOMENormalEvents();

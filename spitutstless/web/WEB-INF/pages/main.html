@@ -9,23 +9,22 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="js/spi_bookmarking.js?timestamp=2011-02-11_01"></script>
     <script type="text/javascript">
+    function sendEventStateless(state_name)
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('itsnat_doc_name',"main");  
+        userEvt.setExtraParam('state_name',state_name); 
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);        
+    }
+       
     function setState(name)
     {
         if (typeof document.getItsNatDoc == "undefined") return; // Too soon, page is not fully loaded
-        var itsNatDoc = document.getItsNatDoc();
-        var evt = itsNatDoc.createUserEvent("setState");
-        evt.setExtraParam("name",name);
-        itsNatDoc.dispatchUserEvent(null,evt);
+        sendEventStateless(name);        
     }
     window.spiSite.onBackForward = setState;
-
-    function sendEventStateless(itsnat_doc_name)
-    {
-        var userEvt = document.getItsNatDoc().createEventStateless();
-        userEvt.setExtraParam('itsnat_doc_name',itsnat_doc_name);  
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);        
-    }
-    </script>      
+    </script>
+      
 </head>
 <body>
 

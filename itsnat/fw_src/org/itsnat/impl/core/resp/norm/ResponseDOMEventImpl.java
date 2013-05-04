@@ -32,7 +32,7 @@ public abstract class ResponseDOMEventImpl extends ResponseNormalEventImpl
         super(request,listener);
 
         if ((listener != null) &&
-             !getClientDocumentStful().canReceiveNormalEvents(listener.getEventListener()))
+             !getClientDocumentStful().canReceiveNormalEvents(listener))
         {
             // Chequeo de seguridad para evitar que clientes de control remoto
             // envíen eventos cuando no están autorizados (son read only por ejemplo). En teoría no se envió

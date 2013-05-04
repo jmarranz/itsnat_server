@@ -1,7 +1,6 @@
 
 package org.itsnat.spitut;
 
-import javax.servlet.ServletRequest;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.events.Event;

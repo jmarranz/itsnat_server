@@ -23,6 +23,7 @@ import org.itsnat.impl.core.event.client.domext.ClientItsNatDOMEventStatelessImp
 import static org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl.getTypeStatic;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
+
 /**
  *
  * @author jmarranz
@@ -58,7 +59,12 @@ public class ItsNatDOMEventStatelessListenerWrapperImpl extends ItsNatDOMExtEven
     {
         return getTypeStatic();
     }
-
+    
+    public void checkClient()
+    {    
+        // El evento stateless es una excepción a la regla        
+    }
+    
     public ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request)
     {
         return new ClientItsNatDOMEventStatelessImpl(this,request);

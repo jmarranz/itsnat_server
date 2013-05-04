@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatDOMUtil;
-import org.itsnat.core.event.ItsNatUserEvent;
+import org.itsnat.core.event.ItsNatEventDOMStateless;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.core.http.ItsNatHttpServletRequest;
 import org.itsnat.core.http.ItsNatHttpServletResponse;
@@ -34,6 +34,8 @@ public class SPITutMainDocument implements EventListener
     {
         this.itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
 
+        itsNatDoc.addEventListener(this);
+        
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
 
         this.titleElem = (HTMLTitleElement)doc.getElementById("titleId");
@@ -140,8 +142,10 @@ public class SPITutMainDocument implements EventListener
             this.currentState = new SPITutStateOverview(this,popup);
         }
         else if (stateName.equals("detail"))
+        {
             this.currentState = new SPITutStateDetail(this);
-
+        }
+        
         itsNatDoc.addCodeToSend("try{ window.scroll(0,-5000); }catch(ex){}");
         // try/catch is used to avoid exceptions when some (mobile) browser does not support window.scroll()
     }
@@ -156,12 +160,9 @@ public class SPITutMainDocument implements EventListener
 
     public void handleEvent(Event evt)
     {
-        if (evt instanceof ItsNatUserEvent)
-        {
-            ItsNatUserEvent itsNatEvt = (ItsNatUserEvent)evt;
-            String name = (String)itsNatEvt.getExtraParam("name");
-            changeState(name);
-        }
+        ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
+        String name = (String)itsNatEvt.getExtraParam("state_name");
+        changeState(name);
     }
 
     public void changeActiveMenu(String stateName)

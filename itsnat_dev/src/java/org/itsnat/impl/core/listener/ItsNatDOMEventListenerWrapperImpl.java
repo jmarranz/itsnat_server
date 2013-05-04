@@ -48,12 +48,13 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
     {
         super(itsNatDoc,clientDoc,eventTimeout);
 
-        checkClient(clientDoc,listener);
         this.currTargetWeakRef = currTarget != null ? new WeakReference<EventTarget>(currTarget) : null; // currTargetWeakRef puede ser null
         this.extraParams = extraParams;
         this.preSendCode = preSendCode;
         this.listener = listener;
         this.bindToListener = bindToListener;
+        
+        checkClient();        
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException
@@ -85,18 +86,18 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
             // cuando dicho cliente de control remoto NO puede recibir eventos "normales".
             return clientDoc.canReceiveNormalEvents(listener);
         }
-        else  // Si clientDoc es null es que es un registro a nivel de documento
+        else  // Si clientDoc es null es que es un registro a nivel de documento (umm yo creo que YA nunca clientDoc es null)
             return itsNatDoc.isEventsEnabled();
     }
 
-    public void checkClient(ClientDocumentStfulImpl clientDoc,EventListener listener)
+    public void checkClient()
     {
         // Esto nos sirve para asegurarnos con certeza que no se nos ha pasado nada en seguridad
         // pues no es posible crear y registrar un listener especificamente para un cliente control remoto
         // cuando dicho cliente de control remoto NO puede recibir eventos "normales".
         // Antes de llegar aquí un posible intento es ignorado (no hace nada), pero si llegamos aquí
         // es que algo hemos hecho mal (framework) por lo que provocamos una excepción
-        if ((clientDoc != null) && !canAddItsNatDOMEventListenerWrapper(listener,itsNatDoc, clientDoc))
+        if ((clientDoc != null) && !clientDoc.canReceiveNormalEvents(this))
             throw new ItsNatException("Attempt to register a listener for a remote control client with read only permission");
     }
 

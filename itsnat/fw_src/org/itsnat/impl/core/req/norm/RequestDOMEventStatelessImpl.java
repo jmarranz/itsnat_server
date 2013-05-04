@@ -55,4 +55,11 @@ public class RequestDOMEventStatelessImpl extends RequestDOMExtEventImpl
         // listener puede ser null pero puede haber código pendiente a enviar
         return new ResponseDOMEventStatelessImpl(this,listener);
     }
+    
+    @Override
+    public boolean isStateless()
+    {
+        return true;
+    }
+
 }

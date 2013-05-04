@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.req;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -110,8 +109,19 @@ public abstract class RequestAlreadyLoadedDocImpl extends RequestImpl implements
         return true; // Válida
     }
 
+    public boolean isStateless()    
+    {
+        return false; // Se redefine en evento stateless
+    }    
+    
     public boolean isValidClientSession(String sessionId,String sessionToken)
     {
+        if (isStateless())
+        {
+            // En stateless debemos soportar que la sesión haya caducado o el servidor haya sido reiniciado, para eso es stateless        
+            return true;
+        }
+        
         // Esta es la única razón de enviar el id de la sesión al cliente
         // y usar un token (número aleatorio), para detectar que la sesión ha caducado
         // por tanto para evitar el error de buscar un cliente
