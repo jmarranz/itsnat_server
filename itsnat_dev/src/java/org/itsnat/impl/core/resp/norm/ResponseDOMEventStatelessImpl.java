@@ -37,8 +37,7 @@ public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         clientDoc.getNodeCacheRegistry().clearCache(); // Elimina los nodos cacheados en la fase de carga, lo que cuenta es la fase del evento pues es la que devuelve el JavaScript que se envía al cliente
-        clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache();\n");          
-
+        clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache(); try{ \n");          
         try
         {
             super.processEvent();
@@ -46,7 +45,7 @@ public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
         finally
         {
             // Pase lo que pase lo dejamos limpito  
-            clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache();");              
+            clientDoc.addCodeToSend("\n }finally{ document.getItsNatDoc().clearNodeCache(); }");              
         }      
     }
     

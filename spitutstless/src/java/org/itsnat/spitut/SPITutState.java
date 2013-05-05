@@ -24,7 +24,6 @@ public abstract class SPITutState
         return spiTutDoc.getItsNatHTMLDocument();
     }
 
-    public abstract void dispose();
     public abstract String getStateTitle();
     public abstract String getStateName();
 }

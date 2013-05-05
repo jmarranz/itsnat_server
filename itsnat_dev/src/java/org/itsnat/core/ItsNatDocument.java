@@ -275,6 +275,7 @@ public interface ItsNatDocument extends ItsNatUserData
      */
     public void setJoystickMode(boolean value);
 
+    
     /**
      * Parses and converts to DOM the specified string containing markup
      * usually to be inserted into the document.

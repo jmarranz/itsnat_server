@@ -4,6 +4,7 @@ package org.itsnat.spitut;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatDOMUtil;
 import org.itsnat.core.event.ItsNatEventDOMStateless;
@@ -24,9 +25,7 @@ public class SPITutMainDocument implements EventListener
     protected String title;
     protected HTMLTitleElement titleElem;
     protected Map<String,Element> menuElemMap = new HashMap<String,Element>();
-    protected Element currentMenuItemElem;
     protected Element contentParentElem;
-    protected SPITutState currentState;
     protected Element googleAnalyticsElem;
     protected String googleAnalyticsIFrameURL;
 
@@ -44,8 +43,6 @@ public class SPITutMainDocument implements EventListener
         menuElemMap.put("overview",doc.getElementById("menuOpOverviewId"));
         menuElemMap.put("detail",doc.getElementById("menuOpDetailId"));
         // More menu options here...
-
-        itsNatDoc.addUserEventListener(null,"setState", this);
 
         this.contentParentElem = doc.getElementById("contentParentId");
         this.googleAnalyticsElem = doc.getElementById("googleAnalyticsId");
@@ -66,8 +63,8 @@ public class SPITutMainDocument implements EventListener
             if (stateName == null)
                 stateName = "overview";
         }
-
-        changeState(stateName);
+        
+        changeState(stateName,null);
     }
 
     public ItsNatHTMLDocument getItsNatHTMLDocument()
@@ -110,25 +107,25 @@ public class SPITutMainDocument implements EventListener
         return fragmentName;
     }
 
-    public void changeState(String stateName)
+    public void changeState(String stateName,String stateSecondaryName)
     {
         String fragmentName = getFragmentName(stateName);
 
         ItsNatDocFragmentTemplate template = getFragmentTemplate(fragmentName);
         if (template == null)
         {
-            changeState("not_found");
+            changeState("not_found",null);
             return;
         }
-
-        // Cleaning previous state:
-        if (currentState != null)
+        
+        if (!itsNatDoc.isLoading())
         {
-            currentState.dispose();
-            this.currentState = null;
+            ClientDocument clientDoc = itsNatDoc.getClientDocumentOwner();
+            String contentParentRef = clientDoc.getScriptUtil().getNodeReference(contentParentElem);            
+            clientDoc.addCodeToSend(contentParentRef + ".innerHTML = '';");
         }
-
-        ItsNatDOMUtil.removeAllChildren(contentParentElem);
+        
+        //ItsNatDOMUtil.removeAllChildren(contentParentElem);
 
         // Setting new state:
         changeActiveMenu(stateName);
@@ -139,11 +136,11 @@ public class SPITutMainDocument implements EventListener
         if (stateName.equals("overview")||stateName.equals("overview.showpopup"))
         {
             boolean popup = stateName.equals("overview.showpopup");
-            this.currentState = new SPITutStateOverview(this,popup);
+            new SPITutStateOverview(this,popup);
         }
         else if (stateName.equals("detail"))
         {
-            this.currentState = new SPITutStateDetail(this);
+            new SPITutStateDetail(this,stateSecondaryName);
         }
         
         itsNatDoc.addCodeToSend("try{ window.scroll(0,-5000); }catch(ex){}");
@@ -161,8 +158,11 @@ public class SPITutMainDocument implements EventListener
     public void handleEvent(Event evt)
     {
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
-        String name = (String)itsNatEvt.getExtraParam("state_name");
-        changeState(name);
+        
+        String stateName = (String)itsNatEvt.getExtraParam("state_name");
+        String stateSecondaryName = (String)itsNatEvt.getExtraParam("state_secondary_name");
+        
+        changeState(stateName,stateSecondaryName);
     }
 
     public void changeActiveMenu(String stateName)
@@ -172,12 +172,13 @@ public class SPITutMainDocument implements EventListener
         if (pos != -1) mainMenuItem = stateName.substring(0, pos); // Case "overview.showpopup"
         else mainMenuItem = stateName;
 
-        if (currentMenuItemElem != null)
-            currentMenuItemElem.removeAttribute("class");
-
-        this.currentMenuItemElem = menuElemMap.get(mainMenuItem);
-
-        if (currentMenuItemElem != null)
-            currentMenuItemElem.setAttribute("class","menuOpSelected");
+        for(Element menuItemElem : menuElemMap.values())
+        {
+            menuItemElem.setAttribute("class","foo");            
+            menuItemElem.removeAttribute("class");
+        }
+       
+        Element currentMenuItemElem = menuElemMap.get(mainMenuItem);
+        currentMenuItemElem.setAttribute("class","menuOpSelected");
     }
 }

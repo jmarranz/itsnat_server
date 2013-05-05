@@ -6,27 +6,22 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLDocument;
 
 public class SPITutStateDetail extends SPITutState implements EventListener
 {
-    protected Element detailMoreLink;
     protected Element detailMoreElem;
     protected boolean inserted = false;
     
-    public SPITutStateDetail(SPITutMainDocument spiTutDoc)
+    public SPITutStateDetail(SPITutMainDocument spiTutDoc,String stateSecondaryName)
     {
         super(spiTutDoc);
-
+        
         HTMLDocument doc = getItsNatHTMLDocument().getHTMLDocument();
-        this.detailMoreLink = doc.getElementById("detailMoreId");
-        ((EventTarget)detailMoreLink).addEventListener("click",this,false);
-    }
-
-    public void dispose()
-    {
-        ((EventTarget)detailMoreLink).removeEventListener("click",this,false);
+        if ("moreDetail".equals(stateSecondaryName))
+        {
+            
+        }
     }
 
     @Override

@@ -8,7 +8,7 @@
 
     <div >
         <h2>Overview</h2>
-        <p>This "fundamental" state is processed by crawlers of search engines (Google, Yahoo, Bing...)</p>
+        <p>This "fundamental" state is processed by crawlers of search engines (Google, Yahoo, Bing...), that is, is SEO compatible</p>
         <p>To understant how this SPI web site is "seen" by search engines, disable
             JavaScript in your browser.
         </p>
@@ -18,7 +18,7 @@
            by crawlers because "return false" is not executed.
            By this way text contained in pop-up is also processed by crawlers.
         </p>
-        <a itsnat:nocache="true" id="showPopupId" href="?st=overview.showpopup" onclick="return false;">Show popup</a>
+        <a itsnat:nocache="true" href="?st=overview.showpopup" onclick="setState('overview.showpopup'); return false;" >Show popup</a>
     </div>
 </body>
 </html>
