@@ -85,7 +85,15 @@ public abstract class ClientItsNatEventStfulImpl extends ItsNatEventImpl
         Object value = super.getExtraParam(name);
         if (value != null)
             return value;
-        return getItsNatServletRequestImpl().getAttrOrParam(name);
+        return getItsNatServletRequestImpl().getServletRequest().getParameter(name);
     }
 
+    @Override
+    public Object[] getExtraParamMultiple(String name)
+    {
+        Object[] value = super.getExtraParamMultiple(name);
+        if (value != null)
+            return value;
+        return getItsNatServletRequestImpl().getServletRequest().getParameterValues(name);
+    }
 }

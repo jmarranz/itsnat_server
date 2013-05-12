@@ -127,7 +127,8 @@ public abstract class JSRenderImpl
         {
             if (encoded.indexOf("</script>") != -1) // Raro pero puede ocurrir por ejemplo si el texto es el contenido de un comentario y se procesa por JavaScript como en BlackBerry y S60WebKit en carga
             {
-                String encoded2 = encoded.toString().replaceAll("</script>", "</\" + \"script>");
+                //String encoded2 = encoded.toString().replaceAll("</script>", "</\" + \"script>");
+                String encoded2 = encoded.toString().replaceAll("</script>", "<\\/script>");
                 return "\"" + encoded2 + "\"";
             }
             else

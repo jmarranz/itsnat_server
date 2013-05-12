@@ -59,7 +59,6 @@ public class RequestEventStatelessImpl extends RequestImpl
     public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         ItsNatServletRequestImpl itsNatRequest = getItsNatServletRequest();
-     
               
         String docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");        
         if (docName != null)
@@ -68,7 +67,19 @@ public class RequestEventStatelessImpl extends RequestImpl
         }
         else
         {
-            processCustom();
+            // Segunda oportunidad de definir el itsnat_doc_name en un ItsNatServletRequestListener, de esta manera podemos usar el global event listener a modo de dispatcher, aunque hayamos generado código JavaScript recuerda que al final el resultado de ésto es también JavaScript
+            ItsNatServletImpl itsNatServlet = itsNatRequest.getItsNatServletImpl();
+            itsNatServlet.dispatchItsNatServletRequestListeners(itsNatRequest);            
+            
+            docName = itsNatRequest.getAttrOrParam("itsnat_doc_name");        
+            if (docName != null)
+            {
+                 processDocumentTemplateSpecified();
+            }             
+            else
+            {
+                processCustom();
+            }
         }
     }
 
@@ -106,7 +117,7 @@ public class RequestEventStatelessImpl extends RequestImpl
         bindClientToRequest(clientDoc,false);  // El documento es nulo, por tanto no se vincula el request al doc
 
         this.response = new ResponseEventStatelessCustomAndDocTemplateNotFoundImpl(this);
-        response.process();         
+        response.process();      
     }
     
     public void processDocumentTemplateNotFound(ClientDocumentImpl clientDoc)    

@@ -96,7 +96,7 @@ public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
            var prueba = document.getElementById("prueba");
            prueba.innerHTML = "<div><script>alert('Hola');</" + "script></div>";
            Un alert(prueba.innerHTML) devolverá "<div></div>".
-           Nota: el truco "</" + "script>" es para evitar un cerrado erróneo del parser pues busca el </script> del elemento.
+           Nota: el truco "</" + "script>" es para evitar un cerrado erróneo del parser pues busca el </script> del elemento. O bien <\/script>
            Sin embargo via DOM funciona correctamente.
        */
         tagNamesNotValidInsideInnerHTML.add("script");

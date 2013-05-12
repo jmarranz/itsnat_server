@@ -44,9 +44,11 @@ public class ItsNatXMLDocumentTemplateVersionImpl extends ItsNatDocumentTemplate
         super(docTemplate,source,timeStamp,request,response);
     }
 
-    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session)
+    @Override
+    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session,boolean stateless)
     {
-        return new ItsNatXMLDocumentImpl(doc,this,browser,requestURL,session);
+        // stateless NUNCA será true pero por homogeneidad
+        return new ItsNatXMLDocumentImpl(doc,this,browser,requestURL,session,stateless);
     }
 
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()

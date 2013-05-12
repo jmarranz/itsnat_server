@@ -40,9 +40,9 @@ public class ItsNatHTMLDocumentImpl extends ItsNatStfulDocumentImpl implements I
 {
 
     /** Creates a new instance of ItsNatHTMLDocumentImpl */
-    public ItsNatHTMLDocumentImpl(HTMLDocument doc, ItsNatHTMLDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession)
+    public ItsNatHTMLDocumentImpl(HTMLDocument doc, ItsNatHTMLDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession,boolean stateless)
     {
-        super(doc,docLoader,browser,requestURL,parentSession);
+        super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
     public DocMutationEventListenerImpl createInternalMutationEventListener()

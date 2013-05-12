@@ -21,14 +21,12 @@ import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerOtherNSImpl;
 import org.itsnat.impl.comp.mgr.ItsNatOtherNSDocComponentManagerImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DefaultElementGroupManagerImpl;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
 import org.itsnat.impl.core.template.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.html.HTMLDocument;
 
 /**
  *
@@ -38,9 +36,9 @@ public abstract class ItsNatOtherNSDocumentImpl extends ItsNatStfulDocumentImpl
 {
 
     /** Creates a new instance of ItsNatOtherNSDocumentImpl */
-    public ItsNatOtherNSDocumentImpl(Document doc,ItsNatOtherNSDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession)
+    public ItsNatOtherNSDocumentImpl(Document doc,ItsNatOtherNSDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession,boolean stateless)
     {
-        super(doc,docLoader,browser,requestURL,parentSession);
+        super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
     public DocMutationEventListenerImpl createInternalMutationEventListener()

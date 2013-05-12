@@ -55,16 +55,18 @@ public class ItsNatHTMLDocumentTemplateVersionImpl extends ItsNatStfulDocumentTe
         return (HTMLDocument)templateDoc;
     }
 
-    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session)
+    @Override
+    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session,boolean stateless)
     {
-        return new ItsNatHTMLDocumentImpl((HTMLDocument)doc,this,browser,requestURL,session);
+        return new ItsNatHTMLDocumentImpl((HTMLDocument)doc,this,browser,requestURL,session,stateless);
     }
-
+    
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new HTMLTemplateVersionDelegateImpl(this);
     }
 
+    @Override
     protected boolean isElementValidForCaching(Element elem)
     {
         if (!super.isElementValidForCaching(elem))

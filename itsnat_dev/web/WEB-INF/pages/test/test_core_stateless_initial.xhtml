@@ -86,6 +86,7 @@
     </script>
     <a href="javascript:sendEventStatelessCustom()">Test Stateless Event Custom</a>     
     
+   
     <br /><br />
     <script>
     function sendEventStatelessBadTemplateName()
@@ -98,6 +99,18 @@
     </script>
     <a href="javascript:sendEventStatelessBadTemplateName()">Test Stateless Event Document Template not found</a>       
 
+    <br /><br />    
+    <script>
+    function sendEventStatelessCustomAddedTemplateInEvent()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('title',document.title); 
+        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','test_core_stateless_event');            
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }
+    </script>
+    <a href="javascript:sendEventStatelessCustomAddedTemplateInEvent()">Test Stateless Event Custom added template in event</a>       
+    
     <script>
     function sendEventStateless(sendMode)
     {

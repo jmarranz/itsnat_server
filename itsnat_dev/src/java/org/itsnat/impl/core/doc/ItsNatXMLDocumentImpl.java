@@ -52,9 +52,9 @@ public class ItsNatXMLDocumentImpl extends ItsNatDocumentImpl
 {
 
     /** Creates a new instance of ItsNatXMLDocumentImpl */
-    public ItsNatXMLDocumentImpl(Document doc,ItsNatXMLDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession)
+    public ItsNatXMLDocumentImpl(Document doc,ItsNatXMLDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession,boolean stateless)
     {
-        super(doc,docLoader,browser,requestURL,parentSession);
+        super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
     public DocMutationEventListenerImpl createInternalMutationEventListener()
@@ -72,6 +72,7 @@ public class ItsNatXMLDocumentImpl extends ItsNatDocumentImpl
         return new ItsNatXMLDocComponentManagerImpl(this);
     }
 
+    
     public ScriptUtil getScriptUtil()
     {
         throw new ItsNatException("JavaScript utilities are not available for XML documents",this);

@@ -31,9 +31,9 @@ public class ItsNatXULDocumentImpl extends ItsNatOtherNSDocumentImpl
 {
 
     /** Creates a new instance of ItsNatOtherNSDocumentImpl */
-    public ItsNatXULDocumentImpl(Document doc,ItsNatXULDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession)
+    public ItsNatXULDocumentImpl(Document doc,ItsNatXULDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession,boolean stateless)
     {
-        super(doc,docLoader,browser,requestURL,parentSession);
+        super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()

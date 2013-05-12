@@ -48,23 +48,26 @@ public class SPITutMainDocument implements EventListener
         this.googleAnalyticsElem = doc.getElementById("googleAnalyticsId");
         this.googleAnalyticsIFrameURL = googleAnalyticsElem.getAttribute("src");  // Initial value
 
-        HttpServletRequest servReq = request.getHttpServletRequest();
-        String stateName = servReq.getParameter("_escaped_fragment_"); // Google bot, has priority, its value is based on the hash fragment
-        if (stateName != null)
+        if (!itsNatDoc.isStateless())
         {
-            if (stateName.startsWith("st=")) // st means "state"
-                stateName = stateName.substring("st=".length(), stateName.length());
-            else // Wrong format
-                stateName = "overview";
+            HttpServletRequest servReq = request.getHttpServletRequest();
+            String stateName = servReq.getParameter("_escaped_fragment_"); // Google bot, has priority, its value is based on the hash fragment
+            if (stateName != null)
+            {
+                if (stateName.startsWith("st=")) // st means "state"
+                    stateName = stateName.substring("st=".length(), stateName.length());
+                else // Wrong format
+                    stateName = "overview";
+            }
+            else
+            {
+                stateName = servReq.getParameter("st");
+                if (stateName == null)
+                    stateName = "overview";
+            }
+
+            changeState(stateName);
         }
-        else
-        {
-            stateName = servReq.getParameter("st");
-            if (stateName == null)
-                stateName = "overview";
-        }
-        
-        changeState(stateName,null);
     }
 
     public ItsNatHTMLDocument getItsNatHTMLDocument()
@@ -107,6 +110,11 @@ public class SPITutMainDocument implements EventListener
         return fragmentName;
     }
 
+    public void changeState(String stateName)
+    {    
+        changeState(stateName,null);
+    }
+    
     public void changeState(String stateName,String stateSecondaryName)
     {
         String fragmentName = getFragmentName(stateName);
@@ -114,7 +122,7 @@ public class SPITutMainDocument implements EventListener
         ItsNatDocFragmentTemplate template = getFragmentTemplate(fragmentName);
         if (template == null)
         {
-            changeState("not_found",null);
+            changeState("not_found");
             return;
         }
         
@@ -122,7 +130,7 @@ public class SPITutMainDocument implements EventListener
         {
             ClientDocument clientDoc = itsNatDoc.getClientDocumentOwner();
             String contentParentRef = clientDoc.getScriptUtil().getNodeReference(contentParentElem);            
-            clientDoc.addCodeToSend(contentParentRef + ".innerHTML = '';");
+            clientDoc.addCodeToSend("removeChildren(" + contentParentRef + ");");  // ".innerHTML = '';"
         }
         
         //ItsNatDOMUtil.removeAllChildren(contentParentElem);

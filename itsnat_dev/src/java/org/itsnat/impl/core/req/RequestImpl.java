@@ -37,12 +37,12 @@ import org.itsnat.impl.core.resp.ResponseImpl;
 public abstract class RequestImpl
 {
     public static final String ITSNAT_ACTION_EVENT = "event";
-    public static final String ITSNAT_ACTION_LOAD_SCRIPT = "load_script";    
+    public static final String ITSNAT_ACTION_LOAD_SCRIPT = "load_script";   
     public static final String ITSNAT_ACTION_IFRAME_FILE_UPLOAD = "iframe_file_upload";    
-    public static final String ITSNAT_ACTION_ATTACH_CLIENT = "attach_client";     
-    public static final String ITSNAT_ACTION_ATTACH_SERVER = "attach_server";      
-    public static final String ITSNAT_ACTION_ITSNAT_INFO = "itsnat_info";      
-    public static final String ITSNAT_ACTION_EVENT_STATELESS = "event_stateless";       
+    public static final String ITSNAT_ACTION_ATTACH_CLIENT = "attach_client";   // Público y documentado  
+    public static final String ITSNAT_ACTION_ATTACH_SERVER = "attach_server";   // Público y documentado 
+    public static final String ITSNAT_ACTION_ITSNAT_INFO = "itsnat_info";  // Público y documentado 
+    public static final String ITSNAT_ACTION_EVENT_STATELESS = "event_stateless";   // Público  y documentado 
     public static final String ITSNAT_ACTION_EVENT_STATELESS_PHASE_LOAD_DOC = "event_stateless_phase_load_doc";     
     
     protected ItsNatServletRequestImpl itsNatRequest;

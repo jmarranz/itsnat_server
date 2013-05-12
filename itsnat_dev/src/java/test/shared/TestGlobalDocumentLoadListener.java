@@ -18,6 +18,7 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
+import test.stateless.TestGlobalStatelessDocumentLoadListener;
 
 /**
  *
@@ -45,34 +46,42 @@ public class TestGlobalDocumentLoadListener implements ItsNatServletRequestListe
         else
         {
             ServletRequest servReq = request.getServletRequest();
-            String docName = servReq.getParameter("itsnat_doc_name");
-            if (docName == null) docName = (String)servReq.getAttribute("itsnat_doc_name");
-            if (docName != null)
+            String itsNatAction = servReq.getParameter("itsnat_action");  
+            if ("event_stateless".equals(itsNatAction))
             {
-                System.out.println("Page not found " + docName);
-                try
-                {
-                    Writer out = response.getServletResponse().getWriter();
-                    out.write("<html><body><h1>Page not found: \"" + docName + "\"");
-                    out.write("</h1></body></html>");
-                }
-                catch(IOException ex) { throw new RuntimeException(ex); }
+                TestGlobalStatelessDocumentLoadListener.processRequest(request, response);            
             }
             else
             {
-                // Pretty URL
-                HttpServletRequest servRequest = (HttpServletRequest)request.getServletRequest();
-                String pathInfo = servRequest.getPathInfo();
-                if (pathInfo == null)
-                    throw new RuntimeException("Unexpected URL");
+                String docName = servReq.getParameter("itsnat_doc_name");
+                if (docName == null) docName = (String)servReq.getAttribute("itsnat_doc_name");
+                if (docName != null)
+                {
+                    System.out.println("Page not found " + docName);
+                    try
+                    {
+                        Writer out = response.getServletResponse().getWriter();
+                        out.write("<html><body><h1>Page not found: \"" + docName + "\"");
+                        out.write("</h1></body></html>");
+                    }
+                    catch(IOException ex) { throw new RuntimeException(ex); }
+                }
+                else
+                {
+                    // Pretty URL
+                    HttpServletRequest servRequest = (HttpServletRequest)request.getServletRequest();
+                    String pathInfo = servRequest.getPathInfo();
+                    if (pathInfo == null)
+                        throw new RuntimeException("Unexpected URL");
 
-                // Formato esperado de docName: "/docname"
-                docName = pathInfo.substring(1);
-                docName = docName.replace('/','_');
-                request.getServletRequest().setAttribute("itsnat_doc_name",docName);
+                    // Formato esperado de docName: "/docname"
+                    docName = pathInfo.substring(1);
+                    docName = docName.replace('/','_');
+                    request.getServletRequest().setAttribute("itsnat_doc_name",docName);
 
-                ServletResponse servResponse = response.getServletResponse();
-                request.getItsNatServlet().processRequest(servRequest,servResponse);
+                    ServletResponse servResponse = response.getServletResponse();
+                    request.getItsNatServlet().processRequest(servRequest,servResponse);
+                }
             }
         }
     }

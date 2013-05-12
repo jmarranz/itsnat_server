@@ -77,16 +77,30 @@ public interface ItsNatEvent extends ItsNatUserData
      *
      * <p>Usually these name/value pairs are declared using {@link org.itsnat.core.event.ParamTransport} objects.
      *
-     * <p>Current implementation calls: <code>ServletRequest.getParameter(String)</code> with
-     * the specified name if the name/value pair was not set calling
+     * <p>Current implementation calls: <code>ServletRequest.getParameter(String)</code>  with
+     * the specified name, if the name/value pair was not set calling
      * {@link #setExtraParam(String,Object)}.</p>
-     *
      *
      * @param name the name to search for.
      * @return the value carried with the specified name.
      */
     public Object getExtraParam(String name);
 
+    /**
+     * Returns the remote values carried alongside this event with the specified name in case of multiple values.
+     *
+     * <p>Usually these name/value pairs are declared using {@link org.itsnat.core.event.ParamTransport} objects.
+     *
+     * <p>Current implementation calls: <code>ServletRequest.getParameterValues(String)</code> with
+     * the specified name, if the name/value pair was not set calling
+     * {@link #setExtraParam(String,Object)}.</p>
+     *
+     * @param name the name to search for.
+     * @return the value carried with the specified name.
+     * @see #getExtraParam(String)    
+     */
+    public Object[] getExtraParamMultiple(String name);    
+    
     /**
      * Sets the specified name and value as a remote browser data carried by this event.
      *

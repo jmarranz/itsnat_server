@@ -61,7 +61,7 @@ public class TestInnerHTML implements EventListener,Serializable
         code.append("<div>");
         code.append(" <div style='border:solid 1px red; margin:2px'><b>One rectangle</b></div>");
         code.append(" <div style='border:solid 1px red; padding:2px;'><div style='border:solid 1px red; padding:2px;'><div style='border:solid 1px red'>Three nested rectangles <script></script></div></div></div>");
-        code.append(" <div style='border:solid 1px red; margin:2px'><b>Other rectangle</b></div>");
+        code.append(" <div style='border:solid 1px red; margin:2px'><b>Other rectangle</b></div>");     
         code.append("</div>");
         DocumentFragment docFrag = itsNatDoc.toDOM(code.toString());
         link.getParentNode().insertBefore(docFrag, link);

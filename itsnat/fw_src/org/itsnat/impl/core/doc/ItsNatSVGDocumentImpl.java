@@ -33,9 +33,9 @@ public class ItsNatSVGDocumentImpl extends ItsNatOtherNSDocumentImpl
 {
 
     /** Creates a new instance of ItsNatSVGDocumentImpl */
-    public ItsNatSVGDocumentImpl(Document doc,ItsNatSVGDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession)
+    public ItsNatSVGDocumentImpl(Document doc,ItsNatSVGDocumentTemplateVersionImpl docLoader,Browser browser,String requestURL,ItsNatSessionImpl parentSession,boolean stateless)
     {
-        super(doc,docLoader,browser,requestURL,parentSession);
+        super(doc,docLoader,browser,requestURL,parentSession,stateless);
 
         if (docLoader.isGeneratedDocumentFake(browser))
             this.scriptingEnabled = false; // MSIE no tiene ni idea de SVG, para ello están los plugins (ASV)

@@ -44,6 +44,7 @@ public class UserEventListenerTreeNode extends FeatureTreeNode implements EventL
                       "var evt = itsNatDoc.createUserEvent('myUserAction');" +
                       "evt.setExtraParam('title',document.title);" +
                       "evt.setExtraParam('url',document.location);" +
+                      "evt.setExtraParam('both',[document.title,document.location]);" +                
                       "itsNatDoc.dispatchUserEvent(this,evt);";
         linkToStart.setAttribute("onclick",code);
     }
@@ -64,5 +65,7 @@ public class UserEventListenerTreeNode extends FeatureTreeNode implements EventL
         log("Page title: " + title);
         String url = (String)userEvt.getExtraParam("url");
         log("URL: " + url);
+        Object[] both = userEvt.getExtraParamMultiple("both");
+        log("Page title/URL: " + both[0] + "/" + both[1]);        
     }
 }

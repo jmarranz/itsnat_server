@@ -89,10 +89,11 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     protected MapUniqueId<BoundElementDocContainerImpl> boundElemDocContainers;
     protected Random random;
 
+    
     /** Creates a new instance of ItsNatStfulDocumentImpl */
-    public ItsNatStfulDocumentImpl(Document doc,ItsNatDocumentTemplateVersionImpl docTemplate,Browser browser,String requestURL,ItsNatSessionImpl ownerSession)
+    public ItsNatStfulDocumentImpl(Document doc,ItsNatDocumentTemplateVersionImpl docTemplate,Browser browser,String requestURL,ItsNatSessionImpl ownerSession,boolean stateless)
     {
-        super(doc,docTemplate,browser,requestURL,ownerSession);
+        super(doc,docTemplate,browser,requestURL,ownerSession,stateless);
 
         this.commMode = docTemplate.getCommMode();
         this.eventTimeout = docTemplate.getEventTimeout();
@@ -112,6 +113,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         in.defaultReadObject();
     }
 
+    
     public ItsNatStfulDocComponentManagerImpl getItsNatStfulComponentManager()
     {
         return (ItsNatStfulDocComponentManagerImpl)componentMgr;

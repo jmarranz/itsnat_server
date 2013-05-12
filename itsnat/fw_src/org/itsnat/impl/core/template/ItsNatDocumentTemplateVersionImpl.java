@@ -148,7 +148,8 @@ public abstract class ItsNatDocumentTemplateVersionImpl extends MarkupTemplateVe
         ItsNatServletRequestImpl itsNatRequest = request.getItsNatServletRequest();
         Browser browser = getBrowser(itsNatRequest);
         Document doc = loadDocument(browser);
-        ItsNatDocumentImpl itsNatDoc = createItsNatDocument(doc,browser,itsNatRequest.getRequestURLInternal().toString(),itsNatRequest.getItsNatSessionImpl());
+        boolean stateless = request.isStateless();
+        ItsNatDocumentImpl itsNatDoc = createItsNatDocument(doc,browser,itsNatRequest.getRequestURLInternal().toString(),itsNatRequest.getItsNatSessionImpl(),stateless);
         if (!canVersionBeSharedBetweenDocs()) cleanDOMPattern(); // Ya no necesitamos más el Document patrón pues el template no se utiliza para crear más documentos
         return itsNatDoc;
     }
@@ -180,7 +181,7 @@ public abstract class ItsNatDocumentTemplateVersionImpl extends MarkupTemplateVe
         }
     }
 
-    protected abstract ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session);
+    protected abstract ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session,boolean stateless);
 
 
     public Document loadDocument(Browser browser)

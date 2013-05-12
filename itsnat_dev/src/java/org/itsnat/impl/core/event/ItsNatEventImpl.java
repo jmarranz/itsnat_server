@@ -142,6 +142,19 @@ public abstract class ItsNatEventImpl extends EventObject implements ItsNatEvent
         return getExtraParamMap().get(name);
     }
 
+    public Object[] getExtraParamMultiple(String name)
+    {
+        if (!hasExtraParams())
+            return null;
+        Object value = getExtraParamMap().get(name);
+        if (value == null)
+            return null;
+        if (value instanceof Object[])
+            return (Object[])value;
+        else
+            return new Object[]{value};
+    }       
+    
     public void setExtraParam(String name,Object value)
     {
         getExtraParamMap().put(name,value);

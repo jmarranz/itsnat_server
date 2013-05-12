@@ -11,6 +11,7 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ItsNatEventStateless;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
+import test.stateless.TestCoreStatelessGlobalEventListenerAction;
 
 /**
  *
@@ -30,16 +31,7 @@ public class TestGlobalEventListener implements EventListener,Serializable
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         if (itsNatEvt instanceof ItsNatEventStateless)
         {
-            if (itsNatEvt.getItsNatDocument() == null)
-            {
-                ClientDocument clientDoc = itsNatEvt.getClientDocument();                
-                //ServletRequest request = itsNatEvt.getItsNatServletRequest().getServletRequest();
-                String docName = (String)itsNatEvt.getExtraParam("itsnat_doc_name");
-                if (docName != null)
-                    clientDoc.addCodeToSend("alert('Stateless event OK with not found itsnat_doc_name: " + docName + " and title " + itsNatEvt.getExtraParam("title") + "');"); 
-                else
-                    clientDoc.addCodeToSend("alert('Custom stateless event OK and title " + itsNatEvt.getExtraParam("title") + "');"); 
-            }
+            TestCoreStatelessGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
         }
         else
         {

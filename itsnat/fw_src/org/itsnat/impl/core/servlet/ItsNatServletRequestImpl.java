@@ -112,16 +112,38 @@ public abstract class ItsNatServletRequestImpl extends ItsNatUserDataImpl implem
     public static String getAttrOrParam(ServletRequest request,String name)
     {
         String value = (String)request.getAttribute(name);
-        if (value == null)
-            value = request.getParameter(name);
-        return value;
+        if (value != null)
+            return value;
+        return request.getParameter(name);
     }
+    
+    /*
+    public static String[] getAttrOrParamMultiple(ServletRequest request,String name)
+    {
+        Object value = request.getAttribute(name);
+        if (value != null)
+        {
+            if (value instanceof String[])
+                return (String[])value;
+            else 
+                return new String[] { (String)value };
+        }    
+        return request.getParameterValues(name);        
+    }    
+    */
     
     public String getAttrOrParam(String name)
     {
         return getAttrOrParam(request,name);
     }
-
+    
+    /*
+    public String[] getAttrOrParamMultiple(String name)
+    {
+        return getAttrOrParamMultiple(request,name);
+    }        
+    */
+    
     public String getAttrOrParamExist(String name)
     {
         return getAttrOrParam(name,true);

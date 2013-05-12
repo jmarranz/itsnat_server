@@ -274,7 +274,15 @@ public interface ItsNatDocument extends ItsNatUserData
      * @see #isJoystickMode()
      */
     public void setJoystickMode(boolean value);
-
+    
+    /**
+     * If this document is stateless that is, it was loaded as the result of processing a stateless event fired with a JavaScript call 
+     * document.getItsNatDoc().dispatchEventStateless(...); provided a <code>itsnat_doc_name</code> parameter.
+     * 
+     * @return true if is a stateless document.     
+     */
+    public boolean isStateless();
+    
     /**
      * Parses and converts to DOM the specified string containing markup
      * usually to be inserted into the document.

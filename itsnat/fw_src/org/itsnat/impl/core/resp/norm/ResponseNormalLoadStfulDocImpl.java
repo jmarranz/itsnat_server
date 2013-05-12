@@ -95,11 +95,23 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
 
     public void processResponse()
     {
-        if (this.getRequestNormalLoadDoc().isStateless())
+        if (getRequestNormalLoadDoc().isStateless())
+        {
+            // Descuidadamente es posible que el programador genere nodos cacheados en fase de carga del documento stateless por ejemplo al usar un getNodeReference 
+            // por eso hacemos un clearNodeCache() al ppio en el cliente para que esos cacheos no tengan ningún problema con algún posible resto de nodos cacheados en el cliente
+            ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+            clientDoc.getNodeCacheRegistry().clearCache(); 
+            clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache();\n");             
+            
             responseDelegate.dispatchRequestListeners(); // Evitamos la serialización innecesaria del ItsNatDocument
+            
+            // En la fase del evento stateless se hace otro clearNodeCache
+        }
         else
+        {
             responseDelegate.processResponse();
-
+        }
+        
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (!clientDoc.canReceiveSOMENormalEvents())
         {

@@ -518,6 +518,8 @@ public class CodeInManual
                 System.out.println("Page title: " + title);
                 String url = (String)userEvt.getExtraParam("url");
                 System.out.println("URL: " + url);
+                Object[] both = userEvt. getExtraParamMultiple("both");
+                System.out.println("Page title/URL: " + both[0] + "/" + both[1]);
             }
         };
 
@@ -528,6 +530,7 @@ public class CodeInManual
         code += "var evt = itsNatDoc.createUserEvent('myUserAction');";
         code += "evt.setExtraParam('title',document.title);";
         code += "evt.setExtraParam('url',document.location);";
+        code += "evt.setExtraParam('both',[document.title,document.location]);";          
         code += "itsNatDoc.dispatchUserEvent(this,evt);";
         buttonElem.setAttribute("onclick",code);
     }

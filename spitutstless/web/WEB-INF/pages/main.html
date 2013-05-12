@@ -15,7 +15,11 @@
         if (!elem) return;
         elem.parentNode.removeChild(elem);
     }
-        
+    function removeChildren(node)
+    {
+        while(node.firstChild) { var child = node.firstChild; node.removeChild(child); }; // Altnernative: node.innerHTML = ""
+    }
+
     function setState(state_name,state_secondary_name)
     {
         if (typeof document.getItsNatDoc == "undefined") return; // Too soon, page is not fully loaded        

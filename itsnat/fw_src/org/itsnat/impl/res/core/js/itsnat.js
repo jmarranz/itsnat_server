@@ -909,7 +909,13 @@ function EventGenericListener(action,itsNatDoc,commMode,timeout)
         var params = evt.extraParams;
         if (params != null)
             for(var name in params)
-                url += "&" + name + "=" + encodeURIComponent(params[name]);             
+            {
+                var value = params[name];               
+                if (typeof value == "object" && typeof value.length == "number" && value.length > 0)
+                    for(var i = 0; i < value.length; i++) url += "&" + name + "=" + encodeURIComponent(value[i]);
+                else
+                    url += "&" + name + "=" + encodeURIComponent(value);
+            }
         return url;
     }
 }

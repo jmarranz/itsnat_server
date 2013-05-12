@@ -42,9 +42,10 @@ public class ItsNatXULDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
         super(docTemplate,source,timeStamp,request,response);
     }
 
-    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session)
+    @Override
+    protected ItsNatDocumentImpl createItsNatDocument(Document doc,Browser browser,String requestURL,ItsNatSessionImpl session,boolean stateless)
     {
-        return new ItsNatXULDocumentImpl(doc,this,browser,requestURL,session);
+        return new ItsNatXULDocumentImpl(doc,this,browser,requestURL,session,stateless);
     }
 
     public String wrapBodyAsDocument(String source)

@@ -93,12 +93,12 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
     protected transient DOMRenderImpl nodeRender; // Sirve para serializar nodos concretos no el documento completo
     protected transient XercesDOMParserWrapperImpl parser;  // Guardamos un parser porque las operaciones en ItsNatDocument son monohilo y así reutilizamos
     protected String requestURL;
-
+    protected boolean stateless;
 
     /**
      * Creates a new instance of ItsNatDocumentImpl
      */
-    public ItsNatDocumentImpl(Document doc,ItsNatDocumentTemplateVersionImpl docTemplateVersion,Browser browser,String requestURL,ItsNatSessionImpl ownerSession)
+    public ItsNatDocumentImpl(Document doc,ItsNatDocumentTemplateVersionImpl docTemplateVersion,Browser browser,String requestURL,ItsNatSessionImpl ownerSession,boolean stateless)
     {
         super(ownerSession.getUniqueIdGenerator());
 
@@ -106,7 +106,8 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         ((ItsNatDocumentInternal)doc).getDelegateDocument().setItsNatDocument(this); // Hace que este documento represente un documento remoto
         this.docTemplateVersion = docTemplateVersion;
         this.requestURL = requestURL;
-
+        this.stateless = stateless;
+        
         if (browser instanceof BrowserUnknown)
             this.scriptingEnabled = false; // Suponemos que es un robot
         else
@@ -259,7 +260,12 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         doc.addEventListenerInternal("DOMCharacterDataModified",mutationListener,false);
     }
 
-
+    @Override    
+    public boolean isStateless()    
+    {
+        return stateless;
+    }
+    
     public String getRequestURL()
     {
         return requestURL;

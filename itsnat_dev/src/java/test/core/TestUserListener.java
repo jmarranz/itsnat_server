@@ -65,14 +65,15 @@ public class TestUserListener implements EventListener,Serializable
                 EventTarget currTarget = userEvt.getCurrentTarget();
 
                 String title = (String)userEvt.getExtraParam("title");
+                String[] multivalue = (String[])userEvt.getExtraParamMultiple("multivalue");                
                 Text text = (Text)link.getFirstChild();
-                text.setData(text.getData() + " => " + title);
+                text.setData(text.getData() + " => title: " + title + ", multivalue: " + multivalue[0] + "-" + multivalue[1]);
 
                 itsNatDoc.removeUserEventListener(currTarget,userEvtName,this);
             }
         };
 
-        ParamTransport[] extraParams = new ParamTransport[] { new CustomParamTransport("title","document.title") };
+        ParamTransport[] extraParams = new ParamTransport[] { new CustomParamTransport("title","document.title"),new CustomParamTransport("multivalue","['one',2]")  };
 
         itsNatDoc.addUserEventListener((EventTarget)doc,userEvtName,listener,itsNatEvent.getCommMode(),extraParams,null,-1);
         itsNatDoc.addCodeToSend("document.getItsNatDoc().fireUserEvent(document,\"" + userEvtName + "\");");
@@ -85,6 +86,7 @@ public class TestUserListener implements EventListener,Serializable
         String code = "";
         code += "var userEvt = document.getItsNatDoc().createUserEvent('" + userEvtName + "');";
         code += "userEvt.setExtraParam('title',document.title);";
+        code += "userEvt.setExtraParam('multivalue',['one',2]);";        
         code += "document.getItsNatDoc().dispatchUserEvent(document.documentElement,userEvt);";
         itsNatDoc.addCodeToSend(code);
     }
