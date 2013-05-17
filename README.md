@@ -80,8 +80,7 @@ ItsNat provides many more (core) features:
 
 - Remote Templates
 
-
-Hello World 
+### Hello World
 
 1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat" .
 2. Copy the following jars to the WEB-INF/lib (these jars are located in fw_dist/lib in the ItsNat distribution): ItsNat.jar, nekohtml.jar, serializer.jar, xercesImpl.jar, xml-apis.jar
