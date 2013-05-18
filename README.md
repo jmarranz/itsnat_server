@@ -5,8 +5,7 @@ ItsNat : Natural AJAX. Component Based Java Web Application Framework
 
 Project web site: http://www.itsnat.org
 
-Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat/feashow_servlet?itsnat_doc_name=feashow.main)(inline documentation and sample code)
-(Contains inline documentation and source code)
+Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat/feashow_servlet?itsnat_doc_name=feashow.main) (inline documentation and sample code)
 
 Core features
 
@@ -238,7 +237,7 @@ public class CoreExampleProcessor implements EventListener
         elem.setAttribute("style","color:red;");
         Text text = (Text)elem.getFirstChild();
         text.setData("Click Me!"); 
-		itsNatDoc.addEventListener((EventTarget)elem,"click",this,false);
+	itsNatDoc.addEventListener((EventTarget)elem,"click",this,false);
     }
 
     public void removeClickable(Element elem)
@@ -246,7 +245,7 @@ public class CoreExampleProcessor implements EventListener
         elem.removeAttribute("style");
         Text text = (Text)elem.getFirstChild();
         text.setData("Cannot be clicked"); 
-		itsNatDoc.removeEventListener((EventTarget)elem,"click",this,false);
+	itsNatDoc.removeEventListener((EventTarget)elem,"click",this,false);
     }
 
 }
