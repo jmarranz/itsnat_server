@@ -83,9 +83,8 @@ ItsNat provides many more (core) features:
 ### Hello World
 
 1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat" .
-2. Copy the following jars to the WEB-INF/lib (these jars are located in fw_dist/lib in the ItsNat distribution): ItsNat.jar, nekohtml.jar, serializer.jar, xercesImpl.jar, xml-apis.jar
-3. Copy the following JavaScript files (they all located in fw_dist/js) to a new public web folder "js" (for instance <project>/web/js folder in NetBeans IDE): itsnat.js, itsnat_ajax.js, itsnat_msie.js, itsnat_w3c.js
-4. Create a new servlet using the wizard of your IDE. In this example it is named "servlet", but this name is not mandatory. The default web.xml is valid as is. Remove any code and add the following:
+2. Copy the following jars to the WEB-INF/lib (these jars are located in fw_dist/lib in the ItsNat distribution): ItsNat.jar, batik-dom.jar, batik-util.jar, batik-xml.jar, nekohtml.jar, serializer.jar, xercesImpl.jar, xml-apis.jar
+3. Create a new servlet using the wizard of your IDE. In this example it is named "servlet", but this name is not mandatory. The default web.xml is valid as is. Remove any code and add the following:
 
 ```
 import javax.servlet.*;
@@ -120,7 +119,6 @@ The standard servlet method "init" is used to configure ItsNat and to add an Its
 Create a new XHTML file with name "core_example.xhtml" in a new folder "WEB-INF/pages/manual/", this folder name and location is not mandatory. This file is a ItsNat template, as you can see is pure XHTML (HTML is supported too):
 
 ```
-<!-- <?xml version="1.0" encoding="UTF-8"?> -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -267,4 +265,4 @@ Now run the application. The following image shows the client page state after t
 
 
 
-Source: http://java.dzone.com/news/itsnat-java-web-framework-inte
+Source: http://itsnat.sourceforge.net/index.php?_page=support.tutorial.core
