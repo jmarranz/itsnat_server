@@ -14,7 +14,6 @@
 
 package org.itsnat.feashow;
 
-import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.events.Event;

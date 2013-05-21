@@ -61,6 +61,7 @@ import org.itsnat.feashow.features.core.otherns.SVGInXHTMLMimeLoadListener;
 import org.itsnat.feashow.features.core.otherns.XMLExampleLoadListener;
 import org.itsnat.feashow.features.core.otherns.SVGPureLoadListener;
 import org.itsnat.feashow.features.core.otherns.XULPureLoadListener;
+import org.itsnat.feashow.features.stless.comp.StlessFreeListExampleInitialDocLoadListener;
 import org.itsnat.manual.core.CoreExampleLoadListener;
 
 public class feashow_servlet extends HttpServletWrapper
@@ -87,6 +88,7 @@ public class feashow_servlet extends HttpServletWrapper
         itsNatConfig.setDefaultDateFormat(DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.US));
         itsNatConfig.setDefaultNumberFormat(NumberFormat.getInstance(Locale.US));
         itsNatConfig.setEventDispatcherMaxWait(10*60*1000);  // 10 minutes
+        
         itsNatServlet.addItsNatServletRequestListener(new GlobalItsNatServletRequestListener());
         itsNatServlet.addEventListener(new GlobalEventListener());
         itsNatServlet.addItsNatAttachedClientEventListener(new RemoteControlSupervision());
@@ -235,6 +237,12 @@ public class feashow_servlet extends HttpServletWrapper
         docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.xmlAndCompExample","text/xml",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new XMLAndCompLoadListener());
 
+        // Stateless        
+        
+        docTemplate = registerItsNatDocumentTemplate("feashow.ext.stless.comp.freeListExample","text/html",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new StlessFreeListExampleInitialDocLoadListener());
+        docTemplate.setEventsEnabled(false);                 
+        
         // HTML fragments
 
         ItsNatDocFragmentTemplate docFragTemplate;
@@ -266,14 +274,16 @@ public class feashow_servlet extends HttpServletWrapper
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
         ItsNatDocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example","text/html", pathPrefix + "core_example.xhtml");
-
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml", pathPrefix + "xml_example.xml");
-
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example",   "text/html", pathPrefix + "core_example.xhtml");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml",  pathPrefix + "xml_example.xml");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix + "comp_example.xhtml");        
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example", "text/xml",  pathPrefix + "stless_example.html");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml",  pathPrefix + "stless_example_event_receiver.html");        
+        
         ItsNatDocFragmentTemplate docFragTemplate;
         docFragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.core.xmlFragExample","text/xml",pathPrefix + "xml_fragment_example.xml");
+        docFragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.stless.example.fragment","text/xml",pathPrefix + "stless_example_fragment.html"); 
 
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example","text/html", pathPrefix + "comp_example.xhtml");
     }
 
     public Properties loadProperties(String path)

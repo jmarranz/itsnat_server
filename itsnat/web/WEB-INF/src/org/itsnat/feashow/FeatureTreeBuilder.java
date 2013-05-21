@@ -14,7 +14,6 @@
 
 package org.itsnat.feashow;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -981,7 +980,24 @@ public class FeatureTreeBuilder
                     "XML & Components",
                     null,childNodeL1);
 
-
+        childNodeL1 = addNode(false,true,false,
+                        "feashow.stless",
+                        "Stateless",
+                        "Stateless",
+                        null,rootNode);
+        
+            childNodeL2 = addNode(true,true,true,
+                            "feashow.stless.man.statelessExampleInManual",
+                            "Stateless Example in Manual",
+                            "Stateless Example in Manual",
+                            null,childNodeL1);
+            
+            childNodeL2 = addNode(true,true,true,
+                            "feashow.stless.comp.statelessFreeListExample",
+                            "Stateless Free List Example",
+                            "Stateless Free List Example",
+                            null,childNodeL1);                
+            
         return rootNode;
     }
 }
