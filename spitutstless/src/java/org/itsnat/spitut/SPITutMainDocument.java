@@ -33,8 +33,6 @@ public class SPITutMainDocument implements EventListener
     {
         this.itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
 
-        itsNatDoc.addEventListener(this);
-        
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
 
         this.titleElem = (HTMLTitleElement)doc.getElementById("titleId");
@@ -67,6 +65,10 @@ public class SPITutMainDocument implements EventListener
             }
 
             changeState(stateName);
+        }
+        else
+        {
+            itsNatDoc.addEventListener(this);            
         }
     }
 

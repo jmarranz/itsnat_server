@@ -14,39 +14,34 @@
 package org.itsnat.feashow.features.stless.comp;
 
 
-import java.awt.event.ItemEvent;
-import javax.swing.ButtonModel;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListDataListener;
 import org.itsnat.comp.ItsNatComponentManager;
-import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
-import org.itsnat.comp.button.toggle.ItsNatHTMLInputCheckBox;
 import org.itsnat.comp.list.ItsNatFreeListMultSel;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.event.ItsNatEventDOMStateless;
 import org.itsnat.core.html.ItsNatHTMLDocument;
-import org.itsnat.feashow.features.comp.lists.ListSelectionDecorator;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventTarget;
+import org.w3c.dom.events.EventListener;
 
-public class StlessFreeListExampleInitialDocument 
+public class StlessFreeListExampleInitialDocument implements EventListener,ListDataListener
 {
-    protected ItsNatHTMLDocument itsNatDoc;
-    protected ItsNatHTMLInputCheckBox useSingleClickComp;  
+    protected FalseDatabase db;
+    protected ItsNatHTMLDocument itsNatDoc; 
     protected ItsNatFreeListMultSel listComp;  
-    protected ItsNatHTMLInputButton removeButton;  
     protected ItsNatHTMLInputText itemComp;  
     protected ItsNatHTMLInputText posComp;  
-    protected ItsNatHTMLInputButton updateButton;  
-    protected ItsNatHTMLInputButton insertButton;  
-    protected ItsNatHTMLInputCheckBox joystickModeComp;  
-  
-    public StlessFreeListExampleInitialDocument(ItsNatHTMLDocument itsNatDoc)  
+    
+    public StlessFreeListExampleInitialDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request)  
     {  
         this.itsNatDoc = itsNatDoc;
-        load();
+        this.db = new FalseDatabase(itsNatDoc.getClientDocumentOwner().getItsNatSession());        
+        load(request);
     }  
   
     public ItsNatDocument getItsNatDocument()
@@ -54,172 +49,170 @@ public class StlessFreeListExampleInitialDocument
         return itsNatDoc;
     }
     
-    public void load()  
-    {  
-        ItsNatDocument itsNatDoc = getItsNatDocument();
+    public ItsNatFreeListMultSel getItsNatFreeListMultSel()
+    {
+        return listComp;
+    }
+
+    public ItsNatHTMLInputText getItemItsNatHTMLInputText()
+    {
+        return itemComp;
+    }
+    
+    public ItsNatHTMLInputText getPosItsNatHTMLInputText()
+    {
+        return posComp;
+    }    
+    
+    public void load(ItsNatServletRequest request)  
+    {         
+        ItsNatDocument itsNatDoc = getItsNatDocument();        
+
         ItsNatComponentManager compMgr = itsNatDoc.getItsNatComponentManager();  
   
-        this.useSingleClickComp = (ItsNatHTMLInputCheckBox)compMgr.createItsNatComponentById("useSingleClickId");  
-        //useSingleClickComp.getToggleButtonModel().addItemListener(this);  
-  
         this.listComp = (ItsNatFreeListMultSel)compMgr.createItsNatComponentById("compId","freeListMultSel",null);  
+        listComp.setItsNatListCellRenderer(new StlessListCellRenderer());
   
-        DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();  
-        dataModel.addElement("Madrid");  
-        dataModel.addElement("Sevilla");  
-        dataModel.addElement("Segovia");  
-        dataModel.addElement("Barcelona");  
-        dataModel.addElement("Oviedo");  
-        dataModel.addElement("Valencia");  
+        List<City> cityList = db.getCityList();
+        
+        DefaultListModel dataModel = (DefaultListModel)listComp.getListModel(); 
+        for(City city : cityList)
+            dataModel.addElement(city);        
   
+        dataModel.addListDataListener(this); 
+        
         ListSelectionModel selModel = listComp.getListSelectionModel();  
         selModel.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);  
   
-        selModel.addListSelectionListener(new ListSelectionDecorator(listComp));  
-  
-        selModel.setSelectionInterval(2,3);  
-  
-        //listComp.addEventListener("click",this);  
-        //dataModel.addListDataListener(this);  
-        //selModel.addListSelectionListener(this);  
-  
-        this.removeButton = (ItsNatHTMLInputButton)compMgr.createItsNatComponentById("removeId");  
-        //removeButton.addEventListener("click",this);  
-  
-        this.itemComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("itemId");  
-        itemComp.setText(listComp.getListModel().getElementAt(listComp.getSelectedIndex()).toString());  
-  
+        selModel.addListSelectionListener(new StlessListSelectionListener(this));  
+
+        this.itemComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("itemId");    
         this.posComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("posId");  
-        posComp.setText(Integer.toString(listComp.getSelectedIndex()));  
-  
-        this.updateButton = (ItsNatHTMLInputButton)compMgr.createItsNatComponentById("updateId");  
-        //updateButton.addEventListener("click",this);  
-  
-        this.insertButton = (ItsNatHTMLInputButton)compMgr.createItsNatComponentById("insertId");  
-        //insertButton.addEventListener("click",this);  
-  
-        this.joystickModeComp = (ItsNatHTMLInputCheckBox)compMgr.createItsNatComponentById("joystickModeId");  
-        //joystickModeComp.getToggleButtonModel().addItemListener(this);  
-        //joystickModeComp.setSelected(isJoystickModePreferred());  
-  
+
+        if (itsNatDoc.isStateless())
+        {
+            String[] selList = (String[])request.getServletRequest().getParameterValues("currentSelection");           
+            if (selList != null)
+            {
+                for(String selected : selList)
+                {
+                    int index = Integer.parseInt(selected);
+                    selModel.addSelectionInterval(index, index);
+                }
+            }
+            itsNatDoc.addEventListener(this);            
+        }
     }  
   
     public void handleEvent(Event evt)  
     {  
-        //log(evt);  
-  
-        EventTarget currentTarget = evt.getCurrentTarget();  
-        if (currentTarget == removeButton.getHTMLInputElement())  
+        ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
+        String action = (String)itsNatEvt.getExtraParam("action");
+        
+        try
+        {
+            if ("remove".equals(action))
+            {
+                DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();             
+                ListSelectionModel selModel = listComp.getListSelectionModel();
+
+                if (!selModel.isSelectionEmpty())  
+                {  
+                    // Selection Model is in SINGLE_INTERVAL_SELECTION mode  
+                    int min = selModel.getMinSelectionIndex();  
+                    int max = selModel.getMaxSelectionIndex();  
+                    dataModel.removeRange(min,max);  
+                }              
+                else
+                {
+                    itsNatDoc.addCodeToSend("alert('None selected');");
+                }
+            }
+            else if ("select".equals(action))        
+            {
+                ListSelectionModel selModel = listComp.getListSelectionModel();
+
+                boolean selected = Boolean.valueOf((String)itsNatEvt.getExtraParam("selected"));            
+                int index = Integer.parseInt((String)itsNatEvt.getExtraParam("index")); 
+                if (!selected) selModel.addSelectionInterval(index, index);
+                else selModel.removeSelectionInterval(index, index);
+            }
+            else if ("update".equals(action))        
+            {
+                String name = (String)itsNatEvt.getExtraParam("name");              
+                int index = Integer.parseInt((String)itsNatEvt.getExtraParam("index")); 
+
+                DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();             
+                City city = (City)dataModel.getElementAt(index);
+                city.setName(name);
+                dataModel.setElementAt(city,index);              
+            }       
+            else if ("insert".equals(action))        
+            {
+                String name = (String)itsNatEvt.getExtraParam("name");              
+                int index = Integer.parseInt((String)itsNatEvt.getExtraParam("index")); 
+
+                DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();             
+                City city = new City(db.generateId(),name);
+                dataModel.insertElementAt(city,index);               
+            }                
+            else if ("reset".equals(action))        
+            {
+                db.reset();    
+                itsNatDoc.addCodeToSend("window.location.reload();");
+            }
+        }
+        catch(NumberFormatException ex)  
         {  
-            DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();  
-            ListSelectionModel selModel = listComp.getListSelectionModel();  
-            if (!selModel.isSelectionEmpty())  
-            {  
-                // Selection Model is in SINGLE_INTERVAL_SELECTION mode  
-                int min = selModel.getMinSelectionIndex();  
-                int max = selModel.getMaxSelectionIndex();  
-                dataModel.removeRange(min,max);  
-            }  
+            getItsNatDocument().addCodeToSend("alert('Bad position number');");  
         }  
-        else if ((currentTarget == updateButton.getHTMLInputElement()) ||  
-                 (currentTarget == insertButton.getHTMLInputElement()))  
+        catch(ArrayIndexOutOfBoundsException ex)  
         {  
-            String newItem = itemComp.getText();  
-            try  
-            {  
-                int pos = Integer.parseInt(posComp.getText());  
-                DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();  
-                if (currentTarget == updateButton.getHTMLInputElement())  
-                    dataModel.setElementAt(newItem,pos);  
-                else  
-                    dataModel.insertElementAt(newItem,pos);  
-            }  
-            catch(NumberFormatException ex)  
-            {  
-                getItsNatDocument().addCodeToSend("alert('Bad Position');");  
-            }  
-            catch(ArrayIndexOutOfBoundsException ex)  
-            {  
-                getItsNatDocument().addCodeToSend("alert('Bad Position');");  
-            }  
-        }  
+            getItsNatDocument().addCodeToSend("alert('Position out of range');");  
+        }         
     }  
   
     public void intervalAdded(ListDataEvent e)  
-    {  
-        listChangedLog(e);  
+    {         
+        int index0 = e.getIndex0();
+        int index1 = e.getIndex1();        
+        
+        for(int i = index0; i <= index1; i++)
+        {
+            DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();                 
+            City city = (City)dataModel.getElementAt(i);  
+            db.insertCity(i,city);
+        }        
     }  
   
     public void intervalRemoved(ListDataEvent e)  
-    {  
-        listChangedLog(e);  
+    {     
+        int index0 = e.getIndex0();
+        int index1 = e.getIndex1();        
+        
+        for(int i = index0; i <= index1; i++)
+            db.deleteCity(i);        
     }  
   
     public void contentsChanged(ListDataEvent e)  
     {  
-        listChangedLog(e);  
-    }  
-  
-    public void listChangedLog(ListDataEvent e)  
-    {  
-        int index0 = e.getIndex0();  
-        int index1 = e.getIndex1();  
-  
-        String action = "";  
         int type = e.getType();  
         switch(type)  
         {  
-            case ListDataEvent.INTERVAL_ADDED:   action = "added"; break;  
-            case ListDataEvent.INTERVAL_REMOVED: action = "removed"; break;  
-            case ListDataEvent.CONTENTS_CHANGED: action = "changed"; break;  
-        }  
-  
-        String interval = "";  
-        if (index0 != -1)  
-            interval = "interval " + index0 + "-" + index1;  
-  
-        //log(e.getClass().toString() + " " + action + " " + interval);  
+            case ListDataEvent.INTERVAL_ADDED:   
+                intervalAdded(e);
+                break;  
+            case ListDataEvent.INTERVAL_REMOVED:             
+                intervalRemoved(e);
+                break; 
+            case ListDataEvent.CONTENTS_CHANGED:  
+                int index0 = e.getIndex0();
+                DefaultListModel dataModel = (DefaultListModel)listComp.getListModel();                 
+                City city = (City)dataModel.getElementAt(index0);        
+                db.updateCity(index0,city);                
+                break;  
+        }          
+
     }  
-  
-    public void valueChanged(ListSelectionEvent e)  
-    {  
-        if (e.getValueIsAdjusting())  
-            return;  
-  
-        int first = e.getFirstIndex();  
-        int last = e.getLastIndex();  
-  
-        ListSelectionModel selModel = listComp.getListSelectionModel();  
-        String fact = "";  
-        for(int i = first; i <= last; i++)  
-        {  
-            boolean selected = selModel.isSelectedIndex(i);  
-            if (selected)  
-                fact += ", selected ";  
-            else  
-                fact += ", deselected ";  
-            fact += i;  
-        }  
-  
-        //log(e.getClass().toString() + " " + fact);  
-  
-        int index = listComp.getSelectedIndex(); // First selected  
-        if (index != -1)  
-        {  
-            Object value = listComp.getListModel().getElementAt(index);  
-            itemComp.setText(value.toString());  
-            posComp.setText(Integer.toString(index));  
-        }  
-    }  
-  
-    public void itemStateChanged(ItemEvent e)  
-    {  
-        boolean selected = (e.getStateChange() == ItemEvent.SELECTED);  
-        ButtonModel model = (ButtonModel)e.getSource();  
-        if (model == joystickModeComp.getToggleButtonModel())  
-            listComp.setJoystickMode(selected);  
-        else if (model == useSingleClickComp.getToggleButtonModel())  
-            listComp.setEditorActivatorEvent(selected? "click" : "dblclick");  
-    }  
-  
+
 }

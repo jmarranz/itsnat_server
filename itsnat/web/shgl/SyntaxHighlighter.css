@@ -4,7 +4,7 @@
 	font-size: 12px;
 	background-color: #E7E5DC;
 	/*width: 99%;*/
-        width: 500px; /* for ItsNat */
+        width: 800px; /* for ItsNat */
 	overflow: auto;
 	margin: 18px 0 18px 0 !important;
 	padding-top: 1px; /* adds a little border on top when controls are hidden */

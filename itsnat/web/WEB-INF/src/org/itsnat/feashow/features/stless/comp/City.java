@@ -13,20 +13,35 @@
  */
 package org.itsnat.feashow.features.stless.comp;
 
-import org.itsnat.core.ItsNatServletRequest;
-import org.itsnat.core.ItsNatServletResponse;
-import org.itsnat.core.event.ItsNatServletRequestListener;
-import org.itsnat.core.html.ItsNatHTMLDocument;
+import java.io.Serializable;
 
-public class StlessFreeListExampleInitialDocLoadListener implements ItsNatServletRequestListener
+/**
+ *
+ * @author jmarranz
+ */
+public class City implements Serializable
 {
-    public StlessFreeListExampleInitialDocLoadListener()
+    private long id;
+    private String name;
+
+    public City(long id, String name) 
     {
+        this.id = id;
+        this.name = name;
     }
 
-    public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
+    public long getId() 
     {
-        ItsNatHTMLDocument itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
-        new StlessFreeListExampleInitialDocument(itsNatDoc,request);
+        return id;
+    }
+
+    public String getName() 
+    {
+        return name;
+    }
+    
+    public void setName(String name)
+    {
+        this.name = name;
     }
 }

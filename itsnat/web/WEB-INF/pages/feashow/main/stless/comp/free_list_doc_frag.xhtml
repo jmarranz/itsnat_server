@@ -10,7 +10,11 @@
     <p>This is a more complex example of how we can reuse stateful components in stateless mode. Also shows how we can reuse the same 
        template for the initial load and for processing stateless events.
     </p>
-
+    <p>Data is got from a "false database" of an index ordered city list based in user session. We use user session just to avoid collisions with other users
+       to simulate "data which nobody is accessing but you in this moment" typical of any application/site backed with persistent data.
+       Excluding this false database making use of user session, this example is pure stateless, and replacing the data base with a real database
+       it could be executed in a farm of servlet containers with no sharing of session state.
+    </p>
 </div>
 
 </body>
