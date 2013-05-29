@@ -128,7 +128,7 @@ public abstract class RequestImpl
 
     public ItsNatDocumentImpl getItsNatDocument()
     {
-        if (clientDoc != null) // Prácticamente en todos los casos es no nulo pero por si acaso (en el caso de request custom es nulo por ejemplo)
+        if (clientDoc != null) // Prácticamente en todos los casos es no nulo pero por si acaso (en el caso de request custom es nulo por ejemplo aunque creo que YA NO)
             return clientDoc.getItsNatDocumentImpl();
         else
             return null;

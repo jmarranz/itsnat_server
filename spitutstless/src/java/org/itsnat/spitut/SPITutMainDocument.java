@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatServlet;
-import org.itsnat.core.domutil.ItsNatDOMUtil;
 import org.itsnat.core.event.ItsNatEventDOMStateless;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.core.http.ItsNatHttpServletRequest;
@@ -46,7 +45,7 @@ public class SPITutMainDocument implements EventListener
         this.googleAnalyticsElem = doc.getElementById("googleAnalyticsId");
         this.googleAnalyticsIFrameURL = googleAnalyticsElem.getAttribute("src");  // Initial value
 
-        if (!itsNatDoc.isStateless())
+        if (!itsNatDoc.isCreatedByStatelessEvent())
         {
             HttpServletRequest servReq = request.getHttpServletRequest();
             String stateName = servReq.getParameter("_escaped_fragment_"); // Google bot, has priority, its value is based on the hash fragment

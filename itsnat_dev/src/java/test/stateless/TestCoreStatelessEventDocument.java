@@ -40,7 +40,7 @@ public class TestCoreStatelessEventDocument implements Serializable,EventListene
     {
         this.itsNatDoc = itsNatDoc;
         
-        if (!itsNatDoc.isStateless())
+        if (!itsNatDoc.isCreatedByStatelessEvent())
             throw new RuntimeException("Only to test stateless, must be loaded by a stateless event");
         
         itsNatDoc.addEventListener(this);

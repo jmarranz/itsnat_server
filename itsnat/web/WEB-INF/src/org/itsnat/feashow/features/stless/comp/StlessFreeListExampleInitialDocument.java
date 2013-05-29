@@ -89,7 +89,7 @@ public class StlessFreeListExampleInitialDocument implements EventListener,ListD
         this.itemComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("itemId");    
         this.posComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("posId");  
 
-        if (itsNatDoc.isStateless())
+        if (itsNatDoc.isCreatedByStatelessEvent())
         {
             String[] selList = (String[])request.getServletRequest().getParameterValues("currentSelection");           
             if (selList != null)

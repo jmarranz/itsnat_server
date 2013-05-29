@@ -64,10 +64,27 @@ public abstract class ResponseNormalLoadDocImpl extends ResponseNormalLoadDocBas
         return parentRequest.getResponseAttachedServerLoadDoc(); // no nulo
     }
 
+    public boolean isDocPersistedInSession()
+    {    
+        return !isDocNotPersistedInSession();
+    }
+    
+    public boolean isDocNotPersistedInSession()
+    {
+        if (getRequestNormalLoadDocBase().isStateless())
+            return true;
+        ItsNatDocumentImpl itsNatDoc = getItsNatDocument();
+        if (!itsNatDoc.isScriptingEnabled())
+            return true;        
+        if (!itsNatDoc.isEventsEnabled())
+            return true;
+        return false;
+    }
+    
     @Override
     public void process()
     {
-        if (!getRequestNormalLoadDocBase().isStateless())
+        if (isDocPersistedInSession())
         {
             ClientDocumentImpl clientDoc = getClientDocument();
             clientDoc.registerInSession(); // Pasa a ser accesible el documento (aunque no se puede tocar por otros hilos hasta que se libere el lock)
