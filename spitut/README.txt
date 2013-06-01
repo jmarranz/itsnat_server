@@ -1,5 +1,5 @@
 
-Tutorial: Single Page Interface Web Site With ItsNat
+Tutorial: Single Page Interface SEO Compatible Web Site With ItsNat
 ----------------------------------------------------
 
 Shows how to build web sites with the same capabilities as page based

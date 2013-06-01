@@ -1,5 +1,5 @@
 
-RELEASE NOTES - Tutorial: Single Page Interface Web Site With ItsNat
+RELEASE NOTES - Tutorial: Single Page Interface SEO Compatible Web Site With ItsNat
 --------------------------------------------------------------------
 
 * 2011 March 17

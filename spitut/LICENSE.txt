@@ -1,5 +1,5 @@
 
-LICENSE - Tutorial: Single Page Interface Web Site With ItsNat
+LICENSE - Tutorial: Single Page Interface SEO Compatible Web Site With ItsNat
 
 Source code depends on ItsNat web framework, because ItsNat is dual licensed
 AGPL/Commercial the same applies to this program.
