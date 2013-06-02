@@ -77,7 +77,7 @@ System.out.println();
         ItsNatStfulDocumentImpl parentItsNatDoc = bindParentItsNatDocument(itsNatDoc); // Necesario antes de sincronizar el hijo
         if (parentItsNatDoc == null) // Debe ser null porque no tiene sentido que un iframe/object/embed/applet vinculado al padre reciba el referrer de la página anterior pues en este caso el iframe no se ha cargado por navegación sino a través del documento padre
         {
-            if (!stateless)
+            if (!isStateless())
                 setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );  // Aunque este documento no sea AJAX podría recibir un referrer de un documento anterior AJAX
         }
 

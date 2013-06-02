@@ -99,14 +99,7 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
     }
 
     public void checkCanReceiveSOMENormalEvents(ClientDocumentStfulImpl clientDoc)
-    {
-        if (isStateless())
-        {
-            // En el caso stateless nos da igual si está activado o no el proceso de eventos, el documento se carga stateless y se procesa un evento stateless
-            // de esta manera podemos declarar ItsNatDocumentTemplate.setEventsEnable(false) y aun así cargarlo para procesar eventos stateless        
-            return;
-        }
-        
+    {      
         if (!clientDoc.canReceiveSOMENormalEvents())
         {
             // Primer chequeo de seguridad para evitar que clientes de control remoto

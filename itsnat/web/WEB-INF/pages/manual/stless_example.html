@@ -18,6 +18,12 @@
         userEvt.setExtraParam('itsnat_doc_name','bad doc name');        
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }    
+    function sendEventStatelessCustomAddedTemplateInEvent()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','manual.stless.example.eventReceiver');            
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }    
     function sendEventStateless(sendMode)
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
@@ -44,17 +50,8 @@
     <a href="javascript:sendEventStateless(5 /*SCRIPT_HOLD*/)">Same with SCRIPT_HOLD mode</a>      
     
     <br /><br />    
-    <script>
-    function sendEventStatelessCustomAddedTemplateInEvent()
-    {
-        var userEvt = document.getItsNatDoc().createEventStateless();
-        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','manual.stless.example.eventReceiver');            
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
-    }
-    </script>
     <a href="javascript:sendEventStatelessCustomAddedTemplateInEvent()">Send stateless custom event, added template in event</a>      
-    
-    
+        
     <div>
         <div>
             <div id="insertHereId" /> 

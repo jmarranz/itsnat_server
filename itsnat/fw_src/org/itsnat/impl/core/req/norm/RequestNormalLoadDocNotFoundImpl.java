@@ -56,7 +56,7 @@ public class RequestNormalLoadDocNotFoundImpl extends RequestNormalLoadDocBaseIm
     public void processRequest(ClientDocumentStfulImpl clientDocStateless)
     {
         // También tiene derecho a recibir el referrer de un documento anterior AJAX
-        if (!stateless)        
+        if (!isStateless())        
             setItsNatStfulDocumentReferrer( getItsNatSession().getReferrer().popItsNatStfulDocument() );
 
         ItsNatSessionImpl session = getItsNatSession();        

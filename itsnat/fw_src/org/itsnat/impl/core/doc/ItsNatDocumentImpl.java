@@ -261,7 +261,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
     }
 
     @Override    
-    public boolean isStateless()    
+    public boolean isCreatedByStatelessEvent()    
     {
         return stateless;
     }

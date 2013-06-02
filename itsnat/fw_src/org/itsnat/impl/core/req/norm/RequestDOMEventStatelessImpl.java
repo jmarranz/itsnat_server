@@ -55,11 +55,18 @@ public class RequestDOMEventStatelessImpl extends RequestDOMExtEventImpl
         // listener puede ser null pero puede haber código pendiente a enviar
         return new ResponseDOMEventStatelessImpl(this,listener);
     }
-    
+
     @Override
-    public boolean isStateless()
+    public boolean isValidClientSession(String sessionId,String sessionToken)
     {
+        // En stateless debemos soportar que la sesión haya caducado o el servidor haya sido reiniciado, para eso es stateless        
         return true;
     }
-
+    
+    @Override
+    public void checkCanReceiveSOMENormalEvents(ClientDocumentStfulImpl clientDoc)
+    {
+        // En el caso stateless nos da igual si está activado o no el proceso de eventos, el documento se carga stateless y se procesa un evento stateless
+        // de esta manera podemos declarar ItsNatDocumentTemplate.setEventsEnable(false) y aun así cargarlo para procesar eventos stateless               
+    }
 }

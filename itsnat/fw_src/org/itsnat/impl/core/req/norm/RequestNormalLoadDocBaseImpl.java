@@ -93,7 +93,7 @@ public abstract class RequestNormalLoadDocBaseImpl extends RequestLoadDocImpl
 
     protected boolean isMustNotifyEndOfRequestToSession()
     {
-        if (stateless)
+        if (isStateless())
             return false;
         
         // Devolvemos true porque incluso en el caso de documento no encontrado

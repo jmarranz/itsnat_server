@@ -1,3 +1,5 @@
+package org.itsnat.manual.stless;
+
 /*
  * This file is not part of the ItsNat framework.
  *
@@ -16,10 +18,6 @@ import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import org.itsnat.manual.stless.StatelessExampleForProcessingEventDocLoadListener;
-import org.itsnat.manual.stless.StatelessGlobalDocumentLoadListener;
-import org.itsnat.manual.stless.StlessExampleInitialDocLoadListener;
-import org.itsnat.manual.stless.StlessGlobalEventListener;
 
 public class servletstless extends HttpServletWrapper
 {

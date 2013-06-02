@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>servletstless</servlet-name>
-        <servlet-class>servletstless</servlet-class>
+        <servlet-class>org.itsnat.manual.stless.servletstless</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>feashow_servlet</servlet-name>
