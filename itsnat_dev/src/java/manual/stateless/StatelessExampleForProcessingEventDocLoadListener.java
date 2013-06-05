@@ -33,5 +33,4 @@ public class StatelessExampleForProcessingEventDocLoadListener implements ItsNat
     {
         new StatelessExampleForProcessingEventDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
     }
-
 }

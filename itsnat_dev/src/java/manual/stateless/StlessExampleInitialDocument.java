@@ -34,6 +34,4 @@ public class StlessExampleInitialDocument
         Element presentationElem = doc.getElementById("presentationId");
         presentationElem.appendChild(node);       
     }
-
-
 }
