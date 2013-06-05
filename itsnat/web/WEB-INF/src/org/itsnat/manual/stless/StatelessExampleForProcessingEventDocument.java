@@ -16,7 +16,6 @@ package org.itsnat.manual.stless;
 
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
-import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -31,6 +30,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
+import org.w3c.dom.html.HTMLDocument;
 
 /**
  *
@@ -39,13 +39,22 @@ import org.w3c.dom.events.EventListener;
 public class StatelessExampleForProcessingEventDocument implements Serializable,EventListener
 {
     protected ItsNatHTMLDocument itsNatDoc;
-
+    protected Element counterElem;
+    
     public StatelessExampleForProcessingEventDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         this.itsNatDoc = itsNatDoc;
         
         if (!itsNatDoc.isCreatedByStatelessEvent())
             throw new RuntimeException("Only to test stateless, must be loaded by a stateless event");
+
+        // Counter node with same value (state) than in client:
+        String currCountStr = request.getServletRequest().getParameter("counter");
+        int counter = Integer.parseInt(currCountStr);
+        
+        HTMLDocument doc = itsNatDoc.getHTMLDocument();
+        this.counterElem = doc.getElementById("counterId");
+        ((Text)counterElem.getFirstChild()).setData(String.valueOf(counter));
         
         itsNatDoc.addEventListener(this);
     }
@@ -54,8 +63,14 @@ public class StatelessExampleForProcessingEventDocument implements Serializable,
     {
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
         
-        ItsNatDocument itsNatDoc = itsNatEvt.getItsNatDocument();
-        Document doc = itsNatDoc.getDocument();
+        Text counterText = (Text)counterElem.getFirstChild();
+        String currCountStr = counterText.getData();
+        int counter = Integer.parseInt(currCountStr);
+        counter++;
+        counterText.setData(String.valueOf(counter));        
+        
+        Document doc = itsNatDoc.getDocument();        
+
         Element elemParent = doc.getElementById("insertHereId");
         ScriptUtil scriptGen = itsNatDoc.getScriptUtil();
         String elemRef = scriptGen.getNodeReference(elemParent);

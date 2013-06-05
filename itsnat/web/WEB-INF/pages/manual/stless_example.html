@@ -24,11 +24,13 @@
         userEvt.setExtraParam('itsnat_doc_name_second_opportunity','manual.stless.example.eventReceiver');            
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }    
-    function sendEventStateless(sendMode)
+    function sendEventStateless()
     {
+        var counterElem = document.getElementById("counterId");
         var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('counter',counterElem.firstChild.data);
         userEvt.setExtraParam('itsnat_doc_name','manual.stless.example.eventReceiver');        
-        document.getItsNatDoc().dispatchEventStateless(userEvt,sendMode, 1000000);
+        document.getItsNatDoc().dispatchEventStateless(userEvt,3 /*XHR_ASYNC_HOLD*/, 1000000);
     }    
     </script>    
     
@@ -45,12 +47,15 @@
     <a href="javascript:sendEventStatelessBadTemplateName()">Send stateless event with a document template wrong (not found)</a>       
          
     <br /><br />
-    <a href="javascript:sendEventStateless(3 /*XHR_ASYNC_HOLD*/)">Send stateless event (XHR_ASYNC_HOLD)</a> 
-    <br /><br />
-    <a href="javascript:sendEventStateless(5 /*SCRIPT_HOLD*/)">Same with SCRIPT_HOLD mode</a>      
-    
+    <a href="javascript:sendEventStateless()">Send stateless event</a> 
+          
     <br /><br />    
     <a href="javascript:sendEventStatelessCustomAddedTemplateInEvent()">Send stateless custom event, added template in event</a>      
+        
+    <br /><br />  
+    <div>
+        <div>Num. Events: <b id="counterId">0</b></div>
+    </div>
         
     <div>
         <div>
