@@ -92,6 +92,7 @@ public class StatelessExampleForProcessingEventDocument implements Serializable,
         Element bold = doc.createElement("i");
         bold.appendChild(textChild2); // is removed from child2
         child2.appendChild(bold);  
-        child2.setAttribute("style","color:red"); // <h3 style="color:red"><i>Inserted!</i></h3>  
+        child2.setAttribute("style","color:red"); 
+        // <h3 style="color:red"><i>Inserted!</i></h3>  
     }    
 }

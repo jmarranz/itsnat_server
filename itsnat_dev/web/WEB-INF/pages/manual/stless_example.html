@@ -18,12 +18,7 @@
         userEvt.setExtraParam('itsnat_doc_name','bad doc name');        
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }    
-    function sendEventStatelessCustomAddedTemplateInEvent()
-    {
-        var userEvt = document.getItsNatDoc().createEventStateless();
-        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','manual.stless.example.eventReceiver');            
-        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
-    }    
+
     function sendEventStateless()
     {
         var counterElem = document.getElementById("counterId");
@@ -32,6 +27,16 @@
         userEvt.setExtraParam('itsnat_doc_name','manual.stless.example.eventReceiver');        
         document.getItsNatDoc().dispatchEventStateless(userEvt,3 /*XHR_ASYNC_HOLD*/, 1000000);
     }    
+    
+    function sendEventStatelessCustomAddedTemplateInEvent()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        var counterElem = document.getElementById("counterId");
+        var userEvt = document.getItsNatDoc().createEventStateless();
+        userEvt.setExtraParam('counter',counterElem.firstChild.data);        
+        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','manual.stless.example.eventReceiver');            
+        document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }     
     </script>    
     
 </head>
@@ -54,7 +59,7 @@
         
     <br /><br />  
     <div>
-        <div>Num. Events: <b id="counterId">0</b></div>
+        <div>Num. Events: <b id="counterId" itsnat:nocache="true">0</b></div>
     </div>
         
     <div>
