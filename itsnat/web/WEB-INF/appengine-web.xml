@@ -4,4 +4,6 @@
     <application>itsnatfeatshow</application>
     <version>1</version>
     <sessions-enabled>true</sessions-enabled>
+    <threadsafe>true</threadsafe>    
 </appengine-web-app>
+

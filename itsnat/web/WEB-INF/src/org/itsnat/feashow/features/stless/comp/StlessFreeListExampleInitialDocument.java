@@ -190,7 +190,7 @@ public class StlessFreeListExampleInitialDocument implements EventListener,ListD
         int index0 = e.getIndex0();
         int index1 = e.getIndex1();        
         
-        for(int i = index0; i <= index1; i++)
+        for(int i = index1 ; i >= index0; i--)
             db.deleteCity(i);        
     }  
   
