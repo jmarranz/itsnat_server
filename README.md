@@ -79,6 +79,8 @@ ItsNat provides many more (core) features:
 
 - Remote Templates
 
+As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
+
 ### Hello World
 
 1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat" .
