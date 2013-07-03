@@ -1,7 +1,6 @@
 
 package org.itsnat.spitut;
 
-import javax.servlet.ServletRequest;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.events.Event;
@@ -18,7 +17,7 @@ public class SPITutGlobalEventListener implements EventListener
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         if (itsNatEvt.getItsNatDocument() == null)
         {
-            StringBuffer code = new StringBuffer();
+            StringBuilder code = new StringBuilder();
             code.append("if (confirm('Expired session. Reload?'))");
             code.append("  window.location.reload(true);");
             ClientDocument clientDoc = itsNatEvt.getClientDocument();

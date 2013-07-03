@@ -10,10 +10,8 @@ function SPISite()
     this.firstTime = true;
     this.initialURLWithState = null;
     this.href = null;
-    this.disabled = ((navigator.userAgent.indexOf(" IEMobile") != -1) &&
-                     (navigator.userAgent.indexOf("MSIEMobile") == -1)); 
-                    // Pocket IE ever reloads when url changes
-
+    this.disabled = false; 
+    
     this.load();
 
     function load() // page load phase

@@ -2,11 +2,9 @@
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import org.itsnat.core.ItsNatServletConfig;
-import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import org.itsnat.spitut.SPITutGlobalEventListener;
 import org.itsnat.spitut.SPITutGlobalLoadRequestListener;
 import org.itsnat.spitut.SPITutMainLoadRequestListener;
 
@@ -18,9 +16,6 @@ public class servlet extends HttpServletWrapper
 
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
-        ItsNatServletContext itsNatCtx = itsNatServlet.getItsNatServletContext();
-        itsNatCtx.setMaxOpenDocumentsBySession(4); // Not really needed (stateless)
-
         ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
         itsNatConfig.setFastLoadMode(true); // Not really needed, is the same as default
 
@@ -28,7 +23,6 @@ public class servlet extends HttpServletWrapper
         String pathPages =     pathBase + "/WEB-INF/pages/";
         String pathFragments = pathBase + "/WEB-INF/fragments/";
 
-        itsNatServlet.addEventListener(new SPITutGlobalEventListener());
         itsNatServlet.addItsNatServletRequestListener(new SPITutGlobalLoadRequestListener());
 
         ItsNatDocumentTemplate docTemplate;
