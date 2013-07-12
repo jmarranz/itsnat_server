@@ -32,5 +32,9 @@
         <li><a href="inexpservlet?itsnat_doc_name=hybridcs">Hybrid Client/Server Centric Programming</a></li>
     </ul>
 
+    <ul>
+        <li><a href="inexpservlet?itsnat_doc_name=xpathex">XPath Examples</a></li>
+    </ul>    
+    
 </body>
 </html>

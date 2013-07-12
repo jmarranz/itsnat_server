@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" itsnat:nocache="true">
+<head>
+<title>XPath Examples</title>
+</head>
+<body xmlns:itsnat="http://itsnat.org/itsnat" >
+
+    <h1>XPath Examples</h1>
+
+    <p>This example shows how we can use XPath expressions in Java to query the DOM in server. Use the source code of this page loaded by your browser to query,
+    in server all DOM nodes are created because itsnat:nocache=true is declared in the html root element (no node cached).</p>
+
+    <p>This document is HTML, unfortunately you can't use conventional expressions like "div" because in ItsNat HTML documents are ever managed as XHTML in server, so use instead ":div" (default prefix is empty) 
+     or the more verbose "*[name()='div']" to get the same results.</p>
+  
+    <br/>
+    <div>
+        <span>XPath Expression:</span> <br/>
+        <input id="expressionId" type="text" size="50" /> <button id="evaluateId">Evaluate</button>
+    </div>
+
+    <br/>  
+    <div>Examples:</div>
+    <br/> 
+    <div>//:div</div>
+    <div>//:div[1]</div>
+    <div>//:div/text()</div>   
+    <div>//:div[:span='XPath Expression:']/:button/text()</div>     
+    <div>//:input[@id="expressionId"]</div>      
+    <div>//*[name() = 'h1' or not(name() = 'br')]</div>     
+    <div>//*[namespace-uri() = 'http://www.w3.org/1999/xhtml']</div>     
+    <div>/:html/:body/:h1</div>       
+
+
+    <br/> 
+    Result:<br/><br/>
+    <div id="resultsId" style="color:red"></div>   
+  
+    <br /><br />
+    <a href="index.jsp">RETURN</a>
+
+</body>
+</html>

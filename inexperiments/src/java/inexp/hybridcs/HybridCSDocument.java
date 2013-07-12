@@ -4,6 +4,14 @@
  */
 package inexp.hybridcs;
 
+import inexp.xpathex.UniversalNamespaceResolver;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.domutil.ElementList;
@@ -11,6 +19,7 @@ import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -34,6 +43,82 @@ public class HybridCSDocument implements EventListener
         this.itsNatDoc = itsNatDoc;
 
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
+   
+         
+try
+{
+
+    XPathFactory factory = XPathFactory.newInstance();
+    XPath xpath = factory.newXPath();  
+    xpath.setNamespaceContext(new UniversalNamespaceResolver(doc));    
+    XPathExpression exp = xpath.compile("//*[name()='div'][1]"); //   "//*[name()='h1' or name()='h2']"
+    NodeList res = (NodeList) exp.evaluate(doc, XPathConstants.NODESET);
+    //NodeList res = (NodeList)xpath.evaluate("/body", doc, XPathConstants.NODESET);
+    for(int i = 0; i < res.getLength(); i++)
+    {
+        System.out.println(res.item(i));
+    }       
+}
+catch(XPathExpressionException ex)
+{
+    ex.printStackTrace();
+}        
+ 
+
+/*        
+try
+{
+    XPath xpath = new DOMXPath("//h1");
+    SimpleNamespaceContext context = new SimpleNamespaceContext()
+    {
+        public String translateNamespacePrefixToUri(String string)        
+        {
+            String res = super.translateNamespacePrefixToUri(string);
+            return res;
+        }
+    };
+    
+    context.addNamespace("", "http://www.w3.org/1999/xhtml");
+    xpath.setNamespaceContext(context);
+    List res = xpath.selectNodes(doc.getDocumentElement());    
+    
+            
+    for(int i = 0; i < res.size(); i++)
+    {
+        System.out.println(res.get(i));
+    }       
+}
+catch(Exception ex)
+{
+    ex.printStackTrace();    
+}
+*/
+
+
+ /*
+try  // http://stackoverflow.com/questions/926222/using-saxon-xpath-engine-in-java
+{
+        System.setProperty("javax.xml.xpath.XPathFactory:"+NamespaceConstant.OBJECT_MODEL_SAXON, "net.sf.saxon.xpath.XPathFactoryImpl");
+        XPathFactory factory = XPathFactory.newInstance(NamespaceConstant.OBJECT_MODEL_SAXON);    
+    
+        //XPathFactory factory = net.sf.saxon.xpath.XPathFactoryImpl.newInstance();
+        XPath xpath = factory.newXPath();
+
+        XPathExpression expr = xpath.compile("h1");
+
+        Object result = expr.evaluate(doc.getDocumentElement(), XPathConstants.NODESET);
+        NodeList res = (NodeList) result;        
+    for(int i = 0; i < res.getLength(); i++)
+    {
+        System.out.println(res.item(i));
+    }     
+}
+catch(Exception ex)
+{
+    ex.printStackTrace();       
+}
+*/
+        
         this.carouselContainerElem = doc.getElementById("carouselContainerId");
         this.carouselElem = doc.getElementById("carouselId");
         this.itemPatternElem = ItsNatTreeWalker.getFirstChildElement(carouselElem);

@@ -37,14 +37,8 @@ public class ModalDialog
             public void handleEvent(Event evt)
             {
                 StringBuilder code = new StringBuilder();
-                ItsNatServletRequest request = ((ItsNatEvent)evt).getItsNatServletRequest();
-                if (BrowserUtil.isUCWEB(request))
-                    code.append("alert('Received an unexpected event by a hidden element. Reload recommended');");
-                else
-                {
-                    code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
-                    code.append("   window.location.href = window.location.href;");
-                }
+                code.append("if (confirm('Received an unexpected event by a hidden element. Reload?')) ");
+                code.append("   window.location.href = window.location.href;");                
                 getItsNatHTMLDocument().addCodeToSend(code.toString());
             }
         };

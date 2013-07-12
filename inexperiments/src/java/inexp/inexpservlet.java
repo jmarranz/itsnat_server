@@ -9,6 +9,7 @@ import inexp.hybridcs.HybridCSLoadApp;
 import inexp.mathml.MathMLLoadApp;
 import inexp.oldwaiaria.OldWAIARIALoadApp;
 import inexp.waiaria.WAIARIALoadApp;
+import inexp.xpathex.XPathExampleLoadApp;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import org.itsnat.core.ItsNatServletConfig;
@@ -37,6 +38,7 @@ public class inexpservlet extends HttpServletWrapper
         WAIARIALoadApp.init(itsNatServlet, pathPrefix);
         MathMLLoadApp.init(itsNatServlet, pathPrefix);
         HybridCSLoadApp.init(itsNatServlet, pathPrefix);
+        XPathExampleLoadApp.init(itsNatServlet, pathPrefix);        
     }
 
 }

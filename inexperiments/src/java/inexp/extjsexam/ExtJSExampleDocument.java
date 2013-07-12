@@ -37,11 +37,6 @@ public class ExtJSExampleDocument
         this.dataModel = dataModel;
         this.itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
         this.mobileBrowser = BrowserUtil.isMobileBrowser(request);
-
-        if (PocketIEMotoWebKitAdaptor.isPIEOrMotoWebKit(request))
-            new PocketIEMotoWebKitAdaptor(this);
-        else if (UCWEBAdaptor.isUCWEB(request))
-            new UCWEBAdaptor(this);
         
         itsNatDoc.setJoystickMode(BrowserUtil.isJoystickModePreferred(request));
 
