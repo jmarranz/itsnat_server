@@ -2,28 +2,48 @@
 
 /bodadc
 /GnuPlot
-/insites
-/itsnat_web
-/itstagsme
 
 /inexperiments/build
 /inexperiments/dist
+/inexperiments/nbproject/private/
+
+/insites
 
 /itsnat/build
 /itsnat/dist
+/itsnat/nbproject/private/
 
 /itsnat_dev/build
 /itsnat_dev/dist
+/itsnat_dev/nbproject/private/
 /itsnat_dev/docs
 /itsnat_dev/tmp
 
+
 /itsnat_spring/build
 /itsnat_spring/dist
+/itsnat_spring/nbproject/private/
+
+/itsnat_web
 
 /ItsNatBatikApplet/build
 /ItsNatBatikApplet/dist
-/itsnat_dev/nbproject/private/
-/itsnat/nbproject/private/
-/spitutstless/nbproject/private/
+/ItsNatBatikApplet/nbproject/private/
+
+/itstagsme
+
+
+/spitut/build/
+/spitut/dist/
+/spitut/nbproject/private/
+
+
 /spitutstless/build/
 /spitutstless/dist/
+/spitutstless/nbproject/private/
+
+
+
+
+
+
