@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" itsnat:nocache="true" xmlns:itsnat="http://itsnat.org/itsnat">
+<head>   
+<title>jOOX Examples</title>
+</head>
+<body>
+
+    <h1>jOOX Examples</h1>
+
+    <p>These examples show how we can use jOOX alongside ItsNat.</p>
+    
+    <p>Most of jOOX works fine, but unfortunately CSS selectors usually fail because in jOOX CSS selectors are converted to XPath under the hood and we need a namespaced use of XPath
+        not the case of jOOX, anyway some CSS selectors works just adding ":". See pure XPath examples to understand why ":" prefix is needed.</p>
+
+    <p>Remember everything happens in server, and in server all DOM nodes are created because itsnat:nocache=true is declared in the html root element (no node cached).</p>
+ 
+    
+    <h2>Node navigation and new HTML insertion</h2>      
+    
+    <p>This example shows how we can navigate to the required node using a CSS selector and insert new markup. This is the code for insertion:
+    </p>
+    
+    <pre>
+    $(doc).find(":ul#someULId").children() // li items
+        .eq(2)  // li item 2
+        .children() // content of li
+        .eq(0) // span
+        .append(htmlCode); 
+    </pre>
+    
+    <p>The : before ul is needed because jOOX uses XPath under the hood and is required by ItsNat (see XPath examples).</p>
+    
+    <p>Before insertion we clear the previously inserted markup with:</p>
+        
+    <pre>
+    $(doc).find(":ul#someULId").children() // li items
+        .eq(2)  // li item 2
+        .children() // content of li
+        .eq(0) // span
+        .children().remove(); 
+    </pre>    
+    
+    <p>This is the ul element with id someULId (to understand what is happening, see the source code of the page):</p> 
+    
+    <ul id="someULId">
+        <li>Item 1</li>
+        <li>Item 2</li>
+        <li>Item 3 (insertion here): <span></span></li>        
+    </ul>
+  
+    <div>
+        HTML code to insert: <br/>
+        <input id="htmlCodeId" type="text" size="50" /> <button id="htmlAddId">Add</button>
+    </div>    
+    
+    <h2>Using XPath in jOOX</h2>    
+    
+    <p>jOOX provides some direct methods to get nodes by using XPath expressions. When XPath is accordingly configured in ItsNat we can use ":" to specify tag names, 
+        this is not the case of jOOX (a fork would be needed) in spite it works for some CSS selectors. We just can use the verbose version "*[name()='div']".</p>       
+    
+    <br/>
+    <div>
+        <span>XPath Expression:</span> <br/>
+        <input id="xpathExpressionId" type="text" size="50" /> <button id="xpathEvaluateId">Evaluate</button>
+    </div>
+
+    <br/>  
+    <div>Examples:</div>
+    <br/> 
+    <div>//*[name()='div']</div>
+    <div>//*[name()='div'][1]</div>    
+    <div>//*[name()='input'][@id="xpathExpressionId"]</div>      
+    <div>//*[name() = 'h1' or not(name() = 'br')]</div>     
+    <div>//*[namespace-uri() = 'http://www.w3.org/1999/xhtml']</div>     
+    <div>/*[name()='html']/*[name()='body']/*[name()='h1']/text()</div>       
+
+
+    <br/> 
+    Result:<br/><br/>
+    <div id="xpathResultsId" style="color:red"></div>   
+  
+    <br /><br />
+    <a href="index.jsp">RETURN</a>
+
+</body>
+</html>

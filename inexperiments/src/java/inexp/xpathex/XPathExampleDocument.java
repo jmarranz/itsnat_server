@@ -4,6 +4,9 @@
  */
 package inexp.xpathex;
 
+import static org.joox.JOOX.*;
+
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -50,6 +53,16 @@ public class XPathExampleDocument implements EventListener
     {
         HTMLDocument doc = itsNatDoc.getHTMLDocument();        
 
+      
+ String xpathStr = org.joox.selector.CSS2XPath.css2xpath("div > span", true);        
+//System.out.println(xpathStr + "\n");          
+java.util.List<Element> elems = $(doc).xpath("//*[name()='div']/*[name()='span']").append("<span style='color:red'>HOLA</span>").get();
+//java.util.List<Element> elems = $(doc).find("div").get();        
+for(Element elem : elems)    
+    System.out.println(elem.getTagName() + "\n"); 
+
+
+        
         while (resultsElem.getFirstChild() != null) 
             resultsElem.removeChild(resultsElem.getFirstChild());        
         
@@ -77,33 +90,7 @@ public class XPathExampleDocument implements EventListener
                 
                 child.appendChild(doc.createTextNode(value));
                 resultsElem.appendChild(child);
-            }       
-            
-            
-            /*
-           try  // http://stackoverflow.com/questions/926222/using-saxon-xpath-engine-in-java
-           {
-                   System.setProperty("javax.xml.xpath.XPathFactory:"+NamespaceConstant.OBJECT_MODEL_SAXON, "net.sf.saxon.xpath.XPathFactoryImpl");
-                   XPathFactory factory = XPathFactory.newInstance(NamespaceConstant.OBJECT_MODEL_SAXON);    
-
-                   //XPathFactory factory = net.sf.saxon.xpath.XPathFactoryImpl.newInstance();
-                   XPath xpath = factory.newXPath();
-
-                   XPathExpression expr = xpath.compile("h1");
-
-                   Object result = expr.evaluate(doc.getDocumentElement(), XPathConstants.NODESET);
-                   NodeList res = (NodeList) result;        
-               for(int i = 0; i < res.getLength(); i++)
-               {
-                   System.out.println(res.item(i));
-               }     
-           }
-           catch(Exception ex)
-           {
-               ex.printStackTrace();       
-           }
-           */            
-            
+            }        
         }
         catch(XPathExpressionException ex)
         {
@@ -119,3 +106,28 @@ public class XPathExampleDocument implements EventListener
         }        
     }
 }
+
+
+    /* Alternative with Saxon
+   try  // http://stackoverflow.com/questions/926222/using-saxon-xpath-engine-in-java
+   {
+           System.setProperty("javax.xml.xpath.XPathFactory:"+NamespaceConstant.OBJECT_MODEL_SAXON, "net.sf.saxon.xpath.XPathFactoryImpl");
+           XPathFactory factory = XPathFactory.newInstance(NamespaceConstant.OBJECT_MODEL_SAXON);    
+
+           //XPathFactory factory = net.sf.saxon.xpath.XPathFactoryImpl.newInstance();
+           XPath xpath = factory.newXPath();
+
+           XPathExpression expr = xpath.compile("h1");
+
+           Object result = expr.evaluate(doc.getDocumentElement(), XPathConstants.NODESET);
+           NodeList res = (NodeList) result;        
+       for(int i = 0; i < res.getLength(); i++)
+       {
+           System.out.println(res.item(i));
+       }     
+   }
+   catch(Exception ex)
+   {
+       ex.printStackTrace();       
+   }
+   */    

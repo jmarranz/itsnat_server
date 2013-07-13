@@ -11,6 +11,10 @@ import org.w3c.dom.Document;
 
 /*
  * Based on: http://www.ibm.com/developerworks/library/x-nmspccontext/
+ * 
+ * More links: http://www.edankert.com/defaultnamespaces.html  
+ *  http://xml.apache.org/xalan-j/xpath_apis.html#namespacecontext  
+ *  http://plasmasturm.org/log/259/
  */
 
 public class UniversalNamespaceResolver implements NamespaceContext {

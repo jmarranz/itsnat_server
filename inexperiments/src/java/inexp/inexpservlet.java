@@ -6,6 +6,7 @@ package inexp;
 
 import inexp.extjsexam.ExtJSExampleLoadApp;
 import inexp.hybridcs.HybridCSLoadApp;
+import inexp.jooxex.JOOXExampleLoadApp;
 import inexp.mathml.MathMLLoadApp;
 import inexp.oldwaiaria.OldWAIARIALoadApp;
 import inexp.waiaria.WAIARIALoadApp;
@@ -39,6 +40,7 @@ public class inexpservlet extends HttpServletWrapper
         MathMLLoadApp.init(itsNatServlet, pathPrefix);
         HybridCSLoadApp.init(itsNatServlet, pathPrefix);
         XPathExampleLoadApp.init(itsNatServlet, pathPrefix);        
+        JOOXExampleLoadApp.init(itsNatServlet, pathPrefix);        
     }
 
 }
