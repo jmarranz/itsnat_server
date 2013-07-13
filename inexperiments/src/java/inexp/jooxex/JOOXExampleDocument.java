@@ -7,10 +7,6 @@ package inexp.jooxex;
 import java.util.List;
 import static org.joox.JOOX.*;
 
-
-import javax.xml.xpath.XPathExpressionException;
-
-
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.html.ItsNatHTMLDocument;
