@@ -28,6 +28,7 @@ public class TestInnerHTML implements EventListener,Serializable
     protected ItsNatDocument itsNatDoc;
     protected Element link;
 
+
     /** Creates a new instance of OnClickFireEventFromServerTest */
     public TestInnerHTML(ItsNatDocument itsNatDoc)
     {
@@ -65,5 +66,36 @@ public class TestInnerHTML implements EventListener,Serializable
         code.append("</div>");
         DocumentFragment docFrag = itsNatDoc.toDOM(code.toString());
         link.getParentNode().insertBefore(docFrag, link);
+        
+        /*
+        HTMLDocument doc = (HTMLDocument)itsNatDoc.getDocument();
+        Element inputElem = doc.createElement("input");
+        inputElem.setAttribute("type","text");      
+        doc.getBody().appendChild(inputElem);
+        final ItsNatHTMLInputText comp = (ItsNatHTMLInputText)itsNatDoc.getItsNatComponentManager().createItsNatComponent(inputElem);
+        comp.setText("Initial Value");
+        comp.getDocument().addDocumentListener(new DocumentListener()
+        {
+            public void insertUpdate(DocumentEvent e)
+            {
+                String text = comp.getText();
+                System.out.println("insertUpdate " + text);
+            }
+
+            public void removeUpdate(DocumentEvent e)
+            {
+                String text = comp.getText();
+                System.out.println("removeUpdate " + text);
+            }
+
+            public void changedUpdate(DocumentEvent e)
+            {
+                String text = comp.getText();
+                System.out.println("changedUpdate " + text);
+            }              
+        });
+        * */
     }
+    
+  
 }

@@ -74,4 +74,9 @@ public class BrowserWebKitS40 extends BrowserWebKitSymbian
     {
         return false; // Por poner algo pues SVG no está soportado
     }
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        return false; // Cosa del Chrome
+    }          
 }

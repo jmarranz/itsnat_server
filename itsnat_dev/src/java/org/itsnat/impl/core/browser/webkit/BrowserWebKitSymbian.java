@@ -38,16 +38,6 @@ public abstract class BrowserWebKitSymbian extends BrowserWebKit
         return false;
     }
 
-    public boolean isAJAXEmptyResponseFails()
-    {
-        // S60WebKit: El retorno vacío puede dejar el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
-        // Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
-        // (quizás sólo en el caso de compresión GZip), hay que devolver al menos un espacio.
-        // En S40WEBKIT no recuerdo el resultado, pero por si acaso pues el WebKit 420 es bastante antiguo
-        // Yo creo que en la versión 525 debería quitarse esto pero no hay problema por enviar unos pocos espacios
-        return true;
-    }
-
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;

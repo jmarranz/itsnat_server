@@ -20,9 +20,11 @@ import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.w3c.dom.events.Event;
+import org.w3c.dom.html.HTMLElement;
 
 /**
  *
@@ -127,8 +129,13 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // que de error (valor rechazado) pero al menos el blur ha puesto el valor bueno, o bien el valor
         // se define dos veces.
 
+        HTMLElement elem = comp.getHTMLElement();
         Browser browser = clientDoc.getBrowser();
-        return browser.isBlurBeforeChangeEvent(comp.getHTMLElement());
+        if (browser.isBlurBeforeChangeEvent(elem)) 
+            return true;
+        else if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))
+            return true;
+        return false;
     }
 
     public abstract boolean isIgnoreChangeEvent(ClientDocumentImpl clientDoc);

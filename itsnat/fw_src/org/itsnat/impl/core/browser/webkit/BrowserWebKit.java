@@ -89,6 +89,8 @@ public abstract class BrowserWebKit extends BrowserW3C
             return new BrowserWebKitS60(userAgent);
         else if (userAgent.indexOf("Nokia6600s") != -1) // Hay que seguir la evolución de versiones de los S40 por si cambia Nokia6600s por otra cosa
             return new BrowserWebKitS40(userAgent);
+        else if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
+            return new BrowserWebKitChrome(userAgent);                  
         else if (userAgent.indexOf("Android") != -1)
             return new BrowserWebKitAndroid(userAgent);
         else if ((userAgent.indexOf("iPod") != -1) ||
@@ -98,9 +100,7 @@ public abstract class BrowserWebKit extends BrowserW3C
         else
         {
             int browserSubType;
-            if (userAgent.indexOf("Chrome") != -1)
-                browserSubType = GCHROME;
-            else if (userAgent.indexOf("BlackBerry") != -1) 
+            if (userAgent.indexOf("BlackBerry") != -1) 
                 browserSubType = BLACKBERRY;
             else
                 browserSubType = SAFARIDESKTOP; // Safari Destkop o WebKit desconocido (suponemos Safari desktop)
@@ -140,12 +140,6 @@ public abstract class BrowserWebKit extends BrowserW3C
     /* Nota: elem puede ser null. */
     public abstract boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem);
 
-    /* El retorno vacío puede dejar
-       el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
-       Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
-       y normalmente en WebKits antiguos hasta el AppleWebKit/420+ (viejo Iris)
-     */
-    public abstract boolean isAJAXEmptyResponseFails();
 
     public boolean isReferrerReferenceStrong()
     {
@@ -219,4 +213,21 @@ public abstract class BrowserWebKit extends BrowserW3C
     {
         return true;
     }
+    
+    public boolean isAJAXEmptyResponseFails()
+    {
+        // El retorno vacío puede dejar
+        // el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
+        // Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
+        // No se han detectado más casos, sin embargo el iPhone "real" con firmware antiguo (420+)
+        // no ha sido testeado así que por si acaso retornamos espacios en ese caso
+        // y  nos "curamos en salud"
+        // Nota: estas pruebas se han hecho en modo compresión con Gzip
+
+        if (webKitVersion <= 420) return true; // Por si acaso
+
+        return false;
+    }    
+        
+    public abstract boolean isChangeEventNotFiredUseBlur(HTMLElement formElem);
 }

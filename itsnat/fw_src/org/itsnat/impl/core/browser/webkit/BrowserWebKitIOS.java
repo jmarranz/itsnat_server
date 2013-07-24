@@ -150,7 +150,7 @@ public class BrowserWebKitIOS extends BrowserWebKit
 
     public boolean hasBeforeUnloadSupportHTML()
     {
-        return false;
+        return false;  // Curiosamente iPhone no soporta beforeunload en HTML (menos aun SVG que no lo soporta)
     }
 
     public boolean isXHRSyncSupported()
@@ -211,21 +211,6 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return true;  // En todos los elementos form
     }
 
-    public boolean isAJAXEmptyResponseFails()
-    {
-        // El retorno vacío puede dejar
-        // el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
-        // Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
-        // El iPhone "real" con firmware antiguo (420+)
-        // no ha sido testeado así que por si acaso retornamos espacios en ese caso
-        // y  nos "curamos en salud"
-        // Nota: estas pruebas se han hecho en modo compresión con Gzip
-        // El criterio quizás debiera ser:
-        // if (webKitVersion <= 420) return true;
-
-        return true; // En versiones modernas seguramente no es necesario pero así soportamos iPhones con firmware antiguos
-    }
-
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
@@ -254,4 +239,9 @@ public class BrowserWebKitIOS extends BrowserWebKit
 
         return false;
     }
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        return false; // Cosa del Chrome
+    }          
 }

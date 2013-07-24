@@ -210,15 +210,21 @@ public class DOMUtilHTML
     public static boolean isHTMLTextAreaOrInputTextBox(Node node)
     {
         if (node instanceof HTMLTextAreaElement) return true;
-        else if (node instanceof HTMLInputElement)
+        else if (isHTMLInputTextBox(node)) return true;        
+        else return false;
+    }
+
+    public static boolean isHTMLInputTextBox(Node node)
+    {
+        if (node instanceof HTMLInputElement)
         {
             Element elem = (Element)node;
             String type = elem.getAttribute("type").toLowerCase();
             return type.equals("text") || type.equals("password") || type.equals("file");
         }
         else return false;
-    }
-
+    }    
+    
     public static boolean isHTMLOptionOfSelectMultipleOrWithSize(Node option)
     {
         if (!(option instanceof HTMLOptionElement)) return false; // Por si fuera un nodo de texto

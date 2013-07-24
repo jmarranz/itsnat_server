@@ -21,8 +21,7 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
- * Los demás navegadores menos Android, iPhone y navegadores Symbian nativos,
- * es decir: Safari, Chrome
+ *  Safari y BlackBerry y desconocidos
  *
  *
  * User agents:
@@ -37,9 +36,7 @@ import org.w3c.dom.html.HTMLSelectElement;
         - Safari 4 beta Windows (AppleWebKit/528.16)
             Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16
 
-*       - Google Chrome (1.0.154.48)
-            Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.48 Safari/525.19
-* 
+
 *   Modernos:
 * 
 *   - Safari 5.1.7  
@@ -48,8 +45,6 @@ import org.w3c.dom.html.HTMLSelectElement;
 * 
     - BlackBerry JDE 6.0, desde esta versión está basado en WebKit
         Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en-GB) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.141 Mobile Safari/534.1+
-
-
  */
 
 public class BrowserWebKitOther extends BrowserWebKit
@@ -70,11 +65,11 @@ public class BrowserWebKitOther extends BrowserWebKit
         switch(browserSubType)
         {
             case SAFARIDESKTOP :
-            case GCHROME:
                 return true;
+            case BLACKBERRY:
+                return false;
         }
 
-        // Curiosamente iPhone no soporta beforeunload en HTML (menos aun SVG que no lo soporta)
         return false;
     }
 
@@ -102,21 +97,6 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false;
     }
 
-    public boolean isAJAXEmptyResponseFails()
-    {
-        // El retorno vacío puede dejar
-        // el motor AJAX en un estado erróneo más allá del request (hay que recargar la página)
-        // Esto ha sido detectado en el ejemplo "Event Monitor" del Feature Showcase
-        // No se han detectado más casos, sin embargo el iPhone "real" con firmware antiguo (420+)
-        // no ha sido testeado así que por si acaso retornamos espacios en ese caso
-        // y  nos "curamos en salud"
-        // Nota: estas pruebas se han hecho en modo compresión con Gzip
-
-        if (webKitVersion <= 420) return true; // Por si acaso
-
-        return false;
-    }
-
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
@@ -137,13 +117,6 @@ public class BrowserWebKitOther extends BrowserWebKit
         switch(browserSubType)
         {
             case SAFARIDESKTOP:
-            case GCHROME:
-                // Ni la versión 3 (3.1 WebKit 525.13) al menos de Safari desktop ni el Chrome 1.0 (WebKit 525.19)
-                // ejecutan el texto dentro de <script> SVG, ni dentro del <script>
-                // antes de insertar, ni añadido después.
-                // Sin embargo en Chrome 2.0 (WebKit 530) y Safari 4 (531.9) funciona bien en ambos casos,
-                // luego devolvemos false (no hacer nada).
-                return (webKitVersion <= 525);
             case BLACKBERRY:
                 // El simulador del JDE 5.0 9800 renderiza SVG pero NO se ejecutan los <script>
                 // imagino que cuando se active JavaScript funcionará correctamente pues la versión
@@ -154,21 +127,29 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false; // Por si se me pasa algún navegador
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
         else return super.isReferrerReferenceStrong();
     }
     
+    @Override
     public boolean isCachedBackForward()
     {
         if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
         else return super.isCachedBackForward();
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
         else return super.isCachedBackForwardExecutedScripts();
     }
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        return false; // Cosa del Chrome
+    }          
 }

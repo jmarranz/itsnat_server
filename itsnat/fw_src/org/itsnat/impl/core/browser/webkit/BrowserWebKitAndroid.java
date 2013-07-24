@@ -18,11 +18,12 @@ package org.itsnat.impl.core.browser.webkit;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
 /*
- * Soportado desde 2.1
+ * Soportado desde 2.1.  NO SE CONSIDERA el Chrome para Android
  * 
  * User agents:
 
@@ -112,11 +113,6 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return false;
     }
 
-    public boolean isAJAXEmptyResponseFails()
-    {
-        return false;
-    }
-
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return tagNamesIgnoreZIndex;
@@ -138,4 +134,9 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         // http://caniuse.com/svg        
         return mainVersion < 3; // No soporta SVG por debajo del 3
     }
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        return false; // Cosa del Chrome
+    }        
 }

@@ -81,6 +81,7 @@ public class BrowserWebKitS60 extends BrowserWebKitSymbian
         return true;
     }
 
+    @Override
     public boolean isDOMContentLoadedSupported()
     {
         // Redefinimos el método por defecto, en el S60WebKit 5th v1.0 con WebKit 525
@@ -115,4 +116,9 @@ public class BrowserWebKitS60 extends BrowserWebKitSymbian
     {
         return false; // Por poner algo pues SVG no está soportado
     }
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        return false; // Cosa del Chrome
+    }          
 }
