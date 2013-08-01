@@ -14,6 +14,6 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-        </welcome-file-list>
-    </web-app>
+        <welcome-file>inexpservlet</welcome-file>
+    </welcome-file-list>
+</web-app>

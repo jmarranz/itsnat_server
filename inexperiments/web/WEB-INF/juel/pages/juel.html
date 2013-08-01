@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:itsnat="http://itsnat.org/itsnat">
+<head>   
+<title>Java Unified Expression Language Examples</title>
+</head>
+<body>
+
+    <h1>Java Unified Expression Language Examples</h1>
+
+    <p>This example shows how we can use standalone Java Unified Expression Language part of JavaEE <a href="http://illegalargumentexception.blogspot.com.es/2008/04/java-using-el-outside-j2ee.html">outside JSP or JSF</a>.</p>
+    <p>In this case <a href="http://juel.sourceforge.net/" target="_blank">JUEL</a>, a EL 2.2 implementation, is used</p>
+    <p>Note: Tomcat 6 provides an EL 2.1 implementation, to use JUEL with no problem in Tomcat 6 including calling arbitrary methods, avoid any use of JSP (with ItsNat you do not need JSP).</p>
+
+    <h3>Rendering a list with EL expressions in template</h3>
+    
+    <div>Markup content in td or li in template to render: </div>
+    <pre>&lt;b&gt;${person.name}&lt;/b&gt; ${person.age} ${person.unitAge()} </pre>    
+    
+    <h4>List of Persons using &lt;table&gt;</h4>
+
+    <table border="1" cellspacing="0">
+        <tbody id="personListTable" itsnat:nocache="true"> 
+        <tr><td style="padding:10px"><b>${person.name}</b> ${person.age} ${person.unitAge()}</td></tr>
+        </tbody>
+    </table>
+    
+    <h4>List of Persons using &lt;ul&gt;&lt;li&gt;</h4>
+    
+    <ul id="personListUL" itsnat:nocache="true"> 
+    <li><b>${person.name}</b> ${person.age} ${person.unitAge()}</li>
+    </ul>   
+
+
+    <h3>Rendering a property of a bean using an &lt;input type=text&gt; element and a ItsNatHTMLInputText component</h3>        
+    
+    <div>Expression in value attribute in template:  <pre>#{person.name}</pre> </div>    
+    
+    <br/>
+    <div>Person Name: <input id="personNameId" type="text" size="50" value="#{person.name}" /> <button id="changeId">Change</button></div>
+
+    <br/> 
+    <div>New name of Person bean: <span id="resultsId" style="color:red" itsnat:nocache="true"></span></div>
+    
+    <br /><br />
+    <a href=".">RETURN</a>
+
+</body>
+</html>

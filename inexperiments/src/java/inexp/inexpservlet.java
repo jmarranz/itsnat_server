@@ -7,6 +7,7 @@ package inexp;
 import inexp.extjsexam.ExtJSExampleLoadApp;
 import inexp.hybridcs.HybridCSLoadApp;
 import inexp.jooxex.JOOXExampleLoadApp;
+import inexp.juel.JUELExampleLoadApp;
 import inexp.mathml.MathMLLoadApp;
 import inexp.oldwaiaria.OldWAIARIALoadApp;
 import inexp.waiaria.WAIARIALoadApp;
@@ -20,6 +21,7 @@ import org.itsnat.core.http.ItsNatHttpServlet;
 
 public class inexpservlet extends HttpServletWrapper
 {
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -30,10 +32,13 @@ public class inexpservlet extends HttpServletWrapper
         ItsNatServletContext itsNatCtx = itsNatConfig.getItsNatServletContext();
         itsNatCtx.setMaxOpenDocumentsBySession(5); // To limit the memory of bots identified as legitimate browsers and abusive users
 
+        itsNatServlet.addItsNatServletRequestListener(new GlobalLoadRequestListener());
         itsNatServlet.addEventListener(new GlobalEventListener());
 
         String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/";
 
+        itsNatServlet.registerItsNatDocumentTemplate("main","text/html", pathPrefix + "main/main.html");        
+        
         ExtJSExampleLoadApp.init(itsNatServlet, pathPrefix);
         OldWAIARIALoadApp.init(itsNatServlet, pathPrefix);
         WAIARIALoadApp.init(itsNatServlet, pathPrefix);
@@ -41,6 +46,7 @@ public class inexpservlet extends HttpServletWrapper
         HybridCSLoadApp.init(itsNatServlet, pathPrefix);
         XPathExampleLoadApp.init(itsNatServlet, pathPrefix);        
         JOOXExampleLoadApp.init(itsNatServlet, pathPrefix);        
+        JUELExampleLoadApp.init(itsNatServlet, pathPrefix);        
     }
 
 }
