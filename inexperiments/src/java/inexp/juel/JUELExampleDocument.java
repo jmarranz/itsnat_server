@@ -45,7 +45,7 @@ public class JUELExampleDocument
         
         // Input Text
         
-        final Person person = persons.get(0);
+        final Person person = new Person("Daniel",32);
         
         final Element resultsElem = doc.getElementById("resultsId");        
         
