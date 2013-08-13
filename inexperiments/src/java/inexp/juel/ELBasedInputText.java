@@ -59,7 +59,6 @@ public class ELBasedInputText
                 String text = comp.getText();
                 expPattern.setValue(context,text);
 
-                System.out.println("changed " + text);
                 onChanged.run();        
             }            
         } );        

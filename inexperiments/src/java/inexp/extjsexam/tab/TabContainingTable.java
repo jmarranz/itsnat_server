@@ -179,7 +179,7 @@ public abstract class TabContainingTable extends TabBase implements EventListene
 
         DefaultTableModel tableModel = (DefaultTableModel)tableComp.getTableModel();
         int rowCount = tableModel.getRowCount();
-        List rows = new ArrayList(rowCount);
+        List<Object[]> rows = new ArrayList<Object[]>(rowCount);
         for(int row = 0; row < rowCount; row++)
         {
             NameValue name = (NameValue)tableModel.getValueAt(row,0);
@@ -187,12 +187,12 @@ public abstract class TabContainingTable extends TabBase implements EventListene
             rows.add(new Object[] { name, desc });
         }
 
-        Collections.sort(rows, new Comparator()
+        Collections.sort(rows, new Comparator<Object[]>()
             {
-              public int compare(Object o1, Object o2)
+              public int compare(Object[] o1, Object[] o2)
               {
-                  NameValue name1 = (NameValue)((Object[])o1)[0];
-                  NameValue name2 = (NameValue)((Object[])o2)[0];
+                  NameValue name1 = (NameValue)o1[0];
+                  NameValue name2 = (NameValue)o2[0];
                   int order = name1.getName().compareTo(name2.getName());
                   if (!ascending) order = -order;
                   return order;

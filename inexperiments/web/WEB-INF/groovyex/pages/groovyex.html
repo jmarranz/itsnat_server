@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:itsnat="http://itsnat.org/itsnat">
+<head>   
+<title>Groovy Example</title>
+</head>
+<body> 
+    <h1>Groovy Example</h1>
+
+    <p>This example shows how we can use a dynamic language like Groovy to code the view logic instead of using Java of an ItsNat application.</p>
+
+    <p>With Groovy you are going to code less like this snippet:</p>
+    
+    <pre>
+    buttonElem.addEventListener("click", 
+             { Event evt -> def text = textInput.getText(); resultsElem.setTextContent(text); } as EventListener, false)
+    </pre>
+    
+    <p>Unfortunately hot redeploy doesn't work because Groovy objects (listeners) are registered in and called by ItsNat Java classes, after any change to Groovy
+       code you must redeploy the web app to make effective your changes.</p> 
+
+    <br/>
+    <div itsnat:nocache="true">
+        <span>Say something to Groovy:</span> <br/>
+        <input id="inputId" type="text" size="50" /> <button id="buttonId">Send</button>
+    </div>
+
+    <br/> 
+    <div> You said: <span id="resultsId" style="color:red" itsnat:nocache="true"></span></div>   
+  
+    <br /><br />
+    <a href=".">RETURN</a>
+
+</body>
+</html>
