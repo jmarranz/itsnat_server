@@ -25,14 +25,21 @@
         <url-pattern>/groovyex</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>Groovy</servlet-name>
-        <!--<servlet-class>groovy.servlet.GroovyServlet</servlet-class>-->
-        <servlet-class>inexp.groovyex.GroovyServletInherited</servlet-class>
+        <servlet-name>ItsNatGroovyReloadedServlet</servlet-name>
+        <servlet-class>inexp.groovyexrel.ItsNatGroovyReloadedServlet</servlet-class>
+        <init-param>
+            <param-name>scriptRootPath</param-name>
+            <param-value>groovyexrel/code</param-value>
+        </init-param>
+        <init-param>
+            <param-name>initScript</param-name>
+            <param-value>groovy_servlet_init.groovy</param-value>
+        </init-param>              
     </servlet>
     <servlet-mapping>
-        <servlet-name>Groovy</servlet-name>
-        <url-pattern>*.groovy</url-pattern>
-    </servlet-mapping>
+        <servlet-name>ItsNatGroovyReloadedServlet</servlet-name>
+        <url-pattern>/groovyexrel</url-pattern>
+    </servlet-mapping>    
     <session-config>
         <session-timeout>
             30
