@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package inexp.extjsexam.tab;
 
 import inexp.extjsexam.ExtJSExampleDocument;
 import org.itsnat.comp.ItsNatComponentManager;
-import org.itsnat.comp.layer.ItsNatModalLayer;
 import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.html.ItsNatHTMLDocument;

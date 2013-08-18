@@ -17,29 +17,13 @@
         </init-param>
         <init-param>
             <param-name>initScript</param-name>
-            <param-value>groovy_servlet_init.groovy</param-value>
-        </init-param>              
+            <param-value>inexp/groovyex/groovy_servlet_init.groovy</param-value>
+        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>ItsNatGroovyServlet</servlet-name>
         <url-pattern>/groovyex</url-pattern>
     </servlet-mapping>
-    <servlet>
-        <servlet-name>ItsNatGroovyReloadedServlet</servlet-name>
-        <servlet-class>inexp.groovyexrel.ItsNatGroovyReloadedServlet</servlet-class>
-        <init-param>
-            <param-name>scriptRootPath</param-name>
-            <param-value>groovyexrel/code</param-value>
-        </init-param>
-        <init-param>
-            <param-name>initScript</param-name>
-            <param-value>groovy_servlet_init.groovy</param-value>
-        </init-param>              
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ItsNatGroovyReloadedServlet</servlet-name>
-        <url-pattern>/groovyexrel</url-pattern>
-    </servlet-mapping>    
     <session-config>
         <session-timeout>
             30

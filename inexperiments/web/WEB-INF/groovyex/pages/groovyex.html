@@ -14,10 +14,9 @@
     buttonElem.addEventListener("click", 
              { Event evt -> def text = textInput.getText(); resultsElem.setTextContent(text); } as EventListener, false)
     </pre>
-    
-    <p>Unfortunately hot redeploy doesn't work because Groovy objects (listeners) are registered in and called by ItsNat Java classes, after any change to Groovy
-       code you must redeploy the web app to make effective your changes.</p> 
 
+    <hr />
+    <h2>A simple running example</h2>    
     <br/>
     <div itsnat:nocache="true">
         <span>Say something to Groovy:</span> <br/>
@@ -26,7 +25,44 @@
 
     <br/> 
     <div> You said: <span id="resultsId" style="color:red" itsnat:nocache="true"></span></div>   
-  
+    <br/>
+    
+    <hr />    
+    <h2>Can I change Groovy source code and automatically reload it on the fly on development time? YES COURSE!</h2>     
+    
+    <p>You know Groovy can automatically reload your Groovy classes in certain circumstances, unfortunately this is not the case when a Groovy object is passed to 
+       a Java method for instance when registering in ItsNat a listener coded in Groovy.
+    </p>
+    <p>Groovy is a dynamic language but not a fully pure dynamic, Groovy compiles on the fly the source code generating conventional Java objects (with a Class associated),
+       because Java code receives a conventional Java object created by Groovy there is no built-in way by Groovy to replace the object with a new one with different
+       code when Groovy reloads the class.
+    </p>
+    <p>This is why <code>GProxy</code> have been developed, a Java class to provide a simple proxy for Groovy objects, when GProxy is used a <code>java.lang.reflect.Proxy</code> 
+    is passed instead of the original Groovy object, the original Groovy object is retained under the hood and method calls to the proxy are redirected to the real object
+    calling the corresponding method using reflection, when the source code of the Groovy class changes 
+    <code>GProxy</code> automatically reloads the Groovy class and creates a new object to replace the old one, the fields of the original object are got and re-set to the new
+    object to keep the state (number of fields and types must be the same otherwise reloading is not possible and a redeploy is required).
+    </p>
+    <p><code>GProxy</code> of course is not so sophisticated like products like JRebel but it could dramatically reduce the number of redeploys in an ItsNat project.</p>    
+    <p>With a simple boolean devMode param set to false in initialization time, <code>GProxy</code> does nothing and your original objects are returned instead of proxyes
+       with 0 performance penalty in production.
+    </p>
+    
+    <h3>ItsNat, Groovy, GProxy and automatic reload</h3>
+    
+    <p><code>GProxy</code> can easily be applied to an ItsNat-Groovy project to provide a proxy instead of the original Groovy object when registering an 
+    <code>ItsNatServletRequestListener</code> associated to a page template. When a document (page) is loaded <code>GProxy</code> re-creates the listener object if the source code of this object 
+    <b>or any other dependent class</b> has changed.</p>
+    
+    <p>The <code>ItsNatServletRequestListener</code> works like a singleton, 
+    
+    <p>This is an example
+    <pre>
+ItsNatServletRequestListener listener = inexp.groovyex.GProxy.create(new inexp.groovyex.GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
+docTemplate.addItsNatServletRequestListener(listener);
+    </pre>
+
+    
     <br /><br />
     <a href=".">RETURN</a>
 

@@ -10,9 +10,12 @@ class GroovyExampleDocument
     def textInput // ItsNatHTMLInputText
     def resultsElem // Element   
 
-    GroovyExampleDocument(itsNatDoc)
+    GroovyExampleDocument(itsNatDoc,db)
     {
         this.itsNatDoc = itsNatDoc
+
+        if (db.getCityList().size() != 3) 
+            throw new RuntimeException("Unexpected");
 
         def doc = itsNatDoc.getHTMLDocument()
    

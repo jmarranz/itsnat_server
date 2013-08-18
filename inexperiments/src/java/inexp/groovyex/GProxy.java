@@ -1,8 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package inexp.groovyexrel;
+
+package inexp.groovyex;
 
 import groovy.util.GroovyScriptEngine;
 import java.lang.reflect.Field;
@@ -17,22 +14,36 @@ import java.util.ArrayList;
  */
 public class GProxy 
 {
-    public static GroovyScriptEngine engine;
+    protected static GroovyScriptEngine engine;
+    protected static boolean developmentMode = false;
+    protected static GProxyListener reloadListener;
     
-    public static class ReloadableInvocationHandler<T> implements InvocationHandler
+    public static void init(GroovyScriptEngine theEngine,boolean devMode,GProxyListener relListener)
     {
+        engine = theEngine;
+        developmentMode = devMode;
+        reloadListener = relListener;
+    }
+    
+    public static class VersionedObject<T>
+    {    
         protected T obj;
-        protected String path;
+        protected String path;    
         
-        public ReloadableInvocationHandler(T obj)
+        public VersionedObject(T obj)
         {
             this.obj = obj;
             this.path = obj.getClass().getName().replace('.','/');
+        }        
+        
+        public T getCurrent()
+        {
+            return obj;
         }
         
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable 
+        public T getNewVersion() throws Throwable 
         {
-            Class<T> newClass = (Class<T>)engine.loadScriptByName(path + ".groovy");  //inexp/groovyexrel/GroovyExReloadedLoadListener.groovy
+            Class<T> newClass = (Class<T>)engine.loadScriptByName(path + ".groovy");  //inexp/groovyex/GroovyExampleLoadListener.groovy
             
             if (newClass != obj.getClass())
             {
@@ -43,8 +54,15 @@ public class GProxy
                 
                 getTreeFields(oldClass,obj,fieldListOld,valueListOld);
                 
+                try
+                {
                 this.obj = newClass.getConstructor(new Class[0]).newInstance();            
-
+                }
+                catch(NoSuchMethodException ex)
+                {
+                    throw new RuntimeException("Cannot reload " + newClass.getName() + " a default empty of params constructor is required",ex);
+                }
+                
                 ArrayList<Field> fieldListNew = new ArrayList<Field>();
                 
                 getTreeFields(newClass,obj,fieldListNew,null);                
@@ -61,22 +79,42 @@ public class GProxy
                     fieldNew.setAccessible(true);
                     fieldNew.set(obj, valueListOld.get(i));
                 }
-                
-                System.out.println("Reloaded " + obj + " Calling method: " + method);
             }
             
+            return obj;
+        }
+    }
+    
+    public static class ReloadableInvocationHandler<T> implements InvocationHandler
+    {
+        protected VersionedObject<T> verObj;
+        
+        public ReloadableInvocationHandler(T obj)
+        {
+            this.verObj = new VersionedObject<T>(obj);
+        }
+        
+        public synchronized Object invoke(Object proxy, Method method, Object[] args) throws Throwable 
+        {
+            T oldObj = verObj.getCurrent();
 
+            T obj = verObj.getNewVersion();
+
+            if (oldObj != obj && reloadListener != null)
+                reloadListener.onReload(oldObj,obj,proxy, method,args);  
+            
             return method.invoke(obj, args);
         }        
     }
     
-    public static <T> T create(final T obj,Class<T> clasz)
+    public static <T> T create(T obj,Class<T> clasz)
     {
-        InvocationHandler handler = new ReloadableInvocationHandler(obj);
+        if (!developmentMode || engine == null)
+            return obj;
         
-        T proxy = (T) Proxy.newProxyInstance(obj.getClass().getClassLoader(),
-                                          new Class[] { clasz },
-                                          handler);   
+        InvocationHandler handler = new ReloadableInvocationHandler<T>(obj);
+        
+        T proxy = (T)Proxy.newProxyInstance(obj.getClass().getClassLoader(),new Class[] { clasz }, handler);   
         return proxy;
     }
     

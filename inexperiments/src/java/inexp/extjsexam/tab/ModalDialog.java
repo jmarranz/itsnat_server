@@ -1,14 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package inexp.extjsexam.tab;
 
-import inexp.BrowserUtil;
 import org.itsnat.comp.layer.ItsNatModalLayer;
-import org.itsnat.core.ItsNatServletRequest;
-import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

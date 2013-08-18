@@ -4,11 +4,23 @@ package inexp.groovyex;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import inexp.groovyex.FalseDB;
 
 class GroovyExampleLoadListener implements ItsNatServletRequestListener
 {
-    void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
+    def db
+
+    GroovyExampleLoadListener() 
+    { 
+    }
+    
+    GroovyExampleLoadListener(FalseDB db) // Explicit type tells Groovy to reload FalseDB class when changed
     {
-        new inexp.groovyex.GroovyExampleDocument(request.getItsNatDocument());
+        this.db = db;
+    }
+
+    void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
+    { 
+        new inexp.groovyex.GroovyExampleDocument(request.getItsNatDocument(),db);
     }
 }

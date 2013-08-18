@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package inexp.groovyex;
 
 import groovy.lang.Binding;
@@ -68,7 +65,7 @@ public class ItsNatGroovyServlet extends HttpServletWrapper
         
         //gse.getConfig().setMinimumRecompilationInterval(0); 
         
-        //System.out.println("MinimumRecompilationInterval " + gse.getConfig().getMinimumRecompilationInterval()); 
+        //System.out.println("MinimumRecompilationInterval " + gse.getConfig().getMinimumRecompilationInterval());  
         
         getServletContext().log("Groovy servlet initialized on " + gse + ".");
       
@@ -80,7 +77,8 @@ public class ItsNatGroovyServlet extends HttpServletWrapper
         
         final Binding binding = new Binding();
         binding.setVariable("itsNatServlet", itsNatServlet);
-        //binding.setVariable("servlet",     this);        
+        binding.setVariable("servlet",     this);  
+        binding.setVariable("config",      config);        
         binding.setVariable("context",     getServletContext());
         binding.setVariable("application", getServletContext());        
         
@@ -102,7 +100,7 @@ public class ItsNatGroovyServlet extends HttpServletWrapper
         };
         GroovyCategorySupport.use(ServletCategory.class, closure);      
     }
-     
+ 
 }
 
 
