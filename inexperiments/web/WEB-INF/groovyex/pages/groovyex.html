@@ -51,16 +51,29 @@
     <h3>ItsNat, Groovy, GProxy and automatic reload</h3>
     
     <p><code>GProxy</code> can easily be applied to an ItsNat-Groovy project to provide a proxy instead of the original Groovy object when registering an 
-    <code>ItsNatServletRequestListener</code> associated to a page template. When a document (page) is loaded <code>GProxy</code> re-creates the listener object if the source code of this object 
-    <b>or any other dependent class</b> has changed.</p>
+    <code>ItsNatServletRequestListener</code> associated to a page template. When a document (page) is loaded calling <code>processRequest</code>, <code>GProxy</code> re-creates 
+    this listener object if the source code of this object <b>or any other dependent class</b> has changed, and re-set all fields to restore the current state.</p>
     
-    <p>The <code>ItsNatServletRequestListener</code> works like a singleton, 
+    <p>Field values of the class implementing <code>ItsNatServletRequestListener</code> are not reloaded to the new possible source but because cascade dependent classes when executing 
+       <code>processRequest</code> are reloaded, any new object created by <code>processRequest</code> is fresh with the last source and registering on Java ItsNat classes
+       happens after reloading so then no <code>GProxy</code> is needed.
+    </p>
     
-    <p>This is an example
+    <p>This solution is not perfect because only affects to view-logic (not to classes of global objects provided to <code>ItsNatServletRequestListener</code> page loaders), that is, 
+       code for <code>ItsNatDocument</code> processing, anyway this is very much code.</p> 
+    
+    <p>This is an example of using a <code>GProxy</code> when registering a <code>ItsNatServletRequestListener</code> associated to a template for document loading:</p>
     <pre>
 ItsNatServletRequestListener listener = inexp.groovyex.GProxy.create(new inexp.groovyex.GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
 docTemplate.addItsNatServletRequestListener(listener);
     </pre>
+
+    <h3>How to test automatic reload in this example?</h3>    
+    
+    <p>Change <code>GroovyExampleDocument</code> and <code>groovyex.html</code>, and reload this page, no redeploy is needed. You can change also <code>GroovyExampleLoadListener</code> if needed
+       for instance to change parameters provided to <code>GroovyExampleDocument</code> but do not add/remove/change fields. Changes to <code>FalseDB</code> (a field of <code>GroovyExampleLoadListener</code>)
+       are not automatically reloaded.
+    </p>
 
     
     <br /><br />

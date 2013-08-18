@@ -8,7 +8,7 @@ class FalseDB
 {
     def cities
 
-    FalseDB(String name)
+    FalseDB()
     {
         cities = new LinkedList<City>();
         cities.add(new City("Madrid"));
@@ -16,5 +16,5 @@ class FalseDB
         cities.add(new City("Bilbao"));
     }
 
-    def getCityList() { return cities; }
+    def getCityList() { return cities;  /*cities;*/ }
 }
