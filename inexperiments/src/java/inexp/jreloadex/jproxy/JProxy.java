@@ -1,6 +1,7 @@
 
-package inexp.groovyex;
+package inexp.jreloadex.jproxy;
 
+import inexp.jreloadex.jproxy.impl.JReloaderEngine;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -11,28 +12,35 @@ import java.util.ArrayList;
  *
  * @author jmarranz
  */
-public class GProxy 
+public class JProxy 
 {
-    protected static IGroovyScriptEngine engine;
+    protected static JReloaderEngine engine;
     protected static boolean developmentMode = false;
-    protected static GProxyListener reloadListener;
+    protected static JProxyListener reloadListener;
     
-    public static void init(boolean devMode,IGroovyScriptEngine theEngine,GProxyListener relListener)
+    public static void init(boolean devMode,String pathInput,long scanPeriod,JProxyListener relListener)
     {
-        engine = theEngine;
+        JReloaderEngine theEngine = null;
+        if (devMode)
+        {
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();      
+            theEngine = new JReloaderEngine(classLoader,pathInput,scanPeriod);          
+        }
+        
+        engine = theEngine;        
         developmentMode = devMode;
-        reloadListener = relListener; 
+        reloadListener = relListener;
     }
     
     public static class VersionedObject<T>
     {    
         protected T obj;
-        protected String path;    
+        protected String className;    
         
         public VersionedObject(T obj)
         {
             this.obj = obj;
-            this.path = obj.getClass().getName().replace('.','/');
+            this.className = obj.getClass().getName();
         }        
         
         public static <T> VersionedObject create(T obj)
@@ -48,26 +56,17 @@ public class GProxy
         
         public static <T> Class<T> reloadClass(Class<T> clasz) throws groovy.util.ScriptException
         {
-            String path = clasz.getName().replace('.','/');
-            return reloadClass(path);          
+            return reloadClass(clasz.getName());          
         }        
         
-        public static <T> Class<T> reloadClass(String path) throws groovy.util.ScriptException
+        public static <T> Class<T> reloadClass(String className) throws groovy.util.ScriptException
         {
-            try
-            {   
-                return (Class<T>)engine.loadScriptByName(path + ".groovy");  //inexp/groovyex/GroovyExampleLoadListener.groovy
-            }
-            catch(Exception ex)
-            {
-                ex.printStackTrace(System.err);
-                return null;
-            }                  
+            return (Class<T>)engine.findClass(className);           
         }
         
         public T getNewVersion() throws Throwable 
         {
-            Class<T> newClass = reloadClass(path);
+            Class<T> newClass = reloadClass(className);
             if (newClass == null)
                 return obj;
             
@@ -109,8 +108,8 @@ public class GProxy
                 {
                     Field fieldOld = fieldListOld.get(i);
                     Field fieldNew = fieldListNew.get(i);
-                    if ( (!fieldOld.getName().startsWith("__timeStamp__") && !fieldOld.getName().equals(fieldNew.getName())) || 
-                          !fieldOld.getType().equals(fieldNew.getType()))
+                    if ( !fieldOld.getName().equals(fieldNew.getName()) || 
+                         !fieldOld.getType().equals(fieldNew.getType()))
                         throw new RuntimeException("Cannot reload " + newClass.getName() + " fields have changed, redeploy");
                     
                     Object fieldObj = valueListOld.get(i);

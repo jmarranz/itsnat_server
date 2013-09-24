@@ -47,6 +47,7 @@
             <web-module-additional-libraries/>
             <source-roots>
                 <root id="src.dir"/>
+                <root id="src.code.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>

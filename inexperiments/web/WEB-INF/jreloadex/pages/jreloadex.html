@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  xmlns:itsnat="http://itsnat.org/itsnat">
+<head>   
+<title>Hot Class Reload of JAVA sources Example!</title>
+</head>
+<body> 
+    <h1>Hot Class Reload of JAVA sources Example!</h1>
+
+    <p>As of Java 1.6 a <a href="http://docs.oracle.com/javase/6/docs/api/javax/tools/JavaCompiler.html" target="_blank">Java compiler API</a> is exposed to end developers 
+       and included in any JDK, in a standard Java EE web environment the compiler is accessible because the JDK is needed to recompile on the fly for instance JSPs</p>
+    
+    <p>This opens the opportunity to make a hot class reload based on pure Java source code in a similar way to Groovy...</p>
+       
+    <h2>So can I change Java source code and automatically reload it on the fly in runtime in production or development time?</h2>    
+    
+    <h2>YES COURSE!</h2>
+    
+    <p>This page is rendered by (compiled) Java source code included in the standard WAR file, of course into the WEB-INF folder if you need privacy of your code,
+      this Java code can be modified and will be compiled and reloaded on the fly, reload the page and the new code will be executed.</p>
+    
+    <hr />
+    <h2>A simple running example</h2>    
+    <br/>
+    <div itsnat:nocache="true">
+        <span>Say something to Groovy:</span> <br/>
+        <input id="inputId" type="text" size="50" /> <button id="buttonId">Send</button>
+    </div>
+
+    <br/> 
+    <div> You said: <span id="resultsId" style="color:red" itsnat:nocache="true"></span></div>   
+    <br/>
+    
+    <p>Note: try changing the source code in runtime (template and Java code) to modify the behavior of this example</p> 
+    
+    <hr />    
+    
+    <p>Similar to the Groovy hot reload example, the class <code>JProxy</code> have been developed, a Java class to provide a simple proxy for conventional Java objects, 
+        when <code>JProxy</code> is used a <code>java.lang.reflect.Proxy</code> 
+    is passed instead of the original Java object, the original Java object is retained under the hood and method calls to the proxy are redirected to the real object
+    calling the corresponding method using reflection, when the source code of the the Java(s) class(es) changes.
+    </p>
+    
+    <p><code>JProxy</code> automatically reloads the Java class and creates a new object to replace the old one, the fields of the original object are got and re-set to the new
+    object to keep the state (number of fields and types must be the same otherwise reloading is not possible and a redeploy is required).
+    </p>
+    
+    <p><code>JProxy</code> of course is not so sophisticated like products like JRebel but it could dramatically reduce the number of redeploys in an ItsNat project.</p>    
+    
+    <p>With a simple <code>boolean devMode</code> param set to false in initialization time, <code>JProxy</code> does nothing and your original objects are returned instead of proxies
+       with 0 performance penalty in production.
+    </p>
+    
+    <h3>ItsNat, Java, JProxy and automatic reload</h3>
+    
+    <p><code>Java</code> can easily be applied to an ItsNat project to provide a proxy instead of the original Java object when registering an 
+    <code>ItsNatServletRequestListener</code> associated to a page template. When a document (page) is loaded calling <code>processRequest</code>, <code>JProxy</code> re-creates 
+    this listener object if the source code of this object <b>or any other dependent class</b> has changed, and re-set all fields to restore the current state.</p>
+    
+    <p>Field values injected to the class implementing <code>ItsNatServletRequestListener</code> are not (and must not be) reloaded to the new possible source, but cascade dependent classes usually creating
+        new objects are automatically reloaded when executing <code>processRequest</code>, any new object created by <code>processRequest</code> is fresh with the last source and because registering in framework ItsNat classes
+       happens after reloading no <code>JProxy</code> is needed.
+    </p>
+    
+    <p>This solution is not perfect because only affects to view-logic (not to classes of global objects provided to <code>ItsNatServletRequestListener</code> page loaders), that is, 
+       code for <code>ItsNatDocument</code> processing, anyway this is very much code.</p> 
+    
+    <p>This is an example of using a <code>JProxy</code> when registering a <code>ItsNatServletRequestListener</code> associated to a template for document loading:</p>
+    <pre>
+ItsNatServletRequestListener listener = inexp.jreloadex.GProxy.create(new inexp.jreloadex.GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
+docTemplate.addItsNatServletRequestListener(listener);
+    </pre>
+
+    <h3>How to test automatic reload in this example?</h3>    
+    
+    <p>Change <code>GroovyExampleDocument</code> and <code>jreloadex.html</code>, and reload this page, no redeploy is needed. You can change also <code>GroovyExampleLoadListener</code> if needed
+       for instance to change parameters provided to <code>GroovyExampleDocument</code> but do not add/remove/change fields. Changes to <code>FalseDB</code> (a field of <code>GroovyExampleLoadListener</code>)
+       are not automatically reloaded.
+    </p>
+
+    
+    <br /><br />
+    <a href=".">RETURN</a>
+
+</body>
+</html>

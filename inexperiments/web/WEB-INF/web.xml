@@ -24,6 +24,14 @@
         <servlet-name>ItsNatGroovyServlet</servlet-name>
         <url-pattern>/groovyex</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ItsNatJReloadServlet</servlet-name>
+        <servlet-class>inexp.jreloadex.JReloadExampleServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItsNatJReloadServlet</servlet-name>
+        <url-pattern>/jreloadex</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

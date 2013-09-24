@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"  xmlns:itsnat="http://itsnat.org/itsnat">
 <head>   
-<title>Groovy Example</title>
+<title>Groovy with Hot Class Reload Example</title>
 </head>
 <body> 
-    <h1>Groovy Example</h1>
+    <h1>Groovy with Hot Class Reload Example</h1>
 
     <p>This example shows how we can use a dynamic language like Groovy to code the view logic instead of using Java of an ItsNat application.</p>
 
@@ -28,7 +28,9 @@
     <br/>
     
     <hr />    
-    <h2>Can I change Groovy source code and automatically reload it on the fly on development time? YES COURSE!</h2>     
+    <h2>Can I change Groovy source code and automatically reload it on the fly in runtime in production or development time?</h2> 
+    
+    <h2>YES COURSE!</h2>    
     
     <p>You know Groovy can automatically reload your Groovy classes in certain circumstances, unfortunately this is not the case when a Groovy object is passed to 
        a Java method for instance when registering in ItsNat a listener coded in Groovy.
@@ -37,14 +39,14 @@
        because Java code receives a conventional Java object created by Groovy there is no built-in way by Groovy to replace the object with a new one with different
        code when Groovy reloads the class.
     </p>
-    <p>This is why <code>GProxy</code> have been developed, a Java class to provide a simple proxy for Groovy objects, when GProxy is used a <code>java.lang.reflect.Proxy</code> 
+    <p>This is why <code>GProxy</code> have been developed, a Java class to provide a simple proxy for Groovy objects, when <code>GProxy</code> is used a <code>java.lang.reflect.Proxy</code> 
     is passed instead of the original Groovy object, the original Groovy object is retained under the hood and method calls to the proxy are redirected to the real object
     calling the corresponding method using reflection, when the source code of the Groovy class changes 
     <code>GProxy</code> automatically reloads the Groovy class and creates a new object to replace the old one, the fields of the original object are got and re-set to the new
     object to keep the state (number of fields and types must be the same otherwise reloading is not possible and a redeploy is required).
     </p>
     <p><code>GProxy</code> of course is not so sophisticated like products like JRebel but it could dramatically reduce the number of redeploys in an ItsNat project.</p>    
-    <p>With a simple boolean devMode param set to false in initialization time, <code>GProxy</code> does nothing and your original objects are returned instead of proxyes
+    <p>With a simple <code>boolean devMode</code> param set to false in initialization time, <code>GProxy</code> does nothing and your original objects are returned instead of proxies
        with 0 performance penalty in production.
     </p>
     
