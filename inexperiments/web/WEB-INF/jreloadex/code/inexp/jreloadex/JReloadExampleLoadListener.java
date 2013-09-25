@@ -17,14 +17,14 @@ public class JReloadExampleLoadListener implements ItsNatServletRequestListener
     { 
     }
     
-    public JReloadExampleLoadListener(FalseDB db) // Explicit type tells Groovy to reload FalseDB class when changed
+    public JReloadExampleLoadListener(FalseDB db) 
     {
         this.db = db;
     }
 
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     { 
-System.out.println("JReloadExampleLoadListener 26 " + this.getClass().getClassLoader().hashCode());
+        System.out.println("JReloadExampleLoadListener 26 " + this.getClass().getClassLoader().hashCode());
         
         new inexp.jreloadex.JReloadExampleDocument(request,(ItsNatHTMLDocument)request.getItsNatDocument(),db);
     }

@@ -22,7 +22,7 @@
     <h2>A simple running example</h2>    
     <br/>
     <div itsnat:nocache="true">
-        <span>Say something to Groovy:</span> <br/>
+        <span>Say something to hot reloaded Java classes:</span> <br/>
         <input id="inputId" type="text" size="50" /> <button id="buttonId">Send</button>
     </div>
 
@@ -37,7 +37,7 @@
     <p>Similar to the Groovy hot reload example, the class <code>JProxy</code> have been developed, a Java class to provide a simple proxy for conventional Java objects, 
         when <code>JProxy</code> is used a <code>java.lang.reflect.Proxy</code> 
     is passed instead of the original Java object, the original Java object is retained under the hood and method calls to the proxy are redirected to the real object
-    calling the corresponding method using reflection, when the source code of the the Java(s) class(es) changes.
+    calling the corresponding method using reflection, when the source code of the Java(s) class(es) changes.
     </p>
     
     <p><code>JProxy</code> automatically reloads the Java class and creates a new object to replace the old one, the fields of the original object are got and re-set to the new
@@ -66,18 +66,37 @@
     
     <p>This is an example of using a <code>JProxy</code> when registering a <code>ItsNatServletRequestListener</code> associated to a template for document loading:</p>
     <pre>
-ItsNatServletRequestListener listener = inexp.jreloadex.GProxy.create(new inexp.jreloadex.GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
+ItsNatServletRequestListener listener = JProxy.create(new JReloadExampleLoadListener(db), ItsNatServletRequestListener.class);
 docTemplate.addItsNatServletRequestListener(listener);
     </pre>
 
     <h3>How to test automatic reload in this example?</h3>    
     
-    <p>Change <code>GroovyExampleDocument</code> and <code>jreloadex.html</code>, and reload this page, no redeploy is needed. You can change also <code>GroovyExampleLoadListener</code> if needed
-       for instance to change parameters provided to <code>GroovyExampleDocument</code> but do not add/remove/change fields. Changes to <code>FalseDB</code> (a field of <code>GroovyExampleLoadListener</code>)
-       are not automatically reloaded.
+    <p>For instance change <code>JReloadExampleDocument</code> and <code>jreloadex.html</code> to change view logic, and reload this page, no redeploy is needed, no servlet context is reloaded, only Java classes are reloaded. 
+       The class <code>JReloadExampleDocument</code> contains an inner class, a member class (<code>AuxMember</code>) and using an external class <code>JReloadExampleAux</code>, change these classes with no problem.
+       You can change also <code>JReloadExampleLoadListener</code> for instance to change the parameters provided to <code>JReloadExampleDocument</code> but do not add/remove/change its fields because this is the root class and instance
+       managed by <code>JProxy</code> in this example and classes of the fields cannot be reloaded, for instance changes to <code>FalseDB</code> (a field of <code>JReloadExampleDocument</code>)
+       are not automatically reloaded because <code>FalseDB</code> is not in the folder for class reload and trying to reload this class implies a field of <code>JReloadExampleLoadListener</code> has changed and reloading this class will fail.
     </p>
 
+    <p>In production time Java app servers usually extract deployed war files to internal folders, you can modify sources there.</p> 
     
+    <h3>How to include Java source code into the WAR file below WEB-INF?</h3>    
+    
+    <p>For instance a standard web project in NetBeans (based on generated Ant) filters .java files when deploying, to avoid this filtering just add:</p>
+    
+    <pre>
+    &lt;target name="-pre-dist"> 
+        &lt;copy todir="${build.web.dir}/WEB-INF">
+            &lt;fileset dir="${webinf.dir}" /> 
+        &lt;/copy>
+    &lt;/target>     
+    </pre>
+    
+    <p>For a web project built with Maven you need to add the extra folder with sources into the compilation, Maven automatically adds any folder below WEB-INF.
+    You can use <a href="jreloadex/pom.xml">this POM</a> as a base for your project.</p>
+    
+        
     <br /><br />
     <a href=".">RETURN</a>
 
