@@ -1,6 +1,6 @@
 package inexp.jreloadex.jproxy.impl.comp;
 
-import inexp.jreloadex.jproxy.impl.HotLoadableClass;
+import inexp.jreloadex.jproxy.impl.ClassDescriptorSourceFile;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
@@ -32,9 +32,9 @@ public class JavaFileManagerInMemory extends ForwardingJavaFileManager
     */
     private LinkedList<JavaFileObjectOutputClass> outputClassList = new LinkedList<JavaFileObjectOutputClass>();
     private final ClassLoaderBasedJavaFileObjectFinder classFinder;    
-    protected Map<String,HotLoadableClass> hotLoadableClasses;
+    protected Map<String,ClassDescriptorSourceFile> hotLoadableClasses;
     
-    public JavaFileManagerInMemory(StandardJavaFileManager standardManager,ClassLoader classLoader,Map<String,HotLoadableClass> hotLoadableClasses) 
+    public JavaFileManagerInMemory(StandardJavaFileManager standardManager,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses) 
     {
         super(standardManager);
         this.hotLoadableClasses = hotLoadableClasses;
@@ -77,13 +77,13 @@ public class JavaFileManagerInMemory extends ForwardingJavaFileManager
                 
                 List<JavaFileObject> result = new LinkedList<JavaFileObject>();
                 
-                List<JavaFileObjectInputClassByURI> classList = classFinder.find(packageName);
+                List<JavaFileObjectInputClassInFileSystem> classList = classFinder.find(packageName);
                 
                 // Reemplazamos los .class de classList que son los que están en archivo "deployados" que pueden ser más antiguos que los que están en memoria
-                for(JavaFileObjectInputClassByURI fileObj : classList)
+                for(JavaFileObjectInputClassInFileSystem fileObj : classList)
                 {
                     String className = fileObj.binaryName();
-                    HotLoadableClass hotClass = hotLoadableClasses.get(className);
+                    ClassDescriptorSourceFile hotClass = hotLoadableClasses.get(className);
                     if (hotClass != null && hotClass.getClassBytes() != null)
                     {
                         JavaFileObjectInputClassInMemory fileHot = new JavaFileObjectInputClassInMemory(className,Kind.CLASS);
@@ -106,8 +106,8 @@ public class JavaFileManagerInMemory extends ForwardingJavaFileManager
     @Override
     public String inferBinaryName(Location location, JavaFileObject file) 
     {
-        if (file instanceof JavaFileObjectInputClassByURI)
-            return ((JavaFileObjectInputClassByURI)file).binaryName();
+        if (file instanceof JavaFileObjectInputClassInFileSystem)
+            return ((JavaFileObjectInputClassInFileSystem)file).binaryName();
         else if (file instanceof JavaFileObjectInputClassInMemory)
             return ((JavaFileObjectInputClassInMemory)file).binaryName();
 

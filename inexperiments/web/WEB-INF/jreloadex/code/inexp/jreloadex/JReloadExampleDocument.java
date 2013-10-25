@@ -20,7 +20,7 @@ public class JReloadExampleDocument
     { 
         public static void log()
         {
-            System.out.println("JReloadExampleDocument.AuxMember: 8 " + AuxMember.class.getClassLoader().hashCode());
+            System.out.println("JReloadExampleDocument.AuxMember: 10 " + AuxMember.class.getClassLoader().hashCode());
         }        
     }
            
@@ -43,13 +43,13 @@ public class JReloadExampleDocument
             {
                 String text = textInput.getText(); 
                 resultsElem.setTextContent(text);
- System.out.println("JReloadExampleDocument Inner 20 " + this.getClass().getClassLoader().hashCode());                
+ System.out.println("JReloadExampleDocument Inner 21 " + this.getClass().getClassLoader().hashCode());                
             }},
             false);
 
         this.resultsElem = doc.getElementById("resultsId");
         
-System.out.println("JReloadExampleDocument 29 " + this.getClass().getClassLoader().hashCode());        
+System.out.println("JReloadExampleDocument 34 " + this.getClass().getClassLoader().hashCode());        
         AuxMember.log();
         JReloadExampleAux.log();
 

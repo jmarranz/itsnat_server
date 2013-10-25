@@ -16,7 +16,6 @@ import javax.tools.SimpleJavaFileObject;
  */
 public class JavaFileObjectInputClassInMemory extends SimpleJavaFileObject 
 {
-
     protected final ByteArrayOutputStream bos = new ByteArrayOutputStream();
     protected String binaryName;
     
@@ -56,7 +55,8 @@ public class JavaFileObjectInputClassInMemory extends SimpleJavaFileObject
     }    
     
     @Override
-    public OutputStream openOutputStream() throws IOException {
+    public OutputStream openOutputStream() throws IOException 
+    {
         return bos;
     }
     

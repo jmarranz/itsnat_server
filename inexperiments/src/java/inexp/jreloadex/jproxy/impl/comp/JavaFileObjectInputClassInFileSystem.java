@@ -1,7 +1,10 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package inexp.jreloadex.jproxy.impl.comp;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
@@ -9,43 +12,41 @@ import java.net.URI;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.NestingKind;
 import javax.tools.JavaFileObject;
-import javax.tools.JavaFileObject.Kind;
 
 /**
  *
  * @author jmarranz
  */
-public class JavaFileObjectInputClassByURI implements JavaFileObject {
-
-    private final String binaryName;
-    private final URI uri;
-    private final String name;
-
-    public JavaFileObjectInputClassByURI(String binaryName, URI uri) 
+public abstract class JavaFileObjectInputClassInFileSystem implements JavaFileObject
+{
+    protected final String binaryName;
+    protected final URI uri;
+    protected final String name;
+    
+    public JavaFileObjectInputClassInFileSystem(String binaryName, URI uri,String name) 
     {
         this.uri = uri;
         this.binaryName = binaryName;
-        this.name = uri.getPath() == null ? uri.getSchemeSpecificPart() : uri.getPath(); // for FS based URI the path is not null, for JAR URI the scheme specific part is not null
-    }
-
+        this.name = name;
+    }   
+    
     @Override
     public URI toUri() {
         return uri;
     }
-
-    @Override
-    public InputStream openInputStream() throws IOException {
-        return uri.toURL().openStream(); // easy way to handle any URI!
-    }
-
-    @Override
-    public OutputStream openOutputStream() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
+    
     @Override
     public String getName() {
         return name;
+    }
+    
+    public String binaryName() {
+        return binaryName;
+    }    
+    
+    @Override
+    public OutputStream openOutputStream() throws IOException {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -64,15 +65,10 @@ public class JavaFileObjectInputClassByURI implements JavaFileObject {
     }
 
     @Override
-    public long getLastModified() {
-        return 0;
-    }
-
-    @Override
     public boolean delete() {
         throw new UnsupportedOperationException();
-    }
-
+    }        
+    
     @Override
     public Kind getKind() {
         return Kind.CLASS;
@@ -95,13 +91,5 @@ public class JavaFileObjectInputClassByURI implements JavaFileObject {
     public Modifier getAccessLevel() {
         throw new UnsupportedOperationException();
     }
-
-    public String binaryName() {
-        return binaryName;
-    }
-
-    @Override
-    public String toString() {
-        return "JavaFileObjectInputClassByURI{uri=" + uri + '}';
-    }
+    
 }

@@ -1,7 +1,6 @@
 package inexp.jreloadex.jproxy.impl;
 
 import inexp.jreloadex.jproxy.impl.comp.JReloaderCompilerInMemory;
-import inexp.jreloadex.jproxy.impl.comp.JavaFileObjectOutputClass;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.Map;
@@ -18,14 +17,17 @@ public class JReloaderEngine
     protected ClassLoader parentClassLoader;
     protected JReloaderClassLoader customClassLoader;
     protected JavaSourcesSearch sourcesSearch;
-    protected Map<String,HotLoadableClass> hotLoadableClasses;
+    protected Map<String,ClassDescriptorSourceFile> hotLoadableClasses;
+    protected String classFolder; // Puede ser nulo (es decir NO salvar como .class los cambios)
     
-    public JReloaderEngine(ClassLoader parentClassLoader,String pathSources,long scanPeriod)
+    public JReloaderEngine(ClassLoader parentClassLoader,String pathSources,String classFolder,long scanPeriod)
     {
         this.parentClassLoader = parentClassLoader;
+        this.classFolder = classFolder;
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);
-        this.sourcesSearch = new JavaSourcesSearch(pathSources);
-        this.hotLoadableClasses = sourcesSearch.recursiveJavaFileSearch();        
+        this.sourcesSearch = new JavaSourcesSearch(pathSources,parentClassLoader);       
+        updateTimestamps(); // Primera vez para detectar cambios en los .java respecto a los .class mientras el servidor estaba parado
+        
         
         Timer timer = new Timer();        
         TimerTask task = new TimerTask()
@@ -51,7 +53,7 @@ public class JReloaderEngine
         // Las innerclasses no están como tales en hotLoadableClasses pues sólo está la clase contenedora pero también la consideramos hotloadable
         int pos = className.lastIndexOf('$');
         if (pos != -1) className = className.substring(0, pos);
-                    
+
         return hotLoadableClasses.containsKey(className);
     }
     
@@ -71,7 +73,7 @@ public class JReloaderEngine
     
     private synchronized void addNewClassLoader()
     {
-        for(HotLoadableClass hotClass : hotLoadableClasses.values())
+        for(ClassDescriptorSourceFile hotClass : hotLoadableClasses.values())
         {
             hotClass.setLastLoadedClass(null);
         }
@@ -79,66 +81,58 @@ public class JReloaderEngine
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);               
     }
     
-    private synchronized <T> Class<T> compileAndLoadClass(HotLoadableClass classDesc,boolean newClassLoader)
+    private void compileAndReloadClass(ClassDescriptorSourceFile hotLoadClass)
     {
-        if (newClassLoader)
-        {
-            addNewClassLoader();
-        }
-
-        String className = classDesc.getClassName();
-        String path = classDesc.getPath();
-        LinkedList<JavaFileObjectOutputClass> outClasses = compiler.compile(path,customClassLoader,hotLoadableClasses);
+        hotLoadClass.setClassBytes(null);
+        hotLoadClass.setLastLoadedClass(null);
+        hotLoadClass.clearInnerClassDescriptors(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
         
-        if (outClasses == null) throw new RuntimeException("Cannot reload class: " + className);
+        compiler.compileClass(hotLoadClass,customClassLoader,hotLoadableClasses);
         
-        Class claszReturn = null;
-        // Puede haber más de un resultado cuando hay inner classes
-        for(JavaFileObjectOutputClass outClass : outClasses)
-        {
-            String currClassName = outClass.binaryName();
-            byte[] classBytes = outClass.getBytes();
-            classDesc.setClassBytes(classBytes);        
-            Class clasz = customClassLoader.defineClass(currClassName,classBytes);         
-            classDesc.setLastLoadedClass(clasz);
-            
-            if (className.equals(currClassName))
-                claszReturn = clasz;
-        }
-
-        return claszReturn; // No debería ser null
-    }    
+        reloadClass(hotLoadClass);
+    }        
     
-    protected synchronized void updateTimestamps()
+    private void reloadClass(ClassDescriptorSourceFile hotLoadClass)
     {
-        //Map<String,HotLoadableClass> oldClassMap = hotLoadableClasses;
+        Class clasz = customClassLoader.defineClass(hotLoadClass.getClassName(),hotLoadClass.getClassBytes()); 
+        hotLoadClass.setLastLoadedClass(clasz);
         
-        LinkedList<HotLoadableClass> updatedClasses = new LinkedList<HotLoadableClass>();
-        LinkedList<HotLoadableClass> newClasses = new LinkedList<HotLoadableClass>();        
+        LinkedList<ClassDescriptor> innerClassDescList = hotLoadClass.getInnerClassDescriptors();
+        if (innerClassDescList != null)
+        {
+            for(ClassDescriptor innerClassDesc : innerClassDescList)
+            {
+                Class classInner = customClassLoader.defineClass(innerClassDesc.getClassName(),innerClassDesc.getClassBytes()); 
+                innerClassDesc.setLastLoadedClass(classInner);
+            }
+        }        
+    }
+    
+    private synchronized void updateTimestamps()
+    {
+        LinkedList<ClassDescriptorSourceFile> updatedClasses = new LinkedList<ClassDescriptorSourceFile>();
+        LinkedList<ClassDescriptorSourceFile> newClasses = new LinkedList<ClassDescriptorSourceFile>();        
 
-        this.hotLoadableClasses = sourcesSearch.recursiveJavaFileSearch(hotLoadableClasses,updatedClasses,newClasses);  
-        
-        // oldClassMap contiene ahora mismo las clases que han sido eliminadas
-        //oldClassMap = null;
-        
+        this.hotLoadableClasses = sourcesSearch.recursiveJavaFileSearch(hotLoadableClasses,updatedClasses,newClasses);  // La primera vez hotLoadableClasses es null
+
         if (!updatedClasses.isEmpty() || !newClasses.isEmpty())
         {   
             addNewClassLoader();
                         
-            for(HotLoadableClass hotClass : updatedClasses)
+            for(ClassDescriptorSourceFile hotClass : updatedClasses)
             {
-                compileAndLoadClass(hotClass,false);
+                compileAndReloadClass(hotClass);
             }
             
-            for(HotLoadableClass hotClass : newClasses)
+            for(ClassDescriptorSourceFile hotClass : newClasses)
             {
-                compileAndLoadClass(hotClass,false);
+                compileAndReloadClass(hotClass);
             }               
             
-            for(Map.Entry<String,HotLoadableClass> entry : hotLoadableClasses.entrySet())
+            for(Map.Entry<String,ClassDescriptorSourceFile> entry : hotLoadableClasses.entrySet())
             {
                 String className = entry.getKey();
-                HotLoadableClass hotClass = entry.getValue();
+                ClassDescriptorSourceFile hotClass = entry.getValue();
                 if (updatedClasses.contains(hotClass))
                     continue;
                 if (newClasses.contains(hotClass))
@@ -152,11 +146,8 @@ public class JReloaderEngine
                     {
                         Class clasz;
                         try { clasz = parentClassLoader.loadClass(className); } catch (ClassNotFoundException ex) { throw new RuntimeException(ex); }                  
-                        String simpleClassName = clasz.getName();
-                        int pos = simpleClassName.lastIndexOf(".");
-                        if(pos != -1) simpleClassName = simpleClassName.substring(pos + 1);
-                        simpleClassName = simpleClassName + ".class";
-                        URL url = clasz.getResource(simpleClassName);  
+                        String classFileName = ClassDescriptor.getClassFileNameFromClassName(clasz.getName());
+                        URL url = clasz.getResource(classFileName);  
                         classBytes = JReloaderUtil.readURL(url);
                     }
 

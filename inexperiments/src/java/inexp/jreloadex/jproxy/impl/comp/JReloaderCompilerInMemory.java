@@ -1,6 +1,8 @@
 package inexp.jreloadex.jproxy.impl.comp;
 
-import inexp.jreloadex.jproxy.impl.HotLoadableClass;
+import inexp.jreloadex.jproxy.impl.ClassDescriptor;
+import inexp.jreloadex.jproxy.impl.ClassDescriptorSourceFile;
+import inexp.jreloadex.jproxy.impl.JReloaderClassLoader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,13 +29,42 @@ public class JReloaderCompilerInMemory
     {
         this.compiler = ToolProvider.getSystemJavaCompiler();
     }
-
-    public LinkedList<JavaFileObjectOutputClass> compile(String sourceFile,ClassLoader classLoader,Map<String,HotLoadableClass> hotLoadableClasses)
+    
+    public void compileClass(ClassDescriptorSourceFile hotLoadClass,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses)
+    {
+        File sourceFile = hotLoadClass.getSourceFile();
+        LinkedList<JavaFileObjectOutputClass> outClassList = compile(sourceFile,customClassLoader,hotLoadableClasses);
+        
+        if (outClassList == null) throw new RuntimeException("Cannot reload class: " + hotLoadClass.getClassName());
+        
+        String className = hotLoadClass.getClassName();        
+        
+        // Puede haber más de un resultado cuando hay inner classes
+        for(JavaFileObjectOutputClass outClass : outClassList)
+        {
+            String currClassName = outClass.binaryName();
+            byte[] classBytes = outClass.getBytes();      
+            ClassDescriptor innerClass = hotLoadClass.getInnerClassDescriptor(currClassName);
+            if (innerClass != null)
+            {
+                innerClass.setClassBytes(classBytes);                       
+            }
+            else
+            {
+                if (!className.equals(currClassName))
+                    throw new RuntimeException("Unexpected class " + currClassName);
+                    
+                hotLoadClass.setClassBytes(classBytes);                              
+            }
+        }
+    }        
+    
+    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses)
     {
         return compile(sourceFile,classLoader,hotLoadableClasses,null);
     }
 
-    private LinkedList<JavaFileObjectOutputClass> compile(String sourceFile,ClassLoader classLoader,Map<String,HotLoadableClass> hotLoadableClasses,DiagnosticCollector<JavaFileObject> diagnostics)
+    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses,DiagnosticCollector<JavaFileObject> diagnostics)
     {
         // http://stackoverflow.com/questions/12173294/compiling-fully-in-memory-with-javax-tools-javacompiler
         // http://www.accordess.com/wpblog/an-overview-of-java-compilation-api-jsr-199/
@@ -48,7 +79,7 @@ public class JReloaderCompilerInMemory
         // http://stackoverflow.com/questions/10767048/javacompiler-with-custom-classloader-and-filemanager
 
         List<File> sourceFileList = new ArrayList<File>();
-        sourceFileList.add(new File(sourceFile));
+        sourceFileList.add(sourceFile);
 
         StandardJavaFileManager fileManager = null;
         try
