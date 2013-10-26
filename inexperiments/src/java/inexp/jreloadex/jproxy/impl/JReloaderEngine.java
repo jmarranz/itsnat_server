@@ -83,9 +83,7 @@ public class JReloaderEngine
     
     private void compileAndReloadClass(ClassDescriptorSourceFile hotLoadClass)
     {
-        hotLoadClass.setClassBytes(null);
-        hotLoadClass.setLastLoadedClass(null);
-        hotLoadClass.clearInnerClassDescriptors(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
+        hotLoadClass.cleanSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
         
         compiler.compileClass(hotLoadClass,customClassLoader,hotLoadableClasses);
         
@@ -94,16 +92,14 @@ public class JReloaderEngine
     
     private void reloadClass(ClassDescriptorSourceFile hotLoadClass)
     {
-        Class clasz = customClassLoader.defineClass(hotLoadClass.getClassName(),hotLoadClass.getClassBytes()); 
-        hotLoadClass.setLastLoadedClass(clasz);
+        customClassLoader.defineClass(hotLoadClass); 
         
         LinkedList<ClassDescriptor> innerClassDescList = hotLoadClass.getInnerClassDescriptors();
         if (innerClassDescList != null)
         {
             for(ClassDescriptor innerClassDesc : innerClassDescList)
             {
-                Class classInner = customClassLoader.defineClass(innerClassDesc.getClassName(),innerClassDesc.getClassBytes()); 
-                innerClassDesc.setLastLoadedClass(classInner);
+                customClassLoader.defineClass(innerClassDesc); 
             }
         }        
     }
@@ -131,7 +127,7 @@ public class JReloaderEngine
             
             for(Map.Entry<String,ClassDescriptorSourceFile> entry : hotLoadableClasses.entrySet())
             {
-                String className = entry.getKey();
+                //String className = entry.getKey();
                 ClassDescriptorSourceFile hotClass = entry.getValue();
                 if (updatedClasses.contains(hotClass))
                     continue;
@@ -141,18 +137,23 @@ public class JReloaderEngine
                 Class newClasz = hotClass.getLastLoadedClass();
                 if (newClasz == null)
                 {  
-                    byte[] classBytes = hotClass.getClassBytes();
+                    // Es la primera vez en carga de la aplicación                                        
+                    byte[] classBytes = hotClass.getClassBytes();                    
+                    if (classBytes == null) throw new RuntimeException("Unexpected");
+                    
+                    /*
                     if (classBytes == null)
                     {
                         Class clasz;
                         try { clasz = parentClassLoader.loadClass(className); } catch (ClassNotFoundException ex) { throw new RuntimeException(ex); }                  
-                        String classFileName = ClassDescriptor.getClassFileNameFromClassName(clasz.getName());
+                        String classFileName = ClassDescriptor.getClassFileNameFromClassName(className);
                         URL url = clasz.getResource(classFileName);  
                         classBytes = JReloaderUtil.readURL(url);
+                        hotClass.setClassBytes(classBytes);                        
                     }
-
-                    newClasz = customClassLoader.defineClass(className,classBytes);         
-                    hotClass.setLastLoadedClass(newClasz);
+                    */
+                    
+                    customClassLoader.defineClass(hotClass);         
                 }
                 else
                 {

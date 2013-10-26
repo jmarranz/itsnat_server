@@ -17,9 +17,16 @@ public class JReloaderClassLoader extends ClassLoader
         this.engine = engine;
     }
 
-    public synchronized Class defineClass(String className,byte[] content)
+    private synchronized Class defineClass(String className,byte[] content)
     {
         return defineClass(className,content, 0, content.length);    
+    }
+    
+    public synchronized Class defineClass(ClassDescriptor classDesc)
+    {    
+        Class clasz = defineClass(classDesc.getClassName(),classDesc.getClassBytes()); 
+        classDesc.setLastLoadedClass(clasz);
+        return clasz;
     }
     
     @Override
@@ -39,15 +46,15 @@ public class JReloaderClassLoader extends ClassLoader
         // Lo tenemos que redefinir porque el objetivo es recargar todas las clases hot-reloaded en este ClassLoader y no delegar en el parent 
         // (el comportamiento por defecto de loadClass) pues las clases cargadas con el parent tenderán a cargar las clases vinculadas con dicho ClassLoader
         // Aunque siempre que podemos hacemos un defineClass, lo hacemos también aquí porque las innerclasses y las clases miembro de un .java generan sus propios
-        // .class que sólo son conocidos de antemano analizando el .java (no en el .class) o en el momento de cargar, las clases miembro se podrían obtener de Class.getClasses() pero no así
+        // .class que sólo son conocidos de antemano analizando el .java (no en el .class) o en el momento de cargar por ej con defineClass, las clases miembro se podrían obtener de Class.getClasses() pero no así
         // las innerclasses.
         Class<?> cls = findLoadedClass(name);
         if (cls == null)
-        {                
+        {
             if (engine.isHotLoadableClass(name))
             {
-                String relClassPath = name.replaceAll("\\.", "/") + ".class"; 
-            
+                // Yo creo que ya no se va a pasar nunca por aquí, no nos atrevemos a modificar el ClassDescriptor pues son singleton y lo mismo este es un ClassLoader ya perdido
+                String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(name); 
                 URL urlClass = getResource(relClassPath);
                 byte[] classBytes = JReloaderUtil.readURL(urlClass);            
                 cls = defineClass(name,classBytes); 

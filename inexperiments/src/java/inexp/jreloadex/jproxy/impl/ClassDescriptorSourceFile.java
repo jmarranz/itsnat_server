@@ -36,12 +36,18 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         this.timestamp = timestamp;
         if (oldTimestamp != timestamp)
         {
-            // Como ha cambiado la clase, reseteamos las dependencias
-            setClassBytes(null);
-            setLastLoadedClass(null);
+            cleanSourceCodeChanged();
         }
     }
 
+    public void cleanSourceCodeChanged()
+    {
+        // Como ha cambiado la clase, reseteamos las dependencias        
+        setClassBytes(null);
+        setLastLoadedClass(null);
+        clearInnerClassDescriptors(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
+    }
+    
     private boolean isInnerClass(String className)
     {
         int pos = className.lastIndexOf('$');

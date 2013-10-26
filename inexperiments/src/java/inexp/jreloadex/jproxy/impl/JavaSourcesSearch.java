@@ -1,6 +1,7 @@
 package inexp.jreloadex.jproxy.impl;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class JavaSourcesSearch
                         else  // Primera vez, vemos si el código fuente se ha cambiado respecto a los .class en el sistema de archivos
                         {
                             String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(className);
-                            java.net.URL urlClass = parentClassLoader.getResource(relClassPath);
+                            URL urlClass = parentClassLoader.getResource(relClassPath);
                             if (urlClass != null)
                             {
                                 String urlClassExt = urlClass.toExternalForm();

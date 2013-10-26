@@ -57,7 +57,7 @@ public class ClassDescriptor
     
     public static String getRelativeClassFilePathFromClassName(String className)
     {
-        return className.replace('.','/') + ".class";    
+        return className.replace('.','/') + ".class";    // alternativa: className.replaceAll("\\.", "/") + ".class"
     }
     
     public static String getClassNameFromRelativeClassFilePath(String path)
