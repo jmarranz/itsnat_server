@@ -1,5 +1,7 @@
 package inexp.jreloadex.jproxy.impl;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author jmarranz
@@ -39,7 +41,12 @@ public class ClassDescriptor
     {
         this.clasz = clasz;
     }    
-  
+
+    public void resetLastLoadedClass()
+    {
+        setLastLoadedClass(null); 
+    }    
+    
     /*
     public String getClassFileNameFromClassName()
     {    

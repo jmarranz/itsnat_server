@@ -54,11 +54,6 @@ public class JProxy
             return obj;
         }
         
-        public static <T> Class<T> reloadClass(Class<T> clasz) throws groovy.util.ScriptException
-        {
-            return reloadClass(clasz.getName());          
-        }        
-        
         public static <T> Class<T> reloadClass(String className) throws groovy.util.ScriptException
         {
             return (Class<T>)engine.findClass(className);           
@@ -73,17 +68,7 @@ public class JProxy
             Class oldClass = obj.getClass();            
             if (newClass != oldClass)
             {
-                /*
-                if (reloadAllClasses)
-                {
-                    Class[] loadedClasses = engine.getGroovyClassLoader().getLoadedClasses();
-                    for(Class cls : loadedClasses)
-                    {
-                        reloadClass(cls);
-                    }
-                }
-                */
-                
+
                 ArrayList<Field> fieldListOld = new ArrayList<Field>();
                 ArrayList<Object> valueListOld = new ArrayList<Object>();              
                 

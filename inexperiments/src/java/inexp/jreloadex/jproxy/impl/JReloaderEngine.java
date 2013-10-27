@@ -1,7 +1,6 @@
 package inexp.jreloadex.jproxy.impl;
 
 import inexp.jreloadex.jproxy.impl.comp.JReloaderCompilerInMemory;
-import java.net.URL;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
@@ -57,7 +56,23 @@ public class JReloaderEngine
         return hotLoadableClasses.containsKey(className);
     }
     
-
+    public synchronized ClassDescriptor getClassDescriptor(String className)
+    {
+        // Puede ser el de una innerclass
+        // Las innerclasses no están como tales en hotLoadableClasses pues sólo está la clase contenedora pero también la consideramos hotloadable
+        int pos = className.lastIndexOf('$');
+        boolean inner;        
+        if (pos != -1)
+        {
+            className = className.substring(0, pos);
+            inner = true;
+        }
+        else inner = false;
+        ClassDescriptorSourceFile sourceDesc = hotLoadableClasses.get(className);        
+        if (!inner) return sourceDesc;
+        return sourceDesc.getInnerClassDescriptor(className);
+    }
+            
     public synchronized <T> Class<?> findClass(String className)
     {     
         // Si ya está cargada la devuelve, y si no se cargó por ningún JReloaderClassLoader se intenta cargar por el parent ClassLoader, por lo que siempre devolverá distinto de null si la clase está en el classpath, que debería ser lo normal       
@@ -75,7 +90,7 @@ public class JReloaderEngine
     {
         for(ClassDescriptorSourceFile hotClass : hotLoadableClasses.values())
         {
-            hotClass.setLastLoadedClass(null);
+            hotClass.resetLastLoadedClass(); // resetea también las innerclasses
         }
         
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);               
@@ -92,14 +107,14 @@ public class JReloaderEngine
     
     private void reloadClass(ClassDescriptorSourceFile hotLoadClass)
     {
-        customClassLoader.defineClass(hotLoadClass); 
+        customClassLoader.loadClass(hotLoadClass); 
         
         LinkedList<ClassDescriptor> innerClassDescList = hotLoadClass.getInnerClassDescriptors();
         if (innerClassDescList != null)
         {
             for(ClassDescriptor innerClassDesc : innerClassDescList)
             {
-                customClassLoader.defineClass(innerClassDesc); 
+                customClassLoader.loadClass(innerClassDesc); 
             }
         }        
     }
@@ -134,32 +149,7 @@ public class JReloaderEngine
                 if (newClasses.contains(hotClass))
                     continue;   
                 
-                Class newClasz = hotClass.getLastLoadedClass();
-                if (newClasz == null)
-                {  
-                    // Es la primera vez en carga de la aplicación                                        
-                    byte[] classBytes = hotClass.getClassBytes();                    
-                    if (classBytes == null) throw new RuntimeException("Unexpected");
-                    
-                    /*
-                    if (classBytes == null)
-                    {
-                        Class clasz;
-                        try { clasz = parentClassLoader.loadClass(className); } catch (ClassNotFoundException ex) { throw new RuntimeException(ex); }                  
-                        String classFileName = ClassDescriptor.getClassFileNameFromClassName(className);
-                        URL url = clasz.getResource(classFileName);  
-                        classBytes = JReloaderUtil.readURL(url);
-                        hotClass.setClassBytes(classBytes);                        
-                    }
-                    */
-                    
-                    customClassLoader.defineClass(hotClass);         
-                }
-                else
-                {
-                    // Ha sido ha cargado/definido indirectamente
-                    if (newClasz.getClassLoader() != customClassLoader) throw new RuntimeException();
-                }
+                reloadClass(hotClass);
             }
          
         }

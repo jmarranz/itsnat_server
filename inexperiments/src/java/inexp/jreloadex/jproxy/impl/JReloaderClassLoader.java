@@ -16,15 +16,12 @@ public class JReloaderClassLoader extends ClassLoader
         
         this.engine = engine;
     }
-
-    private synchronized Class defineClass(String className,byte[] content)
-    {
-        return defineClass(className,content, 0, content.length);    
-    }
     
     public synchronized Class defineClass(ClassDescriptor classDesc)
     {    
-        Class clasz = defineClass(classDesc.getClassName(),classDesc.getClassBytes()); 
+        String className = classDesc.getClassName();
+        byte[] classBytes = classDesc.getClassBytes();
+        Class clasz = defineClass(className,classBytes, 0, classBytes.length);   
         classDesc.setLastLoadedClass(clasz);
         return clasz;
     }
@@ -39,25 +36,40 @@ public class JReloaderClassLoader extends ClassLoader
         return cls;
     }    
 
+    public synchronized Class loadClass(ClassDescriptor classDesc)
+    {    
+        Class clasz = classDesc.getLastLoadedClass();
+        if (clasz != null && clasz.getClassLoader() == this) return clasz; // Glup, ya fue cargada
+        return defineClass(classDesc); 
+    }    
+    
     @Override
     protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException 
     {
         // Inspiraciones en URLClassLoader.findClass y en el propio análisis de ClassLoader.loadClass
-        // Lo tenemos que redefinir porque el objetivo es recargar todas las clases hot-reloaded en este ClassLoader y no delegar en el parent 
+        // Lo redefinimos por si acaso porque el objetivo es recargar todas las clases hot-reloaded en este ClassLoader y no delegar en el parent 
         // (el comportamiento por defecto de loadClass) pues las clases cargadas con el parent tenderán a cargar las clases vinculadas con dicho ClassLoader
-        // Aunque siempre que podemos hacemos un defineClass, lo hacemos también aquí porque las innerclasses y las clases miembro de un .java generan sus propios
-        // .class que sólo son conocidos de antemano analizando el .java (no en el .class) o en el momento de cargar por ej con defineClass, las clases miembro se podrían obtener de Class.getClasses() pero no así
-        // las innerclasses.
+        
+        // En teoría este método redefinido no es necesario porque manualmente detectamos los cambios de código fuente, recompilamos y recargamos explícitamente
+        // pero al hacer un defineClass de una clase con innerclasses debería cargar las inner clases miembro dependientes por aquí, el caso es que todavía no he 
+        // detectado ese caso por lo que la necesidad de este método está cuestionada
+
         Class<?> cls = findLoadedClass(name);
         if (cls == null)
         {
-            if (engine.isHotLoadableClass(name))
+            ClassDescriptor classDesc = engine.getClassDescriptor(name);
+            if (classDesc != null)
             {
-                // Yo creo que ya no se va a pasar nunca por aquí, no nos atrevemos a modificar el ClassDescriptor pues son singleton y lo mismo este es un ClassLoader ya perdido
-                String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(name); 
-                URL urlClass = getResource(relClassPath);
-                byte[] classBytes = JReloaderUtil.readURL(urlClass);            
-                cls = defineClass(name,classBytes); 
+                byte[] classBytes = classDesc.getClassBytes();
+                if (classBytes == null) // No debería ocurrir ¡¡¡NUNCA!!!
+                {
+                    String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(name); 
+                    URL urlClass = getResource(relClassPath);
+                    classBytes = JReloaderUtil.readURL(urlClass);   
+                    classDesc.setClassBytes(classBytes);
+                }
+                
+                cls = defineClass(classDesc); 
             }
             
             if (cls == null)

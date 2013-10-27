@@ -87,7 +87,7 @@ docTemplate.addItsNatServletRequestListener(listener);
     
     <pre>
     &lt;target name="-pre-dist"> 
-        &lt;copy todir="${build.web.dir}/WEB-INF">
+        &lt;copy todir="${build.web.dir}/WEB-INF" preservelastmodified="true">
             &lt;fileset dir="${webinf.dir}" /> 
         &lt;/copy>
     &lt;/target>     

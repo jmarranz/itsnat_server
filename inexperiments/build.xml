@@ -70,8 +70,8 @@
     -->
     
     <target name="-pre-dist"> <!-- Because modern NetBeans excludes copying *.java files below /WEB-INF -->
-        <copy todir="${build.web.dir}/WEB-INF">
-            <fileset dir="${webinf.dir}" /> <!-- excludes="${build.web.excludes}" -->
+        <copy todir="${build.web.dir}/WEB-INF" preservelastmodified="true">
+            <fileset dir="${webinf.dir}"  /> <!-- excludes="${build.web.excludes}" -->
         </copy>
     </target>     
 </project>

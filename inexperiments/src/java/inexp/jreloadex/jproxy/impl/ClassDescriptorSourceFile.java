@@ -84,6 +84,19 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         return classDesc;
     }
         
+    @Override
+    public void resetLastLoadedClass()
+    {
+        super.resetLastLoadedClass();
+
+        LinkedList<ClassDescriptor> innerClassDescList = getInnerClassDescriptors();
+        if (innerClassDescList != null)
+        {
+            for(ClassDescriptor innerClassDesc : innerClassDescList)
+                innerClassDesc.resetLastLoadedClass();             
+        }   
+    }
+    
     public static String getClassNameFromSourceFileAbsPath(String path,String rootPathOfSources)
     {
         // path y rootPathOfSources son absolutos, preferentemente obtenidos con File.getAbsolutePath()
