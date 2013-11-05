@@ -1,6 +1,6 @@
 package inexp.jreloadex.jproxy.impl;
 
-import java.util.LinkedList;
+import java.io.File;
 
 /**
  *
@@ -9,17 +9,24 @@ import java.util.LinkedList;
 public class ClassDescriptor 
 {
     protected String className;
+    protected boolean innerClass;
     protected byte[] classBytes;
     protected Class clasz;    
     
-    public ClassDescriptor(String className) 
+    public ClassDescriptor(String className,boolean innerClass) 
     {
         this.className = className;
+        this.innerClass = innerClass;
     }    
     
     public String getClassName() 
     {
         return className;
+    }
+    
+    public boolean isInnerClass()
+    {
+        return innerClass;
     }
     
     public byte[] getClassBytes() 
@@ -66,6 +73,22 @@ public class ClassDescriptor
     {
         return className.replace('.','/') + ".class";    // alternativa: className.replaceAll("\\.", "/") + ".class"
     }
+    
+    public static String getRelativePackagePathFromClassName(String className)
+    {
+        String packageName = className.replace('.','/');  
+        int pos = packageName.lastIndexOf('/');
+        if (pos == -1) return packageName;
+        return packageName.substring(0,pos);
+    }    
+    
+    public static String getAbsoluteClassFilePathFromClassNameAndClassPath(String className,String classPath)
+    {
+        String relativePath = getRelativeClassFilePathFromClassName(className);
+        classPath = classPath.trim();
+        if (!classPath.endsWith("/") && !classPath.endsWith("\\")) classPath += File.separatorChar;        
+        return classPath + relativePath; 
+    }    
     
     public static String getClassNameFromRelativeClassFilePath(String path)
     {

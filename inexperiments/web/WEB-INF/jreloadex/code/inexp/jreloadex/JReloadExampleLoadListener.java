@@ -24,7 +24,7 @@ public class JReloadExampleLoadListener implements ItsNatServletRequestListener
 
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     { 
-        System.out.println("JReloadExampleLoadListener 12 " + this.getClass().getClassLoader().hashCode());
+        System.out.println("JReloadExampleLoadListener 10 " + this.getClass().getClassLoader().hashCode());
         
         new inexp.jreloadex.JReloadExampleDocument(request,(ItsNatHTMLDocument)request.getItsNatDocument(),db);
     }

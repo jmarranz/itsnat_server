@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -70,4 +71,23 @@ public class JReloaderUtil
 
         return out.toByteArray();
     }	    
+    
+    public static void saveFile(String path,byte[] content)
+    {	
+        FileOutputStream out = null;		
+        try 
+        {	
+            out = new FileOutputStream(path);	
+            out.write(content, 0, content.length);			
+        }   		
+        catch (IOException ex) 
+        {
+            throw new RuntimeException(ex);
+        }	       
+        finally
+        {
+            if (out != null) try { out.close(); } catch (IOException ex2) { throw new RuntimeException(ex2); }			
+        }
+    }    
+
 }

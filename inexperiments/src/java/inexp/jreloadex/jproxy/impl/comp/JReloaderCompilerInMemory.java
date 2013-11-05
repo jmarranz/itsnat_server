@@ -30,21 +30,21 @@ public class JReloaderCompilerInMemory
         this.compiler = ToolProvider.getSystemJavaCompiler();
     }
     
-    public void compileClass(ClassDescriptorSourceFile hotLoadClass,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses)
+    public void compileClass(ClassDescriptorSourceFile sourceFileDesc,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
     {
-        File sourceFile = hotLoadClass.getSourceFile();
-        LinkedList<JavaFileObjectOutputClass> outClassList = compile(sourceFile,customClassLoader,hotLoadableClasses);
+        File sourceFile = sourceFileDesc.getSourceFile();
+        LinkedList<JavaFileObjectOutputClass> outClassList = compile(sourceFile,customClassLoader,sourceFileMap);
         
-        if (outClassList == null) throw new RuntimeException("Cannot reload class: " + hotLoadClass.getClassName());
+        if (outClassList == null) throw new RuntimeException("Cannot reload class: " + sourceFileDesc.getClassName());
         
-        String className = hotLoadClass.getClassName();        
+        String className = sourceFileDesc.getClassName();        
         
-        // Puede haber más de un resultado cuando hay inner classes
+        // Puede haber más de un resultado cuando hay inner classes y/o clase privada en el mismo archivo
         for(JavaFileObjectOutputClass outClass : outClassList)
         {
             String currClassName = outClass.binaryName();
             byte[] classBytes = outClass.getBytes();      
-            ClassDescriptor innerClass = hotLoadClass.getInnerClassDescriptor(currClassName);
+            ClassDescriptor innerClass = sourceFileDesc.getInnerClassDescriptor(currClassName,true);
             if (innerClass != null)
             {
                 innerClass.setClassBytes(classBytes);                       
@@ -54,17 +54,17 @@ public class JReloaderCompilerInMemory
                 if (!className.equals(currClassName))
                     throw new RuntimeException("Unexpected class " + currClassName);
                     
-                hotLoadClass.setClassBytes(classBytes);                              
+                sourceFileDesc.setClassBytes(classBytes);                              
             }
         }
     }        
     
-    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses)
+    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
     {
-        return compile(sourceFile,classLoader,hotLoadableClasses,null);
+        return compile(sourceFile,classLoader,sourceFileMap,null);
     }
 
-    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses,DiagnosticCollector<JavaFileObject> diagnostics)
+    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap,DiagnosticCollector<JavaFileObject> diagnostics)
     {
         // http://stackoverflow.com/questions/12173294/compiling-fully-in-memory-with-javax-tools-javacompiler
         // http://www.accordess.com/wpblog/an-overview-of-java-compilation-api-jsr-199/
@@ -87,7 +87,7 @@ public class JReloaderCompilerInMemory
             fileManager = compiler.getStandardFileManager(diagnostics, null, null);
             Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(sourceFileList);
 
-            JavaFileManagerInMemory fileManagerInMemory = new JavaFileManagerInMemory(fileManager,classLoader,hotLoadableClasses);
+            JavaFileManagerInMemory fileManagerInMemory = new JavaFileManagerInMemory(fileManager,classLoader,sourceFileMap);
 
             boolean success = compile(compilationUnits,fileManagerInMemory,diagnostics);
             if (!success) return null;

@@ -1,7 +1,9 @@
 package inexp.jreloadex.jproxy.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -21,15 +23,15 @@ public class JavaSourcesSearch
         this.parentClassLoader = parentClassLoader;
     }
         
-    public Map<String,ClassDescriptorSourceFile> recursiveJavaFileSearch(Map<String,ClassDescriptorSourceFile> oldClassMap,LinkedList<ClassDescriptorSourceFile> updatedClasses,LinkedList<ClassDescriptorSourceFile> newClasses)
+    public Map<String,ClassDescriptorSourceFile> recursiveJavaFileSearch(Map<String,ClassDescriptorSourceFile> oldSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles)
     {
         Map<String,ClassDescriptorSourceFile> newClassMap = new HashMap<String,ClassDescriptorSourceFile>();
         String[] children = new File(pathSources).list(); 
-        recursiveJavaFileSearch(pathSources,children,oldClassMap,newClassMap,updatedClasses,newClasses);
+        recursiveJavaFileSearch(pathSources,children,oldSourceFileMap,newClassMap,updatedSourceFiles,newSourceFiles);
         return newClassMap;
     }
     
-    private void recursiveJavaFileSearch(String parentPath,String[] relPathList,Map<String,ClassDescriptorSourceFile> oldClassMap,Map<String,ClassDescriptorSourceFile> newClassMap,LinkedList<ClassDescriptorSourceFile> updatedClasses,LinkedList<ClassDescriptorSourceFile> newClasses)
+    private void recursiveJavaFileSearch(String parentPath,String[] relPathList,Map<String,ClassDescriptorSourceFile> oldSourceFileMap,Map<String,ClassDescriptorSourceFile> newSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles)
     {
         for(String relPath : relPathList)
         {
@@ -37,7 +39,7 @@ public class JavaSourcesSearch
             if (file.isDirectory())
             {
                 String[] children = file.list();   
-                recursiveJavaFileSearch(file.getAbsolutePath(),children,oldClassMap,newClassMap,updatedClasses,newClasses);
+                recursiveJavaFileSearch(file.getAbsolutePath(),children,oldSourceFileMap,newSourceFileMap,updatedSourceFiles,newSourceFiles);
             }
             else
             {
@@ -50,26 +52,26 @@ public class JavaSourcesSearch
                         String path = file.getAbsolutePath();
                         String className = ClassDescriptorSourceFile.getClassNameFromSourceFileAbsPath(path, pathSources);
                         long timestampSourceFile = file.lastModified();
-                        ClassDescriptorSourceFile hotClass;
-                        if (oldClassMap != null)
+                        ClassDescriptorSourceFile sourceFile;
+                        if (oldSourceFileMap != null)
                         {
-                            hotClass = oldClassMap.get(className);
+                            sourceFile = oldSourceFileMap.get(className);
                             
-                            if (hotClass != null) // Si es null es que la clase es nueva
+                            if (sourceFile != null) // Cambiado
                             {
-                                long oldTimestamp = hotClass.getTimestamp();
+                                long oldTimestamp = sourceFile.getTimestamp();
                                 if (timestampSourceFile > oldTimestamp)
                                 {
-                                    hotClass.updateTimestamp(timestampSourceFile);
-                                    updatedClasses.add(hotClass);
+                                    sourceFile.updateTimestamp(timestampSourceFile);
+                                    updatedSourceFiles.add(sourceFile);
                                 }
                                 
-                                oldClassMap.remove(className); // Para que sólo queden las clases que han sido eliminadas
+                                oldSourceFileMap.remove(className); // Para que sólo queden las clases que han sido eliminadas
                             }          
                             else // Clase nueva
                             {
-                                hotClass = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
-                                newClasses.add(hotClass);
+                                sourceFile = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
+                                newSourceFiles.add(sourceFile);
                             }
                         }
                         else  // Primera vez, vemos si el código fuente se ha cambiado respecto a los .class en el sistema de archivos
@@ -84,28 +86,30 @@ public class JavaSourcesSearch
                                 if (timestampSourceFile > timestampCompiledClass)
                                 {
                                     // Si el .class está en un JAR no hay forma de saber si el fuente .java es más actual que el .class por lo que siempre se considerará que el archivo fuente ha sido modificado
-                                    hotClass = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
-                                    updatedClasses.add(hotClass);
+                                    sourceFile = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
+                                    updatedSourceFiles.add(sourceFile);
 //System.out.println("UPDATED: " + className + " " + urlClass.toExternalForm() + " " + (timestampSourceFile - timestampCompiledClass));
                                 }
                                 else
                                 {
-                                    // Esto es lo normal, que el .class sea más reciente que el .java
-                                    hotClass = new ClassDescriptorSourceFile(className,file,timestampCompiledClass);
+                                    // Esto es lo normal en carga si no hemos tocado el código tras el deploy, que el .class sea más reciente que el .java
+                                    sourceFile = new ClassDescriptorSourceFile(className,file,timestampCompiledClass);
+                                    byte[] classBytes = JReloaderUtil.readURL(urlClass);
+                                    sourceFile.setClassBytes(classBytes);  
+                                    // Falta cargar las posibles inner classes, hay que tener en cuenta que este archivo NO se va a compilar porque no ha cambiado respecto a .class conocido
+                                    
 //System.out.println("NOT UPDATED: " + className + " " + urlClass.toExternalForm() + " " + (timestampSourceFile - timestampCompiledClass));                                    
                                 }
                                 
-                                byte[] classBytes = JReloaderUtil.readURL(urlClass);
-                                hotClass.setClassBytes(classBytes);
                             }
                             else // No hay .class, es un archivo fuente nuevo
                             {
-                                hotClass = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
-                                newClasses.add(hotClass);
+                                sourceFile = new ClassDescriptorSourceFile(className,file,timestampSourceFile);
+                                newSourceFiles.add(sourceFile);
                             }
                         }
 
-                        newClassMap.put(className,hotClass);
+                        newSourceFileMap.put(className,sourceFile);
                     }
                 }
             }                

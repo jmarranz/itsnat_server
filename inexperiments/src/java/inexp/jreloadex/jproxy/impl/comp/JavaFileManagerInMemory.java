@@ -32,12 +32,12 @@ public class JavaFileManagerInMemory extends ForwardingJavaFileManager
     */
     private LinkedList<JavaFileObjectOutputClass> outputClassList = new LinkedList<JavaFileObjectOutputClass>();
     private final ClassLoaderBasedJavaFileObjectFinder classFinder;    
-    protected Map<String,ClassDescriptorSourceFile> hotLoadableClasses;
+    protected Map<String,ClassDescriptorSourceFile> sourceFileMap;
     
-    public JavaFileManagerInMemory(StandardJavaFileManager standardManager,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> hotLoadableClasses) 
+    public JavaFileManagerInMemory(StandardJavaFileManager standardManager,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap) 
     {
         super(standardManager);
-        this.hotLoadableClasses = hotLoadableClasses;
+        this.sourceFileMap = sourceFileMap;
         this.classFinder = new ClassLoaderBasedJavaFileObjectFinder(classLoader);        
     }
 
@@ -83,13 +83,13 @@ public class JavaFileManagerInMemory extends ForwardingJavaFileManager
                 for(JavaFileObjectInputClassInFileSystem fileObj : classList)
                 {
                     String className = fileObj.binaryName();
-                    ClassDescriptorSourceFile hotClass = hotLoadableClasses.get(className);
-                    if (hotClass != null && hotClass.getClassBytes() != null)
+                    ClassDescriptorSourceFile sourceFileDesc = sourceFileMap.get(className);
+                    if (sourceFileDesc != null && sourceFileDesc.getClassBytes() != null)
                     {
-                        JavaFileObjectInputClassInMemory fileHot = new JavaFileObjectInputClassInMemory(className,Kind.CLASS);
-                        fileHot.openOutputStream().write(hotClass.getClassBytes());
-                        fileHot.openOutputStream().close();
-                        result.add(fileHot);
+                        JavaFileObjectInputClassInMemory fileInput = new JavaFileObjectInputClassInMemory(className,Kind.CLASS);
+                        fileInput.openOutputStream().write(sourceFileDesc.getClassBytes());
+                        fileInput.openOutputStream().close();
+                        result.add(fileInput);
                     }
                     else
                     {

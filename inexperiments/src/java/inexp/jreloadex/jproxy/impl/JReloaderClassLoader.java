@@ -43,6 +43,20 @@ public class JReloaderClassLoader extends ClassLoader
         return defineClass(classDesc); 
     }    
     
+    public synchronized Class loadInnerClass(ClassDescriptorSourceFile parentDesc,String innerClassName)
+    {
+        ClassDescriptor classDesc = parentDesc.getInnerClassDescriptor(innerClassName,false);
+        if (classDesc == null || classDesc.getClassBytes() == null)
+        {
+            byte[] classBytes = getClassBytesFromResource(innerClassName);  
+            if (classBytes == null) return null;            
+            if (classDesc == null) classDesc = parentDesc.addInnerClassDescriptor(innerClassName);
+            classDesc.setClassBytes(classBytes);
+        }       
+        
+        return defineClass(classDesc); 
+    }
+    
     @Override
     protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException 
     {
@@ -51,21 +65,21 @@ public class JReloaderClassLoader extends ClassLoader
         // (el comportamiento por defecto de loadClass) pues las clases cargadas con el parent tenderán a cargar las clases vinculadas con dicho ClassLoader
         
         // En teoría este método redefinido no es necesario porque manualmente detectamos los cambios de código fuente, recompilamos y recargamos explícitamente
-        // pero al hacer un defineClass de una clase con innerclasses debería cargar las inner clases miembro dependientes por aquí, el caso es que todavía no he 
-        // detectado ese caso por lo que la necesidad de este método está cuestionada
+        // con defineClass el cual no carga también las innerclasses vinculadas, 
+        // pero si el código fuente tiene innerclasses y no ha sido cambiado nunca, las innerclasses pueden no ser conocidas como ClassDescriptor,
+        // necesitamos detectar las innerclasses para cargarlas también tras la carga de la clase contenedora,
+        // para ello ejecutamos Class.getDeclaredClasses() para que cargue las innerclasses indirectamente, pasando entonces por aquí.
 
         Class<?> cls = findLoadedClass(name);
         if (cls == null)
-        {
-            ClassDescriptor classDesc = engine.getClassDescriptor(name);
-            if (classDesc != null)
+        {            
+            ClassDescriptor classDesc = engine.getClassDescriptor(name); // Si es una inner class se crea el descriptor y se añade al source file asociado automáticamente
+            if (classDesc != null && classDesc.isInnerClass())
             {
                 byte[] classBytes = classDesc.getClassBytes();
-                if (classBytes == null) // No debería ocurrir ¡¡¡NUNCA!!!
+                if (classBytes == null) 
                 {
-                    String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(name); 
-                    URL urlClass = getResource(relClassPath);
-                    classBytes = JReloaderUtil.readURL(urlClass);   
+                    classBytes = getClassBytesFromResource(name);   // No puede ser nulo
                     classDesc.setClassBytes(classBytes);
                 }
                 
@@ -86,5 +100,11 @@ public class JReloaderClassLoader extends ClassLoader
         return cls;
     }
     
-
+    private synchronized byte[] getClassBytesFromResource(String className)
+    {
+        String relClassPath = ClassDescriptor.getRelativeClassFilePathFromClassName(className); 
+        URL urlClass = getResource(relClassPath);
+        if (urlClass == null) return null;
+        return JReloaderUtil.readURL(urlClass);    
+    }
 }

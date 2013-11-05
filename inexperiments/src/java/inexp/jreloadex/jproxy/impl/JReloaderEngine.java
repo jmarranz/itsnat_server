@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,7 @@ public class JReloaderEngine
     protected ClassLoader parentClassLoader;
     protected JReloaderClassLoader customClassLoader;
     protected JavaSourcesSearch sourcesSearch;
-    protected Map<String,ClassDescriptorSourceFile> hotLoadableClasses;
+    protected Map<String,ClassDescriptorSourceFile> sourceFileMap;
     protected String classFolder; // Puede ser nulo (es decir NO salvar como .class los cambios)
     
     public JReloaderEngine(ClassLoader parentClassLoader,String pathSources,String classFolder,long scanPeriod)
@@ -49,28 +51,33 @@ public class JReloaderEngine
 
     public synchronized boolean isHotLoadableClass(String className)
     {
-        // Las innerclasses no están como tales en hotLoadableClasses pues sólo está la clase contenedora pero también la consideramos hotloadable
+        // Las innerclasses no están como tales en sourceFileMap pues sólo está la clase contenedora pero también la consideramos hotloadable
         int pos = className.lastIndexOf('$');
         if (pos != -1) className = className.substring(0, pos);
 
-        return hotLoadableClasses.containsKey(className);
+        return sourceFileMap.containsKey(className);
     }
     
     public synchronized ClassDescriptor getClassDescriptor(String className)
     {
         // Puede ser el de una innerclass
-        // Las innerclasses no están como tales en hotLoadableClasses pues sólo está la clase contenedora pero también la consideramos hotloadable
-        int pos = className.lastIndexOf('$');
+        // Las innerclasses no están como tales en sourceFileMap pues sólo está la clase contenedora pero también la consideramos hotloadable
+        String parentClassName;
+        int pos = className.lastIndexOf('$');        
         boolean inner;        
         if (pos != -1)
         {
-            className = className.substring(0, pos);
+            parentClassName = className.substring(0, pos);
             inner = true;
         }
-        else inner = false;
-        ClassDescriptorSourceFile sourceDesc = hotLoadableClasses.get(className);        
+        else
+        {
+            parentClassName = className;
+            inner = false;
+        }
+        ClassDescriptorSourceFile sourceDesc = sourceFileMap.get(parentClassName);        
         if (!inner) return sourceDesc;
-        return sourceDesc.getInnerClassDescriptor(className);
+        return sourceDesc.getInnerClassDescriptor(className,true);
     }
             
     public synchronized <T> Class<?> findClass(String className)
@@ -88,68 +95,107 @@ public class JReloaderEngine
     
     private synchronized void addNewClassLoader()
     {
-        for(ClassDescriptorSourceFile hotClass : hotLoadableClasses.values())
+        for(ClassDescriptorSourceFile sourceFile : sourceFileMap.values())
         {
-            hotClass.resetLastLoadedClass(); // resetea también las innerclasses
+            sourceFile.resetLastLoadedClass(); // resetea también las innerclasses
         }
         
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);               
     }
     
-    private void compileAndReloadClass(ClassDescriptorSourceFile hotLoadClass)
+    private void compileReloadAndSaveClass(ClassDescriptorSourceFile sourceFile)
     {
-        hotLoadClass.cleanSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
+        sourceFile.cleanSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
         
-        compiler.compileClass(hotLoadClass,customClassLoader,hotLoadableClasses);
+        compiler.compileClass(sourceFile,customClassLoader,sourceFileMap);
         
-        reloadClass(hotLoadClass);
+        reloadClass(sourceFile,false); // No hace falta que detectemos las innerclasses porque al compilar se "descubren"
+
+        saveClass(sourceFile);        
     }        
     
-    private void reloadClass(ClassDescriptorSourceFile hotLoadClass)
+    private void reloadClass(ClassDescriptorSourceFile sourceFile,boolean detectInnerClasses)
     {
-        customClassLoader.loadClass(hotLoadClass); 
-        
-        LinkedList<ClassDescriptor> innerClassDescList = hotLoadClass.getInnerClassDescriptors();
-        if (innerClassDescList != null)
+        Class clasz = customClassLoader.loadClass(sourceFile);      
+
+        LinkedList<ClassDescriptor> innerClassDescList = sourceFile.getInnerClassDescriptors(); 
+        if (innerClassDescList != null && !innerClassDescList.isEmpty())
         {
             for(ClassDescriptor innerClassDesc : innerClassDescList)
             {
-                customClassLoader.loadClass(innerClassDesc); 
+                customClassLoader.loadClass(innerClassDesc);           
             }
         }        
-    }
+        else if (detectInnerClasses)
+        {
+            clasz.getDeclaredClasses(); // Provoca que las inner clases indirectamente se procesen y carguen a través del JReloaderClassLoader de la clase padre clasz
+            
+            // Ahora bien, lo anterior NO sirve para las anonymous inner classes, afortunadamente en ese caso podemos conocer y cargar por fuerza bruta
+            // http://stackoverflow.com/questions/1654889/java-reflection-how-can-i-retrieve-anonymous-inner-classes?rq=1
+            
+            for(int i = 1; i < Integer.MAX_VALUE; i++)
+            {
+                String anonClassName = sourceFile.getClassName() + "$" + i;                 
+                Class innerClasz = customClassLoader.loadInnerClass(sourceFile,anonClassName);
+                if (innerClasz == null) break; // No hay más o no hay ninguna (si i es 1)
+            } 
+        }     
+    }    
+    
+    private void saveClass(ClassDescriptorSourceFile sourceFile)
+    {
+        if (classFolder == null) return;
+        
+        // Salvamos la clase principal
+        {
+            String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(sourceFile.getClassName(),classFolder);
+            JReloaderUtil.saveFile(classFilePath,sourceFile.getClassBytes());
+        }
+
+        // Salvamos las innerclasses si hay
+        LinkedList<ClassDescriptor> innerClassDescList = sourceFile.getInnerClassDescriptors();            
+        if (innerClassDescList != null && !innerClassDescList.isEmpty())
+        {
+            for(ClassDescriptor innerClassDesc : innerClassDescList)
+            {
+                String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(innerClassDesc.getClassName(),classFolder);
+                JReloaderUtil.saveFile(classFilePath,innerClassDesc.getClassBytes());                
+            }
+        }                      
+     
+    }    
     
     private synchronized void updateTimestamps()
     {
-        LinkedList<ClassDescriptorSourceFile> updatedClasses = new LinkedList<ClassDescriptorSourceFile>();
-        LinkedList<ClassDescriptorSourceFile> newClasses = new LinkedList<ClassDescriptorSourceFile>();        
+        LinkedList<ClassDescriptorSourceFile> updatedSourceFiles = new LinkedList<ClassDescriptorSourceFile>();
+        LinkedList<ClassDescriptorSourceFile> newSourceFiles = new LinkedList<ClassDescriptorSourceFile>();        
 
-        this.hotLoadableClasses = sourcesSearch.recursiveJavaFileSearch(hotLoadableClasses,updatedClasses,newClasses);  // La primera vez hotLoadableClasses es null
+        this.sourceFileMap = sourcesSearch.recursiveJavaFileSearch(sourceFileMap,updatedSourceFiles,newSourceFiles);  // La primera vez sourceFileMap es null
 
-        if (!updatedClasses.isEmpty() || !newClasses.isEmpty())
+        if (!updatedSourceFiles.isEmpty() || !newSourceFiles.isEmpty())
         {   
             addNewClassLoader();
                         
-            for(ClassDescriptorSourceFile hotClass : updatedClasses)
+            for(ClassDescriptorSourceFile sourceFile : updatedSourceFiles)
             {
-                compileAndReloadClass(hotClass);
+                compileReloadAndSaveClass(sourceFile);
             }
             
-            for(ClassDescriptorSourceFile hotClass : newClasses)
+            for(ClassDescriptorSourceFile sourceFile : newSourceFiles)
             {
-                compileAndReloadClass(hotClass);
+                compileReloadAndSaveClass(sourceFile);
             }               
             
-            for(Map.Entry<String,ClassDescriptorSourceFile> entry : hotLoadableClasses.entrySet())
+            for(Map.Entry<String,ClassDescriptorSourceFile> entry : sourceFileMap.entrySet())
             {
                 //String className = entry.getKey();
-                ClassDescriptorSourceFile hotClass = entry.getValue();
-                if (updatedClasses.contains(hotClass))
+                ClassDescriptorSourceFile sourceFile = entry.getValue();
+                if (updatedSourceFiles.contains(sourceFile))
                     continue;
-                if (newClasses.contains(hotClass))
+                if (newSourceFiles.contains(sourceFile))
                     continue;   
                 
-                reloadClass(hotClass);
+                reloadClass(sourceFile,true); // Ponemos detectInnerClasses a true porque son archivos fuente que posiblemente nunca se hayan tocado desde la carga inicial y por tanto quizás se desconocen las innerclasses
             }
          
         }

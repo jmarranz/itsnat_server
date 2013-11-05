@@ -19,7 +19,7 @@ public class JReloadExLoadApp
     {    
         ServletContext context = itsNatServlet.getItsNatServletContext().getServletContext();
         String pathInput = context.getRealPath("/") + "/WEB-INF/jreloadex/code/";           
-        String classFolder = null;
+        String classFolder = null; // context.getRealPath("/") + "/WEB-INF/classes";
         
         JProxy.init(true, pathInput,classFolder, 200, new JProxyListener() {
             public void onReload(Object objOld, Object objNew, Object proxy, Method method, Object[] args) {

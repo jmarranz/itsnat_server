@@ -15,7 +15,7 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
     
     public ClassDescriptorSourceFile(String className,File sourceFile, long timestamp) 
     {
-        super(className);
+        super(className,false);
         this.sourceFile = sourceFile;
         this.timestamp = timestamp;
     }
@@ -48,7 +48,7 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         clearInnerClassDescriptors(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
     }
     
-    private boolean isInnerClass(String className)
+    public boolean isInnerClass(String className)
     {
         int pos = className.lastIndexOf('$');
         if (pos == -1)
@@ -68,22 +68,35 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
             innerClasses.clear();       
     }
     
-    public ClassDescriptor getInnerClassDescriptor(String className)
+    public ClassDescriptor getInnerClassDescriptor(String className,boolean addWhenMissing)
+    {
+        if (innerClasses != null)
+        {
+            for(ClassDescriptor classDesc : innerClasses)
+            {
+                if (classDesc.getClassName().equals(className))
+                    return classDesc;
+            }
+        }
+        
+        if (!addWhenMissing) return null;
+        
+        return addInnerClassDescriptor(className);
+    }
+        
+    public ClassDescriptor addInnerClassDescriptor(String className)
     {
         if (!isInnerClass(className))
             return null;
+        
         if (innerClasses == null)
             innerClasses = new LinkedList<ClassDescriptor>();
-        for(ClassDescriptor classDesc : innerClasses)
-        {
-            if (classDesc.getClassName().equals(className))
-                return classDesc;
-        }
-        ClassDescriptor classDesc = new ClassDescriptor(className);
+        
+        ClassDescriptor classDesc = new ClassDescriptor(className,true);
         innerClasses.add(classDesc);
         return classDesc;
-    }
-        
+    }    
+    
     @Override
     public void resetLastLoadedClass()
     {

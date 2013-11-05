@@ -27,6 +27,14 @@ public class JReloadExampleDocument
     
     public JReloadExampleDocument(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc,FalseDB db)
     {
+        class AuxMemberInMethod 
+        { 
+            public void log()
+            {
+                System.out.println("JReloadExampleDocument.AuxMemberInMethod: 1 " + AuxMemberInMethod.class.getClassLoader().hashCode());
+            }        
+        }        
+        
         this.itsNatDoc = itsNatDoc;
 
         if (db.getCityList().size() != 3) 
@@ -37,22 +45,39 @@ public class JReloadExampleDocument
         ItsNatComponentManager compMgr = itsNatDoc.getItsNatComponentManager();
         this.textInput = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("inputId");
 
-        Element buttonElem = doc.getElementById("buttonId");
-        ((EventTarget)buttonElem).addEventListener("click", new EventListener(){
+       EventListener listener = new EventListener()
+       {    
+           {
+                System.out.println("JReloadExampleDocument Anonymous Inner 21 " + this.getClass().getClassLoader().hashCode());
+           }
+           
             public void handleEvent(Event evt) 
             {
                 String text = textInput.getText(); 
                 resultsElem.setTextContent(text);
- System.out.println("JReloadExampleDocument Inner 21 " + this.getClass().getClassLoader().hashCode());                
-            }},
-            false);
+            }
+        };
+        
+        Element buttonElem = doc.getElementById("buttonId");
+        ((EventTarget)buttonElem).addEventListener("click",listener,false);
 
         this.resultsElem = doc.getElementById("resultsId");
         
-System.out.println("JReloadExampleDocument 40 " + this.getClass().getClassLoader().hashCode());        
+        System.out.println("JReloadExampleDocument 2 " + this.getClass().getClassLoader().hashCode());        
+        new AuxMemberInMethod().log();
         AuxMember.log();
+        //JReloadExampleDocumentAuxInSameFile.log();
         JReloadExampleAux.log();
-
     }
 
 }
+
+/*
+class JReloadExampleDocumentAuxInSameFile
+{
+    public static void log()
+    {
+        System.out.println("JReloadExampleDocumentAuxInSameFile: 1 " + JReloadExampleDocumentAuxInSameFile.class.getClassLoader().hashCode());
+    }    
+}
+*/
