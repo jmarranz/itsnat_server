@@ -1,12 +1,11 @@
 package inexp.jreloadex.jproxy.impl;
 
 import inexp.jreloadex.jproxy.impl.comp.JReloaderCompilerInMemory;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +26,7 @@ public class JReloaderEngine
         this.classFolder = classFolder;
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);
         this.sourcesSearch = new JavaSourcesSearch(pathSources,parentClassLoader);       
-        updateTimestamps(); // Primera vez para detectar cambios en los .java respecto a los .class mientras el servidor estaba parado
+        detectChangesInSources(); // Primera vez para detectar cambios en los .java respecto a los .class mientras el servidor estaba parado
         
         
         Timer timer = new Timer();        
@@ -38,7 +37,7 @@ public class JReloaderEngine
             {
                 try
                 {
-                    updateTimestamps();
+                    detectChangesInSources();
                 }        
                 catch(Exception ex)
                 {
@@ -48,7 +47,8 @@ public class JReloaderEngine
         };                
         timer.schedule(task, scanPeriod, scanPeriod);  // Ojo, después de recursiveJavaFileSearch()      
     }
-
+    
+    /*
     public synchronized boolean isHotLoadableClass(String className)
     {
         // Las innerclasses no están como tales en sourceFileMap pues sólo está la clase contenedora pero también la consideramos hotloadable
@@ -56,6 +56,12 @@ public class JReloaderEngine
         if (pos != -1) className = className.substring(0, pos);
 
         return sourceFileMap.containsKey(className);
+    }
+    */
+    
+    public boolean isSaveClassesMode()
+    {
+        return (classFolder != null);
     }
     
     public synchronized ClassDescriptor getClassDescriptor(String className)
@@ -103,32 +109,35 @@ public class JReloaderEngine
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);               
     }
     
-    private void compileReloadAndSaveClass(ClassDescriptorSourceFile sourceFile)
+    private void compileReloadAndSaveSource(ClassDescriptorSourceFile sourceFile)
     {
-        sourceFile.cleanSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
+        deleteClasses(sourceFile); // Antes de que nos las carguemos en memoria la clase principal y las inner tras recompilar
+            
+        sourceFile.cleanOnSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
         
-        compiler.compileClass(sourceFile,customClassLoader,sourceFileMap);
+        compiler.compileSourceFile(sourceFile,customClassLoader,sourceFileMap);
         
-        reloadClass(sourceFile,false); // No hace falta que detectemos las innerclasses porque al compilar se "descubren"
+        reloadSource(sourceFile,false); // No hace falta que detectemos las innerclasses porque al compilar se "descubren" todas
 
-        saveClass(sourceFile);        
+        saveClasses(sourceFile);        
     }        
     
-    private void reloadClass(ClassDescriptorSourceFile sourceFile,boolean detectInnerClasses)
+    private void reloadSource(ClassDescriptorSourceFile sourceFile,boolean detectInnerClasses)
     {
-        Class clasz = customClassLoader.loadClass(sourceFile);      
+        Class clasz = customClassLoader.loadClass(sourceFile,true);      
 
-        LinkedList<ClassDescriptor> innerClassDescList = sourceFile.getInnerClassDescriptors(); 
+        LinkedList<ClassDescriptorInner> innerClassDescList = sourceFile.getInnerClassDescriptors(); 
         if (innerClassDescList != null && !innerClassDescList.isEmpty())
         {
-            for(ClassDescriptor innerClassDesc : innerClassDescList)
+            for(ClassDescriptorInner innerClassDesc : innerClassDescList)
             {
-                customClassLoader.loadClass(innerClassDesc);           
+                customClassLoader.loadClass(innerClassDesc,true);           
             }
         }        
         else if (detectInnerClasses)
         {
-            clasz.getDeclaredClasses(); // Provoca que las inner clases indirectamente se procesen y carguen a través del JReloaderClassLoader de la clase padre clasz
+            // Aprovechando la carga de la clase, hacemos el esfuerzo de cargar todas las clases dependientes lo más posible
+            clasz.getDeclaredClasses(); // Provoca que las inner clases miembro indirectamente se procesen y carguen a través del JReloaderClassLoader de la clase padre clasz
             
             // Ahora bien, lo anterior NO sirve para las anonymous inner classes, afortunadamente en ese caso podemos conocer y cargar por fuerza bruta
             // http://stackoverflow.com/questions/1654889/java-reflection-how-can-i-retrieve-anonymous-inner-classes?rq=1
@@ -139,10 +148,16 @@ public class JReloaderEngine
                 Class innerClasz = customClassLoader.loadInnerClass(sourceFile,anonClassName);
                 if (innerClasz == null) break; // No hay más o no hay ninguna (si i es 1)
             } 
+            
+            // ¿Qué es lo que queda por cargar pero que no podemos hacer explícitamente?
+            // 1) Las clases privadas autónomas que fueron definidas en el mismo archivo que la clase principal: no las soportamos pues no podemos identificar en el ClassLoader que es una clase "hot reloadable", no son inner classes en el sentido estricto
+            // 2) Las clases privadas "inner" locales, es decir no anónimas declaradas dentro de un método, se cargarán la primera vez que se usen, no podemos conocerlas a priori
+            //    porque siguen la notación className$NclassName  ej. JReloadExampleDocument$1AuxMemberInMethod. No hay problema con que se carguen con un class loader antiguo pues
+            //    el ClassLoader de la clase padre contenedora será el encargado de cargarla en cuanto se pase por el método que la declara.
         }     
     }    
     
-    private void saveClass(ClassDescriptorSourceFile sourceFile)
+    private void saveClasses(ClassDescriptorSourceFile sourceFile)
     {
         if (classFolder == null) return;
         
@@ -152,39 +167,68 @@ public class JReloaderEngine
             JReloaderUtil.saveFile(classFilePath,sourceFile.getClassBytes());
         }
 
-        // Salvamos las innerclasses si hay
-        LinkedList<ClassDescriptor> innerClassDescList = sourceFile.getInnerClassDescriptors();            
+        // Salvamos las innerclasses si hay, no hay problema de clases inner no detectadas pues lo están todas pues sólo se salva tras una compilación
+        LinkedList<ClassDescriptorInner> innerClassDescList = sourceFile.getInnerClassDescriptors();            
         if (innerClassDescList != null && !innerClassDescList.isEmpty())
         {
-            for(ClassDescriptor innerClassDesc : innerClassDescList)
+            for(ClassDescriptorInner innerClassDesc : innerClassDescList)
             {
                 String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(innerClassDesc.getClassName(),classFolder);
                 JReloaderUtil.saveFile(classFilePath,innerClassDesc.getClassBytes());                
             }
-        }                      
-     
+        }                           
     }    
     
-    private synchronized void updateTimestamps()
+    private void deleteClasses(ClassDescriptorSourceFile sourceFile)
     {
+        if (classFolder == null) return; // por si acaso
+        
+        // Salvamos la clase principal
+        {
+            String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(sourceFile.getClassName(),classFolder);
+            new File(classFilePath).delete();
+        }
+
+        // Salvamos las innerclasses si hay, como hay un reload forzado en caso de salvado activado, conoceremos todas las innerclases excepto por desgracia las locales (con nombre) que no podemos determinarlas hasta que no se usen
+        // por eso no las soportamos en modo salvado
+        LinkedList<ClassDescriptorInner> innerClassDescList = sourceFile.getInnerClassDescriptors();            
+        if (innerClassDescList != null && !innerClassDescList.isEmpty())
+        {
+            for(ClassDescriptorInner innerClassDesc : innerClassDescList)
+            {
+                String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(innerClassDesc.getClassName(),classFolder);
+                new File(classFilePath).delete();              
+            }
+        }                           
+    }          
+    
+    private synchronized void detectChangesInSources()
+    {
+        boolean firstTime = (sourceFileMap == null); // La primera vez sourceFileMap es null
+        boolean forceFirstLoad = firstTime && (classFolder != null);  // En caso de primera vez y salvado a archivo activado, forzamos una primera carga de clases con un JReloaderClassLoader para conseguir tener desde un primero momento las inner clases (por desgracia excepto las locales) para que podamos eliminarlas, si da lugar, de forma determinista posteriormente
+        
         LinkedList<ClassDescriptorSourceFile> updatedSourceFiles = new LinkedList<ClassDescriptorSourceFile>();
         LinkedList<ClassDescriptorSourceFile> newSourceFiles = new LinkedList<ClassDescriptorSourceFile>();        
+        LinkedList<ClassDescriptorSourceFile> deletedSourceFiles = new LinkedList<ClassDescriptorSourceFile>();
+        
+        this.sourceFileMap = sourcesSearch.javaFileSearch(sourceFileMap,updatedSourceFiles,newSourceFiles,deletedSourceFiles);  
 
-        this.sourceFileMap = sourcesSearch.recursiveJavaFileSearch(sourceFileMap,updatedSourceFiles,newSourceFiles);  // La primera vez sourceFileMap es null
-
-        if (!updatedSourceFiles.isEmpty() || !newSourceFiles.isEmpty())
+        if (forceFirstLoad || (!updatedSourceFiles.isEmpty() || !newSourceFiles.isEmpty() || !deletedSourceFiles.isEmpty())) // También el hecho de eliminar una clase debe implicar crear un ClassLoader nuevo para que dicha clase desaparezca de las clases cargadas aunque será muy raro que sólo eliminemos un .java y no añadamos/cambiemos otros, otro motico es porque si tenemos configurado el autosalvado de .class tenemos que eliminar en ese caso
         {   
             addNewClassLoader();
                         
-            for(ClassDescriptorSourceFile sourceFile : updatedSourceFiles)
-            {
-                compileReloadAndSaveClass(sourceFile);
-            }
+            if (!updatedSourceFiles.isEmpty()) 
+                for(ClassDescriptorSourceFile sourceFile : updatedSourceFiles)            
+                    compileReloadAndSaveSource(sourceFile);
             
-            for(ClassDescriptorSourceFile sourceFile : newSourceFiles)
-            {
-                compileReloadAndSaveClass(sourceFile);
-            }               
+            if (!newSourceFiles.isEmpty())             
+                for(ClassDescriptorSourceFile sourceFile : newSourceFiles)
+                    compileReloadAndSaveSource(sourceFile);
+
+            if (classFolder != null && !deletedSourceFiles.isEmpty())
+                for(ClassDescriptorSourceFile sourceFile : deletedSourceFiles)
+                    deleteClasses(sourceFile);                     
+            
             
             for(Map.Entry<String,ClassDescriptorSourceFile> entry : sourceFileMap.entrySet())
             {
@@ -195,7 +239,7 @@ public class JReloaderEngine
                 if (newSourceFiles.contains(sourceFile))
                     continue;   
                 
-                reloadClass(sourceFile,true); // Ponemos detectInnerClasses a true porque son archivos fuente que posiblemente nunca se hayan tocado desde la carga inicial y por tanto quizás se desconocen las innerclasses
+                reloadSource(sourceFile,true); // Ponemos detectInnerClasses a true porque son archivos fuente que posiblemente nunca se hayan tocado desde la carga inicial y por tanto quizás se desconocen las innerclasses
             }
          
         }

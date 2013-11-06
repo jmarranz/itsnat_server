@@ -11,15 +11,20 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
 {
     protected long timestamp;
     protected File sourceFile; 
-    protected LinkedList<ClassDescriptor> innerClasses;
+    protected LinkedList<ClassDescriptorInner> innerClasses;
     
     public ClassDescriptorSourceFile(String className,File sourceFile, long timestamp) 
     {
-        super(className,false);
+        super(className);
         this.sourceFile = sourceFile;
         this.timestamp = timestamp;
     }
 
+    public boolean isInnerClass()
+    {
+        return false;
+    }    
+    
     public File getSourceFile()
     {
         return sourceFile;
@@ -32,15 +37,17 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
 
     public void updateTimestamp(long timestamp)
     {
-        long oldTimestamp = this.timestamp;
+        //long oldTimestamp = this.timestamp;
         this.timestamp = timestamp;
+        /*
         if (oldTimestamp != timestamp)
         {
-            cleanSourceCodeChanged();
+            cleanOnSourceCodeChanged();
         }
+        */
     }
 
-    public void cleanSourceCodeChanged()
+    public void cleanOnSourceCodeChanged()
     {
         // Como ha cambiado la clase, reseteamos las dependencias        
         setClassBytes(null);
@@ -57,7 +64,7 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         return this.className.equals(baseClassName); // Si es false es que es una innerclass pero de otra clase
     }
     
-    public LinkedList<ClassDescriptor> getInnerClassDescriptors()
+    public LinkedList<ClassDescriptorInner> getInnerClassDescriptors()
     {
         return innerClasses;
     }
@@ -68,11 +75,11 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
             innerClasses.clear();       
     }
     
-    public ClassDescriptor getInnerClassDescriptor(String className,boolean addWhenMissing)
+    public ClassDescriptorInner getInnerClassDescriptor(String className,boolean addWhenMissing)
     {
         if (innerClasses != null)
         {
-            for(ClassDescriptor classDesc : innerClasses)
+            for(ClassDescriptorInner classDesc : innerClasses)
             {
                 if (classDesc.getClassName().equals(className))
                     return classDesc;
@@ -84,15 +91,15 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         return addInnerClassDescriptor(className);
     }
         
-    public ClassDescriptor addInnerClassDescriptor(String className)
+    public ClassDescriptorInner addInnerClassDescriptor(String className)
     {
         if (!isInnerClass(className))
             return null;
         
         if (innerClasses == null)
-            innerClasses = new LinkedList<ClassDescriptor>();
+            innerClasses = new LinkedList<ClassDescriptorInner>();
         
-        ClassDescriptor classDesc = new ClassDescriptor(className,true);
+        ClassDescriptorInner classDesc = new ClassDescriptorInner(className);
         innerClasses.add(classDesc);
         return classDesc;
     }    
@@ -102,10 +109,10 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
     {
         super.resetLastLoadedClass();
 
-        LinkedList<ClassDescriptor> innerClassDescList = getInnerClassDescriptors();
+        LinkedList<ClassDescriptorInner> innerClassDescList = getInnerClassDescriptors();
         if (innerClassDescList != null)
         {
-            for(ClassDescriptor innerClassDesc : innerClassDescList)
+            for(ClassDescriptorInner innerClassDesc : innerClassDescList)
                 innerClassDesc.resetLastLoadedClass();             
         }   
     }

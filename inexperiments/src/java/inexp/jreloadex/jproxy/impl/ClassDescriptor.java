@@ -6,29 +6,25 @@ import java.io.File;
  *
  * @author jmarranz
  */
-public class ClassDescriptor 
+public abstract class ClassDescriptor 
 {
     protected String className;
     protected boolean innerClass;
     protected byte[] classBytes;
     protected Class clasz;    
     
-    public ClassDescriptor(String className,boolean innerClass) 
+    public ClassDescriptor(String className) 
     {
         this.className = className;
-        this.innerClass = innerClass;
     }    
+    
+    public abstract boolean isInnerClass();
     
     public String getClassName() 
     {
         return className;
     }
-    
-    public boolean isInnerClass()
-    {
-        return innerClass;
-    }
-    
+        
     public byte[] getClassBytes() 
     {
         return classBytes;
@@ -63,7 +59,7 @@ public class ClassDescriptor
     
     public static String getClassFileNameFromClassName(String className)
     {
-        // Es válido también para las innerclasses (ej Nombre$Otro => Nombre$Otro.class,  Nombre$1 => Nombre$1.class 
+        // Es válido también para las innerclasses (ej Nombre$Otro => Nombre$Otro.class,  Nombre$1 => Nombre$1.class, Nombre$1Nombre => Nombre$1Nombre.class 
         int pos = className.lastIndexOf(".");
         if(pos != -1) className = className.substring(pos + 1);
         return className + ".class";    

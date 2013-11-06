@@ -1,6 +1,6 @@
 package inexp.jreloadex.jproxy.impl.comp;
 
-import inexp.jreloadex.jproxy.impl.ClassDescriptor;
+import inexp.jreloadex.jproxy.impl.ClassDescriptorInner;
 import inexp.jreloadex.jproxy.impl.ClassDescriptorSourceFile;
 import inexp.jreloadex.jproxy.impl.JReloaderClassLoader;
 import java.io.File;
@@ -30,7 +30,7 @@ public class JReloaderCompilerInMemory
         this.compiler = ToolProvider.getSystemJavaCompiler();
     }
     
-    public void compileClass(ClassDescriptorSourceFile sourceFileDesc,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
+    public void compileSourceFile(ClassDescriptorSourceFile sourceFileDesc,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
     {
         File sourceFile = sourceFileDesc.getSourceFile();
         LinkedList<JavaFileObjectOutputClass> outClassList = compile(sourceFile,customClassLoader,sourceFileMap);
@@ -44,16 +44,26 @@ public class JReloaderCompilerInMemory
         {
             String currClassName = outClass.binaryName();
             byte[] classBytes = outClass.getBytes();      
-            ClassDescriptor innerClass = sourceFileDesc.getInnerClassDescriptor(currClassName,true);
+            ClassDescriptorInner innerClass = sourceFileDesc.getInnerClassDescriptor(currClassName,true);
             if (innerClass != null)
             {
+                if (innerClass.isLocal() && customClassLoader.getJReloaderEngine().isSaveClassesMode())
+                    throw new RuntimeException("Local named class " + currClassName + " is not supported in save classes mode"); // Porque no podemos detectarla deterministicamente cuando no se modifica el archivo y por ej eso supone que no podamos eliminarla por ejemplo cuando el fuente cambie y dicha clase local cambie
+                
                 innerClass.setClassBytes(classBytes);                       
             }
             else
             {
                 if (!className.equals(currClassName))
-                    throw new RuntimeException("Unexpected class " + currClassName);
-                    
+                {
+                    // Seguramente es debido a que el archivo java tiene una clase privada autónoma declarada en el mismo archivo .java, no permitimos estas clases porque sólo podemos
+                    // detectarlas cuando cambiamos el código fuente, pero no si el código fuente no se ha tocado, por ejemplo no tenemos
+                    // forma de conseguir que se recarguen de forma determinista y si posteriormente se cargara via ClassLoader al usarse no podemos reconocer que es una clase
+                    // "hot reloadable" (quizás a través del package respecto a las demás clases hot pero no es muy determinista pues nada impide la mezcla de hot y no hot en el mismo package)
+                    // Es una limitación mínima.
+                    throw new RuntimeException("Unexpected class when compiling: " + currClassName + " maybe it is an autonomous private class declared in the same java file of the principal class, this kind of classes are not supported in hot reload");
+                }
+                
                 sourceFileDesc.setClassBytes(classBytes);                              
             }
         }

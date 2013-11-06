@@ -17,6 +17,11 @@ public class JReloaderClassLoader extends ClassLoader
         this.engine = engine;
     }
     
+    public JReloaderEngine getJReloaderEngine()
+    {
+        return engine;
+    }
+    
     public synchronized Class defineClass(ClassDescriptor classDesc)
     {    
         String className = classDesc.getClassName();
@@ -36,11 +41,15 @@ public class JReloaderClassLoader extends ClassLoader
         return cls;
     }    
 
-    public synchronized Class loadClass(ClassDescriptor classDesc)
+    public synchronized Class loadClass(ClassDescriptor classDesc,boolean resolve)
     {    
         Class clasz = classDesc.getLastLoadedClass();
         if (clasz != null && clasz.getClassLoader() == this) return clasz; // Glup, ya fue cargada
-        return defineClass(classDesc); 
+        clasz = defineClass(classDesc); 
+	if (resolve) {
+	    resolveClass(clasz);
+	}        
+        return clasz;
     }    
     
     public synchronized Class loadInnerClass(ClassDescriptorSourceFile parentDesc,String innerClassName)

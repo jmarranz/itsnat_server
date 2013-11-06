@@ -23,15 +23,18 @@ public class JavaSourcesSearch
         this.parentClassLoader = parentClassLoader;
     }
         
-    public Map<String,ClassDescriptorSourceFile> recursiveJavaFileSearch(Map<String,ClassDescriptorSourceFile> oldSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles)
+    public Map<String,ClassDescriptorSourceFile> javaFileSearch(Map<String,ClassDescriptorSourceFile> oldSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles,LinkedList<ClassDescriptorSourceFile> deletedSourceFiles)
     {
-        Map<String,ClassDescriptorSourceFile> newClassMap = new HashMap<String,ClassDescriptorSourceFile>();
+        Map<String,ClassDescriptorSourceFile> newSourceFileMap = new HashMap<String,ClassDescriptorSourceFile>();
         String[] children = new File(pathSources).list(); 
-        recursiveJavaFileSearch(pathSources,children,oldSourceFileMap,newClassMap,updatedSourceFiles,newSourceFiles);
-        return newClassMap;
+        recursiveJavaFileSearch(pathSources,children,oldSourceFileMap,newSourceFileMap,updatedSourceFiles,newSourceFiles,deletedSourceFiles);
+        if (oldSourceFileMap != null && !oldSourceFileMap.isEmpty())        
+            deletedSourceFiles.addAll(oldSourceFileMap.values());
+        
+        return newSourceFileMap;
     }
     
-    private void recursiveJavaFileSearch(String parentPath,String[] relPathList,Map<String,ClassDescriptorSourceFile> oldSourceFileMap,Map<String,ClassDescriptorSourceFile> newSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles)
+    private void recursiveJavaFileSearch(String parentPath,String[] relPathList,Map<String,ClassDescriptorSourceFile> oldSourceFileMap,Map<String,ClassDescriptorSourceFile> newSourceFileMap,LinkedList<ClassDescriptorSourceFile> updatedSourceFiles,LinkedList<ClassDescriptorSourceFile> newSourceFiles,LinkedList<ClassDescriptorSourceFile> deletedSourceFiles)
     {
         for(String relPath : relPathList)
         {
@@ -39,7 +42,7 @@ public class JavaSourcesSearch
             if (file.isDirectory())
             {
                 String[] children = file.list();   
-                recursiveJavaFileSearch(file.getAbsolutePath(),children,oldSourceFileMap,newSourceFileMap,updatedSourceFiles,newSourceFiles);
+                recursiveJavaFileSearch(file.getAbsolutePath(),children,oldSourceFileMap,newSourceFileMap,updatedSourceFiles,newSourceFiles,deletedSourceFiles);
             }
             else
             {

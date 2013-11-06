@@ -20,7 +20,7 @@ public class JReloadExampleDocument
     { 
         public static void log()
         {
-            System.out.println("JReloadExampleDocument.AuxMember: 13 " + AuxMember.class.getClassLoader().hashCode());
+            System.out.println(AuxMember.class.getName() + ": 13 " + AuxMember.class.getClassLoader().hashCode());
         }        
     }
            
@@ -47,9 +47,9 @@ public class JReloadExampleDocument
 
        EventListener listener = new EventListener()
        {    
-           {
+            {
                 System.out.println("JReloadExampleDocument Anonymous Inner 21 " + this.getClass().getClassLoader().hashCode());
-           }
+            }
            
             public void handleEvent(Event evt) 
             {
@@ -63,21 +63,9 @@ public class JReloadExampleDocument
 
         this.resultsElem = doc.getElementById("resultsId");
         
-        System.out.println("JReloadExampleDocument 2 " + this.getClass().getClassLoader().hashCode());        
+        System.out.println("JReloadExampleDocument 3 " + this.getClass().getClassLoader().hashCode());        
         new AuxMemberInMethod().log();
         AuxMember.log();
-        //JReloadExampleDocumentAuxInSameFile.log();
         JReloadExampleAux.log();
     }
-
 }
-
-/*
-class JReloadExampleDocumentAuxInSameFile
-{
-    public static void log()
-    {
-        System.out.println("JReloadExampleDocumentAuxInSameFile: 1 " + JReloadExampleDocumentAuxInSameFile.class.getClassLoader().hashCode());
-    }    
-}
-*/
