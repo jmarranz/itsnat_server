@@ -63,7 +63,7 @@ public class JReloadExampleDocument
 
         this.resultsElem = doc.getElementById("resultsId");
         
-        System.out.println("JReloadExampleDocument 3 " + this.getClass().getClassLoader().hashCode());        
+        System.out.println("JReloadExampleDocument 6 " + this.getClass().getClassLoader().hashCode());        
         new AuxMemberInMethod().log();
         AuxMember.log();
         JReloadExampleAux.log();

@@ -10,15 +10,12 @@ package inexp.jreloadex.jproxy.impl;
  */
 public class ClassDescriptorInner extends ClassDescriptor
 {
-    protected boolean local;
+    protected ClassDescriptorSourceFile parent;
     
-    public ClassDescriptorInner(String className) 
+    public ClassDescriptorInner(String className,ClassDescriptorSourceFile parent) 
     {
         super(className);
-
-        int pos = className.indexOf('$');
-        SEGUIR definiendo local;
-        // local = false;
+        this.parent = parent;
     }      
     
     public boolean isInnerClass()
@@ -26,8 +23,8 @@ public class ClassDescriptorInner extends ClassDescriptor
         return true;
     }     
     
-    public boolean isLocal()
+    public ClassDescriptorSourceFile getClassDescriptorSourceFile()
     {
-        return local;
+        return parent;
     }
 }

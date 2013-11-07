@@ -46,10 +46,7 @@ public class JReloaderCompilerInMemory
             byte[] classBytes = outClass.getBytes();      
             ClassDescriptorInner innerClass = sourceFileDesc.getInnerClassDescriptor(currClassName,true);
             if (innerClass != null)
-            {
-                if (innerClass.isLocal() && customClassLoader.getJReloaderEngine().isSaveClassesMode())
-                    throw new RuntimeException("Local named class " + currClassName + " is not supported in save classes mode"); // Porque no podemos detectarla deterministicamente cuando no se modifica el archivo y por ej eso supone que no podamos eliminarla por ejemplo cuando el fuente cambie y dicha clase local cambie
-                
+            {               
                 innerClass.setClassBytes(classBytes);                       
             }
             else

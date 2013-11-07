@@ -8,15 +8,19 @@ import java.io.File;
  */
 public abstract class ClassDescriptor 
 {
-    protected String className;
-    protected boolean innerClass;
+    protected String className; // El nombre basado en puntos pero usando $ en el caso de innerclasses
+    protected String simpleClassName; // className sin el package
+    protected String packageName; // El package pero acabado en un "." o bien "" si no hay package, el motivo de acabar en un punto es simplemente para poder concatenar ciegamente el package y el simpleClassName
     protected byte[] classBytes;
     protected Class clasz;    
     
     public ClassDescriptor(String className) 
     {
         this.className = className;
-    }    
+        int pos = className.lastIndexOf('.');
+        this.simpleClassName = (pos != -1) ? className.substring(pos + 1) : className;
+        this.packageName = (pos != -1) ? className.substring(0,pos + 1) : "";  // SE INCLUYE EL . en el caso de existir package
+    }
     
     public abstract boolean isInnerClass();
     
@@ -25,6 +29,16 @@ public abstract class ClassDescriptor
         return className;
     }
         
+    public String getSimpleClassName()
+    {
+        return simpleClassName;
+    }
+    
+    public String getPackageName()
+    {
+        return packageName;
+    }    
+    
     public byte[] getClassBytes() 
     {
         return classBytes;

@@ -15,7 +15,18 @@ import java.net.URLConnection;
  * @author jmarranz
  */
 public class JReloaderUtil 
-{
+{    
+    public static File getParentDir(String absFilePath)
+    {
+        File file = new File(absFilePath);
+        if (!file.isAbsolute()) return null;
+        absFilePath = file.getAbsolutePath(); // Para normalizar separadores por si acaso, pues tenemos que buscar el último separador
+        int pos = absFilePath.lastIndexOf(File.separatorChar);
+        if (pos == -1)
+            return null; // no nos esperamos esto
+        return new File(absFilePath.substring(0,pos)); // Sin el terminador
+    }
+    
     public static byte[] readURL(URL url)
     {
         URLConnection urlCon;

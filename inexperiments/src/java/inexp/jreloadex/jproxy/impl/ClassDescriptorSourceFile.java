@@ -99,7 +99,7 @@ public class ClassDescriptorSourceFile extends ClassDescriptor
         if (innerClasses == null)
             innerClasses = new LinkedList<ClassDescriptorInner>();
         
-        ClassDescriptorInner classDesc = new ClassDescriptorInner(className);
+        ClassDescriptorInner classDesc = new ClassDescriptorInner(className,this);
         innerClasses.add(classDesc);
         return classDesc;
     }    

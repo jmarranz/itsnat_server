@@ -2,6 +2,7 @@ package inexp.jreloadex.jproxy.impl;
 
 import inexp.jreloadex.jproxy.impl.comp.JReloaderCompilerInMemory;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
@@ -111,7 +112,7 @@ public class JReloaderEngine
     
     private void compileReloadAndSaveSource(ClassDescriptorSourceFile sourceFile)
     {
-        deleteClasses(sourceFile); // Antes de que nos las carguemos en memoria la clase principal y las inner tras recompilar
+        if (isSaveClassesMode()) deleteClasses(sourceFile); // Antes de que nos las carguemos en memoria la clase principal y las inner tras recompilar
             
         sourceFile.cleanOnSourceCodeChanged(); // El código fuente nuevo puede haber cambiado totalmente las innerclasses antiguas (añadido, eliminado)
         
@@ -119,7 +120,7 @@ public class JReloaderEngine
         
         reloadSource(sourceFile,false); // No hace falta que detectemos las innerclasses porque al compilar se "descubren" todas
 
-        saveClasses(sourceFile);        
+        if (isSaveClassesMode()) saveClasses(sourceFile);        
     }        
     
     private void reloadSource(ClassDescriptorSourceFile sourceFile,boolean detectInnerClasses)
@@ -159,8 +160,6 @@ public class JReloaderEngine
     
     private void saveClasses(ClassDescriptorSourceFile sourceFile)
     {
-        if (classFolder == null) return;
-        
         // Salvamos la clase principal
         {
             String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(sourceFile.getClassName(),classFolder);
@@ -179,41 +178,50 @@ public class JReloaderEngine
         }                           
     }    
     
-    private void deleteClasses(ClassDescriptorSourceFile sourceFile)
+    private void deleteClasses(final ClassDescriptorSourceFile sourceFile)
     {
-        if (classFolder == null) return; // por si acaso
+        // Puede ocurrir que esta clase nunca se haya cargado y se ha modificado el código fuente y queramos limpiar los .class correspondientes pues se van a recrear
+        // como no conocemos qué inner clases están asociadas para saber que .class hay que eliminar, pues lo que hacemos es directamente obtener los .class que hay 
+        // en el directorio con el fin de eliminar todos .class que tengan el patrón de ser inner classes del source file de acuerdo a su nombre
+        // así conseguimos por ejemplo también eliminar las local classes (inner clases con nombre declaradas dentro de un método) que no hay manera de conocer 
+        // a través de la carga de la clase
         
-        // Salvamos la clase principal
-        {
-            String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(sourceFile.getClassName(),classFolder);
-            new File(classFilePath).delete();
-        }
-
-        // Salvamos las innerclasses si hay, como hay un reload forzado en caso de salvado activado, conoceremos todas las innerclases excepto por desgracia las locales (con nombre) que no podemos determinarlas hasta que no se usen
-        // por eso no las soportamos en modo salvado
-        LinkedList<ClassDescriptorInner> innerClassDescList = sourceFile.getInnerClassDescriptors();            
-        if (innerClassDescList != null && !innerClassDescList.isEmpty())
-        {
-            for(ClassDescriptorInner innerClassDesc : innerClassDescList)
-            {
-                String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(innerClassDesc.getClassName(),classFolder);
-                new File(classFilePath).delete();              
+        // Hay un caso en el que puede haber .class que ya no están en el código fuente y es cuando tocamos el código fuente ANTES de cargar y eliminamos algún .java,
+        // al cargar como no existe el archivo no lo relacionamos con los .class
+        // La solución sería en tiempo de carga forzar una carga de todas las clases y de ahí deducir todos los .class que deben existir (excepto las clases locales
+        // que no podríamos detectarlas), pero el que haya .class sobrantes antiguos no es gran problema.
+        
+        String classFilePath = ClassDescriptor.getAbsoluteClassFilePathFromClassNameAndClassPath(sourceFile.getClassName(),classFolder);        
+        File parentDir = JReloaderUtil.getParentDir(classFilePath);
+        File[] innerClassFiles = parentDir.listFiles(new FilenameFilter(){
+            public boolean accept(File dir, String fileName) 
+            {   
+                int pos = fileName.lastIndexOf(".class");
+                if (pos == -1) return false;
+                String simpleClassName = fileName.substring(0, pos);
+                if (sourceFile.getSimpleClassName().equals(simpleClassName)) 
+                    return true;
+                return sourceFile.isInnerClass(sourceFile.getPackageName() + simpleClassName);
             }
-        }                           
+        });
+        
+        for(int i = 0; i < innerClassFiles.length; i++)
+        {
+            innerClassFiles[i].delete();
+        }    
     }          
     
     private synchronized void detectChangesInSources()
     {
-        boolean firstTime = (sourceFileMap == null); // La primera vez sourceFileMap es null
-        boolean forceFirstLoad = firstTime && (classFolder != null);  // En caso de primera vez y salvado a archivo activado, forzamos una primera carga de clases con un JReloaderClassLoader para conseguir tener desde un primero momento las inner clases (por desgracia excepto las locales) para que podamos eliminarlas, si da lugar, de forma determinista posteriormente
-        
+        // boolean firstTime = (sourceFileMap == null); // La primera vez sourceFileMap es null
+
         LinkedList<ClassDescriptorSourceFile> updatedSourceFiles = new LinkedList<ClassDescriptorSourceFile>();
         LinkedList<ClassDescriptorSourceFile> newSourceFiles = new LinkedList<ClassDescriptorSourceFile>();        
         LinkedList<ClassDescriptorSourceFile> deletedSourceFiles = new LinkedList<ClassDescriptorSourceFile>();
         
         this.sourceFileMap = sourcesSearch.javaFileSearch(sourceFileMap,updatedSourceFiles,newSourceFiles,deletedSourceFiles);  
 
-        if (forceFirstLoad || (!updatedSourceFiles.isEmpty() || !newSourceFiles.isEmpty() || !deletedSourceFiles.isEmpty())) // También el hecho de eliminar una clase debe implicar crear un ClassLoader nuevo para que dicha clase desaparezca de las clases cargadas aunque será muy raro que sólo eliminemos un .java y no añadamos/cambiemos otros, otro motico es porque si tenemos configurado el autosalvado de .class tenemos que eliminar en ese caso
+        if (!updatedSourceFiles.isEmpty() || !newSourceFiles.isEmpty() || !deletedSourceFiles.isEmpty()) // También el hecho de eliminar una clase debe implicar crear un ClassLoader nuevo para que dicha clase desaparezca de las clases cargadas aunque será muy raro que sólo eliminemos un .java y no añadamos/cambiemos otros, otro motico es porque si tenemos configurado el autosalvado de .class tenemos que eliminar en ese caso
         {   
             addNewClassLoader();
                         
@@ -225,7 +233,7 @@ public class JReloaderEngine
                 for(ClassDescriptorSourceFile sourceFile : newSourceFiles)
                     compileReloadAndSaveSource(sourceFile);
 
-            if (classFolder != null && !deletedSourceFiles.isEmpty())
+            if (isSaveClassesMode() && !deletedSourceFiles.isEmpty())
                 for(ClassDescriptorSourceFile sourceFile : deletedSourceFiles)
                     deleteClasses(sourceFile);                     
             
