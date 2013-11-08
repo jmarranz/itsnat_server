@@ -24,10 +24,21 @@ import javax.tools.ToolProvider;
 public class JReloaderCompilerInMemory
 {
     protected JavaCompiler compiler;
-
-    public JReloaderCompilerInMemory()
+    protected Iterable<String> compilationOptions; // puede ser null
+    protected DiagnosticCollector<JavaFileObject> diagnostics; // puede ser null
+    protected boolean outDefaultDiagnostics = false;
+            
+    public JReloaderCompilerInMemory(Iterable<String> compilationOptions,DiagnosticCollector<JavaFileObject> diagnostics)
     {
+        this.compilationOptions = compilationOptions;
+        this.diagnostics = diagnostics;
         this.compiler = ToolProvider.getSystemJavaCompiler();
+        
+        if (diagnostics == null)
+        {
+            this.diagnostics = new DiagnosticCollector<JavaFileObject>();
+            outDefaultDiagnostics = true;
+        }        
     }
     
     public void compileSourceFile(ClassDescriptorSourceFile sourceFileDesc,JReloaderClassLoader customClassLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
@@ -68,11 +79,6 @@ public class JReloaderCompilerInMemory
     
     private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap)
     {
-        return compile(sourceFile,classLoader,sourceFileMap,null);
-    }
-
-    private LinkedList<JavaFileObjectOutputClass> compile(File sourceFile,ClassLoader classLoader,Map<String,ClassDescriptorSourceFile> sourceFileMap,DiagnosticCollector<JavaFileObject> diagnostics)
-    {
         // http://stackoverflow.com/questions/12173294/compiling-fully-in-memory-with-javax-tools-javacompiler
         // http://www.accordess.com/wpblog/an-overview-of-java-compilation-api-jsr-199/
         // http://grepcode.com/file/repository.grepcode.com/java/root/jdk/openjdk/6-b14/com/sun/tools/javac/util/JavacFileManager.java?av=h#JavacFileManager
@@ -96,7 +102,7 @@ public class JReloaderCompilerInMemory
 
             JavaFileManagerInMemory fileManagerInMemory = new JavaFileManagerInMemory(fileManager,classLoader,sourceFileMap);
 
-            boolean success = compile(compilationUnits,fileManagerInMemory,diagnostics);
+            boolean success = compile(compilationUnits,fileManagerInMemory);
             if (!success) return null;
 
             LinkedList<JavaFileObjectOutputClass> classObj = fileManagerInMemory.getJavaFileObjectOutputClassList();
@@ -108,29 +114,18 @@ public class JReloaderCompilerInMemory
         }
     }
 
-    private boolean compile(Iterable<? extends JavaFileObject> compilationUnits,JavaFileManager fileManager,DiagnosticCollector<JavaFileObject> diagnostics)
+    private boolean compile(Iterable<? extends JavaFileObject> compilationUnits,JavaFileManager fileManager)
     {
-        boolean outError = false;
-        if (diagnostics == null)
-        {
-            diagnostics = new DiagnosticCollector<JavaFileObject>();
-            outError = true;
-        }
-
         /*
         String systemClassPath = System.getProperty("java.class.path");
         String[] compileOptions = new String[]
             {"-classpath",engine.getPathSources()}; // No hacen falta los demás (sistema, Tomcat, /classes /lib etc) porque se obtienen via ClassLoader
-
-        Iterable<String> compilationOptions = Arrays.asList(compileOptions);
         */
-
-        Iterable<String> compilationOptions = null;
 
         JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, compilationOptions,null, compilationUnits);
         boolean success = task.call();
 
-        if (outError)
+        if (outDefaultDiagnostics)
         {
             List<Diagnostic<? extends JavaFileObject>> diagList = diagnostics.getDiagnostics();
             if (!diagList.isEmpty())

@@ -7,6 +7,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaFileObject;
 
 /**
  *
@@ -18,13 +20,13 @@ public class JProxy
     protected static boolean developmentMode = false;
     protected static JProxyListener reloadListener;
     
-    public static void init(boolean devMode,String pathInput,String classFolder,long scanPeriod,JProxyListener relListener)
+    public static void init(boolean devMode,String pathInput,String classFolder,long scanPeriod,Iterable<String> compilationOptions,DiagnosticCollector<JavaFileObject> diagnostics,JProxyListener relListener)
     {
         JReloaderEngine theEngine = null;
         if (devMode)
         {
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();      
-            theEngine = new JReloaderEngine(classLoader,pathInput,classFolder,scanPeriod);          
+            theEngine = new JReloaderEngine(classLoader,pathInput,classFolder,scanPeriod,compilationOptions,diagnostics);          
         }
         
         engine = theEngine;        

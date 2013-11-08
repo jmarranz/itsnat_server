@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaFileObject;
 
 /**
  *
@@ -14,17 +16,18 @@ import java.util.TimerTask;
  */
 public class JReloaderEngine 
 {
-    protected JReloaderCompilerInMemory compiler = new JReloaderCompilerInMemory();
+    protected JReloaderCompilerInMemory compiler;
     protected ClassLoader parentClassLoader;
     protected JReloaderClassLoader customClassLoader;
     protected JavaSourcesSearch sourcesSearch;
     protected Map<String,ClassDescriptorSourceFile> sourceFileMap;
     protected String classFolder; // Puede ser nulo (es decir NO salvar como .class los cambios)
     
-    public JReloaderEngine(ClassLoader parentClassLoader,String pathSources,String classFolder,long scanPeriod)
+    public JReloaderEngine(ClassLoader parentClassLoader,String pathSources,String classFolder,long scanPeriod,Iterable<String> compilationOptions,DiagnosticCollector<JavaFileObject> diagnostics)
     {
         this.parentClassLoader = parentClassLoader;
         this.classFolder = classFolder;
+        this.compiler = new JReloaderCompilerInMemory(compilationOptions,diagnostics);        
         this.customClassLoader = new JReloaderClassLoader(this,parentClassLoader);
         this.sourcesSearch = new JavaSourcesSearch(pathSources,parentClassLoader);       
         detectChangesInSources(); // Primera vez para detectar cambios en los .java respecto a los .class mientras el servidor estaba parado
