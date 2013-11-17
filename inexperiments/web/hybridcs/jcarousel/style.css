@@ -42,7 +42,7 @@ p {
 }
 
 ul, ol {
-    margin-left 0;
+    margin-left: 0; /* jmarranz: he añadido ":" que faltaban */
 }
 
 ul ul {

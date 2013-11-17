@@ -1,7 +1,8 @@
 package inexp.jreloadex;
 
-import inexp.jreloadex.jproxy.JProxyListener;
-import inexp.jreloadex.jproxy.JProxy;
+
+import com.innowhere.relproxy.ProxyListener;
+import com.innowhere.relproxy.jproxy.JProxy;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import javax.servlet.ServletConfig;
@@ -22,16 +23,18 @@ public class JReloadExLoadApp
     {    
         ServletContext context = itsNatServlet.getItsNatServletContext().getServletContext();
         String pathInput = context.getRealPath("/") + "/WEB-INF/jreloadex/code/";           
-        String classFolder = context.getRealPath("/") + "/WEB-INF/classes";
+        String classFolder = null; // context.getRealPath("/") + "/WEB-INF/classes";
         Iterable<String> compilationOptions = Arrays.asList(new String[]{"-source","1.6","-target","1.6"});
         DiagnosticCollector<JavaFileObject> diagnostics = null;
         
-        JProxy.init(true, pathInput,classFolder, 200,compilationOptions,diagnostics, new JProxyListener() {
+        ProxyListener proxyListener = new ProxyListener() {
             public void onReload(Object objOld, Object objNew, Object proxy, Method method, Object[] args) {
                 System.out.println("Reloaded " + objNew + " Calling method: " + method);
-            }
-        });
+            }};
+            
+        JProxy.init(true,proxyListener, pathInput,classFolder, 200,compilationOptions,diagnostics);
         
+
         FalseDB db = new FalseDB();
 
         String pathPrefix = context.getRealPath("/") + "/WEB-INF/jreloadex/pages/";

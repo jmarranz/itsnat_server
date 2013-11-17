@@ -34,13 +34,14 @@
         <version>2.0.2</version>
         <configuration>
           <source>1.5</source>
-          <target>1.5</target>
-          <includes>
-            <include>src/main/java/**/*.java</include>              
-            <include>src/main/webapp/WEB-INF/code/**/*.java</include>
-          </includes>          
+          <target>1.5</target>          
         </configuration>
       </plugin>
     </plugins>
+    <resources>  
+       <resource>
+         <directory>src/main/webapp/WEB-INF/code</directory>         
+       </resource>        
+    </resources>     
   </build>
 </project>
