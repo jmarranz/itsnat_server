@@ -2,9 +2,10 @@
 package inexp.groovyex;
 
 import org.itsnat.core.event.ItsNatServletRequestListener;
+import inexp.jreloadex.FalseDB
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
-import inexp.groovyex.FalseDB;
+import inexp.groovyex.GroovyExampleDocument;
 
 class GroovyExampleLoadListener implements ItsNatServletRequestListener
 {
@@ -20,7 +21,7 @@ class GroovyExampleLoadListener implements ItsNatServletRequestListener
     }
 
     void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
-    { 
-        new inexp.groovyex.GroovyExampleDocument(request.getItsNatDocument(),db);
+    {       
+        new GroovyExampleDocument(request.getItsNatDocument(),db);        
     }
 }

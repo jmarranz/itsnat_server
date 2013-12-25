@@ -4,14 +4,14 @@ package inexp.groovyex;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.itsnat.core.event.ItsNatServletRequestListener;
-import inexp.groovyex.FalseDB
 import java.lang.reflect.Method;
-import com.innowhere.relproxy.ProxyListener;
+import com.innowhere.relproxy.RelProxyOnReloadListener
 import com.innowhere.relproxy.gproxy.GProxy;
 import com.innowhere.relproxy.gproxy.GProxyGroovyScriptEngine;
+import inexp.jreloadex.FalseDB
+import inexp.groovyex.GroovyExampleLoadListener;
 
-GProxyGroovyScriptEngine groovyEngine = 
-        {
+def groovyEngine = {
              String scriptName -> return (java.lang.Class)servlet.getGroovyScriptEngine().loadScriptByName(scriptName) 
         } as GProxyGroovyScriptEngine;
 
@@ -22,12 +22,15 @@ GProxyGroovyScriptEngine groovyEngine =
         } as GProxyGroovyScriptEngine;
 */
 
-GProxy.init(true,{ 
+def reloadListener = { 
         Object objOld,Object objNew,Object proxy, Method method, Object[] args -> 
            println("Reloaded " + objNew + " Calling method: " + method)
-      } as ProxyListener,
-      groovyEngine
-    );
+      } as RelProxyOnReloadListener;
+
+def gpConfig = GProxy.createGProxyConfig();
+gpConfig.setEnabled(true).setRelProxyOnReloadListener(reloadListener).setGProxyGroovyScriptEngine(groovyEngine);
+
+GProxy.init(gpConfig);
 
 
 
@@ -38,6 +41,6 @@ String pathPrefix = context.getRealPath("/") + "/WEB-INF/groovyex/pages/";
 ItsNatDocumentTemplate docTemplate;
 docTemplate = itsNatServlet.registerItsNatDocumentTemplate("groovyex","text/html", pathPrefix + "groovyex.html");
 
-ItsNatServletRequestListener listener = GProxy.create(new inexp.groovyex.GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
+ItsNatServletRequestListener listener = GProxy.create(new GroovyExampleLoadListener(db), ItsNatServletRequestListener.class);
 docTemplate.addItsNatServletRequestListener(listener);
 

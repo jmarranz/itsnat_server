@@ -1,5 +1,7 @@
 package inexp.groovyex;
 
+import inexp.jreloadex.City
+
 /**
  *
  * @author jmarranz

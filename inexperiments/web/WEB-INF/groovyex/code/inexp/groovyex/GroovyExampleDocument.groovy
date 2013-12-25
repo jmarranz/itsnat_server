@@ -14,6 +14,8 @@ class GroovyExampleDocument
     {
         this.itsNatDoc = itsNatDoc
 
+        println("GroovyExampleDocument 1");        
+        
         if (db.getCityList().size() != 3) 
             throw new RuntimeException("Unexpected");
 
