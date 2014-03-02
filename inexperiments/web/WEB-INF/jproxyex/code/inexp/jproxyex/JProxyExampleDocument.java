@@ -1,4 +1,4 @@
-package inexp.jreloadex;
+package inexp.jproxyex;
 
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
@@ -10,7 +10,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLDocument;
 
-public class JReloadExampleDocument
+public class JProxyExampleDocument
 {
     protected ItsNatHTMLDocument itsNatDoc; // ItsNatHTMLDocument
     protected ItsNatHTMLInputText textInput; // ItsNatHTMLInputText
@@ -25,13 +25,13 @@ public class JReloadExampleDocument
     }
            
     
-    public JReloadExampleDocument(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc,FalseDB db)
+    public JProxyExampleDocument(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc,FalseDB db)
     {
         class AuxMemberInMethod 
         { 
             public void log()
             {
-                System.out.println("JReloadExampleDocument.AuxMemberInMethod: 1 " + AuxMemberInMethod.class.getClassLoader().hashCode());
+                System.out.println("JProxyExampleDocument.AuxMemberInMethod: 1 " + AuxMemberInMethod.class.getClassLoader().hashCode());
             }        
         }        
         
@@ -48,7 +48,7 @@ public class JReloadExampleDocument
        EventListener listener = new EventListener()
        {    
             {
-                System.out.println("JReloadExampleDocument Anonymous Inner 21 " + this.getClass().getClassLoader().hashCode());
+                System.out.println("JProxyExampleDocument Anonymous Inner 21 " + this.getClass().getClassLoader().hashCode());
             }
            
             public void handleEvent(Event evt) 
@@ -63,9 +63,9 @@ public class JReloadExampleDocument
 
         this.resultsElem = doc.getElementById("resultsId");
         
-        System.out.println("JReloadExampleDocument 10 " + this.getClass().getClassLoader().hashCode());        
+        System.out.println("JProxyExampleDocument 1 " + this.getClass().getClassLoader().hashCode());        
         new AuxMemberInMethod().log();
         AuxMember.log();
-        JReloadExampleAux.log();
+        JProxyExampleAux.log();
     }
 }

@@ -2,7 +2,7 @@
 package inexp.groovyex;
 
 import org.itsnat.core.event.ItsNatServletRequestListener;
-import inexp.jreloadex.FalseDB
+import inexp.groovyex.FalseDB
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import inexp.groovyex.GroovyExampleDocument;

@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import com.innowhere.relproxy.RelProxyOnReloadListener
 import com.innowhere.relproxy.gproxy.GProxy;
 import com.innowhere.relproxy.gproxy.GProxyGroovyScriptEngine;
-import inexp.jreloadex.FalseDB
+import inexp.groovyex.FalseDB
 import inexp.groovyex.GroovyExampleLoadListener;
 
 def groovyEngine = {

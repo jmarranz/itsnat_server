@@ -69,6 +69,13 @@
 
     -->
     
+    <target name="-pre-compile"> 
+        <ant antfile="build_ceylon_example.xml" target="compile" dir="ceylon_example"  />
+        <copy todir="${build.web.dir}/WEB-INF" preservelastmodified="true">
+            <fileset dir="${webinf.dir}"  /> <!-- excludes="${build.web.excludes}" -->
+        </copy>
+    </target>    
+    
     <target name="-pre-dist"> <!-- Because modern NetBeans excludes copying *.java files below /WEB-INF -->
         <copy todir="${build.web.dir}/WEB-INF" preservelastmodified="true">
             <fileset dir="${webinf.dir}"  /> <!-- excludes="${build.web.excludes}" -->

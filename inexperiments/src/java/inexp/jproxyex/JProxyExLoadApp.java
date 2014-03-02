@@ -1,4 +1,4 @@
-package inexp.jreloadex;
+package inexp.jproxyex;
 
 
 import com.innowhere.relproxy.RelProxyOnReloadListener;
@@ -17,18 +17,19 @@ import org.itsnat.core.event.ItsNatServletRequestListener;
  *
  * @author jmarranz
  */
-public class JReloadExLoadApp
+public class JProxyExLoadApp
 {
-    public static void init(ItsNatHttpServlet itsNatServlet,ServletConfig config)
+    public static void init(ItsNatHttpServlet itsNatServlet)
     {    
         ServletContext context = itsNatServlet.getItsNatServletContext().getServletContext();
-        String inputPath = context.getRealPath("/") + "/WEB-INF/jreloadex/code/";           
+        String inputPath = context.getRealPath("/") + "/WEB-INF/jproxyex/code/";           
         String classFolder = null; // context.getRealPath("/") + "/WEB-INF/classes";
         Iterable<String> compilationOptions = Arrays.asList(new String[]{"-source","1.6","-target","1.6"});
         long scanPeriod = 300;        
         JProxyDiagnosticsListener diagnosticsListener = null;
         
         RelProxyOnReloadListener proxyListener = new RelProxyOnReloadListener() {
+            @Override
             public void onReload(Object objOld, Object objNew, Object proxy, Method method, Object[] args) {
                 System.out.println("Reloaded " + objNew + " Calling method: " + method);
             }        
@@ -49,13 +50,14 @@ public class JReloadExLoadApp
         
         FalseDB db = new FalseDB();
 
-        String pathPrefix = context.getRealPath("/") + "/WEB-INF/jreloadex/pages/";
+        String pathPrefix = context.getRealPath("/") + "/WEB-INF/jproxyex/pages/";
 
         ItsNatDocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("jreloadex","text/html", pathPrefix + "jreloadex.html");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("jproxyex","text/html", pathPrefix + "jproxyex.html");
 
-        ItsNatServletRequestListener listener = JProxy.create(new inexp.jreloadex.JReloadExampleLoadListener(db), ItsNatServletRequestListener.class);
+        ItsNatServletRequestListener listener = JProxy.create(new inexp.jproxyex.JProxyExampleLoadListener(db), ItsNatServletRequestListener.class);
         docTemplate.addItsNatServletRequestListener(listener);
+        
     } 
 }
 

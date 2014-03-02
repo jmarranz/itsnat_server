@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Based on the helloworld example of Ceylon distribution -->
+<project name="project" default="default" basedir=".">
+
+    <property name="root" value="${basedir}/.." />     
+    
+    <property file="conf/build_ceylon_example.properties"/>  <!-- just define properties: ceylon.home -->    
+    <property name="WEB_INF_lib" value="${root}/web/WEB-INF/lib" />  
+  
+    
+    <!--<property name="ceylon.home" value="../.." />-->
+    <property name="ceylon.ant.lib" value="${ceylon.home}/lib/ceylon-ant.jar" />
+
+    <target name="ceylon-ant-taskdefs">
+        <path id="ant-tasks">
+            <pathelement location="${ceylon.ant.lib}" />
+        </path>
+        <typedef resource="com/redhat/ceylon/ant/antlib.xml" classpathref="ant-tasks" />
+    </target>
+
+    <target name="default" depends="doc, run">
+    </target>
+
+    <target name="js" depends="run-js">
+    </target>
+
+    <target name="import" depends="ceylon-ant-taskdefs">
+
+      <ceylon-import-jar jar="${WEB_INF_lib}/nekohtml.jar" module="nekohtml/1.9.12" out="${basedir}/modules">
+        <!--<rep url="build"/>-->
+      </ceylon-import-jar>
+      <ceylon-import-jar jar="${WEB_INF_lib}/ItsNat.jar" module="org.itsnat/1.3" out="${basedir}/modules" />
+
+    </target>
+
+
+    <target name="compile" depends="ceylon-ant-taskdefs">  
+ 
+        <echo message="Do not forget executing the Ant import task one time before compiling" />
+        
+        <!-- encoding is specified to avoid a warning -->
+        <!-- DO NOT WORK
+        <ceylon-compile encoding="UTF-8" out="${basedir}/modules"> 
+            <module name="inexp.itsnatceylon" />
+        </ceylon-compile> 
+         -->
+
+        <condition property="extension" value=".bat">
+            <os family="windows"/>
+        </condition>
+        <condition property="extension" value="">
+            <os family="unix"/>
+        </condition>
+
+        <exec executable="${ceylon.home}/bin/ceylon${extension}" >  
+            <env key="JAVA_HOME" value="${java.home}" /> 
+          <arg line="compile inexp.itsnatceylon"/>        
+        </exec>        
+
+        <copy file="modules/inexp/itsnatceylon/1.0.0/inexp.itsnatceylon-1.0.0.car"  tofile="${root}/web/WEB-INF/lib/inexp.itsnatceylon-1.0.0.jar" preservelastmodified="true"   /> 
+    </target>
+
+    <target name="compile-js" depends="ceylon-ant-taskdefs">
+        <ceylon-compile-js>
+            <module name="com.innowhere.itsnatceylon" />
+        </ceylon-compile-js>
+    </target>
+
+    <target name="doc" depends="ceylon-ant-taskdefs">
+        <ceylon-doc>
+            <module name="inexp.itsnatceylon" />
+        </ceylon-doc>
+    </target>
+
+    <target name="run" depends="compile">
+        <ceylon-run module="inexp.itsnatceylon/1.0.0" />
+    </target>
+
+    <target name="run-js" depends="compile-js">
+        <ceylon-run-js module="inexp.itsnatceylon/1.0.0" />
+    </target>
+
+    <target name="clean">
+        <delete dir="modules" />
+    </target>
+
+</project>

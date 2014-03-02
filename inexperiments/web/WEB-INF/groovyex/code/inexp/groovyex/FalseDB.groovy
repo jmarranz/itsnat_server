@@ -1,6 +1,6 @@
 package inexp.groovyex;
 
-import inexp.jreloadex.City
+import inexp.groovyex.City
 
 /**
  *
