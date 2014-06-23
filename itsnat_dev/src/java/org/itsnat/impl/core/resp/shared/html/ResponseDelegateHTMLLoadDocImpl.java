@@ -21,18 +21,20 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.BrowserW3C;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserW3C;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domimpl.html.HTMLTextAreaElementImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderPropertyImpl;
-import org.itsnat.impl.core.jsren.dom.node.PropertyImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderPropertyImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.core.template.html.HTMLTemplateVersionDelegateImpl;
@@ -51,7 +53,7 @@ import org.w3c.dom.html.HTMLTextAreaElement;
  *
  * @author jmarranz
  */
-public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateStfulLoadDocImpl
+public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateStfulWebLoadDocImpl
 {
 
     /**
@@ -71,6 +73,11 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
             return ResponseDelegateHTMLLoadDocW3CImpl.createResponseDelegateHTMLLoadDocW3C((BrowserW3C)browser,responseParent);
     }
 
+    public ClientDocumentStfulDelegateWebImpl getClientDocumentStfulDelegateWeb()    
+    {
+        return (ClientDocumentStfulDelegateWebImpl)getClientDocumentStfulDelegate();
+    }
+    
     public ItsNatHTMLDocumentImpl getItsNatHTMLDocument()
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
@@ -128,7 +135,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
     protected String serializeDocument()
     {
         // En este punto SVGWeb debe de estar ya detectado o no
-        boolean useSVGWeb = SVGWebInfoImpl.isSVGWebEnabled(getClientDocumentStful());
+        boolean useSVGWeb = SVGWebInfoImpl.isSVGWebEnabled(getClientDocumentStfulDelegateWeb());
 
         // Primero los que no son procesados por SVGWeb (aunque da igual)
         LinkedList<Attr> otherNSElemsAttribs = null;
@@ -219,7 +226,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
 
         if (svgWeb)
         {
-            ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+            ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
             clientDoc.setSVGWebInfo(forceFlash,metaDecPos);
             addScriptFileToLoad(LoadScriptImpl.ITSNAT_SVGWEB);
         }
@@ -227,7 +234,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
 
     protected boolean isSVGRootElementProcessedBySVGWeb(Element elem)
     {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
         return SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash(elem,clientDoc);
     }
 
@@ -309,8 +316,9 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
     protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code)
     {
         // Se redefine en el caso de Opera 9 Desktop
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();        
+        //ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
 
         // Hay dos casos, fast load mode y no fast load, pero la acción es la misma
         // - Caso Fast Load
@@ -345,7 +353,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
             code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
             String content = DOMUtilInternal.getTextContent(elem,false); // No puede ser nulo
             String valueJS = JSRenderImpl.toTransportableStringLiteral(content,browser);
-            JSRenderPropertyImpl render = JSRenderPropertyImpl.getJSRenderProperty(elem,clientDoc.getBrowser());
+            JSRenderPropertyImpl render = JSRenderPropertyImpl.getJSRenderProperty(elem,clientDoc.getBrowserWeb());
             PropertyImpl prop = render.getProperty(elem,"value");
             code.append( render.renderSetProperty(prop, elem, "elem", valueJS, content, clientDoc) );
         }

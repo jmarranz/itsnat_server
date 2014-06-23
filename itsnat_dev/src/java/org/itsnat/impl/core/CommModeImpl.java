@@ -19,7 +19,7 @@ package org.itsnat.impl.core;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.CommMode;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 
 /**

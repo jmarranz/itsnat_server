@@ -18,11 +18,9 @@ package org.itsnat.impl.comp.layer;
 
 import org.itsnat.comp.layer.ItsNatModalLayer;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatXULDocComponentManagerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatXULDocComponentManagerImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -53,7 +51,7 @@ public class ItsNatModalLayerXULImpl extends ItsNatModalLayerImpl implements Its
         return null;
     }
 
-    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return new ItsNatModalLayerClientDocXULImpl(this,clientDoc);
     }

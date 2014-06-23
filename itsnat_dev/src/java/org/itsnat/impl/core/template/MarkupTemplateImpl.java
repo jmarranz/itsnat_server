@@ -123,6 +123,11 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
     {
          return namespaceOfMIME == NamespaceUtil.XML;
     }
+    
+    public boolean isMIME_ANDROID_LAYOUT()
+    {
+         return namespaceOfMIME == NamespaceUtil.ANDROID_LAYOUT;
+    }    
 
     public String getNamespace()
     {

@@ -27,7 +27,7 @@ import org.itsnat.core.event.CodeToSendListener;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
-import org.itsnat.impl.core.jsren.dom.node.InnerMarkupCodeImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.listener.WaitForEventListenerImpl;
 
 /**

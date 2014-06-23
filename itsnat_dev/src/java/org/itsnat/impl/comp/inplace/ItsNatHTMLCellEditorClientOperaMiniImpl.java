@@ -17,6 +17,7 @@
 package org.itsnat.impl.comp.inplace;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  *
@@ -30,7 +31,7 @@ public class ItsNatHTMLCellEditorClientOperaMiniImpl extends ItsNatCellEditorCli
     {
     }
 
-    public void registerEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulImpl clientDoc)
+    public void registerEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super.registerEventListeners(parent,clientDoc);
 

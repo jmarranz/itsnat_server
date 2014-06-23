@@ -55,17 +55,14 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
 
     public ItsNatServletRequestImpl createItsNatServletRequest(ServletRequest request,ServletResponse response,ItsNatSessionImpl itsNatSession)
     {
-        return (ItsNatHttpServletRequestImpl)createItsNatHttpServletRequest((HttpServletRequest)request,(HttpServletResponse)response,(ItsNatHttpSessionImpl)itsNatSession);
+        return createItsNatHttpServletRequest((HttpServletRequest)request,(HttpServletResponse)response,(ItsNatHttpSessionImpl)itsNatSession);
     }
     
-    public ItsNatHttpServletRequestImpl createItsNatHttpServletRequest(HttpServletRequest request,HttpServletResponse response,ItsNatHttpSessionImpl itsnatSession)
+    public ItsNatHttpServletRequestImpl createItsNatHttpServletRequest(HttpServletRequest request,HttpServletResponse response,ItsNatHttpSessionImpl itsNatSession)
     {
-        if (itsnatSession != null)
-            return new ItsNatHttpServletRequestImpl(this,request,response,itsnatSession);
-        else
-            return new ItsNatHttpServletRequestImpl(this,request,response); // La cargará de-serializándola o creará una nueva etc
-    }
-
+        return new ItsNatHttpServletRequestImpl(this,request,response,itsNatSession);            
+    }    
+    
     @Override
     public ItsNatServletRequestImpl processRequestInternal(ServletRequest request, ServletResponse response,ClientDocumentStfulImpl clientDocStateless) 
     {

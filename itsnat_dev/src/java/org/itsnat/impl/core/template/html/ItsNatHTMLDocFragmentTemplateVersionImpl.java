@@ -116,6 +116,7 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentT
         return new HTMLTemplateVersionDelegateImpl(this);
     }
 
+    @Override
     public void cleanDOMPattern()
     {
         super.cleanDOMPattern();

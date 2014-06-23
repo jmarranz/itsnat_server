@@ -17,11 +17,11 @@
 package org.itsnat.impl.core.event.client.domstd;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserAdobeSVG;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.event.client.domstd.w3c.BlackBerryOldKeyEventImpl;

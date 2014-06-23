@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.resp.shared.html;
 
-import org.itsnat.impl.core.browser.BrowserGecko;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 
 /**

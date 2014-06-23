@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;

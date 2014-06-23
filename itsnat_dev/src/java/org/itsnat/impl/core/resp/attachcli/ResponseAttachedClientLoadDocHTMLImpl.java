@@ -16,7 +16,8 @@
 
 package org.itsnat.impl.core.resp.attachcli;
 
-import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
+import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.shared.html.ResponseDelegateHTMLLoadDocImpl;
 import org.w3c.dom.Node;
@@ -52,7 +53,8 @@ public class ResponseAttachedClientLoadDocHTMLImpl extends ResponseAttachedClien
     {
         // No cacheamos nodos SVG SVGWeb pues en carga hasta que no se renderiza el contenido del <script type="image/svg+xml"> los nodos SVG no existen
         // (y aunque existieran, caso de inserción dinámica, hasta que no se renderiza no son los definitivos).
-
-        return SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash(node,getClientDocumentStful());
+        
+        ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)getClientDocumentStful().getClientDocumentStfulDelegate();
+        return SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash(node,clientDoc);
     }
 }

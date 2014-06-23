@@ -17,13 +17,10 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.resp.shared.*;
-import java.io.IOException;
-import java.io.Writer;
-import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatSVGDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatXULDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatXULDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,7 +30,7 @@ import org.w3c.dom.html.HTMLTextAreaElement;
  *
  * @author jmarranz
  */
-public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegateStfulLoadDocImpl
+public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegateStfulWebLoadDocImpl
 {
 
     /**
@@ -82,7 +79,7 @@ public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegat
 
     protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code)
     {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
         // Los <textarea> fuera de X/HTML ignoran el nodo de texto hijo
         processUIControlProperty(elem,"value",code,clientDoc);
     }

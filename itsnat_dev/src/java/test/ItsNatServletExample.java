@@ -35,6 +35,7 @@ import test.core.TestCoreDocLoadListener;
 import test.stateless.TestCoreStatelessEventDocLoadListener;
 import test.stateless.TestCoreStatelessInitialDocLoadListener;
 import test.coreiframe.TestCoreIFrameDocLoadListener;
+import test.droid.TestDroidDocLoadListener;
 import test.noajax.TestNoAJAXDocLoadListener;
 import test.noscript.TestNoScriptDocLoadListener;
 import test.iframehtml.TestIFrameHTMLDocLoadListener;
@@ -361,6 +362,14 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new TestCoreStatelessEventDocLoadListener());
         docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(false);        
+        
+        // ItsNatDroid
+
+        docTemplate = registerDocument("test_droid","android/layout",pathPrefix,pages); 
+        docTemplate.addItsNatServletRequestListener(new TestDroidDocLoadListener());
+        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
+        docTemplate.setEventsEnabled(false);        
+        docTemplate.setFastLoadMode(false);
         
         // FRAGMENTS
         

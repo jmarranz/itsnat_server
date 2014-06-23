@@ -37,7 +37,7 @@ import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserUnknown;
+import org.itsnat.impl.core.browser.web.BrowserUnknown;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domimpl.ItsNatDocumentInternal;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;

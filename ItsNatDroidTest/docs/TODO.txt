@@ -1,0 +1,13 @@
+
+
+* Cargar imágenes remótamente
+
+* Intentar agrupar los atributos de un mismo tipo que sólo admiten un método conjunto, por ej los paddingXXX
+  se definen una de una sola vez con setPadding(int,int,int,int)
+
+* Pensar si memorizar los objetos Page hasta un límite
+
+* Pensar en si enviar como POST un URL o sólo los eventos
+
+* Pensar si en inflar otros tipos de XML de resources
+

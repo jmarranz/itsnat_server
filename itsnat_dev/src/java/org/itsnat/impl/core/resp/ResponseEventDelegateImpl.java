@@ -21,10 +21,10 @@ import java.io.StringWriter;
 import javax.servlet.ServletRequest;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
 
 /**
  *

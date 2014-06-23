@@ -42,6 +42,7 @@ public class AnyThingServlet extends HttpServletWrapper
         ItsNatDocumentTemplate docTemplate;
         docTemplate = registerDocument("test_anything","text/html",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestAnythingDocLoadListener());
+        docTemplate.setFastLoadMode(false);
     }
 
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)

@@ -17,13 +17,13 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
-import org.itsnat.impl.core.path.SimpleElementPathResolver;
+import org.itsnat.impl.core.dompath.SimpleElementPathResolver;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 import org.w3c.dom.html.HTMLIFrameElement;
 
 /**
@@ -137,7 +137,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
 
                 ItsNatStfulDocumentImpl parentDoc = parent.getItsNatStfulDocument();
                 ClientDocumentStfulImpl parentClientDoc = parentDoc.getClientDocumentStfulOwner();
-
+                ClientDocumentStfulDelegateWebImpl parentClientDocDeleg = (ClientDocumentStfulDelegateWebImpl)parentClientDoc.getClientDocumentStfulDelegate();
 
                 StringBuilder code = new StringBuilder();
 
@@ -147,8 +147,8 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
                 code.append("var elem = window.top.frameElement;\n"); 
                 code.append("if (!elem)\n");
                 code.append("{\n");
-                String path = SimpleElementPathResolver.getPathFromElementJS((Element)iframe);
-                code.append(  SimpleElementPathResolver.callGetElementFromPath("elem","window.top.document", path, parentClientDoc));
+                String path = SimpleElementPathResolver.getPathFromElementAsScript((Element)iframe);
+                code.append(  SimpleElementPathResolver.callGetElementFromPath("elem","window.top.document", path, parentClientDocDeleg));
                 code.append( "}\n");                
                 code.append("var func = function() { return arguments.callee.childDoc; };\n");
                 code.append("func.childDoc = document;\n");
@@ -168,7 +168,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
         // ASV3 NO reconoce los elementos XHTML como tales dentro de <foreignObject> (ASV6 algo más)
     }
 
-    protected String getInitDocumentAndLoadJSCode(final int prevScriptsToRemove)
+    protected String getInitDocumentAndLoadScriptCode(final int prevScriptsToRemove)
     {
         // Hacemos un "delayed init" en Adobe SVG Viewer v6 beta.
         // La versión 6, por lo menos en IE v7, tiene un problema con el JavaScript
@@ -194,7 +194,7 @@ public class ResponseDelegateSVGLoadDocAdobeSVGImpl extends ResponseDelegateSVGL
         code.append( "    document.documentElement.removeEventListener(\"SVGLoad\",arguments.callee,true);\n" ); // Para evitar que se llame recursivamente, notar que es CAPTURE = true
         code.append( "  }\n ");
 
-        code.append( super.getInitDocumentAndLoadJSCode(prevScriptsToRemove) );
+        code.append( super.getInitDocumentAndLoadScriptCode(prevScriptsToRemove) );
 
         code.append( "  if (asv6) \n" );
         code.append( "  {\n ");

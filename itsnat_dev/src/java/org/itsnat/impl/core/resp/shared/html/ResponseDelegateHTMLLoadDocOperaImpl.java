@@ -16,12 +16,12 @@
 
 package org.itsnat.impl.core.resp.shared.html;
 
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.opera.BrowserOperaDesktop;
-import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
-import org.itsnat.impl.core.browser.opera.BrowserOperaMobile;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaDesktop;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaMobile;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
-import org.itsnat.impl.core.resp.shared.bybrow.ResponseDelegStfulLoadDocByBOperaImpl;
+import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaImpl;
 
 /**
  *

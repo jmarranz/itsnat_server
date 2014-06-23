@@ -25,6 +25,7 @@ public class TestAnythingDocument implements EventListener,Serializable
         this.itsNatDoc = itsNatDoc;
 
         this.elem = itsNatDoc.getDocument().getElementById("elemId");
+        elem.setAttributeNS("http://schemas.android.com/apk/res/android", "android:background", "#dddddd");        
         ((EventTarget)elem).addEventListener("click", this,false);
 
         this.logElem = itsNatDoc.getDocument().getElementById("logId");

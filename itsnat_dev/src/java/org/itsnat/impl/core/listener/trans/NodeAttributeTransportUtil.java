@@ -19,7 +19,7 @@ package org.itsnat.impl.core.listener.trans;
 import org.itsnat.core.event.NodeAttributeTransport;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;

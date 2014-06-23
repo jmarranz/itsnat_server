@@ -17,9 +17,10 @@
 package org.itsnat.impl.core.listener;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventTimerImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatAttachedClientTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatAttachedClientTimerEventListenerImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
 
 /**
@@ -35,7 +36,9 @@ public class ItsNatAttachedClientTimerEventListenerWrapperImpl extends ItsNatAtt
     {
         super(clientDoc);
 
-        JSRenderItsNatAttachedClientTimerEventListenerImpl.SINGLETON.addItsNatEventListenerCodeClient(this,clientDoc);
+        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+        
+        JSRenderItsNatAttachedClientTimerEventListenerImpl.SINGLETON.addItsNatEventListenerCodeClient(this,clientDocDeleg);
     }
 
     public ClientDocumentAttachedClientTimerImpl getClientDocumentAttachedClientTimer()

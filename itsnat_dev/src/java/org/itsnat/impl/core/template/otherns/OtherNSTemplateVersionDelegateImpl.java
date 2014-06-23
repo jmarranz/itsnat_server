@@ -16,14 +16,14 @@
 
 package org.itsnat.impl.core.template.otherns;
 
-import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
+import org.itsnat.impl.core.template.StfulWebTemplateVersionDelegateImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class OtherNSTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public class OtherNSTemplateVersionDelegateImpl extends StfulWebTemplateVersionDelegateImpl
 {
     /**
      * Creates a new instance of OtherNSTemplateVersionDelegateImpl

@@ -17,8 +17,8 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitS40;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitS40;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 

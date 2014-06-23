@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
-import org.itsnat.impl.core.resp.shared.bybrow.ResponseDelegStfulLoadDocByBOperaImpl;
+import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaImpl;
 import org.w3c.dom.Element;
 
 /**

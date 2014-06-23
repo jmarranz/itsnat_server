@@ -16,13 +16,13 @@
 package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerPrepareBaseImpl;
-import org.itsnat.impl.core.resp.ResponseJavaScript;
+import org.itsnat.impl.core.resp.ResponseScript;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseAttachedServerPrepareBaseImpl extends ResponseAttachedServerImpl implements ResponseJavaScript
+public abstract class ResponseAttachedServerPrepareBaseImpl extends ResponseAttachedServerImpl implements ResponseScript
 {
     public ResponseAttachedServerPrepareBaseImpl(RequestAttachedServerPrepareBaseImpl request)
     {

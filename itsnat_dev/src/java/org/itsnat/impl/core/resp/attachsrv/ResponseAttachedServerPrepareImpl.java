@@ -17,8 +17,8 @@
 package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIE9;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerPrepareImpl;
 

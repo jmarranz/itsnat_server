@@ -17,8 +17,8 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  * Opera Mini: admite posicionamiento absoluto pero los elementos ocultos son pulsables.
@@ -27,7 +27,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
  */
 public class ItsNatModalLayerClientDocHTMLEverCleanImpl extends ItsNatModalLayerClientDocHTMLImpl
 {
-    public ItsNatModalLayerClientDocHTMLEverCleanImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocHTMLEverCleanImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(comp,clientDoc);
     }

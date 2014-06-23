@@ -21,10 +21,11 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.ItsNatTimerHandle;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.client.domext.ClientItsNatTimerEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatTimerEventListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.itsnat.impl.core.util.UserDataMonoThreadImpl;
 import org.w3c.dom.events.EventListener;
@@ -128,7 +129,8 @@ public class ItsNatTimerEventListenerWrapperImpl extends ItsNatDOMExtEventListen
         if (computedPeriod != -1)  // Sigue ejecutándose (status en EXECUTED y period > 0)
         {
             ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
-            JSRenderItsNatTimerEventListenerImpl.SINGLETON.updateItsNatTimerEventListenerCode(this,computedPeriod,clientDoc);
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+            JSRenderItsNatTimerEventListenerImpl.SINGLETON.updateItsNatTimerEventListenerCode(this,computedPeriod,clientDocDeleg);
         }
     }
 

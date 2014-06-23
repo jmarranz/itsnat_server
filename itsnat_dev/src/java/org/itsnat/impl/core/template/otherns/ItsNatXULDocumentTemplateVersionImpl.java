@@ -22,7 +22,7 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatXULDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatXULDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.w3c.dom.Document;

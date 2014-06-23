@@ -20,9 +20,11 @@ import java.io.Serializable;
 import org.itsnat.impl.core.listener.domext.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
@@ -74,7 +76,11 @@ public class ItsNatAsyncTaskRegistryImpl implements Serializable
 
         taskContainer.start();
 
-        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(evtListener,clientDoc);
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+        if (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)
+            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(evtListener,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+        else
+            throw new ItsNatException("TO DO");            
     }
 
     public ItsNatAsyncTaskEventListenerWrapperImpl removeAsynchronousTask(String id)

@@ -18,13 +18,13 @@ package org.itsnat.impl.core.resp.script;
 
 import org.itsnat.impl.core.req.script.RequestLoadScriptImpl;
 import org.itsnat.impl.core.resp.ResponseImpl;
-import org.itsnat.impl.core.resp.ResponseJavaScript;
+import org.itsnat.impl.core.resp.ResponseScript;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ResponseLoadScriptImpl extends ResponseImpl implements ResponseJavaScript
+public abstract class ResponseLoadScriptImpl extends ResponseImpl implements ResponseScript
 {
 
     /** Creates a new instance of ResponseNormalLoadDocImpl */

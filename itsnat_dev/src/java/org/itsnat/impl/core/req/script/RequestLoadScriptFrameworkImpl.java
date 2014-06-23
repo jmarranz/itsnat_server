@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.req.script;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;

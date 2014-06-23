@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.event;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import org.itsnat.core.event.CodeToSendListener;
 

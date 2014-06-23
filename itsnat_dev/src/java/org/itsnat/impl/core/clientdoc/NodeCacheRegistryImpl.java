@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -43,23 +44,28 @@ import org.w3c.dom.Node;
  */
 public class NodeCacheRegistryImpl implements Serializable
 {
-    protected ClientDocumentStfulImpl clientDoc;
+    protected ClientDocumentStfulDelegateImpl clientDoc;
     protected Map<Node,String> mapByNode = new HashMap<Node,String>();
     protected Map<String,Node> mapById = new HashMap<String,Node>();
 
     /**
      * Creates a new instance of NodeCacheRegistryImpl
      */
-    public NodeCacheRegistryImpl(ClientDocumentStfulImpl clientDoc)
+    public NodeCacheRegistryImpl(ClientDocumentStfulDelegateImpl clientDoc)
     {
         this.clientDoc = clientDoc;
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
-        return clientDoc;
+        return clientDoc.getClientDocumentStful();
     }
 
+    public ClientDocumentStfulDelegateImpl getClientDocumentStfulDelegate()
+    {
+        return clientDoc;
+    }
+    
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
     {
         return clientDoc.getItsNatStfulDocument();
@@ -160,7 +166,7 @@ public class NodeCacheRegistryImpl implements Serializable
          * no puede recibir código de respuesta.
          * Ya existirá otra oportunidad de cachear el nodo, la cache no es imprescindible simplemente acelera.
          */
-        if (!clientDoc.isSendCodeEnabled())
+        if (!clientDoc.getClientDocumentStful().isSendCodeEnabled())
             return null;
 
         // Debe generarse el id por el documento pues algunos ids pueden compartirse entre cachés de un mismo documento como es este caso
@@ -252,4 +258,27 @@ public class NodeCacheRegistryImpl implements Serializable
         }
         return i;
     }
+    
+    public String cacheNewNodeIfNeededAndGenId(Node newNode)
+    {
+        // Cacheamos el  nuevo nodo (en servidor y en cliente obviamente) cuando es un nodo hijo directo
+        // de <head> o <body> en el caso de HTML/XHTML o el elemento root en otros namespaces
+        // para evitar problemas al acceder en el futuro al mismo con los elementos intrusivos que habitualmente
+        // añaden los add-on de los navegadores o muchas librerías JavaScript al final del <head> o <body>
+        // incluso al final de <svg> en el caso de FireBug
+        // Si el nodo es cacheable (no es de texto) y no está bloqueada la caché (raro) no tendremos problemas
+        // con estos nodos intrusivos.
+        // Podríamos extender el cacheado a cualquier nivel de inserción pero aumentaríamos la generación
+        // de ids exponencialmente y la lucha contra los nodos intrusos en cualquier parte es casi imposible
+        // y por otra parte está la inserción via markup (innerHTML) en donde el cacheado de los nodos insertados
+        // sería muy tedioso.
+
+        if (!clientDoc.getItsNatStfulDocument().isNewNodeDirectChildOfContentRoot(newNode))
+            return null;
+        
+        String id = addNode(newNode); // Si devuelve null es que no se puede cachear el nodo o caché "bloqueada"
+        
+        // Este idJS es para métodos especiales en donde opcionalmente podemos pasar el id del nodo cacheado (si se pudo cachear sino pues null), es simplemente el "id", en este caso no es necesario y no sigue el convencionalismo de arrays de NodeLocation
+        return id != null ? "\"" + id + "\"" : "null";        
+    }    
 }

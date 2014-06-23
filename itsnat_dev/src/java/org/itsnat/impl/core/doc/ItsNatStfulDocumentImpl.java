@@ -43,7 +43,7 @@ import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.jsren.JSScriptUtilFromDocImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromDocImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
@@ -124,7 +124,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         return (DocMutationEventListenerStfulImpl)mutationListener;
     }
 
-    public boolean canRenderAndSendMutationJSCode()
+    public boolean canRenderAndSendMutationCode()
     {
         boolean loading = isLoading();
         return !loading || (loading && !isFastLoadMode());

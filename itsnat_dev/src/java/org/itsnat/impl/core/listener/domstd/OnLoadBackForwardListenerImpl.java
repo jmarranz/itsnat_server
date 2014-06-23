@@ -21,7 +21,7 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.Event;

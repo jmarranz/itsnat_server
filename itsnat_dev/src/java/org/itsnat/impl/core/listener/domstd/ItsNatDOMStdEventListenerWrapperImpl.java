@@ -21,13 +21,15 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.event.client.ClientItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.domstd.ClientItsNatDOMStdEventFactory;
 import org.itsnat.impl.core.event.client.domstd.ClientItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventListener;
@@ -90,16 +92,16 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListener
         {
             if (event.getPreventDefault())
             {
-                ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
-                Browser browser = clientDoc.getBrowser();
+                ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)event.getClientDocumentStful().getClientDocumentStfulDelegate();
+                BrowserWeb browser = clientDoc.getBrowserWeb();
                 JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
                 retEvent.append( render.getPreventDefault("event.getNativeEvent()",clientDoc) );
             }
 
             if (event.getStopPropagation())
             {
-                ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
-                Browser browser = clientDoc.getBrowser();
+                ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)event.getClientDocumentStful().getClientDocumentStfulDelegate();
+                BrowserWeb browser = clientDoc.getBrowserWeb();
                 JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
                 retEvent.append( render.getStopPropagation("event.getNativeEvent()",clientDoc) );
             }

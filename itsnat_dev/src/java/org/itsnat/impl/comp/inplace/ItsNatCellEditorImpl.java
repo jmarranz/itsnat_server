@@ -22,6 +22,7 @@ import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
@@ -174,8 +175,12 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
         for(int i = 0; i < clientList.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = clientList[i];
+            
+            if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue; // Por si acaso
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();            
+            
             ItsNatCellEditorClientImpl editClient = ItsNatCellEditorClientImpl.getItsNatHTMLCellEditorClient(clientDoc.getBrowser(),compEditor);
-            editClient.registerEventListeners(this,clientDoc);
+            editClient.registerEventListeners(this,clientDocDeleg);
         }
 
         /*

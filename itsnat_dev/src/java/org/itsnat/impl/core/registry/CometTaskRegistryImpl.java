@@ -18,10 +18,12 @@ package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.MapUniqueId;
 
@@ -64,7 +66,11 @@ public abstract class CometTaskRegistryImpl implements Serializable
 
         tasks.put(listener);
 
-        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listener,clientDoc);
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+        if (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)
+            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listener,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+        else
+            throw new ItsNatException("TO DO");          
     }
 
     public CometTaskEventListenerWrapper removeCometTask(String id)

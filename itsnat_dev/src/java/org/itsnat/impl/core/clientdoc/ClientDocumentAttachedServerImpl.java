@@ -21,7 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
-import org.itsnat.impl.core.browser.BrowserGecko;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.servlet.DeserialPendingTask;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;

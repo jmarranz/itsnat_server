@@ -16,34 +16,28 @@
 
 package org.itsnat.impl.core.resp.norm;
 
+import org.itsnat.impl.core.resp.norm.web.ResponseNormalLoadStfulWebDocImpl;
+import org.itsnat.impl.core.resp.norm.droid.ResponseNormalLoadDroidDocImpl;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDOMException;
-import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NodeConstraints;
-import org.itsnat.impl.core.listener.domstd.OnUnloadListenerImpl;
-import org.itsnat.impl.core.listener.domstd.RegisterThisDocAsReferrerListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.*;
 import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
-import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.views.AbstractView;
-import org.w3c.dom.views.DocumentView;
 
 /**
  *
@@ -64,13 +58,14 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         this.responseDelegate = ResponseDelegateStfulLoadDocImpl.createResponseDelegateStfulLoadDoc(this);
     }
 
+    
     public static ResponseNormalLoadStfulDocImpl createResponseNormalLoadStfulDoc(RequestNormalLoadDocImpl request)
     {
         ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)request.getItsNatDocument();
-        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
-            return new ResponseNormalLoadHTMLDocImpl(request);
+        if (itsNatDoc instanceof ItsNatDroidDocumentImpl)
+            return new ResponseNormalLoadDroidDocImpl(request);
         else
-            return new ResponseNormalLoadOtherNSDocImpl(request);
+            return ResponseNormalLoadStfulWebDocImpl.createResponseNormalLoadStfulWebDoc(request);
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()
@@ -100,7 +95,8 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
             // Descuidadamente es posible que el programador genere nodos cacheados en fase de carga del documento stateless por ejemplo al usar un getNodeReference 
             // por eso hacemos un clearNodeCache() al ppio en el cliente para que esos cacheos no tengan ningún problema con algún posible resto de nodos cacheados en el cliente
             ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-            clientDoc.getNodeCacheRegistry().clearCache(); 
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+            clientDocDeleg.getNodeCacheRegistry().clearCache(); 
             clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache();\n");             
             
             responseDelegate.dispatchRequestListeners(); // Evitamos la serialización innecesaria del ItsNatDocument
@@ -133,106 +129,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return itsNatDoc.isReferrerEnabled() && !getRequestNormalLoadDocBase().isStateless(); // El referrer se guarda en la sesión y si estamos en stateless no queremos ni oir de hablar de ello
     }
     
-    @Override
-    public void dispatchRequestListeners()
-    {
-        // Caso de carga del documento por primera vez, el documento está recién creado
 
-        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
-        Document doc = itsNatDoc.getDocument();
-        AbstractView view = ((DocumentView)doc).getDefaultView();
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
-
-        if (isReferrerEnabled())
-        {
-            EventTarget target;
-            String eventType;
-            int commMode;
-            if (browser.isClientWindowEventTarget())
-            {
-                target = (EventTarget)view;
-                if ( CommModeImpl.isXHRDefaultMode(clientDoc) &&
-                     browser.hasBeforeUnloadSupport(itsNatDoc) &&
-                     itsNatDoc.isUseXHRSyncOnUnloadEvent() &&
-                     (!(browser instanceof BrowserWebKit) ||
-                      ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isXHRSyncSupported())) )
-                {
-                    // Si no se soporta el modo síncrono corremos el riesgo de que no se envíe el evento en el proceso de cerrado de la página
-                    // lo cual normalmente ocurre en el evento "unload"
-                    eventType = "beforeunload";
-                    commMode = CommMode.XHR_SYNC; // Así aseguramos que se envía pues por ejemplo no hay seguridad en modo asíncrono en MSIE 6 desktop
-                }
-                else
-                {
-                    // Intentamos soportar referrers también aunque de forma menos elegante.
-                    // Registramos en el evento load y no cuando se carga el documento
-                    // para evitar solapamiento con posibles iframes
-                    eventType = "load";
-                    commMode = clientDoc.getCommMode();
-                }
-            }
-            else
-            {
-                target = (EventTarget)doc.getDocumentElement();
-                eventType = "SVGLoad";
-                commMode = clientDoc.getCommMode();
-            }
-
-            clientDoc.addEventListener(target,eventType,RegisterThisDocAsReferrerListenerImpl.SINGLETON,false,commMode);
-        }
-
-        // Es necesario usar siempre el modo síncrono con unload para asegurar que llega al servidor
-        // sobre todo con FireFox, total es destrucción
-        // En FireFox a veces el unload se envía pero no llega al servidor en el caso de AJAX asíncrono,
-        // la culpa la tiene quizás el enviar por red asíncronamente algo en el proceso de destrucción de la página
-        // Curiosamente esto sólo ocurre cuando se abre un visor remoto Comet y se cierra la página principal.
-        // En teoría "beforeunload" debería dar menos problemas que unload en FireFox
-        // pero sin embargo también ocurrió con beforeunload asíncrono (además beforeunload es cancelable).
-        // NOTA: es posible que en versiones recientes esté solucionado esto.
-        // De todas formas es útil el modo síncrono porque si hubiera algún
-        // JavaScript pendiente de enviar, pues evita que de error al haberse perdido la página
-        // (pues el navegador ha de esperarse, no destruye la página), si fuera asincrono
-        // seguiría destruyendo la página antes de retornar el evento (comprobado en MSIE y FireFox).
-
-        super.dispatchRequestListeners();
-
-        // En W3C en addEventListener el orden de dispatch es el mismo que el orden de inserción
-        // y en MSIE hemos simulado lo mismo (lo natural es primero el último)
-        // por ello insertamos después de los listeners del usuario tal que
-        // nuestro unload "destructor" (invalida/desregistra el documento) sea el último
-
-        // Si se puede, los eventos de descarga deben enviarse como síncronos
-
-        EventTarget target;
-        String eventType;
-        int commMode;
-        int defaultCommMode = clientDoc.getCommMode();
-        if (CommModeImpl.isXHRMode(defaultCommMode))
-        {
-            if (!itsNatDoc.isUseXHRSyncOnUnloadEvent() ||
-                ((browser instanceof BrowserWebKit) &&
-                 !((BrowserWebKit)browser).canSendXHRSyncUnload())) // Este problema no se ha estudiado para SVGUnLoad pero por si acaso también lo consideramos
-                commMode = CommMode.XHR_ASYNC;
-            else
-                commMode = CommMode.XHR_SYNC;
-        }
-        else commMode = defaultCommMode; // Caso SCRIPT o SCRIPT_HOLD, siempre asíncronos
-
-        if (browser.isClientWindowEventTarget())
-        {
-            target = (EventTarget)view;
-            eventType = "unload";
-        }
-        else
-        {
-            // En algunos plugins no se dispara por ejemplo ASV (v3 y v6) o Batik.
-            target = (EventTarget)doc.getDocumentElement();
-            eventType = "SVGUnload";
-        }
-
-        clientDoc.addEventListener(target,eventType,OnUnloadListenerImpl.SINGLETON,false,commMode);
-    }
 
     public boolean hasDisconnectedNodesFastLoadMode()
     {

@@ -20,6 +20,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
 import org.itsnat.impl.core.req.RequestAlreadyLoadedDocImpl;
@@ -90,7 +91,8 @@ public class RequestIFrameFileUploadImpl extends RequestAlreadyLoadedDocImpl imp
         {
             protected void syncMethod()
             {
-                listener[0] = clientDoc.getHTMLIFrameFileUploadImpl(listenerId);
+                ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+                listener[0] = clientDocDeleg.getHTMLIFrameFileUploadImpl(listenerId);
             }
         };
         syncTask.exec(itsNatDoc);

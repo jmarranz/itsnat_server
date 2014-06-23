@@ -23,11 +23,14 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.doc.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
 import org.itsnat.impl.core.domimpl.deleg.DelegateNodeImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
+import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulWebImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadStfulDocImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
@@ -65,10 +68,12 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            ClientMutationEventListenerStfulImpl mutListener = clientDoc.getClientMutationEventListenerStful();
+            //if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            ClientMutationEventListenerStfulImpl mutListener = clientDocDeleg.getClientMutationEventListenerStful();
 
             mutListener.beforeRenderAndSendMutationCode(mutEvent);
-            if (mutListener.canRenderAndSendMutationJSCode()) // Si es false es que seguramente estamos en fase carga y fast load
+            if (mutListener.canRenderAndSendMutationCode()) // Si es false es que seguramente estamos en fase carga y fast load
             {
                 // Cuidado: pre and post métodos sólo se llaman si se genera código de la mutación
                 mutListener.preRenderAndSendMutationCode(mutEvent);
@@ -353,7 +358,10 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            ClientMutationEventListenerStfulImpl mutListener = clientDoc.getClientMutationEventListenerStful();
+            //if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            ClientMutationEventListenerStfulImpl mutListener = clientDocDeleg.getClientMutationEventListenerStful();            
+            
             mutListener.removeAllChild(node); // Se eliminan en el cliente
         }
 

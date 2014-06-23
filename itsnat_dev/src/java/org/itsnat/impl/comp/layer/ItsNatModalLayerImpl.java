@@ -16,12 +16,12 @@
 
 package org.itsnat.impl.comp.layer;
 
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.layer.ItsNatModalLayer;
 import org.itsnat.core.ItsNatDOMException;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ItsNatEvent;
@@ -34,8 +34,10 @@ import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulMapImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.EventListenerInternal;
@@ -341,7 +343,9 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         for(int i = 0; i < allClient.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = allClient[i];
-            ItsNatModalLayerClientDocImpl compClient = createItsNatModalLayerClientDoc(clientDoc);
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            if (!(clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)) continue; // Sería raro pero lo mismo nos sale un Droid
+            ItsNatModalLayerClientDocImpl compClient = createItsNatModalLayerClientDoc((ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
             clientDocMap.put(clientDoc, compClient);
 
             compClient.postInsertLayer();
@@ -353,7 +357,10 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
     {
         super.addClientDocumentAttachedClient(clientDoc);
 
-        ItsNatModalLayerClientDocImpl compClient = createItsNatModalLayerClientDoc(clientDoc);
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+        if (!(clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)) throw new ItsNatException("Unexpected droid document"); // Sería raro pero lo mismo nos sale un Droid        
+        
+        ItsNatModalLayerClientDocImpl compClient = createItsNatModalLayerClientDoc((ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
         clientDocMap.put(clientDoc, compClient);
 
         compClient.attachClientToComponent();
@@ -420,5 +427,5 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
         return getItsNatStfulDocument().getVisualRootElement();
     }
 
-    public abstract ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulImpl clientDoc);
+    public abstract ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc);
 }

@@ -6,13 +6,13 @@
 package test.core;
 
 import org.w3c.dom.events.Event;
-import test.shared.*;
 import java.io.Serializable;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventListener;
@@ -80,9 +80,10 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
         // de otra manera este test no sirve para nada
         HTMLElement body = itsNatDoc.getHTMLDocument().getBody();
         ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwner();
-        clientDoc.removeNodeFromCacheAndSendCode(body);
+        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+        clientDocDeleg.removeNodeFromCacheAndSendCode(body);
         // Nos aseguramos
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
+        NodeCacheRegistryImpl nodeCache = clientDocDeleg.getNodeCacheRegistry();        
         if (nodeCache.getId(body) != null) throw new RuntimeException("Unexpected Error");
 
         String refBody = itsNatDoc.getScriptUtil().getNodeReference(body);
@@ -141,7 +142,7 @@ public class TestIgnoreIntrusiveNodes implements EventListener,Serializable
 
         ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwner();
         // Es necesario acceder a las tripas de ItsNat para asegurarnos que está cacheado
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
+        NodeCacheRegistryImpl nodeCache = ((ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate()).getNodeCacheRegistry();
         if (nodeCache.getId(validChildElem1) == null)  // DEBE estar cacheado aunque esté recién insertado, en eso consiste la protección
             throw new RuntimeException("Unexpected Error");
         if (nodeCache.getId(validChildElem2) == null)  // DEBE estar cacheado aunque esté recién insertado, en eso consiste la protección

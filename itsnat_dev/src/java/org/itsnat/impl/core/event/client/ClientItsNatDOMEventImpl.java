@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.event.client;
 
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -105,7 +106,8 @@ public abstract class ClientItsNatDOMEventImpl extends ClientItsNatNormalEventIm
     public Node getParameterNode(String name,boolean cacheIfPossible)
     {
         String path = getParameter(name);
-        return getClientDocumentStful().getNodeFromStringPathFromClient(path,cacheIfPossible);
+        ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)getClientDocumentStful().getClientDocumentStfulDelegate();
+        return clientDoc.getNodeFromStringPathFromClient(path,cacheIfPossible);
     }
 
 

@@ -31,7 +31,7 @@ import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

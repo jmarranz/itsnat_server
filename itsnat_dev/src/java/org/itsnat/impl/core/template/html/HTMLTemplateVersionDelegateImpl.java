@@ -18,12 +18,11 @@ package org.itsnat.impl.core.template.html;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
+import org.itsnat.impl.core.template.StfulWebTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -36,7 +35,7 @@ import org.w3c.dom.html.HTMLStyleElement;
  *
  * @author jmarranz
  */
-public class HTMLTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public class HTMLTemplateVersionDelegateImpl extends StfulWebTemplateVersionDelegateImpl
 {
     /**
      * Creates a new instance of HTMLTemplateVersionDelegateImpl

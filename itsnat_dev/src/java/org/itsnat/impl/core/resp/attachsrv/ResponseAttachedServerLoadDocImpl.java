@@ -19,15 +19,15 @@ package org.itsnat.impl.core.resp.attachsrv;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerLoadDocImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocAttachedServerImpl;
-import org.itsnat.impl.core.resp.ResponseJavaScript;
+import org.itsnat.impl.core.resp.ResponseScript;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.servlet.ServletResponseAttachedServer;
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public abstract class ResponseAttachedServerLoadDocImpl extends ResponseAttachedServerImpl implements ResponseJavaScript
+public abstract class ResponseAttachedServerLoadDocImpl extends ResponseAttachedServerImpl implements ResponseScript
 {
      /** Creates a new instance of ResponseNormalLoadDocImpl */
     public ResponseAttachedServerLoadDocImpl(RequestAttachedServerLoadDocImpl request)

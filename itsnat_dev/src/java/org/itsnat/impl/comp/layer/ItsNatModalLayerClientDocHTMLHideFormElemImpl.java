@@ -16,15 +16,13 @@
 
 package org.itsnat.impl.comp.layer;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.jsren.dom.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,7 +38,7 @@ import org.w3c.dom.html.HTMLInputElement;
  */
 public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLayerClientDocHTMLImpl
 {
-    public ItsNatModalLayerClientDocHTMLHideFormElemImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocHTMLHideFormElemImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(comp,clientDoc);
     }
@@ -65,7 +63,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
 
     private void showHideHTMLFormElements(boolean show)
     {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
 
         ItsNatModalLayerHTMLImpl parentComp = getItsNatModalLayerHTML();
         ItsNatModalLayerImpl prevComp = parentComp.getPreviousItsNatModalLayer();
@@ -78,7 +76,7 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         if (!clientDoc.isClientMethodBounded(methodName))
             code.append(bindModalLayerShowFormCtrlsMethod(methodName,clientDoc));
 
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
         Map<String,String[]> localNames = browser.getHTMLFormControlsIgnoreZIndex();
         Document doc = clientDoc.getItsNatStfulDocument().getDocument();
 
@@ -111,10 +109,10 @@ public class ItsNatModalLayerClientDocHTMLHideFormElemImpl extends ItsNatModalLa
         clientDoc.addCodeToSend(code);
     }
 
-    private static String bindModalLayerShowFormCtrlsMethod(String methodName,ClientDocumentStfulImpl clientDoc)
+    private static String bindModalLayerShowFormCtrlsMethod(String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        Browser browser = clientDoc.getBrowser();
-        JSRenderHTMLElementImpl render = JSRenderHTMLElementImpl.getJSRenderHTMLElement(browser);
+        BrowserWeb browser = clientDoc.getBrowserWeb();
+        JSRenderHTMLElementImpl render = JSRenderHTMLElementImpl.getJSRenderHTMLElement(browser); 
 
         StringBuilder code = new StringBuilder();
 

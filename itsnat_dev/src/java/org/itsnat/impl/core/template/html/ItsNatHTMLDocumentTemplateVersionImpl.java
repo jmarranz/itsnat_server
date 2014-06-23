@@ -22,10 +22,10 @@ import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.ItsNatStfulWebDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLDocument;
@@ -35,7 +35,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
+public class ItsNatHTMLDocumentTemplateVersionImpl extends ItsNatStfulWebDocumentTemplateVersionImpl
 {
     /**
      * Creates a new instance of ItsNatHTMLDocumentTemplateVersionImpl

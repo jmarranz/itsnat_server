@@ -31,6 +31,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
@@ -143,7 +144,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
 
     public HTMLIFrameFileUpload getHTMLIFrameFileUpload(ClientDocument clientDoc,HTMLInputElement elem)
     {
-        return new HTMLIFrameFileUploadImpl(this,elem,(ClientDocumentStfulImpl)clientDoc);
+        return new HTMLIFrameFileUploadImpl(this,elem,(ClientDocumentStfulDelegateWebImpl)((ClientDocumentStfulImpl)clientDoc).getClientDocumentStfulDelegate());
     }
 
     public LinkedList<HTMLIFrameFileUploadImpl> getHTMLIFrameFileUploadList()

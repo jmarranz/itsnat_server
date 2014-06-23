@@ -20,14 +20,14 @@ import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitIOS;
+import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -90,16 +90,17 @@ public abstract class ItsNatCellEditorClientImpl
     {
     }
 
-    public void registerEventListeners(ItsNatCellEditorImpl compParent,ClientDocumentStfulImpl clientDoc)
+    public void registerEventListeners(ItsNatCellEditorImpl compParent,ClientDocumentStfulDelegateWebImpl clientDocDeleg)
     {
         ItsNatComponent compEditor = compParent.getCellEditorComponent();
 
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDocDeleg.getBrowserWeb();
+        ClientDocumentStfulImpl clientDoc = clientDocDeleg.getClientDocumentStful();
         ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)clientDoc.getItsNatDocument();
         Document doc = itsNatDoc.getDocument();
         Element nodeEditor = (Element)compEditor.getNode(); // Sólo admitimos elementos por ahora
 
-        clientDoc.addCodeToSend("var nodeEditor = " + clientDoc.getNodeReference(nodeEditor,true,true) + ";\n");
+        clientDocDeleg.addCodeToSend("var nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true) + ";\n");
 
         StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
@@ -113,7 +114,7 @@ public abstract class ItsNatCellEditorClientImpl
         // haya fijado el foco manualmente. En dichos casos (focus() no ejecutado) se envía un evento "blur" que asegura que el editor se quita
         // aunque el control no haya tenido nunca el foco (ni por focus() ni pulsando el usuario).
         JSRenderMethodCallImpl render = JSRenderMethodCallImpl.getJSRenderMethodCall(nodeEditor);
-        codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDoc));
+        codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDocDeleg));
         codeListener.append( "}catch(e){}\n" ); // el try/catch es por si el nodo se hubiera eliminado antes y el evento está pendiente todavía
 
         String bindToListener = "nodeEditor = nodeEditor";

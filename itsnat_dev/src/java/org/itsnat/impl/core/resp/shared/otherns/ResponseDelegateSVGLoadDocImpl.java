@@ -17,10 +17,10 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserAdobeSVG;
-import org.itsnat.impl.core.browser.BrowserBatik;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserBatik;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;

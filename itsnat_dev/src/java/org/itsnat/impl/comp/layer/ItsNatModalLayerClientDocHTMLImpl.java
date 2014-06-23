@@ -17,12 +17,13 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserMSIE9;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -31,7 +32,7 @@ import org.w3c.dom.Element;
  */
 public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayerClientDocImpl
 {
-    public ItsNatModalLayerClientDocHTMLImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocHTMLImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(comp,clientDoc);
     }
@@ -41,10 +42,16 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         return (ItsNatModalLayerHTMLImpl)parentComp;
     }
 
+/*    
+    public DelegateClientDocumentStfulWebImpl getDelegateClientDocumentStfulWeb()
+    {
+        return clientDoc.getDelegateClientDocumentStful();
+    }    
+*/    
     public void initModalLayer()
     {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
 
         Element layerElem = parentComp.getElement();
         int zIndex = parentComp.getZIndex();
@@ -153,7 +160,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         // así evitamos el parpadeo que queda muy feo en dispositivos móviles sin opacidad
         // (el modal layer es negro y opaco en mis tests)
 
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
 
         StringBuilder code = new StringBuilder();
         code.append("var func = function (elem)\n");

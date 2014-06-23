@@ -19,8 +19,8 @@ package org.itsnat.impl.core.template.otherns;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
+import org.itsnat.impl.core.template.ItsNatStfulWebDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -29,7 +29,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public abstract class ItsNatOtherNSDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
+public abstract class ItsNatOtherNSDocumentTemplateVersionImpl extends ItsNatStfulWebDocumentTemplateVersionImpl
 {
     /**
      * Creates a new instance of ItsNatOtherNSDocumentTemplateVersionImpl

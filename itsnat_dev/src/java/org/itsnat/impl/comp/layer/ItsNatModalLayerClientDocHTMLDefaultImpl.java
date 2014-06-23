@@ -17,6 +17,7 @@
 package org.itsnat.impl.comp.layer;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  *
@@ -24,7 +25,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
  */
 public class ItsNatModalLayerClientDocHTMLDefaultImpl extends ItsNatModalLayerClientDocHTMLImpl
 {
-    public ItsNatModalLayerClientDocHTMLDefaultImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocHTMLDefaultImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(comp,clientDoc);
     }

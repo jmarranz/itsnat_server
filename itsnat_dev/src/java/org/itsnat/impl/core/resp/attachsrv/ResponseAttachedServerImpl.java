@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.resp.attachsrv;
 
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerImpl;
 import org.itsnat.impl.core.resp.ResponseImpl;
 

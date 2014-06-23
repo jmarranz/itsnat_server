@@ -19,8 +19,8 @@ package org.itsnat.impl.comp;
 import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.w3c.dom.events.Event;
@@ -130,7 +130,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // se define dos veces.
 
         HTMLElement elem = comp.getHTMLElement();
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
         if (browser.isBlurBeforeChangeEvent(elem)) 
             return true;
         else if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))

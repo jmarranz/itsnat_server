@@ -22,7 +22,7 @@ import org.itsnat.impl.core.req.RequestEventStfulImpl;
  *
  * @author jmarranz
  */
-public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImpl implements ResponseJavaScript
+public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImpl implements ResponseScript
 {
     protected ResponseEventDelegateImpl delegate;
 

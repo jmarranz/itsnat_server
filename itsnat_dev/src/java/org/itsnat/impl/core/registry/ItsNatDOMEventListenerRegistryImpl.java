@@ -17,18 +17,18 @@
 package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.SVGWebInfoImpl;
+import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.*;
-import org.itsnat.impl.core.util.HasUniqueId;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -64,6 +64,12 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
         return clientDoc; // puede ser null
     }
 
+    public boolean isWeb()
+    {
+        ClientDocumentStfulDelegateImpl clientDocDeleg = ((ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwnerImpl()).getClientDocumentStfulDelegate();
+        return (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl);
+    }
+    
     public boolean isEmpty()
     {
         return eventListenersById.isEmpty();
@@ -104,8 +110,14 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     {
         eventListenersById.put(listenerWrapper);
 
-        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,clientDoc);
-
+        if (isWeb()) // clientDoc puede ser null
+        {
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
+            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,clientDocDeleg);
+        }
+        else
+            throw new ItsNatException("TO DO");
+        
         if (listenerWrapper.getUseCapture())
             capturingCount++;
     }
@@ -127,8 +139,16 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
             return null; // Ya se eliminó o nunca se añadió (raro)
 
         if (updateClient)
-            JSRenderItsNatEventListenerImpl.removeItsNatEventListenerCode(listenerWrapper,clientDoc);
-
+        {
+            if (isWeb()) // clientDoc puede ser null
+            {
+                ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
+                JSRenderItsNatEventListenerImpl.removeItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+            }
+            else
+                throw new ItsNatException("TO DO");            
+        }
+        
         if (listenerWrapper.getUseCapture())
             capturingCount--;
 
@@ -167,18 +187,25 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
             if (!clientDoc.canReceiveNormalEvents(listenerWrapper))
                 continue;
 
-            EventTarget currTarget = listenerWrapper.getCurrentTarget();
-            if (SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash((Node)currTarget,clientDoc))
+            if (isWeb()) // clientDoc puede ser null
             {
-                // Si el nodo es procesado por SVGWeb Flash no podemos enviar ahora el registro del listener
-                // al cliente pues el nodo SVG no existe hasta que se renderize lo cual
-                // sabemos que ha ocurrido tras el evento SVGLoad de la página.
-                if (svgWebNodes == null) svgWebNodes = new LinkedList<ItsNatDOMEventListenerWrapperImpl>();
-                svgWebNodes.add(listenerWrapper);
-                continue;
+                ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
+
+                EventTarget currTarget = listenerWrapper.getCurrentTarget();
+                if (SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash((Node)currTarget,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg))
+                {
+                    // Si el nodo es procesado por SVGWeb Flash no podemos enviar ahora el registro del listener
+                    // al cliente pues el nodo SVG no existe hasta que se renderize lo cual
+                    // sabemos que ha ocurrido tras el evento SVGLoad de la página.
+                    if (svgWebNodes == null) svgWebNodes = new LinkedList<ItsNatDOMEventListenerWrapperImpl>();
+                    svgWebNodes.add(listenerWrapper);
+                    continue;
+                }
+
+                JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
             }
-            
-            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,clientDoc);
+            else
+                throw new ItsNatException("TO DO");             
         }
 
         if (svgWebNodes != null)
@@ -193,7 +220,17 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
                         if (!eventListenersById.containsKey(listenerWrapper)) 
                             continue; // Ha sido eliminado mientras se procesaba el evento SVGLoad
 
-                        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,clientDoc);
+                        
+                        if (isWeb()) // clientDoc puede ser null
+                        {
+                            ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
+
+                            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+                        }
+                        else
+                            throw new ItsNatException("TO DO");                         
+                        
+                        
                     }
                 }
             };

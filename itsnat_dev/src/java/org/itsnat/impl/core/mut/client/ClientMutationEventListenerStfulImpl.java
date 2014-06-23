@@ -18,31 +18,26 @@ package org.itsnat.impl.core.mut.client;
 
 import java.io.Serializable;
 import java.util.LinkedList;
-import java.util.Map;
 import org.itsnat.core.ItsNatDOMException;
-import org.itsnat.core.html.ItsNatHTMLEmbedElement;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
-import org.itsnat.impl.core.doc.ElementDocContainerWrapperImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderAttributeImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderCharacterDataImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderNotAttrOrViewNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderAttributeImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.MutationEvent;
-import org.w3c.dom.html.HTMLObjectElement;
-import org.w3c.dom.html.HTMLParamElement;
 
 /**
  *
@@ -50,32 +45,32 @@ import org.w3c.dom.html.HTMLParamElement;
  */
 public abstract class ClientMutationEventListenerStfulImpl implements Serializable
 {
-    protected ClientDocumentStfulImpl clientDoc;
+    protected ClientDocumentStfulDelegateImpl clientDoc;
 
-    public ClientMutationEventListenerStfulImpl(ClientDocumentStfulImpl clientDoc)
+    public ClientMutationEventListenerStfulImpl(ClientDocumentStfulDelegateImpl clientDoc)
     {
         this.clientDoc = clientDoc;
     }
 
-    public static ClientMutationEventListenerStfulImpl createClientMutationEventListenerStful(ClientDocumentStfulImpl clientDoc)
+    public static ClientMutationEventListenerStfulImpl createClientMutationEventListenerStful(ClientDocumentStfulDelegateImpl clientDoc)
     {
-        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
-            return ClientMutationEventListenerHTMLImpl.createClientMutationEventListenerHTML(clientDoc);
+        Browser browser = clientDoc.getClientDocumentStful().getBrowser();
+        if (browser instanceof BrowserWeb)
+            return ClientMutationEventListenerStfulWebImpl.createClientMutationEventListenerStfulWeb((ClientDocumentStfulDelegateWebImpl)clientDoc);
         else
-            return new ClientMutationEventListenerStfulDefaultImpl(clientDoc);
+            return new ClientMutationEventListenerStfulDroidImpl((ClientDocumentStfulDelegateDroidImpl)clientDoc);
     }
 
-    public ClientDocumentStfulImpl getClientDocumentStful()
+    public ClientDocumentStfulDelegateImpl getClientDocumentStfulDelegate()
     {
         return clientDoc;
     }
 
-    public boolean canRenderAndSendMutationJSCode()
+    public boolean canRenderAndSendMutationCode()
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        return (itsNatDoc.canRenderAndSendMutationJSCode() &&
-                clientDoc.isSendCodeEnabled());
+        return (itsNatDoc.canRenderAndSendMutationCode() &&
+                clientDoc.getClientDocumentStful().isSendCodeEnabled());
     }
 
     public DocMutationEventListenerStfulImpl getDocMutationEventListenerStful()
@@ -88,74 +83,21 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         return ((ItsNatNodeInternal)node).getDelegateNode().isDisconnectedFromClient();
     }
 
-    public void renderAndSendMutationCode(MutationEvent mutEvent)
+    
+    protected void removeTreeFromNodeCache(Node node,LinkedList<String> idList)
     {
-        String type = mutEvent.getType();
-        if (type.equals("DOMNodeInserted"))
+        String id = clientDoc.removeNodeFromCache(node);
+        if ((id != null)&&(idList != null))
+            idList.add(id);
+
+        Node child = node.getFirstChild();
+        while (child != null)
         {
-            // Hay que tener en cuenta que el nodo YA está insertado en el DOM servidor
-            //Element parent = (Element)mutEvent.getRelatedNode();
-            Node newNode = (Node)mutEvent.getTarget();
-
-            renderTreeDOMNodeInserted(newNode);
+            removeTreeFromNodeCache(child,idList);
+            child = child.getNextSibling();
         }
-        else if (type.equals("DOMNodeRemoved"))
-        {
-            // El nodo todavía no ha sido removido del árbol DOM servidor
-
-            //Element parent = (Element)mutEvent.getRelatedNode();
-            Node removedNode = (Node)mutEvent.getTarget();
-
-            // No damos error en el caso de desconectado pero no generamos el código porque necesitamos
-            // eliminar los nodos hijo sin que el cliente se entere, esto sólo es en fase de
-            // desconexión pues estando desconectado un nodo no podrán insertarse hijos nuevos (ni por tanto eliminarse)
-            if (!isDisconnectedFromClient(removedNode))
-                renderTreeDOMNodeRemoved(removedNode);
-        }
-        else if (type.equals("DOMAttrModified"))
-        {
-            Attr attr = (Attr)mutEvent.getRelatedNode();
-            Element elem = (Element)mutEvent.getTarget();
-
-            String code = null;
-            JSRenderAttributeImpl render = JSRenderAttributeImpl.getJSRenderAttribute(attr,elem,clientDoc);
-            int changeType = mutEvent.getAttrChange();
-            switch(changeType)
-            {
-                case MutationEvent.ADDITION:
-                case MutationEvent.MODIFICATION:
-                    code = render.setAttributeCode(attr,elem,false,clientDoc);
-                    break;
-                case MutationEvent.REMOVAL:
-                    code = render.removeAttributeCode(attr,elem,clientDoc);
-                    break;
-                // No hay más casos
-            }
-            clientDoc.addCodeToSend(code);
-        }
-        else if (type.equals("DOMCharacterDataModified"))
-        {
-            CharacterData charDataNode = (CharacterData)mutEvent.getTarget();
-            JSRenderCharacterDataImpl render = (JSRenderCharacterDataImpl)JSRenderNodeImpl.getJSRenderNode(charDataNode,clientDoc);
-            String code = render.getCharacterDataModifiedCode(charDataNode,clientDoc);
-            clientDoc.addCodeToSend(code);
-        }
-    }
-
-    public void renderTreeDOMNodeInserted(Node newNode)
-    {
-        JSRenderNotAttrOrViewNodeImpl render = (JSRenderNotAttrOrViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(newNode,clientDoc);
-        Object code = render.getInsertNewNodeCode(newNode,clientDoc); // Puede ser null
-        clientDoc.addCodeToSend(code);
-    }
-
-    public void renderTreeDOMNodeRemoved(Node removedNode)
-    {
-        JSRenderNotAttrOrViewNodeImpl render = (JSRenderNotAttrOrViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(removedNode,clientDoc);
-        String code = render.getRemoveNodeCode(removedNode,clientDoc);
-        clientDoc.addCodeToSend(code);
-    }
-
+    }        
+    
     public void beforeRenderAndSendMutationCode(MutationEvent mutEvent)
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
@@ -174,6 +116,7 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         String type = mutEvent.getType();
 
+        
         if (clientDoc.isNodeCacheEnabled() &&
             ( !itsNatDoc.isLoadingPhaseAndFastLoadMode() || itsNatDoc.isDebugMode()) &&
             type.equals("DOMNodeRemoved"))
@@ -205,154 +148,11 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
             Node insertedNode = (Node)mutEvent.getTarget();
             processTreeInsertedElementDocContainer(false,insertedNode);
         }
-    }
+    }    
 
-    public abstract void preRenderAndSendMutationCode(MutationEvent mutEvent);
 
-    public void postRenderAndSendMutationCode(MutationEvent mutEvent)
-    {
-        String type = mutEvent.getType();
 
-        if (type.equals("DOMAttrModified"))
-        {
-            Element elem = (Element)mutEvent.getTarget();
-            Attr attr = (Attr)mutEvent.getRelatedNode();
 
-            boolean mustCallSetSrc = false;
-            ElementDocContainer elemDocCont = ElementDocContainerWrapperImpl.getElementDocContainerIfURLAttr(attr,elem);
-            if (elemDocCont != null)
-            {
-                if (elemDocCont.getElementDocContainerWrapper().isJavaApplet())
-                {
-                    mustCallSetSrc = true;
-                }
-                else if ((clientDoc.getBrowser() instanceof BrowserMSIEOld) &&
-                         ((elemDocCont instanceof HTMLObjectElement) ||
-                          (elemDocCont instanceof ItsNatHTMLEmbedElement))) // Posiblemente ASV 
-                {
-                    mustCallSetSrc = true;
-                }
-            }
-
-            if (mustCallSetSrc)
-                callSetSrcInPlugin(mutEvent,elem,elemDocCont);
-        }
-    }
-
-    private void callSetSrcInPlugin(MutationEvent mutEvent,Element elem,ElementDocContainer elemDocCont)
-    {
-        // Hay varios casos:
-        // 1) Applet y elem es un HTMLParamElement hijo de <applet> o <object> y el atributo es el "value" del <param name="src" value="url" />
-        // Luego estamos cambiando el atributo "value" de este <param> de un <applet>
-        // El cambio del src no cambia para nada el documento cargado <applet> pues
-        // este src es un invento de ItsNat que sólo es útil en el applet Batik modificado para ItsNat.
-        // Este applet tiene un método setSrc(url), ese método sí que es capaz de cambiar el
-        // documento cargado por el applet Batik.
-        // En ItsNat sólo reconocemos este applet especial Batik, en vez de tratar
-        // averiguar si es el applet Batik ItsNat, lo cual es difícil porque la configuración de atributos del
-        // applet tiene cierta libertad (salvo que la acotemos) y así permitimos posibles cambios
-        // en el empaquetamiento del applet, llamamos a setSrc(url) con un try/catch
-        // y ya está y así podemos soportar "automáticamente" otros futuros <applet> que
-        // tengan un comportamiento similar también con setSrc y applets que "casualmente" (mucha casualidad) tienen este <param> especial
-        // pero que no tienen el método setSrc(url).
-
-        // 2) Applet en <embed>, en este caso el cambio del atributo src
-        // o bien no funciona como es el caso de MSIE o bien da problemas
-        // como es el caso de FireFox (extraño cacheado), Chrome y Safari (el antiguo documento parece que no se quita visualmente)
-        // por lo que además llamamos a setSrc que soluciona todo.
-
-        // 3) ASV o Savarese Ssrc en <object> o <embed> (sólo MSIE carga ActiveX)
-        //    el cambio del atributo/propiedad src no es suficiente,
-        //    ASV define setSrc(url) y Ssrc Navigate.
-
-        StringBuilder code = new StringBuilder();
-
-        String refJS = clientDoc.getNodeReference(elem, true, true);
-
-        code.append("var elem = " + refJS + ";");
-
-        int changeType = mutEvent.getAttrChange();
-        switch(changeType)
-        {
-            case MutationEvent.ADDITION:
-            case MutationEvent.MODIFICATION:
-                code.append("var value = itsNatDoc.getAttribute(elem,\"" + elemDocCont.getElementDocContainerWrapper().getURLAttrName() + "\");"); // El valor del atributo ya se definió antes en la fase de renderizado del atributo
-                break;
-            case MutationEvent.REMOVAL: // Raro pero por si acaso
-                code.append("var value = \"\";");
-                break;
-            // No hay más casos
-        }
-
-        if (elem instanceof HTMLParamElement) // <applet> y <object>, en caso contrario es <embed>
-            code.append("var elem = itsNatDoc.getParentNode(elem);"); // elem ahora es el <applet>
-
-        code.append("try{");
-        if (elemDocCont.getElementDocContainerWrapper().isJavaApplet())
-            code.append("if (typeof elem.setSrc != \"undefined\") elem.setSrc(value);"); // Sólo soportamos el Applet Batik ItsNat que tiene este método, si fuera otro applet (muy raro llegar hasta aquí) capturamos el error y no pasa nada
-        else // ASV,  Savarese Ssrc.
-        {
-            code.append("if (typeof elem.setSrc != \"undefined\") elem.setSrc(value);"); // ASV
-            code.append("else if (typeof elem.Navigate != \"undefined\")"); // Savarese Ssrc
-            code.append("  if (value == elem.LocationURL) elem.Refresh(); else elem.Navigate(value);"); // La llamada a Refresh() asegura que la request se realiza (ignora el caché) http://msdn.microsoft.com/en-us/library/aa752098%28VS.85%29.aspx
-        }
-        code.append("}catch(e){}\n"); // Por si acaso, probablemente es un plugin o applet desconocido por ItsNat pero que nos ha confundido
-
-        clientDoc.addCodeToSend(code.toString());
-    }
-
-    private void removeTreeFromNodeCache(Node node)
-    {
-        // Quitamos los nodos del trozo de árbol del caché (si hay) porque cuando insertamos
-        // un nodo al documento en el cliente enviamos siempre la "regeneración"
-        // via DOM del nodo porque no detectamos cambios en nodos que no están
-        // vinculados al Document, sin embargo el nodo en el servidor que se inserta puede ser
-        // un nodo que previamente se quitara del árbol (y conservamos) y que si no quitamos
-        // de la caché aquí estaría en la cache posiblemente, pero en el cliente el nodo será uno nuevo,
-        // así desde el punto de vista  de la caché el nodo insertado es nuevo.
-
-        LinkedList<String> idList = null;
-        if (clientDoc.isSendCodeEnabled())
-            idList = new LinkedList<String>();
-
-        removeTreeFromNodeCache(node,idList);
-
-        if ((idList != null)&& !idList.isEmpty())
-        {
-            clientDoc.addCodeToSend(JSRenderNodeImpl.removeNodeFromCache(idList));   // El código generado es compatible con todos los navegadores
-
-            /*
-             Un nodo se quita de la caché cuando se elimina del documento DOM
-             (salvo algún en un caso especial de "preventive caching"),
-             si esto se ejecuta en tiempo de carga y fastLoad = true significa
-             que el nodo que se cacheará (y descacheará) en el cliente no
-             estará presente en el DOM de carga.
-             Esto es debido a que el programador ha utilizado el nodo de alguna
-             manera (por ejemplo usando ScriptUtil.getNodeReference()) pues
-             en inserción no hay cacheado.
-             En el caso de error NO evitamos que se envíe el código JavaScript al cliente
-             pues nos interesa que de error (aunque en este caso no ocurre) pues se da el problema
-             de la captura de excepciones en el proceso de los mutation events del Batik DOM (afortunadamente el error se ve en la consola)
-             */
-            ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-            if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
-                throw new ItsNatDOMException("A cached DOM node is being removed on load time in fast load mode. Avoid any access to this node or avoid removing in load time (use a load event instead) or disable fast load mode.",node);
-        }
-    }
-
-    private void removeTreeFromNodeCache(Node node,LinkedList<String> idList)
-    {
-        String id = clientDoc.removeNodeFromCache(node);
-        if ((id != null)&&(idList != null))
-            idList.add(id);
-
-        Node child = node.getFirstChild();
-        while (child != null)
-        {
-            removeTreeFromNodeCache(child,idList);
-            child = child.getNextSibling();
-        }
-    }
 
     protected void processTreeInsertedElementDocContainer(boolean beforeRender,Node node)
     {
@@ -375,15 +175,17 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
                 {
                     // Un iframe/object/embed/applet binding ha sido registrado, modificamos el atributo que define el URL
                     // para que al renderizar se envíe el nuevo
-                    if (clientDoc instanceof ClientDocumentStfulOwnerImpl)
-                        bindInfo.setURLForClientOwner((ClientDocumentStfulOwnerImpl)clientDoc);
+                    ClientDocumentStfulImpl clientDocParent = clientDoc.getClientDocumentStful();
+                    if (clientDocParent instanceof ClientDocumentStfulOwnerImpl)
+                        bindInfo.setURLForClientOwner((ClientDocumentStfulOwnerImpl)clientDocParent);
                     else // attached
-                        bindInfo.setURLForClientAttached((ClientDocumentAttachedClientImpl)clientDoc);
+                        bindInfo.setURLForClientAttached((ClientDocumentAttachedClientImpl)clientDocParent);
                 }
                 else // after
                 {
                     // Como fue cambiado el URL, hay que restaurar
-                    bindInfo.restoreOriginalURL(clientDoc);
+                    ClientDocumentStfulImpl clientDocParent = clientDoc.getClientDocumentStful();
+                    bindInfo.restoreOriginalURL(clientDocParent);
                 }
                 docMut.setEnabled(modeOld);
             }
@@ -396,14 +198,109 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
             child = child.getNextSibling();
         }
     }
+    
+    public void renderAndSendMutationCode(MutationEvent mutEvent)
+    {
+        String type = mutEvent.getType();
+        if (type.equals("DOMNodeInserted"))
+        {
+            // Hay que tener en cuenta que el nodo YA está insertado en el DOM servidor
+            //Element parent = (Element)mutEvent.getRelatedNode();
+            Node newNode = (Node)mutEvent.getTarget();
 
+            Object code = getTreeDOMNodeInsertedCode(newNode);
+            clientDoc.addCodeToSend(code);
+        }
+        else if (type.equals("DOMNodeRemoved"))
+        {
+            // El nodo todavía no ha sido removido del árbol DOM servidor
+
+            //Element parent = (Element)mutEvent.getRelatedNode();
+            Node removedNode = (Node)mutEvent.getTarget();
+
+            // No damos error en el caso de desconectado pero no generamos el código porque necesitamos
+            // eliminar los nodos hijo sin que el cliente se entere, esto sólo es en fase de
+            // desconexión pues estando desconectado un nodo no podrán insertarse hijos nuevos (ni por tanto eliminarse)
+            if (!isDisconnectedFromClient(removedNode))
+            {
+                Object code = getTreeDOMNodeRemovedCode(removedNode);
+                clientDoc.addCodeToSend(code);
+            }
+        }
+        else if (type.equals("DOMAttrModified"))
+        {
+            Attr attr = (Attr)mutEvent.getRelatedNode();
+            Element elem = (Element)mutEvent.getTarget();
+            int changeType = mutEvent.getAttrChange();            
+            String code = getDOMAttrModifiedCode(attr,elem,changeType);
+
+            clientDoc.addCodeToSend(code);
+        }
+        else if (type.equals("DOMCharacterDataModified"))
+        {
+            CharacterData charDataNode = (CharacterData)mutEvent.getTarget();
+            String code = getCharacterDataModifiedCode(charDataNode);
+            clientDoc.addCodeToSend(code);
+        }
+    }    
+    
+    protected void removeTreeFromNodeCache(Node node)
+    {
+        // Quitamos los nodos del trozo de árbol del caché (si hay) porque cuando insertamos
+        // un nodo al documento en el cliente enviamos siempre la "regeneración"
+        // via DOM del nodo porque no detectamos cambios en nodos que no están
+        // vinculados al Document, sin embargo el nodo en el servidor que se inserta puede ser
+        // un nodo que previamente se quitara del árbol (y conservamos) y que si no quitamos
+        // de la caché aquí estaría en la cache posiblemente, pero en el cliente el nodo será uno nuevo,
+        // así desde el punto de vista  de la caché el nodo insertado es nuevo.
+
+        LinkedList<String> idList = null;
+        if (clientDoc.getClientDocumentStful().isSendCodeEnabled())
+            idList = new LinkedList<String>();
+
+        removeTreeFromNodeCache(node,idList);
+
+        if ((idList != null)&& !idList.isEmpty())
+        {
+            String code = getRemoveNodeFromCacheCode(idList); 
+            clientDoc.addCodeToSend(code);   // El código generado es compatible con todos los navegadores
+
+            /*
+             Un nodo se quita de la caché cuando se elimina del documento DOM
+             (salvo algún en un caso especial de "preventive caching"),
+             si esto se ejecuta en tiempo de carga y fastLoad = true significa
+             que el nodo que se cacheará (y descacheará) en el cliente no
+             estará presente en el DOM de carga.
+             Esto es debido a que el programador ha utilizado el nodo de alguna
+             manera (por ejemplo usando ScriptUtil.getNodeReference()) pues
+             en inserción no hay cacheado.
+             En el caso de error NO evitamos que se envíe el código JavaScript al cliente
+             pues nos interesa que de error (aunque en este caso no ocurre) pues se da el problema
+             de la captura de excepciones en el proceso de los mutation events del Batik DOM (afortunadamente el error se ve en la consola)
+             */
+            ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
+            if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
+                throw new ItsNatDOMException("A cached DOM node is being removed on load time in fast load mode. Avoid any access to this node or avoid removing in load time (use a load event instead) or disable fast load mode.",node);
+        }
+    }    
+    
     public void removeAllChild(Node node)
     {
-        if (canRenderAndSendMutationJSCode()) // Por si acaso está desactivado el enviar código en este cliente
+        if (canRenderAndSendMutationCode()) // Por si acaso está desactivado el enviar código en este cliente
         {
-            JSRenderNotAttrOrViewNodeImpl render = (JSRenderNotAttrOrViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(node,clientDoc);
-            String code = render.getRemoveAllChildCode(node,clientDoc);
+            String code = getRemoveAllChildCode(node);
             clientDoc.addCodeToSend(code);
         }
     }
+    
+
+    public abstract String getRemoveAllChildCode(Node node);    
+    public abstract void preRenderAndSendMutationCode(MutationEvent mutEvent);  
+    public abstract Object getTreeDOMNodeInsertedCode(Node newNode);
+    public abstract Object getTreeDOMNodeRemovedCode(Node removedNode);
+    public abstract String getRemoveNodeFromCacheCode(LinkedList<String> idList);
+    protected abstract String getDOMAttrModifiedCode(Attr attr,Element elem,int changeType);
+    public abstract void postRenderAndSendMutationCode(MutationEvent mutEvent);    
+    protected abstract String getCharacterDataModifiedCode(CharacterData charDataNode);  
+
 }
