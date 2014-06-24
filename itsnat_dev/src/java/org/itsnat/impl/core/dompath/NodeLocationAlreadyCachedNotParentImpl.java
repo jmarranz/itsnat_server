@@ -44,7 +44,7 @@ public class NodeLocationAlreadyCachedNotParentImpl extends NodeLocationNotNullI
     {
         this.used = true;
         
-        return getIdAsScript(); // 1 item
+        return toScriptArray( getIdAsScript() ); // 1 item
     }
 
 }

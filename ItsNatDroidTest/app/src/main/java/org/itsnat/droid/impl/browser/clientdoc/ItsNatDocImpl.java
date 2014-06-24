@@ -1,9 +1,11 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflater;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
 
@@ -40,12 +42,6 @@ public class ItsNatDocImpl implements ItsNatDoc
         setAttributeNS(node,null,name,value);
     }
 
-    @Override
-    public void setAttribute2(String idObj, String name, String value)
-    {
-        setAttributeNS2(idObj, null, name, value);
-    }
-
     public void setAttribute2(Object[] idObj,String name,String value)
     {
         setAttributeNS2(idObj, null, name, value);
@@ -56,13 +52,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         //name = removePrefix(name); // Por si acaso filtramos un posible prefijo, nos nos interesa un valor con prefijo que nos envíen ej "android:background" por una parte porque no tiene sentido (ni en DOM ni en Views) y porque gestionamos los nombres de atributos del namespace android sin el prefijo
 
         ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(node);
-        viewClassDesc.setAttribute(node,namespaceURI,name,value,null,page.getInflateRequestImpl(),page.getInflatedLayoutImpl());
-    }
-
-    public void setAttributeNS2(String idObj,String namespaceURI,String name,String value)
-    {
-        View elem = getNode(idObj);
-        setAttributeNS(elem, namespaceURI, name, value);
+        viewClassDesc.setAttribute(node,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
     }
 
     public void setAttributeNS2(Object[] idObj,String namespaceURI,String name,String value)
@@ -78,12 +68,6 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
-    public void removeAttribute2(String idObj, String name)
-    {
-        removeAttributeNS2(idObj,null,name);
-    }
-
-    @Override
     public void removeAttribute2(Object[] idObj, String name)
     {
         removeAttributeNS2(idObj,null,name);
@@ -93,14 +77,7 @@ public class ItsNatDocImpl implements ItsNatDoc
     public void removeAttributeNS(View node, String namespaceURI, String name)
     {
         ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(node);
-        viewClassDesc.removeAttribute(node, namespaceURI, name, page.getInflateRequestImpl(),page.getInflatedLayoutImpl());
-    }
-
-    @Override
-    public void removeAttributeNS2(String idObj, String namespaceURI, String name)
-    {
-        View node = getNode(idObj);
-        removeAttributeNS(node, namespaceURI, name);
+        viewClassDesc.removeAttribute(node, namespaceURI, name, page.getInflatedLayoutImpl());
     }
 
     @Override
@@ -110,29 +87,20 @@ public class ItsNatDocImpl implements ItsNatDoc
         removeAttributeNS(node, namespaceURI, name);
     }
 
-    public View getNode(String id)
-    {
-//if (true) return getPage().getInflatedLayout().getRootView();
-
-        if (id == null) return null;
-        String cachedParentId = null;
-        String path = null;
-        String[] newCachedParentIds = null;
-        return getNode(id,path,cachedParentId,newCachedParentIds);
-    }
-
     public View getNode(Object[] idObj)
     {
-// if (true) return getPage().getInflatedLayout().getRootView();
-
         if (idObj == null) return null;
         String id = null;
         String cachedParentId = null;
         String path = null;
         Object[] newCachedParentIds = null;
         int len = idObj.length;
-        // No existe el caso de len = 1 (en ese caso es una string directamente)
-        if (len == 2)
+        // El caso len = 1 se recibe como una string directamente por otro método
+        if (len == 1)
+        {
+            id = (String)idObj[0];
+        }
+        else if (len == 2)
         {
             id = (String)idObj[0];
             newCachedParentIds = (Object[])idObj[1];
@@ -213,12 +181,68 @@ public class ItsNatDocImpl implements ItsNatDoc
         return (View)parentNode.getParent();
     }
 
-/*
-    private String removePrefix(String name)
+    public View createElement(String name)
     {
-        int pos = name.indexOf(':');
-        if (pos == -1) return name;
-        return name.substring(pos + 1);
+        return createElementNS(null,name);
     }
-*/
+
+    public View createElementNS(String namespaceURI,String name)
+    {
+        // El namespaceURI es irrelevante
+        ClassDescViewBase classDesc = XMLLayoutInflater.getClassDescViewBase(name);
+        return classDesc.createAndAddViewObject(null, 0, page.getInflatedLayoutImpl().getContext());
+    }
+
+    private int getChildIndex(ViewGroup parentView,View view)
+    {
+        // Esto es una chapuza pero no hay opción
+        int size = parentView.getChildCount();
+        for(int i = 0; i < size; i++)
+        {
+            if (parentView.getChildAt(i) == view)
+                return i;
+        }
+        return -1;
+    }
+
+    public void insertBefore(View parentNode,View newChild,View childRef)
+    {
+        if (childRef == null) { appendChild(parentNode, newChild); return; }
+        else
+        {
+            ViewGroup parentView = (ViewGroup)parentNode;
+            parentView.addView(newChild, getChildIndex(parentView,childRef));
+        }
+    }
+
+    public void insertBefore2(View parentNode,View newChild,View childRef,String newId)
+    {
+        insertBefore(parentNode, newChild, childRef);
+        if (newId != null) addNodeCache2(newId,newChild);
+    }
+
+    public void insertBefore3(Object[] parentIdObj,View newChild,Object[] childRefIdObj,String newId)
+    {
+        View parentNode = getNode(parentIdObj);
+        View childRef = getNode2(parentNode,childRefIdObj);
+        this.insertBefore2(parentNode,newChild,childRef,newId);
+    }
+
+    public void appendChild(View parentNode,View newChild)
+    {
+        ((ViewGroup)parentNode).addView(newChild);
+    }
+
+    public void appendChild2(View parentNode,View newChild,String newId)
+    {
+        this.appendChild(parentNode,newChild);
+        if (newId != null) addNodeCache2(newId,newChild);
+    }
+
+    public void appendChild3(Object[] idObj,View newChild,String newId)
+    {
+        View parentNode = getNode(idObj);
+        appendChild2(parentNode, newChild, newId);
+    }
+
 }

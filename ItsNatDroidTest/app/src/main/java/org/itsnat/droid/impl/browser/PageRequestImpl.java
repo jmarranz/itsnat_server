@@ -90,7 +90,7 @@ public class PageRequestImpl implements PageRequest
                     String[] scriptArr = new String[1];
                     InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
                     String loadScript = scriptArr[0];
-                    PageImpl page = new PageImpl(browser, url, inflated, result, loadScript,inflateRequest);
+                    PageImpl page = new PageImpl(browser, url, inflated, result, loadScript);
                     pageListener.onPage(page);
                 }
                 catch(Exception ex)

@@ -28,15 +28,13 @@ public class PageImpl implements Page
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
     protected String id;
-    protected InflateRequestImpl inflateRequest; // Guardamos el inflater de carga porque al ejecutar el script se necesita
 
-    public PageImpl(ItsNatDroidBrowserImpl browser,String url,InflatedLayoutImpl inflated,byte[] content,String loadScript,InflateRequestImpl inflateRequest)
+    public PageImpl(ItsNatDroidBrowserImpl browser,String url,InflatedLayoutImpl inflated,byte[] content,String loadScript)
     {
         this.browser = browser;
         this.url = url;
         this.inflated = inflated;
         this.content = content;
-        this.inflateRequest = inflateRequest;
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 
@@ -69,11 +67,6 @@ public class PageImpl implements Page
     public byte[] getContent()
     {
         return content;
-    }
-
-    public InflateRequestImpl getInflateRequestImpl()
-    {
-        return inflateRequest;
     }
 
     public void setSessionIdAndClientId(String sessionId,String id)

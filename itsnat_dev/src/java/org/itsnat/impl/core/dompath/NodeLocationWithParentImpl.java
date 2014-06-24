@@ -115,7 +115,7 @@ public class NodeLocationWithParentImpl extends NodeLocationImpl
         {
             NodeLocationAlreadyCachedNotParentImpl nodeLocDeleg = (NodeLocationAlreadyCachedNotParentImpl)nodeLocationDeleg;
             if (newCachedParentIds == null)
-                return nodeLocDeleg.getIdAsScript(); // 1 item
+                return toScriptArray ( nodeLocDeleg.getIdAsScript() ); // 1 item
             else
             {
                 return toScriptArray( nodeLocDeleg.getIdAsScript() + "," + toScriptArrayCachedParents() );

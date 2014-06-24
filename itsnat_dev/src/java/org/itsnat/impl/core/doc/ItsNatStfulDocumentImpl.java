@@ -709,11 +709,12 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         getClientDocumentStfulOwner().getItsNatSessionImpl().cleanExcessClientDocumentAttachedClients(this); // Lo hacemos efectivo ya mismo
     }
 
+    /*
     public ThreadLocal<ClientDocumentStfulImpl> getEventDispatcherThreadLocal()
     {
         return evtDispThreadLocal;
     }
-
+*/
     public ClientDocumentStfulImpl getEventDispatcherClientDocByThread()
     {
         return evtDispThreadLocal.get();

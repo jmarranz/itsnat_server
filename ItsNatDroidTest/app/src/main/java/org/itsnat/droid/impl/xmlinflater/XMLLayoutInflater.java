@@ -1,11 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater;
 
-import android.content.Context;
 import android.util.Xml;
 import android.view.View;
-import android.view.ViewGroup;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
@@ -22,7 +19,7 @@ public class XMLLayoutInflater
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
-    public static InflatedLayoutImpl inflate(InputStream input,String[] script, InflateRequestImpl request)
+    public static void inflate(InputStream input,String[] script, InflatedLayoutImpl inflated)
     {
         try
         {
@@ -30,20 +27,14 @@ public class XMLLayoutInflater
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input, null);
 
-            InflatedLayoutImpl inflated = new InflatedLayoutImpl();
-            View rootView = createNextView(parser,null,script,request,inflated);
+            View rootView = createNextView(parser,null,script,inflated);
             inflated.setRootView(rootView);
-            return inflated;
         }
         catch (IOException ex)
         {
             throw new ItsNatDroidException(ex);
         }
         catch (XmlPullParserException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
-        catch (ClassNotFoundException ex)
         {
             throw new ItsNatDroidException(ex);
         }
@@ -60,7 +51,7 @@ public class XMLLayoutInflater
         }
     }
 
-    private static View createNextView(XmlPullParser parser,View viewParent,String[] script,InflateRequestImpl request,InflatedLayoutImpl inflated) throws IOException, XmlPullParserException, ClassNotFoundException
+    private static View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -76,26 +67,33 @@ public class XMLLayoutInflater
                 continue;
             }
 
-            Class<View> viewClass = resolveViewClass(viewName);
-
-            ClassDescViewBase classDesc = ClassDescViewMgr.get(viewClass);
-            View view = classDesc.createView(viewParent,parser,request,inflated);
+            ClassDescViewBase classDesc = getClassDescViewBase(viewName);
+            View view = classDesc.createAndAddViewObjectAndFillAttributes(viewParent, parser, inflated);
 
             // No funciona, sólo funciona con XML compilados:
             //AttributeSet attributes = Xml.asAttributeSet(parser);
             //LayoutInflater inf = LayoutInflater.from(ctx);
-            //View view = inf.createView(viewName,null,attributes);
+            //View view = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
-            View childView = createNextView(parser,view,script,request,inflated);
+            View childView = createNextView(parser,view,script,inflated);
             while(childView != null)
             {
-                childView = createNextView(parser,view,script,request,inflated);
+                childView = createNextView(parser,view,script,inflated);
             }
             return view;
         }
         return null;
     }
 
+
+    public static ClassDescViewBase getClassDescViewBase(String viewName)
+    {
+        Class<View> viewClass = null;
+        try { viewClass = resolveViewClass(viewName); }
+        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+        ClassDescViewBase classDesc = ClassDescViewMgr.get(viewClass);
+        return classDesc;
+    }
 
     private static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException
     {

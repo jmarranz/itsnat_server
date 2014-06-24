@@ -25,20 +25,25 @@ public class TestDroidDocument implements EventListener,Serializable
 
         Document doc = itsNatDoc.getDocument();
         Element textView = doc.getElementById("textViewTest2");
+        String bgTextViewTest2 = textView.getAttributeNS("http://schemas.android.com/apk/res/android", "background");
         textView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");
         textView.removeAttributeNS("http://schemas.android.com/apk/res/android", "background");        
+        textView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", bgTextViewTest2);       
         textView.setAttribute("id", "BAD ID");  
         textView.removeAttribute("id");         
         textView.setAttribute("id", "textViewTest2");
         //((EventTarget)elem).addEventListener("click", this,false);
 
-        Element customTextView = doc.createElement("org.itsnat.itsnatdroidtest.CustomTextView");
-        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "id", "@id/textViewTest3");
-        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "@string/hello_world3");
-        
+        Element customTextView = doc.createElement("org.itsnat.itsnatdroidtest.CustomTextView");       
         Element buttonTest = doc.getElementById("buttonTest");
         doc.getDocumentElement().insertBefore(customTextView, buttonTest);
-        
+        // Conviene definir en Android los atributos después de insertar, sobre todo los relacionados con los diferentes tipos de LayoutParam
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "id", "@id/textViewTest3");
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "@string/hello_world3");        
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");        
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");        
+
         
 /*        
     <org.itsnat.itsnatdroidtest.CustomTextView

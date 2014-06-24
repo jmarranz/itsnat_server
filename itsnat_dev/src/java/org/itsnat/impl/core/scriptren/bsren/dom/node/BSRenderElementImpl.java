@@ -66,9 +66,9 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
     {
         String namespace = nodeElem.getNamespaceURI();
         if (namespace != null)
-            return "itsNatDoc.doc.createElementNS(\"" + namespace + "\",\"" + tagName + "\")";
+            return "itsNatDoc.createElementNS(\"" + namespace + "\",\"" + tagName + "\")";
         else
-            return "itsNatDoc.doc.createElement(\"" + tagName + "\")";      
+            return "itsNatDoc.createElement(\"" + tagName + "\")";      
     }
 
     protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateDroidImpl clientDoc)

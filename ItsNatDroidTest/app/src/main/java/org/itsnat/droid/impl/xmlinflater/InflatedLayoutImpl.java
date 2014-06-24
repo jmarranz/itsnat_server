@@ -1,8 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewParent;
 
+import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
@@ -13,10 +15,15 @@ public class InflatedLayoutImpl implements InflatedLayout
 {
     protected View rootView;
     protected WeakMapWithValue<String,View> mapIdViewXMLStd;
+    protected Context ctx;
+    protected AttrCustomInflaterListener inflateListener;
 
-    public InflatedLayoutImpl()
+
+    public InflatedLayoutImpl(AttrCustomInflaterListener inflateListener,Context ctx)
     {
-        this.rootView = rootView;
+        // rootView se define a posteriori
+        this.inflateListener = inflateListener;
+        this.ctx = ctx;
     }
 
     @Override
@@ -28,6 +35,16 @@ public class InflatedLayoutImpl implements InflatedLayout
     public void setRootView(View rootView)
     {
         this.rootView = rootView;
+    }
+
+    public AttrCustomInflaterListener getAttrCustomInflaterListener()
+    {
+        return inflateListener;
+    }
+
+    public Context getContext()
+    {
+        return ctx;
     }
 
     private WeakMapWithValue<String,View> getMapIdViewXMLStd()

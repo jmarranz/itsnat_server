@@ -52,6 +52,8 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(InputStream input,String[] code)
     {
-        return XMLLayoutInflater.inflate(input,code,this);
+        InflatedLayoutImpl inflated = new InflatedLayoutImpl(inflateListener,ctx);
+        XMLLayoutInflater.inflate(input,code,inflated);
+        return inflated;
     }
 }

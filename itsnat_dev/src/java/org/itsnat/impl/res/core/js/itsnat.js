@@ -1406,12 +1406,15 @@ function Document()
     {
         if (idObj == null) return null;
         var cachedParentId = null,id = null,path = null,newCachedParentIds = null;
-        if (typeof idObj == "string") id = idObj;
+        if (typeof idObj == "string") id = idObj; // En teoría ya no ocurre nunca, se pasa siempre un array aunque sea de un elemento con la cadena del id
         else // array
         {
             var len = idObj.length;
-            // No existe el caso de len = 1 (en ese caso es una string directamente)
-            if (len == 2)
+            if (len == 1)
+            {
+              id = idObj[0];                
+            }
+            else if (len == 2)
             {
               id = idObj[0];
               newCachedParentIds = idObj[1];

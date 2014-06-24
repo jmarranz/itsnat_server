@@ -81,7 +81,7 @@ public class ClassDescViewBase
         return attrDescMap.get(name);
     }
 
-    public boolean setAttribute(View view,String namespace,String name,String value,ParsePhase parsePhase,InflateRequestImpl request,InflatedLayoutImpl inflated)
+    public boolean setAttribute(View view,String namespace,String name,String value,ParsePhase parsePhase,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
@@ -98,12 +98,12 @@ public class ClassDescViewBase
             {
                 if (parent != null)
                 {
-                    parent.setAttribute(view, namespace, name, value, parsePhase, request,inflated);
+                    parent.setAttribute(view, namespace, name, value, parsePhase, inflated);
                 }
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    AttrCustomInflaterListener listener = request.getAttrCustomInflaterListener();
+                    AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
                     if (listener != null) listener.setAttribute(view,namespace, name, value);
                 }
             }
@@ -115,7 +115,7 @@ public class ClassDescViewBase
         else
         {
             // No se encuentra opción de proceso custom
-            AttrCustomInflaterListener listener = request.getAttrCustomInflaterListener();
+            AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
             if (listener != null) listener.setAttribute(view,namespace, name, value);
         }
 
@@ -123,7 +123,7 @@ public class ClassDescViewBase
     }
 
 
-    public boolean removeAttribute(View view,String namespace,String name,InflateRequestImpl request,InflatedLayoutImpl inflated)
+    public boolean removeAttribute(View view,String namespace,String name,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
@@ -140,12 +140,12 @@ public class ClassDescViewBase
             {
                 if (parent != null)
                 {
-                    parent.removeAttribute(view, namespace, name, request,inflated);
+                    parent.removeAttribute(view, namespace, name, inflated);
                 }
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    AttrCustomInflaterListener listener = request.getAttrCustomInflaterListener();
+                    AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
                     if (listener != null) listener.removeAttribute(view, namespace, name);
                 }
             }
@@ -157,7 +157,7 @@ public class ClassDescViewBase
         else
         {
             // No se encuentra opción de proceso custom
-            AttrCustomInflaterListener listener = request.getAttrCustomInflaterListener();
+            AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
             if (listener != null) listener.removeAttribute(view, namespace, name);
         }
 
@@ -169,16 +169,24 @@ public class ClassDescViewBase
         return (namespace == null || "".equals(namespace)) && "id".equals(name);
     }
 
-    public View createView(View viewParent,XmlPullParser parser,InflateRequestImpl request,InflatedLayoutImpl inflated)
+    public View createAndAddViewObjectAndFillAttributes(View viewParent, XmlPullParser parser, InflatedLayoutImpl inflated)
     {
-        View view = createViewObject(request.getContext(), parser);
-        if (viewParent != null) ((ViewGroup) viewParent).addView(view);
-        else fixViewRootLayoutParams(view); // view es la vista root
-        fillViewAttributes(view, parser,request,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        Context ctx = inflated.getContext();
+        int idStyle = findStyleAttribute(parser,ctx);
+        View view = createAndAddViewObject(viewParent, idStyle,ctx);
+        fillViewAttributes(view, parser,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }
 
-    private View createViewObject(Context ctx,XmlPullParser parser)
+    public View createAndAddViewObject(View viewParent,int idStyle, Context ctx)
+    {
+        View view = createViewObject(ctx, idStyle);
+        if (viewParent != null) ((ViewGroup) viewParent).addView(view);
+        else fixViewRootLayoutParams(view); // view es la vista root
+        return view;
+    }
+
+    private View createViewObject(Context ctx,int idStyle)
     {
         Class<View> clasz = initClass();
 
@@ -186,7 +194,6 @@ public class ClassDescViewBase
         {
             if (constructor == null) constructor = clasz.getConstructor(Context.class);
 
-            int idStyle = findStyleAttribute(parser,ctx);
             if (idStyle != 0)
             {
                 /* NO FUNCIONA
@@ -225,7 +232,7 @@ public class ClassDescViewBase
     }
 
 
-    private void fillViewAttributes(View view,XmlPullParser parser,InflateRequestImpl request,InflatedLayoutImpl inflated)
+    private void fillViewAttributes(View view,XmlPullParser parser,InflatedLayoutImpl inflated)
     {
         ParsePhase parsePhase = new ParsePhase();
         for(int i = 0; i < parser.getAttributeCount(); i++)
@@ -233,7 +240,7 @@ public class ClassDescViewBase
             String namespace = parser.getAttributeNamespace(i);
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            setAttribute(view,namespace, name, value, parsePhase,request,inflated);
+            setAttribute(view,namespace, name, value, parsePhase,inflated);
         }
 
         if (parsePhase.neededSetLayoutParams)
