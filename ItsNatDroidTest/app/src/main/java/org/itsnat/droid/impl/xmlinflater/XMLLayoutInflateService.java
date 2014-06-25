@@ -4,6 +4,7 @@ import android.util.Xml;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
 import org.xmlpull.v1.XmlPullParser;
@@ -13,13 +14,26 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by jmarranz on 28/04/14.
+ * Created by jmarranz on 25/06/14.
  */
-public class XMLLayoutInflater
+public class XMLLayoutInflateService
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
-    public static void inflate(InputStream input,String[] script, InflatedLayoutImpl inflated)
+    protected ItsNatDroidImpl parent;
+    protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
+
+    public XMLLayoutInflateService(ItsNatDroidImpl parent)
+    {
+        this.parent = parent;
+    }
+
+    public ClassDescViewMgr getClassDescViewMgr()
+    {
+        return classDescViewMgr;
+    }
+
+    public void inflate(InputStream input,String[] script, InflatedLayoutImpl inflated)
     {
         try
         {
@@ -51,7 +65,7 @@ public class XMLLayoutInflater
         }
     }
 
-    private static View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated) throws IOException, XmlPullParserException
+    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -86,12 +100,12 @@ public class XMLLayoutInflater
     }
 
 
-    public static ClassDescViewBase getClassDescViewBase(String viewName)
+    public ClassDescViewBase getClassDescViewBase(String viewName)
     {
         Class<View> viewClass = null;
         try { viewClass = resolveViewClass(viewName); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        ClassDescViewBase classDesc = ClassDescViewMgr.get(viewClass);
+        ClassDescViewBase classDesc = classDescViewMgr.get(viewClass);
         return classDesc;
     }
 

@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.ParsePhase;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.xmlpull.v1.XmlPullParser;
@@ -87,7 +86,7 @@ public class ClassDescViewBase
 
         if (namespace != null && namespace.isEmpty() && name.equals("style")) return false; // Se trata de forma especial
 
-        if (XMLLayoutInflater.XMLNS_ANDROID.equals(namespace))
+        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespace))
         {
             AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)
@@ -129,7 +128,7 @@ public class ClassDescViewBase
 
         if (namespace != null && namespace.isEmpty() && name.equals("style")) return false; // Se trata de forma especial
 
-        if (XMLLayoutInflater.XMLNS_ANDROID.equals(namespace))
+        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespace))
         {
             AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)

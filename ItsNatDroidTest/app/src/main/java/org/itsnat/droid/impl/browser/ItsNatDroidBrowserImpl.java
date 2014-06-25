@@ -76,6 +76,11 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return httpParams;
     }
 
+    public ItsNatDroidImpl getItsNatDroidImpl()
+    {
+        return parent;
+    }
+
     public ItsNatSessionImpl getItsNatSession(String id)
     {
         ItsNatSessionImpl session = sessionList.get(id);
@@ -116,7 +121,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     @Override
     public PageRequest createPageRequest()
     {
-        return new PageRequestImpl(this);
+        return new PageRequestImpl(this,parent.getXMLLayoutInflateService());
     }
 
     public UniqueIdGenerator getUniqueIdGenerator()

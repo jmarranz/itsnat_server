@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.view.View;
 
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+
 import java.util.HashMap;
 
 /**
@@ -9,9 +11,16 @@ import java.util.HashMap;
  */
 public class ClassDescViewMgr
 {
-    private static final HashMap<String,ClassDescViewBase> classes = new HashMap<String,ClassDescViewBase>();
+    protected XMLLayoutInflateService parent;
+    private final HashMap<String,ClassDescViewBase> classes = new HashMap<String,ClassDescViewBase>();
 
-    static
+    public ClassDescViewMgr(XMLLayoutInflateService parent)
+    {
+        this.parent = parent;
+        initClassDesc();
+    }
+
+    private void initClassDesc()
     {
         ClassDescViewView view_View = new ClassDescViewView();
         addClassDescViewBase(view_View);
@@ -32,32 +41,31 @@ public class ClassDescViewMgr
         addClassDescViewBase(widget_Button);
     }
 
-
-    private static void addClassDescViewBase(ClassDescViewBase viewDesc)
+    private void addClassDescViewBase(ClassDescViewBase viewDesc)
     {
         classes.put(viewDesc.getClassName(), viewDesc);
     }
 
-    private static ClassDescViewBase getInternal(String className)
+    private ClassDescViewBase getInternal(String className)
     {
         ClassDescViewBase classDesc = classes.get(className);
         return classDesc; // Puede ser nulo
     }
 
-    public static ClassDescViewBase get(Class<View> viewClass)
+    public ClassDescViewBase get(Class<View> viewClass)
     {
         ClassDescViewBase classDesc = getInternal(viewClass.getName());
         if (classDesc == null) classDesc = registerUnknown(viewClass);
         return classDesc; // Nunca es nulo
     }
 
-    public static ClassDescViewBase get(View view)
+    public ClassDescViewBase get(View view)
     {
         Class<View> viewClass = (Class<View>)view.getClass();
         return get(viewClass);
     }
 
-    public static ClassDescViewBase registerUnknown(Class<View> viewClass)
+    public ClassDescViewBase registerUnknown(Class<View> viewClass)
     {
         String className = viewClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible

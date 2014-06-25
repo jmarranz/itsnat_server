@@ -10,6 +10,7 @@ import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 import java.io.ByteArrayInputStream;
 
@@ -18,6 +19,7 @@ import java.io.ByteArrayInputStream;
  */
 public class PageRequestImpl implements PageRequest
 {
+    protected XMLLayoutInflateService inflateService;
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
     protected HttpParams httpParams;
@@ -25,11 +27,18 @@ public class PageRequestImpl implements PageRequest
     protected OnErrorListener errorListener;
     protected AttrCustomInflaterListener inflateListener;
 
-    public PageRequestImpl(ItsNatDroidBrowserImpl browser)
+    public PageRequestImpl(ItsNatDroidBrowserImpl browser,XMLLayoutInflateService inflateService)
     {
         this.browser = browser;
+        this.inflateService = inflateService;
     }
 
+    /*
+    public XMLLayoutInflateService getXMLLayoutInflateService()
+    {
+        return inflateService;
+    }
+*/
 
     @Override
     public PageRequest setContext(Context ctx)
@@ -73,7 +82,7 @@ public class PageRequestImpl implements PageRequest
         execute(browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
     }
 
-    public static void execute(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParamsRequest, final OnPageListener pageListener,final OnErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
+    public static void execute(ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
     {
         DownloadTask task = new DownloadTask(browser,httpParamsRequest,url)
         {
@@ -83,7 +92,8 @@ public class PageRequestImpl implements PageRequest
                 try
                 {
                     ByteArrayInputStream input = new ByteArrayInputStream(result);
-                    InflateRequestImpl inflateRequest = new InflateRequestImpl();
+
+                    InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
                     inflateRequest.setContext(ctx);
                     if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
 

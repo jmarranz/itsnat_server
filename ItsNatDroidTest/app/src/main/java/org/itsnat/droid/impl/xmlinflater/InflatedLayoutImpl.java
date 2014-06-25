@@ -6,6 +6,7 @@ import android.view.ViewParent;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
 /**
@@ -13,17 +14,24 @@ import org.itsnat.droid.impl.util.WeakMapWithValue;
  */
 public class InflatedLayoutImpl implements InflatedLayout
 {
+    protected ItsNatDroidImpl parent;
     protected View rootView;
     protected WeakMapWithValue<String,View> mapIdViewXMLStd;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
 
 
-    public InflatedLayoutImpl(AttrCustomInflaterListener inflateListener,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl parent,AttrCustomInflaterListener inflateListener,Context ctx)
     {
         // rootView se define a posteriori
+        this.parent = parent;
         this.inflateListener = inflateListener;
         this.ctx = ctx;
+    }
+
+    public XMLLayoutInflateService getXMLLayoutInflateService()
+    {
+        return parent.getXMLLayoutInflateService();
     }
 
     @Override

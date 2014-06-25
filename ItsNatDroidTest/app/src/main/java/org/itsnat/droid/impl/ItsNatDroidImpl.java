@@ -5,6 +5,7 @@ import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 
 /**
@@ -13,6 +14,8 @@ import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 public class ItsNatDroidImpl implements ItsNatDroid
 {
     public static final ItsNatDroidImpl DEFAULT = new ItsNatDroidImpl();
+
+    protected XMLLayoutInflateService inflateService = new XMLLayoutInflateService(this); // Sólo creamos una instancia pues cuesta mucho instanciar los objetos procesadores de clases y atributos
 
     @Override
     public ItsNatDroidBrowser createItsNatDroidBrowser()
@@ -24,6 +27,11 @@ public class ItsNatDroidImpl implements ItsNatDroid
     {
         // El modelo ItsNat está muy bien pero ofrecemos como alternativa que el propio programador se descargue sus layouts
         // y los gestione a su manera
-        return new InflateRequestImpl();
+        return new InflateRequestImpl(this);
+    }
+
+    public XMLLayoutInflateService getXMLLayoutInflateService()
+    {
+        return inflateService;
     }
 }

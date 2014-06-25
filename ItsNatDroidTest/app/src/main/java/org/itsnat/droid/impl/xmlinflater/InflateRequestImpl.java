@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 
 import java.io.InputStream;
 
@@ -13,11 +14,13 @@ import java.io.InputStream;
  */
 public class InflateRequestImpl implements InflateRequest
 {
+    protected ItsNatDroidImpl parent;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
 
-    public InflateRequestImpl()
+    public InflateRequestImpl(ItsNatDroidImpl parent)
     {
+        this.parent = parent;
     }
 
     @Override
@@ -52,8 +55,8 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(InputStream input,String[] code)
     {
-        InflatedLayoutImpl inflated = new InflatedLayoutImpl(inflateListener,ctx);
-        XMLLayoutInflater.inflate(input,code,inflated);
+        InflatedLayoutImpl inflated = new InflatedLayoutImpl(parent,inflateListener,ctx);
+        parent.getXMLLayoutInflateService().inflate(input, code, inflated);
         return inflated;
     }
 }

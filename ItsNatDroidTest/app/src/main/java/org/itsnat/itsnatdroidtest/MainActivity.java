@@ -137,7 +137,8 @@ public class MainActivity extends Activity {
             @Override
             public void onPage(final Page page)
             {
-                new AlertDialog.Builder(MainActivity.this).setTitle("XML").setMessage(new String(page.getContent())).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+                new AlertDialog.Builder(MainActivity.this).setTitle("XML").setMessage(new String(page.getContent()))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
                 {
                     public void onClick(DialogInterface dialog, int which)
                     {
@@ -150,7 +151,6 @@ public class MainActivity extends Activity {
                         // do nothing
                     }
                 }).setIcon(android.R.drawable.ic_dialog_alert).show();
-
 
                 View layout = page.getInflatedLayout().getRootView();
                 setContentView(layout);

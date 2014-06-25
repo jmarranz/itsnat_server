@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
 
@@ -55,7 +55,8 @@ public class ItsNatDocImpl implements ItsNatDoc
         //name = removePrefix(name); // Por si acaso filtramos un posible prefijo, nos nos interesa un valor con prefijo que nos envíen ej "android:background" por una parte porque no tiene sentido (ni en DOM ni en Views) y porque gestionamos los nombres de atributos del namespace android sin el prefijo
 
         View view = node.getView();
-        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(view);
+        ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBase viewClassDesc = viewMgr.get(view);
         viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
     }
 
@@ -82,7 +83,8 @@ public class ItsNatDocImpl implements ItsNatDoc
     public void removeAttributeNS(Node node, String namespaceURI, String name)
     {
         View view = node.getView();
-        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(view);
+        ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBase viewClassDesc = viewMgr.get(view);
         viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutImpl());
     }
 
@@ -185,7 +187,7 @@ public class ItsNatDocImpl implements ItsNatDoc
 
     public Node getParentNode(Node parentNode)
     {
-        return NodeImpl.create((View)parentNode.getView().getParent());
+        return NodeImpl.create((View) parentNode.getView().getParent());
     }
 
     @Override
@@ -198,7 +200,8 @@ public class ItsNatDocImpl implements ItsNatDoc
     public Node createElementNS(String namespaceURI,String name)
     {
         // El namespaceURI es irrelevante
-        ClassDescViewBase classDesc = XMLLayoutInflater.getClassDescViewBase(name);
+        XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
+        ClassDescViewBase classDesc = inflaterService.getClassDescViewBase(name);
         View view = classDesc.createAndAddViewObject(null, 0, page.getInflatedLayoutImpl().getContext());
         return NodeImpl.create(view);
     }
