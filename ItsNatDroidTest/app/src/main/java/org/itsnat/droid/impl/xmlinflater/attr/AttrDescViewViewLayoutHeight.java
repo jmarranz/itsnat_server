@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -16,7 +16,7 @@ public class AttrDescViewViewLayoutHeight extends AttrDescViewViewLayoutWidthHei
         super(parent,"layout_height");
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         int height = getDimension(view,value);
 
@@ -24,7 +24,7 @@ public class AttrDescViewViewLayoutHeight extends AttrDescViewViewLayoutWidthHei
 
         params.height = height;
 
-        if (parsePhase != null) parsePhase.neededSetLayoutParams = true;
+        if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
         else view.setLayoutParams(view.getLayoutParams());
     }
 

@@ -1,13 +1,17 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +56,15 @@ public class ItsNatDocImpl implements ItsNatDoc
     @Override
     public void setAttributeNS(Node node,String namespaceURI,String name,String value)
     {
-        //name = removePrefix(name); // Por si acaso filtramos un posible prefijo, nos nos interesa un valor con prefijo que nos envíen ej "android:background" por una parte porque no tiene sentido (ni en DOM ni en Views) y porque gestionamos los nombres de atributos del namespace android sin el prefijo
+        if (node instanceof NodeToInsertImpl)
+        {
+            NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
+            if (!nodeToIn.isInserted())
+            {
+                nodeToIn.setAttribute(namespaceURI,name,value);
+                return;
+            }
+        }
 
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
@@ -200,10 +212,13 @@ public class ItsNatDocImpl implements ItsNatDoc
     public Node createElementNS(String namespaceURI,String name)
     {
         // El namespaceURI es irrelevante
+        /*
+        Context ctx = page.getInflatedLayoutImpl().getContext();
         XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
         ClassDescViewBase classDesc = inflaterService.getClassDescViewBase(name);
-        View view = classDesc.createAndAddViewObject(null, 0, page.getInflatedLayoutImpl().getContext());
-        return NodeImpl.create(view);
+        View view = classDesc.createAndAddViewObject(null, 0, ctx);
+        */
+        return new NodeToInsertImpl(name);
     }
 
     private int getChildIndex(Node parentNode,Node node)
@@ -220,15 +235,26 @@ public class ItsNatDocImpl implements ItsNatDoc
         return -1;
     }
 
+
     @Override
     public void insertBefore(Node parentNode,Node newChild,Node childRef)
     {
-        if (childRef == null) { appendChild(parentNode, newChild); return; }
-        else
-        {
-            ViewGroup parentView = (ViewGroup)parentNode.getView();
-            parentView.addView(newChild.getView(), getChildIndex(parentNode,childRef));
-        }
+        NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
+
+        Context ctx = page.getInflatedLayoutImpl().getContext();
+        InflatedLayoutImpl inflated = page.getInflatedLayoutImpl();
+        XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
+        ClassDescViewBase classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
+        int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
+
+        View view = classDesc.createAndAddViewObject(parentNode.getView(),newChildToIn,index,ctx);
+
+        newChildToIn.setView(view);
+
+        if (newChildToIn.hasAttributes())
+            classDesc.fillViewAttributes(newChildToIn,inflated);
+
+        newChildToIn.setInserted();
     }
 
     @Override
@@ -249,13 +275,13 @@ public class ItsNatDocImpl implements ItsNatDoc
     @Override
     public void appendChild(Node parentNode,Node newChild)
     {
-        ((ViewGroup)parentNode).addView(newChild.getView());
+        insertBefore(parentNode,newChild,null);
     }
 
     @Override
     public void appendChild2(Node parentNode,Node newChild,String newId)
     {
-        this.appendChild(parentNode,newChild);
+        appendChild(parentNode, newChild);
         if (newId != null) addNodeCache2(newId,newChild);
     }
 

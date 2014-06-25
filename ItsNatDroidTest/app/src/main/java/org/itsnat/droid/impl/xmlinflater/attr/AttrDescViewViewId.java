@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -25,7 +24,7 @@ public class AttrDescViewViewId extends AttrDescReflection
         return int.class;
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         int resId = getIdentifier(value,view.getContext());
         setAttribute(view,resId);

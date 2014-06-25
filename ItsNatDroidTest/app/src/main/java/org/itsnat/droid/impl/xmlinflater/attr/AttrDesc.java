@@ -9,7 +9,7 @@ import android.util.TypedValue;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.util.ValueUtil;
 
@@ -200,7 +200,7 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public abstract void setAttribute(View view, String value, ParsePhase parsePhase);
+    public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess);
 
     public abstract void removeAttribute(View view);
 }

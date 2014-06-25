@@ -81,7 +81,7 @@ public class XMLLayoutInflateService
                 continue;
             }
 
-            ClassDescViewBase classDesc = getClassDescViewBase(viewName);
+            ClassDescViewBase classDesc = classDescViewMgr.get(viewName);
             View view = classDesc.createAndAddViewObjectAndFillAttributes(viewParent, parser, inflated);
 
             // No funciona, sólo funciona con XML compilados:
@@ -97,35 +97,6 @@ public class XMLLayoutInflateService
             return view;
         }
         return null;
-    }
-
-
-    public ClassDescViewBase getClassDescViewBase(String viewName)
-    {
-        Class<View> viewClass = null;
-        try { viewClass = resolveViewClass(viewName); }
-        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        ClassDescViewBase classDesc = classDescViewMgr.get(viewClass);
-        return classDesc;
-    }
-
-    private static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException
-    {
-        if (viewName.indexOf('.') == -1)
-        {
-            try
-            {
-                return resolveViewClass("android.view." + viewName);
-            }
-            catch (ClassNotFoundException e)
-            {
-                return resolveViewClass("android.widget." + viewName);
-            }
-        }
-        else
-        {
-            return (Class<View>)Class.forName(viewName);
-        }
     }
 
 }

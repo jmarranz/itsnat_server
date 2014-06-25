@@ -35,12 +35,13 @@ public class TestDroidDocument implements EventListener,Serializable
         //((EventTarget)elem).addEventListener("click", this,false);
 
         Element customTextView = doc.createElement("org.itsnat.itsnatdroidtest.CustomTextView");
-        customTextView.setAttribute("style", "@style/test");        
+        // El style debe definirse si se quiere ANTES de insertar
+        customTextView.setAttribute("style", "@style/test");
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "@string/hello_world3");    // Definimos otro antes de insertar para probar
         Element buttonTest = doc.getElementById("buttonTest");
         doc.getDocumentElement().insertBefore(customTextView, buttonTest);
         // Conviene definir en Android los atributos después de insertar, sobre todo los relacionados con los diferentes tipos de LayoutParam
-        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "id", "@id/textViewTest3");
-        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "@string/hello_world3");        
+        customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "id", "@id/textViewTest3");      
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");        
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");        

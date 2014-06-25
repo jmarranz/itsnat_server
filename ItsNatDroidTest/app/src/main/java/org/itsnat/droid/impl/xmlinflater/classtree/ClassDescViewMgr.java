@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.view.View;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 import java.util.HashMap;
@@ -46,15 +47,37 @@ public class ClassDescViewMgr
         classes.put(viewDesc.getClassName(), viewDesc);
     }
 
-    private ClassDescViewBase getInternal(String className)
+    private static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException
     {
-        ClassDescViewBase classDesc = classes.get(className);
-        return classDesc; // Puede ser nulo
+        if (viewName.indexOf('.') == -1)
+        {
+            try
+            {
+                return resolveViewClass("android.view." + viewName);
+            }
+            catch (ClassNotFoundException e)
+            {
+                return resolveViewClass("android.widget." + viewName);
+            }
+        }
+        else
+        {
+            return (Class<View>)Class.forName(viewName);
+        }
+    }
+
+    public ClassDescViewBase get(String viewName)
+    {
+        Class<View> viewClass = null;
+        try { viewClass = resolveViewClass(viewName); }
+        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+        ClassDescViewBase classDesc = get(viewClass);
+        return classDesc;
     }
 
     public ClassDescViewBase get(Class<View> viewClass)
     {
-        ClassDescViewBase classDesc = getInternal(viewClass.getName());
+        ClassDescViewBase classDesc = classes.get(viewClass.getName());
         if (classDesc == null) classDesc = registerUnknown(viewClass);
         return classDesc; // Nunca es nulo
     }

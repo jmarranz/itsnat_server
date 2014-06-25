@@ -30,4 +30,9 @@ public class ValueUtil
     {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, value, res.getDisplayMetrics());
     }
+
+    public static boolean isEmpty(String str)
+    {
+        return str == null || str.isEmpty();
+    }
 }

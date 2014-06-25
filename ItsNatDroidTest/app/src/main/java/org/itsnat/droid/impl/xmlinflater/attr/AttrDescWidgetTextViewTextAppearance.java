@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -17,7 +17,7 @@ public class AttrDescWidgetTextViewTextAppearance extends AttrDesc
         super(parent,"textAppearance");
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         Context ctx = view.getContext();
 

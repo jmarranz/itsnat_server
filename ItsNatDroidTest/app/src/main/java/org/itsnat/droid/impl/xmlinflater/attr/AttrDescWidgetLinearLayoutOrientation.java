@@ -1,12 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -19,7 +17,7 @@ public class AttrDescWidgetLinearLayoutOrientation extends AttrDesc
         super(parent,"orientation");
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         if      ("horizontal".equals(value)) ((LinearLayout)view).setOrientation(LinearLayout.HORIZONTAL);
         else if ("vertical".equals(value))   ((LinearLayout)view).setOrientation(LinearLayout.VERTICAL);

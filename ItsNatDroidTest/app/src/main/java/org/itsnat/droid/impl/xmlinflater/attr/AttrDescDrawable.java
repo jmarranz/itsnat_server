@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -26,7 +26,7 @@ public class AttrDescDrawable extends AttrDescReflection
         return Drawable.class;
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         Drawable convValue = getDrawable(value,view.getContext());
         setAttribute(view,convValue);

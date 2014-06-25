@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -16,7 +16,7 @@ public class AttrDescViewViewLayoutBelow extends AttrDesc
         super(parent,"layout_below");
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         if (value.isEmpty())
@@ -31,7 +31,7 @@ public class AttrDescViewViewLayoutBelow extends AttrDesc
             params.addRule(RelativeLayout.BELOW, viewId);
         }
 
-        if (parsePhase != null) parsePhase.neededSetLayoutParams = true;
+        if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
         else view.setLayoutParams(view.getLayoutParams());
     }
 

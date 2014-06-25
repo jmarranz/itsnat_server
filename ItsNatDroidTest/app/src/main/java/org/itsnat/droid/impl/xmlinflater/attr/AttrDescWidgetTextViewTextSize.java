@@ -1,12 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.ParsePhase;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 
 /**
@@ -19,7 +16,7 @@ public class AttrDescWidgetTextViewTextSize extends AttrDesc
         super(parent,"textSize");
     }
 
-    public void setAttribute(View view, String value, ParsePhase parsePhase)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         // Existe un setTextSize(int) pero vale la pena, así es perfecto
         TextView textView = (TextView)view;
