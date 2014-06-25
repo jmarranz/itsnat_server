@@ -18,7 +18,7 @@ public class DOMPathResolver
         this.itsNatDoc = itsNatDoc;
     }
 
-    public View getNodeFromPath(String pathStr,View topParent)
+    public Node getNodeFromPath(String pathStr,Node topParent)
     {
         String[] path = getArrayPathFromString(pathStr);
         if (path == null) return null;
@@ -31,7 +31,7 @@ public class DOMPathResolver
         return pathStr.split(",");
     }
 
-    public View getNodeFromArrayPath(String[] arrayPath,View topParent)
+    public Node getNodeFromArrayPath(String[] arrayPath,Node topParent)
     {
         InflatedLayoutImpl layout = itsNatDoc.getPage().getInflatedLayoutImpl();
         View viewRoot = layout.getRootView();
@@ -44,12 +44,13 @@ public class DOMPathResolver
             else if (firstPos.indexOf("eid:") == 0)
             {
                 String id = firstPos.substring("eid:".length());
-                return layout.getElementById(id);
+                View viewRes = layout.getElementById(id);
+                return NodeImpl.create(viewRes);
             }
         }
 
-        if (topParent == null) topParent = viewRoot;
-        View node = topParent;
+        if (topParent == null) topParent = NodeImpl.create(viewRoot);
+        Node node = topParent;
 
         int len = arrayPath.length;
         for(int i = 0; i < len; i++)
@@ -61,9 +62,9 @@ public class DOMPathResolver
         return node;
     }
 
-    public View getChildNodeFromStrPos(View parentNode,String posStr)
+    public Node getChildNodeFromStrPos(Node parentNode,String posStr)
     {
-        if (posStr.equals("de")) return getViewRoot();
+        if (posStr.equals("de")) return NodeImpl.create(getViewRoot());
 
         int posBracket = posStr.indexOf('[');
         if (posBracket == -1)
@@ -77,10 +78,11 @@ public class DOMPathResolver
         }
     }
 
-    public View getChildNodeFromPos(View parentNode,int pos,boolean isTextNode)
+    public Node getChildNodeFromPos(Node parentNode,int pos,boolean isTextNode)
     {
-        if (!(parentNode instanceof ViewGroup)) return null;
-        return ((ViewGroup)parentNode).getChildAt(pos);
+        View parentView = parentNode.getView();
+        if (!(parentView instanceof ViewGroup)) return null;
+        return NodeImpl.create(((ViewGroup)parentView).getChildAt(pos));
     }
 
     private boolean isFiltered(View node)

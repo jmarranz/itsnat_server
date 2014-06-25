@@ -19,7 +19,7 @@ import java.util.Map;
 public class ItsNatDocImpl implements ItsNatDoc
 {
     protected PageImpl page;
-    protected Map<String,View> nodeCacheById = new HashMap<String,View>();
+    protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolver(this);
 
     public ItsNatDocImpl(PageImpl page)
@@ -37,32 +37,37 @@ public class ItsNatDocImpl implements ItsNatDoc
         return page;
     }
 
-    public void setAttribute(View node,String name,String value)
+    @Override
+    public void setAttribute(Node node,String name,String value)
     {
         setAttributeNS(node,null,name,value);
     }
 
+    @Override
     public void setAttribute2(Object[] idObj,String name,String value)
     {
         setAttributeNS2(idObj, null, name, value);
     }
 
-    public void setAttributeNS(View node,String namespaceURI,String name,String value)
+    @Override
+    public void setAttributeNS(Node node,String namespaceURI,String name,String value)
     {
         //name = removePrefix(name); // Por si acaso filtramos un posible prefijo, nos nos interesa un valor con prefijo que nos envíen ej "android:background" por una parte porque no tiene sentido (ni en DOM ni en Views) y porque gestionamos los nombres de atributos del namespace android sin el prefijo
 
-        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(node);
-        viewClassDesc.setAttribute(node,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
+        View view = node.getView();
+        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(view);
+        viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
     }
 
+    @Override
     public void setAttributeNS2(Object[] idObj,String namespaceURI,String name,String value)
     {
-        View elem = getNode(idObj);
+        Node elem = getNode(idObj);
         setAttributeNS(elem, namespaceURI, name, value);
     }
 
     @Override
-    public void removeAttribute(View node, String name)
+    public void removeAttribute(Node node, String name)
     {
         removeAttributeNS(node,null,name);
     }
@@ -74,20 +79,22 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
-    public void removeAttributeNS(View node, String namespaceURI, String name)
+    public void removeAttributeNS(Node node, String namespaceURI, String name)
     {
-        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(node);
-        viewClassDesc.removeAttribute(node, namespaceURI, name, page.getInflatedLayoutImpl());
+        View view = node.getView();
+        ClassDescViewBase viewClassDesc = ClassDescViewMgr.get(view);
+        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutImpl());
     }
 
     @Override
     public void removeAttributeNS2(Object[] idObj, String namespaceURI, String name)
     {
-        View node = getNode(idObj);
+        Node node = getNode(idObj);
         removeAttributeNS(node, namespaceURI, name);
     }
 
-    public View getNode(Object[] idObj)
+    @Override
+    public Node getNode(Object[] idObj)
     {
         if (idObj == null) return null;
         String id = null;
@@ -116,19 +123,19 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
 
-    private View getNode(String id,String path,String cachedParentId,Object[] newCachedParentIds)
+    private Node getNode(String id,String path,String cachedParentId,Object[] newCachedParentIds)
     {
-        View cachedParent = null;
+        Node cachedParent = null;
         if (cachedParentId != null)
         {
             cachedParent = getNodeCached(cachedParentId);
             if (cachedParent == null) throw new ItsNatDroidException("Unexpected error");
         }
 
-        View node = getNode2(cachedParent,new Object[]{id,path});
+        Node node = getNode2(cachedParent,new Object[]{id,path});
         if (newCachedParentIds != null)
         {
-            View parentNode = getParentNode(node);
+            Node parentNode = getParentNode(node);
             int len = newCachedParentIds.length;
             for(int i = 0; i < len; i++)
             {
@@ -139,12 +146,12 @@ public class ItsNatDocImpl implements ItsNatDoc
         return node;
     }
 
-    private View getNode2(View parentNode,String id)
+    private Node getNode2(Node parentNode,String id)
     {
         return getNode2(parentNode,new Object[]{id});
     }
 
-    private View getNode2(View parentNode,Object[] idObj) // No es público
+    private Node getNode2(Node parentNode,Object[] idObj) // No es público
     {
         if (idObj == null) return null;
         String id = null;
@@ -158,44 +165,49 @@ public class ItsNatDocImpl implements ItsNatDoc
         else
         {
             // si parentNode es null caso de path absoluto, si no, path relativo
-            View node = pathResolver.getNodeFromPath(path,parentNode);
+            Node node = pathResolver.getNodeFromPath(path,parentNode);
             if (id != null) addNodeCache2(id,node);
             return node;
         }
     }
 
-    private View getNodeCached(String id) // No es público
+    private Node getNodeCached(String id) // No es público
     {
         if (id == null) return null;
         return nodeCacheById.get(id);
     }
 
-    private void addNodeCache2(String id,View node)
+    private void addNodeCache2(String id,Node node)
     {
         if (id == null) return; // si id es null cache desactivado
         nodeCacheById.put(id,node);
     }
 
-    public View getParentNode(View parentNode)
+    public Node getParentNode(Node parentNode)
     {
-        return (View)parentNode.getParent();
+        return NodeImpl.create((View)parentNode.getView().getParent());
     }
 
-    public View createElement(String name)
+    @Override
+    public Node createElement(String name)
     {
         return createElementNS(null,name);
     }
 
-    public View createElementNS(String namespaceURI,String name)
+    @Override
+    public Node createElementNS(String namespaceURI,String name)
     {
         // El namespaceURI es irrelevante
         ClassDescViewBase classDesc = XMLLayoutInflater.getClassDescViewBase(name);
-        return classDesc.createAndAddViewObject(null, 0, page.getInflatedLayoutImpl().getContext());
+        View view = classDesc.createAndAddViewObject(null, 0, page.getInflatedLayoutImpl().getContext());
+        return NodeImpl.create(view);
     }
 
-    private int getChildIndex(ViewGroup parentView,View view)
+    private int getChildIndex(Node parentNode,Node node)
     {
         // Esto es una chapuza pero no hay opción
+        ViewGroup parentView = (ViewGroup)parentNode.getView();
+        View view = node.getView();
         int size = parentView.getChildCount();
         for(int i = 0; i < size; i++)
         {
@@ -205,43 +217,49 @@ public class ItsNatDocImpl implements ItsNatDoc
         return -1;
     }
 
-    public void insertBefore(View parentNode,View newChild,View childRef)
+    @Override
+    public void insertBefore(Node parentNode,Node newChild,Node childRef)
     {
         if (childRef == null) { appendChild(parentNode, newChild); return; }
         else
         {
-            ViewGroup parentView = (ViewGroup)parentNode;
-            parentView.addView(newChild, getChildIndex(parentView,childRef));
+            ViewGroup parentView = (ViewGroup)parentNode.getView();
+            parentView.addView(newChild.getView(), getChildIndex(parentNode,childRef));
         }
     }
 
-    public void insertBefore2(View parentNode,View newChild,View childRef,String newId)
+    @Override
+    public void insertBefore2(Node parentNode,Node newChild,Node childRef,String newId)
     {
         insertBefore(parentNode, newChild, childRef);
         if (newId != null) addNodeCache2(newId,newChild);
     }
 
-    public void insertBefore3(Object[] parentIdObj,View newChild,Object[] childRefIdObj,String newId)
+    @Override
+    public void insertBefore3(Object[] parentIdObj,Node newChild,Object[] childRefIdObj,String newId)
     {
-        View parentNode = getNode(parentIdObj);
-        View childRef = getNode2(parentNode,childRefIdObj);
+        Node parentNode = getNode(parentIdObj);
+        Node childRef = getNode2(parentNode,childRefIdObj);
         this.insertBefore2(parentNode,newChild,childRef,newId);
     }
 
-    public void appendChild(View parentNode,View newChild)
+    @Override
+    public void appendChild(Node parentNode,Node newChild)
     {
-        ((ViewGroup)parentNode).addView(newChild);
+        ((ViewGroup)parentNode).addView(newChild.getView());
     }
 
-    public void appendChild2(View parentNode,View newChild,String newId)
+    @Override
+    public void appendChild2(Node parentNode,Node newChild,String newId)
     {
         this.appendChild(parentNode,newChild);
         if (newId != null) addNodeCache2(newId,newChild);
     }
 
-    public void appendChild3(Object[] idObj,View newChild,String newId)
+    @Override
+    public void appendChild3(Object[] idObj,Node newChild,String newId)
     {
-        View parentNode = getNode(idObj);
+        Node parentNode = getNode(idObj);
         appendChild2(parentNode, newChild, newId);
     }
 

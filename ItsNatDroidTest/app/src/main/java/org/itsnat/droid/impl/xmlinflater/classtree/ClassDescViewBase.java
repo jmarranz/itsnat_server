@@ -181,7 +181,7 @@ public class ClassDescViewBase
     public View createAndAddViewObject(View viewParent,int idStyle, Context ctx)
     {
         View view = createViewObject(ctx, idStyle);
-        if (viewParent != null) ((ViewGroup) viewParent).addView(view);
+        if (viewParent != null) ((ViewGroup)viewParent).addView(view);
         else fixViewRootLayoutParams(view); // view es la vista root
         return view;
     }
