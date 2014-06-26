@@ -17,8 +17,8 @@
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toTransportableStringLiteral;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.NodeJSRefImpl;
 import org.w3c.dom.Attr;
@@ -87,16 +87,18 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
         {        
+            String namespaceURIScript = shortNamespaceURI(namespaceURI);
+            
             attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS            
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\"," + bsValue + ");\n";
+                return "itsNatDoc.setAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + "," + namespaceURIScript + ",\"" + attrName + "\"," + bsValue + ");\n";
             }
             else
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttributeNS(" + elemVarName + ",\"" + namespaceURI + "\",\"" + attrName + "\"," + bsValue + ");\n";
+                return "itsNatDoc.setAttributeNS(" + elemVarName + "," + namespaceURIScript + ",\"" + attrName + "\"," + bsValue + ");\n";
             }                
         }
         else
@@ -134,17 +136,18 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
         {
+            String namespaceURIScript = shortNamespaceURI(namespaceURI);            
             
             attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.removeAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + namespaceURI + "\",\"" + attrName + "\");\n";
+                return "itsNatDoc.removeAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + "," + namespaceURIScript + ",\"" + attrName + "\");\n";
             }
             else
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
-                return "itsNatDoc.removeAttributeNS(" + elemVarName + ",\"" + namespaceURI + "\",\"" + attrName + "\");\n";
+                return "itsNatDoc.removeAttributeNS(" + elemVarName + "," + namespaceURIScript + ",\"" + attrName + "\");\n";
             }            
         }
         else
@@ -162,5 +165,12 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         }        
         
     }    
-  
+    
+    public static String shortNamespaceURI(String namespaceURI)
+    {
+        // En vez de poner: http://schemas.android.com/apk/res/android, ponemos NSAND que es una cte Java que en la parte Android tiene el valor del namespace
+        if (NamespaceUtil.isAndroidNamespace(namespaceURI))
+            return "NSAND";
+        else return "\"" + namespaceURI + "\"";
+    }
 }

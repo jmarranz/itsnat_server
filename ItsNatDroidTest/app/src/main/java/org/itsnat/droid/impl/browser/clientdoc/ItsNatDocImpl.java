@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
@@ -247,12 +248,12 @@ public class ItsNatDocImpl implements ItsNatDoc
         ClassDescViewBase classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = classDesc.createAndAddViewObject(parentNode.getView(),newChildToIn,index,ctx);
+        View view = createAndAddViewObject(classDesc,parentNode.getView(),newChildToIn,index,ctx);
 
         newChildToIn.setView(view);
 
         if (newChildToIn.hasAttributes())
-            classDesc.fillViewAttributes(newChildToIn,inflated);
+            fillViewAttributes(classDesc,newChildToIn,inflated);
 
         newChildToIn.setInserted();
     }
@@ -292,4 +293,34 @@ public class ItsNatDocImpl implements ItsNatDoc
         appendChild2(parentNode, newChild, newId);
     }
 
+    private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
+    {
+        int idStyle = findStyleAttribute(newChildToIn, ctx);
+        return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+    }
+
+    public static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    {
+        AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
+        if (styleAttr == null) return 0;
+        String value = styleAttr.getValue();
+        return AttrDesc.getIdentifier(value, ctx);
+    }
+
+    public void fillViewAttributes(ClassDescViewBase classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    {
+        View view = newChildToIn.getView();
+        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+        for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
+        {
+            AttrImpl attr = entry.getValue();
+            String namespace = attr.getNamespaceURI();
+            String name = attr.getName();
+            String value = attr.getValue();
+            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+        }
+
+        if (oneTimeAttrProcess.neededSetLayoutParams)
+            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+    }
 }

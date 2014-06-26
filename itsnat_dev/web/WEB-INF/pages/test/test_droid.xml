@@ -15,7 +15,7 @@
               android:layout_height="wrap_content"
               android:background="@android:color/holo_green_light"
               style="@style/test"/>
-
+    <!-- Just a test comment (will be filtered) -->
     <TextView id="textViewTest2"
               android:id="@id/textViewTest2"
               android:text="@string/hello_world2"

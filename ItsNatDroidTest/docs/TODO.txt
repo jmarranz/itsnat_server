@@ -1,4 +1,5 @@
 
+* Sacar el código dependiente del parse y ondemand de ClassDescViewBase
 
 * Cargar imágenes remótamente
 

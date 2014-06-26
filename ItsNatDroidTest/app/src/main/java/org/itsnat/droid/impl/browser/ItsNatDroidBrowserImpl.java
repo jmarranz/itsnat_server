@@ -13,6 +13,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,11 +48,14 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         {
             // Funciones de utilidad que se reflejarán en los Interpreter hijos, pero así se interpretan una sola vez
             StringBuilder code = new StringBuilder();
+
+            code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a,b){return new Object[]{a,b};}");
             code.append("arr(a,b,c){return new Object[]{a,b,c};}");
             code.append("arr(a,b,c,d){return new Object[]{a,b,c,d};}");
             interp.eval(code.toString());
+            interp.set("NSAND", XMLLayoutInflateService.XMLNS_ANDROID);
         }
         catch (EvalError ex) { throw new ItsNatDroidException(ex); }
     }

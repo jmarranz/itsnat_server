@@ -10,21 +10,17 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.clientdoc.AttrImpl;
-import org.itsnat.droid.impl.browser.clientdoc.NodeToInsertImpl;
+import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
-import org.itsnat.droid.impl.util.IOUtil;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -171,22 +167,7 @@ public class ClassDescViewBase
         return (namespace == null || "".equals(namespace)) && "id".equals(name);
     }
 
-    public View createAndAddViewObjectAndFillAttributes(View viewParent, XmlPullParser parser, InflatedLayoutImpl inflated)
-    {
-        Context ctx = inflated.getContext();
-        int idStyle = findStyleAttribute(parser,ctx);
-        View view = createAndAddViewObject(viewParent,-1,idStyle,ctx);
-        fillViewAttributes(view, parser,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        return view;
-    }
-
-    public View createAndAddViewObject(View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
-    {
-        int idStyle = findStyleAttribute(newChildToIn, ctx);
-        return createAndAddViewObject(viewParent, index, idStyle, ctx);
-    }
-
-    private View createAndAddViewObject(View viewParent,int index,int idStyle, Context ctx)
+    public View createAndAddViewObject(View viewParent,int index,int idStyle, Context ctx)
     {
         View view = createViewObject(ctx, idStyle);
         if (viewParent != null)
@@ -229,59 +210,6 @@ public class ClassDescViewBase
     }
 
 
-    private int findStyleAttribute(XmlPullParser parser,Context ctx)
-    {
-        for(int i = 0; i < parser.getAttributeCount(); i++)
-        {
-            String namespace = parser.getAttributeNamespace(i);
-            if (!namespace.isEmpty()) continue; // style no tiene namespace
-            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            if (!"style".equals(name)) continue;
-            String value = parser.getAttributeValue(i);
-            return AttrDesc.getIdentifier(value,ctx);
-        }
-        return 0;
-    }
-
-    public static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
-    {
-        AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
-        if (styleAttr == null) return 0;
-        String value = styleAttr.getValue();
-        return AttrDesc.getIdentifier(value, ctx);
-    }
-
-    private void fillViewAttributes(View view,XmlPullParser parser,InflatedLayoutImpl inflated)
-    {
-        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
-        for(int i = 0; i < parser.getAttributeCount(); i++)
-        {
-            String namespace = parser.getAttributeNamespace(i);
-            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            String value = parser.getAttributeValue(i);
-            setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
-        }
-
-        if (oneTimeAttrProcess.neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
-    }
-
-    public void fillViewAttributes(NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
-    {
-        View view = newChildToIn.getView();
-        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
-        for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
-        {
-            AttrImpl attr = entry.getValue();
-            String namespace = attr.getNamespaceURI();
-            String name = attr.getName();
-            String value = attr.getValue();
-            setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
-        }
-
-        if (oneTimeAttrProcess.neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
-    }
 
     private void fixViewRootLayoutParams(View view)
     {

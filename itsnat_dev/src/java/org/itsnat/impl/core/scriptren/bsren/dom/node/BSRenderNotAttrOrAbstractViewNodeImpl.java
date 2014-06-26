@@ -97,17 +97,17 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
         // en algunos navegadores (MSIE por ejemplo) pues ItsNat está preparado para ello si no se encuentra en el cliente.
 
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
-        String idJS = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);
+        String idScript = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);
         
         Node nextSibling = clientDoc.getNextSiblingInClientDOM(newNode);
         if (nextSibling != null)
         {
             NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);
-            return "itsNatDoc.insertBefore3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toScriptNodeLocation(true) + "," + idJS + ");\n";
+            return "itsNatDoc.insertBefore3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toScriptNodeLocation(true) + "," + idScript + ");\n";
         }
         else
         {
-            return "itsNatDoc.appendChild3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + idJS + ");\n";
+            return "itsNatDoc.appendChild3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + idScript + ");\n";
         }
     }
 

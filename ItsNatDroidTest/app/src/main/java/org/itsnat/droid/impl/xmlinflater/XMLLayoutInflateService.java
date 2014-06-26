@@ -1,10 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.content.Context;
 import android.util.Xml;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
 import org.xmlpull.v1.XmlPullParser;
@@ -81,8 +83,8 @@ public class XMLLayoutInflateService
                 continue;
             }
 
-            ClassDescViewBase classDesc = classDescViewMgr.get(viewName);
-            View view = classDesc.createAndAddViewObjectAndFillAttributes(viewParent, parser, inflated);
+
+            View view = createAndAddViewObjectAndFillAttributes(viewName,viewParent, parser, inflated);
 
             // No funciona, sólo funciona con XML compilados:
             //AttributeSet attributes = Xml.asAttributeSet(parser);
@@ -99,4 +101,42 @@ public class XMLLayoutInflateService
         return null;
     }
 
+    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser, InflatedLayoutImpl inflated)
+    {
+        ClassDescViewBase classDesc = classDescViewMgr.get(viewName);
+        Context ctx = inflated.getContext();
+        int idStyle = findStyleAttribute(parser,ctx);
+        View view = classDesc.createAndAddViewObject(viewParent,-1,idStyle,ctx);
+        fillViewAttributes(classDesc,view, parser,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        return view;
+    }
+
+    private int findStyleAttribute(XmlPullParser parser,Context ctx)
+    {
+        for(int i = 0; i < parser.getAttributeCount(); i++)
+        {
+            String namespace = parser.getAttributeNamespace(i);
+            if (!namespace.isEmpty()) continue; // style no tiene namespace
+            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
+            if (!"style".equals(name)) continue;
+            String value = parser.getAttributeValue(i);
+            return AttrDesc.getIdentifier(value, ctx);
+        }
+        return 0;
+    }
+
+    private void fillViewAttributes(ClassDescViewBase classDesc,View view,XmlPullParser parser,InflatedLayoutImpl inflated)
+    {
+        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+        for(int i = 0; i < parser.getAttributeCount(); i++)
+        {
+            String namespace = parser.getAttributeNamespace(i);
+            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
+            String value = parser.getAttributeValue(i);
+            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+        }
+
+        if (oneTimeAttrProcess.neededSetLayoutParams)
+            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+    }
 }

@@ -20,7 +20,6 @@ import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -38,14 +37,14 @@ public class BSRenderNodeImpl extends BSRenderImpl
             case Node.ELEMENT_NODE:
                 return BSRenderElementImpl.getBSRenderElement();
             case Node.TEXT_NODE:
-                throw new ItsNatDOMException("Unexpected text node node",node);                
+                return BSRenderTextImpl.getBSRenderText();            
             case Node.ATTRIBUTE_NODE:
                 throw new ItsNatException("INTERNAL ERROR");
                 //return attrRender;
             case Node.CDATA_SECTION_NODE:
                 throw new ItsNatDOMException("Unexpected CDATA section node",node);
             case Node.COMMENT_NODE:
-                throw new ItsNatDOMException("Unexpected comment node",node);
+                return BSRenderCommentImpl.getBSRenderComment(); 
             case Node.DOCUMENT_FRAGMENT_NODE:
                 throw new ItsNatDOMException("Unexpected document fragment node",node);
             case Node.ENTITY_REFERENCE_NODE:
