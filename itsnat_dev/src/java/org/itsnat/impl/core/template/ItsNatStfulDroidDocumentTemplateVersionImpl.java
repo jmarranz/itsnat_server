@@ -18,13 +18,15 @@ package org.itsnat.impl.core.template;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
+import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
-import org.itsnat.impl.core.template.html.HTMLTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 /**
@@ -41,7 +43,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     @Override
     public String wrapBodyAsDocument(String source)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override    
@@ -61,5 +63,27 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     {
         return new StfulDroidTemplateVersionDelegateImpl(this);        
     }
+    
+    @Override
+    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser)
+    {
+        Document doc = super.parseDocument(input,parser);
+        // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments 
+        
+        Node child = ItsNatTreeWalker.getNextNode(doc);
+        while(child != null)
+        {
+            if (child.getNodeType() == Node.COMMENT_NODE)
+            {
+                Node newChild = child.getPreviousSibling();
+                if (newChild == null) newChild = child.getParentNode();
+                child.getParentNode().removeChild(child);
+                child = newChild;
+            }
+            child = ItsNatTreeWalker.getNextNode(child);
+        }        
+        
+        return doc;
+    }    
     
 }

@@ -51,15 +51,12 @@ public class DOMPathResolverDroid extends DOMPathResolver
                 int type = currNode.getNodeType();
                 if (currPos == pos)
                 {
-                    if (type != Node.TEXT_NODE)
+                    if (type == Node.ELEMENT_NODE)
                     {
                         return currNode;
                     }
-                    // Si isTextNode = false (no buscamos un nodo de texto) y es nodo de texto el encontrado,
-                    // lo ignoramos y seguimos iterando hasta encontrar el primer nodo que no sea de texto, currPos ya no se aumenta por lo que
-                    // seguirá siendo currPos == pos true
                 }
-                else if(type != Node.TEXT_NODE) // Sólo contamos nodos que no sean de texto pues los de texto están sujetos a filtrado etc normalmente cuando tienen sólo espacios fines de línea etc y segun el navegador (habitual en MSIE por ejemplo en carga)
+                else if (type == Node.ELEMENT_NODE) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto
                         currPos++;
 
             currNode = currNode.getNextSibling();
