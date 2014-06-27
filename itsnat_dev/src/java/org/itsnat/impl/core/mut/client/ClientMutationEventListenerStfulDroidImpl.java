@@ -20,7 +20,10 @@ import java.util.LinkedList;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderAttributeImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNotAttrOrAbstractViewNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNotAttrOrAbstractViewNodeImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Element;
@@ -68,7 +71,10 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
     @Override
     public Object getTreeDOMNodeRemovedCode(Node removedNode)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClientDocumentStfulDelegateDroidImpl clientDoc = getClientDocumentStfulDelegateDroid();        
+        BSRenderNotAttrOrAbstractViewNodeImpl render = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(removedNode,clientDoc);
+        String code = render.getRemoveNodeCode(removedNode,clientDoc);
+        return code;
     }
 
     @Override

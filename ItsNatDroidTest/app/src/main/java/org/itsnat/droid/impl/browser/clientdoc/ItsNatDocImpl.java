@@ -42,6 +42,38 @@ public class ItsNatDocImpl implements ItsNatDoc
         return page;
     }
 
+    private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
+    {
+        int idStyle = findStyleAttribute(newChildToIn, ctx);
+        return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+    }
+
+    public static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    {
+        AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
+        if (styleAttr == null) return 0;
+        String value = styleAttr.getValue();
+        return AttrDesc.getIdentifier(value, ctx);
+    }
+
+    public void fillViewAttributes(ClassDescViewBase classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    {
+        View view = newChildToIn.getView();
+        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+        for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
+        {
+            AttrImpl attr = entry.getValue();
+            String namespace = attr.getNamespaceURI();
+            String name = attr.getName();
+            String value = attr.getValue();
+            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+        }
+
+        if (oneTimeAttrProcess.neededSetLayoutParams)
+            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+    }
+
+
     @Override
     public void setAttribute(Node node,String name,String value)
     {
@@ -270,7 +302,7 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         Node parentNode = getNode(parentIdObj);
         Node childRef = getNode2(parentNode,childRefIdObj);
-        this.insertBefore2(parentNode,newChild,childRef,newId);
+        insertBefore2(parentNode,newChild,childRef,newId);
     }
 
     @Override
@@ -293,34 +325,27 @@ public class ItsNatDocImpl implements ItsNatDoc
         appendChild2(parentNode, newChild, newId);
     }
 
-    private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
+    public void removeChild(Node child)
     {
-        int idStyle = findStyleAttribute(newChildToIn, ctx);
-        return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+        if (child == null) return; // Raro
+
+        ViewGroup parentView = (ViewGroup)getParentNode(child).getView();
+        parentView.removeView(child.getView());
     }
 
-    public static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    public void removeChild2(String id,boolean isText)
     {
-        AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
-        if (styleAttr == null) return 0;
-        String value = styleAttr.getValue();
-        return AttrDesc.getIdentifier(value, ctx);
+        // isText es siempre false
+        if (isText) throw new ItsNatDroidException("Unexpected");
+        Node child = getNode(new Object[]{id});
+        removeChild(child);
     }
 
-    public void fillViewAttributes(ClassDescViewBase classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText)
     {
-        View view = newChildToIn.getView();
-        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
-        for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
-        {
-            AttrImpl attr = entry.getValue();
-            String namespace = attr.getNamespaceURI();
-            String name = attr.getName();
-            String value = attr.getValue();
-            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
-        }
-
-        if (oneTimeAttrProcess.neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+        if (isText) throw new ItsNatDroidException("Unexpected");
+        Node parentNode = getNode(parentIdObj);
+        Node child = getNode2(parentNode,new Object[]{null,childRelPath});
+        removeChild(child);
     }
 }

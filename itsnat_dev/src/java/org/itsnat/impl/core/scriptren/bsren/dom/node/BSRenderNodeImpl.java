@@ -44,7 +44,7 @@ public class BSRenderNodeImpl extends BSRenderImpl
             case Node.CDATA_SECTION_NODE:
                 throw new ItsNatDOMException("Unexpected CDATA section node",node);
             case Node.COMMENT_NODE:
-                return BSRenderCommentImpl.getBSRenderComment(); 
+                throw new ItsNatDOMException("Unexpected comment node",node);                
             case Node.DOCUMENT_FRAGMENT_NODE:
                 throw new ItsNatDOMException("Unexpected document fragment node",node);
             case Node.ENTITY_REFERENCE_NODE:

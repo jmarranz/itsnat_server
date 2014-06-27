@@ -69,8 +69,17 @@ public class TestDroidDocument implements EventListener,Serializable
         
         doc.getDocumentElement().insertBefore(frameLayoutView, buttonTest);        
 
-        doc.getDocumentElement().insertBefore(doc.createTextNode("IGNORE TEXT NODE"), buttonTest);        
-        doc.getDocumentElement().insertBefore(doc.createComment("IGNORE COMMENT"), buttonTest);       
+        // Test ignorar nodos de texto
+        doc.getDocumentElement().insertBefore(doc.createTextNode("IGNORE TEXT NODE"), buttonTest);     // Aunque lo insertemos, en el cálculo de paths etc se ignorará          
+        
+        // Test eliminación de elementos
+        
+        Element textViewToRemove = doc.createElement("TextView");        
+        textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "MUST BE REMOVED");                
+        doc.getDocumentElement().insertBefore(textViewToRemove, buttonTest);        
+        doc.getDocumentElement().removeChild(textViewToRemove);      
+        
+
     }
 
     public void handleEvent(Event evt)
