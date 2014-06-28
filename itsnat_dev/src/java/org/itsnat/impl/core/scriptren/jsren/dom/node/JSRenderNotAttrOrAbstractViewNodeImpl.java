@@ -17,9 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
-import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
 import org.w3c.dom.Node;
 
@@ -47,8 +45,7 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
 
     protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String idJS = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);      
-        return "itsNatDoc.appendChild2(" + parentVarName + "," + newNodeCode + "," + idJS + ");\n";
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }
 
     protected String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
@@ -66,40 +63,13 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
 
     protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        Node parent = newNode.getParentNode();
-
-        // Obtenemos el sibling con representación en el DOM cliente (no filtrado)
-        // Sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
-        // dichos comentarios no están en el DOM y afortunadamente no son visibles 
-        // No consideramos el filtrado en servidor de los nodos de texto con espacios, que a veces son filtrados
-        // en algunos navegadores (MSIE por ejemplo) pues ItsNat está preparado para ello si no se encuentra en el cliente.
-
-        NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
-        String idJS = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);
-        
-        Node nextSibling = clientDoc.getNextSiblingInClientDOM(newNode);
-        if (nextSibling != null)
-        {
-            NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);
-            return "itsNatDoc.insertBefore3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toScriptNodeLocation(true) + "," + idJS + ");\n";
-        }
-        else
-        {
-            return "itsNatDoc.appendChild3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + idJS + ");\n";
-        }
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
     }
 
     public String getRemoveAllChildCode(Node parentNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
-        return "itsNatDoc.removeAllChild2(" + parentLoc.toScriptNodeLocation(true) + ");\n";
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getRemoveAllChildCode(parentNode, clientDoc);
     }
     
-    public String cacheNewNodeIfNeededAndGenId(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
-        if (nodeCache == null) return null;        
-        
-        return nodeCache.cacheNewNodeIfNeededAndGenId(newNode);     
-    }
+
 }

@@ -10,8 +10,7 @@ package org.itsnat.impl.core.scriptren.shared.dom.node;
  *
  * @author jmarranz
  */
-public interface RenderNode
+public class JSAndBSRenderHasChildrenNodeImpl extends JSAndBSRenderNotAttrOrAbstractViewNodeImpl
 {
-    public String shortNamespaceURI(String namespaceURI);    
+    
 }
-

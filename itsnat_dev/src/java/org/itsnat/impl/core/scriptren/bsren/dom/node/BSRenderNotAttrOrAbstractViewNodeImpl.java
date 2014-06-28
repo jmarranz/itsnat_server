@@ -17,9 +17,7 @@
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
-import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
 import org.w3c.dom.Node;
 
@@ -27,7 +25,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNodeImpl
+public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNodeImpl 
 {
 
     /** Creates a new instance of JSNoAttributeRender */
@@ -47,8 +45,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
 
     protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String idScript = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);      
-        return "itsNatDoc.appendChild2(" + parentVarName + "," + newNodeCode + "," + idScript + ");\n";
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }
 
     protected String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
@@ -66,41 +63,12 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
 
     protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        Node parent = newNode.getParentNode();
-
-        // Obtenemos el sibling con representación en el DOM cliente (no filtrado)
-        // Sólo hay filtrado de los comentarios en trozos de SVG gestionados por SVGWeb,
-        // dichos comentarios no están en el DOM y afortunadamente no son visibles 
-        // No consideramos el filtrado en servidor de los nodos de texto con espacios, que a veces son filtrados
-        // en algunos navegadores (MSIE por ejemplo) pues ItsNat está preparado para ello si no se encuentra en el cliente.
-
-        NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parent,true);
-        String idScript = cacheNewNodeIfNeededAndGenId(newNode,clientDoc);
-        
-        Node nextSibling = clientDoc.getNextSiblingInClientDOM(newNode);
-        if (nextSibling != null)
-        {
-            NodeLocationImpl refNodeLoc = clientDoc.getRefNodeLocationInsertBefore(newNode,nextSibling);
-            return "itsNatDoc.insertBefore3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + refNodeLoc.toScriptNodeLocation(true) + "," + idScript + ");\n";
-        }
-        else
-        {
-            return "itsNatDoc.appendChild3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + idScript + ");\n";
-        }
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
     }
    
     public String getRemoveAllChildCode(Node parentNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        // Este método probablemente no se usa nunca en Android porque está relacionado con la desconexión/reconexión de nodos
-        NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
-        return "itsNatDoc.removeAllChild2(" + parentLoc.toScriptNodeLocation(true) + ");\n";
+        return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getRemoveAllChildCode(parentNode, clientDoc);
     }
-    
-    public String cacheNewNodeIfNeededAndGenId(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        NodeCacheRegistryImpl nodeCache = clientDoc.getNodeCacheRegistry();
-        if (nodeCache == null) return null;        
-        
-        return nodeCache.cacheNewNodeIfNeededAndGenId(newNode);     
-    }
+
 }
