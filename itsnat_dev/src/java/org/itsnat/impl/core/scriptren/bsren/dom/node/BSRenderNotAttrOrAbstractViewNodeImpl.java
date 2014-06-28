@@ -110,9 +110,10 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
             return "itsNatDoc.appendChild3(" + parentLoc.toScriptNodeLocation(true) + "," + newNodeCode + "," + idScript + ");\n";
         }
     }
-
+   
     public String getRemoveAllChildCode(Node parentNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
+        // Este método probablemente no se usa nunca en Android porque está relacionado con la desconexión/reconexión de nodos
         NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
         return "itsNatDoc.removeAllChild2(" + parentLoc.toScriptNodeLocation(true) + ");\n";
     }

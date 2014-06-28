@@ -47,6 +47,7 @@ public class TestDroidDocument implements EventListener,Serializable
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");        
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");        
 
+        // Test inserciones
         Element frameLayoutView = doc.createElement("FrameLayout");  
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");         
@@ -56,16 +57,16 @@ public class TestDroidDocument implements EventListener,Serializable
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "paddingTop", "10dp");          
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "paddingRight", "10dp");   
         
-        Element frameLayoutView2 = doc.createElement("FrameLayout");  
-        frameLayoutView2.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
-        frameLayoutView2.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");         
-        frameLayoutView2.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ddddff");        
+        Element frameLayoutViewInner = doc.createElement("FrameLayout");  
+        frameLayoutViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
+        frameLayoutViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");         
+        frameLayoutViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ddddff");        
 
-        Element textView4 = doc.createElement("TextView");        
-        textView4.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "Inside FrameLayout");        
-        frameLayoutView2.appendChild(textView4);         
+        Element textViewInner = doc.createElement("TextView");        
+        textViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "Inside FrameLayout");        
+        frameLayoutViewInner.appendChild(textViewInner);         
         
-        frameLayoutView.appendChild(frameLayoutView2);        
+        frameLayoutView.appendChild(frameLayoutViewInner);        
         
         doc.getDocumentElement().insertBefore(frameLayoutView, buttonTest);        
 
@@ -74,10 +75,17 @@ public class TestDroidDocument implements EventListener,Serializable
         
         // Test eliminación de elementos
         
+        Element frameLayoutViewToRemove = doc.createElement("FrameLayout");        
+        frameLayoutViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
+        frameLayoutViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "20dp");         
+        frameLayoutViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ddddff");        
+
         Element textViewToRemove = doc.createElement("TextView");        
-        textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "MUST BE REMOVED");                
-        doc.getDocumentElement().insertBefore(textViewToRemove, buttonTest);        
-        doc.getDocumentElement().removeChild(textViewToRemove);      
+        textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "MUST BE REMOVED");        
+        frameLayoutViewToRemove.appendChild(textViewToRemove);         
+
+        doc.getDocumentElement().insertBefore(frameLayoutViewToRemove, buttonTest);        
+        doc.getDocumentElement().removeChild(frameLayoutViewToRemove);      
         
 
     }

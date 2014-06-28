@@ -101,19 +101,21 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
     @Override
     protected String getCharacterDataModifiedCode(CharacterData charDataNode)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public String getRemoveNodeFromCacheCode(LinkedList<String> idList)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return BSRenderNodeImpl.removeNodeFromCache(idList);
     }
 
     @Override
     public String getRemoveAllChildCode(Node node)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ClientDocumentStfulDelegateDroidImpl clientDoc = getClientDocumentStfulDelegateDroid();        
+        BSRenderNotAttrOrAbstractViewNodeImpl render = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(node,clientDoc);
+        return render.getRemoveAllChildCode(node,clientDoc);
     }
 
 }

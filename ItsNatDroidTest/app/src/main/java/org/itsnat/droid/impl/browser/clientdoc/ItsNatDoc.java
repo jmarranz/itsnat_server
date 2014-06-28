@@ -33,4 +33,8 @@ public interface ItsNatDoc
     public void removeChild(Node child); // Realmente no es público en ItsNatDroid (si lo es en web), por simetría lo ponemos
     public void removeChild2(String id,boolean isText);
     public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText);
+
+    public void removeNodeCache(String[] idList);
+
+    public void removeAllChild2(Object[] parentIdObj);
 }

@@ -348,4 +348,45 @@ public class ItsNatDocImpl implements ItsNatDoc
         Node child = getNode2(parentNode,new Object[]{null,childRelPath});
         removeChild(child);
     }
+
+    public void removeNodeCache(String[] idList)
+    {
+        int len = idList.length;
+        for(int i = 0; i < len; i++)
+        {
+            String id = idList[i];
+            Node node = nodeCacheById.remove(id);
+        }
+    }
+
+    private Node getChildNode(int i,Node parentNode)
+    {
+        View parentView = parentNode.getView();
+        if (parentView instanceof ViewGroup)
+            return NodeImpl.create(((ViewGroup)parentView).getChildAt(i));
+        return null;
+    }
+
+    private int getLenChildNodes(Node node)
+    {
+        View view = node.getView();
+        if (view instanceof ViewGroup)
+            return ((ViewGroup)view).getChildCount();
+        return 0;
+    }
+
+    private void removeAllChild(Node parentNode) // No es público
+    {
+        while(getLenChildNodes(parentNode) > 0)
+        {
+            Node child = getChildNode(0,parentNode);
+            removeChild(child);
+        }
+    }
+
+    public void removeAllChild2(Object[] parentIdObj)
+    {
+        Node parentNode = getNode(parentIdObj);
+        removeAllChild(parentNode);
+    }
 }

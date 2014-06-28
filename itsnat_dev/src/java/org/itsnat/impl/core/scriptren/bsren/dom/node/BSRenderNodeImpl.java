@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
@@ -66,4 +68,15 @@ public class BSRenderNodeImpl extends BSRenderImpl
         throw new ItsNatDOMException("Internal error",node);
     }
     
+    public static String removeNodeFromCache(LinkedList<String> idList)
+    {
+        StringBuilder code = new StringBuilder();
+        for(Iterator<String> it = idList.iterator(); it.hasNext(); )
+        {
+            String id = toLiteralStringBS(it.next());
+            if (code.length() > 0) code.append("," + id);
+            else code.append(id);
+        }
+        return "itsNatDoc.removeNodeCache(new String[]{" + code.toString() + "});\n";
+    }    
 }
