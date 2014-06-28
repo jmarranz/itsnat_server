@@ -19,7 +19,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderSharedUtil;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -106,7 +106,7 @@ public abstract class NodeLocationImpl
     
     public static String toLiteralStringScript(String value)
     {
-        return JSAndBSRenderSharedUtil.toLiteralStringScript(value);
+        return JSAndBSRenderImpl.toLiteralStringScript(value);
     }    
     
     

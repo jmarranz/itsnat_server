@@ -29,7 +29,7 @@ import org.w3c.dom.Node;
 public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstractViewNodeImpl
 {
 
-    /** Creates a new instance of JSNotChildrenNodeRenderImpl */
+    /** Creates a new instance of BSRenderHasChildrenNodeImpl */
     public BSRenderHasChildrenNodeImpl()
     {
     }

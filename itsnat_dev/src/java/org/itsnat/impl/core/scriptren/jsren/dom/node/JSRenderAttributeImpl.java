@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -53,7 +54,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     {
         return getJSRenderAttribute(attr.getNamespaceURI(),elem,clientDoc);
     }
-
+    
     public abstract boolean isIgnored(Attr attr,Element elem);
 
     public String setAttributeCode(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
@@ -153,15 +154,15 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return setAttributeOnlyCode(attr,attrName,jsValue,new NodeJSRefImpl(nodeLoc),newElem,clientDoc);
+        return setAttributeOnlyCode(attr,attrName,jsValue,new NodeScriptRefImpl(nodeLoc),newElem,clientDoc);
     }
 
     protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        return setAttributeOnlyCode(attr,attrName,jsValue,new NodeJSRefImpl(elemVarName,clientDoc),newElem,clientDoc);
+        return setAttributeOnlyCode(attr,attrName,jsValue,new NodeScriptRefImpl(elemVarName,clientDoc),newElem,clientDoc);
     }
 
-    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeJSRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
         {
@@ -187,10 +188,10 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     protected String removeAttributeOnlyCode(Attr attr,String attrName,Element elem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return removeAttributeOnlyCode(attr,attrName,elem,new NodeJSRefImpl(nodeLoc),clientDoc);
+        return removeAttributeOnlyCode(attr,attrName,elem,new NodeScriptRefImpl(nodeLoc),clientDoc);
     }
 
-    protected String removeAttributeOnlyCode(Attr attr,String attrName,Element elem,NodeJSRefImpl nodeRef,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String removeAttributeOnlyCode(Attr attr,String attrName,Element elem,NodeScriptRefImpl nodeRef,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
         {
@@ -222,7 +223,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         {
             // En el iPhone DEBE ir después de la definición de la propiedad
             // de otra manera se lía (al menos en tiempo de carga de la página)
-            code.append( removeAttributeOnlyCode(attr,attrName,elem,new NodeJSRefImpl(elemVarName,clientDoc),clientDoc) );
+            code.append( removeAttributeOnlyCode(attr,attrName,elem,new NodeScriptRefImpl(elemVarName,clientDoc),clientDoc) );
         }
 
         return code.toString();
@@ -255,7 +256,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     {
         StringBuilder code = new StringBuilder();
 
-        code.append( setAttributeOnlyCode(attr,attrName,valueJS,new NodeJSRefImpl(elemVarName,clientDoc),newElem,clientDoc) );
+        code.append( setAttributeOnlyCode(attr,attrName,valueJS,new NodeScriptRefImpl(elemVarName,clientDoc),newElem,clientDoc) );
         code.append( renderSetProperty(attr,valueJS,elem,elemVarName,prop,clientDoc) );
 
         return code.toString();

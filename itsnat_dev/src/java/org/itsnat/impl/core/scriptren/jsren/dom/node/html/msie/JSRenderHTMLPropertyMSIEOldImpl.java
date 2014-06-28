@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.NodeJSRefImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLOptionElement;
 
@@ -173,7 +173,7 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
                 String propValueJS = attrValueJSToPropValueJS(prop,setValue,attrValueJS,value);
 
                 JSRenderHTMLAttributeMSIEOldImpl renderer = JSRenderHTMLAttributeMSIEOldImpl.getJSRenderHTMLAttributeMSIEOld((BrowserMSIEOld)browser);
-                return renderer.setAttributeOnlyCode(null,"selected",propValueJS,new NodeJSRefImpl(elemVarName,clientDoc),false,clientDoc); // newElem = false porque por una parte da igual en este caso
+                return renderer.setAttributeOnlyCode(null,"selected",propValueJS,new NodeScriptRefImpl(elemVarName,clientDoc),false,clientDoc); // newElem = false porque por una parte da igual en este caso
             }
             else
             {

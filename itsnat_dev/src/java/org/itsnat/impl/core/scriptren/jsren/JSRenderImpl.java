@@ -20,9 +20,8 @@ import java.io.UnsupportedEncodingException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.script.ScriptExpr;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderSharedUtil;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -62,7 +61,7 @@ public abstract class JSRenderImpl
 
     public static String toLiteralStringJS(String value)
     {
-        return JSAndBSRenderSharedUtil.toLiteralStringScript(value);
+        return JSAndBSRenderImpl.toLiteralStringScript(value);
     }
 
     public static String toTransportableStringLiteral(String text,Browser browser)
@@ -72,7 +71,7 @@ public abstract class JSRenderImpl
 
     public static String toTransportableStringLiteral(String text,boolean addQuotation,Browser browser)
     {
-        return JSAndBSRenderSharedUtil.toTransportableStringLiteral(text, addQuotation, browser);
+        return JSAndBSRenderImpl.toTransportableStringLiteral(text, addQuotation, browser);
     }
 
     public static String getTransportableCharLiteral(char c,Browser browser)

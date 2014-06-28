@@ -18,9 +18,7 @@ package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.domutil.NamespaceUtil;
-import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toTransportableStringLiteral;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.NodeJSRefImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -74,15 +72,15 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
     protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return setAttributeCode(attr,attrName,bsValue,new NodeJSRefImpl(nodeLoc),newElem);
+        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(nodeLoc),newElem);
     }    
 
     protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        return setAttributeCode(attr,attrName,bsValue,new NodeJSRefImpl(elemVarName,clientDoc),newElem);
+        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(elemVarName,clientDoc),newElem);
     }
 
-    public String setAttributeCode(Attr attr,String attrName,String bsValue,NodeJSRefImpl nodeRef,boolean newElem)
+    public String setAttributeCode(Attr attr,String attrName,String bsValue,NodeScriptRefImpl nodeRef,boolean newElem)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
@@ -128,10 +126,10 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
     protected String removeAttributeCode(Attr attr,String attrName,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return removeAttributeCode(attr,attrName,elem,new NodeJSRefImpl(nodeLoc));
+        return removeAttributeCode(attr,attrName,elem,new NodeScriptRefImpl(nodeLoc));
     }
 
-    protected String removeAttributeCode(Attr attr,String attrName,Element elem,NodeJSRefImpl nodeRef)
+    protected String removeAttributeCode(Attr attr,String attrName,Element elem,NodeScriptRefImpl nodeRef)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
@@ -166,11 +164,5 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         
     }    
     
-    public static String shortNamespaceURI(String namespaceURI)
-    {
-        // En vez de poner: http://schemas.android.com/apk/res/android, ponemos NSAND que es una cte Java que en la parte Android tiene el valor del namespace
-        if (NamespaceUtil.isAndroidNamespace(namespaceURI))
-            return "NSAND";
-        else return "\"" + namespaceURI + "\"";
-    }
+
 }

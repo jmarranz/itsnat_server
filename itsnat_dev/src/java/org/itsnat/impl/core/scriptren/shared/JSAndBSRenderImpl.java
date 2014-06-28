@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
  *
  * @author jmarranz
  */
-public class JSAndBSRenderSharedUtil
+public class JSAndBSRenderImpl
 {
     public static String toLiteralStringScript(String value)
     {

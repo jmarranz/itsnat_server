@@ -15,7 +15,7 @@
 */
 
 
-package org.itsnat.impl.core.scriptren.jsren.dom.node;
+package org.itsnat.impl.core.scriptren.shared.dom.node;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -24,18 +24,18 @@ import org.itsnat.impl.core.dompath.NodeLocationImpl;
  *
  * @author jmarranz
  */
-public class NodeJSRefImpl
+public class NodeScriptRefImpl
 {
     protected Object nodeRef;
     protected ClientDocumentStfulDelegateImpl clientDoc;
 
-    public NodeJSRefImpl(NodeLocationImpl nodeRef)
+    public NodeScriptRefImpl(NodeLocationImpl nodeRef)
     {
         this.nodeRef = nodeRef;
         this.clientDoc = nodeRef.getClientDocumentStfulDelegate();
     }
 
-    public NodeJSRefImpl(String nodeRef,ClientDocumentStfulDelegateImpl clientDoc)
+    public NodeScriptRefImpl(String nodeRef,ClientDocumentStfulDelegateImpl clientDoc)
     {
         this.nodeRef = nodeRef;
         this.clientDoc = clientDoc;

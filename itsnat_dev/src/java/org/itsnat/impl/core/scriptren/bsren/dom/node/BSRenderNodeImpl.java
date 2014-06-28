@@ -16,12 +16,14 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import org.itsnat.impl.core.scriptren.bsren.BSRenderImpl;
 import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Node;
 
 /**
@@ -78,5 +80,13 @@ public class BSRenderNodeImpl extends BSRenderImpl
             else code.append(id);
         }
         return "itsNatDoc.removeNodeCache(new String[]{" + code.toString() + "});\n";
+    }    
+    
+    public static String shortNamespaceURI(String namespaceURI)
+    {
+        // En vez de poner: http://schemas.android.com/apk/res/android, ponemos NSAND que es una cte Java que en la parte Android tiene el valor del namespace
+        if (NamespaceUtil.isAndroidNamespace(namespaceURI))
+            return "NSAND";
+        else return "\"" + namespaceURI + "\"";
     }    
 }

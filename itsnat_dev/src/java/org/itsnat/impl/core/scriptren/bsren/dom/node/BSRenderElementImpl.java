@@ -18,7 +18,6 @@ package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import static org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderAttributeImpl.shortNamespaceURI;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -33,7 +32,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
 {
     public static final BSRenderElementImpl SINGLETON = new BSRenderElementImpl();
     
-    /** Creates a new instance of JSElementRender */
+    /** Creates a new instance of BSRenderElementImpl */
     public BSRenderElementImpl()
     {
     }

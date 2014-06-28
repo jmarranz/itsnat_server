@@ -20,7 +20,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.NodeJSRefImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;
@@ -49,7 +49,7 @@ public class JSRenderOtherNSAttributeW3CImpl extends JSRenderOtherNSAttributeImp
     }
 
     @Override
-    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeJSRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
@@ -77,7 +77,7 @@ public class JSRenderOtherNSAttributeW3CImpl extends JSRenderOtherNSAttributeImp
     }
 
     @Override
-    protected String removeAttributeOnlyCode(Attr attr,String attrName,Element elem,NodeJSRefImpl nodeRef,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String removeAttributeOnlyCode(Attr attr,String attrName,Element elem,NodeScriptRefImpl nodeRef,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)

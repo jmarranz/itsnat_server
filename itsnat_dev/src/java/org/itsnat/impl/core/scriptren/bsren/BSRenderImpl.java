@@ -14,10 +14,10 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.bsren.dom.node;
+package org.itsnat.impl.core.scriptren.bsren;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderSharedUtil;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 
 /**
  *
@@ -32,11 +32,11 @@ public class BSRenderImpl
 
     public static String toTransportableStringLiteral(String text,boolean addQuotation,Browser browser)
     {
-        return JSAndBSRenderSharedUtil.toTransportableStringLiteral(text, addQuotation, browser);
+        return JSAndBSRenderImpl.toTransportableStringLiteral(text, addQuotation, browser);
     }    
     
     public static String toLiteralStringBS(String value)
     {
-        return JSAndBSRenderSharedUtil.toLiteralStringScript(value);
+        return JSAndBSRenderImpl.toLiteralStringScript(value);
     }    
 }
