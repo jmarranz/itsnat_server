@@ -24,7 +24,7 @@ import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -147,7 +147,7 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
         return false;
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // En páginas con MIME text/html los elementos creados con
         // document.createElement() son consideramos HTML.

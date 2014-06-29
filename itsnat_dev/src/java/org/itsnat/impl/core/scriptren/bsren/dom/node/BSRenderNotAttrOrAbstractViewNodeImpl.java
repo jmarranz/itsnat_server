@@ -16,16 +16,18 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.RenderNotAttrOrAbstractViewNode;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNodeImpl 
+public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNodeImpl implements RenderNotAttrOrAbstractViewNode
 {
 
     /** Creates a new instance of JSNoAttributeRender */
@@ -33,17 +35,15 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
     {
     }
 
-    protected abstract String createNodeCode(Node node,ClientDocumentStfulDelegateDroidImpl clientDoc);
+    public abstract Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc);
 
-    public abstract Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateDroidImpl clientDoc);
-
-    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String newNodeCode = createNodeCode(newNode,clientDoc);
         return getAppendCompleteChildNode(parentVarName,newNode,newNodeCode,clientDoc);
     }
 
-    protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }

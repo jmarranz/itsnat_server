@@ -20,7 +20,7 @@ import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderPropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie.JSRenderHTMLPropertyMSIEOldImpl;
@@ -65,7 +65,7 @@ public abstract class JSRenderHTMLPropertyImpl extends JSRenderPropertyImpl
             return JSRenderHTMLPropertyW3CImpl.getJSRenderHTMLPropertyW3C((BrowserW3C)browser);
     }
 
-    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (DOMUtilHTML.isHTMLInputFileValueAttr(elem, prop.getPropertyName())) // Yo creo que ya no se llega nunca aquí, pues se evita antes.
         {

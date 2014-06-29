@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
@@ -49,7 +50,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
     }
 
     public static JSRenderNodeImpl getJSRenderNode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
+    {       
         int nodeType = node.getNodeType();
         switch(nodeType)
         {

@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.EntityReference;
 import org.w3c.dom.Node;
@@ -33,7 +34,7 @@ public class JSRenderEntityReferenceImpl extends JSRenderNotChildrenNodeImpl
     {
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         EntityReference nodeEntityRef = (EntityReference)node;
         return "itsNatDoc.doc.createEntityReference(\"" + nodeEntityRef.getNodeName() + "\")";

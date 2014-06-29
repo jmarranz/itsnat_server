@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Node;
@@ -32,7 +33,7 @@ public abstract class JSRenderNotChildrenNodeImpl extends JSRenderNotAttrOrAbstr
     {
     }
 
-    public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es añadido al final no inserción en medio
         return getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);

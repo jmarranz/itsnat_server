@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.CharacterData;
@@ -34,7 +35,7 @@ public class JSRenderCDATASectionImpl extends JSRenderCharacterDataAliveImpl
     {
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // No válido en HTML
         // http://www.w3.org/2003/01/dom2-javadoc/org/w3c/dom/Document.html#createCDATASection_java.lang.String_

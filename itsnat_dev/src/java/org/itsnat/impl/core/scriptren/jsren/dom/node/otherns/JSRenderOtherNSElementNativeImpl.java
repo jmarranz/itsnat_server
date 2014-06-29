@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 
-import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
@@ -50,11 +50,11 @@ public abstract class JSRenderOtherNSElementNativeImpl extends JSRenderOtherNSEl
             return JSRenderOtherNSElementW3CImpl.getJSRenderOtherNSElementW3C((BrowserW3C)browser);
     }
 
-    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (NamespaceUtil.isSVGElement(script))
         {
-            BrowserWeb browser = clientDoc.getBrowserWeb();
+            BrowserWeb browser = ((ClientDocumentStfulDelegateWebImpl)clientDoc).getBrowserWeb();
             return browser.isInsertedSVGScriptNotExecuted();
         }
         // Si es XUL, FireFox no necesita nada especial para el script en XUL, desconocemos

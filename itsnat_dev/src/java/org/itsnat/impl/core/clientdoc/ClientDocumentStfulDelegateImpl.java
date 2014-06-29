@@ -22,13 +22,9 @@ import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.dompath.DOMPathResolver;
-import org.itsnat.impl.core.dompath.DOMPathResolverDroid;
-import org.itsnat.impl.core.dompath.DOMPathResolverWeb;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -71,6 +67,11 @@ public abstract class ClientDocumentStfulDelegateImpl
     {
         return clientDoc;
     }
+    
+    public Browser getBrowser()
+    {
+        return clientDoc.getBrowser();
+    }      
     
     public DOMPathResolver getDOMPathResolver()
     {

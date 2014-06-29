@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.CannotInsertAsMarkupCauseImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
@@ -56,32 +57,33 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             return JSRenderOtherNSElementImpl.getJSRenderOtherNSElement(elem,clientDoc);
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Element nodeElem = (Element)node;
         return createElement(nodeElem,clientDoc);
     }
 
-    protected String createElement(Element nodeElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String createElement(Element nodeElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String tagName = nodeElem.getTagName();
         return createElement(nodeElem,tagName,clientDoc);
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "itsNatDoc.doc.createElement(\"" + tagName + "\")";
     }
 
-    protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
         Element elem = (Element)node;
         StringBuilder code = new StringBuilder();
         NamedNodeMap attribList = elem.getAttributes();
         for(int i = 0; i < attribList.getLength(); i++)
         {
             Attr attr = (Attr)attribList.item(i);
-            JSRenderAttributeImpl render = JSRenderAttributeImpl.getJSRenderAttribute(attr,elem,clientDoc);
+            JSRenderAttributeImpl render = JSRenderAttributeImpl.getJSRenderAttribute(attr,elem,clientDocWeb);
             code.append( render.setAttributeCode(attr,elem,elemVarName,true,clientDoc) );
         }
         return code.toString();
@@ -89,7 +91,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
 
     @Override
-    protected Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         CannotInsertAsMarkupCauseImpl cannotInsertMarkup = canInsertAllChildrenAsMarkup((Element)parent,clientDoc.getItsNatStfulDocument().getItsNatStfulDocumentTemplateVersion(),insertMarkupInfo);
         if (cannotInsertMarkup == null)
@@ -169,7 +171,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         }
     }
 
-    protected InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Se supone que hay nodos hijo (si no no llamar).
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
@@ -253,7 +255,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         return DOMUtilInternal.getFirstContainedNodeMatching(parent,this,template);
     }
 
-    protected InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         boolean useNodeLocation;
         String parentNodeLocator;
@@ -384,7 +386,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     }
 
     /* Problema de SVG */
-    public abstract boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc);
+    public abstract boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc);
 
     // Algunos navegadores WebKit tal y como el primer S60WebKit 
     // no ejecutan el código dentro del <script> si se añade después de estar ya insertado en el documento
@@ -404,7 +406,8 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
                 newNode.getFirstChild() instanceof CharacterData);
     }
 
-    protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptWithSingleChildTextNode(newNode) && isInsertedScriptNotExecuted((Element)newNode,clientDoc) )
         {
@@ -448,7 +451,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             return super.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
     }
 
-    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Algunos navegadores WebKit tal y como el primer S60WebKit 
         // no ejecutan el código dentro del <script> una vez insertado en el documento

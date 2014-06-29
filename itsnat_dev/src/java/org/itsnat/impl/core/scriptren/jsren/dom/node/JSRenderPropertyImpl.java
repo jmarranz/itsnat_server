@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import java.util.LinkedList;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -149,12 +150,12 @@ public abstract class JSRenderPropertyImpl
         return renderProperty(prop,elem,elemVarName,null,null,false,clientDoc);
     }
 
-    public String renderSetProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String renderSetProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return renderProperty(prop,elem,elemVarName,attrValueJS,value,true,clientDoc);
     }
 
-    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String propName = prop.getPropertyName();
         String propValueJS = attrValueJSToPropValueJS(prop,setValue,attrValueJS,value);

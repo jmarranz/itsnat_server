@@ -19,6 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
@@ -107,7 +108,7 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
             return attrName;
     }
 
-    public String setStyleMSIECode(Element elem,String valueJS,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setStyleMSIECode(Element elem,String valueJS,ClientDocumentStfulDelegateImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
         return "itsNatDoc.setCSSStyle(" + nodeLoc.toScriptNodeLocation(true) + "," + valueJS + ");\n";
@@ -124,14 +125,14 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
     }
 
     @Override
-    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isStyleAttr(attrName))
             return setStyleMSIECode(elem,jsValue,clientDoc);
         else
         {
             // Incluso aunque newElem = true hay ciertos atributos que se tienen que definir como propiedades
-            JSRenderHTMLPropertyMSIEOldImpl render = JSRenderHTMLPropertyMSIEOldImpl.getJSRenderHTMLPropertyMSIEOld((BrowserMSIEOld)clientDoc.getBrowserWeb());
+            JSRenderHTMLPropertyMSIEOldImpl render = JSRenderHTMLPropertyMSIEOldImpl.getJSRenderHTMLPropertyMSIEOld((BrowserMSIEOld)clientDoc.getBrowser());
             PropertyImpl prop = render.getGlobalProperty(elem,attrName);
             if (prop != null)
             {
@@ -147,14 +148,14 @@ public class JSRenderHTMLAttributeMSIEOldImpl extends JSRenderHTMLAttributeImpl
     }
 
     @Override
-    public String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isStyleAttr(attrName))
             return setStyleMSIECode(elemVarName,jsValue);
         else
         {
             // Incluso aunque newElem = true hay ciertos atributos que se tienen que definir como propiedades
-            JSRenderHTMLPropertyMSIEOldImpl render = JSRenderHTMLPropertyMSIEOldImpl.getJSRenderHTMLPropertyMSIEOld((BrowserMSIEOld)clientDoc.getBrowserWeb());
+            JSRenderHTMLPropertyMSIEOldImpl render = JSRenderHTMLPropertyMSIEOldImpl.getJSRenderHTMLPropertyMSIEOld((BrowserMSIEOld)clientDoc.getBrowser());
             PropertyImpl prop = render.getGlobalProperty(elem,attrName); // Como estamos en creación propiedades tal y como "selected" etc no necesitan definirse, nos interesan atributos problemáticos en el MSIE tal y como "class" "onclick" etc
             if (prop != null)
                 return setAttributeWithProperty(attr,attrName,jsValue,elem,elemVarName,newElem,prop,clientDoc);

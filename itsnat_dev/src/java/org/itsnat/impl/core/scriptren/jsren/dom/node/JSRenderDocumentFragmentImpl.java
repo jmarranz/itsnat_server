@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Node;
 
@@ -37,17 +38,17 @@ public class JSRenderDocumentFragmentImpl extends JSRenderHasChildrenNodeImpl
     {
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "itsNatDoc.doc.createDocumentFragment()";
     }
 
-    protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "";
     }
 
-    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return false;
     }

@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Element;
@@ -41,7 +42,8 @@ public class JSRenderSVGElementSVGWebImpl extends JSRenderOtherNSElementImpl
     {
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Redefinimos totalmente pues es siempre SVG
         String namespace = nodeElem.getNamespaceURI(); // Es namespace SVG necesariamente
@@ -61,7 +63,7 @@ public class JSRenderSVGElementSVGWebImpl extends JSRenderOtherNSElementImpl
             return elemName + ".style";
     }
 
-    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return true;
     }
@@ -71,11 +73,12 @@ public class JSRenderSVGElementSVGWebImpl extends JSRenderOtherNSElementImpl
         return true;
     }
 
-    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Los elementos insertados inmediatamente después de la inserción del nodo SVG root no son correctamente
         // procesados.
-        if (SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash((Element)parent,clientDoc))
+        if (SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash((Element)parent,(ClientDocumentStfulDelegateWebImpl)clientDoc))
             return true;
 
         return super.isAddChildNodesBeforeNode(parent,clientDoc);

@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
@@ -55,7 +56,7 @@ public abstract class JSRenderCommentImpl extends JSRenderCharacterDataImpl
             return JSRenderCommentDefaultImpl.SINGLETON;
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Comment nodeComm = (Comment)node;
         return "itsNatDoc.doc.createComment(" + dataTextToJS(nodeComm,clientDoc) + ")";

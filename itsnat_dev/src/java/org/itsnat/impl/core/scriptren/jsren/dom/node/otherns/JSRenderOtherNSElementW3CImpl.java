@@ -19,6 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;
@@ -62,7 +63,7 @@ public abstract class JSRenderOtherNSElementW3CImpl extends JSRenderOtherNSEleme
         return true;
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String namespace = nodeElem.getNamespaceURI();
         if (namespace != null)

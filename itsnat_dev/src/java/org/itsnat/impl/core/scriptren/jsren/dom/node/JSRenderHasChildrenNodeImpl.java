@@ -18,15 +18,17 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.CodeListImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.RenderHasChildrenNode;
 import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstractViewNodeImpl
+public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstractViewNodeImpl implements RenderHasChildrenNode
 {
 
     /** Creates a new instance of JSNotChildrenNodeRenderImpl */
@@ -34,16 +36,12 @@ public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstr
     {
     }
 
-    protected abstract String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateWebImpl clientDoc);
-
-    protected boolean isCreateComplete(Node node)
+    public boolean isCreateComplete(Node node)
     {
         return !node.hasAttributes() && !node.hasChildNodes();
     }
 
-    public abstract boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateWebImpl clientDoc);
-
-    public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es añadido al final no inserción en medio
         CodeListImpl code = new CodeListImpl();
@@ -112,7 +110,7 @@ public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstr
         return code;
     }
 
-    protected Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Sólo es llamado si hay algún hijo
 
@@ -133,7 +131,7 @@ public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstr
             Node child = parent.getFirstChild();
             while(child != null)
             {
-                JSRenderNotAttrOrAbstractViewNodeImpl childRender = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(child,clientDoc);
+                JSRenderNotAttrOrAbstractViewNodeImpl childRender = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(child,(ClientDocumentStfulDelegateWebImpl)clientDoc);
                 code.add( childRender.getAppendNewNodeCode(parent,child,parentVarName,insertMarkupInfo,clientDoc) );
 
                 child = child.getNextSibling();

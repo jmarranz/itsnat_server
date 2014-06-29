@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.html.w3c;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -48,7 +48,7 @@ public abstract class JSRenderHTMLAttributeW3CImpl extends JSRenderHTMLAttribute
     }
 
     @Override
-    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es raro que tenga namespace no nulo, pero por si acaso.
         String namespaceURI = attr.getNamespaceURI();

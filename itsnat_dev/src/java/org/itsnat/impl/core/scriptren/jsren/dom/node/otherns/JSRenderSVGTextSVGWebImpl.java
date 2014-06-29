@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
@@ -35,7 +35,7 @@ public class JSRenderSVGTextSVGWebImpl extends JSRenderOtherNSTextImpl
     {
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Redefinimos y usamos el createTextNode especial con segundo parámetro
         // que exige SVGWeb

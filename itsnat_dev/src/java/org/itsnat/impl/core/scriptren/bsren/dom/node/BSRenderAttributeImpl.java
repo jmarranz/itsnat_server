@@ -16,9 +16,11 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.RenderAttribute;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -26,7 +28,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class BSRenderAttributeImpl extends BSRenderNodeImpl
+public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAttribute
 {
     private static final BSRenderAttributeImpl SINGLETON = new BSRenderAttributeImpl();
     
@@ -49,18 +51,18 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         return setAttributeCode(attr,attrName,bsValue,elem,newElem,clientDoc);
     }    
     
-    protected String toBSAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String toBSAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String value = attr.getValue();
         return toBSAttrValue(value,clientDoc);
     }    
     
-    protected String toBSAttrValue(String value,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String toBSAttrValue(String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return toTransportableStringLiteral(value,clientDoc.getBrowserDroid());
+        return toTransportableStringLiteral(value,clientDoc.getBrowser());
     }    
     
-    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isIgnored(attr,elem))
             return "";
@@ -75,7 +77,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl
         return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(nodeLoc),newElem);
     }    
 
-    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(elemVarName,clientDoc),newElem);
     }

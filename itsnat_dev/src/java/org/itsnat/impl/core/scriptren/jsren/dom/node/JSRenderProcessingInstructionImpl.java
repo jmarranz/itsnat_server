@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 
@@ -33,7 +33,7 @@ public class JSRenderProcessingInstructionImpl extends JSRenderNotChildrenNodeIm
     {
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         ProcessingInstruction nodeProcInst = (ProcessingInstruction)node;
         return "itsNatDoc.doc.createProcessingInstruction(\"" + nodeProcInst.getTarget() + "\",\"" + nodeProcInst.getData() + "\")";

@@ -32,7 +32,7 @@ import org.w3c.dom.Node;
  */
 public class BSRenderNodeImpl extends BSRenderImpl
 {
-    public static BSRenderNodeImpl getBSRenderNode(Node node,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public static BSRenderNodeImpl getBSRenderNode(Node node)
     {
         int nodeType = node.getNodeType();
         switch(nodeType)

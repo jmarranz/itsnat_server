@@ -21,6 +21,7 @@ import java.util.Set;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderElementImpl;
@@ -143,7 +144,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
     protected abstract boolean isChildNotValidInsideInnerHTMLElementNotHTML(Element elem,MarkupTemplateVersionImpl template);
     protected abstract boolean isChildNotValidInsideInnerHTMLNotElementOrText(Node node);
 
-    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return false; // Sólo cosa de SVG
     }
@@ -155,7 +156,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return browser.isTextAddedToInsertedHTMLScriptNotExecuted();
     }
 
-    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es necesario añadir primero los <param> al <object> o <applet> para que actúen
         // en tiempo de carga del <object> o <applet>

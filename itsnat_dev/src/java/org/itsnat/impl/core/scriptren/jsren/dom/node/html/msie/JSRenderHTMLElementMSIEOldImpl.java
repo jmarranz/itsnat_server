@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie;
 
 import org.itsnat.core.html.ItsNatHTMLEmbedElement;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -159,7 +160,8 @@ public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
         return spAttribs;
     }
 
-    protected String createElement(Element elem,String tagName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    protected String createElement(Element elem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es RARISIMO que un elemento X/HTML tenga un prefijo en un
         // documento X/HTML (porque MSIE no admite más tipos de documentos con estado)

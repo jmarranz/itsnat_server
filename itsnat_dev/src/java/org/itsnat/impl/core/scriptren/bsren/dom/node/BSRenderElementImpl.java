@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.Attr;
@@ -42,19 +43,19 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
         return BSRenderElementImpl.SINGLETON;
     }
 
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Element nodeElem = (Element)node;
         return createElement(nodeElem,clientDoc);
     }
 
-    protected String createElement(Element nodeElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String createElement(Element nodeElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String tagName = nodeElem.getTagName();
         return createElement(nodeElem,tagName,clientDoc);
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String namespaceURI = nodeElem.getNamespaceURI();
         if (namespaceURI != null)
@@ -66,7 +67,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
             return "itsNatDoc.createElement(\"" + tagName + "\")";      
     }
 
-    protected String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Element elem = (Element)node;
         BSRenderAttributeImpl render = BSRenderAttributeImpl.getBSRenderAttribute();          
@@ -80,7 +81,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
         return code.toString();
     }
 
-    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
          return false;
     }

@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.jsren.dom.node.otherns.JSRenderOtherNSTextImpl;
 import org.itsnat.core.ItsNatDOMException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLTextImpl;
@@ -47,7 +48,7 @@ public abstract class JSRenderTextImpl extends JSRenderCharacterDataAliveImpl
             return JSRenderOtherNSTextImpl.getJSRenderOtherNSText(node,clientDoc);
     }
    
-    protected String createNodeCode(Node node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Text nodeText = (Text)node;
         return dataTextToJS(nodeText,clientDoc);

@@ -49,7 +49,7 @@ public class JSRenderOtherNSAttributeW3CImpl extends JSRenderOtherNSAttributeImp
     }
 
     @Override
-    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)

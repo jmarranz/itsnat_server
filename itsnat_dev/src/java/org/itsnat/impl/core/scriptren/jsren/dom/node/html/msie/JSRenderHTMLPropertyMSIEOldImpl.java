@@ -18,9 +18,9 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLPropertyImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
@@ -146,14 +146,14 @@ public class JSRenderHTMLPropertyMSIEOldImpl extends JSRenderHTMLPropertyImpl
     }
 
     @Override
-    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String renderProperty(PropertyImpl prop,Element elem,String elemVarName,String attrValueJS,String value,boolean setValue,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String propName = prop.getPropertyName();
 
         if ((elem instanceof HTMLOptionElement) &&
             propName.equals("selected") ) // (type == BOOLEAN)
         {
-            BrowserWeb browser = clientDoc.getBrowserWeb();
+            Browser browser = clientDoc.getBrowser();
             if ((browser instanceof BrowserMSIEOld)&&
                 ((BrowserMSIEOld)browser).getVersion() < 8 )
             {

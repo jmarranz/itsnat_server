@@ -19,6 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node;
 import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
@@ -28,6 +29,7 @@ import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.otherns.JSRenderOtherNSAttributeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.RenderAttribute;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
@@ -35,7 +37,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
+public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl implements RenderAttribute
 {
     /** Creates a new instance of JSRenderAttributeImpl */
     public JSRenderAttributeImpl()
@@ -57,7 +59,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
     
     public abstract boolean isIgnored(Attr attr,Element elem);
 
-    public String setAttributeCode(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeCode(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isIgnored(attr,elem))
             return "";
@@ -66,7 +68,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return setAttributeCode(attr,attrName,jsValue,elem,newElem,clientDoc);
     }
 
-    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isIgnored(attr,elem))
             return "";
@@ -83,12 +85,12 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return removeAttributeCode(attr,attrName,elem,clientDoc);
     }
 
-    protected String toJSAttrValue(String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String toJSAttrValue(String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return toTransportableStringLiteral(value,clientDoc.getBrowserWeb());
+        return toTransportableStringLiteral(value,clientDoc.getBrowser());
     }
 
-    protected String getAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String getAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (!newElem)  // En inserción (newElem true) el proceso ya se hace al insertar el elemento (recuerda que el elemento puede insertarse via innerHTML/XML y no pasar por aquí)
         {
@@ -114,7 +116,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return attr.getValue();
     }
 
-    protected String toJSAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String toJSAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es llamado únicamente por los dos setAttributeCode(...)
         // y sólo una vez.
@@ -123,13 +125,13 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return toJSAttrValue(value,clientDoc);
     }
 
-    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (newElem)
             return setAttributeOnlyCode(attr,attrName,jsValue,elem,newElem,clientDoc);
         else
         {
-            PropertyImpl prop = JSRenderPropertyImpl.getProperty(elem,attrName,clientDoc.getBrowserWeb());
+            PropertyImpl prop = JSRenderPropertyImpl.getProperty(elem,attrName,clientDoc.getBrowser());
             if (prop != null)
                 return setAttributeWithProperty(attr,attrName,jsValue,elem,newElem,prop,clientDoc);
             else
@@ -137,13 +139,13 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         }
     }
 
-    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (newElem)
             return setAttributeOnlyCode(attr,attrName,jsValue,elem,elemVarName,newElem,clientDoc);
         else
         {
-            PropertyImpl prop = JSRenderPropertyImpl.getProperty(elem,attrName,clientDoc.getBrowserWeb());
+            PropertyImpl prop = JSRenderPropertyImpl.getProperty(elem,attrName,clientDoc.getBrowser());
             if (prop != null)
                 return setAttributeWithProperty(attr,attrName,jsValue,elem,elemVarName,newElem,prop,clientDoc);
             else
@@ -151,18 +153,18 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         }
     }
 
-    protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
         return setAttributeOnlyCode(attr,attrName,jsValue,new NodeScriptRefImpl(nodeLoc),newElem,clientDoc);
     }
 
-    protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return setAttributeOnlyCode(attr,attrName,jsValue,new NodeScriptRefImpl(elemVarName,clientDoc),newElem,clientDoc);
     }
 
-    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String setAttributeOnlyCode(Attr attr,String attrName,String jsValue,NodeScriptRefImpl nodeRef,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
         {
@@ -229,15 +231,15 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return code.toString();
     }
 
-    protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
-        code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
+        code.append( "var elem = " + ((ClientDocumentStfulDelegateWebImpl)clientDoc).getNodeReference(elem,true,true) + ";\n" );
         code.append( setAttributeWithProperty(attr,attrName,jsValue,elem,"elem",newElem,prop,clientDoc) );
         return code.toString();
     }
 
-    protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,String elemVarName,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isRenderAttributeAlongsideProperty(attrName,elem))
         {
@@ -252,7 +254,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         }
     }
 
-    protected String setAttributeAndProperty(Attr attr,String attrName,String valueJS,Element elem,String elemVarName,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String setAttributeAndProperty(Attr attr,String attrName,String valueJS,Element elem,String elemVarName,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
 
@@ -262,7 +264,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl
         return code.toString();
     }
 
-    public String renderSetProperty(Attr attr,String valueJS,Element elem,String elemVarName,PropertyImpl prop,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String renderSetProperty(Attr attr,String valueJS,Element elem,String elemVarName,PropertyImpl prop,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String value = attr.getValue();
         JSRenderPropertyImpl render = prop.getJSRenderProperty();

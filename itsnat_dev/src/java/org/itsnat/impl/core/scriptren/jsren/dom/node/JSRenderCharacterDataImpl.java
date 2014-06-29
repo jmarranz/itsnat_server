@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -35,12 +36,12 @@ public abstract class JSRenderCharacterDataImpl extends JSRenderNotChildrenNodeI
     {
     }
 
-    public String dataTextToJS(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String dataTextToJS(CharacterData node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return dataTextToJS(node.getData(),clientDoc);
     }
 
-    protected String dataTextToJS(String text,ClientDocumentStfulDelegateWebImpl clientDoc)
+    protected String dataTextToJS(String text,ClientDocumentStfulDelegateImpl clientDoc)
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         // Resolvemos los textos cacheados, pasamos resolveEntities=true porque
@@ -49,7 +50,7 @@ public abstract class JSRenderCharacterDataImpl extends JSRenderNotChildrenNodeI
         // y ahí NO se resuelven los entities tal y como &amp;
 
         text = itsNatDoc.resolveCachedNodes(text,true);
-        return toTransportableStringLiteral(text,clientDoc.getBrowserWeb());
+        return toTransportableStringLiteral(text,clientDoc.getBrowser());
     }
 
     public abstract String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc);

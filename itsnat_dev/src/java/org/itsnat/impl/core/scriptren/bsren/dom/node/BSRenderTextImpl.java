@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.Node;
@@ -34,13 +35,13 @@ public class BSRenderTextImpl extends BSRenderNotAttrOrAbstractViewNodeImpl
     }
 
     @Override
-    protected String createNodeCode(Node node, ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String createNodeCode(Node node, ClientDocumentStfulDelegateImpl clientDoc)
     {
         return null;
     }
 
     @Override
-    public Object getAppendNewNodeCode(Node parent, Node newNode, String parentVarName, InsertAsMarkupInfoImpl insertMarkupInfo, ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public Object getAppendNewNodeCode(Node parent, Node newNode, String parentVarName, InsertAsMarkupInfoImpl insertMarkupInfo, ClientDocumentStfulDelegateImpl clientDoc)
     {
         return null;
     }
