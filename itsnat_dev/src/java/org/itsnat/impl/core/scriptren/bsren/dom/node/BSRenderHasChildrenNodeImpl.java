@@ -17,10 +17,10 @@
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.CodeListImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderHasChildrenNodeImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.RenderHasChildrenNode;
 import org.w3c.dom.Node;
 
@@ -43,71 +43,12 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
 
     public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        // Es añadido al final no inserción en medio
-        CodeListImpl code = new CodeListImpl();
-
-        if (isCreateComplete(newNode))
-        {
-            code.add( getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc) );
-        }
-        else
-        {
-            if (parentVarName == null) throw new ItsNatException("INTERNAL ERROR");
-
-            String newNodeVarName = parentVarName + "_c"; // c = child (para ahorrar letras)
-
-            code.add( "var " + newNodeVarName + " = " + createNodeCode(newNode,clientDoc) + ";\n" );
-
-            if (newNode.hasAttributes())
-                code.add( addAttributesBeforeInsertNode(newNode,newNodeVarName,clientDoc) );
-
-            boolean hasChildNodes = newNode.hasChildNodes();
-            boolean beforeParent = false; // Este valor es indiferente si hasChildNodes es false
-            if (hasChildNodes) beforeParent = isAddChildNodesBeforeNode(newNode,clientDoc);
-
-            if (hasChildNodes && beforeParent)
-                code.add( appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
-
-            code.add( getAppendCompleteChildNode(parentVarName,newNode,newNodeVarName,clientDoc) );
-
-            if (hasChildNodes && !beforeParent)
-                code.add( appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
-        }
-
-        return code;
+        return JSAndBSRenderHasChildrenNodeImpl.getAppendNewNodeCode(parent, newNode, parentVarName, insertMarkupInfo,clientDoc,this);        
     }
 
     public Object getInsertNewNodeCode(Node newNode,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        CodeListImpl code = new CodeListImpl();
-
-        if (isCreateComplete(newNode))
-        {
-            code.add( getInsertCompleteNodeCode(newNode,clientDoc) );
-        }
-        else
-        {
-            String newNodeVarName = "child";
-
-            code.add( "var " + newNodeVarName + " = " + createNodeCode(newNode,clientDoc) + ";\n" );
-
-            if (newNode.hasAttributes())
-                code.add( addAttributesBeforeInsertNode(newNode,newNodeVarName,clientDoc) );
-
-            boolean hasChildNodes = newNode.hasChildNodes();
-            boolean beforeParent = false; // Este valor es indiferente si hasChildNodes es false
-            if (hasChildNodes) beforeParent = isAddChildNodesBeforeNode(newNode,clientDoc);
-
-            if (hasChildNodes && beforeParent)
-                code.add( appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
-
-            code.add( getInsertCompleteNodeCode(newNode,newNodeVarName,clientDoc) );
-
-            if (hasChildNodes && !beforeParent)
-                code.add( appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
-        }
-
-        return code;
+        return JSAndBSRenderHasChildrenNodeImpl.getInsertNewNodeCode(newNode,insertMarkupInfo,clientDoc,this);        
     }
 
     public Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)

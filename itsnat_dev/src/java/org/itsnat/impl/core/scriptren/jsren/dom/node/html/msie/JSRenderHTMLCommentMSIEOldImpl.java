@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderCommentImpl;
 import org.w3c.dom.CharacterData;
@@ -52,7 +53,7 @@ public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
             return super.getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
     }
 
-    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // El nodo de texto de <script> y <style> es el único hijo posible y
         // necesitan técnicas específicas

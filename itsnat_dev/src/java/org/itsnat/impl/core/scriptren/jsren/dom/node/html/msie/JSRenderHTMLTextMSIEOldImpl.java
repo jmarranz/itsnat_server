@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie;
 
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLTextImpl;
 import org.w3c.dom.CharacterData;
@@ -45,13 +46,13 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
         return JSRenderHTMLTextMSIEOldImpl.SINGLETON;
     }
     
-    private String setScriptTextContent(HTMLScriptElement parent,String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private String setScriptTextContent(HTMLScriptElement parent,String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String parentRef = clientDoc.getNodeReference(parent,true,true);
         return setScriptTextContent(parentRef,value,clientDoc);
     }
 
-    private String setScriptTextContent(String parentVarName,String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private String setScriptTextContent(String parentVarName,String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // No vale ni innerHTML ni appendChild en estos elementos
         // http://www.justatheory.com/computers/programming/javascript/ie_dom_help.html
@@ -60,13 +61,13 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
         return parentVarName + ".text = " + valueJS + ";\n";
     }
 
-    private String setStyleTextContent(HTMLStyleElement parent,String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private String setStyleTextContent(HTMLStyleElement parent,String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String parentRef = clientDoc.getNodeReference(parent,true,true);
         return setStyleTextContent(parentRef,value,clientDoc);
     }
 
-    private String setStyleTextContent(String parentVarName,String value,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private String setStyleTextContent(String parentVarName,String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // No vale ni innerHTML ni appendChild en estos elementos
         // http://www.phpied.com/dynamic-script-and-style-elements-in-ie/
@@ -88,7 +89,8 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
             return super.getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
     }
 
-    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // El nodo de texto de <script> y <style> es el único hijo posible y
         // necesitan técnicas específicas

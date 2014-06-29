@@ -155,4 +155,5 @@ public abstract class ClientDocumentStfulDelegateImpl
     
     public abstract ScriptUtil createScriptUtil();
     public abstract boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException;   
+    public abstract String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull);    
 }

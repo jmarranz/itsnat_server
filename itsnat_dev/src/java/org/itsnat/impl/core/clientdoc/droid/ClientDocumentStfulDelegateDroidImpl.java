@@ -20,6 +20,7 @@ import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventTarget;
@@ -50,4 +51,12 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getNodeReference(Node node, boolean cacheIfPossible, boolean errIfNull)
+    {
+        // No se usa en Droid pero podría usarse, es fácil de implementar (ver la versión web)
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }

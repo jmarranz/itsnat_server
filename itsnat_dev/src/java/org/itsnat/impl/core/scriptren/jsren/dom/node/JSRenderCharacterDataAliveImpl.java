@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,7 +39,8 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
         return ((parentNode instanceof Element) && parentNode.getLocalName().equals("script"));
     }
 
-    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptContent(newNode))
         {
@@ -58,6 +60,8 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
             // Afortunadamente la reinserción nos sirve a nosotros en el caso de S60WebKit.
             // Si la solución de la reinserción no funciona la única alternativa es el eval
 
+            ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
+            
             StringBuilder code = new StringBuilder();
             if (newNodeCode.startsWith("itsNatDoc.doc.createTextNode(") || // Es una llamada a createTextNode (no es directamente un valor)
                 newNodeCode.startsWith("itsNatDoc.doc.createCDATASection("))
@@ -74,16 +78,16 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
 
             Element script = (Element)newNode.getParentNode();
 
-            JSRenderElementImpl elemRender = JSRenderElementImpl.getJSRenderElement(script, clientDoc);
+            JSRenderElementImpl elemRender = JSRenderElementImpl.getJSRenderElement(script, clientDocWeb);
 
             if (elemRender.isInsertedScriptNotExecuted(script,clientDoc))
             {
                 code.append( "eval(textNode.data);\n" );
             }
-            else if (elemRender.isTextAddedToInsertedScriptNotExecuted(script,clientDoc))
+            else if (elemRender.isTextAddedToInsertedScriptNotExecuted(script,clientDocWeb))
             {
                 String method = "fixScriptTextNode";
-                if (!clientDoc.isClientMethodBounded(method))
+                if (!clientDocWeb.isClientMethodBounded(method))
                 {
                     code.append( "var func = function (textNode)" );
                     code.append( "{" );
@@ -93,7 +97,7 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
                     code.append( "  elemClone.parentNode.replaceChild(elem,elemClone);\n" );
                     code.append( "};" );
                     code.append( "itsNatDoc." + method + " = func;\n" );
-                    clientDoc.bindClientMethod(method);
+                    clientDocWeb.bindClientMethod(method);
                 }
 
                 code.append( "itsNatDoc." + method + "(textNode);\n" );

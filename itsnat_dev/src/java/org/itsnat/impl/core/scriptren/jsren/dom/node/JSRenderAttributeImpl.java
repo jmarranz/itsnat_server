@@ -234,7 +234,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl implements 
     protected String setAttributeWithProperty(Attr attr,String attrName,String jsValue,Element elem,boolean newElem,PropertyImpl prop,ClientDocumentStfulDelegateImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
-        code.append( "var elem = " + ((ClientDocumentStfulDelegateWebImpl)clientDoc).getNodeReference(elem,true,true) + ";\n" );
+        code.append( "var elem = " + clientDoc.getNodeReference(elem,true,true) + ";\n" );
         code.append( setAttributeWithProperty(attr,attrName,jsValue,elem,"elem",newElem,prop,clientDoc) );
         return code.toString();
     }

@@ -48,7 +48,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }
 
-    protected String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String newNodeCode = createNodeCode(newNode,clientDoc);
         return getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
@@ -61,7 +61,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getRemoveNodeCode(removedNode, clientDoc);        
     }
 
-    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
     }

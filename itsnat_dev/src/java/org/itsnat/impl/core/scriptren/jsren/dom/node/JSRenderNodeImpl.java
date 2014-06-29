@@ -109,7 +109,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
         return "itsNatDoc.removeNodeCache([" + code.toString() + "]);\n";
     }
 
-    public static String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // El código devuelto debe ser enviado al cliente y ejecutado pues puede llevar información de cacheado y haber sido cacheado ahora en el servidor
         if (node == null)

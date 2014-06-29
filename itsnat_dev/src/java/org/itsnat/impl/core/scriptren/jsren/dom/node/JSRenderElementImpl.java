@@ -428,7 +428,8 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             return super.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode,clientDoc);
     }
 
-    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptWithSingleChildTextNode(newNode) && isInsertedScriptNotExecuted((Element)newNode,clientDoc) )
         {

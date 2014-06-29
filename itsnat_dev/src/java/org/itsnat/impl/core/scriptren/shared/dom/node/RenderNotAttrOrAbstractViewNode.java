@@ -17,4 +17,5 @@ public interface RenderNotAttrOrAbstractViewNode extends RenderNode
 {
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc);
     public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc);
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc);    
 }

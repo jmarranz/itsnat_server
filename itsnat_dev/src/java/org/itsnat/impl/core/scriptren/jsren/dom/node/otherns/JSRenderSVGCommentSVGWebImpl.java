@@ -15,6 +15,7 @@
 */
 package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderCommentImpl;
 import org.w3c.dom.Node;
@@ -40,7 +41,7 @@ public class JSRenderSVGCommentSVGWebImpl extends JSRenderCommentImpl
         return "";
     }
 
-    protected String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "";
     }
