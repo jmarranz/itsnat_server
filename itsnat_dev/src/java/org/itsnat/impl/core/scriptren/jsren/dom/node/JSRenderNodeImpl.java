@@ -138,7 +138,8 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
     {
-        return JSAndBSRenderNodeImpl.getNodeReference(nodeLoc, errIfNull);
+        String nodeRef = JSAndBSRenderNodeImpl.getNodeLocation(nodeLoc, errIfNull);
+        return "itsNatDoc.getNode(" + nodeRef + ")";        
     }
 
     public static String getSetNodePropertyCode(Node node,String propertyName,String value,boolean cacheIfPossible,ClientDocumentStfulDelegateWebImpl clientDoc)

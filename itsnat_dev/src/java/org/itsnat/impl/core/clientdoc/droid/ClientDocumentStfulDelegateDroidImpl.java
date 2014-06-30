@@ -22,6 +22,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
@@ -57,8 +58,7 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
     @Override
     public String getNodeReference(Node node, boolean cacheIfPossible, boolean errIfNull)
     {
-        // No se usa en Droid pero podría usarse, es fácil de implementar (ver la versión web)
-        throw new UnsupportedOperationException("Not supported yet.");
+        return BSRenderNodeImpl.getNodeReference(node,cacheIfPossible,errIfNull,this);
     }
     
     @Override

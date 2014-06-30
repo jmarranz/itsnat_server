@@ -12,7 +12,7 @@ import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromDocImpl;
@@ -29,8 +29,8 @@ public abstract class ScriptUtilImpl implements ScriptUtil
     {
         if (itsNatDoc instanceof ItsNatStfulWebDocumentImpl)
             return new JSScriptUtilFromDocImpl((ItsNatStfulWebDocumentImpl)itsNatDoc);
-        else if (itsNatDoc instanceof ItsNatDroidDocumentImpl)
-            return new BSScriptUtilFromDocImpl((ItsNatDroidDocumentImpl)itsNatDoc);
+        else if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)
+            return new BSScriptUtilFromDocImpl((ItsNatStfulDroidDocumentImpl)itsNatDoc);
         return null;
     }
     

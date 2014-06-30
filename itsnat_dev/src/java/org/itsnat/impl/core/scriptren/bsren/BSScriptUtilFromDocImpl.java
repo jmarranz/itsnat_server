@@ -17,7 +17,7 @@ package org.itsnat.impl.core.scriptren.bsren;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.scriptren.shared.JSAndBSScriptUtilFromDocSharedImpl;
 import org.w3c.dom.Node;
 
@@ -29,7 +29,7 @@ public class BSScriptUtilFromDocImpl extends BSScriptUtilImpl
 {
     protected JSAndBSScriptUtilFromDocSharedImpl delegate;
 
-    public BSScriptUtilFromDocImpl(ItsNatDroidDocumentImpl itsNatDoc)
+    public BSScriptUtilFromDocImpl(ItsNatStfulDroidDocumentImpl itsNatDoc)
     {
         this.delegate = new JSAndBSScriptUtilFromDocSharedImpl(this,itsNatDoc);
     }

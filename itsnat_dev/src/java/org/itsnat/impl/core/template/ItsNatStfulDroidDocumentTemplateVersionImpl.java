@@ -21,7 +21,7 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.w3c.dom.Document;
@@ -55,7 +55,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     @Override
     protected ItsNatDocumentImpl createItsNatDocument(Document doc, Browser browser, String requestURL, ItsNatSessionImpl session, boolean stateless)
     {
-        return new ItsNatDroidDocumentImpl(doc,this,browser,requestURL,session,stateless);
+        return new ItsNatStfulDroidDocumentImpl(doc,this,browser,requestURL,session,stateless);
     }
 
     @Override

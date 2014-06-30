@@ -15,10 +15,11 @@ import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
  */
 public class JSAndBSRenderNodeImpl extends JSAndBSRenderImpl
 {
-    public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
+   
+    public static String getNodeLocation(NodeLocationImpl nodeLoc,boolean errIfNull)
     {
         String nodeRef = nodeLoc.toScriptNodeLocation(errIfNull);
         if (nodeRef.equals("null")) return "null";
-        return "itsNatDoc.getNode(" + nodeRef + ")";
-    }    
+        return nodeRef;
+    }        
 }

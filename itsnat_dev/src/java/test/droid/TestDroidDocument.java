@@ -8,10 +8,15 @@ package test.droid;
 import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.event.ItsNatDOMStdEvent;
+import org.itsnat.core.html.ItsNatHTMLDocument;
+import org.itsnat.core.script.ScriptUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
+import org.w3c.dom.views.AbstractView;
+import org.w3c.dom.views.DocumentView;
 
 public class TestDroidDocument implements EventListener,Serializable
 {
@@ -87,6 +92,18 @@ public class TestDroidDocument implements EventListener,Serializable
         doc.getDocumentElement().insertBefore(frameLayoutViewToRemove, buttonTest);        
         doc.getDocumentElement().removeChild(frameLayoutViewToRemove);      
         
+        //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"hola\");");
+        
+
+
+        String code;
+        ScriptUtil codeGen = itsNatDoc.getScriptUtil();
+
+        code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"alert",new Object[]{"Alert OK"},true);
+        itsNatDoc.addCodeToSend(code);
+        
+        code = "itsNatDoc.alert(\"Test getNodeReference:\" + " + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\"));"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
+        itsNatDoc.addCodeToSend(code);        
 
     }
 

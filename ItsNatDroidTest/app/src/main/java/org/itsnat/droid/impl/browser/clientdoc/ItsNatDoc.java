@@ -1,5 +1,8 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.content.Context;
+import android.view.View;
+
 /**
  * Métodos visibles desde BeanShell
  *
@@ -7,7 +10,12 @@ package org.itsnat.droid.impl.browser.clientdoc;
  */
 public interface ItsNatDoc
 {
+    public Context getContext();
+
+    public void alert(Object value);
+
     public Node getNode(Object[] idObj);
+    public View getView(Object[] idObj);
 
     public void setAttribute(Node node,String name,String value);
     public void setAttribute2(Object[] idObj,String name,String value);

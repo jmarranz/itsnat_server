@@ -12,6 +12,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.clientdoc.SimpleAlert;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
@@ -54,6 +55,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             code.append("arr(a,b){return new Object[]{a,b};}");
             code.append("arr(a,b,c){return new Object[]{a,b,c};}");
             code.append("arr(a,b,c,d){return new Object[]{a,b,c,d};}");
+
             interp.eval(code.toString());
             interp.set("NSAND", XMLLayoutInflateService.XMLNS_ANDROID);
         }

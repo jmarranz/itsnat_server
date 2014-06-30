@@ -31,7 +31,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatOtherNSDocumentImpl;
-import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 
@@ -58,7 +58,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     public static ResponseDelegateStfulLoadDocImpl createResponseDelegateStfulLoadDoc(ResponseLoadStfulDocumentValid responseParent)
     {
         ItsNatStfulDocumentImpl itsNatDoc = responseParent.getItsNatStfulDocument();
-        if (itsNatDoc instanceof ItsNatDroidDocumentImpl)        
+        if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)        
             return new ResponseDelegateStfulDroidLoadDocImpl(responseParent);
         else if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
             return ResponseDelegateHTMLLoadDocImpl.createResponseDelegateHTMLLoadDoc(responseParent);

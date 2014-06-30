@@ -178,16 +178,24 @@ public class MainActivity extends Activity {
                 Toast.makeText(MainActivity.this, "ERROR:" + ex.getMessage(), Toast.LENGTH_SHORT).show();
                 //throw new RuntimeException(ex);
                 ex.printStackTrace();
-                if (ex instanceof ItsNatDroidScriptException) Log.v("MainActivity", "CODE:" + ((ItsNatDroidScriptException)ex).getScript());
-
+                if (ex instanceof ItsNatDroidScriptException)
+                {
+                    ItsNatDroidScriptException exScr = (ItsNatDroidScriptException)ex;
+                    if (exScr.getCause() instanceof EvalError)
+                    {
+                        ((EvalError)exScr.getCause()).printStackTrace();
+                    }
+                    Log.v("MainActivity", "CODE:" + exScr.getScript());
+                }
             }
         }).setAttrCustomInflaterListener(new AttrCustomInflaterListener()
         {
             @Override
-            public void setAttribute(View view,String namespace, String name, String value)
+            public void setAttribute(View view, String namespace, String name, String value)
             {
                 System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
             }
+
             @Override
             public void removeAttribute(View view, String namespace, String name)
             {

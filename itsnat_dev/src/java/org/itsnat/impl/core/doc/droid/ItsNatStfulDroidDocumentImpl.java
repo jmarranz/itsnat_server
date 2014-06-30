@@ -34,10 +34,10 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class ItsNatDroidDocumentImpl extends ItsNatStfulDocumentImpl
+public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
 {
 
-    public ItsNatDroidDocumentImpl(Document doc, ItsNatDocumentTemplateVersionImpl docTemplate, Browser browser, String requestURL, ItsNatSessionImpl ownerSession, boolean stateless)
+    public ItsNatStfulDroidDocumentImpl(Document doc, ItsNatDocumentTemplateVersionImpl docTemplate, Browser browser, String requestURL, ItsNatSessionImpl ownerSession, boolean stateless)
     {
         super(doc, docTemplate, browser, requestURL, ownerSession, stateless);
     }

@@ -110,7 +110,8 @@ public class BSRenderNodeImpl extends BSRenderImpl
     
     public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
     {
-        return JSAndBSRenderNodeImpl.getNodeReference(nodeLoc, errIfNull);
+        String nodeRef = JSAndBSRenderNodeImpl.getNodeLocation(nodeLoc, errIfNull);
+        return "itsNatDoc.getView(" + nodeRef + ")";        
     }    
     
     public static String addNodeToCache(NodeLocationImpl nodeLoc)

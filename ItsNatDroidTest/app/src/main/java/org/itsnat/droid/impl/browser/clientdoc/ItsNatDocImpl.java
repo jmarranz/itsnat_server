@@ -42,6 +42,17 @@ public class ItsNatDocImpl implements ItsNatDoc
         return page;
     }
 
+    public Context getContext()
+    {
+        return page.getInflatedLayoutImpl().getContext();
+    }
+
+    public void alert(Object value)
+    {
+        String text = value != null ? value.toString() : "null";
+        SimpleAlert.show(text,getContext());
+    }
+
     private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
     {
         int idStyle = findStyleAttribute(newChildToIn, ctx);
@@ -138,6 +149,13 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         Node node = getNode(idObj);
         removeAttributeNS(node, namespaceURI, name);
+    }
+
+    public View getView(Object[] idObj)
+    {
+        Node node = getNode(idObj);
+        if (node == null) return null;
+        return node.getView();
     }
 
     @Override
@@ -274,8 +292,8 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
-        Context ctx = page.getInflatedLayoutImpl().getContext();
         InflatedLayoutImpl inflated = page.getInflatedLayoutImpl();
+        Context ctx = inflated.getContext();
         XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
         ClassDescViewBase classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
