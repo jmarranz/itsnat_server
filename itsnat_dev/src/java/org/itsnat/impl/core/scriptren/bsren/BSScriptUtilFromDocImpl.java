@@ -13,16 +13,11 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.impl.core.scriptren.jsren;
+package org.itsnat.impl.core.scriptren.bsren;
 
-import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.ClientDocStfulTask;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatDroidDocumentImpl;
 import org.itsnat.impl.core.scriptren.shared.JSAndBSScriptUtilFromDocSharedImpl;
 import org.w3c.dom.Node;
 
@@ -30,13 +25,13 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class JSScriptUtilFromDocImpl extends JSScriptUtilImpl 
+public class BSScriptUtilFromDocImpl extends BSScriptUtilImpl
 {
     protected JSAndBSScriptUtilFromDocSharedImpl delegate;
-    
-    public JSScriptUtilFromDocImpl(ItsNatStfulWebDocumentImpl itsNatDoc)
+
+    public BSScriptUtilFromDocImpl(ItsNatDroidDocumentImpl itsNatDoc)
     {
-        delegate = new JSAndBSScriptUtilFromDocSharedImpl(this,itsNatDoc);
+        this.delegate = new JSAndBSScriptUtilFromDocSharedImpl(this,itsNatDoc);
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
@@ -68,5 +63,4 @@ public class JSScriptUtilFromDocImpl extends JSScriptUtilImpl
 
         super.preventiveNodeCaching(node,id,clientDoc);
     }
-
 }

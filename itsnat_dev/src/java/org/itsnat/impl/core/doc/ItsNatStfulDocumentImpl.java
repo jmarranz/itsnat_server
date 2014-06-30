@@ -43,13 +43,13 @@ import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromDocImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
@@ -72,7 +72,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 {
-    protected JSScriptUtilFromDocImpl jsScriptUtil;
+    protected ScriptUtilImpl scriptUtil;
     protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
     protected ItsNatUserEventListenerRegistryImpl userListenerRegistry;
     protected boolean enabledSendCode = true;
@@ -154,14 +154,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public ScriptUtil getScriptUtil()
     {
-        return getJSScriptUtilFromDocImpl();
-    }
-
-    public JSScriptUtilFromDocImpl getJSScriptUtilFromDocImpl()
-    {
-        if (jsScriptUtil == null)
-            this.jsScriptUtil = new JSScriptUtilFromDocImpl(this);
-        return jsScriptUtil;
+        if (scriptUtil == null)
+            this.scriptUtil = ScriptUtilImpl.createScriptUtilFromDoc(this);
+        return scriptUtil;
     }
 
     public int getCommMode()

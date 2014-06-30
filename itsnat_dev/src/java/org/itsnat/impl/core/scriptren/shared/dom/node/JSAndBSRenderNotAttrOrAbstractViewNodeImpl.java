@@ -16,7 +16,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class JSAndBSRenderNotAttrOrAbstractViewNodeImpl extends JSAndBSRenderImpl 
+public class JSAndBSRenderNotAttrOrAbstractViewNodeImpl extends JSAndBSRenderNodeImpl 
 {
     
     public static String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)

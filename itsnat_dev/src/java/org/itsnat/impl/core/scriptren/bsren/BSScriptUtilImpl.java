@@ -14,14 +14,13 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.jsren;
+package org.itsnat.impl.core.scriptren.bsren;
 
-import org.itsnat.impl.core.scriptren.shared.ScriptExprImpl;
+import org.itsnat.impl.core.scriptren.jsren.*;
 import java.io.Serializable;
-import org.itsnat.core.script.ScriptExpr;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
@@ -30,34 +29,28 @@ import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
  *
  * @author jmarranz
  */
-public abstract class JSScriptUtilImpl extends ScriptUtilImpl implements ScriptUtil,Serializable
+public abstract class BSScriptUtilImpl extends ScriptUtilImpl implements ScriptUtil,Serializable
 {
     /**
      * Creates a new instance of ScriptUtil
      */
-    public JSScriptUtilImpl()
+    public BSScriptUtilImpl()
     {
     }
 
+    public abstract ClientDocumentStfulDelegateImpl getCurrentClientDocumentStfulDelegate();
+ 
     public String encodeURIComponent(String text)
     {
-        return JSRenderImpl.encodeURIComponent(text);
+        throw new ItsNatException("Not implemented, only for JavaScript"); // El método es sobre JavaScript
     }
 
     public String encodeURIComponent(char c)
     {
-        return JSRenderImpl.encodeURIComponent(c);
+        throw new ItsNatException("Not implemented, only for JavaScript"); // El método es sobre JavaScript
     }
 
-    public ScriptReference createScriptReference(Object value)
-    {
-        // POR AHORA NO ES PUBLICO.
-        // Quizás más adelante cuando se haga un modelo completo de metaprogramación
-        // JavaScript en java
-        return new JSReferenceImpl(value,this);
-    }
-  
-   
+    
     protected String renderAddNodeToCache(NodeLocationWithParentImpl nodeLoc)
     {
         return JSRenderNodeImpl.addNodeToCache(nodeLoc);
@@ -81,5 +74,6 @@ public abstract class JSScriptUtilImpl extends ScriptUtilImpl implements ScriptU
     protected String javaToScript(Object value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSRenderImpl.javaToJS(value,false,clientDoc);    
-    }
+    }    
+    
 }

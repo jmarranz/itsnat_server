@@ -234,17 +234,13 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
             return node;
         }
     }    
-   
-
     
-    public String removeNodeFromCacheAndSendCode(Node node)
-    {    
-        String oldId = removeNodeFromCache(node);
-        if (oldId == null) return null;
-         // Estaba cacheado
-        addCodeToSend( JSRenderNodeImpl.removeNodeFromCache(oldId) );          
-        return oldId;
-    }    
+    @Override
+    protected String renderRemoveNodeFromCache(String id)
+    {
+        return JSRenderNodeImpl.removeNodeFromCache(id);
+    }
+
     
     public boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException
     {

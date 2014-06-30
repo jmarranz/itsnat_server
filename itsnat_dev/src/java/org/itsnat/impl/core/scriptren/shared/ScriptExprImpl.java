@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.jsren;
+package org.itsnat.impl.core.scriptren.shared;
 
 import org.itsnat.core.script.ScriptExpr;
 
@@ -22,13 +22,13 @@ import org.itsnat.core.script.ScriptExpr;
  *
  * @author jmarranz
  */
-public class JScriptExprImpl implements ScriptExpr
+public class ScriptExprImpl implements ScriptExpr
 {
-    protected JSScriptUtilImpl scriptUtil;
+    protected ScriptUtilImpl scriptUtil;
     protected Object value;
 
     /** Creates a new instance of CodeValueImpl */
-    public JScriptExprImpl(Object value,JSScriptUtilImpl scriptUtil)
+    public ScriptExprImpl(Object value,ScriptUtilImpl scriptUtil)
     {
         this.value = value;
         this.scriptUtil = scriptUtil;

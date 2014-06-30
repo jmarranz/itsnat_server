@@ -20,6 +20,8 @@ import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
+import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
@@ -43,7 +45,7 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
     
     public ScriptUtil createScriptUtil()    
     {
-        return null; // HACER
+        return new BSScriptUtilFromClientImpl(this);
     }
 
     @Override
@@ -59,4 +61,9 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Override
+    protected String renderRemoveNodeFromCache(String id)
+    {
+        return BSRenderNodeImpl.removeNodeFromCache(id);
+    }    
 }

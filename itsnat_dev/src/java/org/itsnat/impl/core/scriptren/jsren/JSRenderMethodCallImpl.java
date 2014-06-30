@@ -16,11 +16,12 @@
 
 package org.itsnat.impl.core.scriptren.jsren;
 
-import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderMethodCallImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLElement;
 
@@ -54,21 +55,9 @@ public abstract class JSRenderMethodCallImpl extends JSRenderImpl
         }
     }
 
-    public static String getCallMethodCode(Object object,String methodName,Object[] params,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static String getCallMethodCode(Object object,String methodName,Object[] params,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-        code.append( javaToJS(object,cacheIfPossible,clientDoc) );
-        code.append( "." + methodName + "(" );
-        if (params != null)
-        {
-            for(int i = 0; i < params.length; i++)
-                code.append( javaToJS(params[i],cacheIfPossible,clientDoc) );
-        }
-        code.append( ")" );
-
-        if (endSentence)
-            code.append( ";" );
-        return code.toString();
+        return JSAndBSRenderMethodCallImpl.getCallMethodCode(object, methodName, params, endSentence, cacheIfPossible, clientDoc);
     }
 
     public static void addCallMethodHTMLFormControlCode(Element elem,String methodName,ItsNatStfulDocumentImpl itsNatDoc)

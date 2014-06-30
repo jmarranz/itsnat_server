@@ -27,6 +27,7 @@ import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderEventImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -137,9 +138,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
     {
-        String nodeRef = nodeLoc.toScriptNodeLocation(errIfNull);
-        if (nodeRef.equals("null")) return "null";
-        return "itsNatDoc.getNode(" + nodeRef + ")";
+        return JSAndBSRenderNodeImpl.getNodeReference(nodeLoc, errIfNull);
     }
 
     public static String getSetNodePropertyCode(Node node,String propertyName,String value,boolean cacheIfPossible,ClientDocumentStfulDelegateWebImpl clientDoc)

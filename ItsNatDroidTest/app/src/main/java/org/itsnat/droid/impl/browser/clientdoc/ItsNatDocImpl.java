@@ -389,4 +389,12 @@ public class ItsNatDocImpl implements ItsNatDoc
         Node parentNode = getNode(parentIdObj);
         removeAllChild(parentNode);
     }
+
+    @Override
+    public Node addNodeCache(Object[] idObj)
+    {
+        return getNode(idObj);
+    }
+
+
 }

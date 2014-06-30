@@ -13,10 +13,10 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.impl.core.scriptren.jsren;
+package org.itsnat.impl.core.scriptren.bsren;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.Node;
 
@@ -24,11 +24,11 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class JSScriptUtilFromClientImpl extends JSScriptUtilImpl
+public class BSScriptUtilFromClientImpl extends BSScriptUtilImpl
 {
-    protected ClientDocumentStfulDelegateWebImpl clientDoc;
+    protected ClientDocumentStfulDelegateDroidImpl clientDoc;
 
-    public JSScriptUtilFromClientImpl(ClientDocumentStfulDelegateWebImpl clientDoc)
+    public BSScriptUtilFromClientImpl(ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         this.clientDoc = clientDoc;
     }
@@ -41,13 +41,7 @@ public class JSScriptUtilFromClientImpl extends JSScriptUtilImpl
     public ClientDocumentStfulDelegateImpl getCurrentClientDocumentStfulDelegate()
     {
         return clientDoc;
-    }    
-    
-    public ClientDocumentStfulDelegateWebImpl getCurrentClientDocumentStfulDelegateWeb()
-    {
-        return clientDoc;
     }
-
 
     protected boolean preventiveNodeCaching2(Node node)
     {

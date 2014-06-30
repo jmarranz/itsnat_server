@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.bsren;
 
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 
 /**
@@ -25,6 +26,11 @@ import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
  */
 public class BSRenderImpl
 {
+    public static String javaToBS(Object value,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return JSAndBSRenderImpl.javaToScript(value, cacheIfPossible, clientDoc);
+    }    
+    
     public static String toTransportableStringLiteral(String text,Browser browser)
     {
         return toTransportableStringLiteral(text,true,browser);

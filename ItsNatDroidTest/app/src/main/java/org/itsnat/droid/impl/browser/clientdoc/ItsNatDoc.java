@@ -37,4 +37,6 @@ public interface ItsNatDoc
     public void removeNodeCache(String[] idList);
 
     public void removeAllChild2(Object[] parentIdObj);
+
+    public Node addNodeCache(Object[] idObj);
 }

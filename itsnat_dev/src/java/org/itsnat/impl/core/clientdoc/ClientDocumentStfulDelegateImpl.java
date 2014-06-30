@@ -153,7 +153,17 @@ public abstract class ClientDocumentStfulDelegateImpl
         return NodeLocationImpl.getRefNodeLocationInsertBefore(this, newNode, nextSibling);
     }    
     
+    public String removeNodeFromCacheAndSendCode(Node node)
+    {    
+        String oldId = removeNodeFromCache(node);
+        if (oldId == null) return null;
+         // Estaba cacheado
+        addCodeToSend( renderRemoveNodeFromCache(oldId) );          
+        return oldId;
+    }        
+    
     public abstract ScriptUtil createScriptUtil();
     public abstract boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException;   
     public abstract String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull);    
+    protected abstract String renderRemoveNodeFromCache(String id);
 }

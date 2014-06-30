@@ -16,8 +16,12 @@
 
 package org.itsnat.impl.core.scriptren.shared;
 
+import org.itsnat.core.script.ScriptExpr;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.scriptren.jsren.ScriptReference;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -97,5 +101,45 @@ public class JSAndBSRenderImpl
         }
         else
             return encoded.toString();
+    }    
+    
+    public static String toTransportableStringLiteral(String text,Browser browser)
+    {
+        return toTransportableStringLiteral(text,true,browser);
+    }    
+    
+    public static String getTransportableCharLiteral(char c,Browser browser)
+    {
+        // Permite meter el caracter en código JavaScript
+        if (c == '\r')  // Hay que tratarlo aparte porque toTransportableStringLiteral elimina el '\r' pues en cadenas al '\r' le sigue siempre (en Windows) el '\n' y si se envían los dos los browser no MSIE duplican los espacios pues con un '\n' ya le vale (a modo de Unix incluso en Windows). Para MSIE el proceso de un solo \n generará el \r correspondiente.
+            return "'\r'";
+        else
+        {
+            String encoded = toTransportableStringLiteral(Character.toString(c),browser);
+            return "'" + encoded + "'";
+        }
+    }    
+    
+    public static String javaToScript(Object value,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        // Convierte value en el adecuado código JavaScript.
+        if (value == null) return "null";
+
+        if (value instanceof Node)
+            return clientDoc.getNodeReference((Node)value,cacheIfPossible,true);
+        else if (value instanceof Boolean)
+            return value.toString(); // Devuelve true o false en minúsculas (sin comillas)
+        else if (value instanceof Character)
+            return getTransportableCharLiteral(((Character)value).charValue(),clientDoc.getBrowser());
+        else if (value instanceof Number)
+            return value.toString();
+        else if (value instanceof ScriptExpr)
+            return ((ScriptExpr)value).getCode();
+        else if (value instanceof ScriptReference) // Por ahora no se usa salvo en pruebas
+            return ((ScriptReference)value).getCode();
+        else if (value instanceof String)
+            return toTransportableStringLiteral((String)value,clientDoc.getBrowser());
+        else
+            return value.toString();
     }    
 }

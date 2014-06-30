@@ -21,10 +21,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
+import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toLiteralStringJS;
+import static org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl.getNodeReference;
+import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.views.DocumentView;
 
 /**
  *
@@ -88,5 +95,31 @@ public class BSRenderNodeImpl extends BSRenderImpl
         if (NamespaceUtil.isAndroidNamespace(namespaceURI))
             return "NSAND";
         else return "\"" + namespaceURI + "\"";
+    }    
+    
+    public static String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        // El código devuelto debe ser enviado al cliente y ejecutado pues puede llevar información de cacheado y haber sido cacheado ahora en el servidor
+        if (node == null)
+            if (errIfNull) throw new ItsNatException("No specified node");
+            else return "null";
+
+        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(node,cacheIfPossible);
+        return getNodeReference(nodeLoc,errIfNull); // errIfNull puede ser false si se quiere, es redundante pues ya se chequeó antes
+    }    
+    
+    public static String getNodeReference(NodeLocationImpl nodeLoc,boolean errIfNull)
+    {
+        return JSAndBSRenderNodeImpl.getNodeReference(nodeLoc, errIfNull);
+    }    
+    
+    public static String addNodeToCache(NodeLocationImpl nodeLoc)
+    {
+        return "itsNatDoc.addNodeCache(" + nodeLoc.toScriptNodeLocation(true) + ");\n";
+    }
+
+    public static String removeNodeFromCache(String id)
+    {
+        return "itsNatDoc.removeNodeCache(new String[]{" + toLiteralStringJS(id) + "});\n";
     }    
 }
