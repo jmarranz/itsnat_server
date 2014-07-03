@@ -33,7 +33,7 @@ public class DOMPathResolver
 
     public Node getNodeFromArrayPath(String[] arrayPath,Node topParent)
     {
-        InflatedLayoutImpl layout = itsNatDoc.getPage().getInflatedLayoutImpl();
+        InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
         View viewRoot = layout.getRootView();
         if (arrayPath.length == 1)
         {
@@ -92,7 +92,7 @@ public class DOMPathResolver
 
     protected View getViewRoot()
     {
-        InflatedLayoutImpl layout = itsNatDoc.getPage().getInflatedLayoutImpl();
+        InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
         return layout.getRootView();
     }
 

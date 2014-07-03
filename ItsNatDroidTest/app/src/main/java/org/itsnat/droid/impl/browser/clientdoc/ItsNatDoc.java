@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.Page;
+
 /**
  * Métodos visibles desde BeanShell
  *
@@ -10,7 +12,7 @@ import android.view.View;
  */
 public interface ItsNatDoc
 {
-    public Context getContext();
+    public Page getPage();
 
     public void alert(Object value);
 

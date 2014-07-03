@@ -31,7 +31,6 @@ import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderAttributeImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;

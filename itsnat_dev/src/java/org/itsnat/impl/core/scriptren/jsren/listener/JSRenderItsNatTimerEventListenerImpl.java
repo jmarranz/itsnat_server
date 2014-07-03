@@ -52,7 +52,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que currentTarget puede ser NULO
-        code.append( "itsNatDoc.addTimerEventListener(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
+        code.append( "itsNatDoc.addTimerEL(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
 
         return code.toString();
     }
@@ -64,7 +64,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
         StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
-        code.append( "itsNatDoc.removeTimerEventListener(\"" + listenerId + "\");\n" );
+        code.append( "itsNatDoc.removeTimerEL(\"" + listenerId + "\");\n" );
 
         return code.toString();
     }
@@ -76,7 +76,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
         StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
-        code.append( "itsNatDoc.updateTimerEventListener(\"" + listenerId + "\"," + computedPeriod + ");\n" );
+        code.append( "itsNatDoc.updateTimerEL(\"" + listenerId + "\"," + computedPeriod + ");\n" );
 
         clientDoc.addCodeToSend(code.toString());
     }

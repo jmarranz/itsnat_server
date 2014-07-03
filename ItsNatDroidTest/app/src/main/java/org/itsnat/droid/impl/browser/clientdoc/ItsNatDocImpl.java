@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
@@ -37,20 +38,9 @@ public class ItsNatDocImpl implements ItsNatDoc
         page.setSessionIdAndClientId(sessionId, clientId);
     }
 
-    protected PageImpl getPage()
+    protected PageImpl getPageImpl()
     {
         return page;
-    }
-
-    public Context getContext()
-    {
-        return page.getInflatedLayoutImpl().getContext();
-    }
-
-    public void alert(Object value)
-    {
-        String text = value != null ? value.toString() : "null";
-        SimpleAlert.show(text,getContext());
     }
 
     private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -84,6 +74,25 @@ public class ItsNatDocImpl implements ItsNatDoc
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
     }
 
+    private Context getContext()
+    {
+        // Es un método
+        return page.getInflatedLayoutImpl().getContext();
+    }
+
+    @Override
+    public Page getPage()
+    {
+        // Es un método público que puede ser interesante para acceder a info de la página desde beanshell (por ej acceder al Context de la página desde fuera)
+        return page;
+    }
+
+    @Override
+    public void alert(Object value)
+    {
+        String text = value != null ? value.toString() : "null";
+        SimpleAlert.show(text,getContext());
+    }
 
     @Override
     public void setAttribute(Node node,String name,String value)
@@ -151,8 +160,10 @@ public class ItsNatDocImpl implements ItsNatDoc
         removeAttributeNS(node, namespaceURI, name);
     }
 
+    @Override
     public View getView(Object[] idObj)
     {
+        // Este método es llamado por ScriptUtil.getNodeReference(), el usuario espera que devuelva un View no nuestro Node wrapper
         Node node = getNode(idObj);
         if (node == null) return null;
         return node.getView();
@@ -343,6 +354,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         appendChild2(parentNode, newChild, newId);
     }
 
+    @Override
     public void removeChild(Node child)
     {
         if (child == null) return; // Raro
@@ -351,6 +363,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         parentView.removeView(child.getView());
     }
 
+    @Override
     public void removeChild2(String id,boolean isText)
     {
         // isText es siempre false
@@ -359,6 +372,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         removeChild(child);
     }
 
+    @Override
     public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText)
     {
         if (isText) throw new ItsNatDroidException("Unexpected");
@@ -367,6 +381,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         removeChild(child);
     }
 
+    @Override
     public void removeNodeCache(String[] idList)
     {
         int len = idList.length;
@@ -402,6 +417,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         }
     }
 
+    @Override
     public void removeAllChild2(Object[] parentIdObj)
     {
         Node parentNode = getNode(parentIdObj);

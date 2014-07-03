@@ -46,10 +46,9 @@ public abstract class JSRenderMethodCallImpl extends JSRenderImpl
         for(int i = 0; i < allClient.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = allClient[i];
-            if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
             if (clientDoc.isSendCodeEnabled())
             {
-                ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+                ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
                 clientDoc.addCodeToSend( getCallMethodCode(object,methodName,params,endSentence,true,clientDocDeleg) );
             }
         }
@@ -66,24 +65,23 @@ public abstract class JSRenderMethodCallImpl extends JSRenderImpl
         ClientDocumentStfulImpl[] allClient = itsNatDoc.getAllClientDocumentStfulsCopy();
         for(int i = 0; i < allClient.length; i++)
         {
-            ClientDocumentStfulImpl clientDoc = allClient[i];
-            if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;            
+            ClientDocumentStfulImpl clientDoc = allClient[i];          
             if (clientDoc.isSendCodeEnabled())
             {
-                ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();                
+                ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();                
                 clientDoc.addCodeToSend( getCallMethodFormControlCode(elem,methodName,true,clientDocDeleg) );
             }
         }
     }
 
-    public static String getCallMethodFormControlCode(Element elem,String methodName,boolean cacheIfPossible,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static String getCallMethodFormControlCode(Element elem,String methodName,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String elemRef = javaToJS(elem,cacheIfPossible,clientDoc);
 
         return getCallMethodFormControlCode(elem,elemRef,methodName,clientDoc);
     }
 
-    public static String getCallMethodFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static String getCallMethodFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (methodName.equals("blur")||methodName.equals("focus"))
         {
@@ -100,7 +98,7 @@ public abstract class JSRenderMethodCallImpl extends JSRenderImpl
         return getCallFormControlFocusBlurCodeDefault(elemRef,methodName);
     }
 
-    public String getCallBlurFocusFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getCallBlurFocusFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return getCallFormControlFocusBlurCodeDefault(elemRef,methodName);
     }

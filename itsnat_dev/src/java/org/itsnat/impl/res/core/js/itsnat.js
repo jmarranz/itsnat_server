@@ -1129,16 +1129,16 @@ function Document()
     this.removeNodeCache = removeNodeCache;
     this.getNodeCacheId = getNodeCacheId;
     this.getStringPathFromNode = getStringPathFromNode;
-    this.addDOMEventListener = addDOMEventListener;
-    this.removeDOMEventListener = removeDOMEventListener;
-    this.addTimerEventListener = addTimerEventListener;
-    this.removeTimerEventListener = removeTimerEventListener;
-    this.updateTimerEventListener = updateTimerEventListener;
+    this.addDOMEL = addDOMEL;
+    this.removeDOMEL = removeDOMEL;
+    this.addTimerEL = addTimerEL;
+    this.removeTimerEL = removeTimerEL;
+    this.updateTimerEL = updateTimerEL;
     this.sendAsyncTaskEvent = sendAsyncTaskEvent;
     this.sendCometTaskEvent = sendCometTaskEvent;
     this.sendContinueEvent = sendContinueEvent;
-    this.addUserEventListener = addUserEventListener;
-    this.removeUserEventListener = removeUserEventListener;
+    this.addUserEL = addUserEL;
+    this.removeUserEL = removeUserEL;
     this.createUserEvent = createUserEvent;
     this.dispatchUserEvent = dispatchUserEvent;
     this.dispatchUserEvent2 = dispatchUserEvent2;
@@ -1494,26 +1494,26 @@ function Document()
         }
     }
 
-    function addDOMEventListener(idObj,type,listenerId,listener,useCapture,commMode,timeout,typeCode)
+    function addDOMEL(idObj,type,listenerId,listener,useCapture,commMode,timeout,typeCode)
     {
         var node = this.getNode(idObj);
         var listenerWrapper = new DOMStdEventListener(this,node,type,listener,listenerId,useCapture,commMode,timeout,typeCode);
         this.domListeners.put(listenerId,listenerWrapper);
-        this.addDOMEventListener2(listenerWrapper,node,type,useCapture);
+        this.addDOMEL2(listenerWrapper,node,type,useCapture);
         return node;
     }
 
-    function removeDOMEventListener(listenerId)
+    function removeDOMEL(listenerId)
     {
         var listenerWrapper = this.domListeners.remove(listenerId);
         var node = listenerWrapper.getCurrentTarget();
         var type = listenerWrapper.getType();
         var useCapture = listenerWrapper.isUseCapture();
-        this.removeDOMEventListener2(listenerWrapper,node,type,useCapture);
+        this.removeDOMEL2(listenerWrapper,node,type,useCapture);
         return node;
     }
 
-    function addTimerEventListener(idObj,listenerId,listener,commMode,timeout,delay)
+    function addTimerEL(idObj,listenerId,listener,commMode,timeout,delay)
     {
         var node = this.getNode(idObj); // puede ser nulo
         var listenerWrapper = new TimerEventListener(this,node,listener,listenerId,commMode,timeout);
@@ -1525,14 +1525,14 @@ function Document()
         listenerWrapper.setHandle(handle);
     }
 
-    function removeTimerEventListener(listenerId)
+    function removeTimerEL(listenerId)
     {
         var listenerWrapper = this.timerListeners.remove(listenerId);
         if (!listenerWrapper) return;
         this.clearTimeout(listenerWrapper.getHandle());
     }
 
-    function updateTimerEventListener(listenerId,delay)
+    function updateTimerEL(listenerId,delay)
     {
         var listenerWrapper = this.timerListeners.get(listenerId);
         if (!listenerWrapper) return;
@@ -1560,7 +1560,7 @@ function Document()
         listenerWrapper.dispatchEvent(null);
     }
 
-    function addUserEventListener(idObj,name,listenerId,listener,commMode,timeout)
+    function addUserEL(idObj,name,listenerId,listener,commMode,timeout)
     {
         var currTarget = this.getNode(idObj);
         var listenerWrapper = new UserEventListener(this,currTarget,name,listener,listenerId,commMode,timeout);
@@ -1585,7 +1585,7 @@ function Document()
         listeners.put(listenerId,listenerWrapper);
     }
 
-    function removeUserEventListener(listenerId)
+    function removeUserEL(listenerId)
     {
         var listenerWrapper = this.userListenersById.remove(listenerId);
         if (!listenerWrapper) return;

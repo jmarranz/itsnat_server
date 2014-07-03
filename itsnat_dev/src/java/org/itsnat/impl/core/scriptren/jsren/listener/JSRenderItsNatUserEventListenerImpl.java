@@ -52,7 +52,7 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
         // Hay que tener en cuenta que currentTarget puede ser NULO
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
 
-        code.append( "itsNatDoc.addUserEventListener(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + name + "\",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + ");\n" );
+        code.append( "itsNatDoc.addUserEL(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + name + "\",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + ");\n" );
 
         return code.toString();
     }
@@ -64,7 +64,7 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
         StringBuilder code = new StringBuilder();
 
         code.append( "\n" );
-        code.append( "itsNatDoc.removeUserEventListener(\"" + listenerId + "\");\n" );
+        code.append( "itsNatDoc.removeUserEL(\"" + listenerId + "\");\n" );
 
         return code.toString();
     }

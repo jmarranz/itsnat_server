@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren;
 
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderEventImpl;
@@ -32,7 +33,8 @@ public class JSRenderMethodCallHTMLImpl extends JSRenderMethodCallImpl
 {
     public static final JSRenderMethodCallHTMLImpl SINGLETON = new JSRenderMethodCallHTMLImpl();
 
-    public String getCallBlurFocusFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public String getCallBlurFocusFormControlCode(Element elem,String elemRef,String methodName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // En estos navegadores las llamadas a focus() y blur() suelen ser ignoradas,
         // el problema es que si focus() es ignorada blur() lo será también, pues el
@@ -48,9 +50,10 @@ public class JSRenderMethodCallHTMLImpl extends JSRenderMethodCallImpl
         // Obligamos a que el usuario pulse el control
         // si quiere verdadero foco (para que salga el teclado en móviles etc) pero esto
         // no es ninguna tragedia.
-        BrowserWeb browser = clientDoc.getBrowserWeb();
+        ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc; 
+        BrowserWeb browser = clientDocWeb.getBrowserWeb();
         if (browser.isFocusOrBlurMethodWrong(methodName,(HTMLElement)elem))
-            return getCallFormControlFocusBlurWithW3CEventCode((HTMLElement)elem,elemRef,methodName,clientDoc);
+            return getCallFormControlFocusBlurWithW3CEventCode((HTMLElement)elem,elemRef,methodName,clientDocWeb);
         else
             return super.getCallBlurFocusFormControlCode(elem,elemRef,methodName,clientDoc);
     }

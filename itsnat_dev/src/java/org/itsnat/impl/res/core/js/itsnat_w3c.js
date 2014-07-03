@@ -286,8 +286,8 @@ function W3CDocument()
     this.setInnerXML = setInnerXML;
     this.setInnerXMLMSIE9 = setInnerXMLMSIE9;
     this.importNodeMSIE9 = importNodeMSIE9;
-    this.addDOMEventListener2 = addDOMEventListener2;
-    this.removeDOMEventListener2 = removeDOMEventListener2;
+    this.addDOMEL2 = addDOMEL2;
+    this.removeDOMEL2 = removeDOMEL2;
     this.addEventListener = addEventListener;
     this.removeEventListener = removeEventListener;
     this.addAttachUnloadListener2 = addAttachUnloadListener2;
@@ -372,7 +372,7 @@ function W3CDocument()
         }
     }
 
-    function addDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function addDOMEL2(listenerWrapper,node,type,useCapture)
     {
         var w3cHandler = function(evt) { arguments.callee.listenerWrapper.dispatchEvent(evt); };
         w3cHandler.listenerWrapper = listenerWrapper;
@@ -381,7 +381,7 @@ function W3CDocument()
         this.addEventListener(node,type,w3cHandler,useCapture);
     }
 
-    function removeDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function removeDOMEL2(listenerWrapper,node,type,useCapture)
     {
         this.removeEventListener(node,type,listenerWrapper.w3cHander,useCapture);
     }

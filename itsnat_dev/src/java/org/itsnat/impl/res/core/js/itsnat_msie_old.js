@@ -201,8 +201,8 @@ function MSIEOldHTMLDocument()
     this.createEventListenerRegistry = createEventListenerRegistry;
     this.getEventListenerRegistry = getEventListenerRegistry;
     this.cleanEventListenerRegistry = cleanEventListenerRegistry;
-    this.addDOMEventListener2 = addDOMEventListener2;
-    this.removeDOMEventListener2 = removeDOMEventListener2;
+    this.addDOMEL2 = addDOMEL2;
+    this.removeDOMEL2 = removeDOMEL2;
     this.addAttachUnloadListener2 = addAttachUnloadListener2;
     this.dispatchEvent = dispatchEvent;
     this.dispatchEventCapture = dispatchEventCapture;
@@ -312,13 +312,13 @@ function MSIEOldHTMLDocument()
         this.detachEvent(node,type,func);
     }
 
-    function addDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function addDOMEL2(listenerWrapper,node,type,useCapture)
     {
         var func = this.getEventListenerRegistry(node,type,true);
         func.listeners.add(listenerWrapper);
     }
 
-    function removeDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function removeDOMEL2(listenerWrapper,node,type,useCapture)
     {
         var func = this.getEventListenerRegistry(node,type,true);
         func.listeners.remove(listenerWrapper);
@@ -329,7 +329,7 @@ function MSIEOldHTMLDocument()
     {
         // Aseguramos asi que se ejecuta el ultimo (si se registro el ultimo) y con setMustBeSent evitamos que se envie como un evento normal
         var listener2 = function (event) { listener(); event.setMustBeSent(false); };
-        this.addDOMEventListener([null,null,"window"],type,"rem_ctrl_unload",listener2,false,3,-1,3);
+        this.addDOMEL([null,null,"window"],type,"rem_ctrl_unload",listener2,false,3,-1,3);
     }
 
     function dispatchEvent(node,type,evt) { return node.fireEvent("on" + type,evt); }
