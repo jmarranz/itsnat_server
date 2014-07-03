@@ -178,7 +178,6 @@ public class ItsNatDocImpl implements ItsNatDoc
         String path = null;
         Object[] newCachedParentIds = null;
         int len = idObj.length;
-        // El caso len = 1 se recibe como una string directamente por otro método
         if (len == 1)
         {
             id = (String)idObj[0];

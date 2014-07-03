@@ -97,30 +97,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        Interpreter i=new Interpreter();
-        try
-        {
-            i.set("prueba","HOOOLA");
-            i.eval("String prueba = \"ADIOS\";");
-            StringBuilder code = new StringBuilder();
-            code.append("arr(a){return new Object[]{a};}");
-            code.append("arr(a,b){return new Object[]{a,b};}");
-            code.append("arr(a,b,c){return new Object[]{a,b,c};}");
-            code.append("arr(a,b,c,d){return new Object[]{a,b,c,d};}");
-            i.eval(code.toString());
-            //Toast.makeText(MainActivity.this, "BEAN SHELL " + i.get("prueba"), Toast.LENGTH_LONG).show();
-
-            Interpreter i2 = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(i.getNameSpace(),"2") );
-
-            i2.set("prueba2","HOOOLA");
-            i2.eval("String prueba2 = \"ADIOS\";");
-            i2.eval("System.out.println(\"PRUEBA: \" + arr(1,2)[0] + \" \" + arr(1,2)[1] + \" \" + arr(1,2).length);");
-            //Toast.makeText(MainActivity.this, "BEAN SHELL " + i.get("prueba2") + " " + i2.get("prueba") + " " + i2.get("prueba2"), Toast.LENGTH_LONG).show();
-        }
-        catch (EvalError evalError)
-        {
-            evalError.printStackTrace();
-        }
     }
 
     private void downloadLayoutRemote(final ItsNatDroidBrowser droidBrowser)
@@ -137,20 +113,15 @@ public class MainActivity extends Activity {
             @Override
             public void onPage(final Page page)
             {
-                new AlertDialog.Builder(MainActivity.this).setTitle("XML").setMessage(new String(page.getContent()))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+
+                Log.v("MainActivity", "CONTENT:" + page.getContent());
+                Log.v("MainActivity", new String(page.getContent()));
+
+                boolean showContentInAlert = false;
+                if (showContentInAlert)
                 {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // continue with delete
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // do nothing
-                    }
-                }).setIcon(android.R.drawable.ic_dialog_alert).show();
+                    TestUtil.alertDialog(MainActivity.this,"XML",new String(page.getContent()));
+                }
 
                 View layout = page.getInflatedLayout().getRootView();
                 setContentView(layout);

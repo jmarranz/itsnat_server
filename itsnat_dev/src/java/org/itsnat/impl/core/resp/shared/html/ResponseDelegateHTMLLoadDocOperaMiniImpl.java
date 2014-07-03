@@ -65,7 +65,7 @@ public class ResponseDelegateHTMLLoadDocOperaMiniImpl extends ResponseDelegateHT
         preSendCode.append("event.setMustBeSent(false);"); // Evita enviar el evento unload
         preSendCode.append("var func = function()");
         preSendCode.append("  { itsNatDoc.disabledEvents = true; window.location.reload(true); return false; };"); // El return false evita que se envíe el evento y el itsNatDoc.disabledEvents = true evita otros eventos
-        preSendCode.append("itsNatDoc.addGlobalEventListener(func);");
+        preSendCode.append("itsNatDoc.addGlobalEL(func);");
         clientDoc.addEventListener((EventTarget)view, "unload", listener, false,preSendCode.toString());
     }
 }

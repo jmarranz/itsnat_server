@@ -1182,8 +1182,8 @@ function Document()
     this.fireEventMonitors = fireEventMonitors;
     this.setEnableEventMonitors = setEnableEventMonitors;
     this.dispatchEvent2 = dispatchEvent2;
-    this.addGlobalEventListener = addGlobalEventListener;
-    this.removeGlobalEventListener = removeGlobalEventListener;
+    this.addGlobalEL = addGlobalEL;
+    this.removeGlobalEL = removeGlobalEL;
 
 
     function init(doc,win,browserType,browserSubType,sessionToken,sessionId,clientId,servletPath,usePost,attachType,errorMode,xhrSyncSup,numScripts)
@@ -1869,9 +1869,9 @@ function Document()
         return this.dispatchEvent(node,type,evt);
     }
 
-    function addGlobalEventListener(listener) { this.globalEventListeners.add(listener); }
+    function addGlobalEL(listener) { this.globalEventListeners.add(listener); }
 
-    function removeGlobalEventListener(listener) { this.globalEventListeners.remove(listener); }
+    function removeGlobalEL(listener) { this.globalEventListeners.remove(listener); }
 
 } // Document
 

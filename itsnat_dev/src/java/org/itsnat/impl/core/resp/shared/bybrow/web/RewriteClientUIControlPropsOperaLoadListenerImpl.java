@@ -50,12 +50,12 @@ public class RewriteClientUIControlPropsOperaLoadListenerImpl implements EventLi
         code.append("  if (!evtList.getType) return true;\n");
         code.append("  return (evtList.getType() != \"change\");\n"); // Si devuelve false entonces no enviar al servidor este evento
         code.append("};\n");
-        code.append("itsNatDoc.addGlobalEventListener(filter);\n");
+        code.append("itsNatDoc.addGlobalEL(filter);\n");
 
         code.append("var listener = function ()\n");
         code.append("{\n");
         code.append("  var itsNatDoc = arguments.callee.itsNatDoc;\n");
-        code.append("  itsNatDoc.removeGlobalEventListener(arguments.callee.filter);\n"); // Restauramos tras el auto complete
+        code.append("  itsNatDoc.removeGlobalEL(arguments.callee.filter);\n"); // Restauramos tras el auto complete
 
         // Reconstuirmos así el objeto de utilidad response en fase load aunque ya no estamos en esa fase
         // y evitamos así problemas de serialización si memorizáramos el objeto original como un atributo (o por captura de contexto ocurre serialización indirecta)
