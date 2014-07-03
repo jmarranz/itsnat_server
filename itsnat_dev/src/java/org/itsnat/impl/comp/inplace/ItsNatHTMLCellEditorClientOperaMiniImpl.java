@@ -31,6 +31,7 @@ public class ItsNatHTMLCellEditorClientOperaMiniImpl extends ItsNatCellEditorCli
     {
     }
 
+    @Override
     public void registerEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super.registerEventListeners(parent,clientDoc);

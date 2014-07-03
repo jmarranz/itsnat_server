@@ -44,77 +44,7 @@ public abstract class JSRenderItsNatEventListenerImpl
         return null;
     }
 
-    public static void addItsNatEventListenerCode(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
-        if (clientDoc != null)
-        {
-            // Aunque el listener sea de todos los clientes sólo deseamos renderizar para un cliente concreto
-            JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-            render.addItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-        }
-        else
-        {
-            // Para todos los clientes
-            ItsNatStfulDocumentImpl itsNatDoc = itsNatListener.getItsNatStfulDocument();
-            if (!itsNatDoc.hasClientDocumentAttachedClient())
-            {
-                clientDoc = (ClientDocumentStfulDelegateWebImpl)itsNatDoc.getClientDocumentStfulOwner().getClientDocumentStfulDelegate();
 
-                JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-                render.addItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-            }
-            else
-            {
-                ClientDocumentStfulImpl[] clients = itsNatDoc.getAllClientDocumentStfulsCopy();
-                for(int i = 0; i < clients.length; i++)
-                {
-                    ClientDocumentStfulImpl clientDocParent = clients[i];
-                    if (!(clientDocParent.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
-                    
-                    clientDoc = (ClientDocumentStfulDelegateWebImpl)clientDocParent.getClientDocumentStfulDelegate();
-                    
-                    JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-                    render.addItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-                }
-            }
-        }
-    }
-
-    public static void removeItsNatEventListenerCode(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
-        if (clientDoc != null)
-        {
-            // Aunque el listener sea de todos los clientes sólo deseamos renderizar para un cliente concreto
-            JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-            render.removeItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-        }
-        else
-        {
-            // Para todos
-            ItsNatStfulDocumentImpl itsNatDoc = itsNatListener.getItsNatStfulDocument();
-            if (!itsNatDoc.hasClientDocumentAttachedClient())
-            {
-                clientDoc = (ClientDocumentStfulDelegateWebImpl)itsNatDoc.getClientDocumentStfulOwner().getClientDocumentStfulDelegate();                
-
-                JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-                render.removeItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-            }
-            else
-            {
-                ClientDocumentStfulImpl[] clients = itsNatDoc.getAllClientDocumentStfulsCopy();
-                for(int i = 0; i < clients.length; i++)
-                {
-                    ClientDocumentStfulImpl clientDocParent = clients[i];
-                    if (!(clientDocParent.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
-                    
-                    clientDoc = (ClientDocumentStfulDelegateWebImpl)clientDocParent.getClientDocumentStfulDelegate();
-
-                    JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener, clientDoc);
-                    render.removeItsNatEventListenerCodeClient(itsNatListener,clientDoc);
-                }
-            }
-        }
-    }
 
     public long getEventTimeout(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {

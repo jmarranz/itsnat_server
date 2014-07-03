@@ -56,7 +56,7 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListene
         if (!canAddItsNatDOMEventListener(target,type,listener,useCapture))
             return; // Ya registrado (u otra razón)
 
-        ItsNatDOMStdEventListenerWrapperImpl listenerWrapper = new ItsNatDOMStdEventListenerWrapperImpl(itsNatDoc,clientDoc,target,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatDOMStdEventListenerWrapperImpl listenerWrapper = new ItsNatDOMStdEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
 
         addItsNatDOMEventListener(listenerWrapper);
     }

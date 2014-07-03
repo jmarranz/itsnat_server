@@ -43,7 +43,7 @@ public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMEventListe
         if (!canAddItsNatDOMEventListener(target,type,listener,false))
             return; // Ya registrado (u otra razón)
 
-        ItsNatContinueEventListenerWrapperImpl listenerWrapper = new ItsNatContinueEventListenerWrapperImpl(itsNatDoc,clientDoc,target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatContinueEventListenerWrapperImpl listenerWrapper = new ItsNatContinueEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
 
         addItsNatDOMEventListener(listenerWrapper);
     }

@@ -100,8 +100,6 @@ public abstract class ItsNatCellEditorClientImpl
         Document doc = itsNatDoc.getDocument();
         Element nodeEditor = (Element)compEditor.getNode(); // Sólo admitimos elementos por ahora
 
-        clientDocDeleg.addCodeToSend("var nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true) + ";\n");
-
         StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
         codeListener.append( "try{" );
@@ -117,8 +115,9 @@ public abstract class ItsNatCellEditorClientImpl
         codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDocDeleg));
         codeListener.append( "}catch(e){}\n" ); // el try/catch es por si el nodo se hubiera eliminado antes y el evento está pendiente todavía
 
-        String bindToListener = "nodeEditor = nodeEditor";
-
+        String bindToListener = "nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true);
+        
+        
         clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
 
         if (browser instanceof BrowserWebKitIOS)

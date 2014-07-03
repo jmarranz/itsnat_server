@@ -22,10 +22,12 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -34,7 +36,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatAsyncTaskRegistryImpl implements Serializable
+public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl implements Serializable
 {
     protected MapUniqueId<ItsNatAsyncTaskEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;
@@ -76,11 +78,8 @@ public class ItsNatAsyncTaskRegistryImpl implements Serializable
 
         taskContainer.start();
 
-        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
-        if (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)
-            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(evtListener,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
-        else
-            throw new ItsNatException("TO DO");            
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();        
+        addItsNatEventListenerCode(evtListener,clientDocDeleg);        
     }
 
     public ItsNatAsyncTaskEventListenerWrapperImpl removeAsynchronousTask(String id)

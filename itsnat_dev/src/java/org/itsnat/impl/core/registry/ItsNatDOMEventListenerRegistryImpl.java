@@ -23,12 +23,13 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
-import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.*;
+import static org.itsnat.impl.core.registry.EventListenerRegistryImpl.addItsNatEventListenerCode;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -41,10 +42,10 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
+public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRegistryImpl implements Serializable
 {
     protected ItsNatStfulDocumentImpl itsNatDoc;
-    protected ClientDocumentStfulImpl clientDoc; // Si es null es que el registro es a nivel de documento y pertenece a todos los clientes
+    protected ClientDocumentStfulImpl clientDocTarget; // Si es null es que el registro es a nivel de documento y pertenece a todos los clientes
     protected int capturingCount;
     protected MapUniqueId<ItsNatDOMEventListenerWrapperImpl> eventListenersById; // No es weak porque necesitamos sujetar el listener wrapper pues es un objeto de uso interno para este fin
 
@@ -54,20 +55,25 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     public ItsNatDOMEventListenerRegistryImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
     {
         this.itsNatDoc = itsNatDoc;
-        this.clientDoc = clientDoc; // puede ser null
+        this.clientDocTarget = clientDoc; // puede ser null
 
         this.eventListenersById = new MapUniqueId<ItsNatDOMEventListenerWrapperImpl>(itsNatDoc.getUniqueIdGenerator());
     }
 
-    public ClientDocumentStfulImpl getClientDocumentStful()
+    public ClientDocumentStfulImpl getClientDocumentStfulTarget()
     {
-        return clientDoc; // puede ser null
+        return clientDocTarget; // puede ser null
     }
-
-    public boolean isWeb()
+    
+    public ClientDocumentStfulDelegateImpl getClientDocumentStfulDelegateFromDocument()
     {
-        ClientDocumentStfulDelegateImpl clientDocDeleg = ((ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwnerImpl()).getClientDocumentStfulDelegate();
-        return (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl);
+        return ((ClientDocumentStfulImpl)itsNatDoc.getClientDocumentOwnerImpl()).getClientDocumentStfulDelegate();
+    }    
+    
+    public ClientDocumentStfulDelegateImpl getClientDocumentStfulDelegateTarget()
+    {    
+        // Puede ser null si clientDocTarget es null
+        return clientDocTarget != null ? clientDocTarget.getClientDocumentStfulDelegate() : null;
     }
     
     public boolean isEmpty()
@@ -100,7 +106,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
     public boolean canAddItsNatDOMEventListener(EventTarget target,EventListener listener)
     {
-        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatDOMEventListenerWrapper(listener,itsNatDoc, clientDoc))
+        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatDOMEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
             return false;
         checkValidEventTarget(target); // Lanza excepción si no es válido
         return true;
@@ -110,14 +116,8 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     {
         eventListenersById.put(listenerWrapper);
 
-        if (isWeb()) // clientDoc puede ser null
-        {
-            ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
-            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,clientDocDeleg);
-        }
-        else
-            throw new ItsNatException("TO DO");
-        
+        addItsNatEventListenerCode(listenerWrapper,getClientDocumentStfulDelegateTarget());
+                
         if (listenerWrapper.getUseCapture())
             capturingCount++;
     }
@@ -140,13 +140,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
         if (updateClient)
         {
-            if (isWeb()) // clientDoc puede ser null
-            {
-                ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
-                JSRenderItsNatEventListenerImpl.removeItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
-            }
-            else
-                throw new ItsNatException("TO DO");            
+            removeItsNatEventListenerCode(listenerWrapper,getClientDocumentStfulDelegateTarget());           
         }
         
         if (listenerWrapper.getUseCapture())
@@ -154,7 +148,8 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
 
         return listenerWrapper;
     }
-
+   
+    
     protected ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
     {
         return removeItsNatDOMEventListenerByIdPrivate(id,updateClient);
@@ -174,7 +169,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
     public void renderItsNatDOMEventListeners(final ClientDocumentAttachedClientImpl clientDoc)
     {
         // Usado para renderizar los listeners de documento para un cliente nuevo
-        if ((clientDoc == null) || (getClientDocumentStful() != null))
+        if ((clientDoc == null) || (getClientDocumentStfulTarget() != null))
             throw new ItsNatException("INTERNAL ERROR");
 
         if (eventListenersById.isEmpty()) return;
@@ -187,10 +182,10 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
             if (!clientDoc.canReceiveNormalEvents(listenerWrapper))
                 continue;
 
-            if (isWeb()) // clientDoc puede ser null
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            
+            if (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)
             {
-                ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
-
                 EventTarget currTarget = listenerWrapper.getCurrentTarget();
                 if (SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash((Node)currTarget,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg))
                 {
@@ -202,10 +197,12 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
                     continue;
                 }
 
-                JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+                addItsNatEventListenerCode(listenerWrapper,clientDocDeleg);
             }
-            else
-                throw new ItsNatException("TO DO");             
+            else if (clientDocDeleg instanceof ClientDocumentStfulDelegateDroidImpl)
+            {
+                addItsNatEventListenerCode(listenerWrapper,clientDocDeleg);         
+            }
         }
 
         if (svgWebNodes != null)
@@ -220,17 +217,9 @@ public abstract class ItsNatDOMEventListenerRegistryImpl implements Serializable
                         if (!eventListenersById.containsKey(listenerWrapper)) 
                             continue; // Ha sido eliminado mientras se procesaba el evento SVGLoad
 
+                        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();                        
                         
-                        if (isWeb()) // clientDoc puede ser null
-                        {
-                            ClientDocumentStfulDelegateWebImpl clientDocDeleg = clientDoc != null ? (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate() : null;
-
-                            JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listenerWrapper,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
-                        }
-                        else
-                            throw new ItsNatException("TO DO");                         
-                        
-                        
+                        addItsNatEventListenerCode(listenerWrapper,clientDocDeleg);                        
                     }
                 }
             };
