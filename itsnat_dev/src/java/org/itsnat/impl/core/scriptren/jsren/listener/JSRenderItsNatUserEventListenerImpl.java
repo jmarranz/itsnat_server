@@ -43,11 +43,11 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
         String name = itsNatListener.getName();
         String listenerId = itsNatListener.getId();
         int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomCodeFunction(itsNatListener,code);
+        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
 
         // Hay que tener en cuenta que currentTarget puede ser NULO
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);

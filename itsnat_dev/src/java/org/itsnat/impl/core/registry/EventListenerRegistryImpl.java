@@ -56,16 +56,19 @@ public abstract class EventListenerRegistryImpl
     
     private static void addItsNatEventListenerCode2(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateImpl clientDoc)
     {    
+        String code = null;
         if (clientDoc instanceof ClientDocumentStfulDelegateWebImpl)
         {
             JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
-            render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
+            code = render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
         }
         else if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl)
         {
             BSRenderItsNatEventListenerImpl render = BSRenderItsNatEventListenerImpl.getBSRenderItsNatEventListener(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);
-            render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);                
+            code = render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);                
         }    
+        
+        if (code != null) clientDoc.addCodeToSend(code);
     }
     
     public static void removeItsNatEventListenerCode(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateImpl clientDoc)
@@ -101,15 +104,18 @@ public abstract class EventListenerRegistryImpl
     
     private static void removeItsNatEventListenerCode2(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateImpl clientDoc)
     {    
+        String code = null;        
         if (clientDoc instanceof ClientDocumentStfulDelegateWebImpl)
         {
             JSRenderItsNatEventListenerImpl render = JSRenderItsNatEventListenerImpl.getJSRenderItsNatEventListener(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
-            render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
+            code = render.removeItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateWebImpl)clientDoc);
         }
         else if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl)
         {
             BSRenderItsNatEventListenerImpl render = BSRenderItsNatEventListenerImpl.getBSRenderItsNatEventListener(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);
-            render.addItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);                
-        }    
+            code = render.removeItsNatEventListenerCodeClient(itsNatListener,(ClientDocumentStfulDelegateDroidImpl)clientDoc);                
+        }   
+        
+        if (code != null) clientDoc.addCodeToSend(code);        
     }    
 }

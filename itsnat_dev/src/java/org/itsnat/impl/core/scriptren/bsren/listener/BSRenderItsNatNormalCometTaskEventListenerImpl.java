@@ -39,7 +39,7 @@ public class BSRenderItsNatNormalCometTaskEventListenerImpl extends BSRenderItsN
     {
         String listenerId = itsNatListener.getId();
         int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
         StringBuilder code = new StringBuilder();
 

@@ -43,15 +43,13 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
         return null;
     }
 
-    public void addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String code = addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
-    public void removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String code = removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 }

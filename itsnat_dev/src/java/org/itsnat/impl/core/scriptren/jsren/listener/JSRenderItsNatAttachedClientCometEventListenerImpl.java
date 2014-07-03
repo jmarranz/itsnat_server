@@ -39,7 +39,7 @@ public class JSRenderItsNatAttachedClientCometEventListenerImpl extends JSRender
     {
         String listenerId = itsNatListener.getId();
         int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
         return "itsNatDoc.sendAttachCometTaskRefresh(\"" + listenerId + "\"," + sync + "," + eventTimeout + ");\n";
     }

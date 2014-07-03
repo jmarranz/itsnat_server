@@ -39,7 +39,7 @@ public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsN
     {
         String listenerId = itsNatListener.getId();
         int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
         StringBuilder code = new StringBuilder();
 

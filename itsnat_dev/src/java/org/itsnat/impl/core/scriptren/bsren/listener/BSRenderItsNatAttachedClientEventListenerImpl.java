@@ -45,16 +45,14 @@ public abstract class BSRenderItsNatAttachedClientEventListenerImpl extends BSRe
     }
 
     @Override
-    public void addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String code = addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
     @Override    
-    public void removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String code = removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 }

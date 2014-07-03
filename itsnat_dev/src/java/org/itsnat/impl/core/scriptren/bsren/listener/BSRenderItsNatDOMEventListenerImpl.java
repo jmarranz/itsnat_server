@@ -42,24 +42,22 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
         return null;
     }
 
-    public void addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;
         if (!clientDoc.getClientDocumentStful().canReceiveNormalEvents(normalListener))
-            return; // Si es un visor remoto sólo lectura lo ignoramos
+            return null; // Si es un visor remoto sólo lectura lo ignoramos
 
-        String code = addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
-    public void removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;
         if (!clientDoc.getClientDocumentStful().canReceiveNormalEvents(normalListener))
-            return; // Si es un visor remoto sólo lectura lo ignoramos
+            return null; // Si es un visor remoto sólo lectura lo ignoramos
 
-        String code = removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
-        clientDoc.addCodeToSend(code);
+        return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
     protected static String getUserCode(ItsNatDOMEventListenerWrapperImpl itsNatListener)
@@ -77,7 +75,7 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
         return code.toString();
     }
 
-    public static String addCustomCodeFunction(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
+    public static String addCustomFunctionAndBindToListenerCode(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
     {
         String userCode = getUserCode(itsNatListener);
         if ((userCode != null) && !userCode.equals(""))

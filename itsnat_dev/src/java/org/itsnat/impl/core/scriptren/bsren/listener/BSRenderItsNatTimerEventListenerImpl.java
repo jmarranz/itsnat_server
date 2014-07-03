@@ -46,9 +46,9 @@ public class BSRenderItsNatTimerEventListenerImpl extends BSRenderItsNatDOMExtEv
 
         String listenerId = itsNatListener.getId();
         int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
-        String functionVarName = addCustomCodeFunction(itsNatListener,code);
+        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que currentTarget puede ser NULO

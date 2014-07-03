@@ -429,5 +429,14 @@ public class ItsNatDocImpl implements ItsNatDoc
         return getNode(idObj);
     }
 
+    @Override
+    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,useCapture,commMode,timeout,typeCode)
+    {
+        var node = this.getNode(idObj);
+        var listenerWrapper = new DOMStdEventListener(this,node,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
+        domListeners.put(listenerId,listenerWrapper);
+        addDOMEL2(listenerWrapper,node,type,useCapture);
+        return node;
+    }
 
 }

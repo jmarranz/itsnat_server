@@ -77,11 +77,11 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         int eventTypeCode = DOMStdEventTypeInfo.getEventTypeCode(type);
         boolean useCapture = itsNatListener.getUseCapture();
         int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = getEventTimeout(itsNatListener,clientDoc);
+        long eventTimeout = itsNatListener.getEventTimeout();
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomCodeFunction(itsNatListener,code);
+        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target en eventos estándar DOM NO puede ser nulo
