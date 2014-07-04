@@ -1,14 +1,15 @@
 
-* Sacar el código dependiente del parse y ondemand de ClassDescViewBase
+* Seguir con el mapeo de tipos de eventos nativos (ej touch) con los web y hacer los setOnX
 
 * Cargar imágenes remótamente
 
 * Intentar agrupar los atributos de un mismo tipo que sólo admiten un método conjunto, por ej los paddingXXX
   se definen una de una sola vez con setPadding(int,int,int,int)
 
-* Pensar si memorizar los objetos Page hasta un límite
+* Pensar si memorizar los objetos Page hasta un límite configurable
 
 * Pensar en si enviar como POST un URL o sólo los eventos
 
 * Pensar si en inflar otros tipos de XML de resources
 
+* Añadir licencia Apache a ItsNat Droid

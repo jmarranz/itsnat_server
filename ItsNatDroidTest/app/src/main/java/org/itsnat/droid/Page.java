@@ -14,5 +14,6 @@ public interface Page
     public InflatedLayout getInflatedLayout();
     public byte[] getContent();
     public ItsNatSession getItsNatSession();
+    public ItsNatView getItsNatView(View view);
     public void dispose();
 }

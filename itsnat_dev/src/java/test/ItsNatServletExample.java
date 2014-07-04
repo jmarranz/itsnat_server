@@ -368,7 +368,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate = registerDocument("test_droid","android/layout",pathPrefix,pages); 
         docTemplate.addItsNatServletRequestListener(new TestDroidDocLoadListener());
         //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
-        docTemplate.setEventsEnabled(false);        
+        // docTemplate.setEventsEnabled(false);        
         docTemplate.setFastLoadMode(false);
         
         // FRAGMENTS

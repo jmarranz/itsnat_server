@@ -108,7 +108,7 @@ public class ClassDescViewBase
         }
         else if (isElementIdAttrAsDOM(namespace,name))
         {
-            inflated.setElementIdAsDOM(value,view);
+            inflated.setElementId(value, view);
         }
         else
         {
@@ -150,7 +150,7 @@ public class ClassDescViewBase
         }
         else if (isElementIdAttrAsDOM(namespace,name))
         {
-            inflated.unsetElementIdAsDOM(view);
+            inflated.unsetElementId(view);
         }
         else
         {

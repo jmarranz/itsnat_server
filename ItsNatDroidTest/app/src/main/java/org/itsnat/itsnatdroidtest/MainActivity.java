@@ -129,7 +129,15 @@ public class MainActivity extends Activity {
                 View button3 = findViewById(R.id.buttonTest);
                 if (button3 == null) throw new RuntimeException("FAIL");
 
-                page.dispose();
+                View frameLayoutViewInner = page.getInflatedLayout().findViewByXMLId("frameLayoutViewInner");
+                page.getItsNatView(frameLayoutViewInner).setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        Toast.makeText(MainActivity.this, "Click Native OK", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 button3.setOnClickListener(new View.OnClickListener()
                 {
@@ -140,6 +148,9 @@ public class MainActivity extends Activity {
                         downloadLayoutRemote(droidBrowser);
                     }
                 });
+
+                page.dispose();
+
             }
         }).setOnErrorListener(new OnErrorListener()
         {
@@ -158,6 +169,7 @@ public class MainActivity extends Activity {
                     }
                     Log.v("MainActivity", "CODE:" + exScr.getScript());
                 }
+
             }
         }).setAttrCustomInflaterListener(new AttrCustomInflaterListener()
         {

@@ -36,6 +36,10 @@ public class TestAnythingDocument implements EventListener,Serializable
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
         Element infoElem = doc.createElement("div");
         infoElem.appendChild(doc.createTextNode("clicked"));
+        
+//org.w3c.dom.Node parent = elem.getParentNode();
+//parent.getParentNode().removeChild(parent);
+        
         logElem.appendChild(infoElem);
     }
 }

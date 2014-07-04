@@ -8,15 +8,12 @@ package test.droid;
 import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
-import org.itsnat.core.event.ItsNatDOMStdEvent;
-import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.core.script.ScriptUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import org.w3c.dom.views.AbstractView;
-import org.w3c.dom.views.DocumentView;
+import org.w3c.dom.events.EventTarget;
 
 public class TestDroidDocument implements EventListener,Serializable
 {
@@ -95,7 +92,7 @@ public class TestDroidDocument implements EventListener,Serializable
         //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"hola\");");
         
 
-
+        // Test ScriptUtil 
         String code;
         ScriptUtil codeGen = itsNatDoc.getScriptUtil();
 
@@ -105,13 +102,13 @@ public class TestDroidDocument implements EventListener,Serializable
         code = "itsNatDoc.alert(\"Test getNodeReference:\" + " + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\"));"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
         itsNatDoc.addCodeToSend(code);        
 
+        // Test event listener
+        frameLayoutViewInner.setAttribute("id", "frameLayoutViewInner"); 
+        ((EventTarget)frameLayoutViewInner).addEventListener("click", this,false);
     }
 
     public void handleEvent(Event evt)
     {
-        Document doc = itsNatDoc.getDocument();
-        Element infoElem = doc.createElement("div");
-        infoElem.appendChild(doc.createTextNode("clicked"));
-        //logElem.appendChild(infoElem);
+        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"click OK\");");
     }
 }

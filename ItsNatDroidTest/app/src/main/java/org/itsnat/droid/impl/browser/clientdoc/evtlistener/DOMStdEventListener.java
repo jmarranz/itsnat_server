@@ -32,4 +32,9 @@ public class DOMStdEventListener
         this.timeout = timeout;
         this.typeCode = typeCode;
     }
+
+    public void dispatchEvent()
+    {
+        // PROVISIONAL
+    }
 }

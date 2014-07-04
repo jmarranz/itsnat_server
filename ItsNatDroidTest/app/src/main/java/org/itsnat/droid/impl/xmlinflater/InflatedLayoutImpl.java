@@ -61,12 +61,12 @@ public class InflatedLayoutImpl implements InflatedLayout
         return mapIdViewXMLStd;
     }
 
-    public void setElementIdAsDOM(String id, View view)
+    public void setElementId(String id, View view)
     {
         getMapIdViewXMLStd().put(id,view);
     }
 
-    public String unsetElementIdAsDOM(View view)
+    public String unsetElementId(View view)
     {
         return getMapIdViewXMLStd().removeByValue(view);
     }
@@ -77,12 +77,13 @@ public class InflatedLayoutImpl implements InflatedLayout
         if (viewFound == null) return null;
         // Ojo, puede estar desconectado aunque el objeto Java esté "vivo"
 
-        if (viewFound == rootView) return viewFound;
+        if (viewFound == rootView) return viewFound; // No está desconectado
 
         ViewParent parent = viewFound.getParent();
         while(parent != null)
         {
             if (parent == rootView) return viewFound;
+            parent = parent.getParent();
         }
         // Está registrado pero sin embargo no está en el árbol de Views, podríamos eliminarlo (remove) para que no de la lata
         // pero si se vuelve a insertar perderíamos el elemento pues al reinsertar no podemos capturar la operación y definir el id,
@@ -93,6 +94,7 @@ public class InflatedLayoutImpl implements InflatedLayout
 
     public View findViewByXMLId(String id)
     {
+        // No llamamos a este método getElementById() porque devuelve un View no un DOM Node
         return getElementById(id);
     }
 

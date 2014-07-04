@@ -1,10 +1,14 @@
 package org.itsnat.droid.impl.browser;
 
+import android.view.View;
+
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
+import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
@@ -84,6 +88,12 @@ public class PageImpl implements Page
     public String getId()
     {
         return id;
+    }
+
+    @Override
+    public ItsNatView getItsNatView(View view)
+    {
+        return ItsNatViewImpl.getItsNatView(view);
     }
 
     public void dispose()

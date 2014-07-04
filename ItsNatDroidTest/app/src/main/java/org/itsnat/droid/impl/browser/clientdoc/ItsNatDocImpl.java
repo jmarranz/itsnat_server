@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
@@ -15,7 +16,6 @@ import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -443,20 +443,19 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         Node node = getNode(idObj);
         View view = node.getView();
+        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(view);
+        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
+        viewData.getEventListeners().add(type,listenerWrapper);
+        getDOMListeners().put(listenerId,listenerWrapper);
+
+        EventListenerViewAdapter evtListAdapter = viewData.getEventListenerViewAdapter();
         if (type.equals("click"))
         {
-            view.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-
-                }
-            });
+            // No sabemos si ha sido registrado ya antes el EventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
+            view.setOnClickListener(evtListAdapter);
         }
-        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
-        getDOMListeners().put(listenerId,listenerWrapper);
-        //addDOMEL2(listenerWrapper,node,type,useCapture);
+        // SEGUIR CON MAS TIPOS (touch)
+
         return node;
     }
 
