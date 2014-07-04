@@ -941,13 +941,13 @@ function EventStfulListener(itsNatDoc,eventType,commMode,timeout)
     }
 }
 
-function NormalEventListener(itsNatDoc,eventType,currentTarget,listener,id,commMode,timeout)
+function NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
 {
     this.EventStfulListener = EventStfulListener;
     this.EventStfulListener(itsNatDoc,eventType,commMode,timeout);
 
     this.getCurrentTarget = getCurrentTarget;
-    this.getListener = getListener;
+    this.getCustomFunc = getCustomFunc;
     this.getId = getId;
 
     this.EventStfulListener_genParamURL = this.genParamURL;
@@ -958,11 +958,11 @@ function NormalEventListener(itsNatDoc,eventType,currentTarget,listener,id,commM
     // attribs
 
     this.currentTarget = currentTarget;
-    this.listener = listener;
+    this.customFunc = customFunc;
     this.id = id;
 
     function getCurrentTarget() { return this.currentTarget; }
-    function getListener() { return this.listener; }
+    function getCustomFunc() { return this.customFunc; }
     function getId() { return this.id; }
 
     function genParamURL(evt)
@@ -975,16 +975,16 @@ function NormalEventListener(itsNatDoc,eventType,currentTarget,listener,id,commM
     function dispatchEvent(evt)
     {
         var evtWrapper = this.createEventWrapper(evt);
-        var listener = this.getListener();
-        if (listener != null) listener(evtWrapper);
+        var customFunc = this.getCustomFunc();
+        if (customFunc != null) customFunc(evtWrapper);
         evtWrapper.sendEvent();
     }
 }
 
-function DOMStdEventListener(itsNatDoc,currentTarget,type,listener,id,useCapture,commMode,timeout,typeCode)
+function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,typeCode)
 {
     this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"domstd",currentTarget,listener,id,commMode,timeout);
+    this.NormalEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
 
     this.getType = getType;
     this.isUseCapture = isUseCapture;
@@ -1020,10 +1020,10 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,listener,id,useCapture
     }
 }
 
-function UserEventListener(itsNatDoc,currentTarget,name,listener,id,commMode,timeout)
+function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,timeout)
 {
     this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"user",currentTarget,listener,id,commMode,timeout);
+    this.NormalEventListener(itsNatDoc,"user",currentTarget,customFunc,id,commMode,timeout);
 
     this.getName = getName;
     this.createEventWrapper = createEventWrapper;
@@ -1035,10 +1035,10 @@ function UserEventListener(itsNatDoc,currentTarget,name,listener,id,commMode,tim
     function createEventWrapper(evt) { return new UserEvent(evt,this); }
 }
 
-function TimerEventListener(itsNatDoc,currentTarget,listener,id,commMode,timeout)
+function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
     this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"timer",currentTarget,listener,id,commMode,timeout);
+    this.NormalEventListener(itsNatDoc,"timer",currentTarget,customFunc,id,commMode,timeout);
 
     this.getHandle = getHandle;
     this.setHandle = setHandle;
@@ -1052,20 +1052,20 @@ function TimerEventListener(itsNatDoc,currentTarget,listener,id,commMode,timeout
     function createEventWrapper(evt) { return new DOMEvent(this); }
 }
 
-function ContinueEventListener(itsNatDoc,currentTarget,listener,id,commMode,timeout)
+function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
     this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"continue",currentTarget,listener,id,commMode,timeout);
+    this.NormalEventListener(itsNatDoc,"continue",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
     function createEventWrapper(evt) { return new DOMEvent(this); }
 }
 
-function AsyncTaskEventListener(itsNatDoc,currentTarget,listener,id,commMode,timeout)
+function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
     this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"asyncret",currentTarget,listener,id,commMode,timeout);
+    this.NormalEventListener(itsNatDoc,"asyncret",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1494,10 +1494,10 @@ function Document()
         }
     }
 
-    function addDOMEL(idObj,type,listenerId,listener,useCapture,commMode,timeout,typeCode)
+    function addDOMEL(idObj,type,listenerId,customFunc,useCapture,commMode,timeout,typeCode)
     {
         var node = this.getNode(idObj);
-        var listenerWrapper = new DOMStdEventListener(this,node,type,listener,listenerId,useCapture,commMode,timeout,typeCode);
+        var listenerWrapper = new DOMStdEventListener(this,node,type,customFunc,listenerId,useCapture,commMode,timeout,typeCode);
         this.domListeners.put(listenerId,listenerWrapper);
         this.addDOMEL2(listenerWrapper,node,type,useCapture);
         return node;
@@ -1513,10 +1513,10 @@ function Document()
         return node;
     }
 
-    function addTimerEL(idObj,listenerId,listener,commMode,timeout,delay)
+    function addTimerEL(idObj,listenerId,customFunc,commMode,timeout,delay)
     {
         var node = this.getNode(idObj); // puede ser nulo
-        var listenerWrapper = new TimerEventListener(this,node,listener,listenerId,commMode,timeout);
+        var listenerWrapper = new TimerEventListener(this,node,customFunc,listenerId,commMode,timeout);
         var timerFunction = function() { arguments.callee.listenerWrapper.dispatchEvent(null); };
         timerFunction.listenerWrapper = listenerWrapper;
         listenerWrapper.timerFunction = timerFunction;
@@ -1540,10 +1540,10 @@ function Document()
         listenerWrapper.setHandle(handle);
     }
 
-    function sendAsyncTaskEvent(idObj,listenerId,listener,commMode,timeout)
+    function sendAsyncTaskEvent(idObj,listenerId,customFunc,commMode,timeout)
     {
         var currTarget = this.getNode(idObj);
-        var listenerWrapper = new AsyncTaskEventListener(this,currTarget,listener,listenerId,commMode,timeout);
+        var listenerWrapper = new AsyncTaskEventListener(this,currTarget,customFunc,listenerId,commMode,timeout);
         listenerWrapper.dispatchEvent(null);
     }
 
@@ -1553,17 +1553,17 @@ function Document()
         listenerWrapper.dispatchEvent(null);
     }
 
-    function sendContinueEvent(idObj,listenerId,listener,commMode,timeout)
+    function sendContinueEvent(idObj,listenerId,customFunc,commMode,timeout)
     {
         var currTarget = this.getNode(idObj);
-        var listenerWrapper = new ContinueEventListener(this,currTarget,listener,listenerId,commMode,timeout);
+        var listenerWrapper = new ContinueEventListener(this,currTarget,customFunc,listenerId,commMode,timeout);
         listenerWrapper.dispatchEvent(null);
     }
 
-    function addUserEL(idObj,name,listenerId,listener,commMode,timeout)
+    function addUserEL(idObj,name,listenerId,customFunc,commMode,timeout)
     {
         var currTarget = this.getNode(idObj);
-        var listenerWrapper = new UserEventListener(this,currTarget,name,listener,listenerId,commMode,timeout);
+        var listenerWrapper = new UserEventListener(this,currTarget,name,customFunc,listenerId,commMode,timeout);
         this.userListenersById.put(listenerId,listenerWrapper);
         var listenersByName;
         if (currTarget == null) listenersByName = this.userListenersByName;
