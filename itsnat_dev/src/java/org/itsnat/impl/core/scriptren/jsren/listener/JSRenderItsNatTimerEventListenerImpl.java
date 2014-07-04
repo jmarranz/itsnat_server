@@ -48,7 +48,7 @@ public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEv
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = itsNatListener.getEventTimeout();
 
-        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
+        String functionVarName = addCustomFunctionCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que currentTarget puede ser NULO

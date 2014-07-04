@@ -47,7 +47,7 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
+        String functionVarName = addCustomFunctionCode(itsNatListener,code);
 
         // Hay que tener en cuenta que currentTarget puede ser NULO
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);

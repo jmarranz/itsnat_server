@@ -28,11 +28,11 @@ public class EventListenerParamsImpl implements Serializable
     protected ParamTransport[] extraParams;
     protected String preSendCode;
     protected long eventTimeout;
-    protected String bindToListener;
+    protected String bindToCustomFunc;
 
     /** Creates a new instance of EventListenerParamsImpl */
     public EventListenerParamsImpl(boolean useCapture,int commMode,ParamTransport[] extraParams,
-            String preSendCode,long eventTimeout,String bindToListener)
+            String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         this.useCapture = useCapture;
         CommModeImpl.checkMode(commMode);
@@ -40,7 +40,7 @@ public class EventListenerParamsImpl implements Serializable
         this.extraParams = extraParams;
         this.preSendCode = preSendCode;
         this.eventTimeout = eventTimeout;
-        this.bindToListener = bindToListener;
+        this.bindToCustomFunc = bindToCustomFunc;
     }
 
     public boolean isUseCapture()
@@ -68,8 +68,8 @@ public class EventListenerParamsImpl implements Serializable
         return eventTimeout;
     }
 
-    public String getBindToListener()
+    public String getBindToCustomFunc()
     {
-        return bindToListener;
+        return bindToCustomFunc;
     }
 }

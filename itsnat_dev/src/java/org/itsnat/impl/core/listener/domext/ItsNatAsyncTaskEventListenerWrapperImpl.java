@@ -35,9 +35,9 @@ public class ItsNatAsyncTaskEventListenerWrapperImpl extends ItsNatGenericTaskEv
     /**
      * Creates a new instance of ItsNatAsyncTaskEventListenerWrapperImpl
      */
-    public ItsNatAsyncTaskEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,AsyncTaskImpl task,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatAsyncTaskEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,AsyncTaskImpl task,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(clientDoc,task,element,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(clientDoc,task,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.commMode = commMode;
     }

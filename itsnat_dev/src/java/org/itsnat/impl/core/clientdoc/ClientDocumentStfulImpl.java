@@ -247,13 +247,13 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         // El propio request no será el encargado de esperar a que termine el proceso background
         // aunque podría, sino un nuevo request, así permitimos que el hilo que registra la tarea
         // no necesariamente es un hilo request y además permitimos fácilmente que puedan añadirse varias
         // tareas de este tipo en el mismo request. Finalmente: así encaja el modelo de event-listener con los demás tipos de eventos
-        getContinueEventListenerRegistry().addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getContinueEventListenerRegistry().addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatContinueEventListenerWrapperImpl removeContinueEventListener(String id)
@@ -323,9 +323,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addAsynchronousTask(Runnable task,boolean lockDoc,int maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addAsynchronousTask(Runnable task,boolean lockDoc,int maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getAsyncTaskRegistry().addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getAsyncTaskRegistry().addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatAsyncTaskEventListenerWrapperImpl removeAsynchronousTask(String id)
@@ -371,31 +371,31 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
-            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         else
-            addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (useCapture) throw new ItsNatException("Capturing is not allowed for this type:" + type,this);
 
         if (ItsNatUserEventListenerWrapperImpl.isUserType(type))
         {
             String name = ItsNatUserEventListenerWrapperImpl.getNameFromType(type,false);
-            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
         else if (ItsNatContinueEventListenerWrapperImpl.isContinueType(type))
         {
-            addContinueEventListener(nodeTarget,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addContinueEventListener(nodeTarget,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
         else // itsnat:timer, itsnat:asynctask o itsnat:comet
             throw new ItsNatException("This method is not allowed to register this event listener type:" + type,this);
@@ -411,9 +411,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
     }
 
-    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToListener);
+        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
@@ -510,9 +510,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addUserEventListener(target,name,listener,getCommMode(),null,null,getEventTimeout(), null);
     }
 
-    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatUserEventListenerWrapperImpl getUserEventListenerById(String listenerId)

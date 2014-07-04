@@ -46,7 +46,7 @@ public class BSRenderItsNatContinueEventListenerImpl extends BSRenderItsNatDOMEx
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
+        String functionVarName = addCustomFunctionCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
         // Hay que tener en cuenta que el currentTarget puede ser nulo

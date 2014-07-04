@@ -187,9 +187,9 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         int commMode = getCommModeDeclared(params);
         String preSendCode = getPreSendCode(params);
         long eventTimeout = getEventTimeout(params);
-        String bindToListener = getBindToListener(params);
+        String bindToCustomFunc = getBindToCustomFunc(params);
 
-        addInternalEventListener(clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        addInternalEventListener(clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     protected void removeInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean updateClient)
@@ -204,9 +204,9 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         removeInternalEventListener(clientDoc,type,useCapture,updateClient);
     }
 
-    protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        clientDoc.addEventListener((EventTarget)comp.getNode(),type,comp,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        clientDoc.addEventListener((EventTarget)comp.getNode(),type,comp,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     protected void removeInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
@@ -249,11 +249,11 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         return params.getEventTimeout();
     }
 
-    public String getBindToListener(EventListenerParamsImpl params)
+    public String getBindToCustomFunc(EventListenerParamsImpl params)
     {
         if (params == null)
-            return getItsNatDocumentImpl().getBindToListener();
-        return params.getBindToListener();
+            return getItsNatDocumentImpl().getBindToCustomFunc();
+        return params.getBindToCustomFunc();
     }
 
     public ParamTransport[] getParamTransports(String type,EventListenerParamsImpl params,ClientDocumentImpl clientDoc)

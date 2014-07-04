@@ -31,9 +31,9 @@ public abstract class ItsNatDOMExtEventListenerWrapperImpl extends ItsNatDOMEven
 {
 
     /** Creates a new instance of ItsNatDOMExtEventListenerWrapperImpl */
-    public ItsNatDOMExtEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatDOMExtEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public boolean getUseCapture()

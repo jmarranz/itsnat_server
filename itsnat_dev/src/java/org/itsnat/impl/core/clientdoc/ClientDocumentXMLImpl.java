@@ -206,7 +206,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
 
-    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }
@@ -231,7 +231,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
     
-    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }
@@ -241,7 +241,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
 
-    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }

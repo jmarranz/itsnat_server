@@ -33,9 +33,9 @@ public abstract class ItsNatGenericTaskEventListenerWrapperImpl extends ItsNatDO
     /**
      * Creates a new instance of ItsNatGenericTaskEventListenerWrapperImpl
      */
-    public ItsNatGenericTaskEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,GenericTaskImpl task,EventTarget element,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatGenericTaskEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,GenericTaskImpl task,EventTarget element,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(clientDoc.getItsNatStfulDocument(),clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(clientDoc.getItsNatStfulDocument(),clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.task = task;
     }

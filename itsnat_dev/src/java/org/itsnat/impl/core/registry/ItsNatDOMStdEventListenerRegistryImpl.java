@@ -51,12 +51,12 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListene
         return super.isValidEventTarget(target,throwErr);
     }
 
-    public void addItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (!canAddItsNatDOMEventListener(target,type,listener,useCapture))
             return; // Ya registrado (u otra razón)
 
-        ItsNatDOMStdEventListenerWrapperImpl listenerWrapper = new ItsNatDOMStdEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatDOMStdEventListenerWrapperImpl listenerWrapper = new ItsNatDOMStdEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         addItsNatDOMEventListener(listenerWrapper);
     }
@@ -83,13 +83,13 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListene
         addMutationEventListener(nodeTarget,mutationListener,useCapture,commMode,null,eventTimeout,null);
     }
 
-    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         ParamTransport[] params = new ParamTransport[]{ new NodeMutationTransport() };
-        addItsNatDOMStdEventListener(target,"DOMAttrModified",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToListener);
-        addItsNatDOMStdEventListener(target,"DOMNodeInserted",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToListener);
-        addItsNatDOMStdEventListener(target,"DOMNodeRemoved",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToListener);
-        addItsNatDOMStdEventListener(target,"DOMCharacterDataModified",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToListener);
+        addItsNatDOMStdEventListener(target,"DOMAttrModified",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToCustomFunc);
+        addItsNatDOMStdEventListener(target,"DOMNodeInserted",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToCustomFunc);
+        addItsNatDOMStdEventListener(target,"DOMNodeRemoved",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToCustomFunc);
+        addItsNatDOMStdEventListener(target,"DOMCharacterDataModified",listener,useCapture,commMode,params,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,boolean updateClient)

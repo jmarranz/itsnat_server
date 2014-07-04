@@ -81,7 +81,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomFunctionAndBindToListenerCode(itsNatListener,code);
+        String functionVarName = addCustomFunctionCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target en eventos estándar DOM NO puede ser nulo

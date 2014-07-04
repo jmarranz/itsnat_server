@@ -37,13 +37,13 @@ public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMEventListe
         super(clientDoc.getItsNatStfulDocument(),clientDoc);
     }
 
-    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         String type = ItsNatContinueEventListenerWrapperImpl.getTypeStatic();
         if (!canAddItsNatDOMEventListener(target,type,listener,false))
             return; // Ya registrado (u otra razón)
 
-        ItsNatContinueEventListenerWrapperImpl listenerWrapper = new ItsNatContinueEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatContinueEventListenerWrapperImpl listenerWrapper = new ItsNatContinueEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         addItsNatDOMEventListener(listenerWrapper);
     }

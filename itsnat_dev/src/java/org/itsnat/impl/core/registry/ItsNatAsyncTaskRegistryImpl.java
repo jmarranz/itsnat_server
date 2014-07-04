@@ -56,12 +56,12 @@ public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl imple
         return clientDoc.getItsNatStfulDocument();
     }
 
-    public ItsNatAsyncTaskEventListenerWrapperImpl createAsyncTaskEventListenerWrapper(AsyncTaskImpl taskContainer,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatAsyncTaskEventListenerWrapperImpl createAsyncTaskEventListenerWrapper(AsyncTaskImpl taskContainer,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        return new ItsNatAsyncTaskEventListenerWrapperImpl(clientDoc,(AsyncTaskImpl)taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        return new ItsNatAsyncTaskEventListenerWrapperImpl(clientDoc,(AsyncTaskImpl)taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addAsynchronousTask(Runnable task,boolean lockDoc,long maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addAsynchronousTask(Runnable task,boolean lockDoc,long maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         // Usar por ejemplo cuando una tarea
         // va a ser muy larga pero no es deseable que esté bloqueado durante la tarea (lockDoc = false)
@@ -72,7 +72,7 @@ public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl imple
             return;
 
         AsyncTaskImpl taskContainer = new AsyncTaskImpl(task,lockDoc,maxWait,clientDoc);
-        ItsNatAsyncTaskEventListenerWrapperImpl evtListener = createAsyncTaskEventListenerWrapper(taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatAsyncTaskEventListenerWrapperImpl evtListener = createAsyncTaskEventListenerWrapper(taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         tasks.put(evtListener);
 

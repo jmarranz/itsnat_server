@@ -115,10 +115,10 @@ public abstract class ItsNatCellEditorClientImpl
         codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDocDeleg));
         codeListener.append( "}catch(e){}\n" ); // el try/catch es por si el nodo se hubiera eliminado antes y el evento está pendiente todavía
 
-        String bindToListener = "nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true);
+        String bindToCustomFunc = "nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true);
         
         
-        clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
+        clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToCustomFunc);
 
         if (browser instanceof BrowserWebKitIOS)
         {
@@ -139,7 +139,7 @@ public abstract class ItsNatCellEditorClientImpl
             // http://www.sitepen.com/blog/2008/07/10/touching-and-gesturing-on-the-iphone/
             // http://rossboucher.com/2008/08/19/iphone-touch-events-in-javascript/
             // http://developer.yahoo.com/yui/3/event/
-            clientDoc.addEventListener((EventTarget)doc,"touchend", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
+            clientDoc.addEventListener((EventTarget)doc,"touchend", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToCustomFunc);
         }
     }
 

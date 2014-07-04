@@ -34,9 +34,9 @@ public class ItsNatContinueEventListenerWrapperImpl extends ItsNatDOMExtEventLis
     protected int commMode;
 
     /** Creates a new instance of ItsNatContinueEventListenerWrapperImpl */
-    public ItsNatContinueEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatContinueEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.commMode = commMode;
     }

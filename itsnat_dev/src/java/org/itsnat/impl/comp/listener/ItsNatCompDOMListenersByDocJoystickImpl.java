@@ -74,12 +74,12 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
         return ItsNatCompDOMListenersJoystickSharedImpl.mustAddRemove(this);
     }
 
-    protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (isJoystickEnabled())
-            addInternalEventListenerJoystick(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
+            addInternalEventListenerJoystick(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
         else
-            super.addInternalEventListener(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
+            super.addInternalEventListener(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
     }
 
     protected void removeInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
@@ -90,9 +90,9 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
             super.removeInternalEventListener(clientDoc,type, useCapture, updateClient);
     }
 
-    private void addInternalEventListenerJoystick(ClientDocumentImpl clientDoc,String type,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    private void addInternalEventListenerJoystick(ClientDocumentImpl clientDoc,String type,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.addInternalEventListenerJoystick(this,clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatCompDOMListenersJoystickSharedImpl.addInternalEventListenerJoystick(this,clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     private void removeInternalEventListenerJoystick(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)

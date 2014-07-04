@@ -53,9 +53,9 @@ public class ItsNatTimerEventListenerWrapperImpl extends ItsNatDOMExtEventListen
     /**
      * Creates a new instance of ItsNatTimerEventListenerWrapperImpl
      */
-    public ItsNatTimerEventListenerWrapperImpl(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener,ItsNatTimerImpl timer)
+    public ItsNatTimerEventListenerWrapperImpl(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc,ItsNatTimerImpl timer)
     {
-        super(timer.getItsNatStfulDocument(),timer.getClientDocumentStful(),target,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(timer.getItsNatStfulDocument(),timer.getClientDocumentStful(),target,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.commMode = commMode;
         this.time = time;

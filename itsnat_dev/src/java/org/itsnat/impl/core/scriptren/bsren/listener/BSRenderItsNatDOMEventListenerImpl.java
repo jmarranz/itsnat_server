@@ -75,7 +75,7 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
         return code.toString();
     }
 
-    public static String addCustomFunctionAndBindToListenerCode(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
+    public static String addCustomFunctionCode(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
     {
         String userCode = getUserCode(itsNatListener);
         if ((userCode != null) && !userCode.equals(""))
@@ -86,9 +86,9 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
             code.append(    userCode );
             code.append( "};\n" );
 
-            String bindToListener = itsNatListener.getBindToListener();
-            if ((bindToListener != null) && !bindToListener.equals(""))
-                code.append( "func." + bindToListener + ";\n" );
+            String bindToCustomFunc = itsNatListener.getBindToCustomFunc();
+            if ((bindToCustomFunc != null) && !bindToCustomFunc.equals(""))
+                code.append( "func." + bindToCustomFunc + ";\n" );
 
             return "func";
         }

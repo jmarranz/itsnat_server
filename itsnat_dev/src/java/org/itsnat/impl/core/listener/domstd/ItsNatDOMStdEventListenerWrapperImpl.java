@@ -49,9 +49,9 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListener
     /**
      * Creates a new instance of ItsNatDOMStdEventListenerWrapperImpl
      */
-    public ItsNatDOMStdEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget elem,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatDOMStdEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget elem,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(itsNatDoc,clientDoc,elem,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(itsNatDoc,clientDoc,elem,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.commMode = commMode;
         this.type = type;

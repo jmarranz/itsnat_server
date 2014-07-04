@@ -106,11 +106,11 @@ public class ItsNatTimerImpl implements ItsNatTimer,Serializable
         clientDoc.getItsNatTimerEventListenerRegistry().removeItsNatTimerEventListener(listener,true);
     }
 
-    private ItsNatTimerHandle scheduleGeneric(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    private ItsNatTimerHandle scheduleGeneric(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (canceled) throw new ItsNatException("This timer is cancelled",this);
 
-        return clientDoc.getItsNatTimerEventListenerRegistry().addItsNatTimerEventListener(target,listener,time,period,fixedRate,commMode,extraParams,preSendCode,eventTimeout,bindToListener,this);
+        return clientDoc.getItsNatTimerEventListenerRegistry().addItsNatTimerEventListener(target,listener,time,period,fixedRate,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc,this);
     }
 
     public void addListenerLocal(ItsNatTimerEventListenerWrapperImpl listenerWrapper)

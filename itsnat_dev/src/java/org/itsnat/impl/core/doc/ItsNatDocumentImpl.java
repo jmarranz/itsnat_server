@@ -401,7 +401,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return doc;
     }
 
-    public String getBindToListener()
+    public String getBindToCustomFunc()
     {
         return null; // Por defecto.
     }

@@ -36,9 +36,9 @@ public class ItsNatUserEventListenerWrapperImpl extends ItsNatDOMExtEventListene
     protected String name;
 
     /** Creates a new instance of ItsNatUserEventListenerWrapperImpl */
-    public ItsNatUserEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatUserEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget element,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToListener);
+        super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         this.commMode = commMode;
         this.name = name;

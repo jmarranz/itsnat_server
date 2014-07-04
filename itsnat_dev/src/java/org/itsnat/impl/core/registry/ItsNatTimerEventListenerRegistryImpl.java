@@ -59,7 +59,7 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListener
         eventListenersByTarget.addItsNatDOMEventListener(listenerWrapper);
     }
 
-    public ItsNatTimerEventListenerWrapperImpl addItsNatTimerEventListener(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener,ItsNatTimerImpl timer)
+    public ItsNatTimerEventListenerWrapperImpl addItsNatTimerEventListener(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc,ItsNatTimerImpl timer)
     {
         // El target puede ser nulo
         // Permitimos registrar múltiples veces el mismo listener para el mismo target
@@ -69,7 +69,7 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListener
         if (period < 0)
             throw new ItsNatException("Negative period");
 
-        ItsNatTimerEventListenerWrapperImpl listenerWrapper = new ItsNatTimerEventListenerWrapperImpl(target,listener,time,period,fixedRate,commMode,extraParams,preSendCode,eventTimeout,bindToListener,timer);
+        ItsNatTimerEventListenerWrapperImpl listenerWrapper = new ItsNatTimerEventListenerWrapperImpl(target,listener,time,period,fixedRate,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc,timer);
         addItsNatDOMEventListener(listenerWrapper);
         return listenerWrapper;
     }

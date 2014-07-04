@@ -41,10 +41,10 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
     protected transient WeakReference<EventTarget> currTargetWeakRef;  // EventTarget
     protected ParamTransport[] extraParams;
     protected String preSendCode;
-    protected String bindToListener;
+    protected String bindToCustomFunc;
 
     /** Creates a new instance of ItsNatDOMEventListenerWrapperImpl */
-    public ItsNatDOMEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget currTarget,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatDOMEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget currTarget,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         super(itsNatDoc,clientDoc,eventTimeout);
 
@@ -52,7 +52,7 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
         this.extraParams = extraParams;
         this.preSendCode = preSendCode;
         this.listener = listener;
-        this.bindToListener = bindToListener;
+        this.bindToCustomFunc = bindToCustomFunc;
         
         checkClient();        
     }
@@ -106,9 +106,9 @@ public abstract class ItsNatDOMEventListenerWrapperImpl extends ItsNatNormalEven
         return preSendCode;
     }
 
-    public String getBindToListener()
+    public String getBindToCustomFunc()
     {
-        return bindToListener;
+        return bindToCustomFunc;
     }
 
     public boolean isEventTargetExpunged(EventTarget target)

@@ -105,7 +105,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         return true;
     }
 
-    public static void addInternalEventListenerJoystick(final ItsNatCompDOMListenersJoystick listeners,final ClientDocumentImpl clientDoc,final String type,final boolean useCapture,final int commMode,final ParamTransport[] extraParams,final String preSendCode,final long eventTimeout,final String bindToListener)
+    public static void addInternalEventListenerJoystick(final ItsNatCompDOMListenersJoystick listeners,final ClientDocumentImpl clientDoc,final String type,final boolean useCapture,final int commMode,final ParamTransport[] extraParams,final String preSendCode,final long eventTimeout,final String bindToCustomFunc)
     {
         ItsNatDocumentImpl itsNatDoc = listeners.getItsNatDocumentImpl();
         if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
@@ -117,7 +117,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
             {
                 public void handleEvent(Event evt)
                 {
-                    addInternalEventListenerJoystick2(listeners,clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
+                    addInternalEventListenerJoystick2(listeners,clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
                 }
             };
             Document doc = itsNatDoc.getDocument();
@@ -140,7 +140,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
         else
         {
-            addInternalEventListenerJoystick2(listeners,clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
+            addInternalEventListenerJoystick2(listeners,clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
         }
     }
 
@@ -174,7 +174,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void addInternalEventListenerJoystick2(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public static void addInternalEventListenerJoystick2(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         JoystickModeComponent comp = listeners.getJoystickModeComponent();
         Element[] elemList = comp.getContentElementList();
@@ -184,7 +184,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
             Element contentElem = elemList[i];
             if (contentElem == null) continue;
             if (DOMUtilInternal.isNodeBoundToDocumentTree(contentElem)) // Esta comprobación es simplemente para que funcione el ejemplo del "Table using Row Span" del Feat. Show. quizás valga para casos especiales del usuario.
-                clientDoc.addEventListener((EventTarget)contentElem,type,(ItsNatComponentImpl)comp,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+                clientDoc.addEventListener((EventTarget)contentElem,type,(ItsNatComponentImpl)comp,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
     }
 
@@ -238,11 +238,11 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         int commMode = listenersBase.getCommModeDeclared(params);
         String preSendCode = listenersBase.getPreSendCode(params);
         long eventTimeout = listenersBase.getEventTimeout(params);
-        String bindToListener = listenersBase.getBindToListener(params);
+        String bindToCustomFunc = listenersBase.getBindToCustomFunc(params);
 
         ParamTransport[] extraParams = listenersBase.getParamTransports(type, params,clientDoc);
 
-        clientDoc.addEventListener((EventTarget) contentElem, type,listenersBase.getItsNatComponent(), useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToListener);
+        clientDoc.addEventListener((EventTarget) contentElem, type,listenersBase.getItsNatComponent(), useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
     }
 
     public static void removeInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,Element contentElem, String type)

@@ -38,13 +38,13 @@ public class ItsNatUserEventListenerRegistryImpl extends ItsNatDOMEventListenerR
         super(itsNatDoc,clientDoc);
     }
 
-    public void addItsNatUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addItsNatUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         String type = ItsNatUserEventListenerWrapperImpl.getType(name);
         if (!canAddItsNatDOMEventListener(target,type,listener,false))
             return; // Ya registrado (u otra razón)
 
-        ItsNatUserEventListenerWrapperImpl listenerWrapper = new ItsNatUserEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatUserEventListenerWrapperImpl listenerWrapper = new ItsNatUserEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         addItsNatDOMEventListener(listenerWrapper);
     }
