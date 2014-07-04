@@ -21,6 +21,7 @@ import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatDOMEventListenerImpl;
 
 /**
  *
@@ -60,24 +61,9 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
-    protected static String getUserCode(ItsNatDOMEventListenerWrapperImpl itsNatListener)
-    {
-        StringBuilder code = new StringBuilder();
-
-        String extraParams = itsNatListener.getCodeToSendParamTransports();
-        String preSendCode = itsNatListener.getPreSendCode();
-
-        if (extraParams != null)
-            code.append( extraParams );
-        if (preSendCode != null)
-            code.append( preSendCode );
-
-        return code.toString();
-    }
-
     public static String addCustomFunctionCode(ItsNatDOMEventListenerWrapperImpl itsNatListener,StringBuilder code)
     {
-        String userCode = getUserCode(itsNatListener);
+        String userCode = JSAndBSRenderItsNatDOMEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener);
         if ((userCode != null) && !userCode.equals(""))
         {
             code.append( "\n" );
@@ -97,4 +83,7 @@ public abstract class BSRenderItsNatDOMEventListenerImpl extends BSRenderItsNatN
             return "null";
         }
     }
+    
+    protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
+    protected abstract String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
 }

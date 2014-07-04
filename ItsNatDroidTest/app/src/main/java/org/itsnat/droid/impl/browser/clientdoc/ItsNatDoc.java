@@ -49,4 +49,7 @@ public interface ItsNatDoc
     public void removeAllChild2(Object[] parentIdObj);
 
     public Node addNodeCache(Object[] idObj);
+
+
+    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
 }

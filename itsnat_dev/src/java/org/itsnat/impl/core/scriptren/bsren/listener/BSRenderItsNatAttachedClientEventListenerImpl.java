@@ -55,4 +55,7 @@ public abstract class BSRenderItsNatAttachedClientEventListenerImpl extends BSRe
     {
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
+    
+    protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
+    protected abstract String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
 }

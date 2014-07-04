@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
+import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
@@ -27,6 +29,7 @@ public class ItsNatDocImpl implements ItsNatDoc
     protected PageImpl page;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolver(this);
+    protected WeakMapWithValue<String,DOMStdEventListener> domListeners;
 
     public ItsNatDocImpl(PageImpl page)
     {
@@ -41,6 +44,12 @@ public class ItsNatDocImpl implements ItsNatDoc
     protected PageImpl getPageImpl()
     {
         return page;
+    }
+
+    public WeakMapWithValue<String,DOMStdEventListener> getDOMListeners()
+    {
+        if (domListeners == null) this.domListeners = new WeakMapWithValue<String,DOMStdEventListener>();
+        return domListeners;
     }
 
     private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -430,12 +439,24 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
-    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,useCapture,commMode,timeout,typeCode)
+    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode)
     {
-        var node = this.getNode(idObj);
-        var listenerWrapper = new DOMStdEventListener(this,node,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
-        domListeners.put(listenerId,listenerWrapper);
-        addDOMEL2(listenerWrapper,node,type,useCapture);
+        Node node = getNode(idObj);
+        View view = node.getView();
+        if (type.equals("click"))
+        {
+            view.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+
+                }
+            });
+        }
+        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
+        getDOMListeners().put(listenerId,listenerWrapper);
+        //addDOMEL2(listenerWrapper,node,type,useCapture);
         return node;
     }
 

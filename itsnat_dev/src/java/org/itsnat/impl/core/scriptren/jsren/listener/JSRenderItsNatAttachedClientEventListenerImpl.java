@@ -52,4 +52,7 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
     {
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
+    
+    protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc);    
+    protected abstract String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc);    
 }
