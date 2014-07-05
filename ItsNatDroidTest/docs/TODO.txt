@@ -12,4 +12,4 @@
 
 * Pensar si en inflar otros tipos de XML de resources
 
-* Añadir licencia Apache a ItsNat Droid
+* Añadir licencia Apache a ItsNat Droid, archivo global y manifiesto en cada archivo

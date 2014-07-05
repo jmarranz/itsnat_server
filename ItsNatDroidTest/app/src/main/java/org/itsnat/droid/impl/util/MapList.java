@@ -9,44 +9,12 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class MapList<Key,Value>
+public interface MapList<Key,Value>
 {
-    protected Map<Key,List<Value>> map = new HashMap<Key,List<Value>>();
+    public List<Value> get(Key key);
 
-    public MapList()
-    {
-    }
+    public void add(Key key,Value value);
 
-    public List<Value> getValueList(Key key)
-    {
-        return map.get(key);
-    }
+    public boolean remove(Key key,Value value);
 
-    public void add(Key key,Value value)
-    {
-        List<Value> list = map.get(key);
-        if (list == null)
-        {
-            list = new LinkedList<Value>();
-            map.put(key,list);
-        }
-        list.add(value);
-    }
-
-    public boolean remove(Key key,Value value)
-    {
-        List<Value> valueList = map.get(key);
-        if (valueList == null) return false;
-        for(Iterator<Value> it = valueList.iterator(); it.hasNext(); )
-        {
-            Value currValue = it.next();
-            if (value.equals(currValue))
-            {
-                it.remove();
-                if (valueList.isEmpty()) map.remove(key);
-                return true;
-            }
-        }
-        return false;
-    }
 }

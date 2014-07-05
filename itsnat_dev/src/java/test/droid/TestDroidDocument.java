@@ -97,9 +97,9 @@ public class TestDroidDocument implements EventListener,Serializable
         ScriptUtil codeGen = itsNatDoc.getScriptUtil();
 
         code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"alert",new Object[]{"Alert OK"},true);
-        itsNatDoc.addCodeToSend(code);
+        //itsNatDoc.addCodeToSend(code);
         
-        code = "itsNatDoc.alert(\"Test getNodeReference:\" + " + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\"));"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
+        code = "if (!" + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")) itsNatDoc.alert(\"FAILED test getNodeReference:\");"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
         itsNatDoc.addCodeToSend(code);        
 
         // Test event listener

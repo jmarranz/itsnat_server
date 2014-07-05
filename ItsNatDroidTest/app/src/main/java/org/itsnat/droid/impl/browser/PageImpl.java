@@ -41,13 +41,16 @@ public class PageImpl implements Page
         this.content = content;
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
-
+//long start = System.currentTimeMillis();
         try
         {
             interp.set("itsNatDoc",itsNatDoc);
             interp.eval(loadScript);
         }
         catch (EvalError ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
+
+//long end = System.currentTimeMillis();
+//System.out.println("LAPSE" + (end - start));
     }
 
     @Override

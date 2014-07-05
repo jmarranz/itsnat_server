@@ -5,6 +5,7 @@ import android.view.View;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
+import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 
 import java.util.List;
@@ -43,13 +44,13 @@ public class ItsNatViewImpl implements ItsNatView
 
     public MapList<String,DOMStdEventListener> getEventListeners()
     {
-        if (eventListeners == null) eventListeners = new MapList<String,DOMStdEventListener>();
+        if (eventListeners == null) eventListeners = new MapLightList<String,DOMStdEventListener>();
         return eventListeners;
     }
 
     public List<DOMStdEventListener> getEventListeners(String type)
     {
-        return getEventListeners().getValueList(type);
+        return getEventListeners().get(type);
     }
 
     public EventListenerViewAdapter getEventListenerViewAdapter()
