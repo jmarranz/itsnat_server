@@ -46,10 +46,24 @@ public class ItsNatSessionImpl implements ItsNatSession
         PageImpl prev = pageMap.put(page.getId(), page);
         if (prev != null && prev != page) throw new ItsNatDroidException("Unexpected");
         pageList.add(page);
+        removeExcedent();
+    }
+
+    private void removeExcedent()
+    {
+        int max = browser.getMaxPagesInSession();
+        if (max < 0) return; // Ilimitado
+        int size = pageList.size();
+        for(int i = 0; i < (size - max); i++)
+        {
+            PageImpl page = (PageImpl)pageList.get(0);
+            disposePage(page);
+        }
     }
 
     public void disposePage(PageImpl page)
     {
         pageMap.remove(page.getId());
+        pageList.remove(page);
     }
 }

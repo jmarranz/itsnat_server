@@ -35,12 +35,12 @@ public class JSRenderItsNatDOMStdEventListenerSVGWebRootImpl extends JSRenderIts
     {
     }
 
-    protected boolean needsAddListenerReturnElement()
+    public boolean needsAddListenerReturnElement()
     {
         return false;
     }
 
-    protected boolean needsRemoveListenerReturnElement()
+    public boolean needsRemoveListenerReturnElement()
     {
         return false;
     }

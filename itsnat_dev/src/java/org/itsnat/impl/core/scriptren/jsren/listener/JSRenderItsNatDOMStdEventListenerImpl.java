@@ -27,6 +27,8 @@ import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatDOMStdEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatDOMStdEventListener;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
@@ -35,7 +37,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsNatDOMEventListenerImpl
+public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsNatDOMEventListenerImpl implements RenderItsNatDOMStdEventListener
 {
     /** Creates a new instance of JSRenderItsNatDOMStdEventListenerImpl */
     public JSRenderItsNatDOMStdEventListenerImpl()
@@ -64,42 +66,14 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
             return JSRenderItsNatDOMStdEventListenerDefaultImpl.SINGLETON;
     }
 
-    protected abstract boolean needsAddListenerReturnElement();
-    protected abstract boolean needsRemoveListenerReturnElement();
-
     protected String addItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String type = itsNatListener.getType();
-        EventTarget nodeTarget = itsNatListener.getCurrentTarget();
-
-        String listenerId = itsNatListener.getId();
-
-        int eventTypeCode = DOMStdEventTypeInfo.getEventTypeCode(type);
-        boolean useCapture = itsNatListener.getUseCapture();
-        int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        StringBuilder code = new StringBuilder();
-
-        String functionVarName = addCustomFunctionCode(itsNatListener,code);
-
-        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
-        // El target en eventos estándar DOM NO puede ser nulo
-        if (needsAddListenerReturnElement())
-            code.append( "var elem = ");
-        code.append( "itsNatDoc.addDOMEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventTypeCode + ");\n" );
-        // El "elem" es utilizado por clases derivadas, elem puede ser window
-        return code.toString();
+        return JSAndBSRenderItsNatDOMStdEventListenerImpl.addItsNatDOMStdEventListenerCode(itsNatListener,clientDoc,this);        
     }
 
     protected String removeItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-        String listenerId = itsNatListener.getId();
-        if (needsRemoveListenerReturnElement())
-            code.append( "var elem = ");
-        code.append( "itsNatDoc.removeDOMEL(\"" + listenerId + "\");\n" );
-        return code.toString();
+        return JSAndBSRenderItsNatDOMStdEventListenerImpl.removeItsNatDOMStdEventListenerCode(itsNatListener,clientDoc,this);         
     }
 
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)

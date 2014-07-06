@@ -12,4 +12,6 @@ public interface ItsNatDroidBrowser
     public HttpParams getHttpParams();
     public void setHttpParams(HttpParams httpParams);
     public PageRequest createPageRequest();
+    public int getMaxPagesInSession();
+    public void setMaxPagesInSession(int maxPages);
 }

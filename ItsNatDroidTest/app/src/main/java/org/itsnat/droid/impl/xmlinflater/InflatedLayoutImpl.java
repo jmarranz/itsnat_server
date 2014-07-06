@@ -73,7 +73,7 @@ public class InflatedLayoutImpl implements InflatedLayout
 
     public View getElementById(String id)
     {
-        View viewFound = getMapIdViewXMLStd().get(id);
+        View viewFound = getMapIdViewXMLStd().getValueByKey(id);
         if (viewFound == null) return null;
         // Ojo, puede estar desconectado aunque el objeto Java esté "vivo"
 
@@ -90,6 +90,11 @@ public class InflatedLayoutImpl implements InflatedLayout
         // tampoco es que sea demasiado importante porque el programador una vez que cambia el árbol de views por su cuenta
         // "rompe" los "contratos" de ItsNatDroid
         return null;
+    }
+
+    public String getXMLId(View view)
+    {
+        return getMapIdViewXMLStd().getKeyByValue(view);
     }
 
     public View findViewByXMLId(String id)

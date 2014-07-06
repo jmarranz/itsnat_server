@@ -96,8 +96,8 @@ public class TestDroidDocument implements EventListener,Serializable
         String code;
         ScriptUtil codeGen = itsNatDoc.getScriptUtil();
 
-        code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"alert",new Object[]{"Alert OK"},true);
-        //itsNatDoc.addCodeToSend(code);
+        code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"toast",new Object[]{"Toast and getCallMethodCode OK"},true);
+        itsNatDoc.addCodeToSend(code);
         
         code = "if (!" + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")) itsNatDoc.alert(\"FAILED test getNodeReference:\");"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
         itsNatDoc.addCodeToSend(code);        
@@ -105,6 +105,11 @@ public class TestDroidDocument implements EventListener,Serializable
         // Test event listener
         frameLayoutViewInner.setAttribute("id", "frameLayoutViewInner"); 
         ((EventTarget)frameLayoutViewInner).addEventListener("click", this,false);
+        
+        if (true)
+        {
+        ((EventTarget)frameLayoutViewInner).removeEventListener("click", this,false);            
+        }
     }
 
     public void handleEvent(Event evt)

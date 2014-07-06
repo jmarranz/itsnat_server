@@ -149,7 +149,10 @@ public class MainActivity extends Activity {
                     }
                 });
 
-                page.dispose();
+                if (page.getItsNatSession().getPageCount() > droidBrowser.getMaxPagesInSession())
+                    throw new RuntimeException("FAIL");
+
+                //page.dispose();
 
             }
         }).setOnErrorListener(new OnErrorListener()

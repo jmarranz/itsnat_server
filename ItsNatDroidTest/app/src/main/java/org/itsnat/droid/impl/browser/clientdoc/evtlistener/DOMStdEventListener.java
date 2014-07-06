@@ -33,6 +33,16 @@ public class DOMStdEventListener
         this.typeCode = typeCode;
     }
 
+    public View getView()
+    {
+        return view;
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
     public void dispatchEvent()
     {
         // PROVISIONAL

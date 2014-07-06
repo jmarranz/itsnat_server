@@ -33,16 +33,17 @@ public class JSRenderItsNatDOMStdEventListenerOperaMiniImpl extends JSRenderItsN
     {
     }
 
-    protected boolean needsAddListenerReturnElement()
+    public boolean needsAddListenerReturnElement()
     {
         return true;
     }
 
-    protected boolean needsRemoveListenerReturnElement()
+    public boolean needsRemoveListenerReturnElement()
     {
         return false;
     }
 
+    @Override
     protected String addItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Es necesaria la presencia de un handler inline onXXX para

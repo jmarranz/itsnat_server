@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
@@ -17,21 +18,23 @@ public class ItsNatViewImpl implements ItsNatView
 {
     public static final int ITSNAT_VIEW_DATA = 1111111111;
 
+    protected PageImpl page;
     protected View view;
     protected MapList<String,DOMStdEventListener> eventListeners;
     protected EventListenerViewAdapter evtListenerViewAdapter;
 
-    public ItsNatViewImpl(View view)
+    public ItsNatViewImpl(PageImpl page,View view)
     {
+        this.page = page;
         this.view = view;
     }
 
-    public static ItsNatViewImpl getItsNatView(View view)
+    public static ItsNatViewImpl getItsNatView(PageImpl page,View view)
     {
         ItsNatViewImpl viewData = (ItsNatViewImpl)view.getTag(ITSNAT_VIEW_DATA);
         if (viewData == null)
         {
-            viewData = new ItsNatViewImpl(view);
+            viewData = new ItsNatViewImpl(page,view);
             view.setTag(ITSNAT_VIEW_DATA,viewData);
         }
         return viewData;
@@ -40,6 +43,11 @@ public class ItsNatViewImpl implements ItsNatView
     public View getView()
     {
         return view;
+    }
+
+    public String getXMLId()
+    {
+        return page.getInflatedLayoutImpl().getXMLId(view);
     }
 
     public MapList<String,DOMStdEventListener> getEventListeners()

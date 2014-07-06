@@ -12,7 +12,6 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.browser.clientdoc.SimpleAlert;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
@@ -35,6 +34,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     protected Interpreter interp = new Interpreter(); // Global
     protected UniqueIdGenerator idGenerator = new UniqueIdGenerator();
     protected Map<String,ItsNatSessionImpl> sessionList = new HashMap<String, ItsNatSessionImpl>();
+    protected int maxPagesInSession = 5;
 
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
@@ -138,5 +138,15 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public Interpreter getInterpreter()
     {
         return interp;
+    }
+
+    public int getMaxPagesInSession()
+    {
+        return maxPagesInSession;
+    }
+
+    public void setMaxPagesInSession(int maxPagesInSession)
+    {
+        this.maxPagesInSession = maxPagesInSession;
     }
 }

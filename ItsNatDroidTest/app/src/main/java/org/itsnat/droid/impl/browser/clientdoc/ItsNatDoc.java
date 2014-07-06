@@ -15,6 +15,7 @@ public interface ItsNatDoc
     public Page getPage();
 
     public void alert(Object value);
+    public void toast(Object value);
 
     public Node getNode(Object[] idObj);
     public View getView(Object[] idObj);
@@ -50,6 +51,6 @@ public interface ItsNatDoc
 
     public Node addNodeCache(Object[] idObj);
 
-
     public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
+    public void removeDOMEL(String listenerId);
 }

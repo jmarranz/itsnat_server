@@ -36,12 +36,12 @@ public class JSRenderItsNatDOMStdEventListenerAdobeSVGImpl extends JSRenderItsNa
     {
     }
 
-    protected boolean needsAddListenerReturnElement()
+    public boolean needsAddListenerReturnElement()
     {
         return false;
     }
 
-    protected boolean needsRemoveListenerReturnElement()
+    public boolean needsRemoveListenerReturnElement()
     {
         return false;
     }

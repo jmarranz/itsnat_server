@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -14,28 +14,14 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.bsren.listener;
+package org.itsnat.impl.core.scriptren.shared.listener;
 
 /**
  *
  * @author jmarranz
  */
-public class BSRenderItsNatDOMStdEventListenerDefaultImpl extends BSRenderItsNatDOMStdEventListenerImpl
+public interface RenderItsNatDOMStdEventListener
 {
-    public static final BSRenderItsNatDOMStdEventListenerDefaultImpl SINGLETON = new BSRenderItsNatDOMStdEventListenerDefaultImpl();
-
-    /** Creates a new instance of BSRenderItsNatDOMStdEventListenerDefaultImpl */
-    public BSRenderItsNatDOMStdEventListenerDefaultImpl()
-    {
-    }
-
-    public boolean needsAddListenerReturnElement()
-    {
-        return false;
-    }
-
-    public boolean needsRemoveListenerReturnElement()
-    {
-        return false;
-    }
+    public boolean needsAddListenerReturnElement();
+    public boolean needsRemoveListenerReturnElement();
 }

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.InflatedLayout;
@@ -7,8 +8,10 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
@@ -32,6 +35,7 @@ public class PageImpl implements Page
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
     protected String id;
+    protected UserDataImpl userData;
 
     public PageImpl(ItsNatDroidBrowserImpl browser,String url,InflatedLayoutImpl inflated,byte[] content,String loadScript)
     {
@@ -93,10 +97,21 @@ public class PageImpl implements Page
         return id;
     }
 
+    public Context getContext()
+    {
+        return getInflatedLayoutImpl().getContext();
+    }
+
     @Override
     public ItsNatView getItsNatView(View view)
     {
-        return ItsNatViewImpl.getItsNatView(view);
+        return ItsNatViewImpl.getItsNatView(this,view);
+    }
+
+    public UserData getUserData()
+    {
+        if (userData == null) this.userData = new UserDataImpl();
+        return userData;
     }
 
     public void dispose()

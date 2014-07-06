@@ -7,7 +7,8 @@ import android.view.View;
  */
 public interface ItsNatView
 {
+    public View getView();
+    public String getXMLId();
+
     public void setOnClickListener(View.OnClickListener l);
-
-
 }

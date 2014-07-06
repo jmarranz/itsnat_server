@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.Page;
@@ -102,6 +103,14 @@ public class ItsNatDocImpl implements ItsNatDoc
         String text = value != null ? value.toString() : "null";
         SimpleAlert.show(text,getContext());
     }
+
+    @Override
+    public void toast(Object value)
+    {
+        String text = value != null ? value.toString() : "null";
+        Toast.makeText(getContext(),text, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void setAttribute(Node node,String name,String value)
@@ -443,7 +452,7 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         Node node = getNode(idObj);
         View view = node.getView();
-        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(view);
+        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
         DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
         viewData.getEventListeners().add(type,listenerWrapper);
         getDOMListeners().put(listenerId,listenerWrapper);
@@ -459,4 +468,10 @@ public class ItsNatDocImpl implements ItsNatDoc
         return node;
     }
 
+    public void removeDOMEL(String listenerId)
+    {
+        DOMStdEventListener listenerWrapper = getDOMListeners().removeByKey(listenerId);
+        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getView());
+        viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
+    }
 }

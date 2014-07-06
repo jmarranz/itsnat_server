@@ -44,7 +44,7 @@ public class WeakMapWithValue<Key,Value>
         return key;
     }
 
-    public Value get(Key key)
+    public Value getValueByKey(Key key)
     {
         cleanUnused();
 
@@ -53,6 +53,13 @@ public class WeakMapWithValue<Key,Value>
             return null;
 
         return weakValue.get(); // Puede ser null, significa que se ha perdido el Value, en el siguiente cleanUnused se normalizará
+    }
+
+    public Key getKeyByValue(Value value)
+    {
+        cleanUnused();
+
+        return mapByValue.get(value);
     }
 
     public Value put(Key key,Value value)
