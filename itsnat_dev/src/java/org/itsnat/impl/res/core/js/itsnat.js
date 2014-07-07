@@ -941,16 +941,25 @@ function EventStfulListener(itsNatDoc,eventType,commMode,timeout)
     }
 }
 
-function NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
+function NormalEventListener(itsNatDoc,eventType,commMode,timeout)
 {
     this.EventStfulListener = EventStfulListener;
     this.EventStfulListener(itsNatDoc,eventType,commMode,timeout);
+
+
+    this.createEventWrapper = null; // redefinir
+}
+
+function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
+{
+    this.NormalEventListener = NormalEventListener;
+    this.NormalEventListener(itsNatDoc,eventType,commMode,timeout);
 
     this.getCurrentTarget = getCurrentTarget;
     this.getCustomFunc = getCustomFunc;
     this.getId = getId;
 
-    this.EventStfulListener_genParamURL = this.genParamURL;
+    this.NormalEventListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
     this.createEventWrapper = null; // redefinir
     this.dispatchEvent = dispatchEvent;
@@ -967,30 +976,31 @@ function NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,com
 
     function genParamURL(evt)
     {
-        var url = this.EventStfulListener_genParamURL(evt);
+        var url = this.NormalEventListener_genParamURL(evt);
         url += "&itsnat_listener_id=" + this.getId();
         return url;
     }
-
+    
     function dispatchEvent(evt)
     {
         var evtWrapper = this.createEventWrapper(evt);
         var customFunc = this.getCustomFunc();
         if (customFunc != null) customFunc(evtWrapper);
         evtWrapper.sendEvent();
-    }
+    }    
+
 }
 
 function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,typeCode)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
 
     this.getType = getType;
     this.isUseCapture = isUseCapture;
     this.getTypeCode = getTypeCode;
     this.getEventUtil = getEventUtil;
-    this.NormalEventListener_genParamURL = this.genParamURL;
+    this.DOMEventListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
     this.createEventWrapper = createEventWrapper;
 
@@ -1007,7 +1017,7 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
 
     function genParamURL(evt)
     {
-        var url = this.NormalEventListener_genParamURL(evt);
+        var url = this.DOMEventListener_genParamURL(evt);
         url += "&itsnat_evt_type=" + this.type;
         url += this.evtUtil.genParamURL(evt.getNativeEvent(),this.itsNatDoc);
         return url;
@@ -1022,8 +1032,8 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
 
 function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,timeout)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"user",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"user",currentTarget,customFunc,id,commMode,timeout);
 
     this.getName = getName;
     this.createEventWrapper = createEventWrapper;
@@ -1037,8 +1047,8 @@ function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,t
 
 function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"timer",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"timer",currentTarget,customFunc,id,commMode,timeout);
 
     this.getHandle = getHandle;
     this.setHandle = setHandle;
@@ -1054,8 +1064,8 @@ function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeo
 
 function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"continue",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"continue",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1064,8 +1074,8 @@ function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,ti
 
 function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"asyncret",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"asyncret",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1074,8 +1084,8 @@ function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,t
 
 function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
 {
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,"cometret",null,null,id,commMode,timeout);
+    this.DOMEventListener = DOMEventListener;
+    this.DOMEventListener(itsNatDoc,"cometret",null,null,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 

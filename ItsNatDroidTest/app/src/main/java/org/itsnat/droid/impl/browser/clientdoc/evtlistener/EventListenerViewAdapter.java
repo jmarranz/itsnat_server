@@ -24,12 +24,16 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
     @Override
     public void onClick(View view)
     {
+        if (clickListener != null) clickListener.onClick(viewData.getView());
+
         dispatch("click",null);
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
+        if (touchListener != null) touchListener.onTouch(viewData.getView(), motionEvent);
+
         String type = "";
         int action = motionEvent.getAction();
         switch(action)
@@ -47,27 +51,20 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
 
         dispatch(type,motionEvent);
 
-        return false; // No lo tengo claro
+        return false; // No lo tengo claro si true o false
     }
 
     private void dispatch(String type,MotionEvent motionEvent)
     {
         // motionEvent puede ser null
-        if ("click".equals(type))
-        {
-            if (clickListener != null) clickListener.onClick(viewData.getView());
-        }
-        else if (type.startsWith("touch"))
-        {
-            if (touchListener != null) touchListener.onTouch(viewData.getView(), motionEvent);
-        }
 
         List<DOMStdEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
+        View view = viewData.getView();
         for(DOMStdEventListener listener : list)
         {
 System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
-            listener.dispatchEvent();
+            listener.dispatchEvent(view,motionEvent);
         }
     }
 
