@@ -49,7 +49,7 @@ public class TestAsyncServerTask extends TestBaseHTMLDocument implements EventLi
         itsNatDoc.addEventListener((EventTarget)buttonLock,"click", this, false, CommMode.XHR_SYNC);
 
         this.buttonNoLock = (HTMLButtonElement)doc.getElementById("asyncTaskNoLockTestId");
-        itsNatDoc.addEventListener((EventTarget)buttonLock,"click", this, false, CommMode.XHR_SYNC);
+        itsNatDoc.addEventListener((EventTarget)buttonNoLock,"click", this, false, CommMode.XHR_ASYNC_HOLD);
     }
 
     public void handleEvent(final Event evt)

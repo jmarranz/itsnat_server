@@ -1030,10 +1030,16 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
     }
 }
 
-function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,timeout)
+function DOMExtEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
 {
     this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"user",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
+}
+
+function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,timeout)
+{
+    this.DOMExtEventListener = DOMExtEventListener;
+    this.DOMExtEventListener(itsNatDoc,"user",currentTarget,customFunc,id,commMode,timeout);
 
     this.getName = getName;
     this.createEventWrapper = createEventWrapper;
@@ -1047,8 +1053,8 @@ function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,t
 
 function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"timer",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMExtEventListener = DOMExtEventListener;
+    this.DOMExtEventListener(itsNatDoc,"timer",currentTarget,customFunc,id,commMode,timeout);
 
     this.getHandle = getHandle;
     this.setHandle = setHandle;
@@ -1064,8 +1070,8 @@ function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeo
 
 function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"continue",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMExtEventListener = DOMExtEventListener;
+    this.DOMExtEventListener(itsNatDoc,"continue",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1074,8 +1080,8 @@ function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,ti
 
 function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"asyncret",currentTarget,customFunc,id,commMode,timeout);
+    this.DOMExtEventListener = DOMExtEventListener;
+    this.DOMExtEventListener(itsNatDoc,"asyncret",currentTarget,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1084,8 +1090,8 @@ function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,t
 
 function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"cometret",null,null,id,commMode,timeout);
+    this.DOMExtEventListener = DOMExtEventListener;
+    this.DOMExtEventListener(itsNatDoc,"cometret",null,null,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
