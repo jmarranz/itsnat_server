@@ -1,4 +1,5 @@
 
+
 * Seguir con el mapeo de tipos de eventos nativos (ej touch) con los web y hacer los setOnX
 
 * Cargar imágenes remótamente

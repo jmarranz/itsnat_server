@@ -11,4 +11,5 @@ public interface ItsNatView
     public String getXMLId();
 
     public void setOnClickListener(View.OnClickListener l);
+    public void setOnTouchListener(View.OnTouchListener l);
 }

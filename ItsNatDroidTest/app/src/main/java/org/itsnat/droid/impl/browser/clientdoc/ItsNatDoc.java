@@ -12,9 +12,12 @@ import org.itsnat.droid.Page;
  */
 public interface ItsNatDoc
 {
+    public void init(String sessionId,String sessionToken,String clientId);
+
     public Page getPage();
 
     public void alert(Object value);
+    public void toast(Object value,int duration);
     public void toast(Object value);
 
     public Node getNode(Object[] idObj);

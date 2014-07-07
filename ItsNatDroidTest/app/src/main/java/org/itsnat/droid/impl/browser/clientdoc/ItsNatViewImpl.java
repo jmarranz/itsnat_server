@@ -71,4 +71,9 @@ public class ItsNatViewImpl implements ItsNatView
     {
         getEventListenerViewAdapter().setOnClickListener(l);
     }
+
+    public void setOnTouchListener(View.OnTouchListener l)
+    {
+        getEventListenerViewAdapter().setOnTouchListener(l);
+    }
 }

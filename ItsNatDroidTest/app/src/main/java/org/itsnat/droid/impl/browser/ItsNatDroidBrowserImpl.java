@@ -87,14 +87,17 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return parent;
     }
 
-    public ItsNatSessionImpl getItsNatSession(String id)
+    public ItsNatSessionImpl getItsNatSession(String id,String sessionToken)
     {
         ItsNatSessionImpl session = sessionList.get(id);
-        if (session == null)
+        if (session == null || !session.getToken().equals(sessionToken))
         {
-            session = new ItsNatSessionImpl(this,id);
+            // Si el token ha cambiado es que se ha recargado el servidor, hay que tener en cuenta que los ids por ej del cliente
+            // están basados en un contador en memoria
+            session = new ItsNatSessionImpl(this,id,sessionToken);
             sessionList.put(id,session);
         }
+
         return session;
     }
 

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -37,10 +38,7 @@ public class ItsNatDocImpl implements ItsNatDoc
         this.page = page;
     }
 
-    public void init(String sessionId,String clientId)
-    {
-        page.setSessionIdAndClientId(sessionId, clientId);
-    }
+
 
     protected PageImpl getPageImpl()
     {
@@ -91,6 +89,12 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
+    public void init(String sessionId,String sessionToken,String clientId)
+    {
+        page.setSessionIdAndClientId(sessionId,sessionToken, clientId);
+    }
+
+    @Override
     public Page getPage()
     {
         // Es un método público que puede ser interesante para acceder a info de la página desde beanshell (por ej acceder al Context de la página desde fuera)
@@ -105,12 +109,17 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
-    public void toast(Object value)
+    public void toast(Object value,int duration)
     {
         String text = value != null ? value.toString() : "null";
-        Toast.makeText(getContext(),text, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),text, duration).show();
     }
 
+    @Override
+    public void toast(Object value)
+    {
+        toast(value,Toast.LENGTH_SHORT);
+    }
 
     @Override
     public void setAttribute(Node node,String name,String value)
@@ -463,7 +472,10 @@ public class ItsNatDocImpl implements ItsNatDoc
             // No sabemos si ha sido registrado ya antes el EventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
             view.setOnClickListener(evtListAdapter);
         }
-        // SEGUIR CON MAS TIPOS (touch)
+        else if (type.startsWith("touch"))
+        {
+            view.setOnTouchListener(evtListAdapter);
+        }
 
         return node;
     }

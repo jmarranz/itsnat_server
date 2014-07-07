@@ -8,6 +8,10 @@
         <servlet-name>AnyThingServlet</servlet-name>
         <servlet-class>test.AnyThingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ItsNatDroidServletExample</servlet-name>
+        <servlet-class>test.ItsNatDroidServletExample</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ItsNatServletExample</servlet-name>
         <url-pattern>/ItsNatServletExample</url-pattern>
@@ -19,6 +23,10 @@
     <servlet-mapping>
         <servlet-name>AnyThingServlet</servlet-name>
         <url-pattern>/AnyThingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItsNatDroidServletExample</servlet-name>
+        <url-pattern>/ItsNatDroidServletExample</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

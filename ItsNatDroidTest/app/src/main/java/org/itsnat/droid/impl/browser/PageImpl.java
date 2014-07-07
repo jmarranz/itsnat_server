@@ -80,10 +80,10 @@ public class PageImpl implements Page
         return content;
     }
 
-    public void setSessionIdAndClientId(String sessionId,String id)
+    public void setSessionIdAndClientId(String sessionId,String sessionToken,String id)
     {
         this.id = id;
-        this.itsNatSession = browser.getItsNatSession(sessionId);
+        this.itsNatSession = browser.getItsNatSession(sessionId,sessionToken);
         itsNatSession.registerPage(this);
     }
 

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.ItsNatDroidScriptException;
+import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnErrorListener;
 import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.Page;
@@ -102,7 +104,7 @@ public class MainActivity extends Activity {
     private void downloadLayoutRemote(final ItsNatDroidBrowser droidBrowser)
     {
         Toast.makeText(MainActivity.this, "DOWNLOADING", Toast.LENGTH_SHORT).show();
-        String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatServletExample?itsnat_doc_name=test_droid";
+        String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid";
 
         HttpParams httpParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
@@ -130,12 +132,22 @@ public class MainActivity extends Activity {
                 if (button3 == null) throw new RuntimeException("FAIL");
 
                 View frameLayoutViewInner = page.getInflatedLayout().findViewByXMLId("frameLayoutViewInner");
-                page.getItsNatView(frameLayoutViewInner).setOnClickListener(new View.OnClickListener()
+                ItsNatView frameLayoutViewInnerItsNat = page.getItsNatView(frameLayoutViewInner);
+                frameLayoutViewInnerItsNat.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View view)
                     {
                         Toast.makeText(MainActivity.this, "Click Native OK", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                frameLayoutViewInnerItsNat.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent)
+                    {
+                        Toast.makeText(MainActivity.this, "Touch Native OK " + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
+                        return false;
                     }
                 });
 

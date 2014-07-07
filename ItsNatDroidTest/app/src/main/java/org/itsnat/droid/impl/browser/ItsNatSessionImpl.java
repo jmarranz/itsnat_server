@@ -17,18 +17,25 @@ public class ItsNatSessionImpl implements ItsNatSession
 {
     protected ItsNatDroidBrowserImpl browser;
     protected String id;
+    protected String token;
     protected Map<String,PageImpl> pageMap = new HashMap<String, PageImpl>();
     protected List<Page> pageList = new LinkedList<Page>();
 
-    public ItsNatSessionImpl(ItsNatDroidBrowserImpl browser,String id)
+    public ItsNatSessionImpl(ItsNatDroidBrowserImpl browser,String id,String token)
     {
         this.browser = browser;
         this.id = id;
+        this.token = token;
     }
 
     public String getId()
     {
         return id;
+    }
+
+    public String getToken()
+    {
+        return token;
     }
 
     public int getPageCount()
