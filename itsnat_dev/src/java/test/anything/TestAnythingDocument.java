@@ -29,6 +29,7 @@ public class TestAnythingDocument implements EventListener,Serializable
         ((EventTarget)elem).addEventListener("click", this,false);
 
         this.logElem = itsNatDoc.getDocument().getElementById("logId");
+
     }
 
     public void handleEvent(Event evt)

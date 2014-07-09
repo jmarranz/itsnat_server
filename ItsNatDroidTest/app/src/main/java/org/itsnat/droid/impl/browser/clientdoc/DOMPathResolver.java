@@ -18,6 +18,12 @@ public class DOMPathResolver
         this.itsNatDoc = itsNatDoc;
     }
 
+    public View getRootView()
+    {
+        InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
+        return layout.getRootView();
+    }
+
     public Node getNodeFromPath(String pathStr,Node topParent)
     {
         String[] path = getArrayPathFromString(pathStr);
@@ -33,8 +39,7 @@ public class DOMPathResolver
 
     public Node getNodeFromArrayPath(String[] arrayPath,Node topParent)
     {
-        InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
-        View viewRoot = layout.getRootView();
+        View viewRoot = getRootView();
         if (arrayPath.length == 1)
         {
             String firstPos = arrayPath[0];
@@ -43,6 +48,7 @@ public class DOMPathResolver
             else if (firstPos.equals("doctype")) throw new ItsNatDroidException("Unexpected");
             else if (firstPos.indexOf("eid:") == 0)
             {
+                InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
                 String id = firstPos.substring("eid:".length());
                 View viewRes = layout.getElementById(id);
                 return NodeImpl.create(viewRes);
@@ -64,7 +70,7 @@ public class DOMPathResolver
 
     public Node getChildNodeFromStrPos(Node parentNode,String posStr)
     {
-        if (posStr.equals("de")) return NodeImpl.create(getViewRoot());
+        if (posStr.equals("de")) return NodeImpl.create(getRootView());
 
         int posBracket = posStr.indexOf('[');
         if (posBracket == -1)
@@ -90,10 +96,76 @@ public class DOMPathResolver
         return false;
     }
 
-    protected View getViewRoot()
+    public String getStringPathFromNode(Node node,Node topParent)
     {
-        InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutImpl();
-        return layout.getRootView();
+        if (node == null) return null;
+        String[] path = getNodePathArray(node,topParent);
+        if (path == null) return null;
+        return getStringPathFromArray(path);
     }
 
+    public int getNodeDeep(Node node,Node topParent)
+    {
+        int i = 0;
+        while(node.getView() != topParent.getView())
+        {
+            i++;
+            node = itsNatDoc.getParentNode(node);
+            if (node == null) return -1; // el nodo no esta bajo topParent
+        }
+        return i;
+    }
+
+    public String[] getNodePathArray(Node nodeLeaf,Node topParent)
+    {
+        if (nodeLeaf == null) return null;
+        if (topParent == null) topParent = NodeImpl.create(getRootView());
+
+        // No usamos el locById porque los atributos especiales itsnat deberían de desaparecer en el cliente, no es imprescindible y en stateless por aquí no pasamos
+
+        Node node = nodeLeaf;
+        int len = getNodeDeep(node,topParent);
+        if (len < 0) return null;
+        String[] path = new String[len];
+        for(int i = len - 1; i >= 0; i--)
+        {
+            String pos = getNodeChildPosition(node);
+            path[i] = pos;
+            node = itsNatDoc.getParentNode(node);
+        }
+        // path[len - 1] += this.getSuffix(nodeLeaf);
+        return path;
+    }
+
+    public String getNodeChildPosition(Node node)
+    {
+        if (node.getView() == getRootView()) return "de";
+        Node parentNode = itsNatDoc.getParentNode(node);
+        if (parentNode == null) throw new ItsNatDroidException("Unexpected error");
+
+        ViewGroup parentView = (ViewGroup)parentNode.getView();
+        View view = node.getView();
+        int size = parentView.getChildCount();
+        int pos = 0;
+        for(int i = 0; i < size; i++)
+        {
+            if (parentView.getChildAt(i) == view) return "" + pos;
+
+            pos++;
+        }
+
+        return "-1";
+    }
+
+    public String getStringPathFromArray(String[] path)
+    {
+        String code = "";
+        int len = path.length;
+        for(int i = 0; i < len; i++)
+        {
+            if (i != 0) code += ",";
+            code += path[i];
+        }
+        return code;
+    }
 }

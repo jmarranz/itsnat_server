@@ -1,5 +1,19 @@
 
 
+* Reducir los Nodes en DOMPathResolver
+
+* Reducir los +=
+
+* Continuar con los genParamURL comentados
+
+* Continuar con sendEventEffective
+
+* Revisar la necesidad de encodeURIComponent y ver si con el método de Java basta.
+
+* Hacer soporte de Touch events para Web y para Droid
+
+* Estudiar como compatibilizar el bubbling y capture con la propagación de eventos Android (recuerda el boolean de retorno de onTouch)
+
 * Seguir con el mapeo de tipos de eventos nativos (ej touch) con los web y hacer los setOnX
 
 * Cargar imágenes remótamente

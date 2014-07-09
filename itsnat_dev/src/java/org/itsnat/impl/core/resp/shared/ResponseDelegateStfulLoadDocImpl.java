@@ -118,6 +118,19 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     
     protected abstract void rewriteClientUIControlProperties();    
     
+    public String getServletPath()
+    {
+        ResponseLoadDocImpl parent = getResponseLoadDoc();
+        boolean useAbsoluteURL = false;
+        if (getClientDocumentStful().getBrowser().isNeededAbsoluteURL())
+            useAbsoluteURL = true;  // El browser lo pide
+        else if (getResponseLoadStfulDocumentValid().isNeededAbsoluteURL())
+            useAbsoluteURL = true;  // El tipo de proceso lo pide
+
+        ItsNatServletRequestImpl itsNatRequest = parent.getRequestLoadDoc().getItsNatServletRequest();
+        return itsNatRequest.getServletPath(useAbsoluteURL, true);
+    }        
+    
     public void processResponse()
     {
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();

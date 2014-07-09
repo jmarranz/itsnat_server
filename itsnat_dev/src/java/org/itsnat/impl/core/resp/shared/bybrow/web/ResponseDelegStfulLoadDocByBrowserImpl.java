@@ -57,6 +57,12 @@ public abstract class ResponseDelegStfulLoadDocByBrowserImpl
         return parent.getItsNatStfulDocument();
     }
 
+    public String getServletPathForEvents()
+    {
+        return parent.getServletPath();
+    }    
+        
+    
     public abstract String getOnInitScriptContentCodeFixDOMCode();
 
 }

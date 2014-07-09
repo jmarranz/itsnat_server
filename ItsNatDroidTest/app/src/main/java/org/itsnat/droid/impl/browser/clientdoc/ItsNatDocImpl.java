@@ -1,15 +1,17 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.itsnat.droid.Event;
+import org.itsnat.droid.EventMonitor;
+import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
@@ -20,18 +22,26 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Esta clase se accede via script beanshell y representa el "ClientDocument" en el lado Android simétrico a los objetos JavaScript en el modo web
  * Created by jmarranz on 9/06/14.
  */
-public class ItsNatDocImpl implements ItsNatDoc
+public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 {
     protected PageImpl page;
+    protected String servletPath;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolver(this);
     protected WeakMapWithValue<String,DOMStdEventListener> domListeners;
+    protected EventManager evtManager = new EventManager(this);
+    protected List<GlobalEventListener> globalEventListeners;
+    protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
+    protected boolean enableEvtMonitors = true;
+    protected List<EventMonitor> evtMonitorList;
 
     public ItsNatDocImpl(PageImpl page)
     {
@@ -39,10 +49,56 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
 
-
     protected PageImpl getPageImpl()
     {
         return page;
+    }
+
+    public EventManager getEventManager()
+    {
+        return evtManager;
+    }
+
+    public String getServletPath()
+    {
+        return servletPath;
+    }
+
+    public String genParamURL()
+    {
+        String url = "";
+        url += "itsnat_client_id=" + page.getId();
+        url += "&itsnat_session_token=" + page.getItsNatSessionImpl().getToken();
+        url += "&itsnat_session_id=" + page.getItsNatSessionImpl().getId();
+        return url;
+    }
+
+    public String getStringPathFromNode(Node node)
+    {
+        if (node == null) return null;
+
+        String nodeId = getNodeCacheId(node);
+        if (nodeId != null) return "id:" + nodeId; // es undefined si no esta cacheado (o null si se quito)
+        else
+        {
+            String parentId = null;
+            Node parentNode = node;
+            do
+            {
+                parentNode = getParentNode(parentNode);
+                parentId = getNodeCacheId(parentNode); // si parentNode es null devuelve null
+            }
+            while((parentId == null)&&(parentNode != null));
+
+            String path = pathResolver.getStringPathFromNode(node,parentNode); // Si parentNode es null (parentId es null) devuelve un path absoluto
+            if (parentNode != null) return "pid:" + parentId + ":" + path;
+            return path; // absoluto
+        }
+    }
+
+    public boolean isDisabledEvents()
+    {
+        return disabledEvents;
     }
 
     public WeakMapWithValue<String,DOMStdEventListener> getDOMListeners()
@@ -89,9 +145,10 @@ public class ItsNatDocImpl implements ItsNatDoc
     }
 
     @Override
-    public void init(String sessionId,String sessionToken,String clientId)
+    public void init(String sessionId,String sessionToken,String clientId,String servletPath)
     {
         page.setSessionIdAndClientId(sessionId,sessionToken, clientId);
+        this.servletPath = servletPath;
     }
 
     @Override
@@ -104,8 +161,14 @@ public class ItsNatDocImpl implements ItsNatDoc
     @Override
     public void alert(Object value)
     {
+        alert("Alert", value);
+    }
+
+    @Override
+    public void alert(String title,Object value)
+    {
         String text = value != null ? value.toString() : "null";
-        SimpleAlert.show(text,getContext());
+        SimpleAlert.show(title,text,getContext());
     }
 
     @Override
@@ -273,6 +336,13 @@ public class ItsNatDocImpl implements ItsNatDoc
         }
     }
 
+    private String getNodeCacheId(Node node)
+    {
+        View view = node.getView();
+        ItsNatViewImpl itsNatView = ItsNatViewImpl.getItsNatView(page,view);
+        return itsNatView.getNodeCacheId();
+    }
+
     private Node getNodeCached(String id) // No es público
     {
         if (id == null) return null;
@@ -283,6 +353,9 @@ public class ItsNatDocImpl implements ItsNatDoc
     {
         if (id == null) return; // si id es null cache desactivado
         nodeCacheById.put(id,node);
+        View view = node.getView();
+        ItsNatViewImpl itsNatView = ItsNatViewImpl.getItsNatView(page,view);
+        itsNatView.setNodeCacheId(id);
     }
 
     public Node getParentNode(Node parentNode)
@@ -415,6 +488,10 @@ public class ItsNatDocImpl implements ItsNatDoc
         {
             String id = idList[i];
             Node node = nodeCacheById.remove(id);
+            if (node == null) continue; // por si acaso, no debería ocurrir
+            View view = node.getView();
+            ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
+            viewData.setNodeCacheId(null);
         }
     }
 
@@ -462,7 +539,8 @@ public class ItsNatDocImpl implements ItsNatDoc
         Node node = getNode(idObj);
         View view = node.getView();
         ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
-        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
+        CustomFunction customFunction_PROVISIONAL = null;
+        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction_PROVISIONAL,listenerId,useCapture,commMode,timeout,typeCode);
         viewData.getEventListeners().add(type,listenerWrapper);
         getDOMListeners().put(listenerId,listenerWrapper);
 
@@ -486,4 +564,39 @@ public class ItsNatDocImpl implements ItsNatDoc
         ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getView());
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
+
+    public void addGlobalEL(GlobalEventListener listener)
+    {
+        if (globalEventListeners == null) this.globalEventListeners = new LinkedList<GlobalEventListener>();
+        globalEventListeners.add(listener);
+    }
+
+    public void removeGlobalEL(GlobalEventListener listener) { globalEventListeners.remove(listener); }
+
+    public void setEnableEventMonitors(boolean value) { this.enableEvtMonitors = value; }
+
+    public void addEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
+        evtMonitorList.add(monitor);
+    }
+
+    public boolean removeEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) return false;
+        return evtMonitorList.remove(monitor);
+    }
+
+    public void fireEventMonitors(boolean before,boolean timeout,Event evt)
+    {
+        if (!this.enableEvtMonitors) return;
+
+        for(EventMonitor curr : evtMonitorList)
+        {
+            if (before) curr.before(evt);
+            else curr.after(evt,timeout);
+        }
+    }
+
+
 }

@@ -4,7 +4,6 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
@@ -22,6 +21,7 @@ public class ItsNatViewImpl implements ItsNatView
     protected View view;
     protected MapList<String,DOMStdEventListener> eventListeners;
     protected EventListenerViewAdapter evtListenerViewAdapter;
+    protected String nodeCacheId;
 
     public ItsNatViewImpl(PageImpl page,View view)
     {
@@ -75,5 +75,15 @@ public class ItsNatViewImpl implements ItsNatView
     public void setOnTouchListener(View.OnTouchListener l)
     {
         getEventListenerViewAdapter().setOnTouchListener(l);
+    }
+
+    public String getNodeCacheId()
+    {
+        return nodeCacheId;
+    }
+
+    public void setNodeCacheId(String nodeCacheId)
+    {
+        this.nodeCacheId = nodeCacheId;
     }
 }

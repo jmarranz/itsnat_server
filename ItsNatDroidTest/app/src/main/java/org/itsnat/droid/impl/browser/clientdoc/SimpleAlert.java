@@ -13,11 +13,6 @@ import org.itsnat.itsnatdroidtest.R;
  */
 public class SimpleAlert
 {
-    public static void show(String text,Context ctx)
-    {
-        show("Alert",text,ctx);
-    }
-
     public static void show(String title,String text,Context ctx)
     {
         new AlertDialog.Builder(ctx).setTitle(title).setMessage(text).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()

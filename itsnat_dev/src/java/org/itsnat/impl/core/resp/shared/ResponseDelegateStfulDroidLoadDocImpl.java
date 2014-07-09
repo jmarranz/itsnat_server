@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.resp.shared;
 
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
@@ -58,7 +59,8 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         String sessionId = session.getStandardSessionId();  
         String token = session.getToken();        
         String clientId =  getClientDocumentStful().getId();
-        return "itsNatDoc.init(\"" + sessionId + "\",\"" + token + "\",\"" + clientId + "\");"; // HACER
+        String servletPath = delegByBrowser.getServletPathForEvents();        
+        return "itsNatDoc.init(\"" + sessionId + "\",\"" + token + "\",\"" + clientId + "\",\"" + servletPath + "\");"; // HACER
     }
     
     @Override

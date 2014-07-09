@@ -265,18 +265,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         return script;
     }    
     
-    public String getServletPath()
-    {
-        ResponseLoadDocImpl parent = getResponseLoadDoc();
-        boolean useAbsoluteURL = false;
-        if (getClientDocumentStful().getBrowser().isNeededAbsoluteURL())
-            useAbsoluteURL = true;  // El browser lo pide
-        else if (getResponseLoadStfulDocumentValid().isNeededAbsoluteURL())
-            useAbsoluteURL = true;  // El tipo de proceso lo pide
 
-        ItsNatServletRequestImpl itsNatRequest = parent.getRequestLoadDoc().getItsNatServletRequest();
-        return itsNatRequest.getServletPath(useAbsoluteURL, true);
-    }    
     
     protected void rewriteClientUIControlProperties()
     {
@@ -440,7 +429,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         String token = itsNatSession.getToken();
         String sessionId = itsNatSession.getId();
         String clientId = clientDoc.getId();
-        String servletPath = getResponseDelegStfulLoadDocByWebBrowser().getServletPathForEvents();
+        String servletPath = delegByBrowser.getServletPathForEvents();
 
         int errorMode = itsNatDoc.getClientErrorMode();
         StringBuilder code = new StringBuilder();

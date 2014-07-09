@@ -529,7 +529,7 @@ function EventMgr(itsNatDoc)
         if (this.itsNatDoc.disabledEvents) return; // pudo ser definido desde el servidor en el anterior evento
 
         var globalListeners = this.itsNatDoc.globalEventListeners;
-        if (!globalListeners.isEmpty())
+        if (globalListeners != null && !globalListeners.isEmpty())
         {
             var array = globalListeners.getArrayCopy(); // asi permitimos que se añadan mientras se procesan
             var len = array.length;
@@ -703,6 +703,7 @@ function DOMEvent(listener)
 
     this.NormalEvent_super_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
+    
     function genParamURL()
     {
         var url = this.NormalEvent_super_genParamURL();
@@ -1232,9 +1233,9 @@ function Document()
         this.timerListeners = new Map(useDelete);
         this.userListenersById = new Map(useDelete);
         this.userListenersByName = new Map(useDelete); // listeners sin nodo asociado
-        this.evtMonitors = new List();
+        this.evtMonitorList = new List();
         this.enableEvtMonitors = true;
-        this.globalEventListeners = new List();
+        this.globalEventListeners = null;
 
         if (numScripts > 0)
         {
@@ -1506,7 +1507,7 @@ function Document()
 
             var path = this.pathResolver.getStringPathFromNode(node,parentNode); // Si parentNode es null (parentId es null) devuelve un path absoluto
             if (parentNode != null) return "pid:" + parentId + ":" + path;
-            else return path; // absoluto
+            return path; // absoluto
         }
     }
 
@@ -1850,28 +1851,28 @@ function Document()
         this.setInnerXML(parentNode,value);
     }
 
-    function addEventMonitor(monitor) { this.evtMonitors.addLast(monitor); }
+    function addEventMonitor(monitor) { this.evtMonitorList.addLast(monitor); }
 
     function removeEventMonitor(monitor)
     {
         var index = -1;
-        for(var i = 0; i < this.evtMonitors.size(); i++)
+        for(var i = 0; i < this.evtMonitorList.size(); i++)
         {
-            var curr = this.evtMonitors.get(i);
+            var curr = this.evtMonitorList.get(i);
             if (curr == monitor)
                 index = i;
         }
         if (index == -1) return;
-        this.evtMonitors.array.splice(index,1);
+        this.evtMonitorList.array.splice(index,1);
     }
 
     function fireEventMonitors(before,timeout,evt)
     {
         if (!this.enableEvtMonitors) return;
 
-        for(var i = 0; i < this.evtMonitors.size(); i++)
+        for(var i = 0; i < this.evtMonitorList.size(); i++)
         {
-            var curr = this.evtMonitors.get(i);
+            var curr = this.evtMonitorList.get(i);
             if (before) curr.before(evt);
             else curr.after(evt,timeout);
         }
@@ -1885,7 +1886,11 @@ function Document()
         return this.dispatchEvent(node,type,evt);
     }
 
-    function addGlobalEL(listener) { this.globalEventListeners.add(listener); }
+    function addGlobalEL(listener) 
+    { 
+        if (this.globalEventListeners == null) this.globalEventListeners = new List();
+        this.globalEventListeners.add(listener); 
+    }
 
     function removeGlobalEL(listener) { this.globalEventListeners.remove(listener); }
 

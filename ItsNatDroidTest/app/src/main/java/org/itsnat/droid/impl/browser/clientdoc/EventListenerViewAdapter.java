@@ -1,9 +1,10 @@
-package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
+package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.MotionEvent;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 
 import java.util.List;
 

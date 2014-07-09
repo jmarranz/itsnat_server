@@ -46,11 +46,7 @@ public abstract class ResponseDelegStfulLoadDocByWebBrowserImpl extends Response
         return (ResponseDelegateStfulWebLoadDocImpl)parent;
     }
     
-    public String getServletPathForEvents()
-    {
-        return getResponseDelegateStfulWebLoadDoc().getServletPath();
-    }    
-    
+
     public boolean getRevertJSChanges()
     {
         // Revertir cambios hechos a través de JavaScript y que el navegador ha podido memorizar para el autofill, por ejemplo la etiqueta de un botón que cambia

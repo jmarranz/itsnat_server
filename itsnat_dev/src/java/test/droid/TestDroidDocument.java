@@ -105,12 +105,12 @@ public class TestDroidDocument implements EventListener,Serializable
         // Test event listener
         frameLayoutViewInner.setAttribute("id", "frameLayoutViewInner"); 
         ((EventTarget)frameLayoutViewInner).addEventListener("click", this,false);
-        ((EventTarget)frameLayoutViewInner).addEventListener("touchstart", this,false);        
+        ((EventTarget)frameLayoutViewInner).addEventListener("mousedown", this,false);        
         
         if (false)
         {
         ((EventTarget)frameLayoutViewInner).removeEventListener("click", this,false);            
-        ((EventTarget)frameLayoutViewInner).removeEventListener("touchstart", this,false);        
+        ((EventTarget)frameLayoutViewInner).removeEventListener("mousedown", this,false);        
         }
     }
 

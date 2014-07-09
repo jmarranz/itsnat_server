@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
@@ -92,6 +93,11 @@ public class PageImpl implements Page
         return itsNatSession;
     }
 
+    public ItsNatSessionImpl getItsNatSessionImpl()
+    {
+        return itsNatSession;
+    }
+
     public String getId()
     {
         return id;
@@ -112,6 +118,11 @@ public class PageImpl implements Page
     {
         if (userData == null) this.userData = new UserDataImpl();
         return userData;
+    }
+
+    public ItsNatDoc getItsNatDoc()
+    {
+        return itsNatDoc;
     }
 
     public void dispose()

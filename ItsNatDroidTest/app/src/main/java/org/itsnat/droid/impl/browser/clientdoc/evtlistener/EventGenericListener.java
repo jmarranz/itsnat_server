@@ -1,6 +1,10 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.util.IOUtil;
+
+import java.util.Map;
 
 /**
  * Created by jmarranz on 6/07/14.
@@ -18,5 +22,47 @@ public abstract class EventGenericListener
         this.action = action;
         this.commMode = commMode;
         this.timeout = timeout;
+    }
+
+    public ItsNatDocImpl getItsNatDocImpl()
+    {
+        return parent;
+    }
+
+    public String getAction()
+    {
+        return action;
+    }
+
+    public int getCommMode()
+    {
+        return commMode;
+    }
+
+    public long getTimeout()
+    {
+        return timeout;
+    }
+
+    public String genParamURL(EventGeneric evt)
+    {
+        String url = "&itsnat_action=" + this.action;
+        Map<String,Object> params = evt.getExtraParams();
+        if (params != null)
+        {
+            for (Map.Entry<String,Object> entry : params.entrySet())
+            {
+                String name = entry.getKey();
+                Object value = entry.getValue();
+                if (value != null && value instanceof Object[]) // Aunque sea String[] es válido el instanceof pues Object[] es la "clase base"
+                {
+                    Object[] valueArr = (Object[])value;
+                    for (int i = 0; i < valueArr.length; i++)
+                        url += "&" + name + "=" + IOUtil.encodeURIComponent((String)valueArr[i]);
+                }
+                else url += "&" + name + "=" + IOUtil.encodeURIComponent((String)value);
+            }
+        }
+        return url;
     }
 }

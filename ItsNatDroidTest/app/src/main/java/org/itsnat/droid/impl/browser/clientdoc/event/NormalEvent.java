@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 
 /**
@@ -13,3 +14,4 @@ public class NormalEvent extends EventStful
         super(listener);
     }
 }
+

@@ -8,8 +8,18 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
  */
 public abstract class DOMEvent extends NormalEvent
 {
+    protected long timeStamp;
+
     public DOMEvent(DOMEventListener listener)
     {
         super(listener);
+        this.timeStamp = System.currentTimeMillis();
+    }
+
+    public String genParamURL()
+    {
+        String url = super.genParamURL();
+        url += "&itsnat_evt_timeStamp=" + timeStamp; // En vez del problematico Event.timeStamp
+        return url;
     }
 }

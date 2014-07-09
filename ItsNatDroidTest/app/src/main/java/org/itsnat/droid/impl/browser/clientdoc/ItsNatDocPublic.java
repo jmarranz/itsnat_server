@@ -1,24 +1,17 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
-import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.Page;
 
 /**
- * Métodos visibles desde BeanShell
+ * Métodos llamados por el servidor pero ninguno público para el usuario
  *
- * Created by jmarranz on 12/06/14.
+ * Created by jmarranz on 8/07/14.
  */
-public interface ItsNatDoc
+public interface ItsNatDocPublic
 {
-    public void init(String sessionId,String sessionToken,String clientId);
-
-    public Page getPage();
-
-    public void alert(Object value);
-    public void toast(Object value,int duration);
-    public void toast(Object value);
+    public void init(String sessionId,String sessionToken,String clientId,String servletPath);
 
     public Node getNode(Object[] idObj);
     public View getView(Object[] idObj);
@@ -56,4 +49,7 @@ public interface ItsNatDoc
 
     public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
     public void removeDOMEL(String listenerId);
+
+    public void addGlobalEL(GlobalEventListener listener);
+    public void removeGlobalEL(GlobalEventListener listener);
 }

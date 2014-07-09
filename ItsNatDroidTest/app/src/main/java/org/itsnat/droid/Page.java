@@ -18,5 +18,6 @@ public interface Page
     public ItsNatSession getItsNatSession();
     public ItsNatView getItsNatView(View view);
     public UserData getUserData();
+    public ItsNatDoc getItsNatDoc();
     public void dispose();
 }
