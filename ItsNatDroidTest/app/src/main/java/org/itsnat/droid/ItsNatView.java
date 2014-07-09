@@ -12,4 +12,5 @@ public interface ItsNatView
 
     public void setOnClickListener(View.OnClickListener l);
     public void setOnTouchListener(View.OnTouchListener l);
+    public void setOnKeyListener(View.OnKeyListener l);
 }

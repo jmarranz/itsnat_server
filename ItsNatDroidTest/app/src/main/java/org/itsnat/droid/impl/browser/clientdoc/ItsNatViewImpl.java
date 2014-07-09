@@ -77,6 +77,11 @@ public class ItsNatViewImpl implements ItsNatView
         getEventListenerViewAdapter().setOnTouchListener(l);
     }
 
+    public void setOnKeyListener(View.OnKeyListener l)
+    {
+        getEventListenerViewAdapter().setOnKeyListener(l);
+    }
+
     public String getNodeCacheId()
     {
         return nodeCacheId;

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.view.InputEvent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -11,11 +13,12 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class EventListenerViewAdapter implements View.OnClickListener,View.OnTouchListener
+public class EventListenerViewAdapter implements View.OnClickListener,View.OnTouchListener,View.OnKeyListener
 {
     protected ItsNatViewImpl viewData;
     protected View.OnClickListener clickListener;
     protected View.OnTouchListener touchListener;
+    protected View.OnKeyListener keyboardListener;
 
     public EventListenerViewAdapter(ItsNatViewImpl viewData)
     {
@@ -40,14 +43,19 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
         switch(action)
         {
             case MotionEvent.ACTION_DOWN:
-                type = "touchstart";
+                type = "mousedown";
                 break;
             case MotionEvent.ACTION_UP:
-                type = "touchend";
+                type = "mouseup";
                 break;
+            case MotionEvent.ACTION_MOVE:
+                type = "mousemove";
+                break;
+            /*
             case MotionEvent.ACTION_CANCEL:
-                type = "touchcancel";
+                type = "";
                 break;
+                */
         }
 
         dispatch(type,motionEvent);
@@ -55,9 +63,32 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
         return false; // No lo tengo claro si true o false
     }
 
-    private void dispatch(String type,MotionEvent motionEvent)
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent)
     {
-        // motionEvent puede ser null
+        if (keyboardListener != null) keyboardListener.onKey(viewData.getView(), i, keyEvent);
+
+        String type = "";
+        int action = keyEvent.getAction();
+        switch(action)
+        {
+            case KeyEvent.ACTION_DOWN:
+                type = "keydown";
+                break;
+            case KeyEvent.ACTION_UP:
+                type = "keyup";
+                break;
+            // keypress ??
+        }
+
+        dispatch(type,keyEvent);
+
+        return false; // No lo tengo claro si true o false
+    }
+
+    private void dispatch(String type,InputEvent nativeEvt)
+    {
+        // nativeEvt puede ser null
 
         List<DOMStdEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
@@ -65,7 +96,7 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
         for(DOMStdEventListener listener : list)
         {
 System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
-            listener.dispatchEvent(view,motionEvent);
+            listener.dispatchEvent(view,nativeEvt);
         }
     }
 
@@ -77,5 +108,10 @@ System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
     public void setOnTouchListener(View.OnTouchListener touchListener)
     {
         this.touchListener = touchListener;
+    }
+
+    public void setOnKeyListener(View.OnKeyListener keyboardListener)
+    {
+        this.keyboardListener = keyboardListener;
     }
 }

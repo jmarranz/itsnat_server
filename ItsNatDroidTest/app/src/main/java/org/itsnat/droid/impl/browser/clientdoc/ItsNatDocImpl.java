@@ -9,7 +9,6 @@ import org.itsnat.droid.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
@@ -35,7 +34,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected PageImpl page;
     protected String servletPath;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
-    protected DOMPathResolver pathResolver = new DOMPathResolver(this);
+    protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected WeakMapWithValue<String,DOMStdEventListener> domListeners;
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
@@ -358,9 +357,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         itsNatView.setNodeCacheId(id);
     }
 
-    public Node getParentNode(Node parentNode)
+    public Node getParentNode(Node node)
     {
-        return NodeImpl.create((View) parentNode.getView().getParent());
+        return NodeImpl.create((View) node.getView().getParent());
     }
 
     @Override
@@ -458,8 +457,15 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         if (child == null) return; // Raro
 
-        ViewGroup parentView = (ViewGroup)getParentNode(child).getView();
-        parentView.removeView(child.getView());
+        removeChild(child.getView());
+    }
+
+    private void removeChild(View child)
+    {
+        if (child == null) return; // Raro
+
+        ViewGroup parentView = (ViewGroup)child.getParent();
+        parentView.removeView(child);
     }
 
     @Override
@@ -495,11 +501,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
-    private Node getChildNode(int i,Node parentNode)
+    private View getChildNode(int i,Node parentNode)
     {
         View parentView = parentNode.getView();
         if (parentView instanceof ViewGroup)
-            return NodeImpl.create(((ViewGroup)parentView).getChildAt(i));
+            return ((ViewGroup)parentView).getChildAt(i);
         return null;
     }
 
@@ -515,7 +521,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         while(getLenChildNodes(parentNode) > 0)
         {
-            Node child = getChildNode(0,parentNode);
+            View child = getChildNode(0,parentNode);
             removeChild(child);
         }
     }
@@ -550,9 +556,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             // No sabemos si ha sido registrado ya antes el EventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
             view.setOnClickListener(evtListAdapter);
         }
-        else if (type.startsWith("touch"))
+        else if (type.startsWith("mouse"))
         {
             view.setOnTouchListener(evtListAdapter);
+        }
+        else if (type.startsWith("key"))
+        {
+            view.setOnKeyListener(evtListAdapter);
         }
 
         return node;

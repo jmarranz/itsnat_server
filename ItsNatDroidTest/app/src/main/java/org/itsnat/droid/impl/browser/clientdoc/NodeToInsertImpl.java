@@ -22,6 +22,11 @@ public class NodeToInsertImpl extends NodeImpl
         // view es null inicialmente
     }
 
+    public void setView(View view)
+    {
+        this.view = view;
+    }
+
     public boolean hasAttributes()
     {
         return (attribs != null && !attribs.isEmpty());

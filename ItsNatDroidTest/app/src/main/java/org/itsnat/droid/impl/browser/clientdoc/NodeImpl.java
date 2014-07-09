@@ -24,14 +24,16 @@ public class NodeImpl implements Node
         return new NodeImpl(view);
     }
 
+    public static View getView(Node node)
+    {
+        if (node == null) return null;
+        return ((NodeImpl)node).getView(); // En el caso de NodeToInsertImpl podría ser null, pero será raro
+    }
+
     public View getView()
     {
         return view;
     }
 
-    public void setView(View view)
-    {
-        this.view = view;
-    }
 
 }
