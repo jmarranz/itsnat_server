@@ -1,7 +1,4 @@
 
-
-* Reducir los Nodes en DOMPathResolver
-
 * Reducir los +=
 
 * Continuar con los genParamURL comentados

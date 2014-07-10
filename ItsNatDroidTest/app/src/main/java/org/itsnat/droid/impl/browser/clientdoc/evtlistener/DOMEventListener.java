@@ -42,10 +42,10 @@ public abstract class DOMEventListener extends NormalEventListener
         evtWrapper.sendEvent();
     }
 
-    public String genParamURL(EventGeneric evt)
+    public StringBuilder genParamURL(EventGeneric evt)
     {
-        String url = super.genParamURL(evt);
-        url += "&itsnat_listener_id=" + getId();
+        StringBuilder url = super.genParamURL(evt);
+        url.append( "&itsnat_listener_id=" + getId() );
         return url;
     }
 }

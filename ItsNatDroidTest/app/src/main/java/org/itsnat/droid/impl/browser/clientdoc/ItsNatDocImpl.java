@@ -63,12 +63,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return servletPath;
     }
 
-    public String genParamURL()
+    public StringBuilder genParamURL()
     {
-        String url = "";
-        url += "itsnat_client_id=" + page.getId();
-        url += "&itsnat_session_token=" + page.getItsNatSessionImpl().getToken();
-        url += "&itsnat_session_id=" + page.getItsNatSessionImpl().getId();
+        StringBuilder url = new StringBuilder();
+        url.append( "itsnat_client_id=" + page.getId() );
+        url.append( "&itsnat_session_token=" + page.getItsNatSessionImpl().getToken() );
+        url.append( "&itsnat_session_id=" + page.getItsNatSessionImpl().getId() );
         return url;
     }
 

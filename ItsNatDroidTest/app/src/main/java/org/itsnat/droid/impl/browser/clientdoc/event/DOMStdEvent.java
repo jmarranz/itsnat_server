@@ -24,22 +24,12 @@ public abstract class DOMStdEvent extends DOMEvent
     public void saveEvent()
     {
         // Para evitar el problema de acceder en modo ASYNC_HOLD al evento original tras haberse encolado y terminado el proceso del evento por el navegador (da error en MSIE y otros)
-        this.parcel = Parcel.obtain();
+        if (evtNative == null) return;
+
+        Parcel parcel = Parcel.obtain();
         evtNative.writeToParcel(parcel, 0);
-
-        /*
-        var evtUtil = this.getListenerWrapper().getEventUtil();
-        var evtN = this.evt;
-        this.evt = new Object();
-        evtUtil.backupEvent(evtN,this.evt);
-        */
-    }
-
-    public InputEvent loadEvent()
-    {
-        InputEvent evt = InputEvent.CREATOR.createFromParcel(parcel);
+        this.evtNative = InputEvent.CREATOR.createFromParcel(parcel);
         parcel.recycle();
-        this.parcel = null;
-        return evt;
     }
+
 }

@@ -59,11 +59,12 @@ public abstract class EventGeneric implements Event
         extraParams.put(name,value);
     }
 
-    public String genParamURL()
+    public StringBuilder genParamURL()
     {
-        String url = "";
-        url += listener.getItsNatDocImpl().genParamURL();
-        url += listener.genParamURL(this);
+        StringBuilder url = new StringBuilder();
+        url.append(  listener.getItsNatDocImpl().genParamURL() );
+        url.append(  listener.genParamURL(this) );
         return url;
     }
+
 }

@@ -54,14 +54,11 @@ public class DOMStdEventListener extends DOMEventListener
         }
     }
 
-    public String genParamURL(EventGeneric evt)
+    public StringBuilder genParamURL(EventGeneric evt)
     {
-        String url = super.genParamURL(evt);
-        url += "&itsnat_evt_type=" + this.type;
-        url += evt.genParamURL();
+        StringBuilder url = super.genParamURL(evt);
+        url.append( "&itsnat_evt_type=" + this.type );
+        url.append( evt.genParamURL() );
         return url;
     }
-
-
-
 }

@@ -1,7 +1,9 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
 import android.view.InputEvent;
+import android.view.View;
 
+import org.itsnat.droid.impl.browser.clientdoc.NodeImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 
 /**
@@ -14,16 +16,15 @@ public abstract class W3CEvent extends DOMStdEvent
         super(listener,evtNative);
     }
 
-    /*
-    public String genParamURL()
+    public StringBuilder genParamURL()
     {
-        String url = "";
-        url += "&itsnat_evt_target=" + listener.getItsNatDocImpl().getStringPathFromNode(evt.target);
-        url += "&itsnat_evt_eventPhase=" + 2 ;  // evt.eventPhase;   Event.AT_TARGET = 2
-        url += "&itsnat_evt_bubbles=" + false; //evt.bubbles;
-        url += "&itsnat_evt_cancelable=" + true; // evt.cancelable;
+        View view = getView();
+
+        StringBuilder url = new StringBuilder();
+        url.append( "&itsnat_evt_target=" + listener.getItsNatDocImpl().getStringPathFromNode(NodeImpl.create(view)) );  // evt.target
+        url.append( "&itsnat_evt_eventPhase=" + 2 );  // evt.eventPhase;   Event.AT_TARGET = 2
+        url.append( "&itsnat_evt_bubbles=" + false ); //evt.bubbles;
+        url.append( "&itsnat_evt_cancelable=" + true ); // evt.cancelable;
         return url;
     }
-    */
-
 }

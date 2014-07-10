@@ -44,9 +44,11 @@ public abstract class EventGenericListener
         return timeout;
     }
 
-    public String genParamURL(EventGeneric evt)
+    public StringBuilder genParamURL(EventGeneric evt)
     {
-        String url = "&itsnat_action=" + this.action;
+        StringBuilder url = new StringBuilder();
+        url.append( "&itsnat_action=" + this.action );
+
         Map<String,Object> params = evt.getExtraParams();
         if (params != null)
         {
@@ -58,9 +60,9 @@ public abstract class EventGenericListener
                 {
                     Object[] valueArr = (Object[])value;
                     for (int i = 0; i < valueArr.length; i++)
-                        url += "&" + name + "=" + IOUtil.encodeURIComponent((String)valueArr[i]);
+                        url.append( "&" + name + "=" + IOUtil.encodeURIComponent((String)valueArr[i]) );
                 }
-                else url += "&" + name + "=" + IOUtil.encodeURIComponent((String)value);
+                else url.append( "&" + name + "=" + IOUtil.encodeURIComponent((String)value) );
             }
         }
         return url;

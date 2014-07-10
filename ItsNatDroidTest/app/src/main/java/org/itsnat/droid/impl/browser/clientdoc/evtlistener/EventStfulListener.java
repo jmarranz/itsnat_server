@@ -22,10 +22,10 @@ public abstract class EventStfulListener extends EventGenericListener
         return eventType;
     }
 
-    public String genParamURL(EventGeneric evt)
+    public StringBuilder genParamURL(EventGeneric evt)
     {
-        String url = super.genParamURL(evt);
-        url += "&itsnat_eventType=" + getEventType();
+        StringBuilder url = super.genParamURL(evt);
+        url.append( "&itsnat_eventType=" + getEventType() );
         return url;
     }
 }

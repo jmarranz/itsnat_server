@@ -15,25 +15,29 @@ public class W3CMouseEvent extends W3CEvent
         super(listener,evtNative);
     }
 
-    /*
-    public String genParamURL()
+    public MotionEvent getMotionEvent()
     {
-        String url = super.genParamURL();
-
-        url += "&itsnat_evt_screenX=" + evt.screenX;
-        url += "&itsnat_evt_screenY=" + evt.screenY;
-        url += "&itsnat_evt_clientX=" + evt.clientX;
-        url += "&itsnat_evt_clientY=" + evt.clientY;
-        url += "&itsnat_evt_ctrlKey=" + evt.ctrlKey;
-        url += "&itsnat_evt_metaKey=" + evt.metaKey;
-        url += "&itsnat_evt_shiftKey=" + evt.shiftKey;
-        url += "&itsnat_evt_altKey=" + evt.altKey;
-        url += "&itsnat_evt_button=" + evt.button;
-
-        url += "&itsnat_evt_relatedTarget=" + itsNatDoc.getStringPathFromNode(evt.relatedTarget);
-        return url;
+        return (MotionEvent)evtNative;
     }
 
-    */
+    public StringBuilder genParamURL()
+    {
+        StringBuilder url = super.genParamURL();
+
+        MotionEvent evt = getMotionEvent();
+
+        url.append( "&itsnat_evt_screenX=" + evt.getRawX() ); // evt.screenX;
+        url.append( "&itsnat_evt_screenY=" + evt.getRawY() ); // evt.screenY;
+        url.append( "&itsnat_evt_clientX=" + evt.getX() ); // evt.clientX;
+        url.append( "&itsnat_evt_clientY=" + evt.getY() ); // evt.clientY;
+        url.append( "&itsnat_evt_ctrlKey=" + false ); // evt.ctrlKey;
+        url.append( "&itsnat_evt_metaKey=" + false ); // evt.metaKey;
+        url.append( "&itsnat_evt_shiftKey=" + false ); // evt.shiftKey;
+        url.append( "&itsnat_evt_altKey=" + false ); // evt.altKey;
+        url.append( "&itsnat_evt_button=" + 0 ); // evt.button;
+
+        url.append( "&itsnat_evt_relatedTarget=" + null ); // listener.getItsNatDocImpl().getStringPathFromNode(evt.relatedTarget);
+        return url;
+    }
 
 }

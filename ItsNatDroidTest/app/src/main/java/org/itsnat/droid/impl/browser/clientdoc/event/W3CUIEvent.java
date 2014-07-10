@@ -15,5 +15,10 @@ public abstract class W3CUIEvent extends W3CEvent
         super(listener,evtNative);
     }
 
-
+    public StringBuilder genParamURL()
+    {
+        StringBuilder url = super.genParamURL();
+        url.append( "&itsnat_evt_detail=" + 1 ); // evt.detail;  por poner algo
+        return url;
+    }
 }

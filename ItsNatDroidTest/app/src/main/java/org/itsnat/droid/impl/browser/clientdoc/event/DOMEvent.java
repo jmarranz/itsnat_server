@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
+import android.view.View;
+
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
 
@@ -16,10 +18,20 @@ public abstract class DOMEvent extends NormalEvent
         this.timeStamp = System.currentTimeMillis();
     }
 
-    public String genParamURL()
+    public DOMEventListener getDOMEventListener()
     {
-        String url = super.genParamURL();
-        url += "&itsnat_evt_timeStamp=" + timeStamp; // En vez del problematico Event.timeStamp
+        return (DOMEventListener)listener;
+    }
+
+    public View getView()
+    {
+        return getDOMEventListener().getView();
+    }
+
+    public StringBuilder genParamURL()
+    {
+        StringBuilder url = super.genParamURL();
+        url.append( "&itsnat_evt_timeStamp=" + timeStamp ); // En vez del problematico Event.timeStamp
         return url;
     }
 }

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.os.SystemClock;
 import android.view.InputEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -30,7 +31,9 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
     {
         if (clickListener != null) clickListener.onClick(viewData.getView());
 
-        dispatch("click",null);
+        MotionEvent motionEvent = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,0,0,0);
+
+        dispatch("click",motionEvent);
     }
 
     @Override

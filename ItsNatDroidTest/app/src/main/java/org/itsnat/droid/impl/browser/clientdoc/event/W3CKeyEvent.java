@@ -15,11 +15,26 @@ public class W3CKeyEvent extends W3CUIEvent
         super(listener,evtNative);
     }
 
-    /*
-    function genParamURL()
+    public KeyEvent getKeyEvent()
     {
-        var url = this.W3CKeyEventUtil_super_genParamURL(evt,itsNatDoc);
+        return (KeyEvent)evtNative;
+    }
 
+    public StringBuilder genParamURL()
+    {
+        StringBuilder url = super.genParamURL();
+
+        KeyEvent evt = getKeyEvent();
+
+        boolean altKey = evt.isAltPressed();
+        boolean ctrlKey = evt.isCtrlPressed();
+        boolean metaKey = evt.isMetaPressed();
+        boolean shiftKey = evt.isShiftPressed();
+
+        int keyCode = evt.getKeyCode();
+        int charCode = evt.getUnicodeChar();
+
+        /*
         var charCode = 0;
         if (evt.type == "keypress")
         {
@@ -27,19 +42,23 @@ public class W3CKeyEvent extends W3CUIEvent
             if (typeof charCode == "undefined") charCode = 0; // Opera y BlackBerryOld no tienen
             if ((charCode == 0) && evt.itsnat_charCode) charCode = evt.itsnat_charCode; // WebKit y BlackBerryOld
         }
-        url += "&itsnat_evt_charCode=" + charCode;
+        */
 
+        url.append( "&itsnat_evt_charCode=" + charCode );
+
+        /*
         if (itsNatDoc.browser.isWebKit()||itsNatDoc.browser.isBlackBerryOld())
         {
             url += "&itsnat_evt_keyIdentifier=" + encodeURIComponent(evt.keyIdentifier);
             url += "&itsnat_evt_keyLocation=" + evt.keyLocation;
         }
-        url += "&itsnat_evt_keyCode=" + evt.keyCode;
-        url += "&itsnat_evt_altKey=" + evt.altKey;
-        url += "&itsnat_evt_ctrlKey=" + evt.ctrlKey;
-        url += "&itsnat_evt_metaKey=" + evt.metaKey;
-        url += "&itsnat_evt_shiftKey=" + evt.shiftKey;
+        */
+
+        url.append( "&itsnat_evt_keyCode="  + keyCode ); // evt.keyCode;
+        url.append( "&itsnat_evt_altKey="   + altKey ); // evt.altKey;
+        url.append( "&itsnat_evt_ctrlKey="  + ctrlKey ); // evt.ctrlKey;
+        url.append( "&itsnat_evt_metaKey="  + metaKey ); // evt.metaKey;
+        url.append( "&itsnat_evt_shiftKey=" + shiftKey ); // evt.shiftKey;
         return url;
     }
-    */
 }
