@@ -2,43 +2,80 @@ package org.itsnat.droid.impl.browser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.DefaultedHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.ItsNatDroidException;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jmarranz on 23/05/14.
  */
-public class DownloaderUtil
+public class HttpUtil
 {
-    public static byte[] connect(String url,HttpContext httpContext,HttpParams httpParamsRequest,HttpParams httpParamsDefault)
+    private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {
-        HttpParams httpParams = httpParamsRequest != null ? new DefaultedHttpParams(httpParamsRequest,httpParamsDefault) : httpParamsDefault;
+        return httpParamsRequest != null ? new DefaultedHttpParams(httpParamsRequest,httpParamsDefault) : httpParamsDefault;
+    }
 
-        HttpClient httpclient = new DefaultHttpClient(httpParams);
+    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault)
+    {
+        HttpParams httpParams = getHttpParams(httpParamsRequest, httpParamsDefault);
+
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
 
                 // Prepare a request object
-        HttpGet httpget = new HttpGet(url);
+        HttpGet httpGet = new HttpGet(url);
 
-        // Execute the request
-        HttpResponse response;
+        return execute(httpClient,httpGet,httpContext);
+    }
+
+    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,List<NameValuePair> nameValuePairs)
+    {
+        HttpParams httpParams = getHttpParams(httpParamsRequest, httpParamsDefault);
+
+        HttpClient httpClient = new DefaultHttpClient(httpParams);
+
+        HttpPost httpPost = new HttpPost(url);
+
+        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        //List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+        //nameValuePairs.add(new BasicNameValuePair("registrationid", "123456789"));
         try
         {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+        }
+        catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-            response = httpclient.execute(httpget, httpContext);
+        return execute(httpClient,httpPost,httpContext);
+    }
+
+    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext)
+    {
+        try
+        {
+            HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
             // Examine the response status
             //Log.i("Praeda", response.getStatusLine().toString());
 
@@ -49,17 +86,17 @@ public class DownloaderUtil
 
             if (entity != null)
             {
-                // A Simple JSON Response Read
                 InputStream input = entity.getContent();
                 return read(input);
             }
-            else return null;
+            return null;
         }
         catch (Exception ex)
         {
-            throw new RuntimeException(ex);
+            throw new ItsNatDroidException(ex);
         }
     }
+
 
     public static byte[] read(InputStream input)
     {
@@ -125,8 +162,4 @@ public class DownloaderUtil
         return sb.toString();
     }
 
-    /**
-     * Created by jmarranz on 23/05/14.
-     */
-
-    }
+}

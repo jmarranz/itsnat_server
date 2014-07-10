@@ -58,6 +58,11 @@ public class PageImpl implements Page
 //System.out.println("LAPSE" + (end - start));
     }
 
+    public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
+    {
+        return browser;
+    }
+
     @Override
     public String getURL()
     {

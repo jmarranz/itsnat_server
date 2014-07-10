@@ -601,6 +601,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         if (!this.enableEvtMonitors) return;
 
+        if (evtMonitorList == null) return;
+
         for(EventMonitor curr : evtMonitorList)
         {
             if (before) curr.before(evt);

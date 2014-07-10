@@ -1,5 +1,8 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.os.StrictMode;
+
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 
 import java.util.LinkedList;
@@ -17,6 +20,11 @@ public class EventManager
     public EventManager(ItsNatDocImpl parent)
     {
         this.parent = parent;
+    }
+
+    public ItsNatDocImpl getItsNatDocImpl()
+    {
+        return parent;
     }
 
     private void processEvents(boolean notHold)
@@ -51,7 +59,6 @@ public class EventManager
 
     private void sendEventEffective(EventGeneric evt)
     {
-        /*
         if (parent.isDisabledEvents()) return; // pudo ser definido desde el servidor en el anterior evento
 
         List<GlobalEventListener> globalListeners = parent.globalEventListeners;
@@ -68,33 +75,35 @@ public class EventManager
         }
 
         parent.fireEventMonitors(true,false,evt);
-        String method = "POST";
+        //String method = "POST";
         String servletPath = parent.getServletPath();
         int commMode = evt.getEventGenericListener().getCommMode();
-        String paramURL = evt.genParamURL();
+        StringBuilder paramURL = evt.genParamURL();
 
+        if ((commMode == CommMode.SCRIPT) || (commMode == CommMode.SCRIPT_HOLD)) throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");
 
-        if (commMode == 1) // XHR_SYNC
+        if (true)
         {
-            var ajax = new itsnat.AJAX(this.itsNatDoc,win);
-            ajax.requestSyncText(method,servletPath,paramURL);
-            ajax.processResult(evt,false);
-        }
-        else
-        {
-            if ((commMode == 3)||(commMode == 5)) this.holdEvt = evt; // XHR_ASYNC_HOLD y SCRIPT_HOLD
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
-            var timeout = evt.getListenerWrapper().getTimeout();
-            if ((commMode == 2)||(commMode == 3)) // XHR_ASYNC y XHR_ASYNC_HOLD
-            {
-                var ajax = new itsnat.AJAX(this.itsNatDoc,win);
-                ajax.requestAsyncText(method,servletPath,paramURL,evt,timeout);
-            }
-            else // SCRIPT (4) y SCRIPT_HOLD (5)
-            {
-                this.itsNatDoc.sendEventByScript(servletPath,paramURL,evt,timeout);
-            }
+            EventSender sender = new EventSender(this);
+            sender.requestSyncText(servletPath, paramURL.toString());
         }
-*/
+
+        /*
+            EventSender sender = new EventSender(this);
+            if (commMode == CommMode.XHR_SYNC) // XHR_SYNC
+            {
+                sender.requestSyncText(servletPath, paramURL.toString());
+                sender.processResult(evt, false);
+            } else // XHR_ASYNC y XHR_ASYNC_HOLD
+            {
+                if (commMode == CommMode.XHR_ASYNC_HOLD) this.holdEvt = evt;
+
+                long timeout = evt.getEventGenericListener().getTimeout();
+                sender.requestAsyncText(method, servletPath, paramURL, evt, timeout);
+            }
+        */
     }
 }

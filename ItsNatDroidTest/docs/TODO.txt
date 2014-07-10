@@ -1,7 +1,7 @@
 
-* Reducir los +=
+* QUITAR el código de forzar network sincrono
 
-* Continuar con los genParamURL comentados
+* Opción de descarga de template síncrona
 
 * Continuar con sendEventEffective
 

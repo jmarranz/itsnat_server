@@ -25,7 +25,7 @@ public abstract class DownloadTask extends AsyncTask<Void, Void, Object>
     {
         try
         {
-            byte[] result = DownloaderUtil.connect(url,browser.getHttpContext(), httpParamsRequest,browser.getHttpParams());
+            byte[] result = HttpUtil.httpGet(url, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams());
             return result;
         }
         catch(Exception ex)

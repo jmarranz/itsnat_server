@@ -55,4 +55,10 @@ public class BrowserDroid extends Browser
     {
         return true; // Por poner algo
     }
+    
+    @Override
+    public boolean isNeededAbsoluteURL()
+    {
+        return true;
+    }    
 }
