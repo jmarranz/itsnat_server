@@ -4,9 +4,11 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,12 +24,17 @@ public class EventSender
         this.evtManager = evtManager;
     }
 
-    public void requestSyncText(String servletPath,List<NameValuePair> params)
+    public String requestSyncText(String servletPath,List<NameValuePair> params)
     {
         ItsNatDroidBrowserImpl browser = evtManager.getItsNatDocImpl().getPageImpl().getItsNatDroidBrowserImpl();
 
         HttpParams httpParamsRequest = null;
 
-        HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params);
+        byte[] res = HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params);
+        try
+        {
+            return new String(res,"UTF-8");
+        }
+        catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
     }
 }

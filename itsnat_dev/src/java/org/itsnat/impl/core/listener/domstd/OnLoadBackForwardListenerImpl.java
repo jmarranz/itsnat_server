@@ -21,7 +21,9 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.Event;
@@ -48,8 +50,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
     // window.location.reload(true);
 
 
-    private static final String DISABLE_EVENTS = "if (document.itsNatDoc) document.itsNatDoc.disabledEvents=true;";
-    private static final String RELOAD_CODE_NORMAL = DISABLE_EVENTS + "window.location.reload(true);\n";
+    private static final String JS_RELOAD_CODE_NORMAL = "if (document.itsNatDoc) document.itsNatDoc.disabledEvents=true; window.location.reload(true);\n";
 
     // El caso de Opera Mobile 9.5 beta es que "window.location.reload(true);" no hace nada en ciertas situaciones:
     // como parte de un evento "load" y como parte de un script ejecutado como respuesta de un request AJAX
@@ -64,7 +65,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
     // sin embargo window.location.href = window.location.href; sí recarga
     // si no hay una referencia en el URL (#prueba) esto será raro en SVG.
     // Evitamos el código de desactivación de eventos por si acaso falla.
-    private static final String RELOAD_CODE_AdobeSVG = "window.location.href = window.location.href;"; 
+    private static final String JS_RELOAD_CODE_AdobeSVG = "window.location.href = window.location.href;"; 
     
 
     protected boolean loaded = false;
@@ -78,12 +79,20 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
 
     public static String getReloadCode(Browser browser)
     {
-        /*if (browser instanceof BrowserOperaMobile)
-            return RELOAD_CODE_OperaMobile;
-        else*/ if (browser instanceof BrowserAdobeSVG)
-            return RELOAD_CODE_AdobeSVG;
-        else
-            return RELOAD_CODE_NORMAL;
+        if (browser instanceof BrowserWeb)
+        {
+            /*if (browser instanceof BrowserOperaMobile)
+                return RELOAD_CODE_OperaMobile;
+            else*/ if (browser instanceof BrowserAdobeSVG)
+                return JS_RELOAD_CODE_AdobeSVG;
+            else
+                return JS_RELOAD_CODE_NORMAL;
+        }
+        else if (browser instanceof BrowserDroid)
+        {
+            return "itsNatDoc.setDisabledEvents(); itsNatDoc.onServerStateLost();";
+        }
+        return null;
     }
 
     public static ParamTransport[] createExtraParams()

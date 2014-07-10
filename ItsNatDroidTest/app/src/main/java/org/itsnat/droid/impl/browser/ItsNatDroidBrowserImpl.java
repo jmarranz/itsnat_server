@@ -68,7 +68,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         // podríamos crear un AndroidHttpClient y coger los parámetros pero el problema es que "hay que usarlo".
         HttpParams httpParams = new BasicHttpParams();
 
-        httpParams.setParameter("http.useragent","Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3
+        httpParams.setParameter("http.useragent","Apache-HttpClient/UNAVAILABLE (java 1.4)"); // Emulador 4.0.3  SE CAMBIARÁ
         httpParams.setIntParameter("http.socket.timeout",60000);
         httpParams.setBooleanParameter("http.connection.stalecheck",false);
         httpParams.setIntParameter("http.connection.timeout",60000);
@@ -87,15 +87,15 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return parent;
     }
 
-    public ItsNatSessionImpl getItsNatSession(String id,String sessionToken)
+    public ItsNatSessionImpl getItsNatSession(String stdSessionId,String sessionToken,String id)
     {
-        ItsNatSessionImpl session = sessionList.get(id);
+        ItsNatSessionImpl session = sessionList.get(stdSessionId);
         if (session == null || !session.getToken().equals(sessionToken))
         {
             // Si el token ha cambiado es que se ha recargado el servidor, hay que tener en cuenta que los ids por ej del cliente
             // están basados en un contador en memoria
-            session = new ItsNatSessionImpl(this,id,sessionToken);
-            sessionList.put(id,session);
+            session = new ItsNatSessionImpl(this,stdSessionId,sessionToken,id);
+            sessionList.put(stdSessionId,session);
         }
 
         return session;
@@ -112,7 +112,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
 
     public void disposeSessionIfEmpty(ItsNatSessionImpl session)
     {
-        if (session.getPageCount() == 0) sessionList.remove(session.getId());
+        if (session.getPageCount() == 0) sessionList.remove(session.getStandardSessionId());
     }
 
     public HttpParams getHttpParams()

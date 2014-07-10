@@ -16,16 +16,23 @@ import java.util.Map;
 public class ItsNatSessionImpl implements ItsNatSession
 {
     protected ItsNatDroidBrowserImpl browser;
+    protected String stdSessionId;
     protected String id;
     protected String token;
     protected Map<String,PageImpl> pageMap = new HashMap<String, PageImpl>();
     protected List<Page> pageList = new LinkedList<Page>();
 
-    public ItsNatSessionImpl(ItsNatDroidBrowserImpl browser,String id,String token)
+    public ItsNatSessionImpl(ItsNatDroidBrowserImpl browser,String stdSessionId,String token,String id)
     {
         this.browser = browser;
-        this.id = id;
+        this.stdSessionId = stdSessionId;
         this.token = token;
+        this.id = id;
+    }
+
+    public String getStandardSessionId()
+    {
+        return stdSessionId;
     }
 
     public String getId()
@@ -53,10 +60,10 @@ public class ItsNatSessionImpl implements ItsNatSession
         PageImpl prev = pageMap.put(page.getId(), page);
         if (prev != null && prev != page) throw new ItsNatDroidException("Unexpected");
         pageList.add(page);
-        removeExcedent();
+        removeExcess();
     }
 
-    private void removeExcedent()
+    private void removeExcess()
     {
         int max = browser.getMaxPagesInSession();
         if (max < 0) return; // Ilimitado

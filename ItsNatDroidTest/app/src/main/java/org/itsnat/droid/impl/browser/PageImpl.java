@@ -8,6 +8,7 @@ import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
@@ -35,8 +36,10 @@ public class PageImpl implements Page
     protected Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
-    protected String id;
+    protected String clientId;
+    protected OnServerStateLostListener listener;
     protected UserDataImpl userData;
+
 
     public PageImpl(ItsNatDroidBrowserImpl browser,String url,InflatedLayoutImpl inflated,byte[] content,String loadScript)
     {
@@ -86,10 +89,10 @@ public class PageImpl implements Page
         return content;
     }
 
-    public void setSessionIdAndClientId(String sessionId,String sessionToken,String id)
+    public void setSessionIdAndClientId(String stdSessionId,String sessionToken,String sessionId,String clientId)
     {
-        this.id = id;
-        this.itsNatSession = browser.getItsNatSession(sessionId,sessionToken);
+        this.clientId = clientId;
+        this.itsNatSession = browser.getItsNatSession(stdSessionId,sessionToken,sessionId);
         itsNatSession.registerPage(this);
     }
 
@@ -105,7 +108,7 @@ public class PageImpl implements Page
 
     public String getId()
     {
-        return id;
+        return clientId;
     }
 
     public Context getContext()
@@ -128,6 +131,16 @@ public class PageImpl implements Page
     public ItsNatDoc getItsNatDoc()
     {
         return itsNatDoc;
+    }
+
+    public OnServerStateLostListener getOnServerStateLostListener()
+    {
+        return listener;
+    }
+
+    public void setOnServerStateLostListener(OnServerStateLostListener listener)
+    {
+        this.listener = listener;
     }
 
     public void dispose()

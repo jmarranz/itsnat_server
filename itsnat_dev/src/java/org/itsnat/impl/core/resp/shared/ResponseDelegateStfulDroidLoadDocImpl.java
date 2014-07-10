@@ -56,11 +56,12 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     protected String getInitDocumentScriptCode(final int prevScriptsToRemove)    
     {
         ItsNatSessionImpl session = getClientDocumentStful().getItsNatSessionImpl();
-        String sessionId = session.getStandardSessionId();  
-        String token = session.getToken();        
+        String stdSessionId = session.getStandardSessionId();  
+        String token = session.getToken(); 
+        String sessionId = session.getId();        
         String clientId =  getClientDocumentStful().getId();
         String servletPath = delegByBrowser.getServletPathForEvents();        
-        return "itsNatDoc.init(\"" + sessionId + "\",\"" + token + "\",\"" + clientId + "\",\"" + servletPath + "\");"; // HACER
+        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\");"; // HACER
     }
     
     @Override

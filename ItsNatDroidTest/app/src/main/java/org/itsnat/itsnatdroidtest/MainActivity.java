@@ -24,6 +24,7 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnErrorListener;
 import org.itsnat.droid.OnPageListener;
+import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 
@@ -163,6 +164,15 @@ public class MainActivity extends Activity {
 
                 if (page.getItsNatSession().getPageCount() > droidBrowser.getMaxPagesInSession())
                     throw new RuntimeException("FAIL");
+
+                page.setOnServerStateLostListener(new OnServerStateLostListener()
+                {
+                    @Override
+                    public void onServerStateLost(Page page)
+                    {
+                        TestUtil.alertDialog(MainActivity.this,"SERVER STATE LOST!!");
+                    }
+                });
 
                 //page.dispose();
 

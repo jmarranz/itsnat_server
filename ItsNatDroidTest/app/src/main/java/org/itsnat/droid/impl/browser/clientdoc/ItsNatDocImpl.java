@@ -11,6 +11,7 @@ import org.itsnat.droid.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
@@ -102,6 +103,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return disabledEvents;
     }
 
+    public void setDisabledEvents()
+    {
+        this.disabledEvents = true;
+    }
+
     public WeakMapWithValue<String,DOMStdEventListener> getDOMListeners()
     {
         if (domListeners == null) this.domListeners = new WeakMapWithValue<String,DOMStdEventListener>();
@@ -146,9 +152,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public void init(String sessionId,String sessionToken,String clientId,String servletPath)
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath)
     {
-        page.setSessionIdAndClientId(sessionId,sessionToken, clientId);
+        page.setSessionIdAndClientId(stdSessionId,sessionToken,sessionId, clientId);
         this.servletPath = servletPath;
     }
 
@@ -183,6 +189,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void toast(Object value)
     {
         toast(value,Toast.LENGTH_SHORT);
+    }
+
+    public void onServerStateLost()
+    {
+        OnServerStateLostListener listener = page.getOnServerStateLostListener();
+        if (listener != null) listener.onServerStateLost(page);
     }
 
     @Override

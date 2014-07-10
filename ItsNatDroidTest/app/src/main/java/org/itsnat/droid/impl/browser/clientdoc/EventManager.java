@@ -89,7 +89,8 @@ public class EventManager
             StrictMode.setThreadPolicy(policy);
 
             EventSender sender = new EventSender(this);
-            sender.requestSyncText(servletPath,params);
+            String res = sender.requestSyncText(servletPath,params);
+            parent.alert("RESULT: " + res);
         }
 
         /*

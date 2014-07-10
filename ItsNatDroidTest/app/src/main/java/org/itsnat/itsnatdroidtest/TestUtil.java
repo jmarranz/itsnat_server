@@ -9,6 +9,11 @@ import android.content.DialogInterface;
  */
 public class TestUtil
 {
+    public static void alertDialog(Context ctx,String content)
+    {
+        alertDialog(ctx,"Alert",content);
+    }
+
     public static void alertDialog(Context ctx,String title,String content)
     {
         new AlertDialog.Builder(ctx).setTitle("XML").setMessage(content)

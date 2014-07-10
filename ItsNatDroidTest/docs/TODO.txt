@@ -3,11 +3,15 @@
 
 * Opción de descarga de template síncrona
 
+* Probar onServerStateLost reiniciando el servidor cuando esté consolidado el envío de eventos
+
 * Continuar con sendEventEffective
 
 * Revisar la necesidad de encodeURIComponent y ver si con el método de Java basta.
 
 * Hacer soporte de Touch events para Web y para Droid
+
+* Capturar las excepciones de enviar eventos por ej de EventSender.requestSyncText (ej socket timeout) y permitir el proceso del usuario
 
 * Estudiar como compatibilizar el bubbling y capture con la propagación de eventos Android (recuerda el boolean de retorno de onTouch)
 

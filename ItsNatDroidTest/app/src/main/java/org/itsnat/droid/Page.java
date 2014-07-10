@@ -3,8 +3,6 @@ package org.itsnat.droid;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
-
 /**
  * Created by jmarranz on 4/06/14.
  */
@@ -19,5 +17,6 @@ public interface Page
     public ItsNatView getItsNatView(View view);
     public UserData getUserData();
     public ItsNatDoc getItsNatDoc();
+    public void setOnServerStateLostListener(OnServerStateLostListener listener);
     public void dispose();
 }
