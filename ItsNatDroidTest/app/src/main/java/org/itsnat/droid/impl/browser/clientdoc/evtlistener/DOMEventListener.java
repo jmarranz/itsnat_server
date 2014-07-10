@@ -2,10 +2,14 @@ package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 
 import android.view.View;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+
+import java.util.List;
 
 /**
  * Created by jmarranz on 7/07/14.
@@ -42,10 +46,9 @@ public abstract class DOMEventListener extends NormalEventListener
         evtWrapper.sendEvent();
     }
 
-    public StringBuilder genParamURL(EventGeneric evt)
+    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
     {
-        StringBuilder url = super.genParamURL(evt);
-        url.append( "&itsnat_listener_id=" + getId() );
-        return url;
+        super.genParamURL(evt,params);
+        params.add(new BasicNameValuePair("itsnat_listener_id", "" + getId()));
     }
 }

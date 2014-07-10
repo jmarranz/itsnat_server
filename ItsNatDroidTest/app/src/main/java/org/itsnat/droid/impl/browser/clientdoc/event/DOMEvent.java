@@ -2,8 +2,12 @@ package org.itsnat.droid.impl.browser.clientdoc.event;
 
 import android.view.View;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
+
+import java.util.List;
 
 /**
  * Created by jmarranz on 7/07/14.
@@ -28,10 +32,10 @@ public abstract class DOMEvent extends NormalEvent
         return getDOMEventListener().getView();
     }
 
-    public StringBuilder genParamURL()
+    public List<NameValuePair> genParamURL()
     {
-        StringBuilder url = super.genParamURL();
-        url.append( "&itsnat_evt_timeStamp=" + timeStamp ); // En vez del problematico Event.timeStamp
-        return url;
+        List<NameValuePair> params = super.genParamURL();
+        params.add(new BasicNameValuePair("itsnat_evt_timeStamp","" + timeStamp)); // En vez del problematico Event.timeStamp
+        return params;
     }
 }

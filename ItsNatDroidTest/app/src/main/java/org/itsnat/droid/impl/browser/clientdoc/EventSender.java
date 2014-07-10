@@ -22,15 +22,12 @@ public class EventSender
         this.evtManager = evtManager;
     }
 
-    public void requestSyncText(String servletPath,String paramURL)
+    public void requestSyncText(String servletPath,List<NameValuePair> params)
     {
         ItsNatDroidBrowserImpl browser = evtManager.getItsNatDocImpl().getPageImpl().getItsNatDroidBrowserImpl();
 
         HttpParams httpParamsRequest = null;
 
-        List<NameValuePair> nameValuePairs = new LinkedList<NameValuePair>();
-        nameValuePairs.add(new BasicNameValuePair("params", paramURL)); // REVISAR !!!!!!!
-
-        HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),nameValuePairs);
+        HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params);
     }
 }

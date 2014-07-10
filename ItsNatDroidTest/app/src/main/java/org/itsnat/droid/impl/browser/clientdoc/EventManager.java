@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.os.StrictMode;
 
+import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 
@@ -78,7 +79,7 @@ public class EventManager
         //String method = "POST";
         String servletPath = parent.getServletPath();
         int commMode = evt.getEventGenericListener().getCommMode();
-        StringBuilder paramURL = evt.genParamURL();
+        List<NameValuePair> params = evt.genParamURL();
 
         if ((commMode == CommMode.SCRIPT) || (commMode == CommMode.SCRIPT_HOLD)) throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");
 
@@ -88,7 +89,7 @@ public class EventManager
             StrictMode.setThreadPolicy(policy);
 
             EventSender sender = new EventSender(this);
-            sender.requestSyncText(servletPath, paramURL.toString());
+            sender.requestSyncText(servletPath,params);
         }
 
         /*

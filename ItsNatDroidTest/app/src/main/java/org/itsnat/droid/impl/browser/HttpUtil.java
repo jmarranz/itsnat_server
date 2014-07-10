@@ -58,7 +58,7 @@ public class HttpUtil
 
         HttpPost httpPost = new HttpPost(url);
 
-        httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
+        //httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         //List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
         //nameValuePairs.add(new BasicNameValuePair("registrationid", "123456789"));

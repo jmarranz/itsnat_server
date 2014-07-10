@@ -1,9 +1,11 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
+import org.apache.http.NameValuePair;
 import org.itsnat.droid.Event;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,12 +61,11 @@ public abstract class EventGeneric implements Event
         extraParams.put(name,value);
     }
 
-    public StringBuilder genParamURL()
+    public List<NameValuePair> genParamURL()
     {
-        StringBuilder url = new StringBuilder();
-        url.append(  listener.getItsNatDocImpl().genParamURL() );
-        url.append(  listener.genParamURL(this) );
-        return url;
+        List<NameValuePair> params = listener.getItsNatDocImpl().genParamURL();
+        listener.genParamURL(this,params);
+        return params;
     }
 
 }

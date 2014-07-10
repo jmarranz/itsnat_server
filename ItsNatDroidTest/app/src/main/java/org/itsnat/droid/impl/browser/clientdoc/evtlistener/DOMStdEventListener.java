@@ -5,6 +5,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
@@ -12,6 +14,8 @@ import org.itsnat.droid.impl.browser.clientdoc.event.DOMStdEvent;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.browser.clientdoc.event.W3CKeyEvent;
 import org.itsnat.droid.impl.browser.clientdoc.event.W3CMouseEvent;
+
+import java.util.List;
 
 /**
  * Created by jmarranz on 4/07/14.
@@ -54,11 +58,10 @@ public class DOMStdEventListener extends DOMEventListener
         }
     }
 
-    public StringBuilder genParamURL(EventGeneric evt)
+    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
     {
-        StringBuilder url = super.genParamURL(evt);
-        url.append( "&itsnat_evt_type=" + this.type );
-        url.append( evt.genParamURL() );
-        return url;
+        super.genParamURL(evt,params);
+        params.add(new BasicNameValuePair("itsnat_evt_type", "" + this.type));
+        //url.append( evt.genParamURL() );
     }
 }

@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
@@ -63,13 +65,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return servletPath;
     }
 
-    public StringBuilder genParamURL()
+    public List<NameValuePair> genParamURL()
     {
-        StringBuilder url = new StringBuilder();
-        url.append( "itsnat_client_id=" + page.getId() );
-        url.append( "&itsnat_session_token=" + page.getItsNatSessionImpl().getToken() );
-        url.append( "&itsnat_session_id=" + page.getItsNatSessionImpl().getId() );
-        return url;
+        List<NameValuePair> params = new LinkedList<NameValuePair>();
+        params.add(new BasicNameValuePair("itsnat_client_id",page.getId()));
+        params.add(new BasicNameValuePair("itsnat_session_token",page.getItsNatSessionImpl().getToken()));
+        params.add(new BasicNameValuePair("itsnat_session_id",page.getItsNatSessionImpl().getId()));
+        return params;
     }
 
     public String getStringPathFromNode(Node node)

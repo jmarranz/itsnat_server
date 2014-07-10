@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.util.IOUtil;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,15 +47,14 @@ public abstract class EventGenericListener
         return timeout;
     }
 
-    public StringBuilder genParamURL(EventGeneric evt)
+    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
     {
-        StringBuilder url = new StringBuilder();
-        url.append( "&itsnat_action=" + this.action );
+        params.add(new BasicNameValuePair("itsnat_action",action));
 
-        Map<String,Object> params = evt.getExtraParams();
-        if (params != null)
+        Map<String,Object> extraParams = evt.getExtraParams();
+        if (extraParams != null)
         {
-            for (Map.Entry<String,Object> entry : params.entrySet())
+            for (Map.Entry<String,Object> entry : extraParams.entrySet())
             {
                 String name = entry.getKey();
                 Object value = entry.getValue();
@@ -60,11 +62,10 @@ public abstract class EventGenericListener
                 {
                     Object[] valueArr = (Object[])value;
                     for (int i = 0; i < valueArr.length; i++)
-                        url.append( "&" + name + "=" + IOUtil.encodeURIComponent((String)valueArr[i]) );
+                        params.add(new BasicNameValuePair(name,(String)valueArr[i]));
                 }
-                else url.append( "&" + name + "=" + IOUtil.encodeURIComponent((String)value) );
+                else params.add(new BasicNameValuePair(name,(String)value) );
             }
         }
-        return url;
     }
 }
