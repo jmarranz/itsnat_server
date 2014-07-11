@@ -38,6 +38,7 @@ public class IOUtil
         return output.toByteArray();
     }
 
+ /*
     public static String encodeURIComponent(char c)
     {
         return encodeURIComponent(Character.toString(c));
@@ -79,5 +80,5 @@ public class IOUtil
         }
         return textBuff.toString();
     }
-
+*/
 }

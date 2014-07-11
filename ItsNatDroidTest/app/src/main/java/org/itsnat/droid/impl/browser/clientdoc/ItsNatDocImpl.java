@@ -51,7 +51,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
 
-    protected PageImpl getPageImpl()
+    public PageImpl getPageImpl()
     {
         return page;
     }

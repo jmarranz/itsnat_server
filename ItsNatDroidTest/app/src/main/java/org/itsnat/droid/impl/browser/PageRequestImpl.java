@@ -5,7 +5,7 @@ import android.content.Context;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.OnErrorListener;
+import org.itsnat.droid.OnLoadErrorListener;
 import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
@@ -24,7 +24,7 @@ public class PageRequestImpl implements PageRequest
     protected Context ctx;
     protected HttpParams httpParams;
     protected OnPageListener pageListener;
-    protected OnErrorListener errorListener;
+    protected OnLoadErrorListener errorListener;
     protected AttrCustomInflaterListener inflateListener;
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser,XMLLayoutInflateService inflateService)
@@ -55,7 +55,7 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setOnErrorListener(OnErrorListener errorListener)
+    public PageRequest setOnLoadErrorListener(OnLoadErrorListener errorListener)
     {
         this.errorListener = errorListener;
         return this;
@@ -82,9 +82,9 @@ public class PageRequestImpl implements PageRequest
         execute(browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
     }
 
-    public static void execute(ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
+    public static void execute(ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
     {
-        DownloadTask task = new DownloadTask(browser,httpParamsRequest,url)
+        HttpGetAsyncTask task = new HttpGetAsyncTask(browser,httpParamsRequest,url)
         {
             @Override
             protected void onFinishOk(byte[] result)

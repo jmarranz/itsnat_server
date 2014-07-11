@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -38,7 +39,7 @@ public class HttpUtil
         return httpParamsRequest != null ? new DefaultedHttpParams(httpParamsRequest,httpParamsDefault) : httpParamsDefault;
     }
 
-    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault)
+    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,StatusLine[] status)
     {
         HttpParams httpParams = getHttpParams(httpParamsRequest, httpParamsDefault);
 
@@ -47,10 +48,10 @@ public class HttpUtil
                 // Prepare a request object
         HttpGet httpGet = new HttpGet(url);
 
-        return execute(httpClient,httpGet,httpContext);
+        return execute(httpClient,httpGet,httpContext,status);
     }
 
-    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,List<NameValuePair> nameValuePairs)
+    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,List<NameValuePair> nameValuePairs,StatusLine[] status)
     {
         HttpParams httpParams = getHttpParams(httpParamsRequest, httpParamsDefault);
 
@@ -60,36 +61,33 @@ public class HttpUtil
 
         //httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        //List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-        //nameValuePairs.add(new BasicNameValuePair("registrationid", "123456789"));
         try
         {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-        return execute(httpClient,httpPost,httpContext);
+        return execute(httpClient,httpPost,httpContext,status);
     }
 
-    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext)
+    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status)
     {
         try
         {
             HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
-            // Examine the response status
-            //Log.i("Praeda", response.getStatusLine().toString());
+
 
             // Get hold of the response entity
             HttpEntity entity = response.getEntity();
             // If the response does not enclose an entity, there is no need
             // to worry about connection release
 
-            if (entity != null)
-            {
-                InputStream input = entity.getContent();
-                return read(input);
-            }
-            return null;
+            status[0] = response.getStatusLine();
+
+            if (entity == null) return null;
+
+            InputStream input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
+            return read(input);
         }
         catch (Exception ex)
         {

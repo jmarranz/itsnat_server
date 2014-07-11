@@ -1,38 +1,41 @@
-package org.itsnat.droid.impl.browser.clientdoc;
+package org.itsnat.droid.impl.browser;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidNetworkException;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by jmarranz on 10/07/14.
+ * Created by jmarranz on 4/06/14.
  */
-public class EventSender
+public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
 {
-    protected EventManager evtManager;
+    protected ItsNatDocImpl parent;
+    protected HttpParams httpParamsRequest;
+    protected String url;
+    protected List<NameValuePair> params;
 
-    public EventSender(EventManager evtManager)
+    public HttpPostAsyncTask(ItsNatDocImpl parent, HttpParams httpParamsRequest, String url,List<NameValuePair> params)
     {
-        this.evtManager = evtManager;
+        this.parent = parent;
+        this.httpParamsRequest = httpParamsRequest;
+        this.url = url;
+        this.params = params;
     }
 
-    public String requestSyncText(String servletPath,List<NameValuePair> params)
+    protected String executeInBackground()
     {
-        ItsNatDroidBrowserImpl browser = evtManager.getItsNatDocImpl().getPageImpl().getItsNatDroidBrowserImpl();
-
-        HttpParams httpParamsRequest = null;
-
+        ItsNatDroidBrowserImpl browser = parent.getPageImpl().getItsNatDroidBrowserImpl();
+        String servletPath = parent.getServletPath();
         StatusLine[] status = new StatusLine[1];
         byte[] result = HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params,status);
         if (status[0].getStatusCode() != 200)
@@ -40,4 +43,5 @@ public class EventSender
 
         return ValueUtil.toString(result);
     }
+
 }

@@ -7,7 +7,7 @@
 
 * Continuar con sendEventEffective
 
-* Revisar la necesidad de encodeURIComponent y ver si con el método de Java basta.
+* Revisar la correspondencia entre getRawX screenX etc
 
 * Hacer soporte de Touch events para Web y para Droid
 

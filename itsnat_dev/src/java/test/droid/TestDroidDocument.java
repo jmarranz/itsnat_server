@@ -116,6 +116,7 @@ public class TestDroidDocument implements EventListener,Serializable
 
     public void handleEvent(Event evt)
     {
+if (true) throw new RuntimeException("BAAAD");
         itsNatDoc.addCodeToSend("itsNatDoc.alert(\"click OK\");");
     }
 }

@@ -30,17 +30,17 @@ public class W3CMouseEvent extends W3CEvent
 
         MotionEvent evt = getMotionEvent();
 
-        params.add(new BasicNameValuePair("itsnat_evt_screenX","" + evt.getRawX())); // evt.screenX;
-        params.add(new BasicNameValuePair("itsnat_evt_screenY","" + evt.getRawY())); // evt.screenY;
-        params.add(new BasicNameValuePair("itsnat_evt_clientX","" + evt.getX())); // evt.clientX;
-        params.add(new BasicNameValuePair("itsnat_evt_clientY","" + evt.getY())); // evt.clientY;
-        params.add(new BasicNameValuePair("itsnat_evt_ctrlKey","" + false)); // evt.ctrlKey;
-        params.add(new BasicNameValuePair("itsnat_evt_metaKey","" + false)); // evt.metaKey;
+        params.add(new BasicNameValuePair("itsnat_evt_screenX", "" + evt.getRawX())); // evt.screenX;
+        params.add(new BasicNameValuePair("itsnat_evt_screenY", "" + evt.getRawY())); // evt.screenY;
+        params.add(new BasicNameValuePair("itsnat_evt_clientX", "" + evt.getX())); // evt.clientX;
+        params.add(new BasicNameValuePair("itsnat_evt_clientY", "" + evt.getY())); // evt.clientY;
+        params.add(new BasicNameValuePair("itsnat_evt_ctrlKey", "" + false)); // evt.ctrlKey;
+        params.add(new BasicNameValuePair("itsnat_evt_metaKey", "" + false)); // evt.metaKey;
         params.add(new BasicNameValuePair("itsnat_evt_shiftKey","" + false)); // evt.shiftKey;
-        params.add(new BasicNameValuePair("itsnat_evt_altKey","" + false)); // evt.altKey;
-        params.add(new BasicNameValuePair("itsnat_evt_button","" + 0)); // evt.button;
+        params.add(new BasicNameValuePair("itsnat_evt_altKey",  "" + false)); // evt.altKey;
+        params.add(new BasicNameValuePair("itsnat_evt_button",  "" + 0)); // evt.button;
 
-        params.add(new BasicNameValuePair("itsnat_evt_relatedTarget","")); // listener.getItsNatDocImpl().getStringPathFromNode(evt.relatedTarget);
+        params.add(new BasicNameValuePair("itsnat_evt_relatedTarget","null")); // stateLostListener.getItsNatDocImpl().getStringPathFromNode(evt.relatedTarget);
         return params;
     }
 

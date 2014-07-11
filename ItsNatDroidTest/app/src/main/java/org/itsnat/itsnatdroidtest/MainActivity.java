@@ -1,10 +1,9 @@
 package org.itsnat.itsnatdroidtest;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InputEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,22 +18,22 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidBrowser;
+import org.itsnat.droid.ItsNatDroidNetworkException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
-import org.itsnat.droid.OnErrorListener;
+import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnLoadErrorListener;
 import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.impl.util.ValueUtil;
 
 
 import java.io.InputStream;
-import java.io.StringReader;
 
 import bsh.EvalError;
-import bsh.Interpreter;
-import bsh.NameSpace;
 
 
 public class MainActivity extends Activity {
@@ -165,6 +164,18 @@ public class MainActivity extends Activity {
                 if (page.getItsNatSession().getPageCount() > droidBrowser.getMaxPagesInSession())
                     throw new RuntimeException("FAIL");
 
+                page.setOnEventErrorListener(new OnEventErrorListener()
+                {
+                    @Override
+                    public void onError(Exception ex, String type, InputEvent evt)
+                    {
+                        ex.printStackTrace();
+                        TestUtil.alertDialog(MainActivity.this,"Event processing error,type: " + type);
+                        if (ex instanceof ItsNatDroidNetworkException)
+                            TestUtil.alertDialog(MainActivity.this,"Server content returned error: " + ValueUtil.toString(((ItsNatDroidNetworkException)ex).getContent()));
+                    }
+                });
+
                 page.setOnServerStateLostListener(new OnServerStateLostListener()
                 {
                     @Override
@@ -174,10 +185,12 @@ public class MainActivity extends Activity {
                     }
                 });
 
+
+
                 //page.dispose();
 
             }
-        }).setOnErrorListener(new OnErrorListener()
+        }).setOnLoadErrorListener(new OnLoadErrorListener()
         {
             @Override
             public void onError(Exception ex)
@@ -187,10 +200,10 @@ public class MainActivity extends Activity {
                 ex.printStackTrace();
                 if (ex instanceof ItsNatDroidScriptException)
                 {
-                    ItsNatDroidScriptException exScr = (ItsNatDroidScriptException)ex;
+                    ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
                     if (exScr.getCause() instanceof EvalError)
                     {
-                        ((EvalError)exScr.getCause()).printStackTrace();
+                        ((EvalError) exScr.getCause()).printStackTrace();
                     }
                     Log.v("MainActivity", "CODE:" + exScr.getScript());
                 }

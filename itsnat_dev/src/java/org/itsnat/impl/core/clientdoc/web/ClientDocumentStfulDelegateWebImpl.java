@@ -86,10 +86,6 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         this.svgWebInfo = new SVGWebInfoImpl(this,forceFlash,metaForceFlashPos);
     }        
     
-
-
-
-
     public NodeLocationImpl getNodeLocationRelativeToParent(Node node)
     {
         return NodeLocationImpl.getNodeLocationRelativeToParent(this, node);
@@ -158,82 +154,13 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         getHTMLIFrameFileUploadMap().remove(upload);
     }
     
-    public Node getNodeFromStringPathFromClient(String pathStr,boolean cacheIfPossible)
+
+
+    @Override
+    protected String renderAddNodeToCache(NodeLocationWithParentImpl nodeLoc)
     {
-        if (pathStr.equals("null"))
-            return null;
-
-        NodeCacheRegistryImpl nodeCache = getNodeCacheRegistry();
-
-        // El pathStr es generado por el navegador
-        if (pathStr.startsWith("id:"))
-        {
-            // Formato: id:idvalue
-            String id = pathStr.substring("id:".length());
-            return nodeCache.getNodeById(id); // La caché debe estar activado sí o sí
-        }
-        else
-        {
-            // Nodo no cacheado
-            Node node;
-            String path;
-            Node parent;
-            String parentId;
-
-            if (pathStr.startsWith("pid:"))
-            {
-                // El nodo no está cacheado pero el padre sí.
-                // Formato: pid:idparent:pathrel
-                int posSepPath = pathStr.lastIndexOf(':');
-                parentId = pathStr.substring("pid:".length(),posSepPath);
-                path = pathStr.substring(posSepPath + 1);
-                // La caché debe estar activada sí o sí
-                parent = nodeCache.getNodeById(parentId);  // parent no puede ser null
-                if (parent == null) throw new ItsNatException("INTERNAL ERROR");
-            }
-            else
-            {
-                // Formato: pathabs
-                path = pathStr;
-                parent = null;
-                parentId = null;
-            }
-
-            node = getNodeFromPath(path,parent);
-
-            // En teoría node ha de encontrarse pues existe en el cliente
-            // pero hay un caso en el que sí que puede ser null
-            // y aun así ser tolerable y es el caso en el que en el servidor el nodo (y algunos padres)
-            // no esté porque está cacheado porque está en un subárbol estático
-            // Es el caso por ejemplo de listener asociado a un elemento
-            // cuyos hijos son estáticos y cacheados en el servidor, el currentTarget
-            // no es nulo pero sí puede ser el nodo "target" que puede ser un nodo
-            // bajo el currentTarget cacheado en el servidor. El método getTarget()
-            // devolverá nulo lo cual puede ser aceptable (el programador
-            // deberá investigar que la causa es que en el servidor no está por ser cacheado).
-            if (node == null) return null;
-
-            if (cacheIfPossible && (nodeCache != null))
-            {
-                // Intentamos guardar en la caché y enviamos al cliente, así mejoramos el rendimiento
-                // Hay que tener en cuenta que el nodo no está cacheado en el cliente
-                // pero quizás al resolver otra referencia anteriormente que apunta al mismo
-                // nodo es posible que ya lo hayamos cacheado en el servidor, por lo que
-                // evitamos un intento de cachear de nuevo (pues da error).
-                String id = nodeCache.getId(node);
-                if (id != null) return node; // Ya fue cacheado
-
-                id = nodeCache.addNode(node);  // node no puede ser null
-                if (id != null) // Si es null es que el nodo no es cacheable o la caché está bloqueada
-                {
-                    NodeLocationWithParentImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
-                    addCodeToSend( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
-                }
-            }
-
-            return node;
-        }
-    }    
+        return JSRenderNodeImpl.addNodeToCache(nodeLoc);
+    }
     
     @Override
     protected String renderRemoveNodeFromCache(String id)

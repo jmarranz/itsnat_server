@@ -8,13 +8,13 @@ import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
-import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 import java.io.StringReader;
@@ -37,7 +37,8 @@ public class PageImpl implements Page
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
     protected String clientId;
-    protected OnServerStateLostListener listener;
+    protected OnEventErrorListener eventErrorListener;
+    protected OnServerStateLostListener stateLostListener;
     protected UserDataImpl userData;
 
 
@@ -133,14 +134,25 @@ public class PageImpl implements Page
         return itsNatDoc;
     }
 
+    public OnEventErrorListener getOnEventErrorListener()
+    {
+        return eventErrorListener;
+    }
+
+    @Override
+    public void setOnEventErrorListener(OnEventErrorListener listener)
+    {
+        this.eventErrorListener = listener;
+    }
+
     public OnServerStateLostListener getOnServerStateLostListener()
     {
-        return listener;
+        return stateLostListener;
     }
 
     public void setOnServerStateLostListener(OnServerStateLostListener listener)
     {
-        this.listener = listener;
+        this.stateLostListener = listener;
     }
 
     public void dispose()

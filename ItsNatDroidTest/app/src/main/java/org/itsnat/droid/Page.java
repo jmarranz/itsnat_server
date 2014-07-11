@@ -17,6 +17,7 @@ public interface Page
     public ItsNatView getItsNatView(View view);
     public UserData getUserData();
     public ItsNatDoc getItsNatDoc();
+    public void setOnEventErrorListener(OnEventErrorListener listener);
     public void setOnServerStateLostListener(OnServerStateLostListener listener);
     public void dispose();
 }

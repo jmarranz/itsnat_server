@@ -40,6 +40,11 @@ public class ItsNatViewImpl implements ItsNatView
         return viewData;
     }
 
+    public PageImpl getPageImpl()
+    {
+        return page;
+    }
+
     public View getView()
     {
         return view;

@@ -6,6 +6,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 
@@ -91,16 +93,24 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
 
     private void dispatch(String type,InputEvent nativeEvt)
     {
-        // nativeEvt puede ser null
-
-        List<DOMStdEventListener> list = viewData.getEventListeners(type);
-        if (list == null) return;
-        View view = viewData.getView();
-        for(DOMStdEventListener listener : list)
+        try
         {
+            List<DOMStdEventListener> list = viewData.getEventListeners(type);
+            if (list == null) return;
+            View view = viewData.getView();
+            for (DOMStdEventListener listener : list)
+            {
 System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
-            listener.dispatchEvent(view,nativeEvt);
+                listener.dispatchEvent(view, nativeEvt);
+            }
         }
+        catch(Exception ex)
+        {
+            OnEventErrorListener listener = viewData.getPageImpl().getOnEventErrorListener();
+            if (listener != null) listener.onError(ex,type,nativeEvt);
+            else throw new ItsNatDroidException(ex);
+        }
+
     }
 
     public void setOnClickListener(View.OnClickListener clickListener)

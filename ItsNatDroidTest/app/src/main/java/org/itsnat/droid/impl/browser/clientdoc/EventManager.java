@@ -85,8 +85,8 @@ public class EventManager
 
         if (true)
         {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+StrictMode.setThreadPolicy(policy);
 
             EventSender sender = new EventSender(this);
             String res = sender.requestSyncText(servletPath,params);

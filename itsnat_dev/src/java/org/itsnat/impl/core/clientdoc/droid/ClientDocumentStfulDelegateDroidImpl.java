@@ -20,6 +20,7 @@ import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
@@ -60,6 +61,12 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
     {
         return BSRenderNodeImpl.getNodeReference(node,cacheIfPossible,errIfNull,this);
     }
+    
+    @Override
+    protected String renderAddNodeToCache(NodeLocationWithParentImpl nodeLoc)
+    {
+        return BSRenderNodeImpl.addNodeToCache(nodeLoc);
+    }    
     
     @Override
     protected String renderRemoveNodeFromCache(String id)
