@@ -82,9 +82,9 @@ public class PageRequestImpl implements PageRequest
         execute(browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
     }
 
-    public static void execute(ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
+    public static void execute(final ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
     {
-        HttpGetAsyncTask task = new HttpGetAsyncTask(browser,httpParamsRequest,url)
+        HttpGetAsyncTask task = new HttpGetAsyncTask(url,browser.getHttpContext(), httpParamsRequest, browser.getHttpParams())
         {
             @Override
             protected void onFinishOk(byte[] result)

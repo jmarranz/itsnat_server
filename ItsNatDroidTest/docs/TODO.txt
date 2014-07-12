@@ -1,4 +1,5 @@
 
+
 * QUITAR el código de forzar network sincrono
 
 * Opción de descarga de template síncrona

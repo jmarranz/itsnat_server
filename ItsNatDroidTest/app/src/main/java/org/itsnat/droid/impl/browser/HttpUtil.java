@@ -74,8 +74,14 @@ public class HttpUtil
     {
         try
         {
-            HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
+            // Para evitar cacheados (en el caso de GET) por si acaso
+            // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
+            httpUriRequest.setHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT");
+            httpUriRequest.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
+            httpUriRequest.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            httpUriRequest.setHeader("Expires","0"); // Proxies.
 
+            HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
 
             // Get hold of the response entity
             HttpEntity entity = response.getEntity();

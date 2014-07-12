@@ -106,6 +106,8 @@ System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
         }
         catch(Exception ex)
         {
+            // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
+            // fallar, o bien porque es muy simple o son llamadas al código del usuario que él mismo puede controlar
             OnEventErrorListener listener = viewData.getPageImpl().getOnEventErrorListener();
             if (listener != null) listener.onError(ex,type,nativeEvt);
             else throw new ItsNatDroidException(ex);

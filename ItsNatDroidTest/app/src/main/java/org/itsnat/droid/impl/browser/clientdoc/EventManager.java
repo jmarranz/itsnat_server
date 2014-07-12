@@ -5,6 +5,7 @@ import android.os.StrictMode;
 import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -77,8 +78,10 @@ public class EventManager
 
         parent.fireEventMonitors(true,false,evt);
         //String method = "POST";
+        EventGenericListener evtListener = evt.getEventGenericListener();
         String servletPath = parent.getServletPath();
-        int commMode = evt.getEventGenericListener().getCommMode();
+        int commMode = evtListener.getCommMode();
+        long timeout = evtListener.getTimeout();
         List<NameValuePair> params = evt.genParamURL();
 
         if ((commMode == CommMode.SCRIPT) || (commMode == CommMode.SCRIPT_HOLD)) throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");
@@ -89,7 +92,7 @@ StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll
 StrictMode.setThreadPolicy(policy);
 
             EventSender sender = new EventSender(this);
-            String res = sender.requestSyncText(servletPath,params);
+            String res = sender.requestSyncText(servletPath,params,timeout);
             parent.alert("RESULT: " + res);
         }
 

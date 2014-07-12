@@ -2,17 +2,14 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidNetworkException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
-import java.io.UnsupportedEncodingException;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,16 +24,17 @@ public class EventSender
         this.evtManager = evtManager;
     }
 
-    public String requestSyncText(String servletPath,List<NameValuePair> params)
+    public String requestSyncText(String servletPath,List<NameValuePair> params,long timeout)
     {
         ItsNatDroidBrowserImpl browser = evtManager.getItsNatDocImpl().getPageImpl().getItsNatDroidBrowserImpl();
 
-        HttpParams httpParamsRequest = null;
+        HttpParams httpParamsRequest = new BasicHttpParams();
+        HttpConnectionParams.setSoTimeout(httpParamsRequest,(int)timeout);
 
         StatusLine[] status = new StatusLine[1];
         byte[] result = HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params,status);
         if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidNetworkException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
+            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
 
         return ValueUtil.toString(result);
     }

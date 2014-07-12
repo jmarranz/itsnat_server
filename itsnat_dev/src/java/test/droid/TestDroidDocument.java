@@ -6,8 +6,12 @@
 package test.droid;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -104,9 +108,21 @@ public class TestDroidDocument implements EventListener,Serializable
 
         // Test event listener
         frameLayoutViewInner.setAttribute("id", "frameLayoutViewInner"); 
+        
+        if (true)
+        {
         ((EventTarget)frameLayoutViewInner).addEventListener("click", this,false);
         ((EventTarget)frameLayoutViewInner).addEventListener("mousedown", this,false);        
+        }
         
+        // Test timeout
+        if (false)
+        {
+        itsNatDoc.addEventListener(((EventTarget)frameLayoutViewInner),"click", this, false,CommMode.XHR_ASYNC_HOLD,(ParamTransport[])null,(String)null,2000);  
+        }
+        
+//addEventListener(org.w3c.dom.events.EventTarget target, java.lang.String type, org.w3c.dom.events.EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, java.lang.String preSendCode, long eventTimeout)        
+
         if (false)
         {
         ((EventTarget)frameLayoutViewInner).removeEventListener("click", this,false);            
@@ -116,7 +132,15 @@ public class TestDroidDocument implements EventListener,Serializable
 
     public void handleEvent(Event evt)
     {
-if (true) throw new RuntimeException("BAAAD");
+        if (false) throw new RuntimeException("Test Exception from Server");
+        
+        // Test timeout
+        if (false)
+        {
+            try { Thread.sleep(5000); }
+            catch (InterruptedException ex) { throw new RuntimeException(ex);  }
+        }
+        
         itsNatDoc.addCodeToSend("itsNatDoc.alert(\"click OK\");");
     }
 }

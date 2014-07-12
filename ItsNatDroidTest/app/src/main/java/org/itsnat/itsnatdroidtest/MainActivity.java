@@ -18,7 +18,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.ItsNatDroidNetworkException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
@@ -170,9 +170,9 @@ public class MainActivity extends Activity {
                     public void onError(Exception ex, String type, InputEvent evt)
                     {
                         ex.printStackTrace();
-                        TestUtil.alertDialog(MainActivity.this,"Event processing error,type: " + type);
-                        if (ex instanceof ItsNatDroidNetworkException)
-                            TestUtil.alertDialog(MainActivity.this,"Server content returned error: " + ValueUtil.toString(((ItsNatDroidNetworkException)ex).getContent()));
+                        TestUtil.alertDialog(MainActivity.this,"User Msg: Event processing error,type: " + type);
+                        if (ex instanceof ItsNatDroidServerResponseException)
+                            TestUtil.alertDialog(MainActivity.this,"User Msg: Server content returned error: " + ValueUtil.toString(((ItsNatDroidServerResponseException)ex).getContent()));
                     }
                 });
 
@@ -181,7 +181,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onServerStateLost(Page page)
                     {
-                        TestUtil.alertDialog(MainActivity.this,"SERVER STATE LOST!!");
+                        TestUtil.alertDialog(MainActivity.this,"User Msg: SERVER STATE LOST!!");
                     }
                 });
 
