@@ -23,6 +23,8 @@ public interface ItsNatDocPublic
     public void setAttributeNS(Node node,String namespaceURI,String name,String value);
     public void setAttributeNS2(Object[] idObj,String namespaceURI,String name,String value);
 
+    public void setAttributeNSBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues);
+
     public void removeAttribute(Node node,String name);
     public void removeAttribute2(Object[] idObj,String name);
     public void removeAttributeNS(Node node,String namespaceURI,String name);

@@ -17,6 +17,10 @@
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
@@ -69,15 +73,57 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
 
     public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        // En Droid la renderización de atributos se hace con una única instancia de BSRenderAttributeImpl por lo que hay una única forma compartida
+        // de renderizar entre atributos (eso no lo podemos hacer en web, pero en Web afortunadamente se utiliza mucho el innerHTML) 
+        // podemos considerar una estrategia de definir atributos con una sóla sentencia a modo de batch, se enviará mucho menos código y será más rápido de parsear en beanshell
+        
         Element elem = (Element)node;
         BSRenderAttributeImpl render = BSRenderAttributeImpl.getBSRenderAttribute();          
         StringBuilder code = new StringBuilder();
-        NamedNodeMap attribList = elem.getAttributes();      
-        for(int i = 0; i < attribList.getLength(); i++)
+        
+        NamedNodeMap attribList = elem.getAttributes();    
+        if (attribList.getLength() <= 1)
         {
-            Attr attr = (Attr)attribList.item(i);
-            code.append( render.setAttributeCode(attr,elem,elemVarName,true,clientDoc) );
-        }
+            // No vale la pena el batch
+            for(int i = 0; i < attribList.getLength(); i++)
+            {
+                Attr attr = (Attr)attribList.item(i);
+                code.append( render.setAttributeCode(attr,elem,elemVarName,true,clientDoc) );
+            }
+       }
+       else
+       {
+            Map<String,List<Attr>> mapByNamespace = new HashMap<String,List<Attr>>();
+            List<Attr> listNoNamespace = new LinkedList<Attr>();            
+            for(int i = 0; i < attribList.getLength(); i++)
+            {
+                Attr attr = (Attr)attribList.item(i);
+                String ns = attr.getNamespaceURI();
+                if (ns != null)
+                {
+                    List<Attr> list = mapByNamespace.get(ns);
+                    if (list == null) 
+                    {
+                        list = new LinkedList<Attr>();
+                        mapByNamespace.put(ns,list);
+                    }
+                    list.add(attr);
+                    mapByNamespace.put(ns,list);
+                }
+                else listNoNamespace.add(attr);
+            }       
+            
+            if (!mapByNamespace.isEmpty())
+            {
+                code.append( render.setAttributeCodeBatch(elem,elemVarName,mapByNamespace,clientDoc) );
+            }
+           
+            if (!listNoNamespace.isEmpty())
+            {
+                code.append( render.setAttributeCodeBatch(elem,elemVarName,listNoNamespace,clientDoc) );                
+            }
+       }
+           
         return code.toString();
     }
 

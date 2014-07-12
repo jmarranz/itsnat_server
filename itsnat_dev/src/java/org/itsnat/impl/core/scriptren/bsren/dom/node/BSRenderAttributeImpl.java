@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.node;
 
+import java.util.List;
+import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -47,11 +49,11 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         if (isIgnored(attr,elem))
             return "";
         String attrName = attr.getName();
-        String bsValue = toBSAttrValue(attr,elem,newElem,clientDoc);
+        String bsValue = toBSAttrValue(attr,elem,clientDoc);
         return setAttributeCode(attr,attrName,bsValue,elem,newElem,clientDoc);
     }    
     
-    protected String toBSAttrValue(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
+    protected String toBSAttrValue(Attr attr,Element elem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String value = attr.getValue();
         return toBSAttrValue(value,clientDoc);
@@ -67,7 +69,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         if (isIgnored(attr,elem))
             return "";
         String attrName = attr.getName();
-        String bsValue = toBSAttrValue(attr,elem,newElem,clientDoc);
+        String bsValue = toBSAttrValue(attr,elem,clientDoc);
         return setAttributeCode(attr,attrName,bsValue,elem,elemVarName,newElem,clientDoc);
     }    
     
@@ -116,6 +118,50 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         }
 
     }        
+    
+    private void toArraysForBatch(Element elem,List<Attr> attrList,StringBuilder attrNameArr,StringBuilder attrValueArr,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        int i = 0;
+        for(Attr attr : attrList)
+        {
+            String name = attr.getName();
+            String bsValue = toBSAttrValue(attr,elem,clientDoc);
+            attrNameArr.append("\"" + name + "\"");
+            attrValueArr.append(bsValue);
+            i++;
+
+            if (i < attrList.size()) { attrNameArr.append(','); attrValueArr.append(','); }                
+        }                
+    }
+    
+    public String setAttributeCodeBatch(Element elem,String elemVarName,Map<String,List<Attr>> mapByNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
+    {
+        StringBuilder code = new StringBuilder();
+        for(Map.Entry<String,List<Attr>> entry : mapByNamespace.entrySet())
+        {
+            String namespaceURI = entry.getKey();
+            String namespaceURIScript = shortNamespaceURI(namespaceURI);  
+            List<Attr> attribList =  entry.getValue();
+            StringBuilder attrNameArr = new StringBuilder();
+            StringBuilder attrValueArr = new StringBuilder();  
+            toArraysForBatch(elem,attribList,attrNameArr,attrValueArr,clientDoc);
+            
+           code.append( "itsNatDoc.setAttributeNSBatch(" + elemVarName + "," + namespaceURIScript + ",new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" );             
+        }
+                                    
+        return code.toString();                     
+    }
+    
+    public String setAttributeCodeBatch(Element elem,String elemVarName,List<Attr> attrListNoNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
+    {
+        StringBuilder attrNameArr = new StringBuilder();
+        StringBuilder attrValueArr = new StringBuilder();            
+        toArraysForBatch(elem,attrListNoNamespace,attrNameArr,attrValueArr,clientDoc);
+
+        String code =  "itsNatDoc.setAttributeNSBatch(" + elemVarName + ",null,new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" ; 
+                                    
+        return code;                     
+    }    
     
     public String removeAttributeCode(Attr attr,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
