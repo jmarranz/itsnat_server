@@ -110,7 +110,11 @@ System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
             // fallar, o bien porque es muy simple o son llamadas al código del usuario que él mismo puede controlar
             OnEventErrorListener listener = viewData.getPageImpl().getOnEventErrorListener();
             if (listener != null) listener.onError(ex,type,nativeEvt);
-            else throw new ItsNatDroidException(ex);
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
+                else throw new ItsNatDroidException(ex);
+            }
         }
 
     }

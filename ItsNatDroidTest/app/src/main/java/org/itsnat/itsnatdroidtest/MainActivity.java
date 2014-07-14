@@ -106,6 +106,12 @@ public class MainActivity extends Activity {
         Toast.makeText(MainActivity.this, "DOWNLOADING", Toast.LENGTH_SHORT).show();
         String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid";
 
+        boolean testSSLSelfSignedAllowed = false;
+        if (testSSLSelfSignedAllowed)
+        {
+            droidBrowser.setSSLSelfSignedAllowed(true);
+            url = "https://www.pcwebshop.co.uk"; // Alternativa: https://mms.nw.ru
+        }
         HttpParams httpParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
 
@@ -116,8 +122,7 @@ public class MainActivity extends Activity {
             public void onPage(final Page page)
             {
 
-                Log.v("MainActivity", "CONTENT:" + page.getContent());
-                Log.v("MainActivity", new String(page.getContent()));
+                Log.v("MainActivity", "CONTENT:" + new String(page.getContent()));
 
                 boolean showContentInAlert = false;
                 if (showContentInAlert)

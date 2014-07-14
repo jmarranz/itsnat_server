@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import android.content.Context;
 import android.view.View;
 
+import org.apache.http.params.HttpParams;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -40,12 +41,13 @@ public class PageImpl implements Page
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
     protected UserDataImpl userData;
+    protected HttpParams httpParams;
 
-
-    public PageImpl(ItsNatDroidBrowserImpl browser,String url,InflatedLayoutImpl inflated,byte[] content,String loadScript)
+    public PageImpl(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParams,InflatedLayoutImpl inflated,byte[] content,String loadScript)
     {
         this.browser = browser;
         this.url = url;
+        this.httpParams = httpParams;
         this.inflated = inflated;
         this.content = content;
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
@@ -65,6 +67,11 @@ public class PageImpl implements Page
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
         return browser;
+    }
+
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
     }
 
     @Override

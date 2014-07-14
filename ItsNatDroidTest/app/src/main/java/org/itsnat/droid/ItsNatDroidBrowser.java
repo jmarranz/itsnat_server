@@ -14,4 +14,6 @@ public interface ItsNatDroidBrowser
     public PageRequest createPageRequest();
     public int getMaxPagesInSession();
     public void setMaxPagesInSession(int maxPages);
+    public boolean isSSLSelfSignedAllowed();
+    public void setSSLSelfSignedAllowed(boolean enable);
 }

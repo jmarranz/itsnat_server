@@ -5,6 +5,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
@@ -28,11 +29,16 @@ public class EventSender
     {
         ItsNatDroidBrowserImpl browser = evtManager.getItsNatDocImpl().getPageImpl().getItsNatDroidBrowserImpl();
 
-        HttpParams httpParamsRequest = new BasicHttpParams();
-        HttpConnectionParams.setSoTimeout(httpParamsRequest,(int)timeout);
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = evtManager.getItsNatDocImpl().getPageImpl().getHttpParams();
+        httpParamsRequest = httpParamsRequest.copy();
+        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int)timeout;
+        HttpConnectionParams.setSoTimeout(httpParamsRequest,soTimeout);
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpPost(servletPath, browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),params,status);
+        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,sslSelfSignedAllowed,params,status);
         if (status[0].getStatusCode() != 200)
             throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
 

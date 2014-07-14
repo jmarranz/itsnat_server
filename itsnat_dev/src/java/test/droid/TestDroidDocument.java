@@ -111,22 +111,22 @@ public class TestDroidDocument implements EventListener,Serializable
         
         if (true)
         {
-        ((EventTarget)frameLayoutViewInner).addEventListener("click", this,false);
-        ((EventTarget)frameLayoutViewInner).addEventListener("mousedown", this,false);        
+        ((EventTarget)frameLayoutView).addEventListener("click", this,false);
+        ((EventTarget)frameLayoutView).addEventListener("mousedown", this,false);        
         }
         
         // Test timeout
         if (false)
         {
-        itsNatDoc.addEventListener(((EventTarget)frameLayoutViewInner),"click", this, false,CommMode.XHR_ASYNC_HOLD,(ParamTransport[])null,(String)null,2000);  
+        itsNatDoc.addEventListener(((EventTarget)frameLayoutView),"click", this, false,CommMode.XHR_ASYNC_HOLD,(ParamTransport[])null,(String)null,2000);  
         }
         
 //addEventListener(org.w3c.dom.events.EventTarget target, java.lang.String type, org.w3c.dom.events.EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, java.lang.String preSendCode, long eventTimeout)        
 
         if (false)
         {
-        ((EventTarget)frameLayoutViewInner).removeEventListener("click", this,false);            
-        ((EventTarget)frameLayoutViewInner).removeEventListener("mousedown", this,false);        
+        ((EventTarget)frameLayoutView).removeEventListener("click", this,false);            
+        ((EventTarget)frameLayoutView).removeEventListener("mousedown", this,false);        
         }
     }
 

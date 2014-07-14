@@ -19,21 +19,24 @@ public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
+    protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
 
-    public HttpPostAsyncTask(String servletPath, String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,List<NameValuePair> params)
+    public HttpPostAsyncTask(String servletPath, String url, HttpContext httpContext, HttpParams httpParamsRequest,
+                             HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> params)
     {
         this.servletPath = servletPath;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
         this.httpParamsDefault = httpParamsDefault;
+        this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = params;
     }
 
     protected String executeInBackground()
     {
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest,httpParamsDefault,params,status);
+        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,params,status);
         if (status[0].getStatusCode() != 200)
             throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
 

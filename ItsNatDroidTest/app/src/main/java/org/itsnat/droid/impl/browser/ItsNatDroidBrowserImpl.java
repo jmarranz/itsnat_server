@@ -35,6 +35,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     protected UniqueIdGenerator idGenerator = new UniqueIdGenerator();
     protected Map<String,ItsNatSessionImpl> sessionList = new HashMap<String, ItsNatSessionImpl>();
     protected int maxPagesInSession = 5;
+    protected boolean sslSelfSignedAllowed = false; // Sólo poner a true en pruebas de desarrollo
 
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
@@ -151,5 +152,15 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public void setMaxPagesInSession(int maxPagesInSession)
     {
         this.maxPagesInSession = maxPagesInSession;
+    }
+
+    public boolean isSSLSelfSignedAllowed()
+    {
+        return sslSelfSignedAllowed;
+    }
+
+    public void setSSLSelfSignedAllowed(boolean enable)
+    {
+        this.sslSelfSignedAllowed = enable;
     }
 }

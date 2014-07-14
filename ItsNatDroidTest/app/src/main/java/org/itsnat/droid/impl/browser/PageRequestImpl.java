@@ -84,7 +84,7 @@ public class PageRequestImpl implements PageRequest
 
     public static void execute(final ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
     {
-        HttpGetAsyncTask task = new HttpGetAsyncTask(url,browser.getHttpContext(), httpParamsRequest, browser.getHttpParams())
+        HttpGetAsyncTask task = new HttpGetAsyncTask(url,browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),browser.isSSLSelfSignedAllowed())
         {
             @Override
             protected void onFinishOk(byte[] result)
@@ -101,7 +101,7 @@ public class PageRequestImpl implements PageRequest
                     InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
 
                     String loadScript = scriptArr[0];
-                    PageImpl page = new PageImpl(browser, url, inflated, result, loadScript);
+                    PageImpl page = new PageImpl(browser, url,httpParamsRequest, inflated, result, loadScript);
                     pageListener.onPage(page);
                 }
                 catch(Exception ex)
