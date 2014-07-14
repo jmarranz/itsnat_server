@@ -4,6 +4,7 @@ import android.os.StrictMode;
 
 import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
@@ -77,7 +78,7 @@ public class EventManager
         }
 
         parent.fireEventMonitors(true,false,evt);
-        //String method = "POST";
+
         EventGenericListener evtListener = evt.getEventGenericListener();
         String servletPath = parent.getServletPath();
         int commMode = evtListener.getCommMode();
@@ -86,29 +87,53 @@ public class EventManager
 
         if ((commMode == CommMode.SCRIPT) || (commMode == CommMode.SCRIPT_HOLD)) throw new ItsNatDroidException("SCRIPT and SCRIPT_HOLD communication modes are not supported");
 
-        if (true)
-        {
-StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-StrictMode.setThreadPolicy(policy);
+if (true)
+{
+    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+    StrictMode.setThreadPolicy(policy);
 
+    EventSender sender = new EventSender(this);
+    String response = sender.requestSyncText(evt,servletPath, params, timeout);
+    return;
+}
+
+        if (commMode == CommMode.XHR_SYNC)
+        {
             EventSender sender = new EventSender(this);
-            String res = sender.requestSyncText(servletPath,params,timeout);
-            parent.alert("RESULT: " + res);
+            String response = sender.requestSyncText(evt,servletPath, params, timeout);
+            //processResult(evt,false,response);
+
+
+        }
+        else // XHR_ASYNC y XHR_ASYNC_HOLD
+        {
+            if (commMode == CommMode.XHR_ASYNC_HOLD) this.holdEvt = evt;
+
+            //sender.requestAsyncText(method, servletPath, paramURL, evt, timeout);
         }
 
-        /*
-            EventSender sender = new EventSender(this);
-            if (commMode == CommMode.XHR_SYNC) // XHR_SYNC
-            {
-                sender.requestSyncText(servletPath, paramURL.toString());
-                sender.processResult(evt, false);
-            } else // XHR_ASYNC y XHR_ASYNC_HOLD
-            {
-                if (commMode == CommMode.XHR_ASYNC_HOLD) this.holdEvt = evt;
-
-                long timeout = evt.getEventGenericListener().getTimeout();
-                sender.requestAsyncText(method, servletPath, paramURL, evt, timeout);
-            }
-        */
     }
+
+
+
+/*
+    private void processResult(EventGeneric evt,boolean async,String response)
+    {
+        listener.processRespBegin();
+
+        if (typeof status == "number") // Es undefined ocasionalmente en S60WebKit por ejemplo al enviar el unload
+        {
+            if (status == 200) listener.processRespValid(this.xhr.responseText); // "OK"
+            else if (status != 0)
+            {
+                // Normalmente: status == 500 => Error interno del servidor, el servidor ha lanzado una excepcion
+                // "responseText" contiene el texto de la excepcion del servidor (en Opera esta vacio), xhr.statusText nos da apenas la frase "Error Interno del Servidor"
+                var errMsg = "status: " + status + "\n" + this.xhr.statusText + "\n\n" + this.xhr.responseText;
+                listener.processRespError(errMsg);
+            }
+        }
+
+        listener.processRespEnd(async);
+    }
+    */
 }

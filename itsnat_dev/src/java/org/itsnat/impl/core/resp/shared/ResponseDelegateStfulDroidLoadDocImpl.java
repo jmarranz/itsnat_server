@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.resp.shared;
 
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
@@ -55,13 +56,15 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     
     protected String getInitDocumentScriptCode(final int prevScriptsToRemove)    
     {
+        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();        
         ItsNatSessionImpl session = getClientDocumentStful().getItsNatSessionImpl();
         String stdSessionId = session.getStandardSessionId();  
         String token = session.getToken(); 
         String sessionId = session.getId();        
         String clientId =  getClientDocumentStful().getId();
-        String servletPath = delegByBrowser.getServletPathForEvents();        
-        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\");"; // HACER
+        String servletPath = delegByBrowser.getServletPathForEvents();
+        int errorMode = itsNatDoc.getClientErrorMode();        
+        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ");"; // HACER
     }
     
     @Override

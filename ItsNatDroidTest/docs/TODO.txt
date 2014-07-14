@@ -1,8 +1,12 @@
 
 
+* Llamar a fireEventMonitors en el caso de timeout
+
 * QUITAR el código de forzar network sincrono
 
 * Opción de descarga de template síncrona
+
+* Testear EventMonitor
 
 * Probar onServerStateLost reiniciando el servidor cuando esté consolidado el envío de eventos
 

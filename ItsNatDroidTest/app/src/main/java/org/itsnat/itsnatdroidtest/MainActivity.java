@@ -177,7 +177,7 @@ public class MainActivity extends Activity {
                         ex.printStackTrace();
                         TestUtil.alertDialog(MainActivity.this,"User Msg: Event processing error,type: " + type);
                         if (ex instanceof ItsNatDroidServerResponseException)
-                            TestUtil.alertDialog(MainActivity.this,"User Msg: Server content returned error: " + ValueUtil.toString(((ItsNatDroidServerResponseException)ex).getContent()));
+                            TestUtil.alertDialog(MainActivity.this,"User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException)ex).getContent());
                     }
                 });
 

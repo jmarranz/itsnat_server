@@ -11,7 +11,7 @@ import org.itsnat.droid.Page;
  */
 public interface ItsNatDocPublic
 {
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath);
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode);
 
     public void setDisabledEvents();
 

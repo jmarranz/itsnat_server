@@ -7,9 +7,9 @@ public class ItsNatDroidServerResponseException extends ItsNatDroidException
 {
     protected int statusCode;
     protected String reasonPhrase;
-    protected byte[] content;
+    protected String content;
 
-    public ItsNatDroidServerResponseException(int statusCode, String reasonPhrase, byte[] content)
+    public ItsNatDroidServerResponseException(int statusCode, String reasonPhrase, String content)
     {
         super("Server response error");
         this.statusCode = statusCode;
@@ -27,7 +27,7 @@ public class ItsNatDroidServerResponseException extends ItsNatDroidException
         return reasonPhrase;
     }
 
-    public byte[] getContent()
+    public String getContent()
     {
         return content;
     }

@@ -22,6 +22,7 @@ import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -73,7 +74,7 @@ public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<byte[]>
         StatusLine[] status = new StatusLine[1];
         byte[] result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,status);
         if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
+            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(), ValueUtil.toString(result));
 
         return result;
     }

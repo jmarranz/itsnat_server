@@ -134,12 +134,15 @@ public class TestDroidDocument implements EventListener,Serializable
     {
         if (false) throw new RuntimeException("Test Exception from Server");
         
+        if (false) itsNatDoc.addCodeToSend("BAD_CODE();");        
+        
         // Test timeout
         if (false)
         {
             try { Thread.sleep(5000); }
             catch (InterruptedException ex) { throw new RuntimeException(ex);  }
         }
+        
         
         itsNatDoc.addCodeToSend("itsNatDoc.alert(\"click OK\");");
     }

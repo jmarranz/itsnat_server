@@ -36,6 +36,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 {
     protected PageImpl page;
     protected String servletPath;
+    protected int errorMode;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected WeakMapWithValue<String,DOMStdEventListener> domListeners;
@@ -147,15 +148,23 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private Context getContext()
     {
-        // Es un método
         return page.getInflatedLayoutImpl().getContext();
     }
 
     @Override
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath)
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode)
     {
+        if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
+            throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
+
         page.setSessionIdAndClientId(stdSessionId,sessionToken,sessionId, clientId);
         this.servletPath = servletPath;
+        this.errorMode = errorMode;
+    }
+
+    public int getErrorMode()
+    {
+        return errorMode;
     }
 
     @Override

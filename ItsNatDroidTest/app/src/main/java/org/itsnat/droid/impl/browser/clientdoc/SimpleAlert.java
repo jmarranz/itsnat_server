@@ -15,7 +15,9 @@ public class SimpleAlert
 {
     public static void show(String title,String text,Context ctx)
     {
-        new AlertDialog.Builder(ctx).setTitle(title).setMessage(text).setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
+        new AlertDialog.Builder(ctx).setTitle(title).setMessage(text)
+        .setCancelable(false)
+        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int which)
             {

@@ -59,6 +59,7 @@ public class PageImpl implements Page
             interp.eval(loadScript);
         }
         catch (EvalError ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
+        catch (Exception ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
@@ -95,6 +96,11 @@ public class PageImpl implements Page
     public byte[] getContent()
     {
         return content;
+    }
+
+    public Interpreter getInterpreter()
+    {
+        return interp;
     }
 
     public void setSessionIdAndClientId(String stdSessionId,String sessionToken,String sessionId,String clientId)

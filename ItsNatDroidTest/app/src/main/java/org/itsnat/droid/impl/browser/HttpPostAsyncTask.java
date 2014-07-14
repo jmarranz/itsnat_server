@@ -38,7 +38,7 @@ public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
         StatusLine[] status = new StatusLine[1];
         byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,params,status);
         if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),result);
+            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),ValueUtil.toString(result));
 
         return ValueUtil.toString(result);
     }
