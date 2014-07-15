@@ -44,13 +44,13 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         return false; // Por ahora nada
     }
     
-    public String setAttributeCode(Attr attr,Element elem,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String setAttributeCode(Attr attr,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         if (isIgnored(attr,elem))
             return "";
         String attrName = attr.getName();
         String bsValue = toBSAttrValue(attr,elem,clientDoc);
-        return setAttributeCode(attr,attrName,bsValue,elem,newElem,clientDoc);
+        return setAttributeCode(attr,attrName,bsValue,elem,clientDoc);
     }    
     
     protected String toBSAttrValue(Attr attr,Element elem,ClientDocumentStfulDelegateImpl clientDoc)
@@ -64,27 +64,27 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         return toTransportableStringLiteral(value,clientDoc.getBrowser());
     }    
     
-    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
+    public String setAttributeCode(Attr attr,Element elem,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isIgnored(attr,elem))
             return "";
         String attrName = attr.getName();
         String bsValue = toBSAttrValue(attr,elem,clientDoc);
-        return setAttributeCode(attr,attrName,bsValue,elem,elemVarName,newElem,clientDoc);
+        return setAttributeCode(attr,attrName,bsValue,elem,elemVarName,clientDoc);
     }    
     
-    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,boolean newElem,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
-        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(nodeLoc),newElem);
+        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(nodeLoc));
     }    
 
-    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc)
+    protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(elemVarName,clientDoc),newElem);
+        return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(elemVarName,clientDoc));
     }
 
-    public String setAttributeCode(Attr attr,String attrName,String bsValue,NodeScriptRefImpl nodeRef,boolean newElem)
+    public String setAttributeCode(Attr attr,String attrName,String bsValue,NodeScriptRefImpl nodeRef)
     {
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
@@ -146,7 +146,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
             StringBuilder attrValueArr = new StringBuilder();  
             toArraysForBatch(elem,attribList,attrNameArr,attrValueArr,clientDoc);
             
-           code.append( "itsNatDoc.setAttributeNSBatch(" + elemVarName + "," + namespaceURIScript + ",new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" );             
+           code.append( "itsNatDoc.setAttrBatch(" + elemVarName + "," + namespaceURIScript + ",new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" );             
         }
                                     
         return code.toString();                     
@@ -158,8 +158,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         StringBuilder attrValueArr = new StringBuilder();            
         toArraysForBatch(elem,attrListNoNamespace,attrNameArr,attrValueArr,clientDoc);
 
-        String code =  "itsNatDoc.setAttributeNSBatch(" + elemVarName + ",null,new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" ; 
-                                    
+        String code =  "itsNatDoc.setAttrBatch(" + elemVarName + ",null,new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" ; 
         return code;                     
     }    
     

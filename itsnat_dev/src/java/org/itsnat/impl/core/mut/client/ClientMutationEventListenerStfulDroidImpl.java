@@ -84,7 +84,7 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
         {
             case MutationEvent.ADDITION:
             case MutationEvent.MODIFICATION:
-                code = render.setAttributeCode(attr,elem,false,clientDoc);
+                code = render.setAttributeCode(attr,elem,clientDoc);
                 break;
             case MutationEvent.REMOVAL:
                 code = render.removeAttributeCode(attr,elem,clientDoc);

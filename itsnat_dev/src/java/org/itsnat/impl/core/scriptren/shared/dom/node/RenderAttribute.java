@@ -16,15 +16,11 @@
 
 package org.itsnat.impl.core.scriptren.shared.dom.node;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-
 /**
  *
  * @author jmarranz
  */
 public interface RenderAttribute extends RenderNode
 {
-    public String setAttributeCode(Attr attr,Element elem,String elemVarName,boolean newElem,ClientDocumentStfulDelegateImpl clientDoc);    
+    
 }

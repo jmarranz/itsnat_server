@@ -88,7 +88,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
             for(int i = 0; i < attribList.getLength(); i++)
             {
                 Attr attr = (Attr)attribList.item(i);
-                code.append( render.setAttributeCode(attr,elem,elemVarName,true,clientDoc) );
+                code.append( render.setAttributeCode(attr,elem,elemVarName,clientDoc) );
             }
        }
        else

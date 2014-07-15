@@ -5,18 +5,19 @@ import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.clientdoc.EventSender;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.util.ValueUtil;
 
-import java.net.SocketTimeoutException;
 import java.util.List;
 
 /**
  * Created by jmarranz on 4/06/14.
  */
-public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
+public class HttpPostAsyncTask extends ProcessingAsyncTask<HttpPostResult>
 {
+    protected EventSender eventSender;
+    protected EventGeneric evt;
     protected String servletPath;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
@@ -24,9 +25,11 @@ public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
 
-    public HttpPostAsyncTask(String servletPath, String url, HttpContext httpContext, HttpParams httpParamsRequest,
-                             HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> params)
+    public HttpPostAsyncTask(EventSender eventSender,EventGeneric evt,String servletPath, HttpContext httpContext,
+            HttpParams httpParamsRequest,HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> params)
     {
+        this.eventSender = eventSender;
+        this.evt = evt;
         this.servletPath = servletPath;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
@@ -35,15 +38,40 @@ public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
         this.params = params;
     }
 
-    protected String executeInBackground() throws Exception
+    protected HttpPostResult executeInBackground() throws Exception
     {
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+        String result = ValueUtil.toString(resultArr);
 
-        if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),ValueUtil.toString(result));
-
-        return ValueUtil.toString(result);
+        return new HttpPostResult(result,status[0]);
     }
 
+    @Override
+    protected void onFinishOk(HttpPostResult postResult)
+    {
+        StatusLine status = postResult.status;
+        String result = postResult.result;
+
+        eventSender.processResult(evt,status,result,true);
+    }
+
+    @Override
+    protected void onFinishError(Exception ex)
+    {
+        ItsNatDroidException exFinal = eventSender.processException(evt,ex);
+        throw exFinal;
+    }
+}
+
+class HttpPostResult
+{
+    public HttpPostResult(String result, StatusLine status)
+    {
+        this.result = result;
+        this.status = status;
+    }
+
+    public String result;
+    public StatusLine status;
 }

@@ -243,7 +243,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         setAttributeNS(elem, namespaceURI, name, value);
     }
 
-    public void setAttributeNSBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
+    public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
     {
         int len = attrNames.length;
         for(int i = 0; i < len; i++)

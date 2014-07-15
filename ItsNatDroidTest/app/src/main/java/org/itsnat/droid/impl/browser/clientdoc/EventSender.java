@@ -2,13 +2,13 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.browser.HttpPostAsyncTask;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -33,65 +33,123 @@ public class EventSender
         this.evtManager = evtManager;
     }
 
-    public String requestSyncText(EventGeneric evt,String servletPath,List<NameValuePair> params,long timeout)
+    public EventManager getEventManager()
+    {
+        return evtManager;
+    }
+
+    private HttpParams buildHttpParamsRequest(long timeout)
+    {
+        ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
+        PageImpl page = itsNatDoc.getPageImpl();
+        HttpParams httpParamsRequest = page.getHttpParams();
+        httpParamsRequest = httpParamsRequest.copy();
+        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
+        HttpConnectionParams.setSoTimeout(httpParamsRequest, soTimeout);
+        return httpParamsRequest;
+    }
+
+    public void requestSyncText(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
     {
         ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
-
         HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest.copy();
-        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int)timeout;
-        HttpConnectionParams.setSoTimeout(httpParamsRequest,soTimeout);
+        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         StatusLine[] status = new StatusLine[1];
-        byte[] result;
+        String result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+            result = ValueUtil.toString(resultArr);
         }
-        catch(SocketTimeoutException ex)
+        catch (Exception ex)
         {
-            itsNatDoc.getPageImpl().fireEventMonitors(false, true, evt);
-            throw new ItsNatDroidException(ex);
+            ItsNatDroidException exFinal = processException(evt,ex);
+            throw exFinal;
         }
-        itsNatDoc.getPageImpl().fireEventMonitors(false, false, evt);
-        String resultStr = ValueUtil.toString(result);
-        int statusCode = status[0].getStatusCode();
 
+        processResult(evt,status[0],result,false);
+    }
+
+    public void requestAsyncText(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
+    {
+        ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
+        PageImpl page = itsNatDoc.getPageImpl();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        HttpPostAsyncTask postTask = new HttpPostAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
+
+        postTask.execute();
+    }
+
+    public void processResult(EventGeneric evt,StatusLine status,String result,boolean async)
+    {
+        ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
+        PageImpl page = itsNatDoc.getPageImpl();
+        page.fireEventMonitors(false,false,evt);
+
+        int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
             Interpreter interp = page.getInterpreter();
             try
             {
-                interp.eval(resultStr);
+                interp.eval(result);
             }
             catch (EvalError ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, resultStr);
+                throw new ItsNatDroidScriptException(ex, result);
             }
             catch (Exception ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, resultStr);
+                throw new ItsNatDroidScriptException(ex, result);
             }
+
+            if (async) evtManager.returnedEvent(evt);
+
+        }
+        else // Error del servidor, lo normal es que haya lanzado una excepción
+        {
+            showErrorMessage(true, result);
+            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), result);
+        }
+    }
+
+    public ItsNatDroidException processException(EventGeneric evt,Exception ex)
+    {
+        ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
+        PageImpl page = itsNatDoc.getPageImpl();
+
+        if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
+        {
+            page.fireEventMonitors(false, true, evt);
+
+            return new ItsNatDroidException(ex);
         }
         else
         {
-            showErrorMessage(true,resultStr);
-            throw new ItsNatDroidServerResponseException(statusCode, status[0].getReasonPhrase(), resultStr);
+            page.fireEventMonitors(false, false, evt);
+
+            if (ex instanceof ItsNatDroidException)
+                return (ItsNatDroidException)ex;
+            else
+                return new ItsNatDroidException(ex);
         }
-
-
-        return resultStr;
     }
 
-    private void showErrorMessage(boolean serverErr,String msg)
+    public void showErrorMessage(boolean serverErr, String msg)
     {
         ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
         int errorMode = itsNatDoc.getErrorMode();

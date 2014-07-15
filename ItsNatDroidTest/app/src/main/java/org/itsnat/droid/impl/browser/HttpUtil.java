@@ -127,13 +127,13 @@ public class HttpUtil
             InputStream input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
             return read(input);
         }
+        catch(SocketTimeoutException ex)
+        {
+            throw ex; // Nos interesa tratarlo explícitamente y por tanto NO envolverlo en un ItsNatDroidException
+        }
         catch(ClientProtocolException ex)
         {
             throw new ItsNatDroidException(ex);
-        }
-        catch(SocketTimeoutException ex)
-        {
-            throw ex; // Nos interesa tratarlo aparte
         }
         catch(IOException ex)
         {
