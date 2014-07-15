@@ -15,6 +15,8 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.Event;
+import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -190,6 +192,20 @@ public class MainActivity extends Activity {
                     }
                 });
 
+                page.addEventMonitor(new EventMonitor()
+                {
+                    @Override
+                    public void before(Event event)
+                    {
+                        Log.v("MainActivity","Evt Monitor: before");
+                    }
+
+                    @Override
+                    public void after(Event event, boolean timeout)
+                    {
+                        Log.v("MainActivity","Evt Monitor: after, timeout: " + timeout);
+                    }
+                });
 
 
                 //page.dispose();

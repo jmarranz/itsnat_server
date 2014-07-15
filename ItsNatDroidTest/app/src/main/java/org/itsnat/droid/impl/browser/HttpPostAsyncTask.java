@@ -4,10 +4,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 /**
@@ -33,10 +35,11 @@ public abstract class HttpPostAsyncTask extends ProcessingAsyncTask<String>
         this.params = params;
     }
 
-    protected String executeInBackground()
+    protected String executeInBackground() throws Exception
     {
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,params,status);
+        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+
         if (status[0].getStatusCode() != 200)
             throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(),ValueUtil.toString(result));
 

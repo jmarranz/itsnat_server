@@ -44,7 +44,7 @@ public abstract class ProcessingAsyncTask<ResOk> extends AsyncTask<Void, Void, O
     protected void onProgressUpdate(Void... values) {
     }
 
-    protected abstract ResOk executeInBackground();
+    protected abstract ResOk executeInBackground() throws Exception;
     protected abstract void onFinishOk(ResOk result);
     protected abstract void onFinishError(Exception ex);
 }

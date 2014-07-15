@@ -22,5 +22,9 @@ public interface Page
     public ItsNatDoc getItsNatDoc();
     public void setOnEventErrorListener(OnEventErrorListener listener);
     public void setOnServerStateLostListener(OnServerStateLostListener listener);
+    public void addEventMonitor(EventMonitor monitor);
+    public boolean removeEventMonitor(EventMonitor monitor);
+    public void setEnableEventMonitors(boolean value);
+
     public void dispose();
 }

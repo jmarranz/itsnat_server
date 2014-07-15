@@ -16,10 +16,6 @@ public interface ItsNatDoc
     public void alert(String title,Object value);
     public void toast(Object value,int duration);
     public void toast(Object value);
-    public void onServerStateLost();
 
 
-    public void addEventMonitor(EventMonitor monitor);
-    public boolean removeEventMonitor(EventMonitor monitor);
-    public void setEnableEventMonitors(boolean value);
 }

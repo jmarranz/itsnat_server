@@ -6,6 +6,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -14,6 +15,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.util.ValueUtil;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 import bsh.EvalError;
@@ -47,8 +49,17 @@ public class EventSender
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,sslSelfSignedAllowed,params,status);
-        itsNatDoc.fireEventMonitors(false, false, evt);
+        byte[] result;
+        try
+        {
+            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
+        }
+        catch(SocketTimeoutException ex)
+        {
+            itsNatDoc.getPageImpl().fireEventMonitors(false, true, evt);
+            throw new ItsNatDroidException(ex);
+        }
+        itsNatDoc.getPageImpl().fireEventMonitors(false, false, evt);
         String resultStr = ValueUtil.toString(result);
         int statusCode = status[0].getStatusCode();
 
@@ -61,12 +72,12 @@ public class EventSender
             }
             catch (EvalError ex)
             {
-                showErrorMessage(false, resultStr);
+                showErrorMessage(false, ex.getMessage());
                 throw new ItsNatDroidScriptException(ex, resultStr);
             }
             catch (Exception ex)
             {
-                showErrorMessage(false, resultStr);
+                showErrorMessage(false, ex.getMessage());
                 throw new ItsNatDroidScriptException(ex, resultStr);
             }
         }

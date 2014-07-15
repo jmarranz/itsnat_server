@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
@@ -62,7 +63,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,StatusLine[] status)
+    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,StatusLine[] status) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -78,7 +79,7 @@ public class HttpUtil
         return execute(httpClient,httpGet,httpContext,status);
     }
 
-    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status)
+    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -101,7 +102,7 @@ public class HttpUtil
         return execute(httpClient,httpPost,httpContext,status);
     }
 
-    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status)
+    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status) throws SocketTimeoutException
     {
         try
         {
@@ -129,6 +130,10 @@ public class HttpUtil
         catch(ClientProtocolException ex)
         {
             throw new ItsNatDroidException(ex);
+        }
+        catch(SocketTimeoutException ex)
+        {
+            throw ex; // Nos interesa tratarlo aparte
         }
         catch(IOException ex)
         {

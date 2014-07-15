@@ -77,7 +77,7 @@ public class EventManager
             }
         }
 
-        parent.fireEventMonitors(true,false,evt);
+        parent.getPageImpl().fireEventMonitors(true,false,evt);
 
         EventGenericListener evtListener = evt.getEventGenericListener();
         String servletPath = parent.getServletPath();

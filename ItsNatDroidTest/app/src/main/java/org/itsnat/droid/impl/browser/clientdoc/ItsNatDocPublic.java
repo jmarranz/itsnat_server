@@ -14,6 +14,7 @@ public interface ItsNatDocPublic
     public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode);
 
     public void setDisabledEvents();
+    public void onServerStateLost();
 
     public Node getNode(Object[] idObj);
     public View getView(Object[] idObj);
@@ -56,4 +57,6 @@ public interface ItsNatDocPublic
 
     public void addGlobalEL(GlobalEventListener listener);
     public void removeGlobalEL(GlobalEventListener listener);
+
+
 }

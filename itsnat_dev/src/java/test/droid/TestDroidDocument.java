@@ -6,8 +6,6 @@
 package test.droid;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;

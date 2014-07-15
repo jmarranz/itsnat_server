@@ -100,7 +100,6 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
             View view = viewData.getView();
             for (DOMStdEventListener listener : list)
             {
-System.out.println("PROVISIONAL: REMOTE EVENT OK " + type);
                 listener.dispatchEvent(view, nativeEvt);
             }
         }

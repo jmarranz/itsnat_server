@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.Event;
+import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -19,6 +21,8 @@ import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 import java.io.StringReader;
+import java.util.LinkedList;
+import java.util.List;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -42,6 +46,8 @@ public class PageImpl implements Page
     protected OnServerStateLostListener stateLostListener;
     protected UserDataImpl userData;
     protected HttpParams httpParams;
+    protected boolean enableEvtMonitors = true;
+    protected List<EventMonitor> evtMonitorList;
 
     public PageImpl(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParams,InflatedLayoutImpl inflated,byte[] content,String loadScript)
     {
@@ -167,6 +173,35 @@ public class PageImpl implements Page
     {
         this.stateLostListener = listener;
     }
+
+    public void setEnableEventMonitors(boolean value) { this.enableEvtMonitors = value; }
+
+    public void addEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
+        evtMonitorList.add(monitor);
+    }
+
+    public boolean removeEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) return false;
+        return evtMonitorList.remove(monitor);
+    }
+
+    public void fireEventMonitors(boolean before,boolean timeout,Event evt)
+    {
+        if (!this.enableEvtMonitors) return;
+
+        if (evtMonitorList == null) return;
+
+        for(EventMonitor curr : evtMonitorList)
+        {
+            if (before) curr.before(evt);
+            else curr.after(evt,timeout);
+        }
+    }
+
+
 
     public void dispose()
     {

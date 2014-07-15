@@ -69,7 +69,7 @@ public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<byte[]>
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 
-    protected byte[] executeInBackground()
+    protected byte[] executeInBackground() throws Exception
     {
         StatusLine[] status = new StatusLine[1];
         byte[] result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,status);

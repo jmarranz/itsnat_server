@@ -43,8 +43,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
-    protected boolean enableEvtMonitors = true;
-    protected List<EventMonitor> evtMonitorList;
+
 
     public ItsNatDocImpl(PageImpl page)
     {
@@ -616,33 +615,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     public void removeGlobalEL(GlobalEventListener listener) { globalEventListeners.remove(listener); }
-
-    public void setEnableEventMonitors(boolean value) { this.enableEvtMonitors = value; }
-
-    public void addEventMonitor(EventMonitor monitor)
-    {
-        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
-        evtMonitorList.add(monitor);
-    }
-
-    public boolean removeEventMonitor(EventMonitor monitor)
-    {
-        if (evtMonitorList == null) return false;
-        return evtMonitorList.remove(monitor);
-    }
-
-    public void fireEventMonitors(boolean before,boolean timeout,Event evt)
-    {
-        if (!this.enableEvtMonitors) return;
-
-        if (evtMonitorList == null) return;
-
-        for(EventMonitor curr : evtMonitorList)
-        {
-            if (before) curr.before(evt);
-            else curr.after(evt,timeout);
-        }
-    }
 
 
 }
