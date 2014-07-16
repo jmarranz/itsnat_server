@@ -1,12 +1,8 @@
 
 
-* Probar XHR_ASYNC y XHR_ASYNC_HOLD
-
 * Opción de descarga de template síncrona ????
 
-* Probar onServerStateLost reiniciando el servidor cuando esté consolidado el envío de eventos
-
-* Continuar con sendEventEffective
+* Probar XHR_ASYNC y XHR_ASYNC_HOLD debugueando
 
 * Revisar la correspondencia entre getRawX screenX etc
 

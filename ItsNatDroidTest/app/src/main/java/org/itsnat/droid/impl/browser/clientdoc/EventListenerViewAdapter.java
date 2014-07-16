@@ -9,6 +9,7 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
 
 import java.util.List;
@@ -93,29 +94,30 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
 
     private void dispatch(String type,InputEvent nativeEvt)
     {
-        try
-        {
-            List<DOMStdEventListener> list = viewData.getEventListeners(type);
-            if (list == null) return;
-            View view = viewData.getView();
-            for (DOMStdEventListener listener : list)
-            {
-                listener.dispatchEvent(view, nativeEvt);
-            }
-        }
-        catch(Exception ex)
-        {
-            // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
-            // fallar, o bien porque es muy simple o son llamadas al código del usuario que él mismo puede controlar
-            OnEventErrorListener listener = viewData.getPageImpl().getOnEventErrorListener();
-            if (listener != null) listener.onError(ex,type,nativeEvt);
-            else
-            {
-                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
-                else throw new ItsNatDroidException(ex);
-            }
-        }
+        List<DOMStdEventListener> list = viewData.getEventListeners(type);
+        if (list == null) return;
 
+        View view = viewData.getView();
+        for (DOMStdEventListener listener : list)
+        {
+            NormalEvent evtWrapper = listener.createEventWrapper(nativeEvt);
+            try
+            {
+                listener.dispatchEvent(view, evtWrapper);
+            }
+            catch(Exception ex)
+            {
+                // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
+                // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
+                OnEventErrorListener errorListener = viewData.getPageImpl().getOnEventErrorListener();
+                if (errorListener != null) errorListener.onError(ex,evtWrapper);
+                else
+                {
+                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
+                    else throw new ItsNatDroidException(ex);
+                }
+            }
+        }
     }
 
     public void setOnClickListener(View.OnClickListener clickListener)

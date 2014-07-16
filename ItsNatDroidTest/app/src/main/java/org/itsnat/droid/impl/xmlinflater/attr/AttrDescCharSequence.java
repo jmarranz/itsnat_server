@@ -3,19 +3,19 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class AttrDescCharSequence extends AttrDescReflection
 {
-    public AttrDescCharSequence(ClassDescViewBase parent, String name, String methodName)
+    public AttrDescCharSequence(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name,methodName);
     }
 
-    public AttrDescCharSequence(ClassDescViewBase parent, String name)
+    public AttrDescCharSequence(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }

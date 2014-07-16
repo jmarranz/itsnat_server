@@ -34,6 +34,16 @@ public abstract class EventGeneric implements Event
         return ignoreHold;
     }
 
+    public Object getNativeEvent()
+    {
+        return null; // Se redefine
+    }
+
+    public String getType()
+    {
+        return null; // Se redefine
+    }
+
     public void saveEvent()
     {
         // Se redefine en derivada

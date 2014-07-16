@@ -8,7 +8,7 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.browser.HttpPostAsyncTask;
+import org.itsnat.droid.impl.browser.HttpPostEventAsyncTask;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -61,11 +61,12 @@ public class EventSender
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         StatusLine[] status = new StatusLine[1];
+        String[] encoding = new String[1];
         String result = null;
         try
         {
-            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status);
-            result = ValueUtil.toString(resultArr);
+            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status,encoding);
+            result = ValueUtil.toString(resultArr,encoding[0]);
         }
         catch (Exception ex)
         {
@@ -87,7 +88,7 @@ public class EventSender
         HttpParams httpParamsDefault = browser.getHttpParams();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpPostAsyncTask postTask = new HttpPostAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
+        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
 
         postTask.execute();
     }

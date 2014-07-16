@@ -7,13 +7,13 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 
 /**
  * Created by jmarranz on 25/06/14.
@@ -35,13 +35,13 @@ public class XMLLayoutInflateService
         return classDescViewMgr;
     }
 
-    public void inflate(InputStream input,String[] script, InflatedLayoutImpl inflated)
+    public void inflate(Reader input,String[] script, InflatedLayoutImpl inflated)
     {
         try
         {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-            parser.setInput(input, null);
+            parser.setInput(input);
 
             View rootView = createNextView(parser,null,script,inflated);
             inflated.setRootView(rootView);
@@ -103,7 +103,7 @@ public class XMLLayoutInflateService
 
     public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser, InflatedLayoutImpl inflated)
     {
-        ClassDescViewBase classDesc = classDescViewMgr.get(viewName);
+        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         Context ctx = inflated.getContext();
         int idStyle = findStyleAttribute(parser,ctx);
         View view = classDesc.createAndAddViewObject(viewParent,-1,idStyle,ctx);
@@ -125,7 +125,7 @@ public class XMLLayoutInflateService
         return 0;
     }
 
-    private void fillViewAttributes(ClassDescViewBase classDesc,View view,XmlPullParser parser,InflatedLayoutImpl inflated)
+    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,InflatedLayoutImpl inflated)
     {
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
         for(int i = 0; i < parser.getAttributeCount(); i++)

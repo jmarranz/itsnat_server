@@ -5,4 +5,6 @@ package org.itsnat.droid;
  */
 public interface Event
 {
+    public String getType();
+    public Object getNativeEvent();
 }

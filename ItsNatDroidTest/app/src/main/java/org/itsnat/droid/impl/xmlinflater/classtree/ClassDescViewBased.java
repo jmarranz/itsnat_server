@@ -25,16 +25,16 @@ import java.util.HashMap;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescViewBase
+public class ClassDescViewBased
 {
     protected String className;
     protected Class<View> clasz;
     protected Constructor<View> constructor;
     protected HashMap<String,AttrDesc> attrDescMap;
-    protected ClassDescViewBase parent;
-    protected boolean inited;
+    protected ClassDescViewBased parent;
+    protected boolean initiated;
 
-    public ClassDescViewBase(String className,ClassDescViewBase parent)
+    public ClassDescViewBased(String className,ClassDescViewBased parent)
     {
         this.className = className;
         this.parent = parent;
@@ -59,7 +59,7 @@ public class ClassDescViewBase
 
     protected boolean isInit()
     {
-        return inited;
+        return initiated;
     }
 
     protected void init()

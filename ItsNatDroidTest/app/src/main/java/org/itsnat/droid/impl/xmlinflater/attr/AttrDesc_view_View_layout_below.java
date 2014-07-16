@@ -4,14 +4,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewViewLayoutBelow extends AttrDesc
+public class AttrDesc_view_View_layout_below extends AttrDesc
 {
-    public AttrDescViewViewLayoutBelow(ClassDescViewBase parent)
+    public AttrDesc_view_View_layout_below(ClassDescViewBased parent)
     {
         super(parent,"layout_below");
     }

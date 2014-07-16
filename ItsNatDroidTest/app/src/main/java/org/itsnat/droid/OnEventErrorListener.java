@@ -7,5 +7,5 @@ import android.view.InputEvent;
  */
 public interface OnEventErrorListener
 {
-    public void onError(Exception ex,String type,InputEvent evt);
+    public void onError(Exception ex,Event evt);
 }

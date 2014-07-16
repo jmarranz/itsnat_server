@@ -8,6 +8,8 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 
 import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Created by jmarranz on 5/06/14.
@@ -48,12 +50,12 @@ public class InflateRequestImpl implements InflateRequest
     }
 
     @Override
-    public InflatedLayout inflate(InputStream input)
+    public InflatedLayout inflate(Reader input)
     {
         return inflateInternal(input,new String[1]);
     }
 
-    public InflatedLayoutImpl inflateInternal(InputStream input,String[] code)
+    public InflatedLayoutImpl inflateInternal(Reader input,String[] code)
     {
         InflatedLayoutImpl inflated = new InflatedLayoutImpl(parent,inflateListener,ctx);
         parent.getXMLLayoutInflateService().inflate(input, code, inflated);

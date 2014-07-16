@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,13 +16,13 @@ public abstract class AttrDescReflection extends AttrDesc
     protected String methodName;
     protected Method method;
 
-    public AttrDescReflection(ClassDescViewBase parent, String name, String methodName)
+    public AttrDescReflection(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name);
         this.methodName = methodName;
     }
 
-    public AttrDescReflection(ClassDescViewBase parent, String name)
+    public AttrDescReflection(ClassDescViewBased parent, String name)
     {
         this(parent,name,genMethodName(name));
     }

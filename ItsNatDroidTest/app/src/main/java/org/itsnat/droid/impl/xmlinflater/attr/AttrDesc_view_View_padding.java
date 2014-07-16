@@ -3,14 +3,14 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewViewPadding extends AttrDesc
+public class AttrDesc_view_View_padding extends AttrDesc
 {
-    public AttrDescViewViewPadding(ClassDescViewBase parent,String name)
+    public AttrDesc_view_View_padding(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }

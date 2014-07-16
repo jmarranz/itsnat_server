@@ -3,15 +3,15 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescViewViewLayoutWidthHeightBase extends AttrDesc
+public abstract class AttrDesc_view_View_layout_widthheight_Base extends AttrDesc
 {
-    public AttrDescViewViewLayoutWidthHeightBase(ClassDescViewBase parent,String name)
+    public AttrDesc_view_View_layout_widthheight_Base(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }

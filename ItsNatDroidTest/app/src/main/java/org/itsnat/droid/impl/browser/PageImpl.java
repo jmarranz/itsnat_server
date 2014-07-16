@@ -36,7 +36,7 @@ public class PageImpl implements Page
     protected ItsNatDroidBrowserImpl browser;
     protected String url;
     protected InflatedLayoutImpl inflated;
-    protected byte[] content;
+    protected String content;
     protected String uniqueId;
     protected Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
@@ -49,7 +49,7 @@ public class PageImpl implements Page
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
 
-    public PageImpl(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParams,InflatedLayoutImpl inflated,byte[] content,String loadScript)
+    public PageImpl(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParams,InflatedLayoutImpl inflated,String content,String loadScript)
     {
         this.browser = browser;
         this.url = url;
@@ -99,7 +99,7 @@ public class PageImpl implements Page
     }
 
     @Override
-    public byte[] getContent()
+    public String getContent()
     {
         return content;
     }

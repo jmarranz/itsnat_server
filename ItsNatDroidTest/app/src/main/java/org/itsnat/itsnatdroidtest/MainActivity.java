@@ -3,7 +3,6 @@ package org.itsnat.itsnatdroidtest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.InputEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,15 +24,15 @@ import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.OnLoadErrorListener;
+import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import bsh.EvalError;
 
@@ -75,7 +74,7 @@ public class MainActivity extends Activity {
                         System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
                     }
                 }).setContext(MainActivity.this)
-                  .inflate(input);
+                  .inflate(new InputStreamReader(input));
 
                 View rootView = layout.getRootView();
                 setContentView(rootView);
@@ -174,10 +173,10 @@ public class MainActivity extends Activity {
                 page.setOnEventErrorListener(new OnEventErrorListener()
                 {
                     @Override
-                    public void onError(Exception ex, String type, InputEvent evt)
+                    public void onError(Exception ex, Event evt)
                     {
                         ex.printStackTrace();
-                        TestUtil.alertDialog(MainActivity.this,"User Msg: Event processing error,type: " + type);
+                        TestUtil.alertDialog(MainActivity.this,"User Msg: Event processing error,type: " + evt.getType());
                         if (ex instanceof ItsNatDroidServerResponseException)
                             TestUtil.alertDialog(MainActivity.this,"User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException)ex).getContent());
                     }
@@ -211,10 +210,10 @@ public class MainActivity extends Activity {
                 //page.dispose();
 
             }
-        }).setOnLoadErrorListener(new OnLoadErrorListener()
+        }).setOnPageLoadErrorListener(new OnPageLoadErrorListener()
         {
             @Override
-            public void onError(Exception ex)
+            public void onError(Exception ex,PageRequest pageRequest)
             {
                 Toast.makeText(MainActivity.this, "ERROR:" + ex.getMessage(), Toast.LENGTH_SHORT).show();
                 //throw new RuntimeException(ex);

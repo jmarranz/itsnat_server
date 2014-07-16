@@ -5,7 +5,7 @@ import android.content.Context;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.OnLoadErrorListener;
+import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 
 /**
  * Created by jmarranz on 5/06/14.
@@ -24,7 +25,7 @@ public class PageRequestImpl implements PageRequest
     protected Context ctx;
     protected HttpParams httpParams;
     protected OnPageListener pageListener;
-    protected OnLoadErrorListener errorListener;
+    protected OnPageLoadErrorListener errorListener;
     protected AttrCustomInflaterListener inflateListener;
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser,XMLLayoutInflateService inflateService)
@@ -55,7 +56,7 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public PageRequest setOnLoadErrorListener(OnLoadErrorListener errorListener)
+    public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener errorListener)
     {
         this.errorListener = errorListener;
         return this;
@@ -79,19 +80,19 @@ public class PageRequestImpl implements PageRequest
     public void execute(String url)
     {
         // Pasamos una copia y no usamos los atributos porque nos interesa que el PageRequestImpl sea reutilizado si quiere el usuario
-        execute(browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
+        execute(this,browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
     }
 
-    public static void execute(final ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
+    public static void execute(final PageRequestImpl pageRequest,final ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnPageLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
     {
         HttpGetAsyncTask task = new HttpGetAsyncTask(url,browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),browser.isSSLSelfSignedAllowed())
         {
             @Override
-            protected void onFinishOk(byte[] result)
+            protected void onFinishOk(String result)
             {
                 try
                 {
-                    ByteArrayInputStream input = new ByteArrayInputStream(result);
+                    StringReader input = new StringReader(result);
 
                     InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
                     inflateRequest.setContext(ctx);
@@ -106,7 +107,7 @@ public class PageRequestImpl implements PageRequest
                 }
                 catch(Exception ex)
                 {
-                    if (errorListener != null) errorListener.onError(ex); // Para poder recogerla desde fuera
+                    if (errorListener != null) errorListener.onError(ex,pageRequest); // Para poder recogerla desde fuera
                     else
                     {
                         if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
@@ -118,7 +119,12 @@ public class PageRequestImpl implements PageRequest
             @Override
             protected void onFinishError(Exception ex)
             {
-                if (errorListener != null) errorListener.onError(ex);
+                if (errorListener != null) errorListener.onError(ex,pageRequest); // Para poder recogerla desde fuera
+                else
+                {
+                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                    else throw new ItsNatDroidException(ex);
+                }
             }
         };
         task.execute();

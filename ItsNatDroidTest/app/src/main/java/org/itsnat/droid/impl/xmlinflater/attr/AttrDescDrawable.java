@@ -4,19 +4,19 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 1/05/14.
  */
 public class AttrDescDrawable extends AttrDescReflection
 {
-    public AttrDescDrawable(ClassDescViewBase parent, String name, String methodName)
+    public AttrDescDrawable(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name,methodName);
     }
 
-    public AttrDescDrawable(ClassDescViewBase parent, String name)
+    public AttrDescDrawable(ClassDescViewBased parent, String name)
     {
         super(parent, name);
     }

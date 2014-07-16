@@ -1,5 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -63,7 +66,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,StatusLine[] status) throws SocketTimeoutException
+    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -76,10 +79,10 @@ public class HttpUtil
                 // Prepare a request object
         HttpGet httpGet = new HttpGet(uri);
 
-        return execute(httpClient,httpGet,httpContext,status);
+        return execute(httpClient,httpGet,httpContext,status,encoding);
     }
 
-    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status) throws SocketTimeoutException
+    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -99,10 +102,10 @@ public class HttpUtil
         }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-        return execute(httpClient,httpPost,httpContext,status);
+        return execute(httpClient,httpPost,httpContext,status,encoding);
     }
 
-    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status) throws SocketTimeoutException
+    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         try
         {
@@ -122,7 +125,9 @@ public class HttpUtil
 
             status[0] = response.getStatusLine();
 
-            if (entity == null) return null;
+            if (entity == null) return null; // raro incluso con error
+
+            encoding[0] = getEncoding(response);
 
             InputStream input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
             return read(input);
@@ -141,6 +146,33 @@ public class HttpUtil
         }
     }
 
+    private static String getEncoding(HttpResponse response)
+    {
+        String encoding = null;
+        Header[] contentTypes = response.getHeaders("Content-Type"); // Internamente ignora mayúsculas y minúsculas, no hay que preocuparse
+        if (contentTypes != null && contentTypes.length > 0)
+        {
+            // Ej: Content-Type: android/layout;charset=UTF-8
+            HeaderElement[] elems = contentTypes[0].getElements(); // https://hc.apache.org/httpclient-3.x/apidocs/org/apache/commons/httpclient/HeaderElement.html
+            for (HeaderElement elem : elems)
+            {
+                NameValuePair[] params = elem.getParameters();
+                for (NameValuePair param : params)
+                {
+                    String name = param.getName();
+                    if (name.equalsIgnoreCase("charset"))
+                    {
+                        encoding = param.getValue();
+                        break;
+                    }
+                }
+                if (encoding != null) break;
+            }
+        }
+
+        if (encoding == null) encoding = "UTF-8"; // Por si acaso
+        return encoding;
+    }
 
     public static byte[] read(InputStream input)
     {

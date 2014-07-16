@@ -5,14 +5,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescWidgetTextViewTextAppearance extends AttrDesc
+public class AttrDesc_widget_TextView_textAppearance extends AttrDesc
 {
-    public AttrDescWidgetTextViewTextAppearance(ClassDescViewBase parent)
+    public AttrDesc_widget_TextView_textAppearance(ClassDescViewBased parent)
     {
         super(parent,"textAppearance");
     }

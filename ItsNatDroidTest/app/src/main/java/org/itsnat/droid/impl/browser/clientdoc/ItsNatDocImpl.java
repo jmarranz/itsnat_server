@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.itsnat.droid.Event;
-import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnServerStateLostListener;
@@ -20,8 +18,8 @@ import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -114,7 +112,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return domListeners;
     }
 
-    private View createAndAddViewObject(ClassDescViewBase classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
+    private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
     {
         int idStyle = findStyleAttribute(newChildToIn, ctx);
         return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
@@ -128,7 +126,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return AttrDesc.getIdentifier(value, ctx);
     }
 
-    public void fillViewAttributes(ClassDescViewBase classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    public void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
     {
         View view = newChildToIn.getView();
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
@@ -232,7 +230,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBase viewClassDesc = viewMgr.get(view);
+        ClassDescViewBased viewClassDesc = viewMgr.get(view);
         viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
     }
 
@@ -271,7 +269,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBase viewClassDesc = viewMgr.get(view);
+        ClassDescViewBased viewClassDesc = viewMgr.get(view);
         viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutImpl());
     }
 
@@ -437,7 +435,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         InflatedLayoutImpl inflated = page.getInflatedLayoutImpl();
         Context ctx = inflated.getContext();
         XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
-        ClassDescViewBase classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
+        ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
         View view = createAndAddViewObject(classDesc,parentNode.getView(),newChildToIn,index,ctx);

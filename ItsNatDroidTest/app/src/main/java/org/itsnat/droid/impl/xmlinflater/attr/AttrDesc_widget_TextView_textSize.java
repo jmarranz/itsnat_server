@@ -4,14 +4,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescWidgetTextViewTextSize extends AttrDesc
+public class AttrDesc_widget_TextView_textSize extends AttrDesc
 {
-    public AttrDescWidgetTextViewTextSize(ClassDescViewBase parent)
+    public AttrDesc_widget_TextView_textSize(ClassDescViewBased parent)
     {
         super(parent,"textSize");
     }

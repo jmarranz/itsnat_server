@@ -15,7 +15,7 @@ public interface Page
     public Context getContext();
     public InflatedLayout getInflatedLayout();
     public HttpParams getHttpParams();
-    public byte[] getContent();
+    public String getContent();
     public ItsNatSession getItsNatSession();
     public ItsNatView getItsNatView(View view);
     public UserData getUserData();

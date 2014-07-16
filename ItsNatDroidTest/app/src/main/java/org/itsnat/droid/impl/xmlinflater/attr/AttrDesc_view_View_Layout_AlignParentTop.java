@@ -4,14 +4,14 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewViewLayoutAlignParentTop extends AttrDesc
+public class AttrDesc_view_View_layout_alignParentTop extends AttrDesc
 {
-    public AttrDescViewViewLayoutAlignParentTop(ClassDescViewBase parent)
+    public AttrDesc_view_View_layout_alignParentTop(ClassDescViewBased parent)
     {
         super(parent,"layout_alignParentTop");
     }

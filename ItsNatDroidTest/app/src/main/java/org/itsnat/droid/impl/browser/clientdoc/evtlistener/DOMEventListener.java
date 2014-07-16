@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 
+import android.view.InputEvent;
 import android.view.View;
 
 import org.apache.http.NameValuePair;
@@ -39,9 +40,8 @@ public abstract class DOMEventListener extends NormalEventListener
         return id;
     }
 
-    public void dispatchEvent(View view,Object evt)
+    public void dispatchEvent(View view,NormalEvent evtWrapper)
     {
-        NormalEvent evtWrapper = createEventWrapper(evt);
         if (customFunc != null) customFunc.exec(evtWrapper);
         evtWrapper.sendEvent();
     }

@@ -11,7 +11,7 @@ public interface PageRequest
 {
     public PageRequest setContext(Context ctx);
     public PageRequest setOnPageListener(OnPageListener listener);
-    public PageRequest setOnLoadErrorListener(OnLoadErrorListener listener);
+    public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener listener);
     public PageRequest setAttrCustomInflaterListener(AttrCustomInflaterListener listener);
     public PageRequest setHttpParams(HttpParams httpParams);
     public void execute(String url);

@@ -40,9 +40,9 @@ public class ValueUtil
         return str == null || str.isEmpty();
     }
 
-    public static String toString(byte[] data)
+    public static String toString(byte[] data,String encoding)
     {
-        try { return new String(data,"UTF-8"); }
+        try { return new String(data,encoding); }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
     }
 }

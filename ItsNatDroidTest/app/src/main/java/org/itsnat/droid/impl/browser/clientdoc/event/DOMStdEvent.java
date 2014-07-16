@@ -14,12 +14,28 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
 public abstract class DOMStdEvent extends DOMEvent
 {
     protected InputEvent evtNative;
-    protected Parcel parcel;
 
     public DOMStdEvent(DOMStdEventListener listener,InputEvent evtNative)
     {
         super(listener);
         this.evtNative = evtNative;
+    }
+
+    public DOMStdEventListener getDOMStdEventListener()
+    {
+        return (DOMStdEventListener)listener;
+    }
+
+    @Override
+    public Object getNativeEvent()
+    {
+        return evtNative;
+    }
+
+    @Override
+    public String getType()
+    {
+        return getDOMStdEventListener().getType();
     }
 
     @Override

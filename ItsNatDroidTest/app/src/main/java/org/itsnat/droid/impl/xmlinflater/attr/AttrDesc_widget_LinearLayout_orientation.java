@@ -5,14 +5,14 @@ import android.widget.LinearLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescWidgetLinearLayoutOrientation extends AttrDesc
+public class AttrDesc_widget_LinearLayout_orientation extends AttrDesc
 {
-    public AttrDescWidgetLinearLayoutOrientation(ClassDescViewBase parent)
+    public AttrDesc_widget_LinearLayout_orientation(ClassDescViewBased parent)
     {
         super(parent,"orientation");
     }

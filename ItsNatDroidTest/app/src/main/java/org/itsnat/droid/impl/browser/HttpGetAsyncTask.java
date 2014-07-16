@@ -52,7 +52,7 @@ import java.security.cert.X509Certificate;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<byte[]>
+public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<String>
 {
     protected String url;
     protected HttpContext httpContext;
@@ -69,12 +69,14 @@ public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<byte[]>
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 
-    protected byte[] executeInBackground() throws Exception
+    protected String executeInBackground() throws Exception
     {
         StatusLine[] status = new StatusLine[1];
-        byte[] result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,status);
+        String[] encoding = new String[1];
+        byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,status,encoding);
+        String result = ValueUtil.toString(resultArr,encoding[0]);
         if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(), ValueUtil.toString(result));
+            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(), result);
 
         return result;
     }

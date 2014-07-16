@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Esta clase NO sirve para procesar atributos "@+id/nombre" porque "nombre" no se manifiesta en el R.id porque no ha podido compilarse,
@@ -12,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
  *
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewViewId extends AttrDescReflection
+public class AttrDesc_view_View_id extends AttrDescReflection
 {
-    public AttrDescViewViewId(ClassDescViewBase parent)
+    public AttrDesc_view_View_id(ClassDescViewBased parent)
     {
         super(parent, "id", "setId");
     }

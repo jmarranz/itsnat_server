@@ -1,9 +1,14 @@
-package org.itsnat.droid.impl.xmlinflater.classtree;
+package org.itsnat.droid.impl.xmlinflater;
 
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 
 import java.util.HashMap;
 
@@ -13,7 +18,7 @@ import java.util.HashMap;
 public class ClassDescViewMgr
 {
     protected XMLLayoutInflateService parent;
-    private final HashMap<String,ClassDescViewBase> classes = new HashMap<String,ClassDescViewBase>();
+    private final HashMap<String,ClassDescViewBased> classes = new HashMap<String,ClassDescViewBased>();
 
     public ClassDescViewMgr(XMLLayoutInflateService parent)
     {
@@ -23,26 +28,26 @@ public class ClassDescViewMgr
 
     private void initClassDesc()
     {
-        ClassDescViewView view_View = new ClassDescViewView();
+        ClassDesc_view_View view_View = new ClassDesc_view_View();
         addClassDescViewBase(view_View);
 
-        ClassDescViewBase view_ViewGroup = new ClassDescViewBase("android.view.ViewGroup",view_View);
+        ClassDescViewBased view_ViewGroup = new ClassDescViewBased("android.view.ViewGroup",view_View);
         addClassDescViewBase(view_ViewGroup);
 
-        ClassDescWidgetLinearLayout widget_LinearLayout = new ClassDescWidgetLinearLayout(view_ViewGroup);
+        ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
         addClassDescViewBase(widget_LinearLayout);
 
-        ClassDescViewBase widget_RelativeLayout = new ClassDescViewBase("android.widget.RelativeLayout",view_ViewGroup);
+        ClassDescViewBased widget_RelativeLayout = new ClassDescViewBased("android.widget.RelativeLayout",view_ViewGroup);
         addClassDescViewBase(widget_RelativeLayout);
 
-        ClassDescWidgetTextView widget_TextView = new ClassDescWidgetTextView(view_View);
+        ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
         addClassDescViewBase(widget_TextView);
 
-        ClassDescViewBase widget_Button = new ClassDescViewBase("android.widget.Button",widget_TextView);
+        ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
         addClassDescViewBase(widget_Button);
     }
 
-    private void addClassDescViewBase(ClassDescViewBase viewDesc)
+    private void addClassDescViewBase(ClassDescViewBased viewDesc)
     {
         classes.put(viewDesc.getClassName(), viewDesc);
     }
@@ -66,34 +71,34 @@ public class ClassDescViewMgr
         }
     }
 
-    public ClassDescViewBase get(String viewName)
+    public ClassDescViewBased get(String viewName)
     {
         Class<View> viewClass = null;
         try { viewClass = resolveViewClass(viewName); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        ClassDescViewBase classDesc = get(viewClass);
+        ClassDescViewBased classDesc = get(viewClass);
         return classDesc;
     }
 
-    public ClassDescViewBase get(Class<View> viewClass)
+    public ClassDescViewBased get(Class<View> viewClass)
     {
-        ClassDescViewBase classDesc = classes.get(viewClass.getName());
+        ClassDescViewBased classDesc = classes.get(viewClass.getName());
         if (classDesc == null) classDesc = registerUnknown(viewClass);
         return classDesc; // Nunca es nulo
     }
 
-    public ClassDescViewBase get(View view)
+    public ClassDescViewBased get(View view)
     {
         Class<View> viewClass = (Class<View>)view.getClass();
         return get(viewClass);
     }
 
-    public ClassDescViewBase registerUnknown(Class<View> viewClass)
+    public ClassDescViewBased registerUnknown(Class<View> viewClass)
     {
         String className = viewClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
         Class<View> superClass = (Class<View>)viewClass.getSuperclass();
-        ClassDescViewBase parent = get(superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
+        ClassDescViewBased parent = get(superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
         ClassDescUnknown classDesc = new ClassDescUnknown(className,parent);
 
         classes.put(viewClass.getName(), classDesc);

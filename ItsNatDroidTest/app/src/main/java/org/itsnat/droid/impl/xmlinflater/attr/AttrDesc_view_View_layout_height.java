@@ -4,14 +4,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewViewLayoutHeight extends AttrDescViewViewLayoutWidthHeightBase
+public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_widthheight_Base
 {
-    public AttrDescViewViewLayoutHeight(ClassDescViewBase parent)
+    public AttrDesc_view_View_layout_height(ClassDescViewBased parent)
     {
         super(parent,"layout_height");
     }

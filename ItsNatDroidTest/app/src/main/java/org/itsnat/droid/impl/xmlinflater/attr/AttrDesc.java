@@ -10,7 +10,7 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBase;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 /**
@@ -19,9 +19,9 @@ import org.itsnat.droid.impl.util.ValueUtil;
 public abstract class AttrDesc
 {
     protected String name;
-    protected ClassDescViewBase parent;
+    protected ClassDescViewBased parent;
 
-    public AttrDesc(ClassDescViewBase parent,String name)
+    public AttrDesc(ClassDescViewBased parent,String name)
     {
         this.parent = parent;
         this.name = name;
