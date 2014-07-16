@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="back" type="id">back</item>
     <item name="buttonTest" type="id">buttonTest</item>
     <item name="textViewTest1" type="id">textViewTest1</item>
     <item name="textViewTest2" type="id">textViewTest2</item>

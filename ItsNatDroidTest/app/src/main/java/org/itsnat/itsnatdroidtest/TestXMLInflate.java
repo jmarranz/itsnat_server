@@ -25,16 +25,16 @@ public class TestXMLInflate
         assertEquals(comp.getPaddingTop(),parsed.getPaddingTop());
         assertEquals(comp.getPaddingBottom(),parsed.getPaddingBottom());
 
-        TextView compTextView1 = (TextView)comp.getChildAt(0);
-        TextView parsedTextView1 = (TextView)parsed.getChildAt(0);
+        TextView compTextView1 = (TextView)comp.getChildAt(1);
+        TextView parsedTextView1 = (TextView)parsed.getChildAt(1);
         assertEquals(compTextView1.getId(),parsedTextView1.getId());
         assertEquals(compTextView1.getText(),parsedTextView1.getText());
         assertEquals(compTextView1.getTextSize(),parsedTextView1.getTextSize());
         assertEquals(compTextView1.getBackground(),parsedTextView1.getBackground());
         assertEqualsRelativeLayoutLayoutParams(compTextView1, parsedTextView1);
 
-        TextView compTextView2 = (TextView)comp.getChildAt(1);
-        TextView parsedTextView2 = (TextView)parsed.getChildAt(1);
+        TextView compTextView2 = (TextView)comp.getChildAt(2);
+        TextView parsedTextView2 = (TextView)parsed.getChildAt(2);
         assertEquals(compTextView2.getId(),parsedTextView2.getId());
         assertEquals(compTextView2.getText(),parsedTextView2.getText());
         assertEquals(compTextView2.getBackground(),parsedTextView2.getBackground());
@@ -42,15 +42,15 @@ public class TestXMLInflate
         // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
         assertEquals(compTextView2.getTextSize(),parsedTextView2.getTextSize());
 
-        TextView compCustomTextView = (TextView)comp.getChildAt(2);
-        TextView parsedCustomTextView = (TextView)parsed.getChildAt(2);
+        TextView compCustomTextView = (TextView)comp.getChildAt(3);
+        TextView parsedCustomTextView = (TextView)parsed.getChildAt(3);
         assertEquals(compCustomTextView.getId(),parsedCustomTextView.getId());
         assertEquals(compCustomTextView.getText(),parsedCustomTextView.getText());
         assertEquals(compCustomTextView.getBackground(),parsedCustomTextView.getBackground());
         assertEqualsRelativeLayoutLayoutParams(compCustomTextView,parsedCustomTextView);
 
-        Button compButton = (Button)comp.getChildAt(3);
-        Button parsedButton = (Button)parsed.getChildAt(3);
+        Button compButton = (Button)comp.getChildAt(4);
+        Button parsedButton = (Button)parsed.getChildAt(4);
         assertEquals(compButton.getId(),parsedButton.getId());
         assertEquals(compButton.getText(),parsedButton.getText());
         assertEqualsRelativeLayoutLayoutParams(compButton, parsedButton);

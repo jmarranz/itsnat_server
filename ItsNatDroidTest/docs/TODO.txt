@@ -1,7 +1,5 @@
 
 
-* Opción de descarga de template síncrona ????
-
 * Probar XHR_ASYNC y XHR_ASYNC_HOLD debugueando
 
 * Revisar la correspondencia entre getRawX screenX etc
