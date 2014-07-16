@@ -20,14 +20,20 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.OnPageLoadErrorListener;
+import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -52,16 +58,18 @@ import java.security.cert.X509Certificate;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<String>
+public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
 {
+    protected PageRequestImpl pageRequest;
     protected String url;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
     protected boolean sslSelfSignedAllowed;
 
-    public HttpGetAsyncTask(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, boolean sslSelfSignedAllowed)
     {
+        this.pageRequest = pageRequest;
         this.url = url;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
@@ -81,4 +89,42 @@ public abstract class HttpGetAsyncTask extends ProcessingAsyncTask<String>
         return result;
     }
 
+    @Override
+    protected void onFinishOk(String result)
+    {
+        try
+        {
+            pageRequest.processResponse(url,result);
+        }
+        catch(Exception ex)
+        {
+            OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
+            if (errorListener != null)
+            {
+                errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+                return;
+            }
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                else throw new ItsNatDroidException(ex);
+            }
+        }
+    }
+
+    @Override
+    protected void onFinishError(Exception ex)
+    {
+        OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
+        if (errorListener != null)
+        {
+            errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+            return;
+        }
+        else
+        {
+            if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+            else throw new ItsNatDroidException(ex);
+        }
+    }
 }

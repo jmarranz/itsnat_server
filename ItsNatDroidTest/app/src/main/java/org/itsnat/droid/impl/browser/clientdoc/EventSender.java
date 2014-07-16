@@ -74,7 +74,7 @@ public class EventSender
             ItsNatDroidException exFinal = processException(evt, ex);
             throw exFinal;
 
-            // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch que sí lo hace
+            // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
         processResult(evt,status[0],result,false);

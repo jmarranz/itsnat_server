@@ -131,7 +131,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     @Override
     public PageRequest createPageRequest()
     {
-        return new PageRequestImpl(this,parent.getXMLLayoutInflateService());
+        return new PageRequestImpl(this);
     }
 
     public UniqueIdGenerator getUniqueIdGenerator()

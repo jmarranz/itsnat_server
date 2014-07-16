@@ -2,44 +2,50 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 
+import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.OnPageListener;
+import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.net.SocketTimeoutException;
 
 /**
  * Created by jmarranz on 5/06/14.
  */
 public class PageRequestImpl implements PageRequest
 {
-    protected XMLLayoutInflateService inflateService;
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
     protected HttpParams httpParams;
-    protected OnPageListener pageListener;
+    protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
     protected AttrCustomInflaterListener inflateListener;
+    protected boolean sync = false;
 
-    public PageRequestImpl(ItsNatDroidBrowserImpl browser,XMLLayoutInflateService inflateService)
+    public PageRequestImpl(ItsNatDroidBrowserImpl browser)
     {
         this.browser = browser;
-        this.inflateService = inflateService;
     }
 
-    /*
-    public XMLLayoutInflateService getXMLLayoutInflateService()
+    public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
-        return inflateService;
+        return browser;
     }
-*/
+
+    public Context getContext()
+    {
+        return ctx;
+    }
 
     @Override
     public PageRequest setContext(Context ctx)
@@ -48,11 +54,21 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public OnPageLoadListener getOnPageLoadListener()
+    {
+        return pageListener;
+    }
+
     @Override
-    public PageRequest setOnPageListener(OnPageListener pageListener)
+    public PageRequest setOnPageLoadListener(OnPageLoadListener pageListener)
     {
         this.pageListener = pageListener;
         return this;
+    }
+
+    public OnPageLoadErrorListener getOnPageLoadErrorListener()
+    {
+        return errorListener;
     }
 
     @Override
@@ -60,6 +76,11 @@ public class PageRequestImpl implements PageRequest
     {
         this.errorListener = errorListener;
         return this;
+    }
+
+    public AttrCustomInflaterListener getAttrCustomInflaterListener()
+    {
+        return inflateListener;
     }
 
     @Override
@@ -77,64 +98,76 @@ public class PageRequestImpl implements PageRequest
     }
 
     @Override
-    public void execute(String url)
+    public PageRequest setSynchronous(boolean sync)
     {
-        // Pasamos una copia y no usamos los atributos porque nos interesa que el PageRequestImpl sea reutilizado si quiere el usuario
-        execute(this,browser,url,httpParams,pageListener,errorListener,inflateListener,ctx);
+        this.sync = sync;
+        return this;
     }
 
-    public static void execute(final PageRequestImpl pageRequest,final ItsNatDroidBrowserImpl browser, String url,HttpParams httpParamsRequest,final OnPageListener pageListener,final OnPageLoadErrorListener errorListener, final AttrCustomInflaterListener inflateListener,final Context ctx)
+    @Override
+    public void execute(String url)
     {
-        HttpGetAsyncTask task = new HttpGetAsyncTask(url,browser.getHttpContext(), httpParamsRequest, browser.getHttpParams(),browser.isSSLSelfSignedAllowed())
+        // El PageRequestImpl debe poder ser reutilizado si quiere el usuario
+        if (sync) executeSync(url);
+        else executeAsync(url);
+    }
+
+    public void executeSync(String url)
+    {
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = this.httpParams;
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        String result;
+        try
         {
-            @Override
-            protected void onFinishOk(String result)
-            {
-                try
-                {
-                    StringReader input = new StringReader(result);
+            StatusLine[] status = new StatusLine[1];
+            String[] encoding = new String[1];
+            byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, status, encoding);
+            result = ValueUtil.toString(resultArr, encoding[0]);
+            if (status[0].getStatusCode() != 200)
+                throw new ItsNatDroidServerResponseException(status[0].getStatusCode(), status[0].getReasonPhrase(), result);
+        }
+        catch(SocketTimeoutException ex)
+        {
+            // No capturamos más excepciones aquí ni usamos listeners porque es una llamada directa del usuario y la excepción
+            // SocketTimeoutException estamos obligados a capturarla porque forma parte de la signatura (necesario en otro contexto diferente a éste).
+            throw new ItsNatDroidException(ex);
+        }
 
-                    InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
-                    inflateRequest.setContext(ctx);
-                    if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
+        processResponse(url,result);
+    }
 
-                    String[] scriptArr = new String[1];
-                    InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
+    public void executeAsync(String url)
+    {
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = this.httpParams;
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-                    String loadScript = scriptArr[0];
-                    PageImpl page = new PageImpl(browser, url,httpParamsRequest, inflated, result, loadScript);
-                    pageListener.onPage(page);
-                }
-                catch(Exception ex)
-                {
-                    if (errorListener != null)
-                    {
-                        errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
-                        return;
-                    }
-                    else
-                    {
-                        if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                        else throw new ItsNatDroidException(ex);
-                    }
-                }
-            }
-
-            @Override
-            protected void onFinishError(Exception ex)
-            {
-                if (errorListener != null)
-                {
-                    errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
-                    return;
-                }
-                else
-                {
-                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
-                    else throw new ItsNatDroidException(ex);
-                }
-            }
-        };
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpContext, httpParamsRequest, httpParamsDefault,sslSelfSignedAllowed);
         task.execute();
+    }
+
+    public void processResponse(String url,String result)
+    {
+        StringReader input = new StringReader(result);
+
+        ItsNatDroidBrowserImpl browser = getItsNatDroidBrowserImpl();
+        InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
+        inflateRequest.setContext(getContext());
+        AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
+        if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
+
+        String[] scriptArr = new String[1];
+        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
+
+        HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
+
+        String loadScript = scriptArr[0];
+        PageImpl page = new PageImpl(browser, url, httpParams, inflated, result, loadScript);
+        OnPageLoadListener pageListener = getOnPageLoadListener();
+        if (pageListener != null) pageListener.onPageLoad(page);
     }
 }

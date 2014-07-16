@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +26,7 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.OnPageListener;
+import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
@@ -40,15 +41,39 @@ import bsh.EvalError;
 public class MainActivity extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
-        final View compiledView = getLayoutInflater().inflate(R.layout.activity_main,null);
+        setContentView(R.layout.activity_main);
+
+        View testLocal = findViewById(R.id.testLocal);
+        testLocal.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                testLayoutLocal();
+            }
+        });
+
+        View testRemote = findViewById(R.id.testRemote);
+        testRemote.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                downloadLayoutRemote();
+            }
+        });
+    }
+
+
+    protected void testLayoutLocal() {
+
+        final View compiledView = getLayoutInflater().inflate(R.layout.test_local_layout_compiled,null);
         setContentView(compiledView); // No pasamos directamente el id porque necesitamos la View para testear
         Toast.makeText(this, "OK COMPILED", Toast.LENGTH_SHORT).show();
-
-//WeakMapWithValue.test(null);
-
 
         final View button = findViewById(R.id.buttonTest);
         button.setOnClickListener(new View.OnClickListener()
@@ -57,7 +82,7 @@ public class MainActivity extends Activity {
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InputStream input = getResources().openRawResource(R.raw.activity_main_test);
+                InputStream input = getResources().openRawResource(R.raw.test_local_layout_dynamic);
                 // Sólo para testear carga local
                 InflateRequest inflateRequest = ItsNatDroidRoot.get().createInflateRequest();
                 InflatedLayout layout = inflateRequest.setAttrCustomInflaterListener(new AttrCustomInflaterListener()
@@ -102,6 +127,12 @@ public class MainActivity extends Activity {
 
     }
 
+    private void downloadLayoutRemote()
+    {
+        ItsNatDroidBrowser droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
+        downloadLayoutRemote(droidBrowser);
+    }
+
     private void downloadLayoutRemote(final ItsNatDroidBrowser droidBrowser)
     {
         Toast.makeText(MainActivity.this, "DOWNLOADING", Toast.LENGTH_SHORT).show();
@@ -116,11 +147,20 @@ public class MainActivity extends Activity {
         HttpParams httpParams = new BasicHttpParams();
         HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
 
+        boolean testSyncRequests = false;
+        if (testSyncRequests)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         PageRequest pageRequest = droidBrowser.createPageRequest();
-        pageRequest.setContext(this).setOnPageListener(new OnPageListener()
+        pageRequest.setContext(this)
+            .setSynchronous(testSyncRequests)
+            .setOnPageLoadListener(new OnPageLoadListener()
         {
             @Override
-            public void onPage(final Page page)
+            public void onPageLoad(final Page page)
             {
 
                 Log.v("MainActivity", "CONTENT:" + new String(page.getContent()));
@@ -128,7 +168,7 @@ public class MainActivity extends Activity {
                 boolean showContentInAlert = false;
                 if (showContentInAlert)
                 {
-                    TestUtil.alertDialog(MainActivity.this,"XML",new String(page.getContent()));
+                    TestUtil.alertDialog(MainActivity.this, "XML", new String(page.getContent()));
                 }
 
                 View layout = page.getInflatedLayout().getRootView();
@@ -176,9 +216,9 @@ public class MainActivity extends Activity {
                     public void onError(Exception ex, Event evt)
                     {
                         ex.printStackTrace();
-                        TestUtil.alertDialog(MainActivity.this,"User Msg: Event processing error,type: " + evt.getType());
+                        TestUtil.alertDialog(MainActivity.this, "User Msg: Event processing error,type: " + evt.getType());
                         if (ex instanceof ItsNatDroidServerResponseException)
-                            TestUtil.alertDialog(MainActivity.this,"User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException)ex).getContent());
+                            TestUtil.alertDialog(MainActivity.this, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
                     }
                 });
 
@@ -187,7 +227,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void onServerStateLost(Page page)
                     {
-                        TestUtil.alertDialog(MainActivity.this,"User Msg: SERVER STATE LOST!!");
+                        TestUtil.alertDialog(MainActivity.this, "User Msg: SERVER STATE LOST!!");
                     }
                 });
 
@@ -196,13 +236,13 @@ public class MainActivity extends Activity {
                     @Override
                     public void before(Event event)
                     {
-                        Log.v("MainActivity","Evt Monitor: before");
+                        Log.v("MainActivity", "Evt Monitor: before");
                     }
 
                     @Override
                     public void after(Event event, boolean timeout)
                     {
-                        Log.v("MainActivity","Evt Monitor: after, timeout: " + timeout);
+                        Log.v("MainActivity", "Evt Monitor: after, timeout: " + timeout);
                     }
                 });
 
