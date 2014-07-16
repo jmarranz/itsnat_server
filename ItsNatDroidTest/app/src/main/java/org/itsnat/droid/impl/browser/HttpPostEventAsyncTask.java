@@ -61,7 +61,11 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
         catch(Exception ex)
         {
             OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
-            if (errorListener != null) errorListener.onError(ex,evt); // Para poder recogerla desde fuera
+            if (errorListener != null)
+            {
+                errorListener.onError(ex, evt);
+                return;
+            }
             else
             {
                 if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
@@ -76,7 +80,11 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
         ItsNatDroidException exFinal = eventSender.processException(evt,ex);
 
         OnEventErrorListener errorListener = eventSender.getEventManager().getItsNatDocImpl().getPageImpl().getOnEventErrorListener();
-        if (errorListener != null) errorListener.onError(exFinal,evt);
+        if (errorListener != null)
+        {
+            errorListener.onError(exFinal, evt);
+            return;
+        }
         else
         {
             if (exFinal instanceof ItsNatDroidException) throw (ItsNatDroidException)exFinal;

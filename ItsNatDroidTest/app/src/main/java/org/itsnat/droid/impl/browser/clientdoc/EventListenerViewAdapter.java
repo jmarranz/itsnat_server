@@ -110,7 +110,11 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
                 // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
                 OnEventErrorListener errorListener = viewData.getPageImpl().getOnEventErrorListener();
-                if (errorListener != null) errorListener.onError(ex,evtWrapper);
+                if (errorListener != null)
+                {
+                    errorListener.onError(ex, evtWrapper);
+                    continue;
+                }
                 else
                 {
                     if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;

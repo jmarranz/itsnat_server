@@ -107,7 +107,11 @@ public class PageRequestImpl implements PageRequest
                 }
                 catch(Exception ex)
                 {
-                    if (errorListener != null) errorListener.onError(ex,pageRequest); // Para poder recogerla desde fuera
+                    if (errorListener != null)
+                    {
+                        errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+                        return;
+                    }
                     else
                     {
                         if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
@@ -119,7 +123,11 @@ public class PageRequestImpl implements PageRequest
             @Override
             protected void onFinishError(Exception ex)
             {
-                if (errorListener != null) errorListener.onError(ex,pageRequest); // Para poder recogerla desde fuera
+                if (errorListener != null)
+                {
+                    errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+                    return;
+                }
                 else
                 {
                     if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;

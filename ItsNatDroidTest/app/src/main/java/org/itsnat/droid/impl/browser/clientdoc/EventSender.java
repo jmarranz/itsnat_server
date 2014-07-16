@@ -8,6 +8,7 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpPostEventAsyncTask;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
@@ -70,8 +71,10 @@ public class EventSender
         }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = processException(evt,ex);
+            ItsNatDroidException exFinal = processException(evt, ex);
             throw exFinal;
+
+            // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch que sí lo hace
         }
 
         processResult(evt,status[0],result,false);
