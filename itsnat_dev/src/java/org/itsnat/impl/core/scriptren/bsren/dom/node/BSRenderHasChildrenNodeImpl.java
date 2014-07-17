@@ -41,6 +41,12 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
         return !node.hasAttributes() && !node.hasChildNodes();
     }
 
+    @Override
+    public String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return JSAndBSRenderHasChildrenNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
+    }    
+    
     public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderHasChildrenNodeImpl.getAppendNewNodeCode(parent, newNode, parentVarName, insertMarkupInfo,clientDoc,this);        

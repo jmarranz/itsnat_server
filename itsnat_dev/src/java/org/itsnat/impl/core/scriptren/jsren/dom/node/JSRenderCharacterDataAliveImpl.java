@@ -40,7 +40,7 @@ public abstract class JSRenderCharacterDataAliveImpl extends JSRenderCharacterDa
     }
 
     @Override
-    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
+    public String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptContent(newNode))
         {

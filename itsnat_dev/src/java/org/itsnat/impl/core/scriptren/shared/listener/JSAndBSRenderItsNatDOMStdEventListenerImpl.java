@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.scriptren.shared.listener;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;

@@ -54,7 +54,7 @@ public class JSAndBSRenderHasChildrenNodeImpl extends JSAndBSRenderNotAttrOrAbst
             if (hasChildNodes && beforeParent)
                 code.add( render.appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
 
-            code.add( getAppendCompleteChildNode(parentVarName,newNode,newNodeVarName,clientDoc) );
+            code.add( render.getAppendCompleteChildNode(parentVarName,newNode,newNodeVarName,clientDoc) );
 
             if (hasChildNodes && !beforeParent)
                 code.add( render.appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
@@ -87,7 +87,7 @@ public class JSAndBSRenderHasChildrenNodeImpl extends JSAndBSRenderNotAttrOrAbst
             if (hasChildNodes && beforeParent)
                 code.add( render.appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );
 
-            code.add( getInsertCompleteNodeCode(newNode,newNodeVarName,clientDoc) );
+            code.add( render.getInsertCompleteNodeCode(newNode,newNodeVarName,clientDoc) );
 
             if (hasChildNodes && !beforeParent)
                 code.add( render.appendChildNodes(newNode,newNodeVarName,beforeParent,insertMarkupInfo,clientDoc) );

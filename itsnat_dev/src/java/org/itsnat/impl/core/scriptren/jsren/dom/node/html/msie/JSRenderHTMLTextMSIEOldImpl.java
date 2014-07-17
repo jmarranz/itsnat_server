@@ -75,7 +75,8 @@ public class JSRenderHTMLTextMSIEOldImpl extends JSRenderHTMLTextImpl
         return parentVarName + ".styleSheet.cssText = " + valueJS + ";\n";
     }
 
-    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (parent instanceof HTMLScriptElement)
             return setScriptTextContent(parentVarName,((Text)newNode).getData(),clientDoc);

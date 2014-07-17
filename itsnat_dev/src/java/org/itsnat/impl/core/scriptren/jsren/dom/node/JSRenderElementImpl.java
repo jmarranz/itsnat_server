@@ -122,7 +122,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public abstract String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc);
 
-    protected CannotInsertAsMarkupCauseImpl canInsertSingleChildNodeAsMarkup(Node newChildNode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private CannotInsertAsMarkupCauseImpl canInsertSingleChildNodeAsMarkup(Node newChildNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Este es un escenario en donde queremos insertar un nuevo nodo pero puede
         // haber antes ya otros previamente insertados, por lo que sólo podemos
@@ -154,7 +154,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         return canInsertChildNodeAsMarkupIgnoringOther(parent,newChildNode,template); // En el caso de único hijo obviamente los demás se ignoran pues no hay más
     }
 
-    protected InnerMarkupCodeImpl appendSingleChildNodeAsMarkup(Node newNode, ClientDocumentStfulDelegateWebImpl clientDoc)
+    private InnerMarkupCodeImpl appendSingleChildNodeAsMarkup(Node newNode, ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
         String newNodeMarkup = itsNatDoc.serializeNode(newNode);
@@ -172,7 +172,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         }
     }
 
-    protected InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateImpl clientDoc)
+    private InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Se supone que hay nodos hijo (si no no llamar).
         ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
@@ -203,7 +203,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public abstract boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template);
 
-    protected CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
+    private CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
     {
         if (!isInsertChildNodesAsMarkupCapable(parent,template))
             return new CannotInsertAsMarkupCauseImpl(parent);
@@ -408,7 +408,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     }
 
     @Override
-    protected String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
+    public String getAppendCompleteChildNode(String parentVarName,Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptWithSingleChildTextNode(newNode) && isInsertedScriptNotExecuted((Element)newNode,clientDoc) )
         {
@@ -430,7 +430,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
     }
 
     @Override
-    protected String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
+    public String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (isScriptWithSingleChildTextNode(newNode) && isInsertedScriptNotExecuted((Element)newNode,clientDoc) )
         {

@@ -43,7 +43,8 @@ public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
         return JSRenderHTMLCommentMSIEOldImpl.SINGLETON;
     }
     
-    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (parent instanceof HTMLObjectElement)
             return "";  // <object> no tolera la inserción de nodos de texto hijo aunque sean espacios, ni antes ni después de haberse insertado el <object> en el árbol

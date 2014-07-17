@@ -103,6 +103,7 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
             return JSRenderHTMLElementGeckoImpl.SINGLETON;
     }
 
+    @Override
     protected boolean isChildNotValidInsideInnerHTMLHTMLElement(Element elem,MarkupTemplateVersionImpl template)
     {
         if (super.isChildNotValidInsideInnerHTMLHTMLElement(elem, template))
@@ -147,6 +148,7 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
         return false;
     }
 
+    @Override
     protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // En páginas con MIME text/html los elementos creados con
