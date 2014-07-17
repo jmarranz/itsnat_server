@@ -72,10 +72,10 @@ tiende a meterlo bajo <html> o <head> -->
             if (typeof document.getItsNatDoc == "undefined") return;
             var itsNatDoc = document.getItsNatDoc();
             var monitor = new EventMonitor();
-            var len = itsNatDoc.evtMonitors.size();
+            var len = itsNatDoc.evtMonitorList.size();
             itsNatDoc.addEventMonitor(monitor);
             itsNatDoc.removeEventMonitor(monitor);
-            if (itsNatDoc.evtMonitors.size() != len) alert("ERROR add/removeEventMonitor");
+            if (itsNatDoc.evtMonitorList.size() != len) alert("ERROR add/removeEventMonitor");
 
             itsNatDoc.addEventMonitor(monitor);
         }

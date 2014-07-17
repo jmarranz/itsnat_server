@@ -34,6 +34,7 @@ public class JSRenderW3CAdobeSVGMouseEventImpl extends JSRenderW3CAdobeSVGEventI
     {
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         MouseEvent mouseEvt = (MouseEvent)evt;

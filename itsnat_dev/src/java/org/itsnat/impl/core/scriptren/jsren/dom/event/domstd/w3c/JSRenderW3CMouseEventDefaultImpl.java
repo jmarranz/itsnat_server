@@ -39,6 +39,7 @@ public class JSRenderW3CMouseEventDefaultImpl extends JSRenderW3CMouseEventImpl
         return "MouseEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         MouseEvent mouseEvt = (MouseEvent)evt;

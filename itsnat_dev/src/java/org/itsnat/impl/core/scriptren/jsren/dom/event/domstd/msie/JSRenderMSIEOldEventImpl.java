@@ -58,6 +58,7 @@ public abstract class JSRenderMSIEOldEventImpl extends JSRenderItsNatDOMStdEvent
             return JSRenderMSIEOldEventDefaultImpl.SINGLETON;
     }
 
+    @Override    
     public String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
        return "itsNatDoc.doc.createEventObject()";
@@ -68,6 +69,7 @@ public abstract class JSRenderMSIEOldEventImpl extends JSRenderItsNatDOMStdEvent
         return "";
     }
 
+    @Override    
     public String getStopPropagation(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // stopPropagation NO es estándar MSIE, sólo válido para ItsNat pero en el cliente se detecta
@@ -75,6 +77,7 @@ public abstract class JSRenderMSIEOldEventImpl extends JSRenderItsNatDOMStdEvent
         return evtVarName + ".cancelBubble = true;" + evtVarName + ".itsnat_stopPropagation = true; \n";
     }
 
+    @Override    
     public String getPreventDefault(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return evtVarName + ".returnValue = false;\n";

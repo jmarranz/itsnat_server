@@ -72,7 +72,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
 
         return code.toString();
     }
-
+   
     public String getInitEventSystem(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return "";
@@ -101,6 +101,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
         return code.toString();
     }
 
+    @Override    
     public String getDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
@@ -112,6 +113,7 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
         return code.toString();
     }
 
+    @Override    
     public String getDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();

@@ -40,6 +40,7 @@ public class JSRenderOtherNSElementMSIEOldImpl extends JSRenderOtherNSElementNat
         return JSRenderOtherNSElementMSIEOldImpl.SINGLETON;
     }
 
+    @Override
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return elemName + ".currentStyle";

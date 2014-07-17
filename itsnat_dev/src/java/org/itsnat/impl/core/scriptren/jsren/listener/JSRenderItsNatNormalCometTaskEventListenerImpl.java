@@ -51,11 +51,13 @@ public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsN
         return code.toString();
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addNormalCometTaskEventListenerCode((ItsNatNormalCometEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return null; // Nada que hacer

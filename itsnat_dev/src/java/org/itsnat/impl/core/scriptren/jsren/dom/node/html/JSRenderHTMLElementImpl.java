@@ -94,6 +94,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return ! getTagNamesWithoutInnerHTML().contains(localName);
     }
 
+    @Override    
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Usamos innerHTML que es mucho más eficaz que
@@ -149,6 +150,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return false; // Sólo cosa de SVG
     }
 
+    @Override    
     public boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Sabemos sí o sí que que script es un HTMLScriptElement
@@ -156,6 +158,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return browser.isTextAddedToInsertedHTMLScriptNotExecuted();
     }
 
+    @Override
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Es necesario añadir primero los <param> al <object> o <applet> para que actúen

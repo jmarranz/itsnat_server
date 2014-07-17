@@ -35,6 +35,7 @@ public class JSRenderW3CAdobeSVGMutationEventImpl extends JSRenderW3CAdobeSVGEve
     {
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         MutationEvent mutEvt = (MutationEvent)evt;

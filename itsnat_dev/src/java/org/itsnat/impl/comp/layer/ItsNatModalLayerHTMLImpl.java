@@ -51,6 +51,7 @@ public class ItsNatModalLayerHTMLImpl extends ItsNatModalLayerImpl implements It
         return "black";
     }
 
+    @Override
     public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         BrowserWeb browser = clientDoc.getBrowserWeb();

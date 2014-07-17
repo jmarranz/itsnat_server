@@ -50,6 +50,7 @@ public class ItsNatModalLayerSVGImpl extends ItsNatModalLayerImpl implements Its
         return "black";
     }
 
+    @Override    
     public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return new ItsNatModalLayerClientDocSVGImpl(this,clientDoc);

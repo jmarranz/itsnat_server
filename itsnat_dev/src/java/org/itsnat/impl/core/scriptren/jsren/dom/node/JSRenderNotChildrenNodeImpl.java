@@ -39,6 +39,7 @@ public abstract class JSRenderNotChildrenNodeImpl extends JSRenderNotAttrOrAbstr
         return getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
     }
 
+    @Override    
     public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return getInsertCompleteNodeCode(newNode,clientDoc);

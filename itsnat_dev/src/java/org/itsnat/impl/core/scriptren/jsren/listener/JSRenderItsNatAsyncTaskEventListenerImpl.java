@@ -57,11 +57,13 @@ public class JSRenderItsNatAsyncTaskEventListenerImpl extends JSRenderItsNatGene
         return code.toString();
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatAsyncTaskEventListenerCode((ItsNatAsyncTaskEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return null; // Nada que hacer

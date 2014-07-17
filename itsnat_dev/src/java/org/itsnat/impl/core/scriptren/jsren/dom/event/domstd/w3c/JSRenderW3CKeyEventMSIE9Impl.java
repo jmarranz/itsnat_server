@@ -51,6 +51,7 @@ public class JSRenderW3CKeyEventMSIE9Impl extends JSRenderW3CKeyboardEventImpl
         return "KeyboardEvent"; // SIN s al final
     }
 
+    @Override    
     public String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         code.append( evtVarName + ".initKeyboardEvent("

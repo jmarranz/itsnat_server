@@ -51,6 +51,7 @@ public class ItsNatModalLayerXULImpl extends ItsNatModalLayerImpl implements Its
         return null;
     }
 
+    @Override    
     public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return new ItsNatModalLayerClientDocXULImpl(this,clientDoc);
@@ -61,6 +62,7 @@ public class ItsNatModalLayerXULImpl extends ItsNatModalLayerImpl implements Its
         return getItsNatDocument().getDocument().createElementNS(NamespaceUtil.XUL_NAMESPACE,"panel");
     }
 
+    @Override
     public void processDOMEvent(Event evt)
     {
         super.processDOMEvent(evt);

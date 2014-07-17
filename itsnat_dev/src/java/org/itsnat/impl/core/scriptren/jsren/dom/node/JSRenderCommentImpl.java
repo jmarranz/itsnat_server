@@ -62,6 +62,7 @@ public abstract class JSRenderCommentImpl extends JSRenderCharacterDataImpl
         return "itsNatDoc.doc.createComment(" + dataTextToJS(nodeComm,clientDoc) + ")";
     }
     
+    @Override    
     public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return getCharacterDataModifiedCodeDefault(node,clientDoc);

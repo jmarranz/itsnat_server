@@ -31,6 +31,7 @@ public class JSRenderHTMLElementBatikImpl extends JSRenderHTMLElementSVGPluginIm
     {
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Lo definimos por si se usa en un futuro pero actualmente sólo

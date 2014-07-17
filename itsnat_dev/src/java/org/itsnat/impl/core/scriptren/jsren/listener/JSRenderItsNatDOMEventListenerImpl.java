@@ -43,6 +43,7 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
         return null;
     }
 
+    @Override    
     public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;
@@ -51,7 +52,8 @@ public abstract class JSRenderItsNatDOMEventListenerImpl extends JSRenderItsNatN
 
         return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
-
+    
+    @Override
     public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         ItsNatDOMEventListenerWrapperImpl normalListener = (ItsNatDOMEventListenerWrapperImpl)itsNatListener;

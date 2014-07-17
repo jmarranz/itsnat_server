@@ -69,6 +69,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
         return evt.getType();
     }
 
+    @Override
     public String getInitEventSystem(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
@@ -86,11 +87,13 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
         return code.toString();
     }
 
+    @Override    
     public String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return "asv6 ? " + super.getCreateEventInstance(evt, clientDoc) + " : new Object()";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // ASV v6:

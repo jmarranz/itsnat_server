@@ -53,6 +53,7 @@ public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
             return super.getAppendCompleteChildNode(parent,newNode,parentVarName,clientDoc);
     }
 
+    @Override
     public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // El nodo de texto de <script> y <style> es el único hijo posible y
@@ -66,6 +67,7 @@ public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
             return super.getInsertCompleteNodeCode(newNode,clientDoc);
     }
 
+    @Override
     public String getRemoveNodeCode(Node removedNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         Node parent = removedNode.getParentNode();
@@ -78,6 +80,7 @@ public class JSRenderHTMLCommentMSIEOldImpl extends JSRenderCommentImpl
         // En el caso de nodo texto hijo de <object> si no lo encuentra pues no hará nada
     }
 
+    @Override
     public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         Node parent = node.getParentNode();

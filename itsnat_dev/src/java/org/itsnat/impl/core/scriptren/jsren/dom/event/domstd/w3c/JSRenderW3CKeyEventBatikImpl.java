@@ -40,6 +40,7 @@ public class JSRenderW3CKeyEventBatikImpl extends JSRenderW3CKeyEventImpl
         return "KeyEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Batik define el key event a su manera de acuerdo con

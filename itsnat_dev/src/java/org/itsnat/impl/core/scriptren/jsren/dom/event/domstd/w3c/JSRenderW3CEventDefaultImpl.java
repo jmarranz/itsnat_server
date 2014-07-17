@@ -37,6 +37,7 @@ public class JSRenderW3CEventDefaultImpl extends JSRenderW3CEventImpl
         return "Events";
     }
 
+    @Override    
     public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return getInitEventDefault(evt,evtVarName,clientDoc);

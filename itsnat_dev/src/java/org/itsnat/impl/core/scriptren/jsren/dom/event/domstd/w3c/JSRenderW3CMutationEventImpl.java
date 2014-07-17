@@ -38,6 +38,7 @@ public class JSRenderW3CMutationEventImpl extends JSRenderW3CEventImpl
         return "MutationEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         MutationEvent mutEvt = (MutationEvent)evt;

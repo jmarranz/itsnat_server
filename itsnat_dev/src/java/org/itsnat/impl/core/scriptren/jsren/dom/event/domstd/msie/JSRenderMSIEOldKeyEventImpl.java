@@ -33,6 +33,7 @@ public class JSRenderMSIEOldKeyEventImpl extends JSRenderMSIEOldUIEventImpl
     {
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;

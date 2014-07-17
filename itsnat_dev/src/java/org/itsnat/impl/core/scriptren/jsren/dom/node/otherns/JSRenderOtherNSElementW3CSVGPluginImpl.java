@@ -32,6 +32,7 @@ public abstract class JSRenderOtherNSElementW3CSVGPluginImpl extends JSRenderOth
     {
     }
 
+    @Override
     protected String bindBackupAndSetStylePropertyMethod(String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Redefinimos porque ni Batik applet ni Adobe SVG Viewer soportan el acceso a las propiedades de style directamente
@@ -63,6 +64,7 @@ public abstract class JSRenderOtherNSElementW3CSVGPluginImpl extends JSRenderOth
         return code.toString();
     }
 
+    @Override
     protected String bindRestoreBackupStylePropertyMethod(String methodName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();

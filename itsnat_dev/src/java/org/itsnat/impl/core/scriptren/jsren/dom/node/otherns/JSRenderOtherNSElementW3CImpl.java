@@ -77,7 +77,7 @@ public abstract class JSRenderOtherNSElementW3CImpl extends JSRenderOtherNSEleme
             return super.createElement(nodeElem,tagName,clientDoc);
     }
 
-
+    @Override
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return itsNatDocVar + ".win.getComputedStyle(" + elemName + ", null)";

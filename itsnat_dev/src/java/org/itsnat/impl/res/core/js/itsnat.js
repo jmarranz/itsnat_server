@@ -11,9 +11,9 @@ function pkg_itsnat(pkg)
     pkg.MouseEventUtil = MouseEventUtil;
     pkg.DOMPathResolver = DOMPathResolver;
     pkg.EventMgr = EventMgr;
-    pkg.Event = Event;
+    pkg.TransportUtil = new TransportUtil(); // SINGLETON    
+    pkg.EventGeneric = EventGeneric;
     pkg.NormalEvent = NormalEvent;
-    pkg.TransportUtil = new TransportUtil(); // SINGLETON
     pkg.DOMEvent = DOMEvent;
     pkg.DOMStdEvent = DOMStdEvent;
     pkg.UserEvent = UserEvent;

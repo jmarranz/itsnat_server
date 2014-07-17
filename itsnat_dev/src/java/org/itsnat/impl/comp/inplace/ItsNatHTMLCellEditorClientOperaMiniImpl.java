@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.comp.inplace;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**

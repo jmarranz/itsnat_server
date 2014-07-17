@@ -45,6 +45,7 @@ public class JSRenderCDATASectionImpl extends JSRenderCharacterDataAliveImpl
         return "itsNatDoc.doc.createCDATASection(" + dataTextToJS(nodeCData,clientDoc) + ")";
     }
 
+    @Override    
     public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return getCharacterDataModifiedCodeDefault(node,clientDoc);

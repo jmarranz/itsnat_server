@@ -54,11 +54,13 @@ public class JSRenderItsNatAttachedClientTimerEventListenerImpl extends JSRender
         return code.toString();
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatAttachedClientTimerEventListenerCode((ItsNatAttachedClientTimerEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return null; // Nada que hacer

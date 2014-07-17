@@ -145,6 +145,7 @@ public class JSRenderHTMLElementMSIEOldImpl extends JSRenderHTMLElementImpl
         return false;
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return elemName + ".currentStyle";

@@ -31,6 +31,7 @@ public class JSRenderHTMLElementAdobeSVGImpl extends JSRenderHTMLElementSVGPlugi
     {
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // window.getComputedStyle no está definido

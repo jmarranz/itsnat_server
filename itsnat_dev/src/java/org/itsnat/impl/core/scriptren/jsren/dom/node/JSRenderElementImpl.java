@@ -107,6 +107,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         }
     }
 
+    @Override    
     public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         CannotInsertAsMarkupCauseImpl cannotInsertMarkup = canInsertSingleChildNodeAsMarkup(newNode,clientDoc);

@@ -66,6 +66,7 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
         return getAttachedClientCometTaskRegistry().removeCometTask(id);
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();
@@ -74,11 +75,13 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
             attachClientCometNotifier.stop();
     }
 
+    @Override
     public void normalEventReceivedInDocument()
     {
         super.normalEventReceivedInDocument();
 
-        attachClientCometNotifier.notifyClient();
+        if (attachClientCometNotifier != null) // Por si se llamara este método antes de startAttachedClient()
+            attachClientCometNotifier.notifyClient();
     }
 
     public String getRefreshMethod()

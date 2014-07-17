@@ -50,6 +50,7 @@ public abstract class JSRenderOtherNSElementNativeImpl extends JSRenderOtherNSEl
             return JSRenderOtherNSElementW3CImpl.getJSRenderOtherNSElementW3C((BrowserW3C)browser);
     }
 
+    @Override    
     public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (NamespaceUtil.isSVGElement(script))
@@ -62,6 +63,7 @@ public abstract class JSRenderOtherNSElementNativeImpl extends JSRenderOtherNSEl
         return false;
     }
 
+    @Override
     public boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (NamespaceUtil.isSVGElement(script))

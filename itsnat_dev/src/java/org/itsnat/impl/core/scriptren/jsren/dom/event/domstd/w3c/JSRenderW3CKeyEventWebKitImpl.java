@@ -56,6 +56,7 @@ public class JSRenderW3CKeyEventWebKitImpl extends JSRenderW3CKeyboardEventImpl
         return "KeyboardEvent"; // Yo creo que vale también "KeyboardEvents" (en plural)
     }
 
+    @Override    
     public String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // http://webkit.org/docs/a00095.html

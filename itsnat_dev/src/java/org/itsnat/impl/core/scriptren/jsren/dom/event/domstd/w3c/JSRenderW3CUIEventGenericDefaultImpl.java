@@ -40,6 +40,7 @@ public class JSRenderW3CUIEventGenericDefaultImpl extends JSRenderW3CUIEventImpl
         return "UIEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         UIEvent uiEvt = (UIEvent)evt;

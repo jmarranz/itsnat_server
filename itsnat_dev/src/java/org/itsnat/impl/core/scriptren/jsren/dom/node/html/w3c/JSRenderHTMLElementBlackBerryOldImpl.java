@@ -34,6 +34,7 @@ public class JSRenderHTMLElementBlackBerryOldImpl extends JSRenderHTMLElementW3C
         // Contenido de <script> con innerHTML: se inserta pero no se ejecuta. Idem con DOM
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // El devolver null es un error extraño de BlackBerry.

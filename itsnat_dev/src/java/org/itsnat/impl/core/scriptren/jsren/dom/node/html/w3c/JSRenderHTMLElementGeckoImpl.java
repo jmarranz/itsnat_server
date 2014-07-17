@@ -52,6 +52,7 @@ public class JSRenderHTMLElementGeckoImpl extends JSRenderHTMLElementW3CImpl
          return JSRenderHTMLElementGeckoImpl.SINGLETON;
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return itsNatDocVar + ".win.getComputedStyle(" + elemName + ", null)";

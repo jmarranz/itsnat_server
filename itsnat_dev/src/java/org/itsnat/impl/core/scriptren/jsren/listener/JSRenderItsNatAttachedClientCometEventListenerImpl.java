@@ -44,11 +44,13 @@ public class JSRenderItsNatAttachedClientCometEventListenerImpl extends JSRender
         return "itsNatDoc.sendAttachCometTaskRefresh(\"" + listenerId + "\"," + sync + "," + eventTimeout + ");\n";
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatAttachedClientCometEventListenerCode((ItsNatAttachedClientCometEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return null;

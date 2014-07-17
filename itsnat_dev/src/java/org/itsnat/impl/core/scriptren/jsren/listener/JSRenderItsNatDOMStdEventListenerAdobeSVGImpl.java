@@ -46,6 +46,7 @@ public class JSRenderItsNatDOMStdEventListenerAdobeSVGImpl extends JSRenderItsNa
         return false;
     }
 
+    @Override    
     protected String addItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Adobe SVG Viewer no soporta add/removeEventListener en window
@@ -57,6 +58,7 @@ public class JSRenderItsNatDOMStdEventListenerAdobeSVGImpl extends JSRenderItsNa
             return super.addItsNatDOMStdEventListenerCode(itsNatListener, clientDoc);
     }
 
+    @Override    
     protected String removeItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         EventTarget nodeTarget = itsNatListener.getCurrentTarget();

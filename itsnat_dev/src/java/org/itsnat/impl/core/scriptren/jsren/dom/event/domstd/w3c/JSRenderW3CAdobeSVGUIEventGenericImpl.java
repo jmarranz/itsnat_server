@@ -35,6 +35,7 @@ public class JSRenderW3CAdobeSVGUIEventGenericImpl extends JSRenderW3CAdobeSVGEv
     {
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Leer notas del render del MouseEvent

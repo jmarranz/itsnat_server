@@ -45,6 +45,7 @@ public class JSRenderItsNatDOMStdEventListenerSVGWebRootImpl extends JSRenderIts
         return false;
     }
 
+    @Override    
     protected String addItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (itsNatListener.getType().equals("SVGLoad") && 

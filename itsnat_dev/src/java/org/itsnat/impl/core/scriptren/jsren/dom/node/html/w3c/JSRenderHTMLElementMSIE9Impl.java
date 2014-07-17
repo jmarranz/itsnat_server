@@ -68,6 +68,7 @@ public class JSRenderHTMLElementMSIE9Impl extends JSRenderHTMLElementW3CImpl
         tagNamesNotValidInsideInnerHTML.add("style");
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return itsNatDocVar + ".win.getComputedStyle(" + elemName + ", null)";

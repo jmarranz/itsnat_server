@@ -40,6 +40,7 @@ public class JSRenderMSIEOldMouseEventImpl extends JSRenderMSIEOldUIEventImpl
         return "MouseEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         MouseEvent mouseEvt = (MouseEvent)evt;

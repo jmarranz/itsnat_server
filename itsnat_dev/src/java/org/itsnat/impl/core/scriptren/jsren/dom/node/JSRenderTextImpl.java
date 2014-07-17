@@ -56,6 +56,7 @@ public abstract class JSRenderTextImpl extends JSRenderCharacterDataAliveImpl
         // Se redefine en un caso (usando createTextNode)
     }
    
+    @Override    
     public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Redefinimos completamente porque los nodos de texto

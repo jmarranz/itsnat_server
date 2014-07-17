@@ -40,6 +40,7 @@ public class JSRenderHTMLAttributeOperaImpl extends JSRenderHTMLAttributeW3CImpl
         return true;
     }
 
+    @Override
     protected String removeAttributeWithProperty(Attr attr,String attrName,Element elem,String elemVarName,PropertyImpl prop,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (elem instanceof HTMLOptionElement &&

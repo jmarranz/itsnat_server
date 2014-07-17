@@ -53,6 +53,7 @@ public class JSRenderDocumentFragmentImpl extends JSRenderHasChildrenNodeImpl
         return false;
     }
     
+    @Override    
     public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return super.getInsertNewNodeCode(newNode,null,clientDoc);

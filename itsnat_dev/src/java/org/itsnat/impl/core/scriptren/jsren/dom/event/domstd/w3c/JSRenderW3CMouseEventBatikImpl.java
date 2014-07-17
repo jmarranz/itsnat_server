@@ -39,6 +39,7 @@ public class JSRenderW3CMouseEventBatikImpl extends JSRenderW3CMouseEventImpl
         return "MouseEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // En teoría Batik soporta bien DOM 2 Events pero hay un error

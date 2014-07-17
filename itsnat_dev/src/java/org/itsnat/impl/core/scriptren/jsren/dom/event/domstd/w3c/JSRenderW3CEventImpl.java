@@ -70,6 +70,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
             return JSRenderW3CEventDefaultImpl.SINGLETON; // Desconocidos
     }
 
+    @Override    
     public String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return "itsNatDoc.doc.createEvent(\"" + getEventTypeGroup(evt) + "\")";
@@ -80,6 +81,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
         return evtVarName + ".initEvent(\"" + evt.getType() + "\"," + evt.getBubbles() + "," + evt.getCancelable() + ");\n";
     }
 
+    @Override    
     public String getStopPropagation(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
@@ -87,6 +89,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
         return code.toString();
     }
 
+    @Override    
     public String getPreventDefault(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return evtVarName + ".preventDefault();\n";

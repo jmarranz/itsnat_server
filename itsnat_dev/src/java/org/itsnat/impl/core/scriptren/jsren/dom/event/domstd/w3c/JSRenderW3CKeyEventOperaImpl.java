@@ -38,6 +38,7 @@ public class JSRenderW3CKeyEventOperaImpl extends JSRenderW3CKeyEventImpl
         return "Events";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         /* Lo he deducido generando eventos key normales usando por ej. onkeydown="analizar(event)" etc

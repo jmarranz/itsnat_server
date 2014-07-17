@@ -50,6 +50,7 @@ public class JSRenderSVGElementSVGWebImpl extends JSRenderOtherNSElementImpl
         return "itsNatDoc.doc.createElementNS(\"" + namespace + "\",\"" + tagName + "\")";
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar, String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // No se usa nunca para SVG (sólo para elementos HTML)
@@ -63,11 +64,13 @@ public class JSRenderSVGElementSVGWebImpl extends JSRenderOtherNSElementImpl
             return elemName + ".style";
     }
 
+    @Override    
     public boolean isInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return true;
     }
 
+    @Override    
     public boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return true;

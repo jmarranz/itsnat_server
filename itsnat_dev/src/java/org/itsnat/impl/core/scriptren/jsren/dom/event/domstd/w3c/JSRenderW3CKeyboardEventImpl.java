@@ -78,6 +78,7 @@ public abstract class JSRenderW3CKeyboardEventImpl extends JSRenderW3CKeyEventIm
         return keyCode;
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;

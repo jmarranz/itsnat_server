@@ -36,21 +36,25 @@ public class JSRenderSVGCommentSVGWebImpl extends JSRenderCommentImpl
     {
     }
 
-    protected String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "";
     }
 
+    @Override
     public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "";
     }
 
+    @Override
     public String getRemoveNodeCode(Node removedNode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return "";
     }
 
+    @Override
     public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return "";

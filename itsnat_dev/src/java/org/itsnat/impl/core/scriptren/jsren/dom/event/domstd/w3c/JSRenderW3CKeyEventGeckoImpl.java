@@ -40,6 +40,7 @@ public class JSRenderW3CKeyEventGeckoImpl extends JSRenderW3CKeyEventImpl
         return "KeyEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
          ItsNatKeyEvent keyEvt = (ItsNatKeyEvent)evt;

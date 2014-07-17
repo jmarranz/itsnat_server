@@ -44,6 +44,7 @@ public class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3CImpl
          return JSRenderHTMLElementOperaImpl.SINGLETON;
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return itsNatDocVar + ".win.getComputedStyle(" + elemName + ", null)";

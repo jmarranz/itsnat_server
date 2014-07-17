@@ -73,11 +73,13 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         return JSAndBSRenderItsNatDOMStdEventListenerImpl.removeItsNatDOMStdEventListenerCode(itsNatListener,clientDoc,this);         
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatDOMStdEventListenerCode((ItsNatDOMStdEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return removeItsNatDOMStdEventListenerCode((ItsNatDOMStdEventListenerWrapperImpl)itsNatListener,clientDoc);

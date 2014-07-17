@@ -42,6 +42,7 @@ public abstract class JSRenderW3CHTMLEventImpl extends JSRenderW3CEventImpl
             return JSRenderW3CHTMLEventDefaultImpl.SINGLETON;
     }
 
+    @Override    
     public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return getInitEventDefault(evt,evtVarName,clientDoc);

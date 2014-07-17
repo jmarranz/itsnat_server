@@ -55,11 +55,13 @@ public class JSRenderItsNatContinueEventListenerImpl extends JSRenderItsNatDOMEx
         return code.toString();
     }
 
+    @Override    
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatContinueEventListenerCode((ItsNatContinueEventListenerWrapperImpl)itsNatListener,clientDoc);
     }
 
+    @Override    
     protected String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return null; // Nada que hacer

@@ -39,6 +39,7 @@ public class JSRenderMSIEOldUIEventDefaultImpl extends JSRenderMSIEOldUIEventImp
         return "UIEvents";
     }
 
+    @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         /* UIEvent uiEvt = (UIEvent)evt; */

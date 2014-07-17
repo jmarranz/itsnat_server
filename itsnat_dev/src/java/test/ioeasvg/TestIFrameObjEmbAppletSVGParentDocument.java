@@ -193,8 +193,9 @@ public class TestIFrameObjEmbAppletSVGParentDocument implements EventListener,Se
             String ref = itsNatDoc.getScriptUtil().getNodeReference(containerElem);
             StringBuilder code = new StringBuilder();
             code.append("var elem = " + ref + "; ");
-            // code.append("var childDoc = (typeof elem.contentDocument != \"undefined\") ? elem.contentDocument : elem.getSVGDocument();"); // getSVGDocument in MSIE or with Batik
-            code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument;"); // getSVGDocument in MSIE or with Batik
+ 
+            code.append("var childDoc = (typeof elem.getSVGDocument != \"undefined\") ? elem.getSVGDocument() : elem.contentDocument; "); // getSVGDocument in MSIE or with Batik . Hay un errorcillo en este código en el caso de abrir una ventana nueva Timer o Comet y caso IFRAME, no se arreglarlo pero parece como si no se hubiera iniciado el getSVGDocument, con OBJECT no pasa
+
             code.append("childDoc.getItsNatDoc().fireUserEvent(null,'update_svg');");
             itsNatDoc.addCodeToSend(code.toString());
         }

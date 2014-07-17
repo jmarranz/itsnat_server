@@ -32,6 +32,7 @@ public class JSRenderMSIEOldEventDefaultImpl extends JSRenderMSIEOldEventImpl
     {
     }
 
+    @Override    
     public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return super.getInitEventDefault(evt,evtVarName,clientDoc);

@@ -17,12 +17,9 @@
 package org.itsnat.impl.core.scriptren.jsren.dom.node;
 
 import org.itsnat.impl.core.scriptren.shared.dom.node.*;
-import java.lang.ref.WeakReference;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderElementImpl;
 import org.w3c.dom.Element;
 
 /**

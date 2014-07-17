@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.node.otherns;
 
 
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -64,6 +65,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         return true;
     }
 
+    @Override
     public CannotInsertAsMarkupCauseImpl canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template,InsertAsMarkupInfoImpl insertMarkupInfo)
     {
         CannotInsertAsMarkupCauseImpl cannotInsertMarkup = super.canInsertAllChildrenAsMarkup(parent,template,insertMarkupInfo);
@@ -103,6 +105,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         return "script".equals(localName);
     }
 
+    @Override
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Navegadores W3C:
@@ -132,14 +135,15 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
             return "itsNatDoc.setInnerXML(" + parentNodeJSLocator + "," + valueJS + ");\n";
     }
 
-    public InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateWebImpl clientDoc)
+    @Override
+    public InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         childrenCode = buildOtherNSDocument(parentNode,childrenCode,clientDoc);
 
         return super.appendChildrenCodeAsMarkup(parentVarName, parentNode, childrenCode, clientDoc);
     }
 
-    private String buildOtherNSDocument(Element parent,String body,ClientDocumentStfulDelegateWebImpl clientDoc)
+    private String buildOtherNSDocument(Element parent,String body,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Tratamos de simular en un nuevo documento el contexto del elemento padre
         // y los hijos respecto al namespace, el nodo root de dicho documento

@@ -177,7 +177,7 @@ public abstract class JSRenderAttributeImpl extends JSRenderNodeImpl implements 
             return "itsNatDoc.setAttribute(" + elemVarName + ",\"" + attrName + "\"," + jsValue + ");\n";
         }
     }    
-    
+     
     protected String removeAttributeCode(Attr attr,String attrName,Element elem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         PropertyImpl prop = JSRenderPropertyImpl.getProperty(elem,attrName,clientDoc.getBrowserWeb());

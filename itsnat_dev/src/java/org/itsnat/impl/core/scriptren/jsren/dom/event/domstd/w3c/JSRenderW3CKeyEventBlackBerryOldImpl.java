@@ -51,6 +51,7 @@ public class JSRenderW3CKeyEventBlackBerryOldImpl extends JSRenderW3CKeyboardEve
         return "KeyboardEvents"; // "KeyboardEvent" NO VALE, es con "s" al final
     }
 
+    @Override    
     public String getInitKeyboardEvent(StringBuilder code,ItsNatKeyEvent keyEvt,String evtVarName,String keyIdentifier,int keyLocation,int keyCode,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // La documentación oficial (JDE 4.6) documenta initKeyboardEvent como:

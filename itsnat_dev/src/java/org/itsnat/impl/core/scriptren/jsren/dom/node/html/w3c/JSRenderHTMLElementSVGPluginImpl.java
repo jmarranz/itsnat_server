@@ -36,6 +36,7 @@ public abstract class JSRenderHTMLElementSVGPluginImpl extends JSRenderHTMLEleme
         // es deficiente (son elementos inútiles SVG pero con namespace XHTML)
     }
 
+    @Override
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Redefinimos setInnerHTML antes de que sea usada (también indirectamente al llamar a setInnerHTML2)

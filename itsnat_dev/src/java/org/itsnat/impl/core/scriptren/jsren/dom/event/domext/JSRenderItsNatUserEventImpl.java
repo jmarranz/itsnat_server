@@ -57,6 +57,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         return code.toString();
     }
 
+    @Override
     public String getDispatchEvent(String varResName,NodeLocationImpl nodeLoc,Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
@@ -66,6 +67,7 @@ public class JSRenderItsNatUserEventImpl extends JSRenderItsNatDOMExtEventImpl
         return code.toString();
     }
 
+    @Override    
     public String getDispatchEvent(String targetVarName,Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();

@@ -116,6 +116,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         return false;
     }
 
+    @Override    
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         throw new ItsNatException("INTERNAL ERROR");
