@@ -126,7 +126,7 @@ import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLTableCellElement;
 import org.w3c.dom.html.HTMLTableRowElement;
-import test.comp.Person;
+import test.web.comp.Person;
 
 /**
  *

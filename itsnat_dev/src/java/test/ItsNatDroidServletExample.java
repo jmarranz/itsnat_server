@@ -36,7 +36,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         itsNatServlet.addEventListener(new TestDroidGlobalEventListener(itsNatServlet));
         //itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());        
         
-        String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/test/";
+        String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/droid/test/";
         Properties pages = loadProperties(pathPrefix + "pages.properties");        
         
         ItsNatDocumentTemplate docTemplate;        

@@ -197,7 +197,7 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.TreeWalker;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
-import test.comp.Person;
+import test.web.comp.Person;
 
 /**
  *

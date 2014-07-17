@@ -11,7 +11,7 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ItsNatEventStateless;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import test.stateless.TestCoreStatelessGlobalEventListenerAction;
+import test.web.stateless.TestCoreStatelessGlobalEventListenerAction;
 
 /**
  *

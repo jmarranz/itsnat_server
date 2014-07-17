@@ -14,7 +14,7 @@ import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import test.anything.TestAnythingDocLoadListener;
+import test.web.anything.TestAnythingDocLoadListener;
 
 /**
  *
