@@ -18,7 +18,7 @@ package org.itsnat.impl.core.event.server.dom.domstd;
 
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.w3c.dom.DOMException;
 
 /**
@@ -30,7 +30,7 @@ import org.w3c.dom.DOMException;
  *
  * @author jmarranz
  */
-public abstract class ServerItsNatDOMStdEventImpl extends ServerItsNatDOMEventImpl implements ItsNatDOMStdEvent
+public abstract class ServerItsNatDOMStdEventImpl extends ServerItsNatNormalEventImpl implements ItsNatDOMStdEvent
 {
     /**
      * Creates a new instance of ServerItsNatDOMStdEventImpl

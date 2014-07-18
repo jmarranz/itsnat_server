@@ -23,7 +23,7 @@ import org.itsnat.impl.core.req.norm.RequestGenericTaskEventImpl;
  *
  * @author jmarranz
  */
-public class ResponseGenericTaskEventImpl extends ResponseDOMEventImpl
+public class ResponseGenericTaskEventImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseGenericTaskEventImpl(RequestGenericTaskEventImpl request,ItsNatGenericTaskEventListenerWrapperImpl listener)

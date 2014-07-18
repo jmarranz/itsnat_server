@@ -22,7 +22,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLElement;
 
@@ -67,7 +67,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
     public boolean isChangeEvent(Event evt)
     {
         String type = evt.getType();
-        if ((evt instanceof ServerItsNatDOMEventImpl) && type.equals("blur"))
+        if ((evt instanceof ServerItsNatDOMStdEventImpl) && type.equals("blur"))
             return false; // Al ser generado desde el servidor, el programador deberá lanzar primero el change y luego el blur, es decir, hacerlo BIEN, hay que tener en cuenta que con el evento del blur no habrá un parámetro "value" con el texto
 
         ClientDocumentImpl clientDoc = (ClientDocumentImpl)((ItsNatEvent)evt).getClientDocument();

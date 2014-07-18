@@ -19,7 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderEventImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
@@ -62,7 +62,7 @@ public class JSRenderMethodCallHTMLImpl extends JSRenderMethodCallImpl
     {
         // methodName es "blur" o "focus"
 
-        ServerItsNatDOMEventImpl evt = ServerItsNatDOMEventImpl.createServerDOMEvent("HTMLEvents",clientDoc.getItsNatStfulDocument());
+        ServerItsNatNormalEventImpl evt = ServerItsNatNormalEventImpl.createServerNormalEvent("HTMLEvents",clientDoc.getItsNatStfulDocument());
                 clientDoc.getItsNatStfulDocument().createEvent("HTMLEvents");
         evt.initEvent(methodName, true, true);
         evt.setTarget((EventTarget)elem);

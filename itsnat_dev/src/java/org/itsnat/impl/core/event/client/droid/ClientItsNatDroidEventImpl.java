@@ -21,7 +21,6 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
-import org.w3c.dom.events.EventTarget;
 
 /**
  *
@@ -31,26 +30,17 @@ public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEvent
 {
 
     /**
-     * Creates a new instance of ClientItsNatDOMEventImpl
+     * Creates a new instance of ClientItsNatDroidEventImpl
      */
     public ClientItsNatDroidEventImpl(ItsNatDroidEventListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
     {
         super(listenerWrapper,request);
     }
 
-    public void checkInitializedEvent()
-    {
-        // Está bien formado porque viene del cliente.
-    }
 
     public void initEvent(String eventTypeArg, boolean canBubbleArg, boolean cancelableArg)
     {
         throw new ItsNatException("Not implemented",this);
-    }
-
-    public void setTarget(EventTarget target)
-    {
-        if (getTarget() != target) throw new ItsNatException("Event target cannot be changed");
     }
 
     public ItsNatDroidEventListenerWrapperImpl getItsNatDroidEventListenerWrapper()
@@ -58,33 +48,5 @@ public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEvent
         return (ItsNatDroidEventListenerWrapperImpl)listenerWrapper;
     }
 
-    public void stopPropagation()
-    {
-        throw new ItsNatException("Not implemented",this);
-    }
 
-    public boolean getStopPropagation()
-    {
-        throw new ItsNatException("Not implemented",this);
-    }
-
-    public void preventDefault()
-    {
-        throw new ItsNatException("Not implemented",this);
-    }
-
-    public boolean getPreventDefault()
-    {
-        throw new ItsNatException("Not implemented",this);
-    }
-
-    public EventTarget getCurrentTarget()
-    {
-        return getItsNatDroidEventListenerWrapper().getCurrentTarget();
-    }
-
-    public long getTimeStamp()
-    {
-        return getParameterLong("timeStamp");
-    }
 }

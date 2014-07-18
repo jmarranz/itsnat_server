@@ -23,7 +23,7 @@ import org.itsnat.impl.core.req.norm.RequestDOMExtEventOtherImpl;
  *
  * @author jmarranz
  */
-public class ResponseDOMExtEventOtherImpl extends ResponseDOMEventImpl
+public class ResponseDOMExtEventOtherImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseDOMExtEventOtherImpl(RequestDOMExtEventOtherImpl request,ItsNatDOMExtEventListenerWrapperImpl listener)

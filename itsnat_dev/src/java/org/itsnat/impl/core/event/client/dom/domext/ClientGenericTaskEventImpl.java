@@ -27,7 +27,7 @@ public abstract class ClientGenericTaskEventImpl extends ClientItsNatDOMExtEvent
 {
 
     /**
-     * Creates a new instance of ClientDOMEventImpl
+     * Creates a new instance of ClientGenericTaskEventImpl
      */
     public ClientGenericTaskEventImpl(ItsNatGenericTaskEventListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
     {

@@ -27,7 +27,7 @@ import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
  *
  * @author jmarranz
  */
-public class RequestDOMStdEventImpl extends RequestDOMEventImpl
+public class RequestDOMStdEventImpl extends RequestNormalEventImpl
 {
     public RequestDOMStdEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
     {

@@ -23,7 +23,7 @@ import org.itsnat.impl.core.req.norm.RequestDOMStdEventImpl;
  *
  * @author jmarranz
  */
-public class ResponseDOMStdEventImpl extends ResponseDOMEventImpl
+public class ResponseDOMStdEventImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseDOMStdEventImpl(RequestDOMStdEventImpl request,ItsNatDOMStdEventListenerWrapperImpl listener)

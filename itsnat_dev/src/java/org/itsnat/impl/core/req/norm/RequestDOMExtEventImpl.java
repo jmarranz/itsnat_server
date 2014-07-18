@@ -22,7 +22,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
  *
  * @author jmarranz
  */
-public abstract class RequestDOMExtEventImpl extends RequestDOMEventImpl
+public abstract class RequestDOMExtEventImpl extends RequestNormalEventImpl
 {
     public RequestDOMExtEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
     {

@@ -25,7 +25,7 @@ import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
  *
  * @author jmarranz
  */
-public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
+public class ResponseDOMEventStatelessImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseDOMEventStatelessImpl(RequestDOMEventStatelessImpl request,ItsNatDOMEventStatelessListenerWrapperImpl listener)

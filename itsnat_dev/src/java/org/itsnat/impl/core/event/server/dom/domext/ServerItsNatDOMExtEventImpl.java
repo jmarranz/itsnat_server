@@ -19,14 +19,14 @@ package org.itsnat.impl.core.event.server.dom.domext;
 
 import org.itsnat.core.event.ItsNatDOMExtEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.w3c.dom.DOMException;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ServerItsNatDOMExtEventImpl extends ServerItsNatDOMEventImpl implements ItsNatDOMExtEvent
+public abstract class ServerItsNatDOMExtEventImpl extends ServerItsNatNormalEventImpl implements ItsNatDOMExtEvent
 {
 
     /** Creates a new instance of ServerItsNatDOMExtEventImpl */

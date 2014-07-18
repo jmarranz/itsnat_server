@@ -41,7 +41,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
-import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
@@ -648,7 +648,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public Event createEvent(String eventType) throws DOMException
     {
-        return ServerItsNatDOMEventImpl.createServerDOMEvent(eventType,this);
+        return ServerItsNatNormalEventImpl.createServerNormalEvent(eventType,this);
     }
 
     public void lockThread(long maxWait)
