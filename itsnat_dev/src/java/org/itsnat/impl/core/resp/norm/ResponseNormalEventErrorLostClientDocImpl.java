@@ -20,6 +20,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.listener.dom.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 
 /**
  *
@@ -129,6 +130,6 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
     public void sendReload()
     {
         Browser browser = getClientDocumentWithoutDocumentDefault().getBrowser();
-        getItsNatServletResponse().addCodeToSend(OnLoadBackForwardListenerImpl.getReloadCode(browser));
+        getItsNatServletResponse().addCodeToSend(JSAndBSRenderImpl.getReloadCode(browser));
     }
 }

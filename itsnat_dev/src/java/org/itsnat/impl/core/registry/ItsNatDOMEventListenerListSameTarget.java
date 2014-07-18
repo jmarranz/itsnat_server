@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
-import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.w3c.dom.events.EventListener;
 

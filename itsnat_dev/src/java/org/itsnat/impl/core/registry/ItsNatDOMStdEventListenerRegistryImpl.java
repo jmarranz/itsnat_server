@@ -40,6 +40,7 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListene
         super(itsNatDoc,clientDoc);
     }
 
+    @Override
     public boolean isValidEventTarget(EventTarget target,boolean throwErr)
     {
         if (target == null)

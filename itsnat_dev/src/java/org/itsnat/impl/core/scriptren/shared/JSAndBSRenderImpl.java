@@ -18,7 +18,10 @@ package org.itsnat.impl.core.scriptren.shared;
 
 import org.itsnat.core.script.ScriptExpr;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.droid.BrowserDroid;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.ScriptReference;
 import org.w3c.dom.Node;
@@ -29,6 +32,57 @@ import org.w3c.dom.Node;
  */
 public class JSAndBSRenderImpl
 {
+    // El document.itsNatDoc.disabledEvents sirve para evitar que más listeners asociados a un evento se envíen y provoquen cargar "reloads" mientras se procesa el primer reload
+    // Es el caso de navegadores con back/fordward cacheado pero que ejecutan los scripts y por tanto ejecutan el script de inicio.
+
+    // Recarga usando window.location:
+    // La más segura es: window.location.reload(true);
+    // Hay otras maneras tal y como:
+    //   window.location = window.location;
+    //   window.location.href = window.location.href;
+    //   window.history.go(0);
+    // El problema es que si hay una referencia en URL (o hash) al final
+    // tal y como #hola las tres formas anteriores no recargan, no hacen nada
+    // (depende del navegador) por lo que hay que tender a usar:
+    // window.location.reload(true);
+
+
+    private static final String JS_RELOAD_CODE_NORMAL = "if (document.itsNatDoc) document.itsNatDoc.disabledEvents=true; window.location.reload(true);\n";
+
+    // El caso de Opera Mobile 9.5 beta es que "window.location.reload(true);" no hace nada en ciertas situaciones:
+    // como parte de un evento "load" y como parte de un script ejecutado como respuesta de un request AJAX
+    // (asíncrono es el testeado). Sin embargo otras opciones "window.location = window.location" o "window.location.href = window.location.href"
+    // sí funcionan excepto cuando hay un #ref al final y window.history.go(0) recarga incondicionalmente.
+    // Otra alternativa (peor) sería añadir un onmousedown al BODY el cual será pulsado
+    // compulsivamente por el usuario y hará el reload.
+    // private static final String RELOAD_CODE_OperaMobile = RELOAD_CODE_NORMAL + " window.history.go(0); window.location = window.location; \n"; // Tres oportunidades para recargar
+
+    // En el caso de Adobe SVG Viewer el window.location.reload(true) es como
+    // si hiciéramos un reload manual y no se recarga (se borra la pantalla)
+    // sin embargo window.location.href = window.location.href; sí recarga
+    // si no hay una referencia en el URL (#prueba) esto será raro en SVG.
+    // Evitamos el código de desactivación de eventos por si acaso falla.
+    private static final String JS_RELOAD_CODE_AdobeSVG = "window.location.href = window.location.href;";     
+    
+    public static String getReloadCode(Browser browser)
+    {
+        if (browser instanceof BrowserWeb)
+        {
+            /*if (browser instanceof BrowserOperaMobile)
+                return RELOAD_CODE_OperaMobile;
+            else*/ if (browser instanceof BrowserAdobeSVG)
+                return JS_RELOAD_CODE_AdobeSVG;
+            else
+                return JS_RELOAD_CODE_NORMAL;
+        }
+        else if (browser instanceof BrowserDroid)
+        {
+            return "itsNatDoc.setDisabledEvents(); itsNatDoc.onServerStateLost();";
+        }
+        return null;
+    }    
+    
+    
     public static String toLiteralStringScript(String value)
     {
         if (value == null)
