@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom.domext;
 
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.core.ItsNatException;
@@ -37,10 +37,8 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListenerRegistryImpl
+public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListenerRegistryImpl
 {
-    protected WeakMapItsNatDOMEventListenerByTarget eventListenersByTarget = new WeakMapItsNatDOMEventListenerByTarget(this);
-
     /**
      * Creates a new instance of ContinueEventListenerRegistryImpl
      */
@@ -49,14 +47,13 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListener
         super(clientDoc.getItsNatStfulDocument(),clientDoc);
     }
 
+    @Override
     protected void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
     {
         super.addItsNatDOMEventListener(listenerWrapper);
 
         ItsNatTimerEventListenerWrapperImpl timerListener = (ItsNatTimerEventListenerWrapperImpl)listenerWrapper;
         timerListener.getItsNatTimerImpl().addListenerLocal(timerListener);
-
-        eventListenersByTarget.addItsNatDOMEventListener(listenerWrapper);
     }
 
     public ItsNatTimerEventListenerWrapperImpl addItsNatTimerEventListener(EventTarget target,EventListener listener,long time,long period,boolean fixedRate,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc,ItsNatTimerImpl timer)
@@ -74,35 +71,27 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListener
         return listenerWrapper;
     }
 
-    protected ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
+    @Override
+    public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
     {
         ItsNatTimerEventListenerWrapperImpl listenerWrapper = (ItsNatTimerEventListenerWrapperImpl)super.removeItsNatDOMEventListenerById(id,updateClient);
         if (listenerWrapper == null) return null;
 
         listenerWrapper.getItsNatTimerImpl().removeListenerLocal(listenerWrapper);
 
-        removeItsNatTimerEventListenerPrivate(listenerWrapper);
-
         return listenerWrapper;
     }
 
+    @Override
     public void removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper,boolean updateClient,boolean expunged)
     {
         // Este método es llamado también por processExpunged
 
         ItsNatTimerEventListenerWrapperImpl timerListener = (ItsNatTimerEventListenerWrapperImpl)listenerWrapper;
 
-        if (!expunged)
-            removeItsNatTimerEventListenerPrivate(timerListener);
-
         timerListener.getItsNatTimerImpl().removeListenerLocal(timerListener);
 
         super.removeItsNatDOMEventListener(timerListener, updateClient,expunged);
-    }
-
-    private void removeItsNatTimerEventListenerPrivate(ItsNatTimerEventListenerWrapperImpl listenerWrapper)
-    {
-        eventListenersByTarget.removeItsNatDOMEventListener(listenerWrapper);
     }
 
     public void removeItsNatTimerEventListener(ItsNatTimerEventListenerWrapperImpl listener,boolean updateClient)
@@ -115,16 +104,12 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMEventListener
         return (ItsNatTimerEventListenerWrapperImpl)getItsNatDOMEventListenerById(listenerId);
     }
 
+    @Override
     public EventListener[] getEventListenersArrayCopy(EventTarget target,String type,boolean useCapture)
     {
         // No se usa nunca, por ejemplo porque los timer events no pueden ser disparados desde el servidor
         // (no está soportado por ahora)
         throw new ItsNatException("INTERNAL ERROR");
-    }
-
-    public int removeAllItsNatDOMEventListeners(EventTarget target,boolean updateClient)
-    {
-        return eventListenersByTarget.removeAllItsNatDOMEventListeners(target, updateClient);
     }
 
     public int removeAllItsNatTimerEventListeners(EventTarget target,boolean updateClient)

@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom;
 
 import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import java.io.Serializable;
@@ -29,6 +29,7 @@ import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.registry.EventListenerRegistryImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;

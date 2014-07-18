@@ -44,11 +44,11 @@ import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperIm
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatNormalCometTaskRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatTimerEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatContinueEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatTimerEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.UniqueIdGenIntList;

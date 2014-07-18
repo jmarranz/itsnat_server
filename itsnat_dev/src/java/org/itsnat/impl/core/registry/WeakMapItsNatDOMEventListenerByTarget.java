@@ -16,11 +16,13 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget;
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryImpl;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMEventListenerListSameTarget.Pair;
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl.ExpungeListener;
 import org.w3c.dom.events.EventListener;
@@ -129,7 +131,7 @@ public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Se
         return listeners.size(); // El número de listeners removidos
     }
 
-    protected void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    public void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
     {
         EventTarget target = listenerWrapper.getCurrentTarget();
         ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);

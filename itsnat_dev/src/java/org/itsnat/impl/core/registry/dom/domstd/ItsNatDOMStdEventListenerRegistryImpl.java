@@ -14,8 +14,9 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom.domstd;
 
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryByTargetTooImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodeMutationTransport;

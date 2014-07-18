@@ -14,13 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom.domext;
 
 import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.*;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -28,7 +27,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMEventListenerRegistryByTargetTooImpl
+public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMExtEventListenerRegistryImpl
 {
     /**
      * Creates a new instance of ItsNatContinueEventListenerRegistryImpl

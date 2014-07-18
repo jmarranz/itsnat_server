@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom.domext;
 
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.core.event.ParamTransport;
@@ -27,7 +27,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatUserEventListenerRegistryImpl extends ItsNatDOMEventListenerRegistryByTargetTooImpl
+public class ItsNatUserEventListenerRegistryImpl extends ItsNatDOMExtEventListenerRegistryImpl
 {
 
     /**

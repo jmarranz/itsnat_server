@@ -14,13 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.registry.dom;
 
 import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.*;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.registry.WeakMapItsNatDOMEventListenerByTarget;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -36,7 +35,7 @@ public abstract class ItsNatDOMEventListenerRegistryByTargetTooImpl extends ItsN
 
     public ItsNatDOMEventListenerListSameTarget getItsNatDOMEventListenersByTarget(EventTarget target)
     {
-        return eventListenersByTarget.getItsNatDOMEventListenersByTarget(target);
+        return eventListenersByTarget.getItsNatDOMEventListenersByTarget(target); 
     }
 
     public boolean containsItsNatDOMEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
@@ -52,6 +51,7 @@ public abstract class ItsNatDOMEventListenerRegistryByTargetTooImpl extends ItsN
         return !containsItsNatDOMEventListener(target,type,listener,useCapture);
     }
 
+    @Override
     protected void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
     {
         super.addItsNatDOMEventListener(listenerWrapper);
@@ -64,6 +64,7 @@ public abstract class ItsNatDOMEventListenerRegistryByTargetTooImpl extends ItsN
         return eventListenersByTarget.removeAllItsNatDOMEventListeners(target, updateClient);
     }
 
+    @Override
     public void removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listener,boolean updateClient,boolean expunged)
     {
         // Este método es llamado también por processExpunged al limpiar los registros
@@ -74,24 +75,17 @@ public abstract class ItsNatDOMEventListenerRegistryByTargetTooImpl extends ItsN
 
         if (!expunged)
         {
-            ItsNatDOMEventListenerWrapperImpl listenerRes = removeItsNatDOMEventListenerPrivate(listener.getCurrentTarget(),listener.getType(),listener.getEventListener(),listener.getUseCapture());
-            if (listenerRes != listener)
-                throw new ItsNatException("INTERNAL ERROR");
+            eventListenersByTarget.removeItsNatDOMEventListener(listener);
         }
 
         super.removeItsNatDOMEventListener(listener, updateClient,expunged);
-    }
-
-    private ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerPrivate(EventTarget target,String type,EventListener listener,boolean useCapture)
-    {
-        return eventListenersByTarget.removeItsNatDOMEventListener(target, type, listener, useCapture);
     }
 
     public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         if (!isValidEventTarget(target,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
-        ItsNatDOMEventListenerWrapperImpl listenerWrapper = removeItsNatDOMEventListenerPrivate(target,type,listener,useCapture);
+        ItsNatDOMEventListenerWrapperImpl listenerWrapper = eventListenersByTarget.removeItsNatDOMEventListener(target,type,listener,useCapture);
         if (listenerWrapper == null) return null;
 
         super.removeItsNatDOMEventListener(listenerWrapper,updateClient,false);
@@ -99,13 +93,13 @@ public abstract class ItsNatDOMEventListenerRegistryByTargetTooImpl extends ItsN
         return listenerWrapper;
     }
 
+    @Override
     public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
     {
         ItsNatDOMEventListenerWrapperImpl listenerWrapper = super.removeItsNatDOMEventListenerById(id, updateClient);
         if (listenerWrapper == null) return null;
 
-        ItsNatDOMEventListenerWrapperImpl listenerRes = removeItsNatDOMEventListenerPrivate(listenerWrapper.getCurrentTarget(),listenerWrapper.getType(),listenerWrapper.getEventListener(),listenerWrapper.getUseCapture());
-        if (listenerRes != listenerWrapper) throw new ItsNatException("INTERNAL ERROR");
+        eventListenersByTarget.removeItsNatDOMEventListener(listenerWrapper);
 
         return listenerWrapper;
     }

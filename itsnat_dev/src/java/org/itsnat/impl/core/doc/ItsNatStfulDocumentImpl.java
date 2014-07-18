@@ -47,8 +47,8 @@ import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapper
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;

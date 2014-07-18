@@ -20,13 +20,9 @@ import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.*;
-import org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 
 /**

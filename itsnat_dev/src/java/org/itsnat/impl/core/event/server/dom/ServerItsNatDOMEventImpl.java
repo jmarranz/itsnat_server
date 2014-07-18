@@ -28,7 +28,7 @@ import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatDOMExtEventImpl;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatUserEventImpl;
 import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
-import org.itsnat.impl.core.registry.ItsNatDOMEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryImpl;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;

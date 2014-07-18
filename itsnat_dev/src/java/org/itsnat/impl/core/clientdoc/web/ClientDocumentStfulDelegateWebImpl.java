@@ -35,7 +35,7 @@ import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
-import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatContinueEventListenerRegistryImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;

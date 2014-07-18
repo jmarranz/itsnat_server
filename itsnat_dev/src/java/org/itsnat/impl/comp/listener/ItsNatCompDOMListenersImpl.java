@@ -30,7 +30,7 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
-import org.itsnat.impl.core.registry.ItsNatDOMEventListenerListSameTarget;
+import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
