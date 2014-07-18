@@ -16,11 +16,10 @@
 
 package org.itsnat.impl.core.listener.dom.domext;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.*;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -28,7 +27,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ItsNatDOMExtEventListenerWrapperImpl extends ItsNatDOMEventListenerWrapperImpl
+public abstract class ItsNatDOMExtEventListenerWrapperImpl extends ItsNatNormalEventListenerWrapperImpl
 {
 
     /** Creates a new instance of ItsNatDOMExtEventListenerWrapperImpl */

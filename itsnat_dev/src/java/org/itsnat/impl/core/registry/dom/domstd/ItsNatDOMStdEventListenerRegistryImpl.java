@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.registry.dom.domstd;
 
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryByTargetTooImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerRegistryByTargetTooImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodeMutationTransport;
@@ -30,7 +30,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListenerRegistryByTargetTooImpl
+public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatNormalEventListenerRegistryByTargetTooImpl
 {
 
     /**
@@ -55,29 +55,29 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatDOMEventListene
 
     public void addItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        if (!canAddItsNatDOMEventListener(target,type,listener,useCapture))
+        if (!canAddItsNatNormalEventListener(target,type,listener,useCapture))
             return; // Ya registrado (u otra razón)
 
         ItsNatDOMStdEventListenerWrapperImpl listenerWrapper = new ItsNatDOMStdEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
-        addItsNatDOMEventListener(listenerWrapper);
+        addItsNatNormalEventListener(listenerWrapper);
     }
 
     public ItsNatDOMStdEventListenerWrapperImpl removeItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         if (!isValidEventTarget(target,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
-        return (ItsNatDOMStdEventListenerWrapperImpl)removeItsNatDOMEventListener(target,type,listener,useCapture,updateClient);
+        return (ItsNatDOMStdEventListenerWrapperImpl)removeItsNatNormalEventListener(target,type,listener,useCapture,updateClient);
     }
 
     public int removeAllItsNatDOMStdEventListeners(EventTarget target,boolean updateClient)
     {
-        return removeAllItsNatDOMEventListeners(target,updateClient);
+        return removeAllItsNatNormalEventListeners(target,updateClient);
     }
 
     public ItsNatDOMStdEventListenerWrapperImpl getItsNatDOMStdEventListenerById(String listenerId)
     {
-        return (ItsNatDOMStdEventListenerWrapperImpl)getItsNatDOMEventListenerById(listenerId);
+        return (ItsNatDOMStdEventListenerWrapperImpl)getItsNatNormalEventListenerById(listenerId);
     }
 
     public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture,int commMode,long eventTimeout)

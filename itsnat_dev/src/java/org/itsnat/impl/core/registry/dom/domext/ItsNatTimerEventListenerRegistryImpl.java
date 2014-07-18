@@ -20,7 +20,7 @@ import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -48,9 +48,9 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
     }
 
     @Override
-    protected void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    protected void addItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
-        super.addItsNatDOMEventListener(listenerWrapper);
+        super.addItsNatNormalEventListener(listenerWrapper);
 
         ItsNatTimerEventListenerWrapperImpl timerListener = (ItsNatTimerEventListenerWrapperImpl)listenerWrapper;
         timerListener.getItsNatTimerImpl().addListenerLocal(timerListener);
@@ -60,21 +60,21 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
     {
         // El target puede ser nulo
         // Permitimos registrar múltiples veces el mismo listener para el mismo target
-        if (!canAddItsNatDOMEventListener(target,listener))
+        if (!canAddItsNatNormalEventListener(target,listener))
             return null;
 
         if (period < 0)
             throw new ItsNatException("Negative period");
 
         ItsNatTimerEventListenerWrapperImpl listenerWrapper = new ItsNatTimerEventListenerWrapperImpl(target,listener,time,period,fixedRate,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc,timer);
-        addItsNatDOMEventListener(listenerWrapper);
+        addItsNatNormalEventListener(listenerWrapper);
         return listenerWrapper;
     }
 
     @Override
-    public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
+    public ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListenerById(String id,boolean updateClient)
     {
-        ItsNatTimerEventListenerWrapperImpl listenerWrapper = (ItsNatTimerEventListenerWrapperImpl)super.removeItsNatDOMEventListenerById(id,updateClient);
+        ItsNatTimerEventListenerWrapperImpl listenerWrapper = (ItsNatTimerEventListenerWrapperImpl)super.removeItsNatNormalEventListenerById(id,updateClient);
         if (listenerWrapper == null) return null;
 
         listenerWrapper.getItsNatTimerImpl().removeListenerLocal(listenerWrapper);
@@ -83,7 +83,7 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
     }
 
     @Override
-    public void removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper,boolean updateClient,boolean expunged)
+    public void removeItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper,boolean updateClient,boolean expunged)
     {
         // Este método es llamado también por processExpunged
 
@@ -91,17 +91,17 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
 
         timerListener.getItsNatTimerImpl().removeListenerLocal(timerListener);
 
-        super.removeItsNatDOMEventListener(timerListener, updateClient,expunged);
+        super.removeItsNatNormalEventListener(timerListener, updateClient,expunged);
     }
 
     public void removeItsNatTimerEventListener(ItsNatTimerEventListenerWrapperImpl listener,boolean updateClient)
     {
-        removeItsNatDOMEventListener(listener,updateClient,false);
+        removeItsNatNormalEventListener(listener,updateClient,false);
     }
 
     public ItsNatTimerEventListenerWrapperImpl getItsNatTimerEventListenerById(String listenerId)
     {
-        return (ItsNatTimerEventListenerWrapperImpl)getItsNatDOMEventListenerById(listenerId);
+        return (ItsNatTimerEventListenerWrapperImpl)getItsNatNormalEventListenerById(listenerId);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
 
     public int removeAllItsNatTimerEventListeners(EventTarget target,boolean updateClient)
     {
-        return removeAllItsNatDOMEventListeners(target,updateClient);
+        return removeAllItsNatNormalEventListeners(target,updateClient);
     }
 
 }

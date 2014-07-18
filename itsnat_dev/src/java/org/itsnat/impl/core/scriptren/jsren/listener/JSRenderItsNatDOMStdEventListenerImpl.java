@@ -34,7 +34,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsNatDOMEventListenerImpl implements RenderItsNatDOMStdEventListener
+public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsNatNormalEventListenerImpl implements RenderItsNatDOMStdEventListener
 {
     /** Creates a new instance of JSRenderItsNatDOMStdEventListenerImpl */
     public JSRenderItsNatDOMStdEventListenerImpl()

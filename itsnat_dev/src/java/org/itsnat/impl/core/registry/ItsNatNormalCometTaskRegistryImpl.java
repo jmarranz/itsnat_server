@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatNormalCometEventListenerWrapperImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
@@ -40,7 +39,7 @@ public class ItsNatNormalCometTaskRegistryImpl extends CometTaskRegistryImpl
     public boolean canAddItsNatEventListener(CometNotifierImpl notifier)
     {
         EventListener listener = ItsNatNormalCometEventListenerWrapperImpl.getEventListener(notifier); // Este es el listener que se va a usar
-        return ItsNatDOMEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc);
+        return ItsNatNormalEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc);
     }
 
     public CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer)

@@ -14,9 +14,8 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry.dom;
+package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Map;
@@ -29,7 +28,7 @@ import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
-import org.itsnat.impl.core.registry.EventListenerRegistryImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -42,22 +41,22 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRegistryImpl implements Serializable
+public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListenerRegistryImpl implements Serializable
 {
     protected ItsNatStfulDocumentImpl itsNatDoc;
     protected ClientDocumentStfulImpl clientDocTarget; // Si es null es que el registro es a nivel de documento y pertenece a todos los clientes
     protected int capturingCount;
-    protected MapUniqueId<ItsNatDOMEventListenerWrapperImpl> eventListenersById; // No es weak porque necesitamos sujetar el listener wrapper pues es un objeto de uso interno para este fin
+    protected MapUniqueId<ItsNatNormalEventListenerWrapperImpl> eventListenersById; // No es weak porque necesitamos sujetar el listener wrapper pues es un objeto de uso interno para este fin
 
     /**
-     * Creates a new instance of ItsNatDOMEventListenerRegistryImpl
+     * Creates a new instance of ItsNatNormalEventListenerRegistryImpl
      */
-    public ItsNatDOMEventListenerRegistryImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
+    public ItsNatNormalEventListenerRegistryImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
     {
         this.itsNatDoc = itsNatDoc;
         this.clientDocTarget = clientDoc; // puede ser null
 
-        this.eventListenersById = new MapUniqueId<ItsNatDOMEventListenerWrapperImpl>(itsNatDoc.getUniqueIdGenerator());
+        this.eventListenersById = new MapUniqueId<ItsNatNormalEventListenerWrapperImpl>(itsNatDoc.getUniqueIdGenerator());
     }
 
     public ClientDocumentStfulImpl getClientDocumentStfulTarget()
@@ -104,15 +103,15 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
         return capturingCount;
     }
 
-    public boolean canAddItsNatDOMEventListener(EventTarget target,EventListener listener)
+    public boolean canAddItsNatNormalEventListener(EventTarget target,EventListener listener)
     {
-        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
+        if (!ItsNatNormalEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
             return false;
         checkValidEventTarget(target); // Lanza excepción si no es válido
         return true;
     }
 
-    protected void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    protected void addItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
         eventListenersById.put(listenerWrapper);
 
@@ -122,19 +121,19 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
             capturingCount++;
     }
 
-    public void removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listener,boolean updateClient,boolean expunged)
+    public void removeItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listener,boolean updateClient,boolean expunged)
     {
         // expunged tiene sentido en clases derivadas
-        ItsNatDOMEventListenerWrapperImpl listenerRes = removeItsNatDOMEventListenerByIdPrivate(listener.getId(),updateClient);
+        ItsNatNormalEventListenerWrapperImpl listenerRes = removeItsNatNormalEventListenerByIdPrivate(listener.getId(),updateClient);
         if (listenerRes == null)
             return; // Ya se eliminó seguramente
         if (listenerRes != listener)
             throw new ItsNatException("INTERNAL ERROR");
     }
 
-    private ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerByIdPrivate(String id,boolean updateClient)
+    private ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListenerByIdPrivate(String id,boolean updateClient)
     {
-        ItsNatDOMEventListenerWrapperImpl listenerWrapper = eventListenersById.removeById(id);
+        ItsNatNormalEventListenerWrapperImpl listenerWrapper = eventListenersById.removeById(id);
         if (listenerWrapper == null)
             return null; // Ya se eliminó o nunca se añadió (raro)
 
@@ -150,12 +149,12 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
     }
    
     
-    protected ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListenerById(String id,boolean updateClient)
+    protected ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListenerById(String id,boolean updateClient)
     {
-        return removeItsNatDOMEventListenerByIdPrivate(id,updateClient);
+        return removeItsNatNormalEventListenerByIdPrivate(id,updateClient);
     }
 
-    public ItsNatDOMEventListenerWrapperImpl getItsNatDOMEventListenerById(String listenerId)
+    public ItsNatNormalEventListenerWrapperImpl getItsNatNormalEventListenerById(String listenerId)
     {
         return eventListenersById.get(listenerId);
     }
@@ -166,7 +165,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
      */
     public abstract EventListener[] getEventListenersArrayCopy(EventTarget target,String type,boolean useCapture);
 
-    public void renderItsNatDOMEventListeners(final ClientDocumentAttachedClientImpl clientDoc)
+    public void renderItsNatNormalEventListeners(final ClientDocumentAttachedClientImpl clientDoc)
     {
         // Usado para renderizar los listeners de documento para un cliente nuevo
         if ((clientDoc == null) || (getClientDocumentStfulTarget() != null))
@@ -174,10 +173,10 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
 
         if (eventListenersById.isEmpty()) return;
 
-        LinkedList<ItsNatDOMEventListenerWrapperImpl> svgWebNodes = null;
-        for(Map.Entry<String,ItsNatDOMEventListenerWrapperImpl> entry : eventListenersById.entrySet())
+        LinkedList<ItsNatNormalEventListenerWrapperImpl> svgWebNodes = null;
+        for(Map.Entry<String,ItsNatNormalEventListenerWrapperImpl> entry : eventListenersById.entrySet())
         {
-            ItsNatDOMEventListenerWrapperImpl listenerWrapper = entry.getValue();
+            ItsNatNormalEventListenerWrapperImpl listenerWrapper = entry.getValue();
 
             if (!clientDoc.canReceiveNormalEvents(listenerWrapper))
                 continue;
@@ -192,7 +191,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
                     // Si el nodo es procesado por SVGWeb Flash no podemos enviar ahora el registro del listener
                     // al cliente pues el nodo SVG no existe hasta que se renderize lo cual
                     // sabemos que ha ocurrido tras el evento SVGLoad de la página.
-                    if (svgWebNodes == null) svgWebNodes = new LinkedList<ItsNatDOMEventListenerWrapperImpl>();
+                    if (svgWebNodes == null) svgWebNodes = new LinkedList<ItsNatNormalEventListenerWrapperImpl>();
                     svgWebNodes.add(listenerWrapper);
                     continue;
                 }
@@ -207,12 +206,12 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
 
         if (svgWebNodes != null)
         {
-            final LinkedList<ItsNatDOMEventListenerWrapperImpl> svgWebNodes2 = svgWebNodes;
+            final LinkedList<ItsNatNormalEventListenerWrapperImpl> svgWebNodes2 = svgWebNodes;
             EventListener listener = new EventListenerInternal()
             {
                 public void handleEvent(Event evt)
                 {
-                    for(ItsNatDOMEventListenerWrapperImpl listenerWrapper : svgWebNodes2)
+                    for(ItsNatNormalEventListenerWrapperImpl listenerWrapper : svgWebNodes2)
                     {
                         if (!eventListenersById.containsKey(listenerWrapper)) 
                             continue; // Ha sido eliminado mientras se procesaba el evento SVGLoad
@@ -228,16 +227,16 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
         }
     }
 
-    public void removeAllItsNatDOMEventListeners(boolean updateClient)
+    public void removeAllItsNatNormalEventListeners(boolean updateClient)
     {
         if (eventListenersById.isEmpty()) return;
 
-        ItsNatDOMEventListenerWrapperImpl[] listenerList = eventListenersById.toArray(new ItsNatDOMEventListenerWrapperImpl[eventListenersById.size()]);
+        ItsNatNormalEventListenerWrapperImpl[] listenerList = eventListenersById.toArray(new ItsNatNormalEventListenerWrapperImpl[eventListenersById.size()]);
         
         for(int i = 0; i < listenerList.length; i++)
         {
-            ItsNatDOMEventListenerWrapperImpl listener = listenerList[i];
-            removeItsNatDOMEventListener(listener,updateClient,false);
+            ItsNatNormalEventListenerWrapperImpl listener = listenerList[i];
+            removeItsNatNormalEventListener(listener,updateClient,false);
         }
     }
 }

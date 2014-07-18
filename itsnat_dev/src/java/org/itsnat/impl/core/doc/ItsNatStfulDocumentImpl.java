@@ -427,9 +427,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (clientDoc.canReceiveSOMENormalEvents()) // Con este chequeo nos ahorramos llamadas inútiles
         {
             if (hasDOMStdEventListeners())
-                getDOMStdEventListenerRegistry().renderItsNatDOMEventListeners(clientDoc);
+                getDOMStdEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);
             if (hasUserEventListeners())
-                getUserEventListenerRegistry().renderItsNatDOMEventListeners(clientDoc);
+                getUserEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);
         }
 
         getItsNatStfulComponentManager().addClientDocumentAttachedClient(clientDoc);

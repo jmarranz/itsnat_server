@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.registry.dom.domext;
 
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryByTargetTooImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerRegistryByTargetTooImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
@@ -24,7 +24,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
  *
  * @author jmarranz
  */
-public abstract class ItsNatDOMExtEventListenerRegistryImpl extends ItsNatDOMEventListenerRegistryByTargetTooImpl
+public abstract class ItsNatDOMExtEventListenerRegistryImpl extends ItsNatNormalEventListenerRegistryByTargetTooImpl
 {
 
     /**

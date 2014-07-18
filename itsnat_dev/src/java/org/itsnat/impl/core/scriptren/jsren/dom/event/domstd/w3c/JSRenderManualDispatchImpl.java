@@ -21,10 +21,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget.Pair;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -279,26 +279,26 @@ public class JSRenderManualDispatchImpl
         }
         if (globalRegistry != null)
         {
-            ItsNatDOMEventListenerListSameTarget listSameTarget = globalRegistry.getItsNatDOMEventListenersByTarget(currentTarget);
+            ItsNatNormalEventListenerListSameTarget listSameTarget = globalRegistry.getItsNatNormalEventListenersByTarget(currentTarget);
             getEventListenerIds(type,useCapture,listSameTarget,idList);
         }
         if (clientRegistry != null)
         {
-            ItsNatDOMEventListenerListSameTarget listSameTarget = clientRegistry.getItsNatDOMEventListenersByTarget(currentTarget);
+            ItsNatNormalEventListenerListSameTarget listSameTarget = clientRegistry.getItsNatNormalEventListenersByTarget(currentTarget);
             getEventListenerIds(type,useCapture,listSameTarget,idList);
         }
     }
 
-    private static void getEventListenerIds(String type,boolean useCapture,ItsNatDOMEventListenerListSameTarget listSameTarget,LinkedList<String> idList)
+    private static void getEventListenerIds(String type,boolean useCapture,ItsNatNormalEventListenerListSameTarget listSameTarget,LinkedList<String> idList)
     {
         if (listSameTarget == null) return;
 
-        LinkedList<Pair> listeners = listSameTarget.getItsNatDOMEventListeners(type, useCapture);
+        LinkedList<Pair> listeners = listSameTarget.getItsNatNormalEventListeners(type, useCapture);
         if (listeners == null) return;
 
         for(Pair pair : listeners)
         {
-            ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
+            ItsNatNormalEventListenerWrapperImpl listener = pair.getListenerWrapper();
             idList.add("\"" + listener.getId() + "\"");
         }
     }

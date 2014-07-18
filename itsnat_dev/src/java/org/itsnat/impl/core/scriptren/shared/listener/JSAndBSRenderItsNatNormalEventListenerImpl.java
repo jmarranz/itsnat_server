@@ -16,15 +16,15 @@
 
 package org.itsnat.impl.core.scriptren.shared.listener;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class JSAndBSRenderItsNatDOMEventListenerImpl
+public class JSAndBSRenderItsNatNormalEventListenerImpl
 {
-    public static String getUserCodeInsideCustomFunc(ItsNatDOMEventListenerWrapperImpl itsNatListener)
+    public static String getUserCodeInsideCustomFunc(ItsNatNormalEventListenerWrapperImpl itsNatListener)
     {
         StringBuilder code = new StringBuilder();
 

@@ -17,14 +17,18 @@
 package org.itsnat.impl.core.scriptren.bsren.listener;
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatNormalEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatNormalEventListener;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsNatEventListenerImpl
+public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsNatEventListenerImpl implements RenderItsNatNormalEventListener
 {
 
     /**
@@ -36,8 +40,55 @@ public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsN
 
     public static BSRenderItsNatNormalEventListenerImpl getBSRenderItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        if (itsNatListener instanceof ItsNatDOMEventListenerWrapperImpl)
-            return BSRenderItsNatDOMEventListenerImpl.getBSRenderItsNatDOMEventListener((ItsNatDOMEventListenerWrapperImpl)itsNatListener,clientDoc);
+        if (itsNatListener instanceof ItsNatDOMStdEventListenerWrapperImpl)
+            return BSRenderItsNatDOMStdEventListenerImpl.getBSRenderItsNatDOMStdEventListener((ItsNatDOMStdEventListenerWrapperImpl)itsNatListener,clientDoc);
+        else if (itsNatListener instanceof ItsNatDOMExtEventListenerWrapperImpl)
+            return BSRenderItsNatDOMExtEventListenerImpl.getBSRenderItsNatDOMExtEventListener((ItsNatDOMExtEventListenerWrapperImpl)itsNatListener);
         return null;
     }
+
+    public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        ItsNatNormalEventListenerWrapperImpl normalListener = (ItsNatNormalEventListenerWrapperImpl)itsNatListener;
+        if (!clientDoc.getClientDocumentStful().canReceiveNormalEvents(normalListener))
+            return null; // Si es un visor remoto sólo lectura lo ignoramos
+
+        return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
+    }
+
+    public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        ItsNatNormalEventListenerWrapperImpl normalListener = (ItsNatNormalEventListenerWrapperImpl)itsNatListener;
+        if (!clientDoc.getClientDocumentStful().canReceiveNormalEvents(normalListener))
+            return null; // Si es un visor remoto sólo lectura lo ignoramos
+
+        return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
+    }
+
+    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code)
+    {
+        String userCode = JSAndBSRenderItsNatNormalEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener);
+        if ((userCode != null) && !userCode.equals(""))
+        {
+            code.append( "\n" );
+            code.append( "var func = function(event)\n" );
+            code.append( "{\n" );
+            code.append(    userCode );
+            code.append( "};\n" );
+
+            String bindToCustomFunc = itsNatListener.getBindToCustomFunc();
+            if ((bindToCustomFunc != null) && !bindToCustomFunc.equals(""))
+                code.append( "func." + bindToCustomFunc + ";\n" );
+
+            return "func";
+        }
+        else
+        {
+            return "null";
+        }
+    }
+    
+    protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
+    protected abstract String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    
+    
 }

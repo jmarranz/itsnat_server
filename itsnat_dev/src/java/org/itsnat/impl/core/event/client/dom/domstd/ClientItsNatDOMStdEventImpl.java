@@ -18,12 +18,10 @@ package org.itsnat.impl.core.event.client.dom.domstd;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
-import org.itsnat.impl.core.util.MiscUtil;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
 
@@ -35,7 +33,7 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatDOMStdEventImpl extends ClientItsNatDOMEventImpl implements ItsNatDOMStdEvent
+public abstract class ClientItsNatDOMStdEventImpl extends ClientItsNatNormalEventImpl implements ItsNatDOMStdEvent
 {
     protected NodeContainerImpl target;
 

@@ -22,7 +22,6 @@ import org.itsnat.core.event.ItsNatTimerHandle;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatTimerEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatTimerEventListenerImpl;
@@ -122,7 +121,8 @@ public class ItsNatTimerEventListenerWrapperImpl extends ItsNatDOMExtEventListen
         return nextExecutionTime;
     }
 
-    public void handleEvent(ClientItsNatDOMEventImpl event)
+    @Override
+    public void handleEvent(ClientItsNatNormalEventImpl event)
     {
         long computedPeriod = handleTimerEvent((ClientItsNatTimerEventImpl)event);
 

@@ -21,7 +21,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventErrorImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventErrorImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateImpl;
 import org.w3c.dom.events.Event;

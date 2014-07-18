@@ -41,23 +41,23 @@ public class ItsNatUserEventListenerRegistryImpl extends ItsNatDOMExtEventListen
     public void addItsNatUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         String type = ItsNatUserEventListenerWrapperImpl.getType(name);
-        if (!canAddItsNatDOMEventListener(target,type,listener,false))
+        if (!canAddItsNatNormalEventListener(target,type,listener,false))
             return; // Ya registrado (u otra razón)
 
         ItsNatUserEventListenerWrapperImpl listenerWrapper = new ItsNatUserEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
-        addItsNatDOMEventListener(listenerWrapper);
+        addItsNatNormalEventListener(listenerWrapper);
     }
 
     public ItsNatUserEventListenerWrapperImpl removeItsNatUserEventListener(EventTarget target,String name,EventListener listener,boolean updateClient)
     {
         String type = ItsNatUserEventListenerWrapperImpl.getType(name);
-        return (ItsNatUserEventListenerWrapperImpl)removeItsNatDOMEventListener(target,type,listener,false,updateClient);
+        return (ItsNatUserEventListenerWrapperImpl)removeItsNatNormalEventListener(target,type,listener,false,updateClient);
     }
 
     public int removeAllItsNatUserEventListeners(EventTarget target,boolean updateClient)
     {
-        return removeAllItsNatDOMEventListeners(target,updateClient);
+        return removeAllItsNatNormalEventListeners(target,updateClient);
     }
 
     public EventListener[] getEventListenersByNameArrayCopy(EventTarget target,String name)
@@ -68,6 +68,6 @@ public class ItsNatUserEventListenerRegistryImpl extends ItsNatDOMExtEventListen
 
     public ItsNatUserEventListenerWrapperImpl getItsNatUserEventListenerById(String listenerId)
     {
-        return (ItsNatUserEventListenerWrapperImpl)getItsNatDOMEventListenerById(listenerId);
+        return (ItsNatUserEventListenerWrapperImpl)getItsNatNormalEventListenerById(listenerId);
     }
 }

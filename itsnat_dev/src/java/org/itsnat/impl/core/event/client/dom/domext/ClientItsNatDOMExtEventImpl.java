@@ -16,8 +16,9 @@
 
 package org.itsnat.impl.core.event.client.dom.domext;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatDOMExtEvent;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventTarget;
@@ -26,7 +27,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatDOMExtEventImpl extends ClientItsNatDOMEventImpl implements ItsNatDOMExtEvent
+public abstract class ClientItsNatDOMExtEventImpl extends ClientItsNatNormalEventImpl implements ItsNatDOMExtEvent
 {
     /**
      * Creates a new instance of ClientItsNatDOMExtEventImpl
@@ -36,6 +37,11 @@ public abstract class ClientItsNatDOMExtEventImpl extends ClientItsNatDOMEventIm
         super(listenerWrapper,request);
     }
 
+    public void initEvent(String eventTypeArg, boolean canBubbleArg, boolean cancelableArg)
+    {
+        throw new ItsNatException("Not implemented",this);
+    }    
+    
     public ItsNatDOMExtEventListenerWrapperImpl getDOMExtEventListenerWrapper()
     {
         return (ItsNatDOMExtEventListenerWrapperImpl)listenerWrapper;

@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.core.registry.dom;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.w3c.dom.events.EventListener;
 
@@ -28,14 +28,14 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public class ItsNatDOMEventListenerListSameTarget implements Serializable
+public class ItsNatNormalEventListenerListSameTarget implements Serializable
 {
     protected MapListImpl<String,Pair> listeners = new MapListImpl<String,Pair>();
 
     /**
-     * Creates a new instance of ItsNatDOMEventListenerListSameTarget
+     * Creates a new instance of ItsNatNormalEventListenerListSameTarget
      */
-    public ItsNatDOMEventListenerListSameTarget()
+    public ItsNatNormalEventListenerListSameTarget()
     {
     }
 
@@ -49,7 +49,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         return listeners.isEmpty();
     }
 
-    public boolean containsItsNatDOMEventListener(String type,boolean useCapture,EventListener listener)
+    public boolean containsItsNatNormalEventListener(String type,boolean useCapture,EventListener listener)
     {
         // El id puede ser null, hay ámbitos en los que no se utiliza
         String key = getKey(type,useCapture);
@@ -57,12 +57,12 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         return listeners.contains(key,value);
     }
 
-    public void addItsNatDOMEventListener(String type,boolean useCapture,EventListener listener)
+    public void addItsNatNormalEventListener(String type,boolean useCapture,EventListener listener)
     {
-        addItsNatDOMEventListener(type,useCapture,listener,null);
+        addItsNatNormalEventListener(type,useCapture,listener,null);
     }
 
-    public void addItsNatDOMEventListener(String type,boolean useCapture,EventListener listener,ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    public void addItsNatNormalEventListener(String type,boolean useCapture,EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
         // El id puede ser null, hay ámbitos en los que no se utiliza
         String key = getKey(type,useCapture);
@@ -70,7 +70,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         listeners.add(key,value);
     }
 
-    public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListener(String type,boolean useCapture,EventListener listener)
+    public ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListener(String type,boolean useCapture,EventListener listener)
     {
         String key = getKey(type,useCapture);
         Pair removed = listeners.remove(key,new Pair(listener,null));
@@ -79,42 +79,42 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         return removed.getListenerWrapper();
     }
 
-    public boolean removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    public boolean removeItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
-        ItsNatDOMEventListenerWrapperImpl listenerRes = removeItsNatDOMEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener());
+        ItsNatNormalEventListenerWrapperImpl listenerRes = removeItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener());
         if (listenerRes == null) return false; // Ya se eliminó probablemente
         if (listenerWrapper != listenerRes)
             throw new ItsNatException("INTERNAL ERROR");
         return true;
     }
 
-    public void removeAllItsNatDOMEventListeners()
+    public void removeAllItsNatNormalEventListeners()
     {
         listeners.clear();
     }
 
-    public LinkedList<Pair> getAllItsNatDOMEventListenersCopy()
+    public LinkedList<Pair> getAllItsNatNormalEventListenersCopy()
     {
         return listeners.getAllValuesCopy();
     }
 
-    public boolean hasItsNatDOMEventListeners(String type,boolean useCapture)
+    public boolean hasItsNatNormalEventListeners(String type,boolean useCapture)
     {
-        LinkedList<Pair> listeners = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> listeners = getItsNatNormalEventListeners(type,useCapture);
         return (listeners != null) && !listeners.isEmpty();
     }
 
-    public LinkedList<Pair> getItsNatDOMEventListeners(String type,boolean useCapture)
+    public LinkedList<Pair> getItsNatNormalEventListeners(String type,boolean useCapture)
     {
         String key = getKey(type,useCapture);
         return listeners.get(key);
     }
 
-    public boolean getItsNatDOMEventListenerList(String type,boolean useCapture,ItsNatEventListenerChainImpl<EventListener> chain)
+    public boolean getItsNatNormalEventListenerList(String type,boolean useCapture,ItsNatEventListenerChainImpl<EventListener> chain)
     {
         // Ver notas en getEventListenersArrayCopy
 
-        LinkedList<Pair> list = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> list = getItsNatNormalEventListeners(type,useCapture);
         if (list == null)
             return false; // no se ha añadido ninguno
 
@@ -135,7 +135,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
         // se pueda añadir o quitar a su vez un listener (el Iterator no lo permite), lo cual
         // es conveniente en los componentes (en el blur de un componente editor reutilizado)
 
-        LinkedList<Pair> list = getItsNatDOMEventListeners(type,useCapture);
+        LinkedList<Pair> list = getItsNatNormalEventListeners(type,useCapture);
         if (list == null)
             return null;
 
@@ -152,9 +152,9 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
     public static class Pair implements Serializable
     {
         private EventListener listener;
-        private ItsNatDOMEventListenerWrapperImpl listenerWrapper; // puede ser null en el caso de búsqueda
+        private ItsNatNormalEventListenerWrapperImpl listenerWrapper; // puede ser null en el caso de búsqueda
 
-        public Pair(EventListener listener,ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+        public Pair(EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
         {
             this.listener = listener;
             this.listenerWrapper = listenerWrapper; // puede ser null en el caso de que no se conozca
@@ -165,7 +165,7 @@ public class ItsNatDOMEventListenerListSameTarget implements Serializable
             return listener;
         }
 
-        public ItsNatDOMEventListenerWrapperImpl getListenerWrapper()
+        public ItsNatNormalEventListenerWrapperImpl getListenerWrapper()
         {
             return listenerWrapper;
         }

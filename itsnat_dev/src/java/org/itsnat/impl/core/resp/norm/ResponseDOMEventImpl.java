@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventImpl;
 
 /**
@@ -27,7 +27,7 @@ import org.itsnat.impl.core.req.norm.RequestDOMEventImpl;
 public abstract class ResponseDOMEventImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
-    public ResponseDOMEventImpl(RequestDOMEventImpl request,ItsNatDOMEventListenerWrapperImpl listener)
+    public ResponseDOMEventImpl(RequestDOMEventImpl request,ItsNatNormalEventListenerWrapperImpl listener)
     {
         super(request,listener);
 

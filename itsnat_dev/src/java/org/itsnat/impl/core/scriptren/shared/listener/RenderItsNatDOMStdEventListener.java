@@ -20,7 +20,7 @@ package org.itsnat.impl.core.scriptren.shared.listener;
  *
  * @author jmarranz
  */
-public interface RenderItsNatDOMStdEventListener
+public interface RenderItsNatDOMStdEventListener extends RenderItsNatNormalEventListener
 {
     public boolean needsAddListenerReturnElement();
     public boolean needsRemoveListenerReturnElement();

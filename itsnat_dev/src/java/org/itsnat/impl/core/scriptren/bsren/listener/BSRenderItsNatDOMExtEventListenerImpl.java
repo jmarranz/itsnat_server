@@ -26,7 +26,7 @@ import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperIm
  *
  * @author jmarranz
  */
-public abstract class BSRenderItsNatDOMExtEventListenerImpl extends BSRenderItsNatDOMEventListenerImpl
+public abstract class BSRenderItsNatDOMExtEventListenerImpl extends BSRenderItsNatNormalEventListenerImpl
 {
 
     /** Creates a new instance of BSRenderItsNatDOMExtEventListenerImpl */

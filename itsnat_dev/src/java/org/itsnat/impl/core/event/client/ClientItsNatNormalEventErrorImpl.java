@@ -14,12 +14,11 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.event.client.dom;
+package org.itsnat.impl.core.event.client;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatNormalEvent;
 import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.event.client.ClientItsNatEventStfulImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventTarget;
 
@@ -27,9 +26,9 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ClientItsNatDOMEventErrorImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent,EventInternal
+public class ClientItsNatNormalEventErrorImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent,EventInternal
 {
-    public ClientItsNatDOMEventErrorImpl(RequestNormalEventImpl request)
+    public ClientItsNatNormalEventErrorImpl(RequestNormalEventImpl request)
     {
         super(request); // No hay documento
     }

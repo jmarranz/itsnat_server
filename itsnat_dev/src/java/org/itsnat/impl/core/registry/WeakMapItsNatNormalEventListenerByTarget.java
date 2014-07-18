@@ -16,13 +16,11 @@
 
 package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget.Pair;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl.ExpungeListener;
 import org.w3c.dom.events.EventListener;
@@ -32,9 +30,9 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Serializable
+public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener,Serializable
 {
-    protected ItsNatDOMEventListenerRegistryImpl parentRegistry;
+    protected ItsNatNormalEventListenerRegistryImpl parentRegistry;
     protected WeakMapExpungeableImpl eventListenersByTarget = new WeakMapExpungeableImpl(this);
 
     // Evitamos "sujetar" los nodos DOM porque un listener sólo tiene
@@ -49,43 +47,43 @@ public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Se
     // y el propio componente tiene una referencia normal al nodo, la simple
     // eliminación del nodo del documento no libera al nodo para el GC pues hay más referencias.
 
-    public WeakMapItsNatDOMEventListenerByTarget(ItsNatDOMEventListenerRegistryImpl parentRegistry)
+    public WeakMapItsNatNormalEventListenerByTarget(ItsNatNormalEventListenerRegistryImpl parentRegistry)
     {
         this.parentRegistry = parentRegistry;
     }
 
-    public boolean containsItsNatDOMEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
+    public boolean containsItsNatNormalEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return false;
-        return targetList.containsItsNatDOMEventListener(type,useCapture,listener);
+        return targetList.containsItsNatNormalEventListener(type,useCapture,listener);
     }
 
-    public ItsNatDOMEventListenerListSameTarget getItsNatDOMEventListenersByTarget(EventTarget target)
+    public ItsNatNormalEventListenerListSameTarget getItsNatNormalEventListenersByTarget(EventTarget target)
     {
         if (!parentRegistry.isValidEventTarget(target,false)) return null; // Nos ahorramos la búsqueda
 
-        return (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        return (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
     }
 
     public EventListener[] getEventListenersArrayCopy(EventTarget target,String type,boolean useCapture)
     {
         if (!parentRegistry.isValidEventTarget(target,false)) return null; // Nos ahorramos la búsqueda
 
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return null;
         return targetList.getEventListenersArrayCopy(type,useCapture);
     }
 
-    public ItsNatDOMEventListenerWrapperImpl removeItsNatDOMEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
+    public ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return null;
 
-        ItsNatDOMEventListenerWrapperImpl listenerWrapper = targetList.removeItsNatDOMEventListener(type,useCapture,listener);
+        ItsNatNormalEventListenerWrapperImpl listenerWrapper = targetList.removeItsNatNormalEventListener(type,useCapture,listener);
 
         if (targetList.isEmpty())
             eventListenersByTarget.remove(target);
@@ -93,68 +91,68 @@ public class WeakMapItsNatDOMEventListenerByTarget implements ExpungeListener,Se
         return listenerWrapper;
     }
 
-    public void removeItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    public void removeItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
         EventTarget target = listenerWrapper.getCurrentTarget();
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return;
 
-        targetList.removeItsNatDOMEventListener(listenerWrapper);
+        targetList.removeItsNatNormalEventListener(listenerWrapper);
 
         if (targetList.isEmpty())
             eventListenersByTarget.remove(target);
     }
 
-    public int removeAllItsNatDOMEventListeners(EventTarget target,boolean updateClient)
+    public int removeAllItsNatNormalEventListeners(EventTarget target,boolean updateClient)
     {
         if (!parentRegistry.isValidEventTarget(target,false)) return 0; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return 0;
 
-        LinkedList<Pair> listeners = targetList.getAllItsNatDOMEventListenersCopy();
+        LinkedList<Pair> listeners = targetList.getAllItsNatNormalEventListenersCopy();
         if (listeners == null)
             return 0;
         // "listeners" es una copia por lo que es desechable e inmutable
         for(Pair pair : listeners)
         {
-            ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
-            parentRegistry.removeItsNatDOMEventListener(listener,updateClient,false);
+            ItsNatNormalEventListenerWrapperImpl listener = pair.getListenerWrapper();
+            parentRegistry.removeItsNatNormalEventListener(listener,updateClient,false);
         }
 
-        targetList.removeAllItsNatDOMEventListeners(); // No hace falta pero por si acaso y para que quede claro
+        targetList.removeAllItsNatNormalEventListeners(); // No hace falta pero por si acaso y para que quede claro
 
         eventListenersByTarget.remove(target);
 
         return listeners.size(); // El número de listeners removidos
     }
 
-    public void addItsNatDOMEventListener(ItsNatDOMEventListenerWrapperImpl listenerWrapper)
+    public void addItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
         EventTarget target = listenerWrapper.getCurrentTarget();
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)eventListenersByTarget.get(target);
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
         {
-            targetList = new ItsNatDOMEventListenerListSameTarget();
+            targetList = new ItsNatNormalEventListenerListSameTarget();
             eventListenersByTarget.put(target,targetList);
         }
-        targetList.addItsNatDOMEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener(),listenerWrapper);
+        targetList.addItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener(),listenerWrapper);
     }
 
     public void processExpunged(Object value)
     {
-        ItsNatDOMEventListenerListSameTarget targetList = (ItsNatDOMEventListenerListSameTarget)value;
+        ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)value;
 
-        LinkedList<Pair> listeners = targetList.getAllItsNatDOMEventListenersCopy();
+        LinkedList<Pair> listeners = targetList.getAllItsNatNormalEventListenersCopy();
         if (listeners == null)
             return;
         // "listeners" es una copia por lo que es desechable e inmutable
         for(Pair pair : listeners)
         {
-            ItsNatDOMEventListenerWrapperImpl listener = pair.getListenerWrapper();
-            parentRegistry.removeItsNatDOMEventListener(listener,false,true);
+            ItsNatNormalEventListenerWrapperImpl listener = pair.getListenerWrapper();
+            parentRegistry.removeItsNatNormalEventListener(listener,false,true);
 
             // Pasamos updateClient = false para evitar llamar getJSRender().removeEventListenerCode(listenerWrapper);
             // precisamente porque este método se llama cuando nadie sujeta el nodo

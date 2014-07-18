@@ -20,17 +20,15 @@ import org.itsnat.core.CommMode;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
-import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventFactory;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -39,7 +37,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListenerWrapperImpl
+public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListenerWrapperImpl
 {
     protected int commMode;
     protected String type;
@@ -81,7 +79,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatDOMEventListener
     }
 
     @Override
-    public void handleEvent(ClientItsNatDOMEventImpl event)
+    public void handleEvent(ClientItsNatNormalEventImpl event)
     {
         super.handleEvent(event);
 

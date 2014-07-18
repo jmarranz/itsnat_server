@@ -30,7 +30,7 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerListSameTarget;
+import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -42,8 +42,8 @@ import org.w3c.dom.events.EventTarget;
 public abstract class ItsNatCompDOMListenersImpl implements Serializable
 {
     protected ItsNatComponentImpl comp;
-    protected ItsNatDOMEventListenerListSameTarget userDOMListenersBefore;
-    protected ItsNatDOMEventListenerListSameTarget userDOMListenersAfter;
+    protected ItsNatNormalEventListenerListSameTarget userDOMListenersBefore;
+    protected ItsNatNormalEventListenerListSameTarget userDOMListenersAfter;
     protected Set<String> enabledDOMEvents;
     protected Map<String,EventListenerParamsImpl> evtListParams;
 
@@ -86,21 +86,21 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
     public boolean hasUserDOMListeners(String type,boolean before)
     {
         if (!hasUserDOMListeners(before)) return false;
-        return getUserDOMListeners(before).hasItsNatDOMEventListeners(type, false);
+        return getUserDOMListeners(before).hasItsNatNormalEventListeners(type, false);
     }
 
-    public ItsNatDOMEventListenerListSameTarget getUserDOMListeners(boolean before)
+    public ItsNatNormalEventListenerListSameTarget getUserDOMListeners(boolean before)
     {
         if (before)
         {
             if (userDOMListenersBefore == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userDOMListenersBefore = new ItsNatDOMEventListenerListSameTarget();
+                this.userDOMListenersBefore = new ItsNatNormalEventListenerListSameTarget();
             return userDOMListenersBefore;
         }
         else
         {
             if (userDOMListenersAfter == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userDOMListenersAfter = new ItsNatDOMEventListenerListSameTarget();
+                this.userDOMListenersAfter = new ItsNatNormalEventListenerListSameTarget();
             return userDOMListenersAfter;
         }
     }
@@ -115,7 +115,7 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
 
             @SuppressWarnings("unchecked")
             ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
-            if (getUserDOMListeners(before).getItsNatDOMEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
+            if (getUserDOMListeners(before).getItsNatNormalEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
                 EventListenerUtil.handleEventListeners(evt,chain);
         }
     }
@@ -123,12 +123,12 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
     public void addUserEventListener(String type,EventListener listener,boolean before)
     {
         enableEventListener(type); // primero activamos porque sino no llegan
-        getUserDOMListeners(before).addItsNatDOMEventListener(type,false,listener);
+        getUserDOMListeners(before).addItsNatNormalEventListener(type,false,listener);
     }
 
     public void removeUserEventListener(String type,EventListener listener,boolean before)
     {
-        getUserDOMListeners(before).removeItsNatDOMEventListener(type,false,listener);
+        getUserDOMListeners(before).removeItsNatNormalEventListener(type,false,listener);
         // No hacemos disableEventListener porque son cosas diferentes, normalmente hay comportamientos por defecto en el componente
     }
 

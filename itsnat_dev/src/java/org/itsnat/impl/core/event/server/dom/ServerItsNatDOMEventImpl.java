@@ -28,7 +28,7 @@ import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatDOMExtEventImpl;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatUserEventImpl;
 import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
-import org.itsnat.impl.core.registry.dom.ItsNatDOMEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryImpl;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -171,7 +171,7 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
 
         ItsNatStfulDocumentImpl itsNatDoc = evt.getItsNatStfulDocument();
         ClientDocumentStfulImpl clientDoc = evt.getClientDocumentStful();
-        ItsNatDOMEventListenerRegistryImpl[] registries = new ItsNatDOMEventListenerRegistryImpl[2];
+        ItsNatNormalEventListenerRegistryImpl[] registries = new ItsNatNormalEventListenerRegistryImpl[2];
         if (evt instanceof ServerItsNatDOMStdEventImpl)
         {
             registries[0] = itsNatDoc.getDOMStdEventListenerRegistry();
@@ -192,7 +192,7 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
         return dispatchEventLocally(target,evt,registries);
     }
 
-    public static boolean dispatchEventLocally(EventTarget target,ServerItsNatDOMEventImpl evt,ItsNatDOMEventListenerRegistryImpl[] registries)
+    public static boolean dispatchEventLocally(EventTarget target,ServerItsNatDOMEventImpl evt,ItsNatNormalEventListenerRegistryImpl[] registries)
     {
         Node targetNode = (Node)target;
 
@@ -276,7 +276,7 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
         return evt.getPreventDefault();
     }
 
-    public static void dispatchEventLocallyCurrentTarget(EventTarget currentTarget,ServerItsNatDOMEventImpl evt,boolean useCapture,ItsNatDOMEventListenerRegistryImpl[] registries)
+    public static void dispatchEventLocallyCurrentTarget(EventTarget currentTarget,ServerItsNatDOMEventImpl evt,boolean useCapture,ItsNatNormalEventListenerRegistryImpl[] registries)
     {
         evt.setCurrentTarget(currentTarget);
 
@@ -287,7 +287,7 @@ public abstract class ServerItsNatDOMEventImpl extends ServerItsNatNormalEventIm
         }
     }
 
-    public static void dispatchEventLocallyCurrentTarget(EventTarget currentTarget,ServerItsNatDOMEventImpl evt,boolean useCapture,ItsNatDOMEventListenerRegistryImpl registry)
+    public static void dispatchEventLocallyCurrentTarget(EventTarget currentTarget,ServerItsNatDOMEventImpl evt,boolean useCapture,ItsNatNormalEventListenerRegistryImpl registry)
     {
         EventListener[] listeners = registry.getEventListenersArrayCopy(currentTarget,evt.getType(),useCapture);
         if (listeners == null) return;

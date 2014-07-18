@@ -25,7 +25,6 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.event.client.dom.ClientItsNatDOMEventImpl;
 import org.itsnat.impl.core.listener.trans.ParamTransportUtil;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventListener;
@@ -153,14 +152,12 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
 
     public void processEvent(ClientItsNatNormalEventImpl event)
     {
-        ClientItsNatDOMEventImpl domEvent = (ClientItsNatDOMEventImpl)event;
-
-        beforeAfterHandleEvent(true,domEvent); // Antes de llamar a los listeners del usuario
-        handleEvent(domEvent);
-        beforeAfterHandleEvent(false,domEvent);
+        beforeAfterHandleEvent(true,event); // Antes de llamar a los listeners del usuario
+        handleEvent(event);
+        beforeAfterHandleEvent(false,event);
     }
 
-    public void beforeAfterHandleEvent(boolean before,ClientItsNatDOMEventImpl event)
+    public void beforeAfterHandleEvent(boolean before,ClientItsNatNormalEventImpl event)
     {
         if (extraParams == null)
             return;
@@ -193,7 +190,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         }
     }
 
-    public void handleEvent(ClientItsNatDOMEventImpl event)
+    public void handleEvent(ClientItsNatNormalEventImpl event)
     {
         EventListenerUtil.handleEventIncludingGlobalListeners(listener, event);
     }    
@@ -212,5 +209,6 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
     }    
     
     public abstract String getType();
+    public abstract boolean getUseCapture();    
     public abstract ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request);
 }

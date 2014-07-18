@@ -20,7 +20,6 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import static org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatDOMEventListenerImpl.addCustomFunctionCode;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 
@@ -44,7 +43,7 @@ public class JSAndBSRenderItsNatDOMStdEventListenerImpl
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomFunctionCode(itsNatListener,code);
+        String functionVarName = render.addCustomFunctionCode(itsNatListener,code);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target en eventos estándar DOM NO puede ser nulo

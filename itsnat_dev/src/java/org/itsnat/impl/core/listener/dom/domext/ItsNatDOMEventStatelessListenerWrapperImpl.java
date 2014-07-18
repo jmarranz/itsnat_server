@@ -20,7 +20,6 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatDOMEventStatelessImpl;
-import static org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl.getTypeStatic;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
 

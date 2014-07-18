@@ -664,7 +664,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         {
             // Evitamos así que un timer pendiente nos provoque un error en el cliente
             ItsNatTimerEventListenerRegistryImpl registry = getItsNatTimerEventListenerRegistry();
-            registry.removeAllItsNatDOMEventListeners(true);
+            registry.removeAllItsNatNormalEventListeners(true);
         }
 
         if (getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)

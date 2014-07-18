@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.core.registry.dom.domext;
 
-import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -40,20 +40,20 @@ public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMExtEventLi
     public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         String type = ItsNatContinueEventListenerWrapperImpl.getTypeStatic();
-        if (!canAddItsNatDOMEventListener(target,type,listener,false))
+        if (!canAddItsNatNormalEventListener(target,type,listener,false))
             return; // Ya registrado (u otra razón)
 
         ItsNatContinueEventListenerWrapperImpl listenerWrapper = new ItsNatContinueEventListenerWrapperImpl(itsNatDoc,clientDocTarget,target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
-        addItsNatDOMEventListener(listenerWrapper);
+        addItsNatNormalEventListener(listenerWrapper);
     }
 
     public ItsNatContinueEventListenerWrapperImpl removeContinueEventListenerById(String id)
     {
-        return (ItsNatContinueEventListenerWrapperImpl)removeItsNatDOMEventListenerById(id,false); // Hacemos updateClient = false porque no hay nada que "desregistrar" en el cliente
+        return (ItsNatContinueEventListenerWrapperImpl)removeItsNatNormalEventListenerById(id,false); // Hacemos updateClient = false porque no hay nada que "desregistrar" en el cliente
     }
 
-    public ItsNatDOMEventListenerWrapperImpl getItsNatDOMEventListenerById(String listenerId)
+    public ItsNatNormalEventListenerWrapperImpl getItsNatNormalEventListenerById(String listenerId)
     {
         // A la vez que obtenemos el listener lo eliminamos pues este es el "contrado"
         // de los eventos/listeners "continue"
@@ -63,9 +63,10 @@ public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMExtEventLi
 
     public ItsNatContinueEventListenerWrapperImpl getContinueEventListenerById(String listenerId)
     {
-        return (ItsNatContinueEventListenerWrapperImpl)getItsNatDOMEventListenerById(listenerId);
+        return (ItsNatContinueEventListenerWrapperImpl)getItsNatNormalEventListenerById(listenerId);
     }
 
+    @Override
     public EventListener[] getEventListenersArrayCopy(EventTarget target,String type,boolean useCapture)
     {
         // Los devueltos los desregistramos al mismo tiempo, pues suponemos que van a ser procesados
@@ -74,13 +75,13 @@ public class ItsNatContinueEventListenerRegistryImpl extends ItsNatDOMExtEventLi
         if (listeners == null) return null;
 
         for(int i = 0; i < listeners.length; i++)
-            removeItsNatDOMEventListener(target,type,listeners[i],useCapture,false); // No hay nada que enviar al cliente, por eso updateClient es false
+            removeItsNatNormalEventListener(target,type,listeners[i],useCapture,false); // No hay nada que enviar al cliente, por eso updateClient es false
 
         return listeners;
     }
 
     public int removeAllItsNatContinueEventListeners(EventTarget target,boolean updateClient)
     {
-        return removeAllItsNatDOMEventListeners(target,updateClient);
+        return removeAllItsNatNormalEventListeners(target,updateClient);
     }
 }

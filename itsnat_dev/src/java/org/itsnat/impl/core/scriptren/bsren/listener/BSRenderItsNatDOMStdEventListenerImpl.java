@@ -26,7 +26,7 @@ import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatDOMStdEventLis
  *
  * @author jmarranz
  */
-public abstract class BSRenderItsNatDOMStdEventListenerImpl extends BSRenderItsNatDOMEventListenerImpl implements RenderItsNatDOMStdEventListener
+public abstract class BSRenderItsNatDOMStdEventListenerImpl extends BSRenderItsNatNormalEventListenerImpl implements RenderItsNatDOMStdEventListener
 {
     /** Creates a new instance of BSRenderItsNatDOMStdEventListenerImpl */
     public BSRenderItsNatDOMStdEventListenerImpl()
