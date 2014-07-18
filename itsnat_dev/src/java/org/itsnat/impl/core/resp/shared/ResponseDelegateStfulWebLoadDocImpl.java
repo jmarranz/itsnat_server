@@ -35,7 +35,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderPropertyImpl;
-import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
+import org.itsnat.impl.core.listener.dom.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.resp.ResponseLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;

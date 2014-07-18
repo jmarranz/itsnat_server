@@ -18,7 +18,7 @@ package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
+import org.itsnat.impl.core.listener.dom.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
 /**

@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.bsren.listener;
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;

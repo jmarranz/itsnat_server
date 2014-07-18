@@ -16,10 +16,14 @@
 
 package org.itsnat.impl.core.event.client;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatNormalEvent;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.util.MiscUtil;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -72,4 +76,53 @@ public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStful
     {
         return getNormalEventListenerWrapper().getType();
     }
+    
+    public static String getParameter(RequestNormalEventImpl request,String name)
+    {
+        name = "itsnat_evt_" + name;
+        String param = request.getAttrOrParam(name);
+        if (param == null)
+            throw new ItsNatException(name + " parameter is not specified",request.getItsNatServletRequest());
+        return param;
+    }
+
+    public String getParameter(String name)
+    {
+        return getParameter(getRequestNormalEvent(),name);
+    }
+
+    public boolean getParameterBoolean(String name)
+    {
+        // Usamos getBooleanRelaxed que no provoca error si por ejemplo
+        // el parámetro es "undefined".
+        return MiscUtil.getBooleanRelaxed(getParameter(name));
+    }
+
+    public short getParameterShort(String name)
+    {
+        return Short.parseShort(getParameter(name));
+    }
+
+    public int getParameterInt(String name)
+    {
+        return Integer.parseInt(getParameter(name));
+    }
+
+    public long getParameterLong(String name)
+    {
+        return Long.parseLong(getParameter(name));
+    }
+
+    public Node getParameterNode(String name)
+    {
+        return getParameterNode(name,true);
+    }
+
+    public Node getParameterNode(String name,boolean cacheIfPossible)
+    {
+        String path = getParameter(name);
+        ClientDocumentStfulDelegateImpl clientDoc = getClientDocumentStful().getClientDocumentStfulDelegate();
+        return clientDoc.getNodeFromStringPathFromClient(path,cacheIfPossible);
+    }
+    
 }

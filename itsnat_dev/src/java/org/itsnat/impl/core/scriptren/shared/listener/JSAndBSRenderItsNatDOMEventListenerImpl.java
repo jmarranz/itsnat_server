@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.shared.listener;
 
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 
 /**
  *

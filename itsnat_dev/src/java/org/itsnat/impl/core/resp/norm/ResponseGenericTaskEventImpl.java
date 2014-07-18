@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.resp.norm;
 
-import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatGenericTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestGenericTaskEventImpl;
 
 /**

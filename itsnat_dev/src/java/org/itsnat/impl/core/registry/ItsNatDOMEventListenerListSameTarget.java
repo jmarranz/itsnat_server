@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;

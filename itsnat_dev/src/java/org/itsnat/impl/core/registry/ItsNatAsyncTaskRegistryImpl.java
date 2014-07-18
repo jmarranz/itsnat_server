@@ -16,8 +16,9 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.listener.dom.domext.AsyncTaskImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
 import java.io.Serializable;
-import org.itsnat.impl.core.listener.domext.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
@@ -26,7 +27,7 @@ import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListenerImpl;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
@@ -68,7 +69,7 @@ public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl imple
         // y dicha tarea modifica el documento
         // por lo que hay que recoger los cambios, dichos cambios se recogerán
         // a través de un evento generado automáticamente al volver al cliente y asíncrono.
-        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatDOMEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc))
+        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc))
             return;
 
         AsyncTaskImpl taskContainer = new AsyncTaskImpl(task,lockDoc,maxWait,clientDoc);

@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventImpl;
 
 /**

@@ -20,8 +20,8 @@ import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 

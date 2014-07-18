@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.listener;
 
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.w3c.dom.Element;
 
 /**

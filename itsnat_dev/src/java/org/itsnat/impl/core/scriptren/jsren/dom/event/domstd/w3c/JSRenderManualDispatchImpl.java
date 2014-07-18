@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.registry.ItsNatDOMEventListenerListSameTarget;
 import org.itsnat.impl.core.registry.ItsNatDOMEventListenerListSameTarget.Pair;

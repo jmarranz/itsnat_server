@@ -18,8 +18,8 @@ package org.itsnat.impl.core.req.norm;
 
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.event.client.domstd.ClientItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDOMStdEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 

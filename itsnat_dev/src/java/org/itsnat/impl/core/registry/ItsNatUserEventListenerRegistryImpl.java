@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.listener.domext.*;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;

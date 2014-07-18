@@ -19,7 +19,7 @@ package org.itsnat.impl.core.registry;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedList;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.ItsNatDOMEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl.ExpungeListener;

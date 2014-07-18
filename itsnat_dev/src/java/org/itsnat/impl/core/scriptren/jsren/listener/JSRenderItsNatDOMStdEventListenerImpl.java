@@ -24,7 +24,7 @@ import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatDOMStdEventListenerImpl;
 import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatDOMStdEventListener;
 import org.w3c.dom.Element;

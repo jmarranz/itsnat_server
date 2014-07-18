@@ -22,7 +22,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.dom.ServerItsNatDOMEventImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLElement;
 

@@ -25,7 +25,7 @@ import org.itsnat.core.ItsNatTimer;
 import org.itsnat.core.event.ItsNatTimerHandle;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;

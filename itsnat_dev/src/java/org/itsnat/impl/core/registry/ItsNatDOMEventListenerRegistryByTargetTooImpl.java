@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;

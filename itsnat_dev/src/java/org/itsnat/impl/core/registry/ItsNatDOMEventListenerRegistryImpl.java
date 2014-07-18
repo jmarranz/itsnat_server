@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.listener.dom.ItsNatDOMEventListenerWrapperImpl;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Map;
@@ -106,7 +107,7 @@ public abstract class ItsNatDOMEventListenerRegistryImpl extends EventListenerRe
 
     public boolean canAddItsNatDOMEventListener(EventTarget target,EventListener listener)
     {
-        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatDOMEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
+        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
             return false;
         checkValidEventTarget(target); // Lanza excepción si no es válido
         return true;

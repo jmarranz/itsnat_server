@@ -16,9 +16,9 @@
 
 package org.itsnat.impl.core.scriptren.jsren.listener;
 
-import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatNormalCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatNormalCometEventListenerWrapperImpl;
 
 /**
  *

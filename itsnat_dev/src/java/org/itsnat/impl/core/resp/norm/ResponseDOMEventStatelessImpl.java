@@ -18,7 +18,7 @@ package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
 
 /**

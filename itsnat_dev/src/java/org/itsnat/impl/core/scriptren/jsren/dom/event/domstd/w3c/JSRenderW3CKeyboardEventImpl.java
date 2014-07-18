@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.w3c;
 
 import org.itsnat.core.event.ItsNatKeyEvent;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.W3CKeyboardEventImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CKeyboardEventImpl;
 import org.w3c.dom.events.Event;
 
 /**

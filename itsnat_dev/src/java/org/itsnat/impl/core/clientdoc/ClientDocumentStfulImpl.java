@@ -34,16 +34,14 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulWebImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
@@ -113,7 +111,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return itsNatDoc;
     }
 
-    public boolean canReceiveNormalEvents(ItsNatDOMEventListenerWrapperImpl evtListener)
+    public boolean canReceiveNormalEvents(ItsNatNormalEventListenerWrapperImpl evtListener)
     {
         if (evtListener instanceof ItsNatDOMEventStatelessListenerWrapperImpl)
             return true; // Es una excepción

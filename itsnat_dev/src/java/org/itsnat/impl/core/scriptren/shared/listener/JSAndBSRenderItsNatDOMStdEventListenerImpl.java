@@ -19,7 +19,7 @@ package org.itsnat.impl.core.scriptren.shared.listener;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import static org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatDOMEventListenerImpl.addCustomFunctionCode;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;

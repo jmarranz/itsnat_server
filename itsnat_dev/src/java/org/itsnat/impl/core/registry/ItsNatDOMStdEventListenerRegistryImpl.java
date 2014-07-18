@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.listener.domstd.*;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodeMutationTransport;
 import org.itsnat.core.event.ParamTransport;

@@ -23,7 +23,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
-import org.itsnat.impl.core.event.client.domext.ClientItsNatNormalCometEventImpl;
+import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatNormalCometEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

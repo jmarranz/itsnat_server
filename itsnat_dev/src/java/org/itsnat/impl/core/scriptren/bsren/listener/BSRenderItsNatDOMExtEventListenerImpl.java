@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.core.scriptren.bsren.listener;
 
-import org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 
 /**
  *
