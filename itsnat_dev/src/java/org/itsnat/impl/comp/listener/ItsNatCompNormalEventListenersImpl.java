@@ -39,15 +39,15 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ItsNatCompDOMListenersImpl implements Serializable
+public abstract class ItsNatCompNormalEventListenersImpl implements Serializable
 {
     protected ItsNatComponentImpl comp;
-    protected ItsNatNormalEventListenerListSameTarget userDOMListenersBefore;
-    protected ItsNatNormalEventListenerListSameTarget userDOMListenersAfter;
-    protected Set<String> enabledDOMEvents;
+    protected ItsNatNormalEventListenerListSameTarget userNormalEventListenersBefore;
+    protected ItsNatNormalEventListenerListSameTarget userNormalEventListenersAfter;
+    protected Set<String> enabledNormalEvents;
     protected Map<String,EventListenerParamsImpl> evtListParams;
 
-    public ItsNatCompDOMListenersImpl(ItsNatComponentImpl comp)
+    public ItsNatCompNormalEventListenersImpl(ItsNatComponentImpl comp)
     {
         this.comp = comp;
     }
@@ -62,60 +62,60 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
         return comp.getItsNatDocumentImpl();
     }
 
-    public boolean hasEnabledDOMEvents()
+    public boolean hasEnabledNormalEvents()
     {
-        if (enabledDOMEvents == null) return false;
-        return !enabledDOMEvents.isEmpty();
+        if (enabledNormalEvents == null) return false;
+        return !enabledNormalEvents.isEmpty();
     }
 
-    public Set<String> getEnabledDOMEvents()
+    public Set<String> getEnabledNormalEvents()
     {
-        if (enabledDOMEvents == null)
-            this.enabledDOMEvents = new HashSet<String>();
-        return enabledDOMEvents;
+        if (enabledNormalEvents == null)
+            this.enabledNormalEvents = new HashSet<String>();
+        return enabledNormalEvents;
     }
 
-    public boolean hasUserDOMListeners(boolean before)
+    public boolean hasUserNormalEventListeners(boolean before)
     {
         if (before)
-            return (userDOMListenersBefore != null) && !userDOMListenersBefore.isEmpty();
+            return (userNormalEventListenersBefore != null) && !userNormalEventListenersBefore.isEmpty();
         else
-            return (userDOMListenersAfter != null) && !userDOMListenersAfter.isEmpty();
+            return (userNormalEventListenersAfter != null) && !userNormalEventListenersAfter.isEmpty();
     }
 
-    public boolean hasUserDOMListeners(String type,boolean before)
+    public boolean hasUserNormalEventListeners(String type,boolean before)
     {
-        if (!hasUserDOMListeners(before)) return false;
-        return getUserDOMListeners(before).hasItsNatNormalEventListeners(type, false);
+        if (!ItsNatCompNormalEventListenersImpl.this.hasUserNormalEventListeners(before)) return false;
+        return getUserNormalEventListeners(before).hasItsNatNormalEventListeners(type, false);
     }
 
-    public ItsNatNormalEventListenerListSameTarget getUserDOMListeners(boolean before)
+    public ItsNatNormalEventListenerListSameTarget getUserNormalEventListeners(boolean before)
     {
         if (before)
         {
-            if (userDOMListenersBefore == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userDOMListenersBefore = new ItsNatNormalEventListenerListSameTarget();
-            return userDOMListenersBefore;
+            if (userNormalEventListenersBefore == null) // Para ahorrar memoria si no se usa (ej. Labels)
+                this.userNormalEventListenersBefore = new ItsNatNormalEventListenerListSameTarget();
+            return userNormalEventListenersBefore;
         }
         else
         {
-            if (userDOMListenersAfter == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userDOMListenersAfter = new ItsNatNormalEventListenerListSameTarget();
-            return userDOMListenersAfter;
+            if (userNormalEventListenersAfter == null) // Para ahorrar memoria si no se usa (ej. Labels)
+                this.userNormalEventListenersAfter = new ItsNatNormalEventListenerListSameTarget();
+            return userNormalEventListenersAfter;
         }
     }
 
-    public void processDOMEventUserListeners(Event evt,boolean before)
+    public void processNormalEventUserListeners(Event evt,boolean before)
     {
         // Derivar para hacer lo específico antes de delegar en los listeners del usuario
-        if (hasUserDOMListeners(before))
+        if (ItsNatCompNormalEventListenersImpl.this.hasUserNormalEventListeners(before))
         {
             // No se ejecutarán los global listeners de nuevo pues ya se ejecutaron antes
             // de llegar aquí y es el mismo evento que viene del cliente.
 
             @SuppressWarnings("unchecked")
             ItsNatEventListenerChainImpl<EventListener> chain = ((ItsNatEventImpl)evt).getItsNatEventListenerChainImpl();
-            if (getUserDOMListeners(before).getItsNatNormalEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
+            if (getUserNormalEventListeners(before).getItsNatNormalEventListenerList(evt.getType(),false,chain)) // Se ha añadido alguno
                 EventListenerUtil.handleEventListeners(evt,chain);
         }
     }
@@ -123,20 +123,20 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
     public void addUserEventListener(String type,EventListener listener,boolean before)
     {
         enableEventListener(type); // primero activamos porque sino no llegan
-        getUserDOMListeners(before).addItsNatNormalEventListener(type,false,listener);
+        getUserNormalEventListeners(before).addItsNatNormalEventListener(type,false,listener);
     }
 
     public void removeUserEventListener(String type,EventListener listener,boolean before)
     {
-        getUserDOMListeners(before).removeItsNatNormalEventListener(type,false,listener);
+        getUserNormalEventListeners(before).removeItsNatNormalEventListener(type,false,listener);
         // No hacemos disableEventListener porque son cosas diferentes, normalmente hay comportamientos por defecto en el componente
     }
 
     public void disableEventListeners(boolean updateClient)
     {
-        if (hasEnabledDOMEvents())
+        if (hasEnabledNormalEvents())
         {
-            Object[] types = getEnabledDOMEvents().toArray(); // Llamamos al toArray() porque se van eliminando al iterar
+            Object[] types = getEnabledNormalEvents().toArray(); // Llamamos al toArray() porque se van eliminando al iterar
             for(int i = 0; i < types.length; i++)
             {
                 String type = (String)types[i];
@@ -147,11 +147,11 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
 
     public void enableEventListener(String type)
     {
-        Set<String> enabledDOMEvents = getEnabledDOMEvents();
-        if (enabledDOMEvents.contains(type))
+        Set<String> enabledNormalEvents = getEnabledNormalEvents();
+        if (enabledNormalEvents.contains(type))
             return; // ya fue activado
         addInternalEventListener(type);
-        enabledDOMEvents.add(type);
+        enabledNormalEvents.add(type);
     }
 
     public void disableEventListener(String type)
@@ -161,11 +161,11 @@ public abstract class ItsNatCompDOMListenersImpl implements Serializable
 
     public void disableEventListener(String type,boolean updateClient)
     {
-        Set<String> enabledDOMEvents = getEnabledDOMEvents();
-        if (!enabledDOMEvents.contains(type))
+        Set<String> enabledNormalEvents = getEnabledNormalEvents();
+        if (!enabledNormalEvents.contains(type))
             return;  // No fue activado
         removeInternalEventListener(type,updateClient);
-        enabledDOMEvents.remove(type);
+        enabledNormalEvents.remove(type);
     }
 
     public Map<String,EventListenerParamsImpl> getEventListenerParamMap()

@@ -25,7 +25,7 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
  *
  * @author jmarranz
  */
-public abstract class ItsNatCompDOMListenersByDocImpl extends ItsNatCompDOMListenersImpl
+public abstract class ItsNatCompDOMListenersByDocImpl extends ItsNatCompNormalEventListenersImpl
 {
     public ItsNatCompDOMListenersByDocImpl(ItsNatComponentImpl comp)
     {
@@ -34,9 +34,9 @@ public abstract class ItsNatCompDOMListenersByDocImpl extends ItsNatCompDOMListe
 
     public void addClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
-        if (hasEnabledDOMEvents())
+        if (hasEnabledNormalEvents())
         {
-            Object[] types = getEnabledDOMEvents().toArray();
+            Object[] types = getEnabledNormalEvents().toArray();
             for(int i = 0; i < types.length; i++)
             {
                 String type = (String)types[i];
@@ -47,9 +47,9 @@ public abstract class ItsNatCompDOMListenersByDocImpl extends ItsNatCompDOMListe
 
     public void removeClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
-        if (hasEnabledDOMEvents())
+        if (hasEnabledNormalEvents())
         {
-            Object[] types = getEnabledDOMEvents().toArray();
+            Object[] types = getEnabledNormalEvents().toArray();
             for(int i = 0; i < types.length; i++)
             {
                 String type = (String)types[i];

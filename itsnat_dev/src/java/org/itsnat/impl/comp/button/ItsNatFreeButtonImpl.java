@@ -130,12 +130,12 @@ public abstract class ItsNatFreeButtonImpl extends ItsNatFreeElementComponentImp
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         // Evento click al menos
         if (!buttonDelegate.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 }

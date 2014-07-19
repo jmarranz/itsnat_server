@@ -63,9 +63,9 @@ public class ItsNatModalLayerXULImpl extends ItsNatModalLayerImpl implements Its
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
 
         // Si fue activado por el usuario o bien añadió un listener
         if (evt.getType().equals("popuphidden"))

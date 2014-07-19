@@ -89,7 +89,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         }
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         if (isChangeEvent(evt))
         {

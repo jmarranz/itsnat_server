@@ -246,7 +246,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
             removeInternalEventListenerJoystickMode(domListeners,i);
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("click") || type.equals("mouseup"))
@@ -259,7 +259,7 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
                 processMouseClick((MouseEvent)evt,option);
         }
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public abstract void processMouseClick(MouseEvent mouseEvt,ItsNatListCellUI option);

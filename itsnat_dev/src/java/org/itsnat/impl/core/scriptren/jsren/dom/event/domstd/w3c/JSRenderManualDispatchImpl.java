@@ -207,7 +207,7 @@ public class JSRenderManualDispatchImpl
         // obtenemos desde el servidor, además el dispatchEventManual no es usado
         // para despachar eventos generados por NetFront (lo cual sí ocurre en MSIE).
 
-        // Ver ServerItsNatDOMEventImpl para saber más sobre el proceso de eventos DOM W3C
+        // Ver ServerItsNatNormalEventImpl para saber más sobre el proceso de eventos DOM W3C
 
         // En el caso de Adobe SVG Viewer v3 el problema es que
         // aunque existe dispatchEvent (en ASV v3 al menos) no existe document.createEvent

@@ -23,7 +23,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
  *
  * @author jmarranz
  */
-public abstract class ItsNatCompDOMListenersByClientImpl extends ItsNatCompDOMListenersImpl
+public abstract class ItsNatCompDOMListenersByClientImpl extends ItsNatCompNormalEventListenersImpl
 {
     protected ClientDocumentImpl clientDoc;
 

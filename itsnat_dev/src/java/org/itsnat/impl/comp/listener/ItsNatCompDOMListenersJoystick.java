@@ -29,7 +29,7 @@ public interface ItsNatCompDOMListenersJoystick
 {
     public ItsNatDocumentImpl getItsNatDocumentImpl();
 
-    public boolean hasEnabledDOMEvents();
+    public boolean hasEnabledNormalEvents();
 
     public Map<String,EventListener> getLoadScheduledMap();
 

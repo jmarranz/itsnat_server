@@ -74,6 +74,7 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
         return ItsNatCompDOMListenersJoystickSharedImpl.mustAddRemove(this);
     }
 
+    @Override
     protected void addInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (isJoystickEnabled())
@@ -82,6 +83,7 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
             super.addInternalEventListener(clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
     }
 
+    @Override
     protected void removeInternalEventListener(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
     {
         if (isJoystickEnabled())

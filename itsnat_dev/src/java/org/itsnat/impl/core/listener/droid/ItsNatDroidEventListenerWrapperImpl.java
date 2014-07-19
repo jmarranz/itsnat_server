@@ -29,7 +29,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public abstract class ItsNatDroidEventListenerWrapperImpl extends ItsNatNormalEventListenerWrapperImpl
 {
-    /** Creates a new instance of ItsNatDOMEventListenerWrapperImpl */
+    /** Creates a new instance of ItsNatDroidEventListenerWrapperImpl */
     public ItsNatDroidEventListenerWrapperImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc,EventTarget currTarget,EventListener listener,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         super(itsNatDoc,clientDoc,currTarget,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);

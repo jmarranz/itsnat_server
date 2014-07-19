@@ -570,7 +570,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("click") || type.equals("dblclick") || type.equals("mouseup"))
@@ -620,7 +620,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
             }
         }
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void selectTreeNode(ItsNatTreeCellUI nodeInfo, Event evt)

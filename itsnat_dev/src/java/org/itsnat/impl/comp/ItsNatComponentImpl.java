@@ -617,11 +617,11 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
         try
         {
-            processDOMEventUserListeners(evt,true);
+            processNormalEventUserListeners(evt,true);
             ItsNatEvent itsNatEvt = ((ItsNatEvent)evt);
             if (!itsNatEvt.getItsNatEventListenerChain().isStopped()) // De esta manera en los eventos del usuario previos podemos parar el comportamiento por defecto del componente
-                processDOMEvent(evt);
-            processDOMEventUserListeners(evt,false);
+                processNormalEvent(evt);
+            processNormalEventUserListeners(evt,false);
         }
         finally
         {
@@ -629,12 +629,12 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         }
     }
 
-    public void processDOMEventUserListeners(Event evt,boolean before)
+    public void processNormalEventUserListeners(Event evt,boolean before)
     {
         if (((ItsNatEvent)evt).getItsNatEventListenerChain().isStopped())
             return; // No es estrictamente necesario (se chequea después) pero evita llamadas inútiles
             
-        domListenersByDoc.processDOMEventUserListeners(evt,before);
+        domListenersByDoc.processNormalEventUserListeners(evt,before);
 
         if (((ItsNatEvent)evt).getItsNatEventListenerChain().isStopped())
             return; // No es estrictamente necesario (se chequea después) pero evita llamadas inútiles
@@ -642,10 +642,10 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         // Por ahora no hay listeners por cliente, pero en el futuro...
         ItsNatCompDOMListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompDOMListenersByClient();
         for(int i = 0; i < clients.length; i++)
-            clients[i].processDOMEventUserListeners(evt, before);
+            clients[i].processNormalEventUserListeners(evt, before);
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         // Derivar para hacer lo específico del componente
     }

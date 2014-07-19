@@ -26,6 +26,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 /**
+ * ¡¡¡¡REVISAR ESTE TEXTO!!!!
  * NO derivamos de DOMEventListenerRegistryByTargetTooImpl porque
  * nos interesa registrar múltiples veces un mismo listener y
  * DOMEventListenerRegistryByTargetTooImpl está más orientado

@@ -145,12 +145,12 @@ public abstract class ItsNatHTMLAnchorImpl extends ItsNatHTMLElementComponentImp
         // Nada que hacer
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         if (!buttonDelegate.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void blur()

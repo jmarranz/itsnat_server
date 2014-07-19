@@ -178,7 +178,7 @@ public class ItsNatHTMLInputTextFormattedImpl extends ItsNatHTMLInputTextImpl im
         return formatter.stringToValue(str,this);
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("focus"))
@@ -186,7 +186,7 @@ public class ItsNatHTMLInputTextFormattedImpl extends ItsNatHTMLInputTextImpl im
         else if (type.equals("blur"))
             setHasFocus(false);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
 

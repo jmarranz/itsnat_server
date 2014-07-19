@@ -76,7 +76,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
     protected ClientDocumentStfulDelegateImpl delegate;
 
     protected ScriptUtil scriptUtil;
-    protected LinkedList<EventListener> globalDomEventListeners;
+    protected LinkedList<EventListener> globalEventListeners;
 
     
     /** Creates a new instance of ClientDocumentStfulImpl */
@@ -545,41 +545,41 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public boolean hasGlobalEventListenerListeners()
     {
-        if (globalDomEventListeners == null)
+        if (globalEventListeners == null)
             return false;
-        return !globalDomEventListeners.isEmpty();
+        return !globalEventListeners.isEmpty();
     }     
     
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
-        if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList<EventListener>();
-        return globalDomEventListeners;
+        if (globalEventListeners == null)
+            this.globalEventListeners = new LinkedList<EventListener>();
+        return globalEventListeners;
     }
 
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
-        if (globalDomEventListeners == null)
+        if (globalEventListeners == null)
             return;
-        list.addAll(globalDomEventListeners);
+        list.addAll(globalEventListeners);
     }
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(index,listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.remove(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.remove(listener);
     }
 
 

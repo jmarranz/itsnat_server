@@ -563,7 +563,7 @@ public abstract class ItsNatTableImpl extends ItsNatElementComponentImpl impleme
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("click") || type.equals("mouseup"))
@@ -602,7 +602,7 @@ public abstract class ItsNatTableImpl extends ItsNatElementComponentImpl impleme
             }
         }
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend)

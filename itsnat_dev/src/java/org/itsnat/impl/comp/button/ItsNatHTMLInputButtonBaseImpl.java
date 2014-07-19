@@ -121,7 +121,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         // Evento click al menos
         // Redefinir para cada tipo de botón si es necesario
@@ -129,7 +129,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         if (!htmlButtonDeleg.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public ParamTransport[] getInternalParamTransports(String type,ClientDocumentImpl clientDoc)

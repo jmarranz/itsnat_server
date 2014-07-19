@@ -105,11 +105,11 @@ public class ItsNatHTMLTextAreaImpl extends ItsNatHTMLFormCompValueBasedImpl imp
         changeBasedDelegate.enableEventListenersByClient(domListeners);
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
-        changeBasedDelegate.processDOMEvent(evt);
+        changeBasedDelegate.processNormalEvent(evt);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void handleEventOnChange(Event evt)

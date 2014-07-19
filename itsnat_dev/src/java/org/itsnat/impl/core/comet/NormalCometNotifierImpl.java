@@ -35,7 +35,7 @@ import org.w3c.dom.events.EventListener;
 public class NormalCometNotifierImpl extends CometNotifierImpl
 {
     protected long eventTimeout;
-    protected LinkedList<EventListener> domEventListeners;
+    protected LinkedList<EventListener> normalEventListeners;
     protected EventListener listenerDispatcher;
     protected int commMode;
 
@@ -106,23 +106,23 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
 
     public boolean hasEventListenerListeners()
     {
-        if (domEventListeners == null)
+        if (normalEventListeners == null)
             return false;
-        return !domEventListeners.isEmpty();
+        return !normalEventListeners.isEmpty();
     }
 
     public LinkedList<EventListener> getEventListenerList()
     {
         // No sincronizamos porque sólo debe usarse con el documento sincronizado
         // es decir en requests web.
-        if (domEventListeners == null)
-            this.domEventListeners = new LinkedList<EventListener>();
-        return domEventListeners;
+        if (normalEventListeners == null)
+            this.normalEventListeners = new LinkedList<EventListener>();
+        return normalEventListeners;
     }
 
     public boolean getEventListenerList(ItsNatEventListenerChainImpl<EventListener> chain)
     {
-        return chain.addFirstListenerList(domEventListeners); // Puede ser null
+        return chain.addFirstListenerList(normalEventListeners); // Puede ser null
     }
 
     public void addEventListener(EventListener listener)
@@ -131,13 +131,13 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         // se haría de la misma forma que se hace en ItsNatComponentImpl, es decir
         // compartidos por todos los listeners, pues todos son despachados con el mismo evento-request.
 
-        LinkedList<EventListener> domEventListeners = getEventListenerList();
-        domEventListeners.add(listener);
+        LinkedList<EventListener> normalEventListeners = getEventListenerList();
+        normalEventListeners.add(listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> domEventListeners = getEventListenerList();
-        domEventListeners.remove(listener);
+        LinkedList<EventListener> normalEventListeners = getEventListenerList();
+        normalEventListeners.remove(listener);
     }
 }

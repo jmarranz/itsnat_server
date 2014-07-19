@@ -97,7 +97,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
     {
         if (!listeners.isJoystickEnabled())
             return false;
-        if (!listeners.hasEnabledDOMEvents())
+        if (!listeners.hasEnabledNormalEvents())
             return false;
         ItsNatDocumentImpl itsNatDoc = listeners.getItsNatDocumentImpl();
         if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
@@ -230,7 +230,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
     {
         if (contentElem == null) return;
 
-        ItsNatCompDOMListenersImpl listenersBase = (ItsNatCompDOMListenersImpl)listeners;
+        ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 
         EventListenerParamsImpl params = listenersBase.getEventListenerParams(type);
 
@@ -249,7 +249,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
     {
         if (contentElem == null) return;
 
-        ItsNatCompDOMListenersImpl listenersBase = (ItsNatCompDOMListenersImpl)listeners;
+        ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 
         EventListenerParamsImpl params = listenersBase.getEventListenerParams(type);
         boolean useCapture = listenersBase.isUseCapture(params);
@@ -271,11 +271,11 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
 
     public static void addEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem)
     {
-        ItsNatCompDOMListenersImpl listenersBase = (ItsNatCompDOMListenersImpl)listeners;
+        ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 
-        if (listenersBase.hasEnabledDOMEvents())
+        if (listenersBase.hasEnabledNormalEvents())
         {
-            for (String type : listenersBase.getEnabledDOMEvents())
+            for (String type : listenersBase.getEnabledNormalEvents())
             {
                 addInternalEventListenerJoystick(listeners,contentElem, type);
             }
@@ -284,11 +284,11 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
 
     public static void removeEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem)
     {
-        ItsNatCompDOMListenersImpl listenersBase = (ItsNatCompDOMListenersImpl)listeners;
+        ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 
-        if (listenersBase.hasEnabledDOMEvents())
+        if (listenersBase.hasEnabledNormalEvents())
         {
-            for (String type : listenersBase.getEnabledDOMEvents())
+            for (String type : listenersBase.getEnabledNormalEvents())
             {
                 removeInternalEventListenerJoystick(listeners,contentElem, type);
             }

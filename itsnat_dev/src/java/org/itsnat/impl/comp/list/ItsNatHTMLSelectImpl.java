@@ -62,6 +62,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         setItsNatListCellRenderer(componentMgr.createDefaultItsNatListCellRenderer());
     }
 
+    @Override
     public void init()
     {
         changeBasedDelegate.init();
@@ -69,6 +70,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         super.init();
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -76,6 +78,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
+    @Override
     public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
     {
         super.enableEventListenersByClient(domListeners);
@@ -83,11 +86,12 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         changeBasedDelegate.enableEventListenersByClient(domListeners);
     }
 
-    public void processDOMEvent(Event evt)
+    @Override
+    public void processNormalEvent(Event evt)
     {
-        changeBasedDelegate.processDOMEvent(evt);
+        changeBasedDelegate.processNormalEvent(evt);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void postHandleEventOnChange(Event evt)
