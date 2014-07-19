@@ -689,27 +689,26 @@ function NormalEvent(listener)
     this.getCurrentTarget = getCurrentTarget;
     this.getUtil = getUtil;
 
+    this.timeStamp = new Date().getTime();
+    
+    this.EventStful_super_genParamURL = this.genParamURL;
+    this.genParamURL = genParamURL;    
+    
     function getCurrentTarget() { return this.listener.getCurrentTarget(); }
-
     function getUtil() { return itsnat.TransportUtil; }
+     
+    function genParamURL()
+    {
+        var url = this.EventStful_super_genParamURL();
+        url += "&itsnat_evt_timeStamp=" + this.timeStamp; // En vez del problematico Event.timeStamp       
+        return url;
+    }    
 }
 
 function DOMEvent(listener)
 {
     this.NormalEvent = NormalEvent;
     this.NormalEvent(listener);
-
-    this.timeStamp = new Date().getTime();
-
-    this.NormalEvent_super_genParamURL = this.genParamURL;
-    this.genParamURL = genParamURL;
-    
-    function genParamURL()
-    {
-        var url = this.NormalEvent_super_genParamURL();
-        url += "&itsnat_evt_timeStamp=" + this.timeStamp; // En vez del problematico Event.timeStamp
-        return url;
-    }
 }
 
 function DOMStdEvent(evt,listener)
@@ -942,29 +941,20 @@ function EventStfulListener(itsNatDoc,eventType,commMode,timeout)
     }
 }
 
-function NormalEventListener(itsNatDoc,eventType,commMode,timeout)
+function NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
 {
     this.EventStfulListener = EventStfulListener;
     this.EventStfulListener(itsNatDoc,eventType,commMode,timeout);
-
-
-    this.createEventWrapper = null; // redefinir
-}
-
-function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
-{
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,eventType,commMode,timeout);
-
+    
     this.getCurrentTarget = getCurrentTarget;
     this.getCustomFunc = getCustomFunc;
     this.getId = getId;
 
-    this.NormalEventListener_genParamURL = this.genParamURL;
+    this.EventStfulListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
     this.createEventWrapper = null; // redefinir
     this.dispatchEvent = dispatchEvent;
-
+    
     // attribs
 
     this.currentTarget = currentTarget;
@@ -977,7 +967,7 @@ function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMo
 
     function genParamURL(evt)
     {
-        var url = this.NormalEventListener_genParamURL(evt);
+        var url = this.EventStfulListener_genParamURL(evt);
         url += "&itsnat_listener_id=" + this.getId();
         return url;
     }
@@ -988,8 +978,13 @@ function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMo
         var customFunc = this.getCustomFunc();
         if (customFunc != null) customFunc(evtWrapper);
         evtWrapper.sendEvent();
-    }    
+    }        
+}
 
+function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
+{
+    this.NormalEventListener = NormalEventListener;
+    this.NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
 }
 
 function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,typeCode)

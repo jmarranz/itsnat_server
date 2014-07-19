@@ -50,13 +50,13 @@ public abstract class DOMStdEvent extends DOMEvent
         Parcel parcelOut = Parcel.obtain();
         parcelOut.writeValue(evtNative);
         byte[] data = parcelOut.marshall();
+        parcelOut.recycle();
 
         Parcel parcelIn = Parcel.obtain();
         parcelIn.unmarshall(data, 0, data.length);
         parcelIn.setDataPosition(0);
         this.evtNative = (InputEvent) parcelIn.readValue(evtNative.getClass().getClassLoader());
         parcelIn.recycle();
-        parcelOut.recycle();
     }
 
 }

@@ -6,9 +6,9 @@
 
 * Hacer soporte de Touch events para Web y para Droid
 
-* Capturar las excepciones de enviar eventos por ej de EventSender.requestSyncText (ej socket timeout) y permitir el proceso del usuario
-
 * Estudiar como compatibilizar el bubbling y capture con la propagación de eventos Android (recuerda el boolean de retorno de onTouch)
+
+* Considerar el preventDefault como equivalente a devolver true/false por parte del listener nativo
 
 * Seguir con el mapeo de tipos de eventos nativos (ej touch) con los web y hacer los setOnX
 
@@ -16,10 +16,6 @@
 
 * Intentar agrupar los atributos de un mismo tipo que sólo admiten un método conjunto, por ej los paddingXXX
   se definen una de una sola vez con setPadding(int,int,int,int)
-
-* Pensar si memorizar los objetos Page hasta un límite configurable
-
-* Pensar en si enviar como POST un URL o sólo los eventos
 
 * Pensar si en inflar otros tipos de XML de resources
 

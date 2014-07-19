@@ -129,12 +129,23 @@ public class PageRequestImpl implements PageRequest
             if (status[0].getStatusCode() != 200)
                 throw new ItsNatDroidServerResponseException(status[0].getStatusCode(), status[0].getReasonPhrase(), result);
         }
-        catch(SocketTimeoutException ex)
+        catch(Exception ex)
         {
-            // No capturamos más excepciones aquí ni usamos listeners porque es una llamada directa del usuario y la excepción
-            // SocketTimeoutException estamos obligados a capturarla porque forma parte de la signatura (necesario en otro contexto diferente a éste).
-            throw new ItsNatDroidException(ex);
+            // Aunque la excepción pueda ser capturada por el usuario al llamar al método público síncrono, tenemos
+            // que respetar su decisión de usar un listener
+            OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
+            if (errorListener != null)
+            {
+                errorListener.onError(ex, this); // Para poder recogerla desde fuera
+                return;
+            }
+            else
+            {
+                if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException)ex;
+                else throw new ItsNatDroidException(ex);
+            }
         }
+
 
         processResponse(url,result);
     }
