@@ -29,7 +29,7 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -98,7 +98,7 @@ public class ItsNatHTMLTextAreaImpl extends ItsNatHTMLFormCompValueBasedImpl imp
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl domListeners)
     {
         super.enableEventListenersByClient(domListeners);
 

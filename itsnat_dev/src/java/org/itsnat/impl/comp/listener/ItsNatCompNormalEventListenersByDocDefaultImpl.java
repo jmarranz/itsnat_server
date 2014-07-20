@@ -17,16 +17,15 @@
 package org.itsnat.impl.comp.listener;
 
 import org.itsnat.impl.comp.*;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ItsNatCompDOMListenersByClientDefaultImpl extends ItsNatCompDOMListenersByClientImpl
+public class ItsNatCompNormalEventListenersByDocDefaultImpl extends ItsNatCompNormalEventListenersByDocImpl
 {
-    public ItsNatCompDOMListenersByClientDefaultImpl(ItsNatComponentImpl comp,ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByDocDefaultImpl(ItsNatComponentImpl comp)
     {
-        super(comp,clientDoc);
+        super(comp);
     }
 }

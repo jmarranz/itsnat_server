@@ -32,9 +32,9 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersAllClientsImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersAllClientsImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.ItsNatUserDataImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
@@ -56,8 +56,8 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 {
     protected ItsNatDocComponentManagerImpl componentMgr;
     protected Map<String,Object> artifacts;
-    protected ItsNatCompDOMListenersByDocImpl domListenersByDoc;
-    protected ItsNatCompDOMListenersAllClientsImpl domListenersByClient;
+    protected ItsNatCompNormalEventListenersByDocImpl normalEventListenersByDoc;
+    protected ItsNatCompNormalEventListenersAllClientsImpl normalEventListenersByClient;
     protected boolean disposed = false;
     protected PropertyChangeSupport changeSupport;
     protected VetoableChangeSupport vetoableChangeSupport;
@@ -88,8 +88,8 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
             node = createDefaultNode(); // Puede devolver null
         this.node = node; // Se tolera el caso de que sea nulo para permitir un posterior "attach" (ningún componente estándar por ahora)
 
-        this.domListenersByDoc = createItsNatCompDOMListenersByDoc();
-        this.domListenersByClient = new ItsNatCompDOMListenersAllClientsImpl(this);
+        this.normalEventListenersByDoc = createItsNatCompNormalEventListenersByDoc();
+        this.normalEventListenersByClient = new ItsNatCompNormalEventListenersAllClientsImpl(this);
     }
 
     public void init()
@@ -125,28 +125,28 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         return DOMUtilInternal.isNodeInside(node,getItsNatDocumentImpl().getDocument());
     }
 
-    public ItsNatCompDOMListenersAllClientsImpl getItsNatCompDOMListenersAllClients()
+    public ItsNatCompNormalEventListenersAllClientsImpl getItsNatCompNormalEventListenersAllClients()
     {
-        return domListenersByClient;
+        return normalEventListenersByClient;
     }
 
-    public abstract ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc();
+    public abstract ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc();
 
-    public abstract ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc);
+    public abstract ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc);
 
-    public ItsNatCompDOMListenersByClientImpl getItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl getItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        return domListenersByClient.getItsNatCompDOMListenersByClient(clientDoc);
+        return normalEventListenersByClient.getItsNatCompNormalEventListenersByClient(clientDoc);
     }
 
     public boolean mayBeInPlaceEditorComponent()
-    {
+    {    
         return hasMutationEventListener;
     }
-
-    public ItsNatCompDOMListenersByDocImpl getItsNatCompDOMListenersByDoc()
+    
+    public ItsNatCompNormalEventListenersByDocImpl getItsNatCompNormalEventListenersByDoc()
     {
-        return domListenersByDoc;
+        return normalEventListenersByDoc;
     }
 
     public void setDefaultModels()
@@ -286,15 +286,14 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
     public void setEventListenerParams(String type,boolean useCapture,int commMode,
             ParamTransport[] extraParams,String preSendCode,long eventTimeout)
     {
-        domListenersByDoc.setEventListenerParams(type, useCapture, commMode, extraParams, preSendCode, eventTimeout);
+        normalEventListenersByDoc.setEventListenerParams(type, useCapture, commMode, extraParams, preSendCode, eventTimeout);
     }
 
-    /* DEBE HACERSE PUBLICA */
     public void setEventListenerParams(ClientDocument clientDoc,String type,boolean useCapture,int commMode,
             ParamTransport[] extraParams,String preSendCode,long eventTimeout)
     {
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.getItsNatCompDOMListenersByClient((ClientDocumentImpl)clientDoc);        
-        domListeners.setEventListenerParams(type, useCapture, commMode, extraParams, preSendCode, eventTimeout);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);        
+        listeners.setEventListenerParams(type, useCapture, commMode, extraParams, preSendCode, eventTimeout);
     }
 
     public void addEventListener(String type,EventListener listener)
@@ -309,22 +308,22 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
     public void addEventListener(String type,EventListener listener,boolean before)
     {
-        domListenersByDoc.addUserEventListener(type,listener,before);
+        normalEventListenersByDoc.addUserEventListener(type,listener,before);
     }
 
     public void removeEventListener(String type,EventListener listener,boolean before)
     {
-        domListenersByDoc.removeUserEventListener(type,listener,before);
+        normalEventListenersByDoc.removeUserEventListener(type,listener,before);
     }
 
     public void enableEventListener(String type)
     {
-        domListenersByDoc.enableEventListener(type);
+        normalEventListenersByDoc.enableEventListener(type);
     }
 
     public void disableEventListener(String type)
     {
-        domListenersByDoc.disableEventListener(type);
+        normalEventListenersByDoc.disableEventListener(type);
     }
 
     /* DEBE HACERSE PUBLICO */
@@ -342,39 +341,39 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
     /* DEBE HACERSE PUBLICO */
     public void addEventListener(ClientDocument clientDoc,String type,EventListener listener,boolean before)
     {
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.getItsNatCompDOMListenersByClient((ClientDocumentImpl)clientDoc);
-        domListeners.addUserEventListener(type,listener,before);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
+        listeners.addUserEventListener(type,listener,before);
     }
 
     /* DEBE HACERSE PUBLICO */
     public void removeEventListener(ClientDocument clientDoc,String type,EventListener listener,boolean before)
     {
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.getItsNatCompDOMListenersByClient((ClientDocumentImpl)clientDoc);
-        domListeners.removeUserEventListener(type,listener,before);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
+        listeners.removeUserEventListener(type,listener,before);
     }
 
     /* DEBE HACERSE PUBLICO */
     public void enableEventListener(ClientDocument clientDoc,String type)
     {
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.getItsNatCompDOMListenersByClient((ClientDocumentImpl)clientDoc);
-        domListeners.enableEventListener(type);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
+        listeners.enableEventListener(type);
     }
 
     /* DEBE HACERSE PUBLICO */
     public void disableEventListener(ClientDocument clientDoc,String type)
     {
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.getItsNatCompDOMListenersByClient((ClientDocumentImpl)clientDoc);
-        domListeners.disableEventListener(type);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
+        listeners.disableEventListener(type);
     }
 
-    public void enableEventListener(String type,ItsNatCompDOMListenersByClientImpl domListeners)
+    public void enableEventListener(String type,ItsNatCompNormalEventListenersByClientImpl listeners)
     {
-        domListeners.enableEventListener(type);
+        listeners.enableEventListener(type);
     }
 
-    public void disableEventListener(String type,ItsNatCompDOMListenersByClientImpl domListeners)
+    public void disableEventListener(String type,ItsNatCompNormalEventListenersByClientImpl listeners)
     {
-        domListeners.disableEventListener(type);
+        listeners.disableEventListener(type);
     }
 
     public void enableEventListeners()
@@ -406,12 +405,12 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
     public void disableEventListenersByDoc(boolean updateClient)
     {
-        domListenersByDoc.disableEventListeners(updateClient);
+        normalEventListenersByDoc.disableEventListeners(updateClient);
     }
 
     public void enableEventListenersByClient()
     {
-        ItsNatCompDOMListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompDOMListenersByClient();
+        ItsNatCompNormalEventListenersByClientImpl[] clients = normalEventListenersByClient.getAllItsNatCompNormalEventListenersByClient();
         for(int i = 0; i < clients.length; i++)
             enableEventListenersByClient(clients[i]);
     }
@@ -423,24 +422,24 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
     public void disableEventListenersByClient(boolean updateClient)
     {
-        ItsNatCompDOMListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompDOMListenersByClient();
+        ItsNatCompNormalEventListenersByClientImpl[] clients = normalEventListenersByClient.getAllItsNatCompNormalEventListenersByClient();
         for(int i = 0; i < clients.length; i++)
             disableEventListenersByClient(updateClient,clients[i]);
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl listeners)
     {
        // Derivar para registrar los event type concretos
     }
 
-    public void disableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    public void disableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl listeners)
     {
-        disableEventListenersByClient(true,domListeners);
+        disableEventListenersByClient(true,listeners);
     }
 
-    public void disableEventListenersByClient(boolean updateClient,ItsNatCompDOMListenersByClientImpl domListeners)
+    public void disableEventListenersByClient(boolean updateClient,ItsNatCompNormalEventListenersByClientImpl listeners)
     {
-        domListeners.disableEventListeners(updateClient);
+        listeners.disableEventListeners(updateClient);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener)
@@ -634,13 +633,13 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         if (((ItsNatEvent)evt).getItsNatEventListenerChain().isStopped())
             return; // No es estrictamente necesario (se chequea después) pero evita llamadas inútiles
             
-        domListenersByDoc.processNormalEventUserListeners(evt,before);
+        normalEventListenersByDoc.processNormalEventUserListeners(evt,before);
 
         if (((ItsNatEvent)evt).getItsNatEventListenerChain().isStopped())
             return; // No es estrictamente necesario (se chequea después) pero evita llamadas inútiles
 
         // Por ahora no hay listeners por cliente, pero en el futuro...
-        ItsNatCompDOMListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompDOMListenersByClient();
+        ItsNatCompNormalEventListenersByClientImpl[] clients = normalEventListenersByClient.getAllItsNatCompNormalEventListenersByClient();
         for(int i = 0; i < clients.length; i++)
             clients[i].processNormalEventUserListeners(evt, before);
     }
@@ -679,19 +678,19 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
 
     public void addClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
-        domListenersByDoc.addClientDocumentAttachedClient(clientDoc);
+        normalEventListenersByDoc.addClientDocumentAttachedClient(clientDoc);
 
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.addItsNatCompDOMListenersByClient(clientDoc);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.addItsNatCompNormalEventListenersByClient(clientDoc);
         if (isNodeBoundToDocument())
-            enableEventListenersByClient(domListeners);
+            enableEventListenersByClient(listeners);
     }
 
     public void removeClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
-        domListenersByDoc.removeClientDocumentAttachedClient(clientDoc);
+        normalEventListenersByDoc.removeClientDocumentAttachedClient(clientDoc);
 
-        ItsNatCompDOMListenersByClientImpl domListeners = domListenersByClient.removeItsNatCompDOMListenersByClient(clientDoc);
+        ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.removeItsNatCompNormalEventListenersByClient(clientDoc);
         if (isNodeBoundToDocument())
-            disableEventListenersByClient(false,domListeners); // updateClient = false para evitar generación inútil de código
+            disableEventListenersByClient(false,listeners); // updateClient = false para evitar generación inútil de código
     }
 }

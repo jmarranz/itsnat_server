@@ -32,7 +32,7 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
@@ -90,7 +90,7 @@ public abstract class ItsNatHTMLInputTextBasedImpl extends ItsNatHTMLInputImpl i
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl domListeners)
     {
         super.enableEventListenersByClient(domListeners);
 

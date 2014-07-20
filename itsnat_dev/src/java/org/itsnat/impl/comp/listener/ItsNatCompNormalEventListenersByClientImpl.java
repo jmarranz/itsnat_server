@@ -16,36 +16,36 @@
 
 package org.itsnat.impl.comp.listener;
 
-import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.w3c.dom.Element;
-import org.w3c.dom.events.EventListener;
+import org.itsnat.impl.comp.*;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 
 /**
  *
  * @author jmarranz
  */
-public interface ItsNatCompDOMListenersJoystick
+public abstract class ItsNatCompNormalEventListenersByClientImpl extends ItsNatCompNormalEventListenersImpl
 {
-    public ItsNatDocumentImpl getItsNatDocumentImpl();
+    protected ClientDocumentImpl clientDoc;
 
-    public boolean hasEnabledNormalEvents();
+    public ItsNatCompNormalEventListenersByClientImpl(ItsNatComponentImpl comp,ClientDocumentImpl clientDoc)
+    {
+        super(comp);
 
-    public Map<String,EventListener> getLoadScheduledMap();
+        this.clientDoc = clientDoc;
+    }
 
-    public JoystickModeComponent getJoystickModeComponent();
+    public ClientDocumentImpl getClientDocument()
+    {
+        return clientDoc;
+    }
 
-    public boolean isJoystickEnabled();
+    protected void addInternalEventListener(String type)
+    {
+        addInternalEventListener(getClientDocument(),type);
+    }
 
-    public void setJoystickEnabled(boolean value);
-
-    public boolean mustAddRemove();
-
-    public void addEventListenerJoystick(Element[] elemList);
-
-    public void removeEventListenerJoystick(Element[] elemList);
-
-    public void addEventListenerJoystick(Element contentElem);
-
-    public void removeEventListenerJoystick(Element contentElem);
+    protected void removeInternalEventListener(String type,boolean updateClient)
+    {
+        removeInternalEventListener(getClientDocument(),type,updateClient);
+    }
 }

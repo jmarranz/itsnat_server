@@ -27,10 +27,10 @@ import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
@@ -243,14 +243,14 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
 
     public abstract String getDefaultBackground();
 
-    public ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc()
+    public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
-        return new ItsNatCompDOMListenersByDocDefaultImpl(this);
+        return new ItsNatCompNormalEventListenersByDocDefaultImpl(this);
     }
 
-    public ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        return new ItsNatCompDOMListenersByClientDefaultImpl(this,clientDoc);
+        return new ItsNatCompNormalEventListenersByClientDefaultImpl(this,clientDoc);
     }
 
     public boolean isCleanBelowMode()

@@ -28,7 +28,7 @@ import javax.swing.event.ListDataEvent;
 import org.itsnat.comp.list.ItsNatListStructure;
 import org.itsnat.comp.list.ItsNatHTMLSelectUI;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
@@ -79,7 +79,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
     }
 
     @Override
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl domListeners)
     {
         super.enableEventListenersByClient(domListeners);
 

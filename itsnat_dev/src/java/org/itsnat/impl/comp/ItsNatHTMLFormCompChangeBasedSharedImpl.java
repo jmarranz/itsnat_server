@@ -18,7 +18,7 @@ package org.itsnat.impl.comp;
 
 import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
@@ -80,7 +80,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         comp.enableEventListener("change");
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl clientListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl clientListeners)
     {
         if (isBlurIsChangeEvent(clientListeners.getClientDocument()))
         {

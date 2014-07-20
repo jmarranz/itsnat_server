@@ -25,9 +25,9 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
  *
  * @author jmarranz
  */
-public abstract class ItsNatCompDOMListenersByDocImpl extends ItsNatCompNormalEventListenersImpl
+public abstract class ItsNatCompNormalEventListenersByDocImpl extends ItsNatCompNormalEventListenersImpl
 {
-    public ItsNatCompDOMListenersByDocImpl(ItsNatComponentImpl comp)
+    public ItsNatCompNormalEventListenersByDocImpl(ItsNatComponentImpl comp)
     {
         super(comp);
     }

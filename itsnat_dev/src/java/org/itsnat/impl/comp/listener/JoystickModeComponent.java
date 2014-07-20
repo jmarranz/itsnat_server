@@ -25,5 +25,5 @@ import org.w3c.dom.Element;
 public interface JoystickModeComponent
 {
     public Element[] getContentElementList();
-    public ItsNatCompDOMListenersByDocJoystickImpl getItsNatCompDOMListenersByDocJoystick();
+    public ItsNatCompNormalEventListenersByDocJoystickImpl getItsNatCompNormalEventListenersByDocJoystick();
 }

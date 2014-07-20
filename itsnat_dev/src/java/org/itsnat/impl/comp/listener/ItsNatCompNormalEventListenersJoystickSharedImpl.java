@@ -35,21 +35,21 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public class ItsNatCompDOMListenersJoystickSharedImpl
+public class ItsNatCompNormalEventListenersJoystickSharedImpl
 {
-    public static ArrayList<ItsNatCompDOMListenersJoystick> getMustAddRemove(JoystickModeComponent comp)
+    public static ArrayList<ItsNatCompNormalEventListenersJoystick> getMustAddRemove(JoystickModeComponent comp)
     {
-        ItsNatCompDOMListenersAllClientsImpl domListenersByClient = ((ItsNatComponentImpl)comp).getItsNatCompDOMListenersAllClients();
-        ArrayList<ItsNatCompDOMListenersJoystick> res = new ArrayList<ItsNatCompDOMListenersJoystick>(1 + domListenersByClient.size()); // El 1 es el registro por documento
+        ItsNatCompNormalEventListenersAllClientsImpl domListenersByClient = ((ItsNatComponentImpl)comp).getItsNatCompNormalEventListenersAllClients();
+        ArrayList<ItsNatCompNormalEventListenersJoystick> res = new ArrayList<ItsNatCompNormalEventListenersJoystick>(1 + domListenersByClient.size()); // El 1 es el registro por documento
 
-        ItsNatCompDOMListenersByDocJoystickImpl domListenersByDoc = comp.getItsNatCompDOMListenersByDocJoystick();
+        ItsNatCompNormalEventListenersByDocJoystickImpl domListenersByDoc = comp.getItsNatCompNormalEventListenersByDocJoystick();
         if (domListenersByDoc.mustAddRemove())
             res.add(domListenersByDoc);
 
-        ItsNatCompDOMListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompDOMListenersByClient();
+        ItsNatCompNormalEventListenersByClientImpl[] clients = domListenersByClient.getAllItsNatCompNormalEventListenersByClient();
         for(int i = 0; i < clients.length; i++)
         {
-            ItsNatCompDOMListenersByClientJoystickImpl client = (ItsNatCompDOMListenersByClientJoystickImpl)clients[i];
+            ItsNatCompNormalEventListenersByClientJoystickImpl client = (ItsNatCompNormalEventListenersByClientJoystickImpl)clients[i];
             if (client.mustAddRemove())
                 res.add(client);
         }
@@ -57,43 +57,43 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         return res;
     }
 
-    public static void addEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element[] elemList)
+    public static void addEventListenerJoystick(ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners,Element[] elemList)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
+            ItsNatCompNormalEventListenersJoystick current = domListeners.get(i);
             current.addEventListenerJoystick(elemList);
         }
     }
 
-    public static void removeEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element[] elemList)
+    public static void removeEventListenerJoystick(ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners,Element[] elemList)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
+            ItsNatCompNormalEventListenersJoystick current = domListeners.get(i);
             current.removeEventListenerJoystick(elemList);
         }
     }
 
-    public static void addEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element elem)
+    public static void addEventListenerJoystick(ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners,Element elem)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
+            ItsNatCompNormalEventListenersJoystick current = domListeners.get(i);
             current.addEventListenerJoystick(elem);
         }
     }
 
-    public static void removeEventListenerJoystick(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,Element elem)
+    public static void removeEventListenerJoystick(ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners,Element elem)
     {
         for(int i = 0; i < domListeners.size(); i++)
         {
-            ItsNatCompDOMListenersJoystick current = domListeners.get(i);
+            ItsNatCompNormalEventListenersJoystick current = domListeners.get(i);
             current.removeEventListenerJoystick(elem);
         }
     }
 
-    public static boolean mustAddRemove(ItsNatCompDOMListenersJoystick listeners)
+    public static boolean mustAddRemove(ItsNatCompNormalEventListenersJoystick listeners)
     {
         if (!listeners.isJoystickEnabled())
             return false;
@@ -105,7 +105,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         return true;
     }
 
-    public static void addInternalEventListenerJoystick(final ItsNatCompDOMListenersJoystick listeners,final ClientDocumentImpl clientDoc,final String type,final boolean useCapture,final int commMode,final ParamTransport[] extraParams,final String preSendCode,final long eventTimeout,final String bindToCustomFunc)
+    public static void addInternalEventListenerJoystick(final ItsNatCompNormalEventListenersJoystick listeners,final ClientDocumentImpl clientDoc,final String type,final boolean useCapture,final int commMode,final ParamTransport[] extraParams,final String preSendCode,final long eventTimeout,final String bindToCustomFunc)
     {
         ItsNatDocumentImpl itsNatDoc = listeners.getItsNatDocumentImpl();
         if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
@@ -144,7 +144,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void removeInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
+    public static void removeInternalEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
     {
         ItsNatDocumentImpl itsNatDoc = listeners.getItsNatDocumentImpl();
         if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
@@ -174,7 +174,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void addInternalEventListenerJoystick2(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    public static void addInternalEventListenerJoystick2(ItsNatCompNormalEventListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture, int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         JoystickModeComponent comp = listeners.getJoystickModeComponent();
         Element[] elemList = comp.getContentElementList();
@@ -188,7 +188,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void removeInternalEventListenerJoystick2(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
+    public static void removeInternalEventListenerJoystick2(ItsNatCompNormalEventListenersJoystick listeners,ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
     {
         JoystickModeComponent comp = listeners.getJoystickModeComponent();
         Element[] elemList = comp.getContentElementList();
@@ -202,7 +202,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void addInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem, String type)
+    public static void addInternalEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element contentElem, String type)
     {
         if (contentElem == null) return;
 
@@ -214,7 +214,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void removeInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem, String type)
+    public static void removeInternalEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element contentElem, String type)
     {
         if (contentElem == null) return;
 
@@ -226,7 +226,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void addInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,Element contentElem, String type)
+    public static void addInternalEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,ClientDocumentImpl clientDoc,Element contentElem, String type)
     {
         if (contentElem == null) return;
 
@@ -245,7 +245,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         clientDoc.addEventListener((EventTarget) contentElem, type,listenersBase.getItsNatComponent(), useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
     }
 
-    public static void removeInternalEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,ClientDocumentImpl clientDoc,Element contentElem, String type)
+    public static void removeInternalEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,ClientDocumentImpl clientDoc,Element contentElem, String type)
     {
         if (contentElem == null) return;
 
@@ -257,19 +257,19 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         clientDoc.removeEventListener((EventTarget) contentElem, type,listenersBase.getItsNatComponent(), useCapture);
     }
 
-    public static void addEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element[] elemList)
+    public static void addEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element[] elemList)
     {
         for(int i = 0; i < elemList.length; i++)
             addEventListenerJoystick(listeners,elemList[i]);
     }
 
-    public static void removeEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element[] elemList)
+    public static void removeEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element[] elemList)
     {
         for(int i = 0; i < elemList.length; i++)
             removeEventListenerJoystick(listeners,elemList[i]);
     }
 
-    public static void addEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem)
+    public static void addEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element contentElem)
     {
         ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 
@@ -282,7 +282,7 @@ public class ItsNatCompDOMListenersJoystickSharedImpl
         }
     }
 
-    public static void removeEventListenerJoystick(ItsNatCompDOMListenersJoystick listeners,Element contentElem)
+    public static void removeEventListenerJoystick(ItsNatCompNormalEventListenersJoystick listeners,Element contentElem)
     {
         ItsNatCompNormalEventListenersImpl listenersBase = (ItsNatCompNormalEventListenersImpl)listeners;
 

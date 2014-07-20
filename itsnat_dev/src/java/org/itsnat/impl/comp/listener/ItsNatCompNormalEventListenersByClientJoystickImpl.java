@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.comp.listener;
 
-import org.itsnat.impl.comp.*;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.comp.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventListener;
@@ -28,18 +28,14 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListenersByDocImpl implements ItsNatCompDOMListenersJoystick
+public class ItsNatCompNormalEventListenersByClientJoystickImpl extends ItsNatCompNormalEventListenersByClientImpl implements ItsNatCompNormalEventListenersJoystick
 {
-    protected Map<String,EventListener> loadScheduled;
+    protected Map<String,EventListener> loadScheduled = new HashMap<String,EventListener>();
     protected boolean joystickEnabled = false;
 
-    public ItsNatCompDOMListenersByDocJoystickImpl(JoystickModeComponent comp)
+    public ItsNatCompNormalEventListenersByClientJoystickImpl(JoystickModeComponent comp,ClientDocumentImpl clientDoc)
     {
-        super((ItsNatComponentImpl)comp);
-
-        ItsNatElementComponentImpl elemComp = (ItsNatElementComponentImpl)comp;
-        if (elemComp.getBooleanArtifactOrAttribute("joystickMode", elemComp.getItsNatDocumentImpl().isJoystickMode()))
-            this.joystickEnabled = true;
+        super((ItsNatComponentImpl)comp,clientDoc);
     }
 
     public JoystickModeComponent getJoystickModeComponent()
@@ -56,9 +52,9 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
     {
         if (joystickEnabled != value)
         {
-            comp.disableEventListenersByDoc();
+            comp.disableEventListenersByClient(this);
             this.joystickEnabled = value;
-            comp.enableEventListenersByDoc(); // De acuerdo al nuevo modo
+            comp.enableEventListenersByClient(this); // De acuerdo al nuevo modo
         }
     }
 
@@ -71,7 +67,7 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
 
     public boolean mustAddRemove()
     {
-        return ItsNatCompDOMListenersJoystickSharedImpl.mustAddRemove(this);
+        return ItsNatCompNormalEventListenersJoystickSharedImpl.mustAddRemove(this);
     }
 
     @Override
@@ -94,32 +90,31 @@ public class ItsNatCompDOMListenersByDocJoystickImpl extends ItsNatCompDOMListen
 
     private void addInternalEventListenerJoystick(ClientDocumentImpl clientDoc,String type,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.addInternalEventListenerJoystick(this,clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addInternalEventListenerJoystick(this,clientDoc,type,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     private void removeInternalEventListenerJoystick(ClientDocumentImpl clientDoc,String type,boolean useCapture,boolean updateClient)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.removeInternalEventListenerJoystick(this,clientDoc,type,useCapture,updateClient);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeInternalEventListenerJoystick(this,clientDoc,type,useCapture,updateClient);
     }
 
     public void addEventListenerJoystick(Element[] elemList)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(this, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(this, elemList);
     }
 
     public void removeEventListenerJoystick(Element[] elemList)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(this, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(this, elemList);
     }
 
     public void addEventListenerJoystick(Element contentElem)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(this, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(this, contentElem);
     }
 
     public void removeEventListenerJoystick(Element contentElem)
     {
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(this, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(this, contentElem);
     }
-
 }

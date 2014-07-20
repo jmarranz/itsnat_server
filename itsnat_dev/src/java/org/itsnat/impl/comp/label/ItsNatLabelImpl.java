@@ -16,10 +16,10 @@
 
 package org.itsnat.impl.comp.label;
 
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.comp.*;
 import java.beans.PropertyVetoException;
@@ -61,14 +61,14 @@ public abstract class ItsNatLabelImpl extends ItsNatElementComponentImpl impleme
         setItsNatLabelRenderer(compMgr.createDefaultItsNatLabelRenderer());
     }
 
-    public ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc()
+    public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
-        return new ItsNatCompDOMListenersByDocDefaultImpl(this);
+        return new ItsNatCompNormalEventListenersByDocDefaultImpl(this);
     }
 
-    public ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        return new ItsNatCompDOMListenersByClientDefaultImpl(this,clientDoc);
+        return new ItsNatCompNormalEventListenersByClientDefaultImpl(this,clientDoc);
     }
 
     public void enableEventListenersByDoc()
