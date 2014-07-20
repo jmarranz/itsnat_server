@@ -21,6 +21,8 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import static org.w3c.dom.events.Event.AT_TARGET;
+import org.w3c.dom.events.EventTarget;
 
 /**
  *
@@ -48,5 +50,23 @@ public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEvent
         return (ItsNatDroidEventListenerWrapperImpl)listenerWrapper;
     }
 
+    public EventTarget getTarget()
+    {
+        return getCurrentTarget(); 
+    }
 
+    public short getEventPhase()
+    {
+        return AT_TARGET; // Por poner algo
+    }
+
+    public boolean getCancelable()
+    {
+        return false; // Por poner algo
+    }
+
+    public boolean getBubbles()
+    {
+        return false; // Por poner algo
+    }
 }
