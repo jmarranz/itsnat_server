@@ -211,42 +211,43 @@ public abstract class ItsNatFreeListImpl extends ItsNatFreeElementComponentImpl 
 
     public void addInternalEventListenerJoystickMode(int index,Element elem)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> evtListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (evtListeners.isEmpty())
             return;
 
         Element contentElem = getItsNatListStructure().getContentElement(this,index,elem);
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(evtListeners, contentElem);
     }
 
     public void removeInternalEventListenerJoystickMode(int index)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> evtListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (evtListeners.isEmpty())
             return;
 
-        removeInternalEventListenerJoystickMode(domListeners,index);
+        removeInternalEventListenerJoystickMode(evtListeners,index);
     }
 
-    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners,int index)
+    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompNormalEventListenersJoystick> evtListeners,int index)
     {
         ItsNatListUI compUI = getItsNatListUI();
         Element contentElem = compUI.getContentElementAt(index);
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(evtListeners, contentElem);
     }
 
     public void removeInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> evtListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (evtListeners.isEmpty())
             return;
 
         for(int i = fromIndex; i <= toIndex; i++)
-            removeInternalEventListenerJoystickMode(domListeners,i);
+            removeInternalEventListenerJoystickMode(evtListeners,i);
     }
 
+    @Override
     public void processNormalEvent(Event evt)
     {
         String type = evt.getType();

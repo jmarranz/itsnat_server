@@ -64,10 +64,10 @@ public class ItsNatCompNormalEventListenersAllClientsImpl implements Serializabl
 
     public ItsNatCompNormalEventListenersByClientImpl addItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        ItsNatCompNormalEventListenersByClientImpl domListeners = comp.createItsNatCompNormalEventListenersByClient(clientDoc);
-        if (normalEventListenersByClient.put(clientDoc, domListeners) != null)
+        ItsNatCompNormalEventListenersByClientImpl evtListeners = comp.createItsNatCompNormalEventListenersByClient(clientDoc);
+        if (normalEventListenersByClient.put(clientDoc, evtListeners) != null)
             throw new ItsNatException("INTERNAL ERROR");
-        return domListeners;
+        return evtListeners;
     }
 
     public ItsNatCompNormalEventListenersByClientImpl removeItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)

@@ -79,11 +79,11 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
     }
 
     @Override
-    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl domListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl evtListeners)
     {
-        super.enableEventListenersByClient(domListeners);
+        super.enableEventListenersByClient(evtListeners);
 
-        changeBasedDelegate.enableEventListenersByClient(domListeners);
+        changeBasedDelegate.enableEventListenersByClient(evtListeners);
     }
 
     @Override

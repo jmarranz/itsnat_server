@@ -91,6 +91,7 @@ public class ItsNatHTMLTextAreaImpl extends ItsNatHTMLFormCompValueBasedImpl imp
         return changeBasedDelegate;
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -98,13 +99,15 @@ public class ItsNatHTMLTextAreaImpl extends ItsNatHTMLFormCompValueBasedImpl imp
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
-    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl domListeners)
+    @Override
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl normalEventListeners)
     {
-        super.enableEventListenersByClient(domListeners);
+        super.enableEventListenersByClient(normalEventListeners);
 
-        changeBasedDelegate.enableEventListenersByClient(domListeners);
+        changeBasedDelegate.enableEventListenersByClient(normalEventListeners);
     }
 
+    @Override
     public void processNormalEvent(Event evt)
     {
         changeBasedDelegate.processNormalEvent(evt);

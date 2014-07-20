@@ -1042,8 +1042,8 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void removeInternalEventListenerJoystickModeChildNodes(TreePath parentPath)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         ItsNatTreeUI compUI = getItsNatTreeUIImpl();
@@ -1053,51 +1053,51 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         rowCount--; // porque el propio padre no se cuenta (no se elimina).
         Element[] elemList = getContentElementList(fromRow,fromRow + rowCount - 1);
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void addInternalEventListenerJoystickMode()
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList();
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void removeInternalEventListenerJoystickMode()
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList();
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void addInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList(index,parentPath);
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void removeInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList<ItsNatCompNormalEventListenersJoystick> domListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList(index,parentPath);
 
-        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public boolean isEnabled()
