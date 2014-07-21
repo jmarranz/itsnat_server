@@ -12,5 +12,6 @@ package org.itsnat.core.event.droid;
  */
 public interface KeyEvent extends InputEvent
 {
-    
+    public int getKeyCode();
+    public void setKeyCode(int keyCode);    
 }

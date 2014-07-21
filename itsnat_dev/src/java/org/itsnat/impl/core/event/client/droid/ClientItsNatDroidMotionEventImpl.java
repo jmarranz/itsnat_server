@@ -6,6 +6,7 @@
 
 package org.itsnat.impl.core.event.client.droid;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.droid.MotionEvent;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -21,6 +22,46 @@ public class ClientItsNatDroidMotionEventImpl extends ClientItsNatDroidInputEven
     {
         super(listenerWrapper, request);
     }
+    
+    public int getRawX()
+    {
+        return getParameterInt("rawX");
+    }
 
+    public int getRawY()
+    {
+        return getParameterInt("rawY");
+    }
 
+    public int getX()
+    {
+        return getParameterInt("getX");
+    }
+
+    public int getY()
+    {
+        return getParameterInt("getY");
+    }  
+
+    public void setRawX(int value)
+    {
+       throw new ItsNatException("Not implemented",this);
+    }
+
+    public void setRawY(int value)
+    {
+       throw new ItsNatException("Not implemented",this);
+    }
+
+    public void setX(int value)
+    {
+       throw new ItsNatException("Not implemented",this);
+    }
+
+    public void setY(int value)
+    {
+       throw new ItsNatException("Not implemented",this);
+    }
+
+    
 }

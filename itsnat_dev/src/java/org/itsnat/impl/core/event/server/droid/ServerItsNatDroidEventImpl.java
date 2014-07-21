@@ -16,21 +16,17 @@
 
 package org.itsnat.impl.core.event.server.droid;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.droid.DroidEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.w3c.dom.DOMException;
 
 /**
- * Sirve para dos tipos de eventos:
- * 1) Eventos creados en el servidor y enviados al cliente: El objeto evento no será "dispatched"
- * a los listeners por lo que algunos métodos (getCurrentTarget() etc) no son útiles
- * 2) Eventos creados en el servidor y "dispatched" localmente: hay que simular
- * que el evento viene del cliente lo más posible.
  *
  * @author jmarranz
  */
-public class ServerItsNatDroidEventImpl extends ServerItsNatNormalEventImpl implements DroidEvent
+public abstract class ServerItsNatDroidEventImpl extends ServerItsNatNormalEventImpl implements DroidEvent
 {
     /**
      * Creates a new instance of ServerItsNatDroidEventImpl
@@ -42,7 +38,11 @@ public class ServerItsNatDroidEventImpl extends ServerItsNatNormalEventImpl impl
 
     public static ServerItsNatDroidEventImpl createServerItsNatDroidEvent(String eventGroup,ItsNatStfulDocumentImpl itsNatDoc) throws DOMException
     {
-        return new ServerItsNatDroidEventImpl(itsNatDoc);
+        if ("MotionEvent".equals(eventGroup))
+            return new ServerItsNatDroidMotionEventImpl(itsNatDoc);
+        else if ("KeyEvent".equals(eventGroup))
+            return new ServerItsNatDroidKeyEventImpl(itsNatDoc);        
+        throw new ItsNatException("Event name " + eventGroup + " is unknown");
     }
 
 }

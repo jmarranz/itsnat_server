@@ -6,6 +6,7 @@
 
 package org.itsnat.impl.core.event.client.droid;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.droid.KeyEvent;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -22,5 +23,13 @@ public class ClientItsNatDroidKeyEventImpl extends ClientItsNatDroidInputEventIm
         super(listenerWrapper, request);
     }
 
+    public int getKeyCode()
+    {
+        return getParameterInt("keyCode");
+    }
 
+    public void setKeyCode(int keyCode)
+    {
+       throw new ItsNatException("Not implemented",this);
+    }
 }
