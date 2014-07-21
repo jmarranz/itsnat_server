@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.clientdoc;
 
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.droid.BrowserDroid;
@@ -24,14 +25,17 @@ import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.dompath.DOMPathResolver;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
+import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 /**
@@ -44,6 +48,7 @@ public abstract class ClientDocumentStfulDelegateImpl
     protected ClientMutationEventListenerStfulImpl mutationListener; 
     protected NodeCacheRegistryImpl nodeCache;     
     protected DOMPathResolver pathResolver;
+    protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;    
     
     public ClientDocumentStfulDelegateImpl(ClientDocumentStfulImpl clientDoc)
     {
@@ -66,10 +71,25 @@ public abstract class ClientDocumentStfulDelegateImpl
             return null;
     }
     
+    public int getCommMode()
+    {
+        return clientDoc.getCommMode();
+    }
+
+    public long getEventTimeout()
+    {
+        return clientDoc.getEventTimeout();
+    }    
+    
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return clientDoc;
     }
+    
+    public ItsNatStfulDocumentImpl getItsNatStfulDocument()
+    {
+        return getClientDocumentStful().getItsNatStfulDocument();
+    }    
     
     public Browser getBrowser()
     {
@@ -81,11 +101,7 @@ public abstract class ClientDocumentStfulDelegateImpl
         return pathResolver;
     }        
     
-    public ItsNatStfulDocumentImpl getItsNatStfulDocument()
-    {
-        return clientDoc.getItsNatStfulDocument();
-    }
-        
+       
     public ClientMutationEventListenerStfulImpl getClientMutationEventListenerStful()
     {
         return mutationListener;
@@ -241,6 +257,65 @@ public abstract class ClientDocumentStfulDelegateImpl
             return node;
         }
     }        
+    
+    public boolean hasDOMStdEventListeners()
+    {
+        if (domStdListenerRegistry == null)
+            return false;
+        return !domStdListenerRegistry.isEmpty();
+    }
+
+    public ItsNatDOMStdEventListenerRegistryImpl getDOMStdEventListenerRegistry()
+    {
+        if (domStdListenerRegistry == null) // Evita instanciar si no se usa, caso de servir XML
+            this.domStdListenerRegistry = new ItsNatDOMStdEventListenerRegistryImpl(getItsNatStfulDocument(),getClientDocumentStful());
+        return domStdListenerRegistry;
+    }    
+    
+    public int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient)
+    {
+        if (!hasDOMStdEventListeners()) return 0;
+
+        return getDOMStdEventListenerRegistry().removeAllItsNatDOMStdEventListeners(target,updateClient);
+    }
+
+    public ItsNatDOMStdEventListenerWrapperImpl getDOMStdEventListenerById(String listenerId)
+    {
+        ItsNatDOMStdEventListenerWrapperImpl listener = null;
+
+        if (hasDOMStdEventListeners())
+            listener = getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
+
+        if (listener == null)
+            listener = ((ItsNatStfulWebDocumentImpl)getItsNatStfulDocument()).getDOMStdEventListenerById(listenerId);
+
+        return listener;
+    }    
+    
+    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    {
+        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+    }    
+    
+    public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
+    {
+        getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
+    }
+
+    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    {
+        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToCustomFunc);
+    }
+
+    public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
+    {
+        getDOMStdEventListenerRegistry().removeMutationEventListener(target,listener,useCapture,true);
+    }    
+    
+    public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
+    {
+        getDOMStdEventListenerRegistry().removeItsNatDOMStdEventListener(target,type,listener,useCapture,updateClient);
+    }    
     
     public abstract ScriptUtil createScriptUtil();
     public abstract boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException;   

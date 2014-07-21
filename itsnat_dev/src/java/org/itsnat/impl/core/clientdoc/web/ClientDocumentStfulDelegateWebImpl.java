@@ -27,8 +27,8 @@ import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromClientImpl;
@@ -60,6 +60,10 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         
     }
    
+    public ItsNatStfulWebDocumentImpl getItsNatStfulWebDocument()
+    {
+        return (ItsNatStfulWebDocumentImpl)super.getItsNatStfulDocument();
+    }
     
     public BrowserWeb getBrowserWeb()
     {

@@ -23,7 +23,6 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;

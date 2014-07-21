@@ -18,6 +18,7 @@ package org.itsnat.impl.core.event.client.droid;
 
 import org.itsnat.impl.core.event.client.*;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.droid.DroidEvent;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -28,7 +29,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEventImpl implements EventInternal
+public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEventImpl implements DroidEvent,EventInternal
 {
 
     /**

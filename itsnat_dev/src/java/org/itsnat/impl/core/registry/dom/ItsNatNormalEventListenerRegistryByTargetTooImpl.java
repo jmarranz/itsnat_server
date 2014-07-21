@@ -16,8 +16,8 @@
 
 package org.itsnat.impl.core.registry.dom;
 
-import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.WeakMapItsNatNormalEventListenerByTarget;

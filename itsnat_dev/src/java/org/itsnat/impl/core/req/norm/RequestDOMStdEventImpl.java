@@ -36,7 +36,7 @@ public class RequestDOMStdEventImpl extends RequestNormalEventImpl
 
     public ResponseNormalEventImpl createResponseNormalEvent(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
-        ItsNatDOMStdEventListenerWrapperImpl listener = clientDoc.getDOMStdEventListenerById(listenerId);
+        ItsNatDOMStdEventListenerWrapperImpl listener = clientDoc.getClientDocumentStfulDelegate().getDOMStdEventListenerById(listenerId);
 
         // Puede ocurrir que sea nulo, por ejemplo cuando en el cliente se emiten dos eventos
         // seguidos (ej. change y blur en un <input>) y enviados asíncronamente y al procesar uno de ellos y eliminar en el servidor el listener del otro

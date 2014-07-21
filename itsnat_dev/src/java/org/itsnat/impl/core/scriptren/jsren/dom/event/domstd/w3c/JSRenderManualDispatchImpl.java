@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget;
@@ -215,15 +215,15 @@ public class JSRenderManualDispatchImpl
 
         Node targetNode = (Node)target;
 
-        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
+        ItsNatStfulWebDocumentImpl itsNatDoc = clientDoc.getItsNatStfulWebDocument();
 
         ItsNatDOMStdEventListenerRegistryImpl globalRegistry = null;
         if (itsNatDoc.hasDOMStdEventListeners())
             globalRegistry = itsNatDoc.getDOMStdEventListenerRegistry();
 
         ItsNatDOMStdEventListenerRegistryImpl clientRegistry = null;
-        if (clientDoc.getClientDocumentStful().hasDOMStdEventListeners())
-            clientRegistry = clientDoc.getClientDocumentStful().getDOMStdEventListenerRegistry();
+        if (clientDoc.hasDOMStdEventListeners())
+            clientRegistry = clientDoc.getDOMStdEventListenerRegistry();
 
         int capturingCount = 0;
         if (globalRegistry != null) capturingCount += globalRegistry.getCapturingCount();

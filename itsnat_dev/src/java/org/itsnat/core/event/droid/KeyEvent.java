@@ -10,7 +10,7 @@ package org.itsnat.core.event.droid;
  *
  * @author jmarranz
  */
-public class KeyEvent extends InputEvent
+public interface KeyEvent extends InputEvent
 {
     
 }

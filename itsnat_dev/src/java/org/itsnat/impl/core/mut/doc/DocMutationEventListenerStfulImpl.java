@@ -24,13 +24,11 @@ import org.itsnat.impl.core.doc.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
 import org.itsnat.impl.core.domimpl.deleg.DelegateNodeImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulWebImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadStfulDocImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
@@ -196,7 +194,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            count += clientDoc.removeAllDOMStdEventListeners(eventTarget, true);
+            count += clientDoc.getClientDocumentStfulDelegate().removeAllDOMStdEventListeners(eventTarget, true);
             count += clientDoc.removeAllUserEventListeners(eventTarget, true);
             count += clientDoc.removeAllTimerEventListeners(eventTarget, true);
             count += clientDoc.removeAllContinueEventListeners(eventTarget, true);

@@ -21,6 +21,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatNormalEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatContinueEventImpl;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatDOMExtEventImpl;
@@ -183,8 +184,8 @@ public abstract class ServerItsNatNormalEventImpl extends ServerItsNatEventStful
         ItsNatNormalEventListenerRegistryImpl[] registries = new ItsNatNormalEventListenerRegistryImpl[2];
         if (evt instanceof ServerItsNatDOMStdEventImpl)
         {
-            registries[0] = itsNatDoc.getDOMStdEventListenerRegistry();
-            registries[1] = clientDoc.getDOMStdEventListenerRegistry();
+            registries[0] = ((ItsNatStfulWebDocumentImpl)itsNatDoc).getDOMStdEventListenerRegistry();
+            registries[1] = clientDoc.getClientDocumentStfulDelegate().getDOMStdEventListenerRegistry();
         }
         else if (evt instanceof ServerItsNatUserEventImpl)
         {
