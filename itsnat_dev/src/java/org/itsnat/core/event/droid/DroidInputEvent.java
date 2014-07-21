@@ -10,7 +10,7 @@ package org.itsnat.core.event.droid;
  *
  * @author jmarranz
  */
-public interface InputEvent extends DroidEvent
+public interface DroidInputEvent extends DroidEvent
 {
     
 }

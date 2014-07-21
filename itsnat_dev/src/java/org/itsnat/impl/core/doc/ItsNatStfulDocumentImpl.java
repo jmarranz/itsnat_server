@@ -42,7 +42,6 @@ import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
-import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
@@ -256,10 +255,10 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             removeDOMExtEventListener(target,type,listener,useCapture,updateClient);
         else
-            removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
+            removePlatformEventListener(target,type,listener,useCapture,updateClient);
     }
 
-    public abstract void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
+    public abstract void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
     public abstract int removeAllPlatformEventListeners(EventTarget target,boolean updateClient);
     
     public void removeDOMExtEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
@@ -380,7 +379,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
         if (clientDoc.canReceiveSOMENormalEvents()) // Con este chequeo nos ahorramos llamadas inútiles
         {
-            renderDOMStdListeners(clientDoc);
+            renderPlatformEventListeners(clientDoc);
             if (hasUserEventListeners())
                 getUserEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);
         }
@@ -388,7 +387,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         getItsNatStfulComponentManager().addClientDocumentAttachedClient(clientDoc);
     }
 
-    public abstract void renderDOMStdListeners(ClientDocumentAttachedClientImpl clientDoc);
+    public abstract void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc);
     
     public void removeClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
@@ -634,7 +633,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public boolean dispatchEventLocally(EventTarget target,Event evt) throws EventException
     {
-        return ServerItsNatDOMStdEventImpl.dispatchEventLocally(target,evt);
+        return ServerItsNatNormalEventImpl.dispatchEventLocally(target,evt);
     }
 
     public long getEventDispatcherMaxWait()

@@ -20,11 +20,14 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -99,7 +102,7 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         return domStdListenerRegistry;
     }
     
-    public void renderDOMStdListeners(ClientDocumentAttachedClientImpl clientDoc)    
+    public void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc)    
     {
         if (hasDOMStdEventListeners())
             getDOMStdEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
@@ -111,4 +114,5 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
 
         return getDOMStdEventListenerRegistry().removeAllItsNatDOMStdEventListeners(target,updateClient);
     }    
+
 }

@@ -10,7 +10,7 @@ package org.itsnat.core.event.droid;
  *
  * @author jmarranz
  */
-public interface MotionEvent extends InputEvent
+public interface DroidMotionEvent extends DroidInputEvent
 {
     public int getRawX();
     public void setRawX(int value);    

@@ -6,14 +6,14 @@
 
 package org.itsnat.impl.core.event.server.droid;
 
-import org.itsnat.core.event.droid.KeyEvent;
+import org.itsnat.core.event.droid.DroidKeyEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ServerItsNatDroidKeyEventImpl extends ServerItsNatDroidEventImpl implements KeyEvent
+public class ServerItsNatDroidKeyEventImpl extends ServerItsNatDroidEventImpl implements DroidKeyEvent
 {
     protected int keyCode;
     

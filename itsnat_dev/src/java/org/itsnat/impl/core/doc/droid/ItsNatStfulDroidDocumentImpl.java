@@ -107,7 +107,12 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         getDroidEventListenerRegistry().addItsNatDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }    
     
-    public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
+    public void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
+    {
+        removeDroidEventListener(target,type,listener,useCapture, updateClient);
+    }
+    
+    public void removeDroidEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         getDroidEventListenerRegistry().removeItsNatDroidEventListener(target,type,listener,useCapture,updateClient);
     }    
@@ -141,9 +146,10 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         return droidEvtListenerRegistry;
     }
     
-    public void renderDOMStdListeners(ClientDocumentAttachedClientImpl clientDoc)    
+    public void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc)    
     {
         if (hasDroidEventListeners())
             getDroidEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }    
+
 }

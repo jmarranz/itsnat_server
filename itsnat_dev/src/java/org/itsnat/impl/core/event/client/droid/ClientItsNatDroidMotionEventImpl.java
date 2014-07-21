@@ -7,7 +7,7 @@
 package org.itsnat.impl.core.event.client.droid;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.droid.MotionEvent;
+import org.itsnat.core.event.droid.DroidMotionEvent;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
@@ -15,7 +15,7 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public class ClientItsNatDroidMotionEventImpl extends ClientItsNatDroidInputEventImpl implements MotionEvent
+public class ClientItsNatDroidMotionEventImpl extends ClientItsNatDroidInputEventImpl implements DroidMotionEvent
 {
 
     public ClientItsNatDroidMotionEventImpl(ItsNatDroidEventListenerWrapperImpl listenerWrapper, RequestNormalEventImpl request)

@@ -6,7 +6,7 @@
 
 package org.itsnat.impl.core.event.client.droid;
 
-import org.itsnat.core.event.droid.InputEvent;
+import org.itsnat.core.event.droid.DroidInputEvent;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 
@@ -14,7 +14,7 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatDroidInputEventImpl extends ClientItsNatDroidEventImpl implements InputEvent
+public abstract class ClientItsNatDroidInputEventImpl extends ClientItsNatDroidEventImpl implements DroidInputEvent
 {
 
     public ClientItsNatDroidInputEventImpl(ItsNatDroidEventListenerWrapperImpl listenerWrapper, RequestNormalEventImpl request)

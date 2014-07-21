@@ -6,14 +6,14 @@
 
 package org.itsnat.impl.core.event.server.droid;
 
-import org.itsnat.core.event.droid.MotionEvent;
+import org.itsnat.core.event.droid.DroidMotionEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ServerItsNatDroidMotionEventImpl extends ServerItsNatDroidEventImpl implements MotionEvent
+public class ServerItsNatDroidMotionEventImpl extends ServerItsNatDroidEventImpl implements DroidMotionEvent
 {
     protected int rawX;
     protected int rawY;    
