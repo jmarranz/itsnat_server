@@ -37,6 +37,7 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
     public static final int EVENT_TYPE_ATTACH_COMET = 8;
     public static final int EVENT_TYPE_ATTACH_NOT_REFRESH = 9;
     public static final int EVENT_TYPE_STATELESS = 10;
+    public static final int EVENT_TYPE_DROID = 11;
     
     public RequestEventStfulImpl(ItsNatServletRequestImpl itsNatRequest)
     {

@@ -50,10 +50,20 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         return getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
     }    
     
+    public void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    {
+        addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+    }        
+    
     public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }    
+    
+    public void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
+    {
+        removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
+    }        
     
     public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
@@ -95,7 +105,7 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
             getDOMStdEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }
     
-    public int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient)
+    public int removeAllPlatformEventListeners(EventTarget target,boolean updateClient)
     {
         if (!hasDOMStdEventListeners()) return 0;
 

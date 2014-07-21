@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.doc.droid;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
@@ -24,10 +25,10 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DefaultElementGroupManagerImpl;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
 import org.itsnat.impl.core.mut.doc.droid.DocMutationEventListenerStfulDroidImpl;
-import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.droid.ItsNatDroidEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
@@ -42,7 +43,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
 {
-    protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
+    protected ItsNatDroidEventListenerRegistryImpl droidEvtListenerRegistry;
     
     public ItsNatStfulDroidDocumentImpl(Document doc, ItsNatDocumentTemplateVersionImpl docTemplate, Browser browser, String requestURL, ItsNatSessionImpl ownerSession, boolean stateless)
     {
@@ -82,62 +83,67 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         return new ItsNatStfulDroidDocComponentManagerImpl(this);
     }
     
-    public int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient)
+    public int removeAllPlatformEventListeners(EventTarget target,boolean updateClient)
     {
-        if (!hasDOMStdEventListeners()) return 0;
+        if (!hasDroidEventListeners()) return 0;
 
-        return getDOMStdEventListenerRegistry().removeAllItsNatDOMStdEventListeners(target,updateClient);
+        return getDroidEventListenerRegistry().removeAllItsNatDroidEventListeners(target,updateClient);
     }
 
-    public ItsNatDOMStdEventListenerWrapperImpl getDOMStdEventListenerById(String listenerId)
+    public ItsNatDroidEventListenerWrapperImpl getDroidEventListenerById(String listenerId)
     {
-        if (!hasDOMStdEventListeners()) return null;
+        if (!hasDroidEventListeners()) return null;
 
-        return getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
+        return getDroidEventListenerRegistry().getItsNatDroidEventListenerById(listenerId);
     }    
     
-    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    public void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+        addDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+    }        
+    
+    public void addDroidEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
+    {
+        getDroidEventListenerRegistry().addItsNatDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }    
     
     public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
-        getDOMStdEventListenerRegistry().removeItsNatDOMStdEventListener(target,type,listener,useCapture,updateClient);
+        getDroidEventListenerRegistry().removeItsNatDroidEventListener(target,type,listener,useCapture,updateClient);
     }    
     
     public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToCustomFunc);
+        throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
     }
     
     public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
     {
-        getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
+        throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
     }
 
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
     {
-        getDOMStdEventListenerRegistry().removeMutationEventListener(target,listener,useCapture,true);
+        throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
     }
 
-    public boolean hasDOMStdEventListeners()
+    public boolean hasDroidEventListeners()
     {
-        if (domStdListenerRegistry == null)
+        if (droidEvtListenerRegistry == null)
             return false;
-        return !domStdListenerRegistry.isEmpty();
+        return !droidEvtListenerRegistry.isEmpty();
     }
 
-    public ItsNatDOMStdEventListenerRegistryImpl getDOMStdEventListenerRegistry()
+    public ItsNatDroidEventListenerRegistryImpl getDroidEventListenerRegistry()
     {
-        if (domStdListenerRegistry == null) // Evita instanciar si no se usa, caso de servir XML
-            this.domStdListenerRegistry = new ItsNatDOMStdEventListenerRegistryImpl(this,null);
-        return domStdListenerRegistry;
+        if (droidEvtListenerRegistry == null) // Evita instanciar si no se usa, caso de servir XML
+            this.droidEvtListenerRegistry = new ItsNatDroidEventListenerRegistryImpl(this,null);
+        return droidEvtListenerRegistry;
     }
     
     public void renderDOMStdListeners(ClientDocumentAttachedClientImpl clientDoc)    
     {
-        if (hasDOMStdEventListeners())
-            getDOMStdEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
+        if (hasDroidEventListeners())
+            getDroidEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }    
 }

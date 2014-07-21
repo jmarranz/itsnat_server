@@ -16,10 +16,8 @@
 
 package org.itsnat.impl.core.registry.droid;
 
-import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerRegistryByTargetTooImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryByTargetTooImpl;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.NodeMutationTransport;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -35,7 +33,7 @@ public class ItsNatDroidEventListenerRegistryImpl extends ItsNatNormalEventListe
 {
 
     /**
-     * Creates a new instance of ItsNatDOMStdEventListenerRegistryImpl
+     * Creates a new instance of ItsNatDroidEventListenerRegistryImpl
      */
     public ItsNatDroidEventListenerRegistryImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
     {
@@ -71,7 +69,7 @@ public class ItsNatDroidEventListenerRegistryImpl extends ItsNatNormalEventListe
         return (ItsNatDroidEventListenerWrapperImpl)removeItsNatNormalEventListener(target,type,listener,useCapture,updateClient);
     }
 
-    public int removeAllItsNatDOMStdEventListeners(EventTarget target,boolean updateClient)
+    public int removeAllItsNatDroidEventListeners(EventTarget target,boolean updateClient)
     {
         return removeAllItsNatNormalEventListeners(target,updateClient);
     }

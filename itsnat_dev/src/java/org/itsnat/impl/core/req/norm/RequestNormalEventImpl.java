@@ -68,6 +68,9 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
             case EVENT_TYPE_COMET_RET:
                 return new RequestGenericTaskEventImpl(evtType,itsNatRequest);
 
+            case EVENT_TYPE_DROID:
+                return new RequestDroidEventImpl(evtType,itsNatRequest);
+                
             default:
                 throw new ItsNatException("Malformed URL/request, bad itsnat_eventType: " + evtType);
         }

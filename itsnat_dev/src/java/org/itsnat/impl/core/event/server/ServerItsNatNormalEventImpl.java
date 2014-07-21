@@ -20,13 +20,17 @@ import java.util.ArrayList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatNormalEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatContinueEventImpl;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatDOMExtEventImpl;
 import org.itsnat.impl.core.event.server.dom.domext.ServerItsNatUserEventImpl;
 import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryImpl;
 import org.w3c.dom.DOMException;
@@ -64,7 +68,13 @@ public abstract class ServerItsNatNormalEventImpl extends ServerItsNatEventStful
         if (eventGroup.startsWith("itsnat:"))
             return ServerItsNatDOMExtEventImpl.createServerDOMExtEvent(eventGroup,itsNatDoc);
         else
-            return ServerItsNatDOMStdEventImpl.createServerItsNatDOMStdEvent(eventGroup,itsNatDoc);
+        {
+            if (itsNatDoc instanceof ItsNatStfulWebDocumentImpl)
+                return ServerItsNatDOMStdEventImpl.createServerItsNatDOMStdEvent(eventGroup,itsNatDoc);
+            else if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)
+                return ServerItsNatDroidEventImpl.createServerItsNatDroidEvent(eventGroup,itsNatDoc);
+        }
+        return null;
     }    
     
     public EventTarget getCurrentTarget()
@@ -185,8 +195,13 @@ public abstract class ServerItsNatNormalEventImpl extends ServerItsNatEventStful
         if (evt instanceof ServerItsNatDOMStdEventImpl)
         {
             registries[0] = ((ItsNatStfulWebDocumentImpl)itsNatDoc).getDOMStdEventListenerRegistry();
-            registries[1] = clientDoc.getClientDocumentStfulDelegate().getDOMStdEventListenerRegistry();
+            registries[1] = ((ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate()).getDOMStdEventListenerRegistry();
         }
+        else if (evt instanceof ServerItsNatDroidEventImpl)
+        {
+            registries[0] = ((ItsNatStfulDroidDocumentImpl)itsNatDoc).getDroidEventListenerRegistry();
+            registries[1] = ((ClientDocumentStfulDelegateDroidImpl)clientDoc.getClientDocumentStfulDelegate()).getDroidEventListenerRegistry();
+        }        
         else if (evt instanceof ServerItsNatUserEventImpl)
         {
             registries[0] = itsNatDoc.getUserEventListenerRegistry();

@@ -374,10 +374,8 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         else
-            delegate.addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+            delegate.addPlatformEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
-
-
 
     public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
@@ -427,7 +425,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             removeDOMExtEventListener(target,type,listener,useCapture,updateClient);
         else
-            delegate.removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
+            delegate.removePlatformEventListener(target,type,listener,useCapture,updateClient);
     }
 
 

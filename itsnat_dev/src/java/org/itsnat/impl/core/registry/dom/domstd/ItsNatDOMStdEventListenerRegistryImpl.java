@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.registry.dom.domstd;
 
-import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerRegistryByTargetTooImpl;
+import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryByTargetTooImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodeMutationTransport;

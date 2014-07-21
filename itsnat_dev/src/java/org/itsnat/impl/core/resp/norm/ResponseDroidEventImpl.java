@@ -14,25 +14,20 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry.dom.domext;
+package org.itsnat.impl.core.resp.norm;
 
-import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryByTargetTooImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
+import org.itsnat.impl.core.req.norm.RequestDroidEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ItsNatDOMExtEventListenerRegistryImpl extends ItsNatNormalEventListenerRegistryByTargetTooImpl
+public class ResponseDroidEventImpl extends ResponseNormalEventImpl
 {
-
-    /**
-     * Creates a new instance of ItsNatDOMStdEventListenerRegistryImpl
-     */
-    public ItsNatDOMExtEventListenerRegistryImpl(ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
+    /** Creates a new instance of ResponseNormalEventImpl */
+    public ResponseDroidEventImpl(RequestDroidEventImpl request,ItsNatDroidEventListenerWrapperImpl listener)
     {
-        super(itsNatDoc,clientDoc);
+        super(request,listener);
     }
-
 }

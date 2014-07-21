@@ -188,13 +188,13 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
 
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
         int count = 0;
-        count += itsNatDoc.removeAllDOMStdEventListeners(eventTarget,true);
+        count += itsNatDoc.removeAllPlatformEventListeners(eventTarget,true);
         count += itsNatDoc.removeAllUserEventListeners(eventTarget,true);
 
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            count += clientDoc.getClientDocumentStfulDelegate().removeAllDOMStdEventListeners(eventTarget, true);
+            count += clientDoc.getClientDocumentStfulDelegate().removeAllPlatformEventListeners(eventTarget, true);
             count += clientDoc.removeAllUserEventListeners(eventTarget, true);
             count += clientDoc.removeAllTimerEventListeners(eventTarget, true);
             count += clientDoc.removeAllContinueEventListeners(eventTarget, true);

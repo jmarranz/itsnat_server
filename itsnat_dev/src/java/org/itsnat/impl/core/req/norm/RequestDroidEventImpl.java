@@ -18,55 +18,42 @@ package org.itsnat.impl.core.req.norm;
 
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import org.itsnat.impl.core.resp.norm.ResponseDOMStdEventImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
+import org.itsnat.impl.core.resp.norm.ResponseDroidEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class RequestDOMStdEventImpl extends RequestNormalEventImpl
+public class RequestDroidEventImpl extends RequestNormalEventImpl
 {
-    public RequestDOMStdEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
+    public RequestDroidEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
     {
         super(evtType,itsNatRequest);
     }
 
     public ResponseNormalEventImpl createResponseNormalEvent(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
-        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
-        ItsNatDOMStdEventListenerWrapperImpl listener = clientDocDeleg.getDOMStdEventListenerById(listenerId);
+        ClientDocumentStfulDelegateDroidImpl clientDocDeleg = (ClientDocumentStfulDelegateDroidImpl)clientDoc.getClientDocumentStfulDelegate();
+        ItsNatDroidEventListenerWrapperImpl listener = clientDocDeleg.getDroidEventListenerById(listenerId);
 
         // Puede ocurrir que sea nulo, por ejemplo cuando en el cliente se emiten dos eventos
         // seguidos (ej. change y blur en un <input>) y enviados asíncronamente y al procesar uno de ellos y eliminar en el servidor el listener del otro
         // el código de desregistrar no llega antes de que se envíe el segundo evento.
 
         // listener puede ser null pero puede haber código pendiente a enviar
-        return new ResponseDOMStdEventImpl(this,listener);
+        return new ResponseDroidEventImpl(this,listener);
     }
 
     public boolean isLoadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
-        if (eventType.equals("load") || 
-            eventType.equals("DOMContentLoaded") ||
-            eventType.equals("SVGLoad")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload
-            return true;
-
         return false;
     }
 
     public boolean isUnloadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
-        if (eventType.equals("unload") || 
-            eventType.equals("beforeunload") ||
-            eventType.equals("SVGUnload")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload
-            return true;
-
         return false;
     }
 

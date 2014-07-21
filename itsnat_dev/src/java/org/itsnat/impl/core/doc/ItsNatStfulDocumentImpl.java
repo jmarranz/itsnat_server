@@ -45,9 +45,7 @@ import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.dom.domext.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
@@ -79,7 +77,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     protected int commMode;
     protected long eventTimeout;
     protected CodeToSendListenersImpl codeToSendListeners;
-    protected LinkedList<EventListener> globalDomEventListeners;
+    protected LinkedList<EventListener> globalNormalEventListeners;
     protected LinkedList<ItsNatAttachedClientEventListener> attachedClientListeners;
     protected LinkedList<ItsNatServletRequestListener> referrerRequestListeners;
     protected transient ThreadLocal<ClientDocumentStfulImpl> evtDispThreadLocal = new ThreadLocal<ClientDocumentStfulImpl>();
@@ -222,10 +220,10 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         else
-            addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
+            addPlatformEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public abstract void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc);
+    public abstract void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc);
 
     public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
@@ -262,7 +260,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
     }
 
     public abstract void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
-    public abstract int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient);
+    public abstract int removeAllPlatformEventListeners(EventTarget target,boolean updateClient);
     
     public void removeDOMExtEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
@@ -566,41 +564,41 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public boolean hasGlobalEventListenerListeners()
     {
-        if (globalDomEventListeners == null)
+        if (globalNormalEventListeners == null)
             return false;
-        return !globalDomEventListeners.isEmpty();
+        return !globalNormalEventListeners.isEmpty();
     }    
     
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
-        if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList<EventListener>();
-        return globalDomEventListeners;
+        if (globalNormalEventListeners == null)
+            this.globalNormalEventListeners = new LinkedList<EventListener>();
+        return globalNormalEventListeners;
     }
 
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
-        if (globalDomEventListeners == null)
+        if (globalNormalEventListeners == null)
             return;
-        list.addAll(globalDomEventListeners);
+        list.addAll(globalNormalEventListeners);
     }
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(index,listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.remove(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.remove(listener);
     }
 
     public Event createEvent(String eventType) throws DOMException

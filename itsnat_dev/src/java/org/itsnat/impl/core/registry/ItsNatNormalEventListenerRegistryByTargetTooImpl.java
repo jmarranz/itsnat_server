@@ -14,13 +14,11 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry.dom;
+package org.itsnat.impl.core.registry;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.registry.ItsNatNormalEventListenerRegistryImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.WeakMapItsNatNormalEventListenerByTarget;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 

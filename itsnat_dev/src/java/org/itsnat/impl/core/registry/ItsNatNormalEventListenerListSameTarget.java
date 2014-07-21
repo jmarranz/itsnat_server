@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry.dom;
+package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import java.util.LinkedList;

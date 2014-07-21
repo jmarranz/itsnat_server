@@ -16,11 +16,10 @@
 
 package org.itsnat.impl.core.registry;
 
-import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget;
 import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
-import org.itsnat.impl.core.registry.dom.ItsNatNormalEventListenerListSameTarget.Pair;
+import org.itsnat.impl.core.registry.ItsNatNormalEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl.ExpungeListener;
 import org.w3c.dom.events.EventListener;
