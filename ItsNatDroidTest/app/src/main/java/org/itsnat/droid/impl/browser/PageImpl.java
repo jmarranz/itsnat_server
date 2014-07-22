@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.InflatedLayout;
@@ -12,8 +13,11 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnPageLoadErrorListener;
+import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
@@ -33,8 +37,7 @@ import bsh.NameSpace;
  */
 public class PageImpl implements Page
 {
-    protected ItsNatDroidBrowserImpl browser;
-    protected String url;
+    protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected InflatedLayoutImpl inflated;
     protected String content;
     protected String uniqueId;
@@ -49,13 +52,15 @@ public class PageImpl implements Page
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
 
-    public PageImpl(ItsNatDroidBrowserImpl browser,String url,HttpParams httpParams,InflatedLayoutImpl inflated,String content,String loadScript)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,InflatedLayoutImpl inflated,String content,String loadScript)
     {
-        this.browser = browser;
-        this.url = url;
         this.httpParams = httpParams;
         this.inflated = inflated;
         this.content = content;
+        this.pageRequest = pageRequest;
+
+        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
+
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 //long start = System.currentTimeMillis();
@@ -73,7 +78,7 @@ public class PageImpl implements Page
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
-        return browser;
+        return pageRequest.getItsNatDroidBrowserImpl();
     }
 
     public HttpParams getHttpParams()
@@ -84,7 +89,7 @@ public class PageImpl implements Page
     @Override
     public String getURL()
     {
-        return url;
+        return pageRequest.getURL();
     }
 
     @Override
@@ -112,7 +117,7 @@ public class PageImpl implements Page
     public void setSessionIdAndClientId(String stdSessionId,String sessionToken,String sessionId,String clientId)
     {
         this.clientId = clientId;
-        this.itsNatSession = browser.getItsNatSession(stdSessionId,sessionToken,sessionId);
+        this.itsNatSession = getItsNatDroidBrowserImpl().getItsNatSession(stdSessionId,sessionToken,sessionId);
         itsNatSession.registerPage(this);
     }
 
@@ -201,11 +206,14 @@ public class PageImpl implements Page
         }
     }
 
-
+    public PageRequest requestReload()
+    {
+        return pageRequest.clone();
+    }
 
     public void dispose()
     {
         itsNatSession.disposePage(this);
-        browser.disposeSessionIfEmpty(itsNatSession);
+        getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
     }
 }

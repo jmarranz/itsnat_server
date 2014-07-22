@@ -31,6 +31,7 @@ public class PageRequestImpl implements PageRequest
     protected OnPageLoadErrorListener errorListener;
     protected AttrCustomInflaterListener inflateListener;
     protected boolean sync = false;
+    protected String url;
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser)
     {
@@ -104,15 +105,28 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public String getURL()
+    {
+        return url;
+    }
+
     @Override
-    public void execute(String url)
+    public PageRequest setURL(String url)
+    {
+        this.url = url;
+        return this;
+    }
+
+    @Override
+    public void execute()
     {
         // El PageRequestImpl debe poder ser reutilizado si quiere el usuario
+        if (url == null) throw new ItsNatDroidException("Missing URL");
         if (sync) executeSync(url);
         else executeAsync(url);
     }
 
-    public void executeSync(String url)
+    private void executeSync(String url)
     {
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
@@ -146,11 +160,10 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-
         processResponse(url,result);
     }
 
-    public void executeAsync(String url)
+    private void executeAsync(String url)
     {
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
@@ -175,10 +188,25 @@ public class PageRequestImpl implements PageRequest
         InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
 
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
-
+        PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         String loadScript = scriptArr[0];
-        PageImpl page = new PageImpl(browser, url, httpParams, inflated, result, loadScript);
+        PageImpl page = new PageImpl(this,httpParamsRequest, inflated, result,loadScript);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
+    }
+
+    public PageRequestImpl clone()
+    {
+        HttpParams httpParams = this.httpParams != null ? this.httpParams.copy() : null;
+
+        PageRequestImpl request = new PageRequestImpl(browser);
+        request.setContext(ctx)
+               .setHttpParams(httpParams)
+                .setOnPageLoadListener(pageListener)
+                .setOnPageLoadErrorListener(errorListener)
+                .setAttrCustomInflaterListener(inflateListener)
+                .setSynchronous(sync)
+                .setURL(url);
+        return request;
     }
 }

@@ -10,6 +10,8 @@ import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.core.event.droid.DroidKeyEvent;
+import org.itsnat.core.event.droid.DroidMotionEvent;
 import org.itsnat.core.script.ScriptUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -143,7 +145,18 @@ public class TestDroidDocument implements EventListener,Serializable
             catch (InterruptedException ex) { throw new RuntimeException(ex);  }
         }
         
+        String data = null;
+        if (evt instanceof DroidMotionEvent)
+        {
+            DroidMotionEvent evt2 = (DroidMotionEvent)evt;
+            data = "rawX: " + evt2.getRawX() + " rawY: " + evt2.getRawY() + " x: " + evt2.getX() + " y: " + evt2.getY();
+        }
+        else if (evt instanceof DroidKeyEvent)
+        {
+            DroidKeyEvent evt2 = (DroidKeyEvent)evt;
+            data = "keyCode: " + evt2.getKeyCode();
+        }
         
-        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK " + evt.getType() + "\");");
+        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK " + evt.getType() + " " + data + "\");");
     }
 }

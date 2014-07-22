@@ -25,6 +25,6 @@ public interface Page
     public void addEventMonitor(EventMonitor monitor);
     public boolean removeEventMonitor(EventMonitor monitor);
     public void setEnableEventMonitors(boolean value);
-
+    public PageRequest requestReload();
     public void dispose();
 }

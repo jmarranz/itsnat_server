@@ -164,6 +164,11 @@ public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStful
         return Long.parseLong(getParameter(name));
     }
 
+    public float getParameterFloat(String name)
+    {
+        return Float.parseFloat(getParameter(name));
+    }    
+    
     public Node getParameterNode(String name)
     {
         return getParameterNode(name,true);

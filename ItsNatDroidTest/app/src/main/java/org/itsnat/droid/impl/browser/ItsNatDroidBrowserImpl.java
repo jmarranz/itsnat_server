@@ -131,6 +131,11 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     @Override
     public PageRequest createPageRequest()
     {
+        return createPageRequestImpl();
+    }
+
+    public PageRequestImpl createPageRequestImpl()
+    {
         return new PageRequestImpl(this);
     }
 

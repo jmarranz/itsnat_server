@@ -119,7 +119,8 @@ public class TestLayoutRemote
                             public void onClick(View view)
                             {
                                 Toast.makeText(act, "DOWNLOADING AGAIN", Toast.LENGTH_SHORT).show();
-                                downloadLayoutRemote(act,droidBrowser);
+                                page.requestReload().execute();
+                                //downloadLayoutRemote(act,droidBrowser);
                             }
                         });
 
@@ -135,6 +136,16 @@ public class TestLayoutRemote
                                 TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + evt.getType());
                                 if (ex instanceof ItsNatDroidServerResponseException)
                                     TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
+                                else if (ex instanceof ItsNatDroidScriptException)
+                                {
+                                    ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
+                                    if (exScr.getCause() instanceof EvalError)
+                                    {
+                                        ((EvalError) exScr.getCause()).printStackTrace();
+                                    }
+                                    Log.v("MainActivity", "CODE:" + exScr.getScript());
+                                }
+
                             }
                         });
 
@@ -199,6 +210,7 @@ public class TestLayoutRemote
                 System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
             }
         }).setHttpParams(httpParams)
-                .execute(url);
+          .setURL(url)
+          .execute();
     }
 }

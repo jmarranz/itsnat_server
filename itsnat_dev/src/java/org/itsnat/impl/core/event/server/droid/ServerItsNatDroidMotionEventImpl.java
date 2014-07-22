@@ -15,52 +15,52 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
  */
 public class ServerItsNatDroidMotionEventImpl extends ServerItsNatDroidEventImpl implements DroidMotionEvent
 {
-    protected int rawX;
-    protected int rawY;    
-    protected int x;    
-    protected int y;    
+    protected float rawX;
+    protected float rawY;    
+    protected float x;    
+    protected float y;    
     
     public ServerItsNatDroidMotionEventImpl(ItsNatStfulDocumentImpl itsNatDoc)
     {
         super(itsNatDoc);
     }
 
-    public int getRawX()
+    public float getRawX()
     {
         return rawX;
     }
 
-    public void setRawX(int value)
+    public void setRawX(float value)
     {
         this.rawX = value;
     }
 
-    public int getRawY()
+    public float getRawY()
     {
         return rawY;
     }
 
-    public void setRawY(int value)
+    public void setRawY(float value)
     {
         this.rawY = value;
     }
 
-    public int getX()
+    public float getX()
     {
         return x;
     }
 
-    public void setX(int value)
+    public void setX(float value)
     {
         this.x = value;
     }
 
-    public int getY()
+    public float getY()
     {
         return y;
     }
 
-    public void setY(int value)
+    public void setY(float value)
     {
         this.y = value;
     }

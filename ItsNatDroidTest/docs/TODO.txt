@@ -5,8 +5,6 @@
 
 * Probar XHR_ASYNC y XHR_ASYNC_HOLD debugueando
 
-* Revisar la correspondencia entre getRawX screenX etc
-
 * Hacer soporte de Touch events para Web y para Droid
 
 * Estudiar como compatibilizar el bubbling y capture con la propagación de eventos Android (recuerda el boolean de retorno de onTouch)

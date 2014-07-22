@@ -23,42 +23,42 @@ public class ClientItsNatDroidMotionEventImpl extends ClientItsNatDroidInputEven
         super(listenerWrapper, request);
     }
     
-    public int getRawX()
+    public float getRawX()
     {
-        return getParameterInt("rawX");
+        return getParameterFloat("rawX");
     }
 
-    public int getRawY()
+    public float getRawY()
     {
-        return getParameterInt("rawY");
+        return getParameterFloat("rawY");
     }
 
-    public int getX()
+    public float getX()
     {
-        return getParameterInt("getX");
+        return getParameterFloat("x");
     }
 
-    public int getY()
+    public float getY()
     {
-        return getParameterInt("getY");
+        return getParameterFloat("y");
     }  
 
-    public void setRawX(int value)
+    public void setRawX(float value)
     {
        throw new ItsNatException("Not implemented",this);
     }
 
-    public void setRawY(int value)
+    public void setRawY(float value)
     {
        throw new ItsNatException("Not implemented",this);
     }
 
-    public void setX(int value)
+    public void setX(float value)
     {
        throw new ItsNatException("Not implemented",this);
     }
 
-    public void setY(int value)
+    public void setY(float value)
     {
        throw new ItsNatException("Not implemented",this);
     }

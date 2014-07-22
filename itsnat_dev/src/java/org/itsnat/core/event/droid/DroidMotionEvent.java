@@ -12,13 +12,13 @@ package org.itsnat.core.event.droid;
  */
 public interface DroidMotionEvent extends DroidInputEvent
 {
-    public int getRawX();
-    public void setRawX(int value);    
-    public int getRawY();
-    public void setRawY(int value);    
-    public int getX();
-    public void setX(int value);    
-    public int getY();
-    public void setY(int value); 
+    public float getRawX();
+    public void setRawX(float value);    
+    public float getRawY();
+    public void setRawY(float value);    
+    public float getX();
+    public void setX(float value);    
+    public float getY();
+    public void setY(float value); 
     
 }

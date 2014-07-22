@@ -15,5 +15,6 @@ public interface PageRequest
     public PageRequest setAttrCustomInflaterListener(AttrCustomInflaterListener listener);
     public PageRequest setHttpParams(HttpParams httpParams);
     public PageRequest setSynchronous(boolean sync);
-    public void execute(String url);
+    public PageRequest setURL(String url);
+    public void execute();
 }
