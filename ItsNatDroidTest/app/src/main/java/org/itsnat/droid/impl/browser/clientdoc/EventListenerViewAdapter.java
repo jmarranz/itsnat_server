@@ -8,9 +8,8 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.List;
 
@@ -49,19 +48,17 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
         switch(action)
         {
             case MotionEvent.ACTION_DOWN:
-                type = "mousedown";
+                type = "touchstart";
                 break;
             case MotionEvent.ACTION_UP:
-                type = "mouseup";
+                type = "touchend";
                 break;
             case MotionEvent.ACTION_MOVE:
-                type = "mousemove";
+                type = "touchmove";
                 break;
-            /*
             case MotionEvent.ACTION_CANCEL:
-                type = "";
+                type = "touchcancel";
                 break;
-                */
         }
 
         dispatch(type,motionEvent);
@@ -94,11 +91,11 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
 
     private void dispatch(String type,InputEvent nativeEvt)
     {
-        List<DOMStdEventListener> list = viewData.getEventListeners(type);
+        List<DroidEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
 
         View view = viewData.getView();
-        for (DOMStdEventListener listener : list)
+        for (DroidEventListener listener : list)
         {
             NormalEvent evtWrapper = listener.createEventWrapper(nativeEvt);
             try

@@ -52,8 +52,8 @@ public interface ItsNatDocPublic
 
     public Node addNodeCache(Object[] idObj);
 
-    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
-    public void removeDOMEL(String listenerId);
+    public Node addDroidEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
+    public void removeDroidEL(String listenerId);
 
     public void addGlobalEL(GlobalEventListener listener);
     public void removeGlobalEL(GlobalEventListener listener);

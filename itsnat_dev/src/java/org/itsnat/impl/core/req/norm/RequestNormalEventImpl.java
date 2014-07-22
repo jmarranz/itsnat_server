@@ -55,7 +55,8 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
         {
             case EVENT_TYPE_DOMSTD:
                 return new RequestDOMStdEventImpl(evtType,itsNatRequest); 
-                
+            case EVENT_TYPE_DROID:
+                return new RequestDroidEventImpl(evtType,itsNatRequest); 
             case EVENT_TYPE_TIMER:
             case EVENT_TYPE_CONTINUE:
             case EVENT_TYPE_USER:                
@@ -67,9 +68,6 @@ public abstract class RequestNormalEventImpl extends RequestEventStfulImpl imple
             case EVENT_TYPE_ASYNC_RET:
             case EVENT_TYPE_COMET_RET:
                 return new RequestGenericTaskEventImpl(evtType,itsNatRequest);
-
-            case EVENT_TYPE_DROID:
-                return new RequestDroidEventImpl(evtType,itsNatRequest);
                 
             default:
                 throw new ItsNatException("Malformed URL/request, bad itsnat_eventType: " + evtType);

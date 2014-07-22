@@ -4,7 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 
@@ -19,7 +19,7 @@ public class ItsNatViewImpl implements ItsNatView
 
     protected PageImpl page;
     protected View view;
-    protected MapList<String,DOMStdEventListener> eventListeners;
+    protected MapList<String,DroidEventListener> eventListeners;
     protected EventListenerViewAdapter evtListenerViewAdapter;
     protected String nodeCacheId;
 
@@ -55,13 +55,13 @@ public class ItsNatViewImpl implements ItsNatView
         return page.getInflatedLayoutImpl().getXMLId(view);
     }
 
-    public MapList<String,DOMStdEventListener> getEventListeners()
+    public MapList<String,DroidEventListener> getEventListeners()
     {
-        if (eventListeners == null) eventListeners = new MapLightList<String,DOMStdEventListener>();
+        if (eventListeners == null) eventListeners = new MapLightList<String,DroidEventListener>();
         return eventListeners;
     }
 
-    public List<DOMStdEventListener> getEventListeners(String type)
+    public List<DroidEventListener> getEventListeners(String type)
     {
         return getEventListeners().get(type);
     }

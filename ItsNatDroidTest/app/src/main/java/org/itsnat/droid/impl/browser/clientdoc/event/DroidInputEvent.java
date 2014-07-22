@@ -1,29 +1,26 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
-import android.os.Bundle;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.InputEvent;
 
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 /**
  * Created by jmarranz on 7/07/14.
  */
-public abstract class DOMStdEvent extends DOMEvent
+public abstract class DroidInputEvent extends NormalEvent
 {
     protected InputEvent evtNative;
 
-    public DOMStdEvent(DOMStdEventListener listener,InputEvent evtNative)
+    public DroidInputEvent(DroidEventListener listener, InputEvent evtNative)
     {
         super(listener);
         this.evtNative = evtNative;
     }
 
-    public DOMStdEventListener getDOMStdEventListener()
+    public DroidEventListener getDroidEventListener()
     {
-        return (DOMStdEventListener)listener;
+        return (DroidEventListener)listener;
     }
 
     @Override
@@ -35,7 +32,7 @@ public abstract class DOMStdEvent extends DOMEvent
     @Override
     public String getType()
     {
-        return getDOMStdEventListener().getType();
+        return getDroidEventListener().getType();
     }
 
     @Override

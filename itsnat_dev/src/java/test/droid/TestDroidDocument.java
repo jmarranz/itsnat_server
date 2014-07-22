@@ -110,8 +110,8 @@ public class TestDroidDocument implements EventListener,Serializable
         if (true)
         {
         ((EventTarget)frameLayoutView).addEventListener("click", this,false);
-        ((EventTarget)frameLayoutView).addEventListener("mousedown", this,false);        
-        ((EventTarget)frameLayoutView).addEventListener("mouseup", this,false);        
+        ((EventTarget)frameLayoutView).addEventListener("touchstart", this,false);        
+        ((EventTarget)frameLayoutView).addEventListener("touchend", this,false);        
         }
         
         // Test timeout
@@ -125,8 +125,8 @@ public class TestDroidDocument implements EventListener,Serializable
         if (false)
         {
         ((EventTarget)frameLayoutView).removeEventListener("click", this,false);            
-        ((EventTarget)frameLayoutView).removeEventListener("mousedown", this,false);        
-        ((EventTarget)frameLayoutView).removeEventListener("mouseup", this,false);        
+        ((EventTarget)frameLayoutView).removeEventListener("touchstart", this,false);        
+        ((EventTarget)frameLayoutView).removeEventListener("touchend", this,false);        
         }
     }
 

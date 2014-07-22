@@ -20,7 +20,7 @@ import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatNormalEventListenerImpl;
 import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatNormalEventListener;
 
@@ -40,8 +40,8 @@ public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsN
 
     public static BSRenderItsNatNormalEventListenerImpl getBSRenderItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        if (itsNatListener instanceof ItsNatDOMStdEventListenerWrapperImpl)
-            return BSRenderItsNatDOMStdEventListenerImpl.getBSRenderItsNatDOMStdEventListener((ItsNatDOMStdEventListenerWrapperImpl)itsNatListener,clientDoc);
+        if (itsNatListener instanceof ItsNatDroidEventListenerWrapperImpl)
+            return BSRenderItsNatDroidEventListenerImpl.getBSRenderItsNatDroidEventListener((ItsNatDroidEventListenerWrapperImpl)itsNatListener,clientDoc);
         else if (itsNatListener instanceof ItsNatDOMExtEventListenerWrapperImpl)
             return BSRenderItsNatDOMExtEventListenerImpl.getBSRenderItsNatDOMExtEventListener((ItsNatDOMExtEventListenerWrapperImpl)itsNatListener);
         return null;

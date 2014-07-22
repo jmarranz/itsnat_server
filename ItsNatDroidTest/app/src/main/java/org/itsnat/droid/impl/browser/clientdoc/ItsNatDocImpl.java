@@ -12,14 +12,14 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DOMStdEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected int errorMode;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
-    protected WeakMapWithValue<String,DOMStdEventListener> domListeners;
+    protected WeakMapWithValue<String,DroidEventListener> droidEventListeners;
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
@@ -106,10 +106,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         this.disabledEvents = true;
     }
 
-    public WeakMapWithValue<String,DOMStdEventListener> getDOMListeners()
+    public WeakMapWithValue<String,DroidEventListener> getDroidEventListeners()
     {
-        if (domListeners == null) this.domListeners = new WeakMapWithValue<String,DOMStdEventListener>();
-        return domListeners;
+        if (droidEventListeners == null) this.droidEventListeners = new WeakMapWithValue<String,DroidEventListener>();
+        return droidEventListeners;
     }
 
     private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -571,15 +571,15 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public Node addDOMEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode)
+    public Node addDroidEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode)
     {
         Node node = getNode(idObj);
         View view = node.getView();
         ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
         CustomFunction customFunction_PROVISIONAL = null;
-        DOMStdEventListener listenerWrapper = new DOMStdEventListener(this,view,type,customFunction_PROVISIONAL,listenerId,useCapture,commMode,timeout,typeCode);
+        DroidEventListener listenerWrapper = new DroidEventListener(this,view,type,customFunction_PROVISIONAL,listenerId,useCapture,commMode,timeout,typeCode);
         viewData.getEventListeners().add(type,listenerWrapper);
-        getDOMListeners().put(listenerId,listenerWrapper);
+        getDroidEventListeners().put(listenerId, listenerWrapper);
 
         EventListenerViewAdapter evtListAdapter = viewData.getEventListenerViewAdapter();
         if (type.equals("click"))
@@ -587,7 +587,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             // No sabemos si ha sido registrado ya antes el EventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
             view.setOnClickListener(evtListAdapter);
         }
-        else if (type.startsWith("mouse"))
+        else if (type.startsWith("touch"))
         {
             view.setOnTouchListener(evtListAdapter);
         }
@@ -599,9 +599,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return node;
     }
 
-    public void removeDOMEL(String listenerId)
+    public void removeDroidEL(String listenerId)
     {
-        DOMStdEventListener listenerWrapper = getDOMListeners().removeByKey(listenerId);
+        DroidEventListener listenerWrapper = getDroidEventListeners().removeByKey(listenerId);
         ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getView());
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
