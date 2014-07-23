@@ -31,6 +31,15 @@
 
         <!-- Just a test comment (will be filtered) -->        
         
+        <Button id="testTimeoutId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test event timeout (reload after)" />         
+        
+        <TextView id="testTimeoutHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
         <Button id="testStyleAttrId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,23 +85,19 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <Button id="testTouchEventId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Touch Events" />         
+        
+        <TextView id="testTouchEventId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
         
         
         
-        <TextView android:id="@id/textViewTest1"
-                  android:text="@string/hello_world1"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="@android:color/holo_green_light"
-                  style="@style/test"/>
-
-        <TextView id="textViewTest2"
-                  android:id="@id/textViewTest2"
-                  android:text="@string/hello_world2"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:background="#dddddd"
-                  android:textAppearance="?android:attr/textAppearanceMedium"/> 
+        
+        
 
 
 

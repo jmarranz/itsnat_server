@@ -133,7 +133,7 @@ public class TestLayoutRemote
                             public void onError(Exception ex, Event evt)
                             {
                                 ex.printStackTrace();
-                                TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + evt.getType());
+                                TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + evt.getType() + " Msg: " + ex.getMessage());
                                 if (ex instanceof ItsNatDroidServerResponseException)
                                     TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
                                 else if (ex instanceof ItsNatDroidScriptException)
