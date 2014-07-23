@@ -30,9 +30,17 @@ public class TestDroidDocument implements EventListener,Serializable
     {
         this.itsNatDoc = itsNatDoc;
 
+        new TestDroidViewInsertionAndSetAttributes(itsNatDoc);
+        new TestDroidCustomViewInsertion(itsNatDoc);
+        new TestDroidViewTreeInsertion(itsNatDoc);
+        new TestDroidViewTreeRemoving(itsNatDoc);
+        new TestDroidScriptUtil(itsNatDoc);
+        
+        
         Document doc = itsNatDoc.getDocument();        
         Element scrollView = doc.getDocumentElement();
         Element linearLayout = ItsNatTreeWalker.getFirstChildElement(scrollView);
+
 
         Element textView2 = doc.getElementById("textViewTest2");
         String bgTextViewTest2 = textView2.getAttributeNS("http://schemas.android.com/apk/res/android", "background");
@@ -57,7 +65,11 @@ public class TestDroidDocument implements EventListener,Serializable
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");        
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");        
 
+        
         // Test inserciones
+        
+        //Element buttonReload = doc.getElementById("buttonReload");         
+        
         Element frameLayoutView = doc.createElement("FrameLayout");  
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
         frameLayoutView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_height", "wrap_content");         
@@ -73,11 +85,11 @@ public class TestDroidDocument implements EventListener,Serializable
         frameLayoutViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ddddff");        
 
         Element textViewInner = doc.createElement("TextView");        
-        textViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "Inside FrameLayout");        
+        textViewInner.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "Inside FrameLayout");        
         frameLayoutViewInner.appendChild(textViewInner);         
         
         frameLayoutView.appendChild(frameLayoutViewInner);        
-        
+       
         linearLayout.insertBefore(frameLayoutView, buttonReload);        
 
         // Test ignorar nodos de texto
@@ -91,7 +103,7 @@ public class TestDroidDocument implements EventListener,Serializable
         frameLayoutViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ddddff");        
 
         Element textViewToRemove = doc.createElement("TextView");        
-        textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "MUST BE REMOVED");        
+        textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "MUST BE REMOVED");        
         frameLayoutViewToRemove.appendChild(textViewToRemove);         
 
         linearLayout.insertBefore(frameLayoutViewToRemove, buttonReload);        
@@ -99,16 +111,7 @@ public class TestDroidDocument implements EventListener,Serializable
         
         //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"hola\");");
         
-
-        // Test ScriptUtil 
-        String code;
-        ScriptUtil codeGen = itsNatDoc.getScriptUtil();
-
-        code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"toast",new Object[]{"Toast and getCallMethodCode OK"},true);
-        itsNatDoc.addCodeToSend(code);
-        
-        code = "if (!" + codeGen.getNodeReference(customTextView) + ".getClass().getName().equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")) itsNatDoc.alert(\"FAILED test getNodeReference:\");"; // .equals(\"org.itsnat.itsnatdroidtest.CustomTextView\")
-        itsNatDoc.addCodeToSend(code);        
+  
 
         // Test event listener
         frameLayoutViewInner.setAttribute("id", "frameLayoutViewInner"); 

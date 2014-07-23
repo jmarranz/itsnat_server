@@ -76,7 +76,7 @@ public class TestLayoutRemote
                             TestUtil.alertDialog(act, "XML", new String(page.getContent()));
                         }
 
-                        View layout = page.getInflatedLayout().getRootView();
+                        View layout = page.getRootView();
                         act.setContentView(layout);
                         Toast.makeText(act, "OK XML REMOTE", Toast.LENGTH_SHORT).show();
 
@@ -93,7 +93,7 @@ public class TestLayoutRemote
                         View button3 = act.findViewById(R.id.buttonReload);
                         if (button3 == null) throw new RuntimeException("FAIL");
 
-                        View frameLayoutViewInner = page.getInflatedLayout().findViewByXMLId("frameLayoutViewInner");
+                        View frameLayoutViewInner = page.findViewByXMLId("frameLayoutViewInner");
                         ItsNatView frameLayoutViewInnerItsNat = page.getItsNatView(frameLayoutViewInner);
                         frameLayoutViewInnerItsNat.setOnClickListener(new View.OnClickListener()
                         {

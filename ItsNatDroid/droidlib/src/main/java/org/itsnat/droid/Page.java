@@ -12,8 +12,9 @@ public interface Page
 {
     public String getURL();
     public String getId();
+    public View getRootView();
+    public View findViewByXMLId(String id);
     public Context getContext();
-    public InflatedLayout getInflatedLayout();
     public HttpParams getHttpParams();
     public String getContent();
     public ItsNatSession getItsNatSession();

@@ -29,7 +29,56 @@
                 android:text="@string/button_label"
             />    
 
-        <!-- Just a test comment (will be filtered) -->
+        <!-- Just a test comment (will be filtered) -->        
+        
+        <Button id="testStyleAttrId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test style attr dynamic insertion" />         
+        
+        <TextView id="testStyleAttrHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
+        <Button id="testCustomViewInsertionId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test custom view insertion" />         
+        
+        <TextView id="testCustomViewInsertionHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <Button id="testViewTreeInsertionId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test view tree insertion" />         
+        
+        <TextView id="testViewTreeInsertionHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" /> 
+        
+        <Button id="testViewTreeRemovingId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test view tree removing" />         
+        
+        <TextView id="testViewTreeRemovingHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <Button id="testScriptUtilId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test ScriptUtil (getCallMethodCode and getNodeReference)" />         
+        
+        <TextView id="testScriptUtilHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        
+        
+        
         <TextView android:id="@id/textViewTest1"
                   android:text="@string/hello_world1"
                   android:layout_width="wrap_content"

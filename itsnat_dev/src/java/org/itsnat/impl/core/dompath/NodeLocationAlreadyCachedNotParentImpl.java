@@ -31,7 +31,7 @@ public class NodeLocationAlreadyCachedNotParentImpl extends NodeLocationNotNullI
         super(node,id,clientDoc);
         
         if (isNull(id))
-            throw new ItsNatException("INTERNAL ERROR",node);        
+            throw new ItsNatException("Maybe you are using a node not in tree (for instance adding an EventListener",node);        
     }
 
     @Override

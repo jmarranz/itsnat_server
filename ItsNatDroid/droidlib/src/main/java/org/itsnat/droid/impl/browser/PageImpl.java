@@ -81,6 +81,18 @@ public class PageImpl implements Page
         return pageRequest.getItsNatDroidBrowserImpl();
     }
 
+    @Override
+    public View getRootView()
+    {
+        return getInflatedLayoutImpl().getRootView();
+    }
+
+    @Override
+    public View findViewByXMLId(String id)
+    {
+        return getInflatedLayoutImpl().findViewByXMLId(id);
+    }
+
     public HttpParams getHttpParams()
     {
         return httpParams;
@@ -90,12 +102,6 @@ public class PageImpl implements Page
     public String getURL()
     {
         return pageRequest.getURL();
-    }
-
-    @Override
-    public InflatedLayout getInflatedLayout()
-    {
-        return getInflatedLayoutImpl();
     }
 
     public InflatedLayoutImpl getInflatedLayoutImpl()
