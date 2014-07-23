@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
@@ -61,4 +62,5 @@ public class InflateRequestImpl implements InflateRequest
         parent.getXMLLayoutInflateService().inflate(input, code, inflated);
         return inflated;
     }
+
 }

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 import android.util.Xml;
 import android.view.View;
 
@@ -42,13 +43,7 @@ public class XMLLayoutInflateService
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-
-            View rootView = createNextView(parser,null,script,inflated);
-            inflated.setRootView(rootView);
-        }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
+            inflate(parser,script,inflated);
         }
         catch (XmlPullParserException ex)
         {
@@ -64,6 +59,23 @@ public class XMLLayoutInflateService
             {
                 throw new ItsNatDroidException(ex);
             }
+        }
+    }
+
+    private void inflate(XmlPullParser parser,String[] script, InflatedLayoutImpl inflated)
+    {
+        try
+        {
+            View rootView = createNextView(parser,null,script,inflated);
+            inflated.setRootView(rootView);
+        }
+        catch (IOException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        catch (XmlPullParserException ex)
+        {
+            throw new ItsNatDroidException(ex);
         }
     }
 

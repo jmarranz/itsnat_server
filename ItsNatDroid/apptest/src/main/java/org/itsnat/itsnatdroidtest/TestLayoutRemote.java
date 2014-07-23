@@ -90,7 +90,7 @@ public class TestLayoutRemote
                             }
                         });
 
-                        View button3 = act.findViewById(R.id.buttonTest);
+                        View button3 = act.findViewById(R.id.buttonReload);
                         if (button3 == null) throw new RuntimeException("FAIL");
 
                         View frameLayoutViewInner = page.getInflatedLayout().findViewByXMLId("frameLayoutViewInner");

@@ -41,8 +41,8 @@
               android:background="#ffdddd"
               android:layout_below="@id/textViewTest2"/>
 
-    <Button id="buttonTest"
-            android:id="@id/buttonTest"
+    <Button id="buttonReload"
+            android:id="@id/buttonReload"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_label"

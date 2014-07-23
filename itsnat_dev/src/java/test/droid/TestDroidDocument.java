@@ -9,6 +9,7 @@ import java.io.Serializable;
 import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.droid.DroidKeyEvent;
 import org.itsnat.core.event.droid.DroidMotionEvent;
@@ -29,7 +30,10 @@ public class TestDroidDocument implements EventListener,Serializable
     {
         this.itsNatDoc = itsNatDoc;
 
-        Document doc = itsNatDoc.getDocument();
+        Document doc = itsNatDoc.getDocument();        
+        Element scrollView = doc.getDocumentElement();
+        Element linearLayout = ItsNatTreeWalker.getFirstChildElement(scrollView);
+
         Element textView2 = doc.getElementById("textViewTest2");
         String bgTextViewTest2 = textView2.getAttributeNS("http://schemas.android.com/apk/res/android", "background");
         textView2.setAttributeNS("http://schemas.android.com/apk/res/android", "background", "#ffdddd");
@@ -44,9 +48,9 @@ public class TestDroidDocument implements EventListener,Serializable
         // El style debe definirse si se quiere ANTES de insertar
         customTextView.setAttribute("style", "@style/test");
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "text", "@string/hello_world3");    // Definimos otro antes de insertar para probar
-        Element buttonTest = doc.getElementById("buttonTest");
+        Element buttonReload = doc.getElementById("buttonReload");
         
-        doc.getDocumentElement().insertBefore(customTextView, buttonTest);
+        linearLayout.insertBefore(customTextView, buttonReload);
         
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "id", "@id/textViewTest3");      
         customTextView.setAttributeNS("http://schemas.android.com/apk/res/android", "layout_width", "match_parent");        
@@ -74,10 +78,10 @@ public class TestDroidDocument implements EventListener,Serializable
         
         frameLayoutView.appendChild(frameLayoutViewInner);        
         
-        doc.getDocumentElement().insertBefore(frameLayoutView, buttonTest);        
+        linearLayout.insertBefore(frameLayoutView, buttonReload);        
 
         // Test ignorar nodos de texto
-        doc.getDocumentElement().insertBefore(doc.createTextNode("IGNORE TEXT NODE"), buttonTest);     // Aunque lo insertemos, en el cálculo de paths etc se ignorará          
+        linearLayout.insertBefore(doc.createTextNode("IGNORE TEXT NODE"), buttonReload);     // Aunque lo insertemos, en el cálculo de paths etc se ignorará          
         
         // Test eliminación de elementos
         
@@ -90,8 +94,8 @@ public class TestDroidDocument implements EventListener,Serializable
         textViewToRemove.setAttributeNS("http://schemas.android.com/apk/res/android", "android:text", "MUST BE REMOVED");        
         frameLayoutViewToRemove.appendChild(textViewToRemove);         
 
-        doc.getDocumentElement().insertBefore(frameLayoutViewToRemove, buttonTest);        
-        doc.getDocumentElement().removeChild(frameLayoutViewToRemove);      
+        linearLayout.insertBefore(frameLayoutViewToRemove, buttonReload);        
+        linearLayout.removeChild(frameLayoutViewToRemove);      
         
         //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"hola\");");
         

@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest;
 
+import android.content.res.XmlResourceParser;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -33,14 +34,16 @@ public class TestLayoutLocal
             }
         });
 
-        final View buttonTest = act.findViewById(R.id.buttonTest);
-        buttonTest.setOnClickListener(new View.OnClickListener()
+        final View buttonReload = act.findViewById(R.id.buttonReload);
+        buttonReload.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
                 InputStream input = act.getResources().openRawResource(R.raw.test_local_layout_dynamic);
+                // XmlResourceParser input = act.getResources().getXml(R.xml.test_local_layout_dynamic); devuelve un XMLBlock parser que no funciona igual que un parser normal y falla
+
                 // Sólo para testear carga local
                 InflateRequest inflateRequest = ItsNatDroidRoot.get().createInflateRequest();
                 InflatedLayout layout = inflateRequest.setAttrCustomInflaterListener(new AttrCustomInflaterListener()
@@ -72,13 +75,13 @@ public class TestLayoutLocal
                     }
                 });
 
-                View buttonTest = act.findViewById(R.id.buttonTest);
-                if (buttonTest == null) throw new RuntimeException("FAIL");
+                View buttonReload = act.findViewById(R.id.buttonReload);
+                if (buttonReload == null) throw new RuntimeException("FAIL");
 
-                if (layout.findViewByXMLId("buttonTest") != buttonTest)
+                if (layout.findViewByXMLId("buttonReload") != buttonReload)
                     throw new RuntimeException("FAIL");
 
-                buttonTest.setOnClickListener(new View.OnClickListener()
+                buttonReload.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View view)

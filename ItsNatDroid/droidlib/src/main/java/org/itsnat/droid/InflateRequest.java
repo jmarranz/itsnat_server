@@ -1,6 +1,7 @@
 package org.itsnat.droid;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 import android.view.View;
 
 import java.io.InputStream;
