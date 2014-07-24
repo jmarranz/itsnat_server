@@ -12,6 +12,9 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -581,18 +584,21 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         viewData.getEventListeners().add(type,listenerWrapper);
         getDroidEventListeners().put(listenerId, listenerWrapper);
 
-        EventListenerViewAdapter evtListAdapter = viewData.getEventListenerViewAdapter();
+
         if (type.equals("click"))
         {
-            // No sabemos si ha sido registrado ya antes el EventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
+            // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
+            ClickEventListenerViewAdapter evtListAdapter = viewData.getClickEventListenerViewAdapter();
             view.setOnClickListener(evtListAdapter);
         }
         else if (type.startsWith("touch"))
         {
+            TouchEventListenerViewAdapter evtListAdapter = viewData.getTouchEventListenerViewAdapter();
             view.setOnTouchListener(evtListAdapter);
         }
         else if (type.startsWith("key"))
         {
+            KeyEventListenerViewAdapter evtListAdapter = viewData.getKeyEventListenerViewAdapter();
             view.setOnKeyListener(evtListAdapter);
         }
 

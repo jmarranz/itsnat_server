@@ -9,10 +9,8 @@ import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.w3c.dom.Element;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
-public class TestDroidDocument implements EventListener,Serializable
+public class TestDroidDocument implements Serializable
 {
     protected ItsNatDocument itsNatDoc;
     protected Element elem;
@@ -23,7 +21,10 @@ public class TestDroidDocument implements EventListener,Serializable
         this.itsNatDoc = itsNatDoc;
 
         new TestDroidMiscAutomatic(itsNatDoc);
-        new TestDroidEventTimeout(itsNatDoc);        
+        new TestDroidEventTimeout(itsNatDoc);    
+        new TestDroidServerException(itsNatDoc);
+        new TestDroidClientException(itsNatDoc);        
+        new TestDroidNativeListeners(itsNatDoc);        
         new TestDroidViewInsertionAndSetAttributes(itsNatDoc);
         new TestDroidCustomViewInsertion(itsNatDoc);
         new TestDroidViewTreeInsertion(itsNatDoc);
@@ -33,10 +34,4 @@ public class TestDroidDocument implements EventListener,Serializable
 
     }
 
-    public void handleEvent(Event evt)
-    {
-        if (false) throw new RuntimeException("Test Exception from Server");
-        
-        if (false) itsNatDoc.addCodeToSend("BAD_CODE();");        
-    }
 }

@@ -40,6 +40,38 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <Button id="testServerExceptionId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test server exception (reload after)" />         
+        
+        <TextView id="testServerExceptionHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <Button id="testClientExceptionId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test client exception (reload after)" />         
+        
+        <TextView id="testClientExceptionHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <Button id="testNativeListenersId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test native listeners" />         
+        
+            <TextView 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="OK if almost 2 touch and 1 click event info are shown" />         
+        
+        <TextView id="testNativeListenersHidddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
         <Button id="testStyleAttrId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

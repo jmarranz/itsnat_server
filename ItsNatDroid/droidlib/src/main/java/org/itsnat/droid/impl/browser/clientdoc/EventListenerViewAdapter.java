@@ -16,80 +16,16 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class EventListenerViewAdapter implements View.OnClickListener,View.OnTouchListener,View.OnKeyListener
+public abstract class EventListenerViewAdapter
 {
     protected ItsNatViewImpl viewData;
-    protected View.OnClickListener clickListener;
-    protected View.OnTouchListener touchListener;
-    protected View.OnKeyListener keyboardListener;
 
     public EventListenerViewAdapter(ItsNatViewImpl viewData)
     {
         this.viewData = viewData;
     }
 
-    @Override
-    public void onClick(View view)
-    {
-        if (clickListener != null) clickListener.onClick(viewData.getView());
-
-        MotionEvent motionEvent = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,0,0,0);
-
-        dispatch("click",motionEvent);
-    }
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent)
-    {
-        if (touchListener != null) touchListener.onTouch(viewData.getView(), motionEvent);
-
-        String type = "";
-        int action = motionEvent.getAction();
-        switch(action)
-        {
-            case MotionEvent.ACTION_DOWN:
-                type = "touchstart";
-                break;
-            case MotionEvent.ACTION_UP:
-                type = "touchend";
-                break;
-            case MotionEvent.ACTION_MOVE:
-                type = "touchmove";
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                type = "touchcancel";
-                break;
-        }
-
-        dispatch(type,motionEvent);
-
-        return false; // No lo tengo claro si true o false
-    }
-
-    @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent)
-    {
-        if (keyboardListener != null) keyboardListener.onKey(viewData.getView(), i, keyEvent);
-
-        String type = "";
-        int action = keyEvent.getAction();
-        switch(action)
-        {
-            case KeyEvent.ACTION_DOWN:
-                type = "keydown";
-                break;
-            case KeyEvent.ACTION_UP:
-                type = "keyup";
-                break;
-            // keypress ??
-        }
-
-        dispatch(type,keyEvent);
-
-        return false; // No lo tengo claro si true o false
-    }
-
-    private void dispatch(String type,InputEvent nativeEvt)
+    protected void dispatch(String type,InputEvent nativeEvt)
     {
         List<DroidEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
@@ -121,18 +57,4 @@ public class EventListenerViewAdapter implements View.OnClickListener,View.OnTou
         }
     }
 
-    public void setOnClickListener(View.OnClickListener clickListener)
-    {
-        this.clickListener = clickListener;
-    }
-
-    public void setOnTouchListener(View.OnTouchListener touchListener)
-    {
-        this.touchListener = touchListener;
-    }
-
-    public void setOnKeyListener(View.OnKeyListener keyboardListener)
-    {
-        this.keyboardListener = keyboardListener;
-    }
 }

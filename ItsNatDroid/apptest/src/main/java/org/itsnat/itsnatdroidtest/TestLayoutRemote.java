@@ -92,23 +92,24 @@ public class TestLayoutRemote
 
                         View button3 = act.findViewById(R.id.buttonReload);
                         if (button3 == null) throw new RuntimeException("FAIL");
+                        if (button3 != page.findViewByXMLId("buttonReload")) throw new RuntimeException("FAIL");
 
-                        View frameLayoutViewInner = page.findViewByXMLId("frameLayoutViewInner");
-                        ItsNatView frameLayoutViewInnerItsNat = page.getItsNatView(frameLayoutViewInner);
-                        frameLayoutViewInnerItsNat.setOnClickListener(new View.OnClickListener()
+                        View testNativeListenersButton = page.findViewByXMLId("testNativeListenersId");
+                        ItsNatView testNativeListenersButtonItsNat = page.getItsNatView(testNativeListenersButton);
+                        testNativeListenersButtonItsNat.setOnClickListener(new View.OnClickListener()
                         {
                             @Override
                             public void onClick(View view)
                             {
-                                Toast.makeText(act, "Click Native OK", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(act, "OK Click Native", Toast.LENGTH_SHORT).show();
                             }
                         });
-                        frameLayoutViewInnerItsNat.setOnTouchListener(new View.OnTouchListener()
+                        testNativeListenersButtonItsNat.setOnTouchListener(new View.OnTouchListener()
                         {
                             @Override
                             public boolean onTouch(View view, MotionEvent motionEvent)
                             {
-                                Toast.makeText(act, "Touch Native OK " + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(act, "OK Touch Native, action:" + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
                                 return false;
                             }
                         });

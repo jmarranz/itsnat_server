@@ -4,6 +4,9 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
@@ -20,7 +23,9 @@ public class ItsNatViewImpl implements ItsNatView
     protected PageImpl page;
     protected View view;
     protected MapList<String,DroidEventListener> eventListeners;
-    protected EventListenerViewAdapter evtListenerViewAdapter;
+    protected ClickEventListenerViewAdapter clickEvtListenerViewAdapter;
+    protected TouchEventListenerViewAdapter touchEvtListenerViewAdapter;
+    protected KeyEventListenerViewAdapter keyEvtListenerViewAdapter;
     protected String nodeCacheId;
 
     public ItsNatViewImpl(PageImpl page,View view)
@@ -66,25 +71,43 @@ public class ItsNatViewImpl implements ItsNatView
         return getEventListeners().get(type);
     }
 
-    public EventListenerViewAdapter getEventListenerViewAdapter()
+    public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()
     {
-        if (evtListenerViewAdapter == null) this.evtListenerViewAdapter = new EventListenerViewAdapter(this);
-        return evtListenerViewAdapter;
+        if (clickEvtListenerViewAdapter == null) this.clickEvtListenerViewAdapter = new ClickEventListenerViewAdapter(this);
+        return clickEvtListenerViewAdapter;
+    }
+
+    public TouchEventListenerViewAdapter getTouchEventListenerViewAdapter()
+    {
+        if (touchEvtListenerViewAdapter == null) this.touchEvtListenerViewAdapter = new TouchEventListenerViewAdapter(this);
+        return touchEvtListenerViewAdapter;
+    }
+
+    public KeyEventListenerViewAdapter getKeyEventListenerViewAdapter()
+    {
+        if (keyEvtListenerViewAdapter == null) this.keyEvtListenerViewAdapter = new KeyEventListenerViewAdapter(this);
+        return keyEvtListenerViewAdapter;
     }
 
     public void setOnClickListener(View.OnClickListener l)
     {
-        getEventListenerViewAdapter().setOnClickListener(l);
+        ClickEventListenerViewAdapter evtListenerViewAdapter = getClickEventListenerViewAdapter();
+        view.setOnClickListener(evtListenerViewAdapter);
+        evtListenerViewAdapter.setOnClickListener(l);
     }
 
     public void setOnTouchListener(View.OnTouchListener l)
     {
-        getEventListenerViewAdapter().setOnTouchListener(l);
+        TouchEventListenerViewAdapter evtListenerViewAdapter = getTouchEventListenerViewAdapter();
+        view.setOnTouchListener(evtListenerViewAdapter);
+        evtListenerViewAdapter.setOnTouchListener(l);
     }
 
     public void setOnKeyListener(View.OnKeyListener l)
     {
-        getEventListenerViewAdapter().setOnKeyListener(l);
+        KeyEventListenerViewAdapter evtListenerViewAdapter = getKeyEventListenerViewAdapter();
+        view.setOnKeyListener(evtListenerViewAdapter);
+        evtListenerViewAdapter.setOnKeyListener(l);
     }
 
     public String getNodeCacheId()
