@@ -14,34 +14,39 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener.trans;
+package org.itsnat.impl.core.scriptren.shared.trans;
 
-import org.itsnat.core.event.CustomParamTransport;
+import java.util.HashMap;
+import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 
 /**
  *
  * @author jmarranz
  */
-public class CustomParamTransportUtil extends SingleParamTransportUtil
+public class JSAndBSRenderNodeAllAttribTransport extends JSAndBSRenderParamTransport
 {
-    public static final CustomParamTransportUtil SINGLETON = new CustomParamTransportUtil();
+    public static final JSAndBSRenderNodeAllAttribTransport SINGLETON = new JSAndBSRenderNodeAllAttribTransport();
 
     /**
-     * Creates a new instance of CustomParamTransportUtil
+     * Creates a new instance of ParamTransportUtil
      */
-    public CustomParamTransportUtil()
+    public JSAndBSRenderNodeAllAttribTransport()
     {
     }
 
-    public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
+    public String getCodeToSend(ParamTransport param)
     {
-        // Nada que hacer
+        return "  event.getUtil().transpAllAttrs(event);\n";
     }
 
-    public void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
-    {
-    }
 }

@@ -1,4 +1,6 @@
 
+* Hacer imports al ppio de todo de CustomFunc y de NormalEvent
+
 * Añadir más datos a enviar de MouseEvent y KeyEvent, en teoría debería ser configurable
 
 * Probar XHR_ASYNC y XHR_ASYNC_HOLD debugueando

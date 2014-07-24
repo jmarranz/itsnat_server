@@ -45,11 +45,6 @@ public class NodeMutationTransportUtil extends ParamTransportUtil
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        return null;
-    }
-
     public void syncServerBeforeDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {
         ItsNatStfulDocumentImpl itsNatDoc = event.getItsNatStfulDocument();

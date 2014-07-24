@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener.trans;
+package org.itsnat.impl.core.scriptren.shared.trans;
 
 import org.itsnat.core.event.NodeAttributeTransport;
 import org.itsnat.core.event.ParamTransport;
@@ -30,37 +30,22 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class NodeAttributeTransportUtil extends SingleParamTransportUtil
+public class JSAndBSRenderNodeAttributeTransport extends JSAndBSRenderSingleParamTransport
 {
-    public static final NodeAttributeTransportUtil SINGLETON = new NodeAttributeTransportUtil();
+    public static final JSAndBSRenderNodeAttributeTransport SINGLETON = new JSAndBSRenderNodeAttributeTransport();
 
     /**
      * Creates a new instance of NodeAttributeTransportUtil
      */
-    public NodeAttributeTransportUtil()
+    public JSAndBSRenderNodeAttributeTransport()
     {
     }
 
-    public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
+    public String getCodeToSend(ParamTransport param)
     {
-        Element elem = (Element)event.getCurrentTarget();
-
-        String name = ((NodeAttributeTransport)param).getName();
-        String value = request.getAttrOrParam(name);
-        if (value != null)
-            DOMUtilInternal.setAttribute(elem,name,value);
-        else
-        {
-            // Ver notas NodeAllAttribTransportUtil
-            ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
-            Browser browser = clientDoc.getBrowser();
-            boolean toLowerCase = (browser instanceof BrowserOpera) && request.getItsNatDocument().isMIME_HTML();
-            if (toLowerCase) name = name.toLowerCase();
-            elem.removeAttribute(name);  // Si es null es que ha sido borrado en el cliente
-        }
+        NodeAttributeTransport item = (NodeAttributeTransport)param;
+        String name = item.getName();
+        return "  event.getUtil().transpAttr(event,\"" + name + "\");\n";
     }
 
-    public void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
-    {
-    }
 }

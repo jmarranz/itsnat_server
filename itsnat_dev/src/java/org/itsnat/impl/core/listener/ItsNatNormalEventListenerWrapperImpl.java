@@ -27,6 +27,7 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.listener.trans.ParamTransportUtil;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.scriptren.shared.trans.JSAndBSRenderParamTransport;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -137,8 +138,8 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         for(int i = 0; i < extraParams.length; i++)
         {
             ParamTransport param = extraParams[i];
-            ParamTransportUtil paramUtil = ParamTransportUtil.getSingleton(param);
-            String paramCode = paramUtil.getCodeToSend(param);
+            JSAndBSRenderParamTransport paramRender = JSAndBSRenderParamTransport.getSingleton(param);
+            String paramCode = paramRender.getCodeToSend(param);
             if (paramCode != null)
                 code.append( paramCode );
         }

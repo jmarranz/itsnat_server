@@ -35,11 +35,6 @@ public class NodeCompleteTransportUtil extends ParamTransportUtil
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        return "  event.getUtil().transpNodeComplete(event,\"" + NodeInnerTransportUtil.getName() + "\");\n";
-    }
-
     public void syncServerBeforeDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {
         NodeAllAttribTransportUtil.syncWithServer(request,event);

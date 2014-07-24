@@ -585,9 +585,7 @@ function EventMgr(itsNatDoc)
 }
 
 function EventGeneric(listener)
-{
-    this.getExtraParam = getExtraParam;
-    this.setExtraParam = setExtraParam;    
+{  
     this.getListenerWrapper = getListenerWrapper; // Es público en el caso de Opera (se llama desde Java)
     this.genParamURL = genParamURL;
     this.setMustBeSent = setMustBeSent;
@@ -600,24 +598,11 @@ function EventGeneric(listener)
     this.getCurrentTarget = null; // implementar
     this.saveEvent = null; // se implementa si es necesario
 
-    // attribs
-    this.extraParams = null;    
+    // attribs   
     this.ignoreHold = false;
     this.mustBeSent = true;
     this.listener = listener;
     this.itsNatDoc = listener.itsNatDoc;
-
-    function getExtraParam(name)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        return this.extraParams[name];
-    }
-
-    function setExtraParam(name,value)
-    {
-        if (this.extraParams == null) this.extraParams = new Object();
-        this.extraParams[name] = value;
-    }
 
     function getListenerWrapper() { return this.listener; }
 
@@ -686,16 +671,31 @@ function NormalEvent(listener)
     this.EventStful = EventStful;
     this.EventStful(listener);
 
+    this.getExtraParam = getExtraParam;
+    this.setExtraParam = setExtraParam; 
     this.getCurrentTarget = getCurrentTarget;
     this.getUtil = getUtil;
 
     this.timeStamp = new Date().getTime();
+    this.extraParams = null;     
     
     this.EventStful_super_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;    
     
     function getCurrentTarget() { return this.listener.getCurrentTarget(); }
     function getUtil() { return itsnat.TransportUtil; }
+     
+    function getExtraParam(name)
+    {        
+        if (this.extraParams == null) this.extraParams = new Object();
+        return this.extraParams[name];
+    }
+
+    function setExtraParam(name,value)
+    {
+        if (this.extraParams == null) this.extraParams = new Object();
+        this.extraParams[name] = value;
+    }     
      
     function genParamURL()
     {

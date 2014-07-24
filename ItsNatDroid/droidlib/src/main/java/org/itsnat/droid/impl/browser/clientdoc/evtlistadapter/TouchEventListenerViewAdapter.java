@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.itsnat.droid.impl.browser.clientdoc.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 
 /**

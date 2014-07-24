@@ -16,7 +16,7 @@ public abstract class EventGeneric implements Event
     protected EventGenericListener listener;
     protected boolean mustBeSent = true;
     protected boolean ignoreHold = false;
-    protected Map<String,Object> extraParams;
+
 
     public EventGeneric(EventGenericListener listener)
     {
@@ -52,23 +52,6 @@ public abstract class EventGeneric implements Event
     public EventGenericListener getEventGenericListener()
     {
         return listener;
-    }
-
-    public Map<String,Object> getExtraParams()
-    {
-        return extraParams; // Puede ser null
-    }
-
-    public Object getExtraParam(String name)
-    {
-        if (extraParams == null) return null;
-        return extraParams.get(name);
-    }
-
-    public void setExtraParam(String name,Object value)
-    {
-        if (extraParams == null) this.extraParams = new HashMap<String,Object>();
-        extraParams.put(name,value);
     }
 
     public List<NameValuePair> genParamURL()

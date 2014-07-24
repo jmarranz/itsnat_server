@@ -44,11 +44,6 @@ public class NodeAllAttribTransportUtil extends ParamTransportUtil
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        return "  event.getUtil().transpAllAttrs(event);\n";
-    }
-
     public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {
         syncWithServer(request,event);

@@ -574,13 +574,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public Node addDroidEL(Object[] idObj,String type,String listenerId,String customFunction,boolean useCapture,int commMode,long timeout,int typeCode)
+    public Node addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int typeCode)
     {
         Node node = getNode(idObj);
         View view = node.getView();
         ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
-        CustomFunction customFunction_PROVISIONAL = null;
-        DroidEventListener listenerWrapper = new DroidEventListener(this,view,type,customFunction_PROVISIONAL,listenerId,useCapture,commMode,timeout,typeCode);
+        DroidEventListener listenerWrapper = new DroidEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,typeCode);
         viewData.getEventListeners().add(type,listenerWrapper);
         getDroidEventListeners().put(listenerId, listenerWrapper);
 

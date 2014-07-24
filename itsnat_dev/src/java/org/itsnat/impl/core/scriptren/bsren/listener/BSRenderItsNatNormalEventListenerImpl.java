@@ -71,9 +71,12 @@ public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsN
         if ((userCode != null) && !userCode.equals(""))
         {
             code.append( "\n" );
-            code.append( "var func = function(event)\n" );
+            code.append( "var func = new org.itsnat.droid.impl.browser.clientdoc.CustomFunction()\n" );
             code.append( "{\n" );
+            code.append( "  public void exec(org.itsnat.droid.Event event)\n" );            
+            code.append( "  {\n" );            
             code.append(    userCode );
+            code.append( "  }\n" );            
             code.append( "};\n" );
 
             String bindToCustomFunc = itsNatListener.getBindToCustomFunc();

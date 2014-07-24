@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener.trans;
+package org.itsnat.impl.core.scriptren.shared.trans;
 
 import org.itsnat.core.event.NodeAllAttribTransport;
 import org.itsnat.core.event.SingleParamTransport;
@@ -28,31 +28,30 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public abstract class ParamTransportUtil
+public abstract class JSAndBSRenderParamTransport
 {
 
     /**
      * Creates a new instance of ParamTransportUtil
      */
-    public ParamTransportUtil()
+    public JSAndBSRenderParamTransport()
     {
     }
 
-    public static ParamTransportUtil getSingleton(ParamTransport param)
+    public static JSAndBSRenderParamTransport getSingleton(ParamTransport param)
     {
         if (param instanceof SingleParamTransport)
-            return SingleParamTransportUtil.getSingleParamTransportUtilSingleton((SingleParamTransport)param);
+            return JSAndBSRenderSingleParamTransport.getSingleParamTransportSingleton((SingleParamTransport)param);
         else if (param instanceof NodeAllAttribTransport)
-            return NodeAllAttribTransportUtil.SINGLETON;
+            return JSAndBSRenderNodeAllAttribTransport.SINGLETON;
         else if (param instanceof NodeCompleteTransport)
-            return NodeCompleteTransportUtil.SINGLETON;
+            return JSAndBSRenderNodeCompleteTransport.SINGLETON;
         else if (param instanceof NodeMutationTransport)
-            return NodeMutationTransportUtil.SINGLETON;
+            return JSAndBSRenderNodeMutationTransport.SINGLETON;
 
         return null;
     }
 
-    public abstract void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event);
-    public abstract void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event);
+    public abstract String getCodeToSend(ParamTransport param);
 
 }

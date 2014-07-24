@@ -122,14 +122,20 @@
                 android:layout_height="wrap_content"
                 android:text="Test Touch Events" />         
         
-        <TextView id="testTouchEventId" 
+        <TextView id="testTouchEventHiddenId" 
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <Button id="testEventPreSendId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Event Pre Send code" />         
         
+        <TextView id="testEventPreSendHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
         
-        
-        
+                
 
 
 

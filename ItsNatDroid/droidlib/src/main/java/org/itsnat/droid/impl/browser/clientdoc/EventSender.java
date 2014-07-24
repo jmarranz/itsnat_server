@@ -14,6 +14,8 @@ import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.net.SocketTimeoutException;
@@ -92,7 +94,6 @@ public class EventSender
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
-
         postTask.execute();
     }
 

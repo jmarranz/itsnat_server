@@ -14,34 +14,43 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener.trans;
+package org.itsnat.impl.core.scriptren.shared.trans;
 
-import org.itsnat.core.event.CustomParamTransport;
+import org.itsnat.core.event.NodeInnerTransport;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.Element;
 
 /**
  *
  * @author jmarranz
  */
-public class CustomParamTransportUtil extends SingleParamTransportUtil
+public class JSAndBSRenderNodeInnerTransport extends JSAndBSRenderSingleParamTransport
 {
-    public static final CustomParamTransportUtil SINGLETON = new CustomParamTransportUtil();
+    public static final JSAndBSRenderNodeInnerTransport SINGLETON = new JSAndBSRenderNodeInnerTransport();
+
 
     /**
-     * Creates a new instance of CustomParamTransportUtil
+     * Creates a new instance of NodeInnerTransportUtil
      */
-    public CustomParamTransportUtil()
+    public JSAndBSRenderNodeInnerTransport()
     {
     }
 
-    public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
+    public static String getName()
     {
-        // Nada que hacer
+        return "itsnat_node_inner";
     }
 
-    public void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
+    public String getCodeToSend(ParamTransport param)
     {
+        NodeInnerTransport item = (NodeInnerTransport)param;
+        String name = item.getName();
+        return "  event.getUtil().transpNodeInner(event,\"" + name + "\");\n";
     }
+
 }

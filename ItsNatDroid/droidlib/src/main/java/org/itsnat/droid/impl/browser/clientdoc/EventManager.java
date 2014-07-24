@@ -103,6 +103,8 @@ if (true)
     return;
 }
 */
+
+
         if (commMode == CommMode.XHR_SYNC)
         {
             EventSender sender = new EventSender(this);

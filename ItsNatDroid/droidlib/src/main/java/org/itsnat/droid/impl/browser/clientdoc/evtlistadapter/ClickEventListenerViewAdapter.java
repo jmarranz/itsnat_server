@@ -4,7 +4,6 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.itsnat.droid.impl.browser.clientdoc.EventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 
 /**

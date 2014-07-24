@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.clientdoc;
+package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 
 import android.os.SystemClock;
 import android.view.InputEvent;
@@ -8,6 +8,7 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 

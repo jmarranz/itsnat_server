@@ -14,9 +14,8 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener.trans;
+package org.itsnat.impl.core.scriptren.shared.trans;
 
-import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -25,23 +24,20 @@ import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
  *
  * @author jmarranz
  */
-public class CustomParamTransportUtil extends SingleParamTransportUtil
+public class JSAndBSRenderNodeCompleteTransport extends JSAndBSRenderParamTransport
 {
-    public static final CustomParamTransportUtil SINGLETON = new CustomParamTransportUtil();
+    public static final JSAndBSRenderNodeCompleteTransport SINGLETON = new JSAndBSRenderNodeCompleteTransport();
 
     /**
-     * Creates a new instance of CustomParamTransportUtil
+     * Creates a new instance of NodeCompleteTransportUtil
      */
-    public CustomParamTransportUtil()
+    public JSAndBSRenderNodeCompleteTransport()
     {
     }
 
-    public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
+    public String getCodeToSend(ParamTransport param)
     {
-        // Nada que hacer
+        return "  event.getUtil().transpNodeComplete(event,\"" + JSAndBSRenderNodeInnerTransport.getName() + "\");\n";
     }
 
-    public void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
-    {
-    }
 }
