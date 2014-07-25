@@ -28,7 +28,7 @@ package org.itsnat.core.event;
  */
 public class CustomParamTransport extends SingleParamTransport
 {
-    private String code;
+    private final String code;
 
     /**
      * Creates a new instance ready to transport a value obtained in the client using the specified name

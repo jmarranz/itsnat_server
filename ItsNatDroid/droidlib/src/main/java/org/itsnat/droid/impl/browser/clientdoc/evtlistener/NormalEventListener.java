@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 6/07/14.

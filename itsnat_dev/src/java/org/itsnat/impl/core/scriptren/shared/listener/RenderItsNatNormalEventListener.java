@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.shared.listener;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 
 /**
@@ -24,5 +25,5 @@ import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
  */
 public interface RenderItsNatNormalEventListener
 {
-    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code);
+    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code,ClientDocumentStfulDelegateImpl clientDoc);
 }

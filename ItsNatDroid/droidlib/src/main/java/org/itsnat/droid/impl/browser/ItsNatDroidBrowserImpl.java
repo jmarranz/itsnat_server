@@ -12,6 +12,8 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
@@ -51,6 +53,8 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             // Funciones de utilidad que se reflejarán en los Interpreter hijos, pero así se interpretan una sola vez
             StringBuilder code = new StringBuilder();
 
+            code.append("import " + CustomFunction.class.getName() + ";");
+            code.append("import " + NormalEvent.class.getName() + ";");
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a,b){return new Object[]{a,b};}");

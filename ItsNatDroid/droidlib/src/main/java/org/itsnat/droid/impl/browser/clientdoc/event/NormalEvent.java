@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.itsnat.droid.impl.browser.clientdoc.TransportUtil;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class NormalEvent extends EventStful
         return getNormalEventListener().getView();
     }
 
+
     public Map<String,Object> getExtraParams()
     {
         return extraParams; // Puede ser null
@@ -55,6 +57,23 @@ public class NormalEvent extends EventStful
     {
         List<NameValuePair> params = super.genParamURL();
         params.add(new BasicNameValuePair("itsnat_evt_timeStamp","" + timeStamp)); // En vez del problematico Event.timeStamp
+
+        if (extraParams != null)
+        {
+            for (Map.Entry<String,Object> entry : extraParams.entrySet())
+            {
+                String name = entry.getKey();
+                Object value = entry.getValue();
+                if (value != null && value instanceof Object[]) // Aunque sea String[] es válido el instanceof pues Object[] es la "clase base"
+                {
+                    Object[] valueArr = (Object[])value;
+                    for (int i = 0; i < valueArr.length; i++)
+                        params.add(new BasicNameValuePair(name,(String)valueArr[i]));
+                }
+                else params.add(new BasicNameValuePair(name,(String)value) );
+            }
+        }
+
         return params;
     }
 }

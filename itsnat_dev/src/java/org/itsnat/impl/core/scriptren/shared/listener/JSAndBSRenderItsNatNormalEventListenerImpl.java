@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.shared.listener;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 
 /**
@@ -24,11 +25,11 @@ import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
  */
 public class JSAndBSRenderItsNatNormalEventListenerImpl
 {
-    public static String getUserCodeInsideCustomFunc(ItsNatNormalEventListenerWrapperImpl itsNatListener)
+    public static String getUserCodeInsideCustomFunc(ItsNatNormalEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
 
-        String extraParams = itsNatListener.getCodeToSendParamTransports();
+        String extraParams = itsNatListener.getCodeToSendParamTransports(clientDoc);
         String preSendCode = itsNatListener.getPreSendCode();
 
         if (extraParams != null)

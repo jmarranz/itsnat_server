@@ -22,6 +22,7 @@ import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
@@ -129,7 +130,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         return currTargetWeakRef.get(); // Es null si se ha perdido (GC)
     }
 
-    public String getCodeToSendParamTransports()
+    public String getCodeToSendParamTransports(ClientDocumentStfulDelegateImpl clientDoc)
     {
         if (extraParams == null)
             return null;
@@ -139,7 +140,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         {
             ParamTransport param = extraParams[i];
             JSAndBSRenderParamTransport paramRender = JSAndBSRenderParamTransport.getSingleton(param);
-            String paramCode = paramRender.getCodeToSend(param);
+            String paramCode = paramRender.getCodeToSend(param,clientDoc);
             if (paramCode != null)
                 code.append( paramCode );
         }

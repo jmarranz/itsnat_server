@@ -1,5 +1,4 @@
 
-* Hacer imports al ppio de todo de CustomFunc y de NormalEvent
 
 * Añadir más datos a enviar de MouseEvent y KeyEvent, en teoría debería ser configurable
 

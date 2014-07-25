@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.listener;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
@@ -67,9 +68,9 @@ public abstract class JSRenderItsNatNormalEventListenerImpl extends JSRenderItsN
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
-    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code)
+    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        String userCode = JSAndBSRenderItsNatNormalEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener);
+        String userCode = JSAndBSRenderItsNatNormalEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener,clientDoc);
         if ((userCode != null) && !userCode.equals(""))
         {
             code.append( "\n" );

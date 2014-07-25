@@ -56,7 +56,7 @@ public class BSRenderItsNatDroidEventListenerImpl extends BSRenderItsNatNormalEv
 
         StringBuilder code = new StringBuilder();
 
-        String functionVarName = addCustomFunctionCode(itsNatListener,code);
+        String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target en eventos estándar DOM NO puede ser nulo

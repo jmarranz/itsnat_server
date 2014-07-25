@@ -16,8 +16,11 @@
 
 package org.itsnat.impl.core.scriptren.shared.trans;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodePropertyTransport;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 
 /**
  *
@@ -34,8 +37,10 @@ public class JSAndBSRenderNodePropertyTransport extends JSAndBSRenderSingleParam
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
+        
         NodePropertyTransport item = (NodePropertyTransport)param;
         StringBuilder code = new StringBuilder();
         code.append("    var value = event.getCurrentTarget()." + item.getName() + ";\n " );

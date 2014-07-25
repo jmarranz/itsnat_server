@@ -16,14 +16,11 @@
 
 package org.itsnat.impl.core.scriptren.shared.trans;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.NodeInnerTransport;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 
 /**
  *
@@ -46,11 +43,13 @@ public class JSAndBSRenderNodeInnerTransport extends JSAndBSRenderSingleParamTra
         return "itsnat_node_inner";
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
+        
         NodeInnerTransport item = (NodeInnerTransport)param;
         String name = item.getName();
-        return "  event.getUtil().transpNodeInner(event,\"" + name + "\");\n";
+        return "  event.getTranspUtil().nodeInner(event,\"" + name + "\");\n";
     }
 
 }

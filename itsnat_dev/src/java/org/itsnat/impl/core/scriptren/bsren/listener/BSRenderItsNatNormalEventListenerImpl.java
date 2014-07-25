@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.bsren.listener;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
@@ -65,15 +66,15 @@ public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsN
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
-    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code)
+    public String addCustomFunctionCode(ItsNatNormalEventListenerWrapperImpl itsNatListener,StringBuilder code,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        String userCode = JSAndBSRenderItsNatNormalEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener);
+        String userCode = JSAndBSRenderItsNatNormalEventListenerImpl.getUserCodeInsideCustomFunc(itsNatListener,clientDoc);
         if ((userCode != null) && !userCode.equals(""))
         {
             code.append( "\n" );
-            code.append( "var func = new org.itsnat.droid.impl.browser.clientdoc.CustomFunction()\n" );
+            code.append( "var func = new CustomFunction()\n" ); // El package está importado previamente por parte del cliente Android
             code.append( "{\n" );
-            code.append( "  public void exec(org.itsnat.droid.Event event)\n" );            
+            code.append( "  public void exec(NormalEvent event)\n" );            
             code.append( "  {\n" );            
             code.append(    userCode );
             code.append( "  }\n" );            

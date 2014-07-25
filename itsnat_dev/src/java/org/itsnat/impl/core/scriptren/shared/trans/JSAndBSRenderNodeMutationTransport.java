@@ -16,7 +16,10 @@
 
 package org.itsnat.impl.core.scriptren.shared.trans;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CMutationEventImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -45,8 +48,10 @@ public class JSAndBSRenderNodeMutationTransport extends JSAndBSRenderParamTransp
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
+        
         return null;
     }
 

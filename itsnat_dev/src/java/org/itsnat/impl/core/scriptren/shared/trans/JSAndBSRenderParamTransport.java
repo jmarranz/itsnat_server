@@ -21,8 +21,7 @@ import org.itsnat.core.event.SingleParamTransport;
 import org.itsnat.core.event.NodeCompleteTransport;
 import org.itsnat.core.event.NodeMutationTransport;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 
 /**
  *
@@ -52,6 +51,6 @@ public abstract class JSAndBSRenderParamTransport
         return null;
     }
 
-    public abstract String getCodeToSend(ParamTransport param);
+    public abstract String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc);
 
 }

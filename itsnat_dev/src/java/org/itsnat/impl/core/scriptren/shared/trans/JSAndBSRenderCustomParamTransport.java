@@ -18,6 +18,7 @@ package org.itsnat.impl.core.scriptren.shared.trans;
 
 import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 
 /**
  *
@@ -34,7 +35,7 @@ public class JSAndBSRenderCustomParamTransport extends JSAndBSRenderSingleParamT
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
         CustomParamTransport item = (CustomParamTransport)param;
         return "    event.setExtraParam(\"" + item.getName() + "\"," + item.getScriptCode() + ");\n";

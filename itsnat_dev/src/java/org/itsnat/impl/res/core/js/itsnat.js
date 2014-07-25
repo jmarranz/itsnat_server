@@ -435,12 +435,12 @@ function DOMPathResolver(itsNatDoc)
 
 function TransportUtil()
 {
-    this.transpAllAttrs = transpAllAttrs;
-    this.transpAttr = transpAttr;
-    this.transpNodeInner = transpNodeInner;
-    this.transpNodeComplete = transpNodeComplete;
+    this.allAttrs = allAttrs;
+    this.oneAttr = oneAttr;
+    this.nodeInner = nodeInner;
+    this.nodeComplete = nodeComplete;
 
-    function transpAllAttrs(evt)
+    function allAttrs(evt)
     {
         var itsNatDoc = evt.itsNatDoc;
         var msieOld = itsNatDoc.browser.isMSIEOld();
@@ -459,19 +459,19 @@ function TransportUtil()
         evt.setExtraParam("itsnat_attr_num",num);
     }
 
-    function transpAttr(evt,name)
+    function oneAttr(evt,name)
     {
         var value = evt.itsNatDoc.getAttribute(evt.getCurrentTarget(),name);
         if (value != null) evt.setExtraParam(name,value);
     }
 
-    function transpNodeInner(evt,name)
+    function nodeInner(evt,name)
     {
         var value = evt.getCurrentTarget().innerHTML;
         if (value != null) evt.setExtraParam(name,value);
     }
 
-    function transpNodeComplete(evt,nameInner)
+    function nodeComplete(evt,nameInner)
     {
         this.transpAllAttrs(evt);
         this.transpNodeInner(evt,nameInner);
@@ -674,7 +674,7 @@ function NormalEvent(listener)
     this.getExtraParam = getExtraParam;
     this.setExtraParam = setExtraParam; 
     this.getCurrentTarget = getCurrentTarget;
-    this.getUtil = getUtil;
+    this.getTranspUtil = getTranspUtil;
 
     this.timeStamp = new Date().getTime();
     this.extraParams = null;     
@@ -683,7 +683,7 @@ function NormalEvent(listener)
     this.genParamURL = genParamURL;    
     
     function getCurrentTarget() { return this.listener.getCurrentTarget(); }
-    function getUtil() { return itsnat.TransportUtil; }
+    function getTranspUtil() { return itsnat.TransportUtil; }
      
     function getExtraParam(name)
     {        
@@ -701,6 +701,16 @@ function NormalEvent(listener)
     {
         var url = this.EventStful_super_genParamURL();
         url += "&itsnat_evt_timeStamp=" + this.timeStamp; // En vez del problematico Event.timeStamp       
+        var params = this.extraParams;
+        if (params != null)
+            for(var name in params)
+            {
+                var value = params[name];               
+                if (typeof value == "object" && typeof value.length == "number" && value.length > 0)
+                    for(var i = 0; i < value.length; i++) url += "&" + name + "=" + encodeURIComponent(value[i]);
+                else
+                    url += "&" + name + "=" + encodeURIComponent(value);
+            }        
         return url;
     }    
 }
@@ -906,16 +916,6 @@ function EventGenericListener(action,itsNatDoc,commMode,timeout)
     function genParamURL(evt)
     {           
         var url = "&itsnat_action=" + this.action;        
-        var params = evt.extraParams;
-        if (params != null)
-            for(var name in params)
-            {
-                var value = params[name];               
-                if (typeof value == "object" && typeof value.length == "number" && value.length > 0)
-                    for(var i = 0; i < value.length; i++) url += "&" + name + "=" + encodeURIComponent(value[i]);
-                else
-                    url += "&" + name + "=" + encodeURIComponent(value);
-            }
         return url;
     }
 }

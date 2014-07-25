@@ -16,9 +16,10 @@
 
 package org.itsnat.impl.core.scriptren.shared.trans;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 
 /**
  *
@@ -35,9 +36,11 @@ public class JSAndBSRenderNodeCompleteTransport extends JSAndBSRenderParamTransp
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return "  event.getUtil().transpNodeComplete(event,\"" + JSAndBSRenderNodeInnerTransport.getName() + "\");\n";
+        if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
+        
+        return "  event.getTranspUtil().nodeComplete(event,\"" + JSAndBSRenderNodeInnerTransport.getName() + "\");\n";
     }
 
 }

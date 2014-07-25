@@ -16,18 +16,10 @@
 
 package org.itsnat.impl.core.scriptren.shared.trans;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 
 /**
  *
@@ -44,9 +36,11 @@ public class JSAndBSRenderNodeAllAttribTransport extends JSAndBSRenderParamTrans
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
+    public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return "  event.getUtil().transpAllAttrs(event);\n";
+        if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
+        
+        return "  event.getTranspUtil().allAttrs(event);\n";
     }
 
 }
