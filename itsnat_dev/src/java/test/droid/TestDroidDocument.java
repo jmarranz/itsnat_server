@@ -33,6 +33,7 @@ public class TestDroidDocument implements Serializable
         new TestDroidTouchEvent(itsNatDoc);
         new TestDroidEventPreSendCode(itsNatDoc);
         new TestDroidParamTransport(itsNatDoc);
+        new TestDroidCapture(itsNatDoc);        
     }
 
 }

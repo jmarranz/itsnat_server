@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -40,11 +41,57 @@ public class MainActivity extends Activity {
                 TestLayoutRemote.test(MainActivity.this);
             }
         });
+
+
+        View parent = findViewById(R.id.frameParent);
+        View child = findViewById(R.id.frameChild);
+
+        if (true)
+        {
+
+            parent.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent)
+                {
+                    System.out.println("IN PARENT " + motionEvent.getAction());
+                    return true;
+                }
+            });
+
+            child.setOnTouchListener(new View.OnTouchListener()
+            {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent)
+                {
+                    System.out.println("IN CHILD " + motionEvent.getAction());
+                    return true;
+                }
+            });
+        }
+
+        if (false)
+        {
+            parent.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    System.out.println("IN PARENT ");
+                }
+            });
+
+            child.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    System.out.println("IN CHILD ");
+                }
+            });
+        }
+
     }
-
-
-
-
 
 
     @Override

@@ -47,6 +47,7 @@ public abstract class W3CEventImpl extends ClientItsNatDOMStdEventImpl
        throw new ItsNatException("Not implemented",this);
     }
 
+    @Override
     public void resolveNodePaths()
     {
         super.resolveNodePaths();

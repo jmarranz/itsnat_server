@@ -22,4 +22,17 @@
               android:textSize="20dp"
               android:layout_below="@id/testLocal"/>
 
+    <FrameLayout android:id="@+id/frameParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="50dp"
+        android:background="#dd0000"
+        android:layout_below="@id/testRemote">
+        <FrameLayout android:id="@+id/frameChild"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#00dd00">
+        </FrameLayout>
+    </FrameLayout>
+
 </RelativeLayout>

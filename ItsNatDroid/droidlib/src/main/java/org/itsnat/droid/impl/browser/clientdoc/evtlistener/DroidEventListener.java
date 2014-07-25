@@ -39,6 +39,11 @@ public class DroidEventListener extends NormalEventListener
         this.typeCode = typeCode;
     }
 
+    public boolean isUseCapture()
+    {
+        return useCapture;
+    }
+
     public String getType()
     {
         return type;

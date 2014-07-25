@@ -8,6 +8,8 @@
 
 * Considerar el preventDefault como equivalente a devolver true/false por parte del listener nativo
 
+* Probar el KeyEvent
+
 * Cargar imágenes remótamente
 
 * Intentar agrupar los atributos de un mismo tipo que sólo admiten un método conjunto, por ej los paddingXXX

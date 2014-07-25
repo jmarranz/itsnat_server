@@ -21,11 +21,11 @@ public class ClickEventListenerViewAdapter extends EventListenerViewAdapter impl
     @Override
     public void onClick(View view)
     {
-        if (clickListener != null) clickListener.onClick(viewData.getView());
-
         MotionEvent motionEvent = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,0,0,0);
 
         dispatch("click",motionEvent);
+
+        if (clickListener != null) clickListener.onClick(viewData.getView());
     }
 
     public void setOnClickListener(View.OnClickListener clickListener)

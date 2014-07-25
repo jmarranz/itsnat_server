@@ -20,8 +20,6 @@ public class KeyEventListenerViewAdapter extends EventListenerViewAdapter implem
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent)
     {
-        if (keyboardListener != null) keyboardListener.onKey(viewData.getView(), i, keyEvent);
-
         String type = "";
         int action = keyEvent.getAction();
         switch(action)
@@ -37,7 +35,10 @@ public class KeyEventListenerViewAdapter extends EventListenerViewAdapter implem
 
         dispatch(type,keyEvent);
 
-        return false; // No lo tengo claro si true o false
+        boolean res = false;
+        if (keyboardListener != null) res = keyboardListener.onKey(viewData.getView(), i, keyEvent);
+
+        return res;
     }
 
     public void setOnKeyListener(View.OnKeyListener keyboardListener)

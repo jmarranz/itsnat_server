@@ -5,13 +5,17 @@ import android.view.InputEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEvent;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,15 +32,33 @@ public abstract class EventListenerViewAdapter
 
     protected void dispatch(String type,InputEvent nativeEvt)
     {
+        dispatch(viewData,type,nativeEvt,true,DroidInputEvent.AT_TARGET,viewData.getView());
+    }
+
+    protected static void dispatch(ItsNatViewImpl viewData,String type,InputEvent nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
+    {
         List<DroidEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
 
         View view = viewData.getView();
         for (DroidEventListener listener : list)
         {
-            NormalEvent evtWrapper = listener.createEventWrapper(nativeEvt);
+            if (checkUseCapture && listener.isUseCapture())
+            {
+                PageImpl page = viewData.getPageImpl();
+                List<ViewParent> tree = getViewTree(view);
+                for(ViewParent viewParent : tree)
+                {
+                    ItsNatViewImpl viewParentData = ItsNatViewImpl.getItsNatView(page,(View)viewParent);
+                    dispatch(viewParentData,type,nativeEvt,false,DroidInputEvent.CAPTURING_PHASE,viewTarget);
+                }
+            }
+
+            DroidInputEvent evtWrapper = (DroidInputEvent)listener.createEventWrapper(nativeEvt);
             try
             {
+                evtWrapper.setEventPhase(eventPhase);
+                evtWrapper.setViewTarget(viewTarget);
                 listener.dispatchEvent(view, evtWrapper);
             }
             catch(Exception ex)
@@ -58,4 +80,18 @@ public abstract class EventListenerViewAdapter
         }
     }
 
+    protected static List<ViewParent> getViewTree(View view)
+    {
+        List<ViewParent> tree = new LinkedList<ViewParent>();
+        ViewParent parent = view.getParent(); // Asegura que en la lista no está el View inicial
+        getViewTree(parent,tree);
+        return tree;
+    }
+
+    protected static void getViewTree(ViewParent view,List<ViewParent> tree)
+    {
+        if (view == null || !(view instanceof View)) return;
+        tree.add(0, view);
+        getViewTree(view.getParent(),tree);
+    }
 }

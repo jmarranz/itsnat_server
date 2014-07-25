@@ -76,6 +76,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return params;
     }
 
+    public String getStringPathFromView(View view)
+    {
+        return getStringPathFromNode(NodeImpl.create(view));
+    }
+
     public String getStringPathFromNode(Node node)
     {
         if (node == null) return null;

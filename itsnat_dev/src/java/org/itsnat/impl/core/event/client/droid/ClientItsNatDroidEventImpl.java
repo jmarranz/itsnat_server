@@ -20,6 +20,7 @@ import org.itsnat.impl.core.event.client.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.droid.DroidEvent;
 import org.itsnat.impl.core.event.EventInternal;
+import org.itsnat.impl.core.event.client.dom.domstd.NodeContainerImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import static org.w3c.dom.events.Event.AT_TARGET;
@@ -31,7 +32,8 @@ import org.w3c.dom.events.EventTarget;
  */
 public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEventImpl implements DroidEvent,EventInternal
 {
-
+    protected NodeContainerImpl target;
+    
     /**
      * Creates a new instance of ClientItsNatDroidEventImpl
      */
@@ -51,14 +53,23 @@ public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEvent
         return (ItsNatDroidEventListenerWrapperImpl)listenerWrapper;
     }
 
+
     public EventTarget getTarget()
     {
-        return getCurrentTarget(); 
+        if (target == null)
+        {
+            boolean isCacheIfPossibleTarget = true; // El false es un caso de mutation events de web            
+            target = new NodeContainerImpl(getParameterNode("target",isCacheIfPossibleTarget));
+        }
+        EventTarget evtTarget = (EventTarget)target.get();
+        // Si es null es una optimización para evitar enviar el mismo nodo que el currentTarget
+        if (evtTarget == null) return getCurrentTarget();
+        return evtTarget;
     }
-
+    
     public short getEventPhase()
     {
-        return AT_TARGET; // Por poner algo
+        return getParameterShort("eventPhase");
     }
 
     public boolean getCancelable()

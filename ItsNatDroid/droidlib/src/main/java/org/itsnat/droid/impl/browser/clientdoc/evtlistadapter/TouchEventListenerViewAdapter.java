@@ -20,8 +20,6 @@ public class TouchEventListenerViewAdapter extends EventListenerViewAdapter impl
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
-        if (touchListener != null) touchListener.onTouch(viewData.getView(), motionEvent);
-
         String type = "";
         int action = motionEvent.getAction();
         switch(action)
@@ -42,7 +40,10 @@ public class TouchEventListenerViewAdapter extends EventListenerViewAdapter impl
 
         dispatch(type,motionEvent);
 
-        return false; // No lo tengo claro si true o false
+        boolean res = false; // Conviene que sea false porque de otra podemos bloquear un scrollview padre. Sabemos que si es false y hay un View contenedor no se procesan los eventos touchmove etc, si es false apenas el down. El listener del usuario puede forzar un true si quiere
+        if (touchListener != null) res = touchListener.onTouch(viewData.getView(), motionEvent);
+
+        return res;
     }
 
     public void setOnTouchListener(View.OnTouchListener touchListener)

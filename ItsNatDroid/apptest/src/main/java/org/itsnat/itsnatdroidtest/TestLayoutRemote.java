@@ -110,7 +110,7 @@ public class TestLayoutRemote
                             public boolean onTouch(View view, MotionEvent motionEvent)
                             {
                                 Toast.makeText(act, "OK Touch Native, action:" + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
-                                return false;
+                                return true;
                             }
                         });
 

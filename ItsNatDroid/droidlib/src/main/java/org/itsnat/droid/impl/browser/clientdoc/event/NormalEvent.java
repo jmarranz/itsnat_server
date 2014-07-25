@@ -4,7 +4,6 @@ import android.view.View;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.itsnat.droid.impl.browser.clientdoc.TransportUtil;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 
 import java.util.HashMap;
