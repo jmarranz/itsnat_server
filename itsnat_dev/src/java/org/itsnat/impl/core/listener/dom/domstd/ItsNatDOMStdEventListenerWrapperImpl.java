@@ -23,7 +23,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
+import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventFactory;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
@@ -42,7 +42,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
     protected int commMode;
     protected String type;
     protected boolean useCapture;
-    protected int typeCode;
+    protected int eventGroupCode;
 
     /**
      * Creates a new instance of ItsNatDOMStdEventListenerWrapperImpl
@@ -55,7 +55,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
         this.type = type;
         this.useCapture = useCapture;
 
-        this.typeCode = DOMStdEventTypeInfo.getEventTypeCode(type);  // type no cambia por lo que no hay problema de "sincronización". Obtenerlo de una vez es mejor pues hay que buscar en una colección
+        this.eventGroupCode = DOMStdEventGroupInfo.getEventGroupCode(type);  // type no cambia por lo que no hay problema de "sincronización". Obtenerlo de una vez es mejor pues hay que buscar en una colección
     }
 
     public int getCommModeDeclared()
@@ -68,9 +68,9 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
         return type;
     }
 
-    public int getTypeCode()
+    public int getEventGroupCode()
     {
-        return typeCode;
+        return eventGroupCode;
     }
 
     public boolean getUseCapture()

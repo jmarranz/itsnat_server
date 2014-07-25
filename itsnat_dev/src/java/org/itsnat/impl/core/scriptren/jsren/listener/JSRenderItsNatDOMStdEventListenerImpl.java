@@ -24,7 +24,7 @@ import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
+import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.w3c.dom.Element;
@@ -71,7 +71,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
 
         String listenerId = itsNatListener.getId();
 
-        int eventTypeCode = DOMStdEventTypeInfo.getEventTypeCode(type);
+        int eventGroupCode = DOMStdEventGroupInfo.getEventGroupCode(type);
         boolean useCapture = itsNatListener.getUseCapture();
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = itsNatListener.getEventTimeout();
@@ -84,7 +84,7 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
         // El target en eventos estándar DOM NO puede ser nulo
         if (needsAddListenerReturnElement())
             code.append( "var elem = ");
-        code.append( "itsNatDoc.addDOMEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventTypeCode + ");\n" );
+        code.append( "itsNatDoc.addDOMEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventGroupCode + ");\n" );
         // El "elem" es utilizado por clases derivadas, elem puede ser window
         return code.toString();    
     }

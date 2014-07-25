@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.bsren.listener;
 
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.event.DroidEventTypeInfo;
+import org.itsnat.impl.core.event.DroidEventGroupInfo;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.w3c.dom.Node;
@@ -49,7 +49,7 @@ public class BSRenderItsNatDroidEventListenerImpl extends BSRenderItsNatNormalEv
 
         String listenerId = itsNatListener.getId();
 
-        int eventTypeCode = DroidEventTypeInfo.getEventTypeCode(type);
+        int eventGroupCode = DroidEventGroupInfo.getEventGroupCode(type);
         boolean useCapture = itsNatListener.getUseCapture();
         int commMode = itsNatListener.getCommModeDeclared();
         long eventTimeout = itsNatListener.getEventTimeout();
@@ -60,7 +60,7 @@ public class BSRenderItsNatDroidEventListenerImpl extends BSRenderItsNatNormalEv
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target en eventos estándar DOM NO puede ser nulo
-        code.append( "itsNatDoc.addDroidEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventTypeCode + ");\n" );
+        code.append( "itsNatDoc.addDroidEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventGroupCode + ");\n" );
         // El "elem" es utilizado por clases derivadas, elem puede ser window
         return code.toString();        
     }

@@ -48,11 +48,11 @@ public abstract class ClientItsNatDOMStdEventFactory
         else
             factory = ClientW3CEventFactory.createW3CEventFactory(request);
 
-        int typeCode = evtListener.getTypeCode();
+        int eventGroupCode = evtListener.getEventGroupCode();
 
-        return factory.createClientItsNatDOMStdEvent(typeCode,evtListener);
+        return factory.createClientItsNatDOMStdEvent(eventGroupCode,evtListener);
     }
 
-    public abstract ClientItsNatDOMStdEventImpl createClientItsNatDOMStdEvent(int typeCode,ItsNatDOMStdEventListenerWrapperImpl evtListener);
+    public abstract ClientItsNatDOMStdEventImpl createClientItsNatDOMStdEvent(int eventGroupCode,ItsNatDOMStdEventListenerWrapperImpl evtListener);
 
 }

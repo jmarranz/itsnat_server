@@ -34,12 +34,12 @@ public class JSRenderMSIEOldMouseEventImpl extends JSRenderMSIEOldUIEventImpl
     public JSRenderMSIEOldMouseEventImpl()
     {
     }
-
+/*
     public String getEventType()
     {
         return "MouseEvents";
     }
-
+*/
     @Override    
     public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {

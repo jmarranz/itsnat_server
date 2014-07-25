@@ -19,7 +19,7 @@ package org.itsnat.impl.core.event.client.dom.domstd.msie;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
+import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.event.client.dom.domstd.NodeContainerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.Event;
@@ -40,7 +40,7 @@ import org.w3c.dom.events.EventTarget;
 public abstract class MSIEOldEventImpl extends ClientItsNatDOMStdEventImpl
 {
     protected MSIEOldOriginalEventImpl originalEvt;
-    protected DOMStdEventTypeInfo eventTypeInfo = null;
+    protected DOMStdEventGroupInfo eventGroupInfo = null;
 
     /**
      * Creates a new instance of MSIEOldEventImpl
@@ -62,11 +62,11 @@ public abstract class MSIEOldEventImpl extends ClientItsNatDOMStdEventImpl
         return originalEvt;
     }
 
-    public DOMStdEventTypeInfo getEventTypeInfo()
+    public DOMStdEventGroupInfo getEventGroupInfo()
     {
-        if (eventTypeInfo == null)
-            this.eventTypeInfo = DOMStdEventTypeInfo.getEventTypeInfo(getType());
-        return eventTypeInfo;
+        if (eventGroupInfo == null)
+            this.eventGroupInfo = DOMStdEventGroupInfo.getEventGroupInfo(getType());
+        return eventGroupInfo;
     }
 
     public void initEvent(String eventTypeArg, boolean canBubbleArg, boolean cancelableArg)
@@ -74,6 +74,7 @@ public abstract class MSIEOldEventImpl extends ClientItsNatDOMStdEventImpl
         throw new ItsNatException("Not implemented",this);
     }
 
+    @Override
     public void resolveNodePaths()
     {
         super.resolveNodePaths();
@@ -100,12 +101,12 @@ public abstract class MSIEOldEventImpl extends ClientItsNatDOMStdEventImpl
 
     public boolean getBubbles()
     {
-        return getEventTypeInfo().getBubbles();
+        return getEventGroupInfo().getBubbles();
     }
 
     public boolean getCancelable()
     {
-        return getEventTypeInfo().getCancelable();
+        return getEventGroupInfo().getCancelable();
     }
 
 }

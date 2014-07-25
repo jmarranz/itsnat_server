@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class DroidEventListener extends NormalEventListener
 {
-    // Ver DroidEventTypeInfo en el código servidor
+    // Ver DroidEventGroupInfo en el código servidor
 
     public static final int UNKNOWN_EVENT = 0;
     public static final int MOTION_EVENT = 1;

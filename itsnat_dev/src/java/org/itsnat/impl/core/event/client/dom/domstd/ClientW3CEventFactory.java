@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.event.DOMStdEventTypeInfo;
+import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.BlackBerryOldKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.GeckoKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.OperaKeyEventImpl;
@@ -58,33 +58,33 @@ public class ClientW3CEventFactory extends ClientItsNatDOMStdEventFactory
         return new ClientW3CEventFactory(request);
     }
 
-    public ClientItsNatDOMStdEventImpl createClientItsNatDOMStdEvent(int typeCode,ItsNatDOMStdEventListenerWrapperImpl evtListener)
+    public ClientItsNatDOMStdEventImpl createClientItsNatDOMStdEvent(int eventGroupCode,ItsNatDOMStdEventListenerWrapperImpl evtListener)
     {
         ClientDocumentImpl clientDoc = request.getClientDocument();
 
         Browser browser = clientDoc.getBrowser();
         W3CEventImpl event = null;
-        switch(typeCode)
+        switch(eventGroupCode)
         {
-            case DOMStdEventTypeInfo.UNKNOWN_EVENT:
+            case DOMStdEventGroupInfo.UNKNOWN_EVENT:
                 event = new W3CEventDefaultImpl(evtListener,request);
                 break;
-            case DOMStdEventTypeInfo.UI_EVENT:
+            case DOMStdEventGroupInfo.UI_EVENT:
                 event = new W3CUIEventDefaultImpl(evtListener,request);
                 break;
-            case DOMStdEventTypeInfo.MOUSE_EVENT:
+            case DOMStdEventGroupInfo.MOUSE_EVENT:
                 event = new W3CMouseEventImpl(evtListener,request);
                 break;
-            case DOMStdEventTypeInfo.HTML_EVENT:
+            case DOMStdEventGroupInfo.HTML_EVENT:
                 event = new W3CHTMLEventImpl(evtListener,request);
                 break;
-            case DOMStdEventTypeInfo.MUTATION_EVENT:
+            case DOMStdEventGroupInfo.MUTATION_EVENT:
                 if (browser instanceof BrowserAdobeSVG) // ASV v6 (v3 no tiene mutation events)
                     event = new W3CMutationEventAdobeSVGImpl(evtListener,request);
                 else
                     event = new W3CMutationEventDefaultImpl(evtListener,request);
                 break;
-            case DOMStdEventTypeInfo.KEY_EVENT:
+            case DOMStdEventGroupInfo.KEY_EVENT:
                 if (browser instanceof BrowserGecko)
                     event = new GeckoKeyEventImpl(evtListener,request);
                 else if (browser instanceof BrowserWebKit)

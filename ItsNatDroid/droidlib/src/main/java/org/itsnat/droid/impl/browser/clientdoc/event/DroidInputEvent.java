@@ -100,6 +100,7 @@ public abstract class DroidInputEvent extends NormalEvent
 
         View view = getDroidEventListener().getView();
         String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";
+        // Si viewTarget == view enviamos null para evitar tráfico, ya sabemos que es el currentTarget
         params.add(new BasicNameValuePair("itsnat_evt_target",viewTargetStr));
 
         return params;

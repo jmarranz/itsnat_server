@@ -45,6 +45,7 @@ public abstract class ServerItsNatDOMExtEventImpl extends ServerItsNatNormalEven
             throw new DOMException(DOMException.NOT_SUPPORTED_ERR,"NOT_SUPPORTED_ERR: The implementation does not support the requested type of event.");
     }
 
+    @Override
     public void initEvent(String eventTypeArg, boolean canBubbleArg, boolean cancelableArg)
     {
         super.initEvent(eventTypeArg,canBubbleArg,cancelableArg);
