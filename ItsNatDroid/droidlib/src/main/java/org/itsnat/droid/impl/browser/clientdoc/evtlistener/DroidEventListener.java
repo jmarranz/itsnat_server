@@ -29,14 +29,14 @@ public class DroidEventListener extends NormalEventListener
 
     protected String type;
     protected boolean useCapture;
-    protected int typeCode;
+    protected int eventGroupCode;
 
-    public DroidEventListener(ItsNatDocImpl parent, View view, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int typeCode)
+    public DroidEventListener(ItsNatDocImpl parent, View view, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int eventGroupCode)
     {
         super(parent,"droid",view,customFunc,id,commMode,timeout);
         this.type = type;
         this.useCapture = useCapture;
-        this.typeCode = typeCode;
+        this.eventGroupCode = eventGroupCode;
     }
 
     public boolean isUseCapture()
@@ -51,7 +51,7 @@ public class DroidEventListener extends NormalEventListener
 
     public NormalEvent createEventWrapper(Object evt)
     {
-        switch(typeCode)
+        switch(eventGroupCode)
         {
             case MOTION_EVENT: return new DroidMotionEvent(this,(MotionEvent)evt);
             case KEY_EVENT:   return new DroidKeyEvent(this,(KeyEvent)evt);

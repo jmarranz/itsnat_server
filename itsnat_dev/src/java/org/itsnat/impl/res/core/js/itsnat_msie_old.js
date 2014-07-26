@@ -33,9 +33,9 @@ function MSIEOldDOMEvent(evt,listener)
     this.getTarget = function () { return this.getNativeEvent().srcElement; };
 }
 
-function getMSIEOldEventUtil(typeCode)
+function getMSIEOldEventUtil(eventGroupCode)
 {
-    switch(typeCode)
+    switch(eventGroupCode)
     {
         case 0: // DOMStdEventTypeInfo.UNKNOWN_EVENT
             return itsnat.MSIEOldEventUtil_SINGLETON;

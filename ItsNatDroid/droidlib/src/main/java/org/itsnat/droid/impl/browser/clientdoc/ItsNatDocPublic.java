@@ -52,7 +52,7 @@ public interface ItsNatDocPublic
 
     public Node addNodeCache(Object[] idObj);
 
-    public Node addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int typeCode);
+    public Node addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode);
     public void removeDroidEL(String listenerId);
 
     public void addGlobalEL(GlobalEventListener listener);

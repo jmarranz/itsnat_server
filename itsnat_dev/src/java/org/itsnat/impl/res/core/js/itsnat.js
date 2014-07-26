@@ -987,14 +987,14 @@ function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMo
     this.NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
 }
 
-function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,typeCode)
+function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,eventGroupCode)
 {
     this.DOMEventListener = DOMEventListener;
     this.DOMEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
 
     this.getType = getType;
     this.isUseCapture = isUseCapture;
-    this.getTypeCode = getTypeCode;
+    this.getEventGroupCode = getEventGroupCode;
     this.getEventUtil = getEventUtil;
     this.DOMEventListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
@@ -1003,12 +1003,12 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
     // attribs
     this.type = type;
     this.useCapture = useCapture;
-    this.typeCode = typeCode;
-    this.evtUtil = this.itsNatDoc.evtMgr.getEventUtil(typeCode);
+    this.eventGroupCode = eventGroupCode;
+    this.evtUtil = this.itsNatDoc.evtMgr.getEventUtil(eventGroupCode);
 
     function getType() { return this.type; }
     function isUseCapture() { return this.useCapture; }
-    function getTypeCode() { return this.typeCode; }
+    function getEventGroupCode() { return this.eventGroupCode; }
     function getEventUtil() { return this.evtUtil; }
 
     function genParamURL(evt)
@@ -1506,10 +1506,10 @@ function Document()
         }
     }
 
-    function addDOMEL(idObj,type,listenerId,customFunc,useCapture,commMode,timeout,typeCode)
+    function addDOMEL(idObj,type,listenerId,customFunc,useCapture,commMode,timeout,eventGroupCode)
     {
         var node = this.getNode(idObj);
-        var listenerWrapper = new DOMStdEventListener(this,node,type,customFunc,listenerId,useCapture,commMode,timeout,typeCode);
+        var listenerWrapper = new DOMStdEventListener(this,node,type,customFunc,listenerId,useCapture,commMode,timeout,eventGroupCode);
         this.domListeners.put(listenerId,listenerWrapper);
         this.addDOMEL2(listenerWrapper,node,type,useCapture);
         return node;

@@ -44,9 +44,9 @@ function W3CDOMEvent(evt,listener)
     this.getTarget = function () { return this.getNativeEvent().target; };
 }
 
-function getW3CEventUtil(typeCode)
+function getW3CEventUtil(eventGroupCode)
 {
-    switch(typeCode)
+    switch(eventGroupCode)
     {
         case 0: return itsnat.W3CEventUtil_SINGLETON; // DOMStdEventTypeInfo.UNKNOWN_EVENT
         case 1: return itsnat.W3CUIEventUtil_SINGLETON; // UI_EVENT
