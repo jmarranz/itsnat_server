@@ -20,7 +20,7 @@ import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.comp.mgr.web.ItsNatSVGDocComponentManagerImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.template.otherns.ItsNatSVGDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatSVGDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 
 /**

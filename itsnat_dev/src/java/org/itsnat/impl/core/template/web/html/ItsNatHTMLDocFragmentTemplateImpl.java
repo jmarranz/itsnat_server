@@ -14,15 +14,15 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.html;
+package org.itsnat.impl.core.template.web.html;
 
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.tmpl.ItsNatHTMLDocFragmentTemplate;
-import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.MarkupSourceImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.DocumentFragment;
@@ -32,7 +32,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLDocFragmentTemplateImpl extends ItsNatDocFragmentTemplateImpl implements ItsNatHTMLDocFragmentTemplate
+public class ItsNatHTMLDocFragmentTemplateImpl extends ItsNatWebDocFragmentTemplateImpl implements ItsNatHTMLDocFragmentTemplate
 {
 
     /**

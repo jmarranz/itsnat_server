@@ -14,14 +14,14 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.html;
+package org.itsnat.impl.core.template.web.html;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
-import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateVersionImpl;
 import org.itsnat.impl.core.MarkupContainerImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateVersionImpl;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLBodyElement;
@@ -33,7 +33,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
+public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragmentTemplateVersionImpl
 {
     protected DocumentFragment templateDocFragmentHead;
     protected DocumentFragment templateDocFragmentBody;
@@ -64,6 +64,7 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentT
         return (HTMLTemplateVersionDelegateImpl)templateDelegate;
     }
 
+    @Override
     protected boolean isElementValidForCaching(Element elem)
     {
         if (!super.isElementValidForCaching(elem))

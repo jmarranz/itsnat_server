@@ -37,19 +37,19 @@ public class BSRenderTextImpl extends BSRenderNotAttrOrAbstractViewNodeImpl
     @Override
     public String createNodeCode(Node node, ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return null;
+        return "";
     }
 
     @Override
     public Object getAppendNewNodeCode(Node parent, Node newNode, String parentVarName, InsertAsMarkupInfoImpl insertMarkupInfo, ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return null;
+        return "";
     }
 
     @Override
     public Object getInsertNewNodeCode(Node newNode, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        return null;
+        return "";
     }
     
 }

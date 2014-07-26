@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -14,22 +14,22 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.otherns;
+package org.itsnat.impl.core.template.web;
 
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
-import org.itsnat.impl.core.template.StfulWebTemplateVersionDelegateImpl;
+import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
+
 
 /**
  *
  * @author jmarranz
  */
-public class OtherNSTemplateVersionDelegateImpl extends StfulWebTemplateVersionDelegateImpl
+public abstract class StfulWebTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
 {
-    /**
-     * Creates a new instance of OtherNSTemplateVersionDelegateImpl
-     */
-    public OtherNSTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
+
+    public StfulWebTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
     {
         super(parent);
     }
+    
 }

@@ -14,12 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.otherns;
+package org.itsnat.impl.core.template.web.otherns;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
-import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.MarkupSourceImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.xml.sax.InputSource;
@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatOtherNSDocFragmentTemplateImpl extends ItsNatDocFragmentTemplateImpl
+public class ItsNatOtherNSDocFragmentTemplateImpl extends ItsNatWebDocFragmentTemplateImpl
 {
     /**
      * Creates a new instance of ItsNatOtherNSDocFragmentTemplateImpl

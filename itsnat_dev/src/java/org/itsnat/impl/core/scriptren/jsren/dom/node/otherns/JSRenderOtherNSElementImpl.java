@@ -28,9 +28,9 @@ import org.itsnat.impl.core.scriptren.shared.dom.node.CannotInsertAsMarkupCauseI
 import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatSVGDocumentTemplateVersionImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatUnknownDocumentTemplateVersionImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatXULDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatSVGDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatUnknownDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatXULDocumentTemplateVersionImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

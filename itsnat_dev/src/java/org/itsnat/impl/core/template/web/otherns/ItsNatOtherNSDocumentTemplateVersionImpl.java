@@ -14,12 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.otherns;
+package org.itsnat.impl.core.template.web.otherns;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
-import org.itsnat.impl.core.template.ItsNatStfulWebDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.ItsNatStfulWebDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

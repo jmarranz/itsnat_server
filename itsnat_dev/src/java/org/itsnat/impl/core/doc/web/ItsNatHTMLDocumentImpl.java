@@ -27,7 +27,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
 import org.itsnat.impl.core.domutil.HTMLElementGroupManagerImpl;
-import org.itsnat.impl.core.template.html.ItsNatHTMLDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.html.ItsNatHTMLDocumentTemplateVersionImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLDocument;

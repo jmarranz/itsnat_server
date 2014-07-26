@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -14,18 +14,24 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template;
+package org.itsnat.impl.core.template.web;
+
+import org.itsnat.impl.core.servlet.ItsNatServletImpl;
+import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateImpl;
+import org.itsnat.impl.core.template.MarkupSourceImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class StfulDroidTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public abstract class ItsNatWebDocFragmentTemplateImpl extends ItsNatDocFragmentTemplateImpl
 {
-
-    public StfulDroidTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
+    /**
+     * Creates a new instance of ItsNatOtherNSDocFragmentTemplateImpl
+     */
+    public ItsNatWebDocFragmentTemplateImpl(String name,String mime,MarkupSourceImpl source,ItsNatServletImpl servlet)
     {
-        super(parent);
+        super(name,mime,source,servlet);
     }
-    
+
 }

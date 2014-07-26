@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.html;
+package org.itsnat.impl.core.template.web.html;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -22,7 +22,7 @@ import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.template.StfulWebTemplateVersionDelegateImpl;
+import org.itsnat.impl.core.template.web.StfulWebTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,6 +45,7 @@ public class HTMLTemplateVersionDelegateImpl extends StfulWebTemplateVersionDele
         super(parent);
     }
 
+    @Override
     public void normalizeDocument(Document doc)
     {
         super.normalizeDocument(doc);

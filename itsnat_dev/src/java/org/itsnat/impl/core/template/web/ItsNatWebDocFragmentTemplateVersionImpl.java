@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -14,22 +14,25 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template;
+package org.itsnat.impl.core.template.web;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateVersionImpl;
 import org.xml.sax.InputSource;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ItsNatStfulWebDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
+public abstract class ItsNatWebDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
 {
-
-    public ItsNatStfulWebDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
+    /**
+     * Creates a new instance of ItsNatXMLDocFragmentTemplateVersionImpl
+     */
+    public ItsNatWebDocFragmentTemplateVersionImpl(ItsNatWebDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
     {
-        super(docTemplate, source, timeStamp, request, response);
+        super(docTemplate,source,timeStamp,request,response);
     }
-    
+
 }

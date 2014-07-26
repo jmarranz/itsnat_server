@@ -14,18 +14,24 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template;
+package org.itsnat.impl.core.template.web;
+
+import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
+import org.xml.sax.InputSource;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class StfulWebTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public abstract class ItsNatStfulWebDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
 {
 
-    public StfulWebTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
+    public ItsNatStfulWebDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        super(parent);
+        super(docTemplate, source, timeStamp, request, response);
     }
     
 }

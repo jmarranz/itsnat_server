@@ -22,16 +22,12 @@ import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toLiteralStringJS;
-import static org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl.getNodeReference;
 import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.w3c.dom.views.DocumentView;
 
 /**
  *

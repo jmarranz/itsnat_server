@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.clientdoc;
 
 import java.util.LinkedList;
+import org.itsnat.core.ItsNatException;
 
 /**
  *
@@ -28,6 +29,8 @@ public class CodeListImpl
 
     public void add(Object codeFragment)
     {
+        if (codeFragment == null) throw new ItsNatException("Cannot be null");    // Lo detectamos aquí porque de otra manera dará error después al procesarse la lista
+
         list.add(codeFragment);
     }
     

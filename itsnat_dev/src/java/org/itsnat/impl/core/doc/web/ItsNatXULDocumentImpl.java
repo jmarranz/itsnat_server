@@ -20,7 +20,7 @@ import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.comp.mgr.web.ItsNatXULDocComponentManagerImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.template.otherns.ItsNatXULDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatXULDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 
 /**

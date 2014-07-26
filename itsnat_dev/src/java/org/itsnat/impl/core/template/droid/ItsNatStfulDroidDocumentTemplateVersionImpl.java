@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template;
+package org.itsnat.impl.core.template.droid;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -24,6 +24,9 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

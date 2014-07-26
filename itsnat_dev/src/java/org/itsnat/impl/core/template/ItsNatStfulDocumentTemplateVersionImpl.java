@@ -16,12 +16,13 @@
 
 package org.itsnat.impl.core.template;
 
+import org.itsnat.impl.core.template.droid.ItsNatStfulDroidDocumentTemplateVersionImpl;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
-import org.itsnat.impl.core.template.html.ItsNatHTMLDocumentTemplateVersionImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.html.ItsNatHTMLDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;

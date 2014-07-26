@@ -23,7 +23,7 @@ import org.itsnat.impl.comp.mgr.web.ItsNatOtherNSDocComponentManagerImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.domutil.DefaultElementGroupManagerImpl;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

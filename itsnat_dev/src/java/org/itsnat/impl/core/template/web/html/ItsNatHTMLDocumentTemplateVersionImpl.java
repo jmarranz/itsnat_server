@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.html;
+package org.itsnat.impl.core.template.web.html;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -25,7 +25,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
-import org.itsnat.impl.core.template.ItsNatStfulWebDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.ItsNatStfulWebDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLDocument;

@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.otherns;
+package org.itsnat.impl.core.template.web.otherns;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;

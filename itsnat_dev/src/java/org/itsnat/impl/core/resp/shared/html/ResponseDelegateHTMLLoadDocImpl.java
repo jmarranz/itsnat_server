@@ -37,7 +37,7 @@ import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderPropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.PropertyImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.shared.*;
-import org.itsnat.impl.core.template.html.HTMLTemplateVersionDelegateImpl;
+import org.itsnat.impl.core.template.web.html.HTMLTemplateVersionDelegateImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
