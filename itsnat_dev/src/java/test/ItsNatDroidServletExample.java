@@ -15,8 +15,8 @@ import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
-import test.droid.TestDroidDocLoadListener;
-import test.droid.TestDroidGlobalEventListener;
+import test.droid.core.TestDroidCoreDocLoadListener;
+import test.droid.core.TestDroidGlobalEventListener;
 
 /**
  *
@@ -41,11 +41,16 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         
         ItsNatDocumentTemplate docTemplate;        
         
-        docTemplate = registerDocument("test_droid","android/layout",pathPrefix,pages); 
-        docTemplate.addItsNatServletRequestListener(new TestDroidDocLoadListener());
+        docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages); 
+        docTemplate.addItsNatServletRequestListener(new TestDroidCoreDocLoadListener());
         //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
         // docTemplate.setEventsEnabled(false);        
-        docTemplate.setFastLoadMode(false);        
+        docTemplate.setFastLoadMode(true);    
+        
+        
+        ItsNatDocFragmentTemplate docFragDesc;
+
+        docFragDesc = registerDocFragment("test_droid_core_fragment","android/layout",pathPrefix,pages);        
     }
   
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)

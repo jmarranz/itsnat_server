@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.os.AsyncTask;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.params.HttpConnectionParams;
@@ -52,7 +54,7 @@ public class EventSender
         return httpParamsRequest;
     }
 
-    public void requestSyncText(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
+    public void requestSync(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
     {
         ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
@@ -82,7 +84,7 @@ public class EventSender
         processResult(evt,status[0],result,false);
     }
 
-    public void requestAsyncText(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
+    public void requestAsync(EventGeneric evt, String servletPath, List<NameValuePair> params, long timeout)
     {
         ItsNatDocImpl itsNatDoc = evtManager.getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
@@ -94,7 +96,7 @@ public class EventSender
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
-        postTask.execute();
+        postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public void processResult(EventGeneric evt,StatusLine status,String result,boolean async)

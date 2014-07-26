@@ -75,6 +75,7 @@ public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplat
         return DOMUtilInternal.extractChildrenToDocFragment(parent);
     }
 
+    @Override
     protected boolean isElementValidForCaching(Element elem)
     {
         if (!super.isElementValidForCaching(elem))

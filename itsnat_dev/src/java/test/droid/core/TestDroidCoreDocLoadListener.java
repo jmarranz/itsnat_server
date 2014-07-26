@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package test.droid;
+package test.droid.core;
 
 
 import org.itsnat.core.ItsNatDocument;
@@ -12,10 +12,10 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 
 
-public class TestDroidDocLoadListener implements ItsNatServletRequestListener
+public class TestDroidCoreDocLoadListener implements ItsNatServletRequestListener
 {
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestDroidDocument((ItsNatDocument)request.getItsNatDocument(),request);
+        new TestDroidCoreDocument((ItsNatDocument)request.getItsNatDocument(),request);
     }
 }

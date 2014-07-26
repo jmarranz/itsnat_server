@@ -24,7 +24,6 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.template.html.ItsNatHTMLDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.otherns.ItsNatOtherNSDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.xml.ItsNatXMLDocFragmentTemplateImpl;

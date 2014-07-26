@@ -61,6 +61,7 @@ public class ItsNatOtherNSDocFragmentTemplateVersionImpl extends ItsNatDocFragme
         return new OtherNSTemplateVersionDelegateImpl(this);
     }
 
+    @Override
     public void cleanDOMPattern()
     {
         super.cleanDOMPattern();

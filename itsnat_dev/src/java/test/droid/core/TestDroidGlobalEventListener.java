@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package test.droid;
+package test.droid.core;
 
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;

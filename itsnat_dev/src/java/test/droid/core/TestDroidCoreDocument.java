@@ -3,20 +3,20 @@
  * and open the template in the editor.
  */
 
-package test.droid;
+package test.droid.core;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.w3c.dom.Element;
 
-public class TestDroidDocument implements Serializable
+public class TestDroidCoreDocument implements Serializable
 {
     protected ItsNatDocument itsNatDoc;
     protected Element elem;
 
 
-    public TestDroidDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
+    public TestDroidCoreDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {
         this.itsNatDoc = itsNatDoc;
 
@@ -24,7 +24,8 @@ public class TestDroidDocument implements Serializable
         new TestDroidEventTimeout(itsNatDoc);    
         new TestDroidServerException(itsNatDoc);
         new TestDroidClientException(itsNatDoc);        
-        new TestDroidNativeListeners(itsNatDoc);        
+        new TestDroidNativeListeners(itsNatDoc); 
+        new TestDroidXHR_ASYNC(itsNatDoc);
         new TestDroidViewInsertionAndSetAttributes(itsNatDoc);
         new TestDroidCustomViewInsertion(itsNatDoc);
         new TestDroidViewTreeInsertion(itsNatDoc);
@@ -33,7 +34,8 @@ public class TestDroidDocument implements Serializable
         new TestDroidTouchEvent(itsNatDoc);
         new TestDroidEventPreSendCode(itsNatDoc);
         new TestDroidParamTransport(itsNatDoc);
-        new TestDroidCapture(itsNatDoc);        
+        new TestDroidCapture(itsNatDoc);   
+        new TestDroidFragmentInsertion(itsNatDoc);
     }
 
 }

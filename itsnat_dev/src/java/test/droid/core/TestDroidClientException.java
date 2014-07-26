@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package test.droid;
+package test.droid.core;
 
 import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
@@ -19,20 +19,20 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestDroidServerException extends TestDroidBase implements EventListener
+public class TestDroidClientException extends TestDroidBase implements EventListener
 {
    
-    public TestDroidServerException(ItsNatDocument itsNatDoc)
+    public TestDroidClientException(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testServerExceptionId");       
+        Element testLauncher = getDocument().getElementById("testClientExceptionId");       
         ((EventTarget)testLauncher).addEventListener("touchstart", this, false);        
     }
     
     public void handleEvent(Event evt)
     {     
-        throw new RuntimeException("Test Exception from Server");       
+        itsNatDoc.addCodeToSend("BAD_CODE();");       
     }
     
 }

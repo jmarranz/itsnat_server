@@ -63,6 +63,7 @@ public class ItsNatXMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTe
         return new XMLTemplateVersionDelegateImpl(this);
     }
     
+    @Override
     public void cleanDOMPattern()
     {
         super.cleanDOMPattern();

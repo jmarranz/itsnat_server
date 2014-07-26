@@ -40,7 +40,7 @@ public class TestLayoutRemote
     private static void downloadLayoutRemote(final MainActivity act,final ItsNatDroidBrowser droidBrowser)
     {
         Toast.makeText(act, "DOWNLOADING", Toast.LENGTH_SHORT).show();
-        String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid";
+        String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_core";
 
         boolean testSSLSelfSignedAllowed = false;
         if (testSSLSelfSignedAllowed)

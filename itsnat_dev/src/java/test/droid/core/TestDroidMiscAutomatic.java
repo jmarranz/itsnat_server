@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package test.droid;
+package test.droid.core;
 
 import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;

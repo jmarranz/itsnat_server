@@ -1,10 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
-import android.os.StrictMode;
-
 import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
@@ -99,7 +96,7 @@ if (true)
     StrictMode.setThreadPolicy(policy);
 
     EventSender sender = new EventSender(this);
-    sender.requestSyncText(evt, servletPath, params, timeout);
+    sender.requestSync(evt, servletPath, params, timeout);
     return;
 }
 */
@@ -108,14 +105,15 @@ if (true)
         if (commMode == CommMode.XHR_SYNC)
         {
             EventSender sender = new EventSender(this);
-            sender.requestSyncText(evt, servletPath, params, timeout);
+            sender.requestSync(evt, servletPath, params, timeout);
         }
         else // XHR_ASYNC y XHR_ASYNC_HOLD
         {
-            if (commMode == CommMode.XHR_ASYNC_HOLD) this.holdEvt = evt;
+            if (commMode == CommMode.XHR_ASYNC_HOLD)
+                this.holdEvt = evt;
 
             EventSender sender = new EventSender(this);
-            sender.requestAsyncText(evt,servletPath,params,timeout);
+            sender.requestAsync(evt, servletPath, params, timeout);
         }
 
     }

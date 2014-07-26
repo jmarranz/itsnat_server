@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
@@ -171,7 +172,7 @@ public class PageRequestImpl implements PageRequest
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpContext, httpParamsRequest, httpParamsDefault,sslSelfSignedAllowed);
-        task.execute();
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public void processResponse(String url,String result)

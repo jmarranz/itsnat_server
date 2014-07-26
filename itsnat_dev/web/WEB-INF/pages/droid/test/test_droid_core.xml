@@ -72,6 +72,22 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <Button id="test_XHR_ASYNC_Id" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test XHR_ASYNC" />         
+        
+                <TextView id="test_XHR_ASYNC_text_Id"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:text="">
+                </TextView>        
+        
+        <TextView id="test_XHR_ASYNC_HiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        
         <Button id="testStyleAttrId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -166,6 +182,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />       
 
+        <Button id="testFragmentInsertionId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion" />         
+        
+        <TextView id="testFragmentInsertionHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
 
     </LinearLayout>
 </ScrollView>
