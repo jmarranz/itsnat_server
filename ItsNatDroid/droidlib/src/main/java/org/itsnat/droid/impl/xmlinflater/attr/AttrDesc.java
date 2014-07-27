@@ -84,6 +84,16 @@ public abstract class AttrDesc
         else return Integer.parseInt(attrValue);
     }
 
+    public static float getFloat(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            return ctx.getResources().getDimension(resId); // No hay getFloat
+        }
+        else return Float.parseFloat(attrValue);
+    }
+
     public static String getString(String attrValue, Context ctx)
     {
         if (isResource(attrValue))

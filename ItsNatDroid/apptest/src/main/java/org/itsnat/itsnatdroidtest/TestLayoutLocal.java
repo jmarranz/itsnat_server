@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest;
 import android.content.res.XmlResourceParser;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
@@ -90,7 +91,7 @@ public class TestLayoutLocal
                     }
                 });
 
-                TestXMLInflate.test((RelativeLayout) compiledView, (RelativeLayout) rootView);
+                TestXMLInflate.test((ScrollView) compiledView, (ScrollView) rootView);
             }
         });
 

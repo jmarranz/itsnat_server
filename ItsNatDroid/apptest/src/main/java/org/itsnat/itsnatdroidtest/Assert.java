@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -49,5 +50,13 @@ public class Assert
         {
             assertEquals(a_rules[i],b_rules[i]);
         }
+    }
+
+    public static void assertEqualsLinearLayoutLayoutParams(View a,View b)
+    {
+        LinearLayout.LayoutParams a_params = (LinearLayout.LayoutParams)a.getLayoutParams();
+        LinearLayout.LayoutParams b_params = (LinearLayout.LayoutParams)a.getLayoutParams();
+
+        assertEquals(a_params.gravity,b_params.gravity);
     }
 }

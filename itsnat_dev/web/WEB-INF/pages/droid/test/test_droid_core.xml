@@ -4,7 +4,7 @@
     android:fillViewport="true"
     android:orientation="vertical" >
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout 
                     xmlns:tools="http://schemas.android.com/tools"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -19,15 +19,13 @@
                 android:id="@id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="back"
-            />   
+                android:text="back" />   
          
         <Button id="buttonReload" 
                 android:id="@id/buttonReload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_label"
-            />    
+                android:text="@string/button_label" />    
 
         <!-- Just a test comment (will be filtered) -->        
         

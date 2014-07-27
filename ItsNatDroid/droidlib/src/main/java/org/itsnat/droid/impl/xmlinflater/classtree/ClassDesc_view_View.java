@@ -4,7 +4,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_height;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
@@ -34,6 +36,11 @@ public class ClassDesc_view_View extends ClassDescViewBased
         // Debidos a ViewGroup
         addAttrDesc(new AttrDesc_view_View_layout_width(this));
         addAttrDesc(new AttrDesc_view_View_layout_height(this));
+
+        // Debidos a LinearLayout
+        addAttrDesc(new AttrDesc_view_View_layout_gravity(this));
+        addAttrDesc(new AttrDesc_view_View_layout_weight(this));
+
 
         // Debidos a RelativeLayout
         addAttrDesc(new AttrDesc_view_View_layout_alignParentTop(this));

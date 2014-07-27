@@ -5,6 +5,8 @@
     <string name="hello_world1">Hello world 1!</string>
     <string name="hello_world2">Hello world 2!</string>
     <string name="hello_world3">Hello world 3 Custom!</string>
+    <string name="hello_world4">Hello world 4!</string>
+    <string name="hello_world5">Hello world 5!</string>
     <string name="action_settings">Settings</string>
     <string name="button_label">RELOAD</string>
 
