@@ -35,6 +35,8 @@ import org.xml.sax.InputSource;
  */
 public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplateVersionImpl
 {
+    protected DocumentFragment templateDocFragment; // Se utilizará para el contenido del <body> en el caso HTML (no para el <head>)
+    
     /**
      * Creates a new instance of ItsNatDocFragmentTemplateVersionImpl
      */
@@ -43,6 +45,8 @@ public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplat
         super(docTemplate,source,timeStamp,request,response);
 
         doCacheAndNormalizeDocument();
+        
+        this.templateDocFragment = extractChildrenToDocFragment(getContainerElement());        
     }
 
     public ItsNatDocFragmentTemplateImpl getItsNatDocFragmentTemplate()
@@ -50,6 +54,13 @@ public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplat
         return (ItsNatDocFragmentTemplateImpl)markupTemplate;
     }
 
+    public abstract Element getContainerElement();
+    
+    public DocumentFragment loadDocumentFragment(MarkupContainerImpl target)
+    {
+        return loadDocumentFragment(templateDocFragment,target); // Por defecto el <body>
+    }        
+    
     public DocumentFragment loadDocumentFragment(DocumentFragment cachedDocFrament,MarkupContainerImpl target)
     {
         // Es una falsa carga, es un clonado pues importNode hace un clonado (está documentado)
@@ -62,9 +73,10 @@ public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplat
         return (DocumentFragment)docTarget.importNode(cachedDocFrament,true);
     }
 
-    public abstract DocumentFragment loadDocumentFragment(MarkupContainerImpl target);
-    public abstract DocumentFragment loadDocumentFragmentByIncludeTag(MarkupContainerImpl target,Element includeElem);
-
+    public DocumentFragment loadDocumentFragmentByIncludeTag(MarkupContainerImpl target,Element includeElem)
+    {
+        return loadDocumentFragment(target);
+    }    
 
     public DocumentFragment extractChildrenToDocFragment(Element parent)
     {
@@ -155,4 +167,13 @@ public abstract class ItsNatDocFragmentTemplateVersionImpl extends MarkupTemplat
         MarkupSourceImpl source = getItsNatDocFragmentTemplate().getMarkupSource();
         return isInvalid(source,request,response);
     }
+    
+    
+    @Override
+    public void cleanDOMPattern()
+    {
+        super.cleanDOMPattern();
+
+        this.templateDocFragment = null;
+    }    
 }

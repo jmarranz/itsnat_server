@@ -24,6 +24,7 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
+import org.itsnat.impl.core.template.droid.ItsNatDroidDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.web.html.ItsNatHTMLDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.web.otherns.ItsNatOtherNSDocFragmentTemplateImpl;
 import org.itsnat.impl.core.template.xml.ItsNatXMLDocFragmentTemplateImpl;
@@ -51,6 +52,8 @@ public abstract class ItsNatDocFragmentTemplateImpl extends MarkupTemplateImpl i
             return new ItsNatHTMLDocFragmentTemplateImpl(name,mime,markupSource,servlet);
         else if (NamespaceUtil.isOtherNSMime(mime))
             return new ItsNatOtherNSDocFragmentTemplateImpl(name,mime,markupSource,servlet);
+        else if (NamespaceUtil.isAndroidLayoutMime(mime))
+            return new ItsNatDroidDocFragmentTemplateImpl(name,mime,markupSource,servlet);        
         else
             return new ItsNatXMLDocFragmentTemplateImpl(name,mime,markupSource,servlet);
     }

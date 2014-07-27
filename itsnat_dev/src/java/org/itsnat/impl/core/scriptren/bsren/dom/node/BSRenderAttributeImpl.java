@@ -124,7 +124,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         int i = 0;
         for(Attr attr : attrList)
         {
-            String name = attr.getName();
+            String name = attr.getLocalName(); // Usamos getLocalName() y no getName() porque el namespace va aparte como dato y no tiene sentido prefix
             String bsValue = toBSAttrValue(attr,elem,clientDoc);
             attrNameArr.append("\"" + name + "\"");
             attrValueArr.append(bsValue);

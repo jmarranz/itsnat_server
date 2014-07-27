@@ -36,7 +36,6 @@ import org.xml.sax.InputSource;
 public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragmentTemplateVersionImpl
 {
     protected DocumentFragment templateDocFragmentHead;
-    protected DocumentFragment templateDocFragmentBody;
 
     /**
      * Creates a new instance of ItsNatHTMLDocFragmentTemplateVersionImpl
@@ -46,19 +45,22 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragme
         super(docTemplate,source,timeStamp,request,response);
 
         HTMLDocument templateHtmlDoc = (HTMLDocument)getDocument();
-
         HTMLHeadElement head = DOMUtilHTML.getHTMLHead(templateHtmlDoc);
-        HTMLBodyElement body = (HTMLBodyElement)templateHtmlDoc.getBody();
 
         // Tenemos la seguridad de que hay <head> y <body> pues el parser normaliza siempre el HTML incluyéndolos
         // y el <html> NO se cachea.
-        // Hay que recordar que tras el crear el DocumentFragment el <head> y el <body> quedan vacíos.
+        // Hay que recordar que tras el crear el DocumentFragment el <head> y el <body> quedan vacíos.        
         this.templateDocFragmentHead = extractChildrenToDocFragment(head);
-        this.templateDocFragmentBody = extractChildrenToDocFragment(body);
 
         this.templateDoc = null; // Para evitar que se use
     }
 
+    public Element getContainerElement()
+    {
+        HTMLDocument templateHtmlDoc = (HTMLDocument)getDocument();
+        return (HTMLBodyElement)templateHtmlDoc.getBody();        
+    }
+    
     public HTMLTemplateVersionDelegateImpl getHTMLTemplateVersionDelegate()
     {
         return (HTMLTemplateVersionDelegateImpl)templateDelegate;
@@ -96,20 +98,18 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragme
 
     public DocumentFragment loadDocumentFragmentBody(MarkupContainerImpl target)
     {
-        return loadDocumentFragment(templateDocFragmentBody,target);
+        return loadDocumentFragment(target);
     }
 
-    public DocumentFragment loadDocumentFragment(MarkupContainerImpl target)
-    {
-        return loadDocumentFragmentBody(target);
-    }
 
+
+    @Override
     public DocumentFragment loadDocumentFragmentByIncludeTag(MarkupContainerImpl target,Element includeElem)
     {
         if (DOMUtilHTML.isChildOfHTMLHead(includeElem)) // El elemento a substituir está en el <head>
             return loadDocumentFragmentHead(target);
         else // Está en el <body> (DEBE de estar ahí) o bien es un namespace no X/HTML en el que insertar elementos de <head> no suele tener sentido
-            return loadDocumentFragmentBody(target);
+            return loadDocumentFragment(target);
     }
     
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
@@ -123,6 +123,5 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragme
         super.cleanDOMPattern();
 
         this.templateDocFragmentHead = null;
-        this.templateDocFragmentBody = null;
     }
 }

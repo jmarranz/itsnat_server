@@ -185,7 +185,7 @@
         <Button id="testFragmentInsertionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion" />         
+                android:text="Test Fragment Insertion" />                
         
         <TextView id="testFragmentInsertionHiddenId" 
                 android:layout_width="0dp"

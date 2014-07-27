@@ -14,44 +14,44 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.template.web.otherns;
+package org.itsnat.impl.core.template.droid;
 
+import org.itsnat.impl.core.template.xml.*;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
-import org.itsnat.impl.core.MarkupContainerImpl;
-import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateVersionImpl;
-import org.w3c.dom.DocumentFragment;
+import org.itsnat.impl.core.template.ItsNatDocFragmentTemplateVersionImpl;
 import org.w3c.dom.Element;
-import org.w3c.dom.html.HTMLBodyElement;
-import org.w3c.dom.html.HTMLDocument;
 import org.xml.sax.InputSource;
 
 /**
  *
  * @author jmarranz
  */
-public class ItsNatOtherNSDocFragmentTemplateVersionImpl extends ItsNatWebDocFragmentTemplateVersionImpl
+public class ItsNatDroidDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
 {
+
     /**
-     * Creates a new instance of ItsNatOtherNSDocFragmentTemplateVersionImpl
+     * Creates a new instance of ItsNatDroidDocFragmentTemplateVersionImpl
      */
-    public ItsNatOtherNSDocFragmentTemplateVersionImpl(ItsNatOtherNSDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
+    public ItsNatDroidDocFragmentTemplateVersionImpl(ItsNatDroidDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         super(docTemplate,source,timeStamp,request,response);
 
-        // Hay que recordar que tras el crear el DocumentFragment el root queda vacío.
         this.templateDoc = null; // Para que no se vuelva a usar y para salvar memoria
     }
 
     public Element getContainerElement()
     {
+        // El nodo padre puede ser cualquiera, por ejemplo <root>
+        // son los nodos hijos los que constituyen el fragmento
+        // Hay que recordar que tras el crear el DocumentFragment el root queda vacío.        
         return getDocument().getDocumentElement();       
-    }
-        
+    }    
+
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
-        return new OtherNSTemplateVersionDelegateImpl(this);
+        return new StfulDroidTemplateVersionDelegateImpl(this);
     }
 
 }

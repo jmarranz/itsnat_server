@@ -14,6 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
+package org.itsnat.impl.core.template.droid;
 
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;

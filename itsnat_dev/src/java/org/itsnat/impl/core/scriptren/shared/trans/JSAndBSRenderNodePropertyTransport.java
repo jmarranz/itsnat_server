@@ -39,6 +39,7 @@ public class JSAndBSRenderNodePropertyTransport extends JSAndBSRenderSingleParam
 
     public String getCodeToSend(ParamTransport param,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        // En teoría podríamos soportar Droid pero para qué obtener el valor de un atributo de View si todos son métodos...
         if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl) throw new ItsNatException("Not supported in ItsNat Droid");
         
         NodePropertyTransport item = (NodePropertyTransport)param;
