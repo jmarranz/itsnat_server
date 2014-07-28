@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;

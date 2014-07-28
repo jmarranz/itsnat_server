@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescCharSequence;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textSize;
 
@@ -19,9 +20,9 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescCharSequence(this, "text"));
+        addAttrDesc(new AttrDesc_widget_TextView_gravity(this));
         addAttrDesc(new AttrDesc_widget_TextView_textSize(this)); // textSize
         addAttrDesc(new AttrDesc_widget_TextView_textAppearance(this)); // "textAppearance"
-
     }
 }
 

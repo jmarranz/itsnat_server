@@ -7,6 +7,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import static org.itsnat.itsnatdroidtest.Assert.*;
+import static org.itsnat.itsnatdroidtest.Assert.assertEquals;
 
 
 /**
@@ -47,20 +48,17 @@ public class TestXMLInflate
             RelativeLayout compRelLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedRelLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
-                int childCountLevel2 = 0;
 
-                TextView compTextView1 = (TextView) compRelLayout.getChildAt(childCountLevel2);
-                TextView parsedTextView1 = (TextView) parsedRelLayout.getChildAt(childCountLevel2);
+                TextView compTextView1 = (TextView) compRelLayout.getChildAt(0);
+                TextView parsedTextView1 = (TextView) parsedRelLayout.getChildAt(0);
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
                 assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
                 assertEqualsRelativeLayoutLayoutParams(compTextView1, parsedTextView1);
 
-                childCountLevel2++;
-
-                TextView compTextView2 = (TextView) compRelLayout.getChildAt(childCountLevel2);
-                TextView parsedTextView2 = (TextView) parsedRelLayout.getChildAt(childCountLevel2);
+                TextView compTextView2 = (TextView) compRelLayout.getChildAt(1);
+                TextView parsedTextView2 = (TextView) parsedRelLayout.getChildAt(1);
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
@@ -87,18 +85,14 @@ public class TestXMLInflate
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             {
-                int childCountLevel2 = 0;
-
-                TextView compTextView1 = (TextView) compLinLayout.getChildAt(childCountLevel2);
-                TextView parsedTextView1 = (TextView) parsedLinLayout.getChildAt(childCountLevel2);
+                TextView compTextView1 = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView1 = (TextView) parsedLinLayout.getChildAt(0);
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
                 assertEqualsLinearLayoutLayoutParams(compTextView1, compTextView1);
 
-                childCountLevel2++;
-
-                TextView compTextView2 = (TextView) compLinLayout.getChildAt(childCountLevel2);
-                TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(childCountLevel2);
+                TextView compTextView2 = (TextView) compLinLayout.getChildAt(1);
+                TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(1);
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
                 assertEqualsLinearLayoutLayoutParams(compTextView2, parsedTextView2);
@@ -112,13 +106,26 @@ public class TestXMLInflate
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             {
-                int childCountLevel2 = 0;
-
-                TextView compTextView = (TextView) compLinLayout.getChildAt(childCountLevel2);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(childCountLevel2);
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
                 assertEqualsViewGroupMarginLayoutParams(compTextView, parsedTextView);
+            }
+        }
+
+        childCount++;
+
+        // Test LinearLayout gravity
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            {
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                assertEquals(compTextView.getGravity(), parsedTextView.getGravity());
             }
         }
     }

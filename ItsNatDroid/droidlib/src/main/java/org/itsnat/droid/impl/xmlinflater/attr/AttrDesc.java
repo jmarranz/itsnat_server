@@ -13,6 +13,8 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.util.ValueUtil;
 
+import java.util.Map;
+
 /**
  * Created by jmarranz on 30/04/14.
  */
@@ -209,6 +211,24 @@ public abstract class AttrDesc
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue);
+    }
+
+    protected static int parseNameComposition(String value,Map<String,Integer> valueMap)
+    {
+        String[] names = value.split("\\|");
+        int res = 0;
+        for(int i = 0; i < names.length; i++)
+        {
+            // No hace falta hacer trim, los espacios dan error
+            String name = names[i];
+            Integer valueInt = valueMap.get(name);
+            if (valueInt == null)
+                throw new ItsNatDroidException("Unknown name " + name + " for attribute");
+
+            res |= valueInt;
+        }
+
+        return res;
     }
 
     public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess);

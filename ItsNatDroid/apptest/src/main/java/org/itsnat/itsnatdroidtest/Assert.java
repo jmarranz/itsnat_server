@@ -15,6 +15,11 @@ import org.itsnat.droid.ItsNatDroidException;
  */
 public class Assert
 {
+    public static void assertTrue(boolean a)
+    {
+        if (!a) throw new ItsNatDroidException("Failed");
+    }
+
     public static void assertEquals(int a,int b)
     {
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");

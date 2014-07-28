@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orientation;
 
 /**
@@ -16,6 +17,8 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
     {
         super.init();
 
+
+        addAttrDesc(new AttrDesc_widget_LinearLayout_gravity(this)); // "gravity"
         addAttrDesc(new AttrDesc_widget_LinearLayout_orientation(this)); // "orientation"
     }
 }
