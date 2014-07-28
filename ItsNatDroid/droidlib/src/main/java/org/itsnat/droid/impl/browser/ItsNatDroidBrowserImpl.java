@@ -8,6 +8,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
@@ -85,6 +86,11 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         HttpConnectionParams.setConnectionTimeout(httpParams, 5000);
 
         return httpParams;
+    }
+
+    public ItsNatDroid getItsNatDroid()
+    {
+        return getItsNatDroidImpl();
     }
 
     public ItsNatDroidImpl getItsNatDroidImpl()

@@ -8,14 +8,14 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescCharSequence extends AttrDescReflection
+public class AttrDescReflecCharSequence extends AttrDescReflection
 {
-    public AttrDescCharSequence(ClassDescViewBased parent, String name, String methodName)
+    public AttrDescReflecCharSequence(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name,methodName);
     }
 
-    public AttrDescCharSequence(ClassDescViewBased parent, String name)
+    public AttrDescReflecCharSequence(ClassDescViewBased parent, String name)
     {
         super(parent,name);
     }

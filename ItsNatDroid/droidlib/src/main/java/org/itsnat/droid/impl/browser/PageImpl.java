@@ -9,6 +9,7 @@ import org.itsnat.droid.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDoc;
+import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.ItsNatView;
@@ -79,6 +80,12 @@ public class PageImpl implements Page
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
         return pageRequest.getItsNatDroidBrowserImpl();
+    }
+
+    @Override
+    public ItsNatDroidBrowser getItsNatDroidBrowser()
+    {
+        return getItsNatDroidBrowserImpl();
     }
 
     @Override

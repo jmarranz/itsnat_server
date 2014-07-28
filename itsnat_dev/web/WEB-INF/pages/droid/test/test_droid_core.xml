@@ -189,5 +189,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
 
+        <Button id="testContinueEvtListenerId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Continue Event Listener" />                
+        
+        <TextView id="testContinueEvtListenerHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
     </LinearLayout>
 </ScrollView>

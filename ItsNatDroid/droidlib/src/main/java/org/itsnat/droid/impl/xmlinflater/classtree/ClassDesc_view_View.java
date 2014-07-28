@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_gravity;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
@@ -31,7 +30,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
+        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));

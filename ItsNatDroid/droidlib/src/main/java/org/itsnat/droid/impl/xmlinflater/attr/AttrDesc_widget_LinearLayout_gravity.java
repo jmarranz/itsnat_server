@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
@@ -19,7 +18,7 @@ public class AttrDesc_widget_LinearLayout_gravity extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int valueInt = parseNameComposition(value,AttrDescGravityUtil.valueMap);
+        int valueInt = parseMultipleName(value, AttrDescGravityUtil.valueMap);
 
         ((LinearLayout)view).setGravity(valueInt);
     }

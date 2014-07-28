@@ -20,10 +20,10 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestDroidXHR_ASYNC extends TestDroidBase implements EventListener
+public class TestDroid_XHR_ASYNC extends TestDroidBase implements EventListener
 {
    
-    public TestDroidXHR_ASYNC(ItsNatDocument itsNatDoc)
+    public TestDroid_XHR_ASYNC(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 

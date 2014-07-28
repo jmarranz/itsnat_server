@@ -9,14 +9,14 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescDrawable extends AttrDescReflection
+public class AttrDescReflecDrawable extends AttrDescReflection
 {
-    public AttrDescDrawable(ClassDescViewBased parent, String name, String methodName)
+    public AttrDescReflecDrawable(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name,methodName);
     }
 
-    public AttrDescDrawable(ClassDescViewBased parent, String name)
+    public AttrDescReflecDrawable(ClassDescViewBased parent, String name)
     {
         super(parent, name);
     }

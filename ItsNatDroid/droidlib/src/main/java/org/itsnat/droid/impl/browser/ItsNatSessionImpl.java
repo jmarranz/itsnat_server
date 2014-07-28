@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
+import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.Page;
@@ -28,6 +29,11 @@ public class ItsNatSessionImpl implements ItsNatSession
         this.stdSessionId = stdSessionId;
         this.token = token;
         this.id = id;
+    }
+
+    public ItsNatDroidBrowser getItsNatDroidBrowser()
+    {
+        return browser;
     }
 
     public String getStandardSessionId()

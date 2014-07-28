@@ -40,7 +40,7 @@ public abstract class NormalEventListener extends EventStfulListener
         return id;
     }
 
-    public void dispatchEvent(View view,NormalEvent evtWrapper)
+    public void dispatchEvent(NormalEvent evtWrapper)
     {
         if (customFunc != null) customFunc.exec(evtWrapper);
         evtWrapper.sendEvent();

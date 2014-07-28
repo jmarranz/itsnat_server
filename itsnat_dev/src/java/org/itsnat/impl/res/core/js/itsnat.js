@@ -16,6 +16,7 @@ function pkg_itsnat(pkg)
     pkg.NormalEvent = NormalEvent;
     pkg.DOMEvent = DOMEvent;
     pkg.DOMStdEvent = DOMStdEvent;
+    pkg.DOMExtEvent = DOMExtEvent;
     pkg.UserEvent = UserEvent;
     pkg.AttachTimerRefreshEvent = AttachTimerRefreshEvent;
     pkg.AttachCometTaskRefreshEvent = AttachCometTaskRefreshEvent;
@@ -746,6 +747,12 @@ function DOMStdEvent(evt,listener)
     }
 }
 
+function DOMExtEvent(listener)
+{
+    this.DOMEvent = DOMEvent;
+    this.DOMEvent(listener);
+}
+    
 function UserEvent(evt,listener)
 {
     this.DOMEvent = DOMEvent;
@@ -1061,7 +1068,7 @@ function TimerEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeo
 
     function getHandle() { return this.handle; }
     function setHandle(handle) { this.handle = handle; }
-    function createEventWrapper(evt) { return new DOMEvent(this); }
+    function createEventWrapper(evt) { return new DOMExtEvent(this); }
 }
 
 function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
@@ -1071,7 +1078,7 @@ function ContinueEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,ti
 
     this.createEventWrapper = createEventWrapper;
 
-    function createEventWrapper(evt) { return new DOMEvent(this); }
+    function createEventWrapper(evt) { return new DOMExtEvent(this); }
 }
 
 function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,timeout)
@@ -1081,7 +1088,7 @@ function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,t
 
     this.createEventWrapper = createEventWrapper;
 
-    function createEventWrapper(evt) { return new DOMEvent(this); }
+    function createEventWrapper(evt) { return new DOMExtEvent(this); }
 }
 
 function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
@@ -1091,7 +1098,7 @@ function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
 
     this.createEventWrapper = createEventWrapper;
 
-    function createEventWrapper(evt) { return new DOMEvent(this); }
+    function createEventWrapper(evt) { return new DOMExtEvent(this); }
 }
 
 function EventStatelessListener(itsNatDoc,commMode,timeout)

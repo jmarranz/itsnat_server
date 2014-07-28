@@ -9,6 +9,7 @@ import org.apache.http.params.HttpParams;
  */
 public interface ItsNatDroidBrowser
 {
+    public ItsNatDroid getItsNatDroid();
     public HttpParams getHttpParams();
     public void setHttpParams(HttpParams httpParams);
     public PageRequest createPageRequest();

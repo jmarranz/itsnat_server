@@ -5,12 +5,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -24,7 +20,7 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int valueInt = parseNameComposition(value,AttrDescGravityUtil.valueMap);
+        int valueInt = parseMultipleName(value, AttrDescGravityUtil.valueMap);
 
         // Objetos LayoutParams diferentes pero mismos valores: http://developer.android.com/reference/android/R.attr.html#layout_gravity
         ViewGroup.LayoutParams params = view.getLayoutParams();

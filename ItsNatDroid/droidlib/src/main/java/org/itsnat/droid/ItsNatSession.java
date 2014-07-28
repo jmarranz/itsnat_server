@@ -1,5 +1,7 @@
 package org.itsnat.droid;
 
+import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+
 import java.util.List;
 
 /**
@@ -7,6 +9,7 @@ import java.util.List;
  */
 public interface ItsNatSession
 {
+    public ItsNatDroidBrowser getItsNatDroidBrowser();
     public String getId();
     public int getPageCount();
     public List<Page> getPageList();

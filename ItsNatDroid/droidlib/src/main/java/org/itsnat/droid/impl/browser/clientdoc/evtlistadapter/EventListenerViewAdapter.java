@@ -59,7 +59,7 @@ public abstract class EventListenerViewAdapter
             {
                 evtWrapper.setEventPhase(eventPhase);
                 evtWrapper.setViewTarget(viewTarget);
-                listener.dispatchEvent(view, evtWrapper);
+                listener.dispatchEvent(evtWrapper);
             }
             catch(Exception ex)
             {

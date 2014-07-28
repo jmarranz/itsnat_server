@@ -6,6 +6,7 @@ import android.view.ViewParent;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
@@ -32,6 +33,12 @@ public class InflatedLayoutImpl implements InflatedLayout
     public XMLLayoutInflateService getXMLLayoutInflateService()
     {
         return parent.getXMLLayoutInflateService();
+    }
+
+    @Override
+    public ItsNatDroid getItsNatDroid()
+    {
+        return parent;
     }
 
     @Override

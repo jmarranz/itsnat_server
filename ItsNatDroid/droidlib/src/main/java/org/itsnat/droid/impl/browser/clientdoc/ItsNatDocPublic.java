@@ -58,5 +58,5 @@ public interface ItsNatDocPublic
     public void addGlobalEL(GlobalEventListener listener);
     public void removeGlobalEL(GlobalEventListener listener);
 
-
+    public void sendContinueEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout);
 }

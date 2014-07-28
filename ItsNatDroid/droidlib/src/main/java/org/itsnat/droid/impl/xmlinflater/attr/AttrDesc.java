@@ -213,7 +213,7 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    protected static int parseNameComposition(String value,Map<String,Integer> valueMap)
+    protected static int parseMultipleName(String value, Map<String, Integer> valueMap)
     {
         String[] names = value.split("\\|");
         int res = 0;

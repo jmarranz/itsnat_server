@@ -12,9 +12,12 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -618,11 +621,19 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void addGlobalEL(GlobalEventListener listener)
     {
+        // Por ahora no se usa pero por imitación del Web...
         if (globalEventListeners == null) this.globalEventListeners = new LinkedList<GlobalEventListener>();
         globalEventListeners.add(listener);
     }
 
     public void removeGlobalEL(GlobalEventListener listener) { globalEventListeners.remove(listener); }
 
-
+    public void sendContinueEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)
+    {
+        Node currTarget = getNode(idObj); // idObj puede ser nulo
+        View currTargetView = currTarget != null ? currTarget.getView() : null;
+        ContinueEventListener listenerWrapper = new ContinueEventListener(this,currTargetView,customFunc,listenerId,commMode,timeout);
+        DOMExtEvent evtWrapper = (DOMExtEvent)listenerWrapper.createEventWrapper(null);
+        listenerWrapper.dispatchEvent(evtWrapper);
+    }
 }

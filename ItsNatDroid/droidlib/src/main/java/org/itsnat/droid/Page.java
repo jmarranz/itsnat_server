@@ -10,6 +10,7 @@ import org.apache.http.params.HttpParams;
  */
 public interface Page
 {
+    public ItsNatDroidBrowser getItsNatDroidBrowser();
     public String getURL();
     public String getId();
     public View getRootView();

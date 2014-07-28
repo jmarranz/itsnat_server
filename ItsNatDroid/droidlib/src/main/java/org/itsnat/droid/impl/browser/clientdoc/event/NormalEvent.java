@@ -29,7 +29,7 @@ public class NormalEvent extends EventStful
         return (NormalEventListener)listener;
     }
 
-    public View getView()
+    public View getCurrentTarget()
     {
         return getNormalEventListener().getView();
     }
