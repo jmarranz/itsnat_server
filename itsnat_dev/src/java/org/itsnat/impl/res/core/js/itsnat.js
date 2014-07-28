@@ -14,7 +14,6 @@ function pkg_itsnat(pkg)
     pkg.TransportUtil = new TransportUtil(); // SINGLETON    
     pkg.EventGeneric = EventGeneric;
     pkg.NormalEvent = NormalEvent;
-    pkg.DOMEvent = DOMEvent;
     pkg.DOMStdEvent = DOMStdEvent;
     pkg.DOMExtEvent = DOMExtEvent;
     pkg.UserEvent = UserEvent;
@@ -716,16 +715,11 @@ function NormalEvent(listener)
     }    
 }
 
-function DOMEvent(listener)
-{
-    this.NormalEvent = NormalEvent;
-    this.NormalEvent(listener);
-}
 
 function DOMStdEvent(evt,listener)
 {
-    this.DOMEvent = DOMEvent;
-    this.DOMEvent(listener);
+    this.NormalEvent = NormalEvent;
+    this.NormalEvent(listener);
 
     this.getNativeEvent = getNativeEvent;
     this.saveEvent = saveEvent;
@@ -749,14 +743,14 @@ function DOMStdEvent(evt,listener)
 
 function DOMExtEvent(listener)
 {
-    this.DOMEvent = DOMEvent;
-    this.DOMEvent(listener);
+    this.NormalEvent = NormalEvent;
+    this.NormalEvent(listener);
 }
     
 function UserEvent(evt,listener)
 {
-    this.DOMEvent = DOMEvent;
-    this.DOMEvent(listener);
+    this.DOMExtEvent = DOMExtEvent;
+    this.DOMExtEvent(listener);
 
     if ((evt != null) && (evt.extraParams != null)) // evt es un UserEventPublic
         for(var name in evt.extraParams)
@@ -988,22 +982,17 @@ function NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,com
     }        
 }
 
-function DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
-{
-    this.NormalEventListener = NormalEventListener;
-    this.NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
-}
 
 function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCapture,commMode,timeout,eventGroupCode)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
+    this.NormalEventListener = NormalEventListener;
+    this.NormalEventListener(itsNatDoc,"domstd",currentTarget,customFunc,id,commMode,timeout);
 
     this.getType = getType;
     this.isUseCapture = isUseCapture;
     this.getEventGroupCode = getEventGroupCode;
     this.getEventUtil = getEventUtil;
-    this.DOMEventListener_genParamURL = this.genParamURL;
+    this.NormalEventListener_genParamURL = this.genParamURL;
     this.genParamURL = genParamURL;
     this.createEventWrapper = createEventWrapper;
 
@@ -1020,7 +1009,7 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
 
     function genParamURL(evt)
     {
-        var url = this.DOMEventListener_genParamURL(evt);
+        var url = this.NormalEventListener_genParamURL(evt);
         url += "&itsnat_evt_type=" + this.type;
         url += this.evtUtil.genParamURL(evt.getNativeEvent(),this.itsNatDoc);
         return url;
@@ -1035,8 +1024,8 @@ function DOMStdEventListener(itsNatDoc,currentTarget,type,customFunc,id,useCaptu
 
 function DOMExtEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout)
 {
-    this.DOMEventListener = DOMEventListener;
-    this.DOMEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
+    this.NormalEventListener = NormalEventListener;
+    this.NormalEventListener(itsNatDoc,eventType,currentTarget,customFunc,id,commMode,timeout);
 }
 
 function UserEventListener(itsNatDoc,currentTarget,name,customFunc,id,commMode,timeout)
