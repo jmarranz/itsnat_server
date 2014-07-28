@@ -86,6 +86,7 @@ public abstract class AttrDesc
 
     public static float getFloat(String attrValue, Context ctx)
     {
+        // Ojo, para valores sin sufijo de dimensión (por ej layout_weight)
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);

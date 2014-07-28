@@ -21,7 +21,7 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
 import org.itsnat.impl.core.MarkupContainerImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
-import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.ItsNatWebOnlyDocFragmentTemplateVersionImpl;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLBodyElement;
@@ -33,7 +33,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebDocFragmentTemplateVersionImpl
+public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebOnlyDocFragmentTemplateVersionImpl
 {
     protected DocumentFragment templateDocFragmentHead;
 

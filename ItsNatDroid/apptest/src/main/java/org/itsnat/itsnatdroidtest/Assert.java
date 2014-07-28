@@ -3,6 +3,8 @@ package org.itsnat.itsnatdroidtest;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -42,7 +44,7 @@ public class Assert
     public static void assertEqualsRelativeLayoutLayoutParams(View a,View b)
     {
         RelativeLayout.LayoutParams a_params = (RelativeLayout.LayoutParams)a.getLayoutParams();
-        RelativeLayout.LayoutParams b_params = (RelativeLayout.LayoutParams)a.getLayoutParams();
+        RelativeLayout.LayoutParams b_params = (RelativeLayout.LayoutParams)b.getLayoutParams();
         int[] a_rules = a_params.getRules();
         int[] b_rules = a_params.getRules();
         assertEquals(a_rules.length,b_rules.length);
@@ -55,8 +57,20 @@ public class Assert
     public static void assertEqualsLinearLayoutLayoutParams(View a,View b)
     {
         LinearLayout.LayoutParams a_params = (LinearLayout.LayoutParams)a.getLayoutParams();
-        LinearLayout.LayoutParams b_params = (LinearLayout.LayoutParams)a.getLayoutParams();
+        LinearLayout.LayoutParams b_params = (LinearLayout.LayoutParams)b.getLayoutParams();
 
         assertEquals(a_params.gravity,b_params.gravity);
+        assertEquals(a_params.weight,b_params.weight);
+    }
+
+    public static void assertEqualsViewGroupMarginLayoutParams(View a, View b)
+    {
+        ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams)a.getLayoutParams();
+        ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams)b.getLayoutParams();
+
+        assertEquals(a_params.topMargin,b_params.topMargin);
+        assertEquals(a_params.leftMargin,b_params.leftMargin);
+        assertEquals(a_params.bottomMargin,b_params.bottomMargin);
+        assertEquals(a_params.rightMargin,b_params.rightMargin);
     }
 }

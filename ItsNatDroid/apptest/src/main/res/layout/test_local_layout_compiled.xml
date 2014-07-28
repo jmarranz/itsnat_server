@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_label" />
 
+        <!-- Testing misc attribs -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -45,24 +46,24 @@
                       android:layout_below="@id/textViewTest1" />
         </RelativeLayout>
 
+        <!-- Testing custom view class -->
         <org.itsnat.itsnatdroidtest.CustomTextView
-            android:id="@id/textViewTest3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world3"
+            android:text="Test Custom View"
             android:background="#ffdddd"/>
 
-
+        <!-- Testing layout_gravity y layout_weight -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#dddddd"
             android:orientation="horizontal">
-            <!-- Testing layout_gravity y layout_weight -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_world4"
+                android:text="Test layout_gravity 1"
                 android:background="#aaaaaa"
                 android:layout_gravity="top"
                 android:layout_weight="70"/>
@@ -70,10 +71,36 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hello_world5"
+                android:text="Test layout_gravity 2"
                 android:background="#aaaaaa"
                 android:layout_gravity="bottom"
                 android:layout_weight="30"/>
+
+        </LinearLayout>
+
+        <!-- Test margins -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="0dp"
+                android:text="Test Margins 1"
+                android:background="#aaaaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Test Margins 2"
+                android:background="#aaaaaa"/>
 
         </LinearLayout>
     </LinearLayout>

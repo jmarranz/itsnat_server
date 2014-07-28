@@ -25,12 +25,12 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public abstract class ItsNatWebDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
+public abstract class ItsNatWebOnlyDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
 {
     /**
      * Creates a new instance of ItsNatXMLDocFragmentTemplateVersionImpl
      */
-    public ItsNatWebDocFragmentTemplateVersionImpl(ItsNatWebDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
+    public ItsNatWebOnlyDocFragmentTemplateVersionImpl(ItsNatWebOnlyDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         super(docTemplate,source,timeStamp,request,response);
     }

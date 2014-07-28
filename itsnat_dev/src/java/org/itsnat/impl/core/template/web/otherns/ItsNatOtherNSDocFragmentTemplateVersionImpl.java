@@ -20,7 +20,7 @@ import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
 import org.itsnat.impl.core.MarkupContainerImpl;
-import org.itsnat.impl.core.template.web.ItsNatWebDocFragmentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.ItsNatWebOnlyDocFragmentTemplateVersionImpl;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLBodyElement;
@@ -31,7 +31,7 @@ import org.xml.sax.InputSource;
  *
  * @author jmarranz
  */
-public class ItsNatOtherNSDocFragmentTemplateVersionImpl extends ItsNatWebDocFragmentTemplateVersionImpl
+public class ItsNatOtherNSDocFragmentTemplateVersionImpl extends ItsNatWebOnlyDocFragmentTemplateVersionImpl
 {
     /**
      * Creates a new instance of ItsNatOtherNSDocFragmentTemplateVersionImpl

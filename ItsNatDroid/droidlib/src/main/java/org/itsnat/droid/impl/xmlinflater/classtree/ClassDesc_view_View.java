@@ -6,6 +6,11 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_height;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_margin;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginBottom;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginLeft;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginRight;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
@@ -38,8 +43,18 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_height(this));
 
         // Debidos a LinearLayout
-        addAttrDesc(new AttrDesc_view_View_layout_gravity(this));
         addAttrDesc(new AttrDesc_view_View_layout_weight(this));
+
+        // Debidos a views padre con soporte de ViewGroup.MarginLayoutParams
+        addAttrDesc(new AttrDesc_view_View_layout_marginBottom(this));
+        addAttrDesc(new AttrDesc_view_View_layout_marginLeft(this));
+        addAttrDesc(new AttrDesc_view_View_layout_marginTop(this));
+        addAttrDesc(new AttrDesc_view_View_layout_marginRight(this));
+        addAttrDesc(new AttrDesc_view_View_layout_margin(this));
+
+
+        // Debidos a LinearLayout y FrameLayout
+        addAttrDesc(new AttrDesc_view_View_layout_gravity(this));
 
 
         // Debidos a RelativeLayout

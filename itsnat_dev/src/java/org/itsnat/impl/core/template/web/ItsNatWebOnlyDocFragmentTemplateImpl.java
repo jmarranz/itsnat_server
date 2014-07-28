@@ -24,12 +24,12 @@ import org.itsnat.impl.core.template.MarkupSourceImpl;
  *
  * @author jmarranz
  */
-public abstract class ItsNatWebDocFragmentTemplateImpl extends ItsNatDocFragmentTemplateImpl
+public abstract class ItsNatWebOnlyDocFragmentTemplateImpl extends ItsNatDocFragmentTemplateImpl
 {
     /**
      * Creates a new instance of ItsNatOtherNSDocFragmentTemplateImpl
      */
-    public ItsNatWebDocFragmentTemplateImpl(String name,String mime,MarkupSourceImpl source,ItsNatServletImpl servlet)
+    public ItsNatWebOnlyDocFragmentTemplateImpl(String name,String mime,MarkupSourceImpl source,ItsNatServletImpl servlet)
     {
         super(name,mime,source,servlet);
     }

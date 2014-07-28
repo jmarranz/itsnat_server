@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -46,14 +47,15 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
-
-
-
         Integer valueInt = values.get(value);
         if (valueInt == null) throw new ItsNatDroidException("Unknown value " + value + " for attribute layout_gravity");
 
-        params.gravity = valueInt;
+        // Objetos LayoutParams diferentes pero mismos valores: http://developer.android.com/reference/android/R.attr.html#layout_gravity
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params instanceof LinearLayout.LayoutParams)
+            ((LinearLayout.LayoutParams)params).gravity = valueInt;
+        if (params instanceof FrameLayout.LayoutParams)
+            ((FrameLayout.LayoutParams)params).gravity = valueInt;
 
         if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
         else view.setLayoutParams(view.getLayoutParams());
