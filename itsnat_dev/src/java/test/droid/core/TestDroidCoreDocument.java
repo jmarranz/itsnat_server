@@ -38,6 +38,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidFragmentInsertion(itsNatDoc);
         new TestDroidContinueListener(itsNatDoc);
         new TestDroidUserListener(itsNatDoc);
+        new TestDroidToDOM(itsNatDoc);
     }
 
 }

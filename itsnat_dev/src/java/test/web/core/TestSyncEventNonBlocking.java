@@ -48,7 +48,7 @@ public class TestSyncEventNonBlocking implements EventListener,Serializable
     public void handleEvent(final Event evt)
     {
         // En el cliente se deberían bloquear los eventos sin bloquear el navegador
-
+        // ¡¡¡OJO el servidor sigue bloqueando el ItsNatDocument!!!
         try
         {
             Thread.sleep(3000);

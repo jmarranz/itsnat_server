@@ -22,6 +22,7 @@ import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
@@ -43,10 +44,20 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         super(docTemplate, source, timeStamp, request, response);
     }
 
-    @Override
     public String wrapBodyAsDocument(String source)
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // Es curioso porque "source" puede contener elementos propios
+        // del <head> como <title> <link> etc y el parser de Xerces se lo traga
+        // y los elementos HTMLElement son del tipo adecuado así que
+        // no hacemos métodos específicos para parsear elementos destinados
+        // al <head>.
+
+        StringBuilder code = new StringBuilder();
+        code.append( "<root xmlns:android=\"" + NamespaceUtil.ANDROID_NAMESPACE + "\">");
+        code.append( source );
+        code.append( "</root>" );
+
+        return code.toString();
     }
 
     @Override    

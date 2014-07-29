@@ -1,5 +1,5 @@
 
-* style o padding ha dejado de funcionar
+
 
 * revisar ScriptUtil.getNodeReference que devuelva Node
 
