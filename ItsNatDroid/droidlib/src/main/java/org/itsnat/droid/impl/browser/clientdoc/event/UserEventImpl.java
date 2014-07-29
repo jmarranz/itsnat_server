@@ -18,6 +18,7 @@ public class UserEventImpl extends NormalEventImpl implements UserEvent
         super(listener);
 
         this.extraParams = publicEvt.extraParams;
+        this.name = publicEvt.getName();
     }
 
     /*
@@ -28,6 +29,11 @@ public class UserEventImpl extends NormalEventImpl implements UserEvent
         super(null);
 
         this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
     }
 
     public UserEventListener getUserEventListener()

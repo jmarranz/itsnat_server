@@ -16,11 +16,9 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -43,7 +41,7 @@ public class TestDroidContinueListener extends TestDroidBase implements EventLis
         ItsNatEvent itsNatEvent = (ItsNatEvent)evt;
         ClientDocument clientDoc = itsNatEvent.getClientDocument();
 
-        EventListener listener = new EventListenerSerial()
+        EventListener listener = new EventListener()
         {
             public void handleEvent(Event evt)
             {

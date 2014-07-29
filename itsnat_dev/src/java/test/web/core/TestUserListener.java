@@ -86,7 +86,7 @@ public class TestUserListener implements EventListener,Serializable
         String code = "";
         code += "var userEvt = document.getItsNatDoc().createUserEvent('" + userEvtName + "');";
         code += "userEvt.setExtraParam('title',document.title);";
-        code += "userEvt.setExtraParam('multivalue',['one',2]);";        
+        code += "userEvt.setExtraParam('multivalue',['one',2]);";       
         code += "document.getItsNatDoc().dispatchUserEvent(document.documentElement,userEvt);";
         itsNatDoc.addCodeToSend(code);
     }

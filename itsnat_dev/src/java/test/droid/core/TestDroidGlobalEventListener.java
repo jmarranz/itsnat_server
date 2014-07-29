@@ -31,7 +31,7 @@ public class TestDroidGlobalEventListener implements EventListener,Serializable
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         if (itsNatEvt instanceof ItsNatEventStateless)
         {
-            // REVISAR
+            // REVISAR para Droid
             TestCoreStatelessGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
         }
         else

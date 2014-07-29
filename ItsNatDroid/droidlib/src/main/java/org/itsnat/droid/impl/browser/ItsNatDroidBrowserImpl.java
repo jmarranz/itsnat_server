@@ -13,6 +13,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.event.NormalEvent;
+import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
@@ -57,6 +58,8 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
 
             code.append("import " + CustomFunction.class.getName() + ";");
             code.append("import " + NormalEvent.class.getName() + ";");
+            code.append("import " + UserEvent.class.getName() + ";");
+
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a,b){return new Object[]{a,b};}");

@@ -24,6 +24,6 @@ public class UserEventListener extends DOMExtEventListener
     @Override
     public NormalEventImpl createEventWrapper(Object evt)
     {
-        return new UserEventImpl(this);
+        return new UserEventImpl(this,(UserEventImpl)evt);
     }
 }

@@ -714,7 +714,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void dispatchUserEvent(Node currTarget,UserEvent evt)
     {
         View currTargetView = NodeImpl.getView(currTarget);
+        dispatchUserEvent(currTargetView,evt);
+    }
 
+    public void dispatchUserEvent(View currTargetView,UserEvent evt)
+    {
         MapList<String,UserEventListener> listenersByName = getUserEventListenersByName(currTargetView);
         if (listenersByName == null) return;
 
@@ -722,7 +726,20 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (listeners == null) return;
         for(UserEventListener listener : listeners)
         {
-            listener.dispatchEvent((NormalEventImpl)evt);
+            UserEventImpl evt2 = (UserEventImpl)listener.createEventWrapper(evt);
+            listener.dispatchEvent(evt2);
         }
+    }
+
+    public void fireUserEvent(Node currTarget,String name)
+    {
+        View currTargetView = NodeImpl.getView(currTarget);
+        fireUserEvent(currTargetView,name);
+    }
+
+    public void fireUserEvent(View currTargetView,String name)
+    {
+        UserEvent evt = createUserEvent(name);
+        dispatchUserEvent(currTargetView, evt);
     }
 }
