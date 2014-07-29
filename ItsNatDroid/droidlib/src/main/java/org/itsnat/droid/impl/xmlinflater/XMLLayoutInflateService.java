@@ -101,7 +101,7 @@ public class XMLLayoutInflateService
             // No funciona, sólo funciona con XML compilados:
             //AttributeSet attributes = Xml.asAttributeSet(parser);
             //LayoutInflater inf = LayoutInflater.from(ctx);
-            //View view = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
+            //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
             View childView = createNextView(parser,view,script,inflated);
             while(childView != null)

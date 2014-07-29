@@ -9,10 +9,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEvent;
-import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEvent;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 
 import java.util.List;
 
@@ -31,9 +31,9 @@ public class DroidEventListener extends NormalEventListener
     protected boolean useCapture;
     protected int eventGroupCode;
 
-    public DroidEventListener(ItsNatDocImpl parent, View view, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int eventGroupCode)
+    public DroidEventListener(ItsNatDocImpl parent, View currentTarget, String type, CustomFunction customFunc, String id, boolean useCapture, int commMode, long timeout, int eventGroupCode)
     {
-        super(parent,"droid",view,customFunc,id,commMode,timeout);
+        super(parent,"droid",currentTarget,customFunc,id,commMode,timeout);
         this.type = type;
         this.useCapture = useCapture;
         this.eventGroupCode = eventGroupCode;
@@ -49,17 +49,17 @@ public class DroidEventListener extends NormalEventListener
         return type;
     }
 
-    public NormalEvent createEventWrapper(Object evt)
+    public NormalEventImpl createEventWrapper(Object evt)
     {
         switch(eventGroupCode)
         {
-            case MOTION_EVENT: return new DroidMotionEvent(this,(MotionEvent)evt);
-            case KEY_EVENT:   return new DroidKeyEvent(this,(KeyEvent)evt);
+            case MOTION_EVENT: return new DroidMotionEventImpl(this,(MotionEvent)evt);
+            case KEY_EVENT:   return new DroidKeyEventImpl(this,(KeyEvent)evt);
             default: throw new ItsNatDroidException("Event type not supported yet: " + type);
         }
     }
 
-    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
+    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
     {
         super.genParamURL(evt,params);
         params.add(new BasicNameValuePair("itsnat_evt_type", "" + this.type));

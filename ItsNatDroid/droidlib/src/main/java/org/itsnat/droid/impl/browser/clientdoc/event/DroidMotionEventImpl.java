@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
-import android.view.InputEvent;
 import android.view.MotionEvent;
 
 import org.apache.http.NameValuePair;
@@ -12,9 +11,9 @@ import java.util.List;
 /**
  * Created by jmarranz on 22/07/14.
  */
-public class DroidMotionEvent extends DroidInputEvent
+public class DroidMotionEventImpl extends DroidInputEventImpl
 {
-    public DroidMotionEvent(DroidEventListener listener, MotionEvent evtNative)
+    public DroidMotionEventImpl(DroidEventListener listener, MotionEvent evtNative)
     {
         super(listener, evtNative);
     }

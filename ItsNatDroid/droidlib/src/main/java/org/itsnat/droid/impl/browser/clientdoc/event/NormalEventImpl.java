@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 
 import java.util.HashMap;
@@ -13,12 +14,12 @@ import java.util.Map;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public class NormalEvent extends EventStful
+public class NormalEventImpl extends EventStfulImpl implements NormalEvent
 {
     protected long timeStamp;
     protected Map<String,Object> extraParams;
 
-    public NormalEvent(NormalEventListener listener)
+    public NormalEventImpl(NormalEventListener listener)
     {
         super(listener);
         this.timeStamp = System.currentTimeMillis();
@@ -31,7 +32,7 @@ public class NormalEvent extends EventStful
 
     public View getCurrentTarget()
     {
-        return getNormalEventListener().getView();
+        return getNormalEventListener().getCurrentTarget();
     }
 
 

@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public abstract class EventStfulListener extends EventGenericListener
         return eventType;
     }
 
-    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
+    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
     {
         super.genParamURL(evt,params);
         params.add(new BasicNameValuePair("itsnat_eventType", "" + getEventType()));

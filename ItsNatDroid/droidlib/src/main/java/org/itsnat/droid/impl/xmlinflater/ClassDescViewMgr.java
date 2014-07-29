@@ -97,8 +97,8 @@ public class ClassDescViewMgr
     {
         String className = viewClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
-        Class<View> superClass = (Class<View>)viewClass.getSuperclass();
-        ClassDescViewBased parent = get(superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
+        Class<?> superClass = (Class<?>)viewClass.getSuperclass();
+        ClassDescViewBased parent = get((Class<View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
         ClassDescUnknown classDesc = new ClassDescUnknown(className,parent);
 
         classes.put(viewClass.getName(), classDesc);

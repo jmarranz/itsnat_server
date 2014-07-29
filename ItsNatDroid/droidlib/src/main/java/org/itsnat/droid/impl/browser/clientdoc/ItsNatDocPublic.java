@@ -59,4 +59,7 @@ public interface ItsNatDocPublic
     public void removeGlobalEL(GlobalEventListener listener);
 
     public void sendContinueEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout);
+
+    public void addUserEL(Object[] idObj,String name,String listenerId,CustomFunction customFunc,int commMode,long timeout);
+    public void removeUserEL(String listenerId);
 }

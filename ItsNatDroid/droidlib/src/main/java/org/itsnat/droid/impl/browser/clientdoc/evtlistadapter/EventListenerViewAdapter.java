@@ -1,9 +1,6 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 
-import android.os.SystemClock;
 import android.view.InputEvent;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 
@@ -11,8 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEvent;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.LinkedList;
@@ -32,7 +28,7 @@ public abstract class EventListenerViewAdapter
 
     protected void dispatch(String type,InputEvent nativeEvt)
     {
-        dispatch(viewData,type,nativeEvt,true,DroidInputEvent.AT_TARGET,viewData.getView());
+        dispatch(viewData,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewData.getView());
     }
 
     protected static void dispatch(ItsNatViewImpl viewData,String type,InputEvent nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
@@ -50,11 +46,11 @@ public abstract class EventListenerViewAdapter
                 for(ViewParent viewParent : tree)
                 {
                     ItsNatViewImpl viewParentData = ItsNatViewImpl.getItsNatView(page,(View)viewParent);
-                    dispatch(viewParentData,type,nativeEvt,false,DroidInputEvent.CAPTURING_PHASE,viewTarget);
+                    dispatch(viewParentData,type,nativeEvt,false, DroidInputEventImpl.CAPTURING_PHASE,viewTarget);
                 }
             }
 
-            DroidInputEvent evtWrapper = (DroidInputEvent)listener.createEventWrapper(nativeEvt);
+            DroidInputEventImpl evtWrapper = (DroidInputEventImpl)listener.createEventWrapper(nativeEvt);
             try
             {
                 evtWrapper.setEventPhase(eventPhase);

@@ -19,7 +19,7 @@ public class NodeToInsertImpl extends NodeImpl
     public NodeToInsertImpl(String viewName)
     {
         this.viewName = viewName;
-        // view es null inicialmente
+        // currentTarget es null inicialmente
     }
 
     public void setView(View view)

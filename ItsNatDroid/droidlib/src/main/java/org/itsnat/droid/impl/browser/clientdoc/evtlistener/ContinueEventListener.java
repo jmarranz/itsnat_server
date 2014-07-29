@@ -4,22 +4,22 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEvent;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class ContinueEventListener extends NormalEventListener
+public class ContinueEventListener extends DOMExtEventListener
 {
-    public ContinueEventListener(ItsNatDocImpl parent, View view, CustomFunction customFunc, String id, int commMode, long timeout)
+    public ContinueEventListener(ItsNatDocImpl parent, View currentTarget, CustomFunction customFunc, String id, int commMode, long timeout)
     {
-        super(parent,"continue",view,customFunc,id,commMode,timeout);
+        super(parent,"continue",currentTarget,customFunc,id,commMode,timeout);
     }
 
     @Override
-    public NormalEvent createEventWrapper(Object evt)
+    public NormalEventImpl createEventWrapper(Object evt)
     {
-        return new DOMExtEvent(this);
+        return new DOMExtEventImpl(this);
     }
 }

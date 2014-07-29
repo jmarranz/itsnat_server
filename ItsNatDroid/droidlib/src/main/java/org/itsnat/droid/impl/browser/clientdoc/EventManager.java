@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
 import java.util.LinkedList;
@@ -14,8 +14,8 @@ import java.util.List;
 public class EventManager
 {
     protected ItsNatDocImpl parent;
-    protected EventGeneric holdEvt = null;
-    protected List<EventGeneric> queue = new LinkedList<EventGeneric>();
+    protected EventGenericImpl holdEvt = null;
+    protected List<EventGenericImpl> queue = new LinkedList<EventGenericImpl>();
 
     public EventManager(ItsNatDocImpl parent)
     {
@@ -27,7 +27,7 @@ public class EventManager
         return parent;
     }
 
-    public void returnedEvent(EventGeneric evt)
+    public void returnedEvent(EventGenericImpl evt)
     {
         if (this.holdEvt == evt) processEvents(false);
     }
@@ -37,7 +37,7 @@ public class EventManager
         this.holdEvt = null;
         while (!queue.isEmpty())
         {
-            EventGeneric evt = queue.remove(0);
+            EventGenericImpl evt = queue.remove(0);
             sendEventEffective(evt);
             if (notHold) continue;
             if (holdEvt != null) break; // El evento enviado ordena bloquear
@@ -46,7 +46,7 @@ public class EventManager
     }
 
 
-    public void sendEvent(EventGeneric evt)
+    public void sendEvent(EventGenericImpl evt)
     {
         if (parent.isDisabledEvents()) return;
         if (evt.isIgnoreHold())
@@ -62,7 +62,7 @@ public class EventManager
         else sendEventEffective(evt);
     }
 
-    private void sendEventEffective(EventGeneric evt)
+    private void sendEventEffective(EventGenericImpl evt)
     {
         if (parent.isDisabledEvents()) return; // pudo ser definido desde el servidor en el anterior evento
 

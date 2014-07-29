@@ -1,24 +1,22 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
 import org.apache.http.NameValuePair;
-import org.itsnat.droid.Event;
+import org.itsnat.droid.event.Event;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventGenericListener;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 7/07/14.
  */
-public abstract class EventGeneric implements Event
+public abstract class EventGenericImpl implements Event
 {
     protected EventGenericListener listener;
     protected boolean mustBeSent = true;
     protected boolean ignoreHold = false;
 
 
-    public EventGeneric(EventGenericListener listener)
+    public EventGenericImpl(EventGenericListener listener)
     {
         this.listener = listener;
     }
@@ -32,11 +30,6 @@ public abstract class EventGeneric implements Event
     public boolean isIgnoreHold()
     {
         return ignoreHold;
-    }
-
-    public Object getNativeEvent()
-    {
-        return null; // Se redefine
     }
 
     public String getType()

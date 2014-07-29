@@ -1,6 +1,6 @@
 package org.itsnat.droid;
 
-import android.view.InputEvent;
+import org.itsnat.droid.event.Event;
 
 /**
  * Created by jmarranz on 11/07/14.

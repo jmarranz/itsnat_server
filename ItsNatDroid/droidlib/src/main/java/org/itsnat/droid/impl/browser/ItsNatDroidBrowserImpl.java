@@ -12,9 +12,10 @@ import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 

@@ -9,16 +9,23 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEvent;
-import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEvent;
+import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
+import org.itsnat.droid.impl.util.MapLightList;
+import org.itsnat.droid.impl.util.MapList;
+import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
@@ -38,12 +45,17 @@ import java.util.Map;
  */
 public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 {
+    private static final String key_itsNatUserListenersByName = "itsNatUserListenersByName";
+
     protected PageImpl page;
     protected String servletPath;
     protected int errorMode;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
-    protected WeakMapWithValue<String,DroidEventListener> droidEventListeners;
+    protected Map<String,DroidEventListener> droidEventListeners;
+    protected Map<String,UserEventListener> userListenersById;
+    protected MapList<String,UserEventListener> userListenersByName;
+
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
@@ -117,10 +129,22 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         this.disabledEvents = true;
     }
 
-    public WeakMapWithValue<String,DroidEventListener> getDroidEventListeners()
+    public Map<String,DroidEventListener> getDroidEventListeners()
     {
-        if (droidEventListeners == null) this.droidEventListeners = new WeakMapWithValue<String,DroidEventListener>();
+        if (droidEventListeners == null) this.droidEventListeners = new HashMap<String,DroidEventListener>();
         return droidEventListeners;
+    }
+
+    public Map<String,UserEventListener> getUserEventListenersById()
+    {
+        if (userListenersById == null) this.userListenersById = new HashMap<String,UserEventListener>();
+        return userListenersById;
+    }
+
+    public MapList<String,UserEventListener> getUserEventListenersByName()
+    {
+        if (userListenersByName == null) this.userListenersByName = new MapRealList<String,UserEventListener>();
+        return userListenersByName;
     }
 
     private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -418,7 +442,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         Context ctx = page.getInflatedLayoutImpl().getContext();
         XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
         ClassDescViewBase classDesc = inflaterService.getClassDescViewBase(name);
-        View view = classDesc.createAndAddViewObject(null, 0, ctx);
+        View currentTarget = classDesc.createAndAddViewObject(null, 0, ctx);
         */
         return new NodeToInsertImpl(name);
     }
@@ -614,8 +638,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void removeDroidEL(String listenerId)
     {
-        DroidEventListener listenerWrapper = getDroidEventListeners().removeByKey(listenerId);
-        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getView());
+        DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
+        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getCurrentTarget());
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
 
@@ -633,7 +657,72 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         Node currTarget = getNode(idObj); // idObj puede ser nulo
         View currTargetView = currTarget != null ? currTarget.getView() : null;
         ContinueEventListener listenerWrapper = new ContinueEventListener(this,currTargetView,customFunc,listenerId,commMode,timeout);
-        DOMExtEvent evtWrapper = (DOMExtEvent)listenerWrapper.createEventWrapper(null);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
         listenerWrapper.dispatchEvent(evtWrapper);
+    }
+
+    private MapList<String,UserEventListener> getUserEventListenersByName(View currTargetView)
+    {
+        MapList<String, UserEventListener> listenersByName;
+        if (currTargetView == null) listenersByName = getUserEventListenersByName();
+        else
+        {
+            ItsNatView itsNatView = getPageImpl().getItsNatView(currTargetView);
+            listenersByName = (MapList<String, UserEventListener>) itsNatView.getUserData().get(key_itsNatUserListenersByName);
+        }
+        return listenersByName;
+    }
+
+    public void addUserEL(Object[] idObj,String name,String listenerId,CustomFunction customFunc,int commMode,long timeout)
+    {
+        Node currTarget = getNode(idObj);
+        View currTargetView = NodeImpl.getView(currTarget);
+        UserEventListener listenerWrapper = new UserEventListener(this,currTargetView,name,customFunc,listenerId,commMode,timeout);
+        getUserEventListenersById().put(listenerId, listenerWrapper);
+        MapList<String,UserEventListener> listenersByName;
+        if (currTarget == null) listenersByName = getUserEventListenersByName();
+        else
+        {
+            ItsNatView itsNatView = getPageImpl().getItsNatView(currTargetView);
+            listenersByName = (MapList<String,UserEventListener>)itsNatView.getUserData().get(key_itsNatUserListenersByName);
+            if (listenersByName == null)
+            {
+                listenersByName = new MapLightList<String,UserEventListener>();
+                itsNatView.getUserData().set(key_itsNatUserListenersByName,listenersByName);
+            }
+        }
+
+        listenersByName.add(name,listenerWrapper);
+    }
+
+    public void removeUserEL(String listenerId)
+    {
+        UserEventListener listenerWrapper = getUserEventListenersById().remove(listenerId);
+        if (listenerWrapper == null) return;
+
+        View currTargetView = listenerWrapper.getCurrentTarget();
+        MapList<String,UserEventListener> listenersByName = getUserEventListenersByName(currTargetView);
+
+        listenersByName.remove(listenerWrapper.getName(),listenerWrapper);
+    }
+
+    public UserEvent createUserEvent(String name)
+    {
+        return new UserEventImpl(name);
+    }
+
+    public void dispatchUserEvent(Node currTarget,UserEvent evt)
+    {
+        View currTargetView = NodeImpl.getView(currTarget);
+
+        MapList<String,UserEventListener> listenersByName = getUserEventListenersByName(currTargetView);
+        if (listenersByName == null) return;
+
+        List<UserEventListener> listeners = listenersByName.get(evt.getName());
+        if (listeners == null) return;
+        for(UserEventListener listener : listeners)
+        {
+            listener.dispatchEvent((NormalEventImpl)evt);
+        }
     }
 }

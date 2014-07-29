@@ -7,7 +7,7 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.clientdoc.EventSender;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
 {
     protected EventSender eventSender;
-    protected EventGeneric evt;
+    protected EventGenericImpl evt;
     protected String servletPath;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
@@ -26,7 +26,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
 
-    public HttpPostEventAsyncTask(EventSender eventSender, EventGeneric evt, String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, boolean sslSelfSignedAllowed, List<NameValuePair> params)
+    public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, boolean sslSelfSignedAllowed, List<NameValuePair> params)
     {
         this.eventSender = eventSender;
         this.evt = evt;

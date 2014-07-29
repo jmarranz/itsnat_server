@@ -3,11 +3,9 @@ package org.itsnat.droid.impl.browser.clientdoc.evtlistener;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGeneric;
-import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 6/07/14.
@@ -47,7 +45,7 @@ public abstract class EventGenericListener
         return timeout;
     }
 
-    public void genParamURL(EventGeneric evt,List<NameValuePair> params)
+    public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)
     {
         params.add(new BasicNameValuePair("itsnat_action",action));
     }

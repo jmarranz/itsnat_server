@@ -3,6 +3,8 @@ package org.itsnat.droid;
 import android.view.View;
 
 import org.itsnat.droid.Page;
+import org.itsnat.droid.event.UserEvent;
+import org.itsnat.droid.impl.browser.clientdoc.Node;
 
 /**
  *
@@ -17,5 +19,6 @@ public interface ItsNatDoc
     public void toast(Object value,int duration);
     public void toast(Object value);
 
-
+    public UserEvent createUserEvent(String name);
+    public void dispatchUserEvent(Node currTarget,UserEvent evt);
 }

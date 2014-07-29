@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -12,9 +11,9 @@ import java.util.List;
 /**
  * Created by jmarranz on 22/07/14.
  */
-public class DroidKeyEvent extends DroidInputEvent
+public class DroidKeyEventImpl extends DroidInputEventImpl
 {
-    public DroidKeyEvent(DroidEventListener listener, KeyEvent evtNative)
+    public DroidKeyEventImpl(DroidEventListener listener, KeyEvent evtNative)
     {
         super(listener, evtNative);
     }

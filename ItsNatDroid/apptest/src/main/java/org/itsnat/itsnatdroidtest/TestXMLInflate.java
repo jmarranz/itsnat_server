@@ -70,7 +70,7 @@ public class TestXMLInflate
 
         childCount++;
 
-        // Testing custom view class
+        // Testing custom currentTarget class
         {
             TextView compCustomTextView = (TextView) comp.getChildAt(childCount);
             TextView parsedCustomTextView = (TextView) parsed.getChildAt(childCount);

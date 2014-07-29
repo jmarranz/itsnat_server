@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -10,6 +11,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListener
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
+import org.itsnat.droid.impl.util.UserDataImpl;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class ItsNatViewImpl implements ItsNatView
     protected TouchEventListenerViewAdapter touchEvtListenerViewAdapter;
     protected KeyEventListenerViewAdapter keyEvtListenerViewAdapter;
     protected String nodeCacheId;
+    protected UserDataImpl userData;
 
     public ItsNatViewImpl(PageImpl page,View view)
     {
@@ -118,5 +121,11 @@ public class ItsNatViewImpl implements ItsNatView
     public void setNodeCacheId(String nodeCacheId)
     {
         this.nodeCacheId = nodeCacheId;
+    }
+
+    public UserData getUserData()
+    {
+        if (userData == null) this.userData = new UserDataImpl();
+        return userData;
     }
 }

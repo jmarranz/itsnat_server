@@ -6,6 +6,7 @@ import android.view.View;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.itsnat.droid.event.DroidInputEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public abstract class DroidInputEvent extends NormalEvent
+public abstract class DroidInputEventImpl extends NormalEventImpl implements DroidInputEvent
 {
     /**
      * The current event phase is the capturing phase.
@@ -33,7 +34,7 @@ public abstract class DroidInputEvent extends NormalEvent
     protected int eventPhase;
     protected View viewTarget;
 
-    public DroidInputEvent(DroidEventListener listener, InputEvent evtNative)
+    public DroidInputEventImpl(DroidEventListener listener, InputEvent evtNative)
     {
         super(listener);
         this.evtNative = evtNative;
@@ -45,8 +46,7 @@ public abstract class DroidInputEvent extends NormalEvent
         return (DroidEventListener)listener;
     }
 
-    @Override
-    public Object getNativeEvent()
+    public InputEvent getInputEvent()
     {
         return evtNative;
     }
@@ -98,9 +98,9 @@ public abstract class DroidInputEvent extends NormalEvent
         List<NameValuePair> params = super.genParamURL();
         params.add(new BasicNameValuePair("itsnat_evt_eventPhase", "" + eventPhase));
 
-        View view = getDroidEventListener().getView();
+        View view = getDroidEventListener().getCurrentTarget();
         String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";
-        // Si viewTarget == view enviamos null para evitar tráfico, ya sabemos que es el currentTarget
+        // Si viewTarget == currentTarget enviamos null para evitar tráfico, ya sabemos que es el currentTarget
         params.add(new BasicNameValuePair("itsnat_evt_target",viewTargetStr));
 
         return params;

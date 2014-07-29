@@ -10,7 +10,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.Event;
+import org.itsnat.droid.event.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
@@ -23,6 +23,7 @@ import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.event.NormalEvent;
 
 import bsh.EvalError;
 
@@ -134,7 +135,7 @@ public class TestLayoutRemote
                             public void onError(Exception ex, Event evt)
                             {
                                 ex.printStackTrace();
-                                TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + evt.getType() + " Msg: " + ex.getMessage());
+                                TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + ((NormalEvent)evt).getType() + " Msg: " + ex.getMessage());
                                 if (ex instanceof ItsNatDroidServerResponseException)
                                     TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
                                 else if (ex instanceof ItsNatDroidScriptException)
