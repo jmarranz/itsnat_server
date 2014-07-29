@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
 
-import org.itsnat.droid.Page;
+import org.itsnat.droid.Node;
 
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario

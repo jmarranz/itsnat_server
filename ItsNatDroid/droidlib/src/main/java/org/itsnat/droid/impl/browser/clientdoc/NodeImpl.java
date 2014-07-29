@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
 
+import org.itsnat.droid.Node;
+
 /**
  * Created by jmarranz on 25/06/14.
  */

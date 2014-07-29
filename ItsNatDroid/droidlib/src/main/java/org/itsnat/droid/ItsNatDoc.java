@@ -2,9 +2,7 @@ package org.itsnat.droid;
 
 import android.view.View;
 
-import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.clientdoc.Node;
 
 /**
  *

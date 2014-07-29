@@ -10,12 +10,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.Node;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -26,7 +26,6 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
-import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
@@ -734,7 +733,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void fireUserEvent(Node currTarget,String name)
     {
         View currTargetView = NodeImpl.getView(currTarget);
-        fireUserEvent(currTargetView,name);
+        fireUserEvent(currTargetView, name);
     }
 
     public void fireUserEvent(View currTargetView,String name)
