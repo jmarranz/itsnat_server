@@ -6,10 +6,7 @@
 
 package test.droid.core;
 
-import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.event.ParamTransport;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

@@ -119,12 +119,12 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
 
     }        
     
-    private void toArraysForBatch(Element elem,List<Attr> attrList,StringBuilder attrNameArr,StringBuilder attrValueArr,ClientDocumentStfulDelegateImpl clientDoc)
+    private void toArraysForBatch(Element elem,List<Attr> attrList,boolean namespaceBased,StringBuilder attrNameArr,StringBuilder attrValueArr,ClientDocumentStfulDelegateImpl clientDoc)
     {
         int i = 0;
         for(Attr attr : attrList)
         {
-            String name = attr.getLocalName(); // Usamos getLocalName() y no getName() porque el namespace va aparte como dato y no tiene sentido prefix
+            String name = namespaceBased ? attr.getLocalName() : attr.getName(); // Usamos getLocalName() y no getName() cuando el namespace va aparte como dato y no tiene sentido prefix, si no tiene namespace hay que usar getName() porque getLocalName() devuelve null
             String bsValue = toBSAttrValue(attr,elem,clientDoc);
             attrNameArr.append("\"" + name + "\"");
             attrValueArr.append(bsValue);
@@ -134,7 +134,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         }                
     }
     
-    public String setAttributeCodeBatch(Element elem,String elemVarName,Map<String,List<Attr>> mapByNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
+    public String setAttributeCodeBatchNS(Element elem,String elemVarName,Map<String,List<Attr>> mapByNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
     {
         StringBuilder code = new StringBuilder();
         for(Map.Entry<String,List<Attr>> entry : mapByNamespace.entrySet())
@@ -144,7 +144,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
             List<Attr> attribList =  entry.getValue();
             StringBuilder attrNameArr = new StringBuilder();
             StringBuilder attrValueArr = new StringBuilder();  
-            toArraysForBatch(elem,attribList,attrNameArr,attrValueArr,clientDoc);
+            toArraysForBatch(elem,attribList,true,attrNameArr,attrValueArr,clientDoc);
             
            code.append( "itsNatDoc.setAttrBatch(" + elemVarName + "," + namespaceURIScript + ",new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" );             
         }
@@ -156,7 +156,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
     {
         StringBuilder attrNameArr = new StringBuilder();
         StringBuilder attrValueArr = new StringBuilder();            
-        toArraysForBatch(elem,attrListNoNamespace,attrNameArr,attrValueArr,clientDoc);
+        toArraysForBatch(elem,attrListNoNamespace,false,attrNameArr,attrValueArr,clientDoc);
 
         String code =  "itsNatDoc.setAttrBatch(" + elemVarName + ",null,new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" ; 
         return code;                     

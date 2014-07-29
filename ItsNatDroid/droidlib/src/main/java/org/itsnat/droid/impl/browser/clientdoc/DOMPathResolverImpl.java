@@ -4,7 +4,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.Node;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 /**

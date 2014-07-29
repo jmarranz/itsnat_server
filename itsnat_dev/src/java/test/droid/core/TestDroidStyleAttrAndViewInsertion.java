@@ -17,10 +17,10 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestDroidViewInsertionAndSetAttributes extends TestDroidBase implements EventListener
+public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements EventListener
 {
    
-    public TestDroidViewInsertionAndSetAttributes(ItsNatDocument itsNatDoc)
+    public TestDroidStyleAttrAndViewInsertion(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
         Document doc = itsNatDoc.getDocument();

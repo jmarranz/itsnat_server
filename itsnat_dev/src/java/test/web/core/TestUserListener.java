@@ -82,7 +82,7 @@ public class TestUserListener implements EventListener,Serializable
         itsNatDoc.addCodeToSend("document.getItsNatDoc().fireUserEvent(null,\"" + userEvtName + "\");");
 
         // El title pasado a través de un ItsNatUserEvent
-        itsNatDoc.addUserEventListener((EventTarget)doc.getDocumentElement(),userEvtName,listener,itsNatEvent.getCommMode(),extraParams,null,-1);
+        itsNatDoc.addUserEventListener((EventTarget)doc.getDocumentElement(),userEvtName,listener,itsNatEvent.getCommMode(),(ParamTransport[])null,null,-1);
         String code = "";
         code += "var userEvt = document.getItsNatDoc().createUserEvent('" + userEvtName + "');";
         code += "userEvt.setExtraParam('title',document.title);";

@@ -115,7 +115,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
             
             if (!mapByNamespace.isEmpty())
             {
-                code.append( render.setAttributeCodeBatch(elem,elemVarName,mapByNamespace,clientDoc) );
+                code.append( render.setAttributeCodeBatchNS(elem,elemVarName,mapByNamespace,clientDoc) );
             }
            
             if (!listNoNamespace.isEmpty())

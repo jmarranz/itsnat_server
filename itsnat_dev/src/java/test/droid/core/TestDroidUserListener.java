@@ -78,7 +78,7 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
 
         name = "myUserAction2";        
         
-        itsNatDoc.addUserEventListener((EventTarget)testLauncherHidden,name,listener,itsNatEvent.getCommMode(),extraParams,null,-1);
+        itsNatDoc.addUserEventListener((EventTarget)testLauncherHidden,name,listener,itsNatEvent.getCommMode(),(ParamTransport[])null,null,-1);
         String code = "";
         code += "UserEvent userEvt = itsNatDoc.createUserEvent(\"" + name + "\");";
         code += "userEvt.setExtraParam(\"model\",android.os.Build.MODEL);";     

@@ -1,4 +1,4 @@
-package org.itsnat.droid;
+package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
 

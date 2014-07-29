@@ -45,7 +45,7 @@ public abstract class EventListenerViewAdapter
                 List<ViewParent> tree = getViewTree(view);
                 for(ViewParent viewParent : tree)
                 {
-                    ItsNatViewImpl viewParentData = ItsNatViewImpl.getItsNatView(page,(View)viewParent);
+                    ItsNatViewImpl viewParentData = page.getItsNatViewImpl((View)viewParent);
                     dispatch(viewParentData,type,nativeEvt,false, DroidInputEventImpl.CAPTURING_PHASE,viewTarget);
                 }
             }

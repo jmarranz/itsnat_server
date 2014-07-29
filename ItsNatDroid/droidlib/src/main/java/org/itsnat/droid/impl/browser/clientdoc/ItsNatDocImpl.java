@@ -10,7 +10,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatView;
-import org.itsnat.droid.Node;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
@@ -403,7 +402,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private String getNodeCacheId(Node node)
     {
         View view = node.getView();
-        ItsNatViewImpl itsNatView = ItsNatViewImpl.getItsNatView(page,view);
+        ItsNatViewImpl itsNatView = page.getItsNatViewImpl(view);
         return itsNatView.getNodeCacheId();
     }
 
@@ -418,7 +417,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (id == null) return; // si id es null cache desactivado
         nodeCacheById.put(id,node);
         View view = node.getView();
-        ItsNatViewImpl itsNatView = ItsNatViewImpl.getItsNatView(page,view);
+        ItsNatViewImpl itsNatView = page.getItsNatViewImpl(view);
         itsNatView.setNodeCacheId(id);
     }
 
@@ -561,7 +560,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             Node node = nodeCacheById.remove(id);
             if (node == null) continue; // por si acaso, no debería ocurrir
             View view = node.getView();
-            ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
+            ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
             viewData.setNodeCacheId(null);
         }
     }
@@ -609,7 +608,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         Node node = getNode(idObj);
         View view = node.getView();
-        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,view);
+        ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
         DroidEventListener listenerWrapper = new DroidEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
         viewData.getEventListeners().add(type,listenerWrapper);
         getDroidEventListeners().put(listenerId, listenerWrapper);
@@ -638,7 +637,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void removeDroidEL(String listenerId)
     {
         DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
-        ItsNatViewImpl viewData = ItsNatViewImpl.getItsNatView(page,listenerWrapper.getCurrentTarget());
+        ItsNatViewImpl viewData = page.getItsNatViewImpl(listenerWrapper.getCurrentTarget());
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
 
@@ -710,12 +709,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return new UserEventImpl(name);
     }
 
-    public void dispatchUserEvent(Node currTarget,UserEvent evt)
-    {
-        View currTargetView = NodeImpl.getView(currTarget);
-        dispatchUserEvent(currTargetView,evt);
-    }
-
     public void dispatchUserEvent(View currTargetView,UserEvent evt)
     {
         MapList<String,UserEventListener> listenersByName = getUserEventListenersByName(currTargetView);
@@ -728,12 +721,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             UserEventImpl evt2 = (UserEventImpl)listener.createEventWrapper(evt);
             listener.dispatchEvent(evt2);
         }
-    }
-
-    public void fireUserEvent(Node currTarget,String name)
-    {
-        View currTargetView = NodeImpl.getView(currTarget);
-        fireUserEvent(currTargetView, name);
     }
 
     public void fireUserEvent(View currTargetView,String name)

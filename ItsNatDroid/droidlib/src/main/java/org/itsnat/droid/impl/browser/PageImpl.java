@@ -153,6 +153,11 @@ public class PageImpl implements Page
     @Override
     public ItsNatView getItsNatView(View view)
     {
+        return getItsNatViewImpl(view);
+    }
+
+    public ItsNatViewImpl getItsNatViewImpl(View view)
+    {
         return ItsNatViewImpl.getItsNatView(this,view);
     }
 

@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
-import org.itsnat.droid.Node;
-
 /**
  * Created by jmarranz on 9/07/14.
  */

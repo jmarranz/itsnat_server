@@ -18,9 +18,7 @@ public interface ItsNatDoc
     public void toast(Object value);
 
     public UserEvent createUserEvent(String name);
-    public void dispatchUserEvent(Node currTarget,UserEvent evt);
     public void dispatchUserEvent(View currTarget,UserEvent evt);
-    public void fireUserEvent(Node currTarget,String name);
     public void fireUserEvent(View currTarget,String name);
 }
 

@@ -89,7 +89,7 @@
         <Button id="testStyleAttrId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test style attr dynamic insertion" />         
+                android:text="Test style attr and dynamic insertion" />         
         
         <TextView id="testStyleAttrHiddenId" 
                 android:layout_width="0dp"
