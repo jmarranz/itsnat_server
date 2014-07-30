@@ -26,7 +26,7 @@ import org.itsnat.impl.core.listener.ItsNatAttachedClientTimerEventListenerWrapp
  */
 public class JSRenderItsNatAttachedClientTimerEventListenerImpl extends JSRenderItsNatAttachedClientEventListenerImpl
 {
-    public static final JSRenderItsNatAttachedClientTimerEventListenerImpl SINGLETON = new JSRenderItsNatAttachedClientTimerEventListenerImpl();
+    private static final JSRenderItsNatAttachedClientTimerEventListenerImpl SINGLETON = new JSRenderItsNatAttachedClientTimerEventListenerImpl();
 
     /**
      * Creates a new instance of JSRenderItsNatAttachedClientTimerEventListenerImpl
@@ -35,6 +35,11 @@ public class JSRenderItsNatAttachedClientTimerEventListenerImpl extends JSRender
     {
     }
 
+    public static JSRenderItsNatAttachedClientTimerEventListenerImpl getJSRenderItsNatAttachedClientTimerEventListener()
+    {
+        return SINGLETON;
+    }
+    
     private static String addItsNatAttachedClientTimerEventListenerCode(ItsNatAttachedClientTimerEventListenerWrapperImpl listener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();

@@ -8,6 +8,7 @@ package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -27,5 +28,12 @@ public abstract class TestDroidBase
     public Document getDocument()
     {
         return itsNatDoc.getDocument();
+    }
+    
+    public static void logToTextView(Element outElem,String msg)
+    {
+        String text = outElem.getAttributeNS(ANDROID_NS, "text");
+        text += msg;
+        outElem.setAttributeNS(ANDROID_NS, "text",text);    
     }
 }

@@ -37,7 +37,7 @@ public abstract class JSRenderItsNatDOMExtEventListenerImpl extends JSRenderItsN
     public static JSRenderItsNatDOMExtEventListenerImpl getJSRenderItsNatDOMExtEventListener(ItsNatDOMExtEventListenerWrapperImpl itsNatListener)
     {
         if (itsNatListener instanceof ItsNatTimerEventListenerWrapperImpl)
-            return JSRenderItsNatTimerEventListenerImpl.SINGLETON;
+            return JSRenderItsNatTimerEventListenerImpl.getJSRenderItsNatTimerEventListener();
         else if (itsNatListener instanceof ItsNatContinueEventListenerWrapperImpl)
             return JSRenderItsNatContinueEventListenerImpl.SINGLETON;
         else if (itsNatListener instanceof ItsNatUserEventListenerWrapperImpl)

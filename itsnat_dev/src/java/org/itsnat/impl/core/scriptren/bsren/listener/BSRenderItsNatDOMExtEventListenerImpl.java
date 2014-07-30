@@ -37,7 +37,7 @@ public abstract class BSRenderItsNatDOMExtEventListenerImpl extends BSRenderItsN
     public static BSRenderItsNatDOMExtEventListenerImpl getBSRenderItsNatDOMExtEventListener(ItsNatDOMExtEventListenerWrapperImpl itsNatListener)
     {
         if (itsNatListener instanceof ItsNatTimerEventListenerWrapperImpl)
-            return BSRenderItsNatTimerEventListenerImpl.SINGLETON;
+            return BSRenderItsNatTimerEventListenerImpl.getBSRenderItsNatTimerEventListener();
         else if (itsNatListener instanceof ItsNatContinueEventListenerWrapperImpl)
             return BSRenderItsNatContinueEventListenerImpl.SINGLETON;
         else if (itsNatListener instanceof ItsNatUserEventListenerWrapperImpl)

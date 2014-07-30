@@ -68,9 +68,16 @@ public class NormalEventImpl extends EventStfulImpl implements NormalEvent
                 {
                     Object[] valueArr = (Object[])value;
                     for (int i = 0; i < valueArr.length; i++)
-                        params.add(new BasicNameValuePair(name,(String)valueArr[i]));
+                    {
+                        if (valueArr[i] == null) continue;
+                        params.add(new BasicNameValuePair(name,valueArr[i].toString()));
+                    }
                 }
-                else params.add(new BasicNameValuePair(name,(String)value) );
+                else
+                {
+                    if (value != null)
+                        params.add(new BasicNameValuePair(name,value.toString()));
+                }
             }
         }
 

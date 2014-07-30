@@ -17,10 +17,12 @@
 package org.itsnat.impl.core.listener.dom.domstd;
 
 import org.itsnat.core.CommMode;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
@@ -85,31 +87,51 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
 
         boolean sync = (event.getCommMode() == CommMode.XHR_SYNC); // Sólo XHR síncrono es completamente síncrono
 
-        StringBuilder retEvent = new StringBuilder();
         if (sync)
         {
+            StringBuilder retEvent = new StringBuilder();            
+            
             if (event.getPreventDefault())
             {
-                ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)event.getClientDocumentStful().getClientDocumentStfulDelegate();
-                BrowserWeb browser = clientDoc.getBrowserWeb();
-                JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
-                retEvent.append( render.getPreventDefault("event.getNativeEvent()",clientDoc) );
+                ClientDocumentStfulDelegateImpl clientDoc = event.getClientDocumentStful().getClientDocumentStfulDelegate();
+                if (clientDoc instanceof ClientDocumentStfulDelegateWebImpl)
+                {
+                    ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
+                    BrowserWeb browser = clientDocWeb.getBrowserWeb();
+                    JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
+                    retEvent.append( render.getPreventDefault("event.getNativeEvent()",clientDocWeb) );
+                }
+                else
+                {
+                    throw new ItsNatException("preventDefault not supported in Droid");
+                }
             }
 
             if (event.getStopPropagation())
             {
-                ClientDocumentStfulDelegateWebImpl clientDoc = (ClientDocumentStfulDelegateWebImpl)event.getClientDocumentStful().getClientDocumentStfulDelegate();
-                BrowserWeb browser = clientDoc.getBrowserWeb();
-                JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
-                retEvent.append( render.getStopPropagation("event.getNativeEvent()",clientDoc) );
+                ClientDocumentStfulDelegateImpl clientDoc = event.getClientDocumentStful().getClientDocumentStfulDelegate();
+                if (clientDoc instanceof ClientDocumentStfulDelegateWebImpl)
+                {
+                    ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
+                    BrowserWeb browser = clientDocWeb.getBrowserWeb();
+                    JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
+                    retEvent.append( render.getStopPropagation("event.getNativeEvent()",clientDocWeb) );
+                }
+                else
+                {
+                    throw new ItsNatException("stopPropagation not supported in Droid"); // Con un poco esfuerzo sí podríamos soportarlo (evitar continuar el "capture") por ej.
+                }                    
             }
+            
+            if (retEvent.length() > 0)
+            {
+                ItsNatServletResponseImpl itsNatResponse = event.getItsNatServletResponseImpl();
+                itsNatResponse.addCodeToSend(retEvent.toString()); // Este código no es notificado a los observers
+            }            
+            
         }
 
-        if (retEvent.length() > 0)
-        {
-            ItsNatServletResponseImpl itsNatResponse = event.getItsNatServletResponseImpl();
-            itsNatResponse.addCodeToSend(retEvent.toString()); // Este código no es notificado a los observers
-        }
+
     }
 
     public ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request)

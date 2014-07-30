@@ -37,7 +37,7 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
     public static JSRenderItsNatAttachedClientEventListenerImpl getJSRenderItsNatAttachedClientEventListener(ItsNatAttachedClientEventListenerWrapperImpl itsNatListener)
     {
         if (itsNatListener instanceof ItsNatAttachedClientTimerEventListenerWrapperImpl)
-            return JSRenderItsNatAttachedClientTimerEventListenerImpl.SINGLETON;
+            return JSRenderItsNatAttachedClientTimerEventListenerImpl.getJSRenderItsNatAttachedClientTimerEventListener();
         else if (itsNatListener instanceof ItsNatAttachedClientCometEventListenerWrapperImpl)
             return JSRenderItsNatAttachedClientCometEventListenerImpl.SINGLETON;
         return null;

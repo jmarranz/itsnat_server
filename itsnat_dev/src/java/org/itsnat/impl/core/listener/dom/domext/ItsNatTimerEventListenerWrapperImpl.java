@@ -19,13 +19,15 @@ package org.itsnat.impl.core.listener.dom.domext;
 import org.itsnat.core.ItsNatTimer;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.ItsNatTimerHandle;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatTimerEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatTimerEventListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatTimerEventListenerImpl;
 import org.itsnat.impl.core.util.UserDataMonoThreadImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -128,9 +130,21 @@ public class ItsNatTimerEventListenerWrapperImpl extends ItsNatDOMExtEventListen
 
         if (computedPeriod != -1)  // Sigue ejecutándose (status en EXECUTED y period > 0)
         {
-            ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
-            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
-            JSRenderItsNatTimerEventListenerImpl.SINGLETON.updateItsNatTimerEventListenerCode(this,computedPeriod,clientDocDeleg);
+            String code = null;
+            ClientDocumentStfulDelegateImpl clientDoc = event.getClientDocumentStful().getClientDocumentStfulDelegate();
+            if (clientDoc instanceof ClientDocumentStfulDelegateWebImpl)
+            {
+                JSRenderItsNatTimerEventListenerImpl render = JSRenderItsNatTimerEventListenerImpl.getJSRenderItsNatTimerEventListener();            
+                code = render.updateItsNatTimerEventListenerCode(this,computedPeriod,(ClientDocumentStfulDelegateWebImpl)clientDoc);
+            }
+            else if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl)
+            {
+                BSRenderItsNatTimerEventListenerImpl render = BSRenderItsNatTimerEventListenerImpl.getBSRenderItsNatTimerEventListener();            
+                code = render.updateItsNatTimerEventListenerCode(this,computedPeriod,(ClientDocumentStfulDelegateDroidImpl)clientDoc);
+            }
+            
+            
+            clientDoc.addCodeToSend(code.toString());
         }
     }
 

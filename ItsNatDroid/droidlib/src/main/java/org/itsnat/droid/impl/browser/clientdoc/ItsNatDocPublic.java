@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
 
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
+
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario
  *
@@ -50,7 +52,7 @@ public interface ItsNatDocPublic
 
     public Node addNodeCache(Object[] idObj);
 
-    public Node addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode);
+    public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode);
     public void removeDroidEL(String listenerId);
 
     public void addGlobalEL(GlobalEventListener listener);
@@ -62,4 +64,8 @@ public interface ItsNatDocPublic
     public void removeUserEL(String listenerId);
 
     public void sendAsyncTaskEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout);
+
+    public void addTimerEL(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout,long delay);
+    public void removeTimerEL(String listenerId);
+    public void updateTimerEL(String listenerId,long delay);
 }

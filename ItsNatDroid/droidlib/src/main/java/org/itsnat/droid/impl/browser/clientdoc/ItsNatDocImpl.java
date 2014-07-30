@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -10,13 +11,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatView;
+import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListener
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
@@ -54,8 +55,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected Map<String,DroidEventListener> droidEventListeners;
+    protected Map<String,TimerEventListener> timerEventListeners;
     protected Map<String,UserEventListener> userListenersById;
     protected MapList<String,UserEventListener> userListenersByName;
+    protected Handler handlerForTimers;
 
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
@@ -136,6 +139,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return droidEventListeners;
     }
 
+    public Map<String,TimerEventListener> getTimerEventListeners()
+    {
+        if (timerEventListeners == null) this.timerEventListeners = new HashMap<String,TimerEventListener>();
+        return timerEventListeners;
+    }
+
     public Map<String,UserEventListener> getUserEventListenersById()
     {
         if (userListenersById == null) this.userListenersById = new HashMap<String,UserEventListener>();
@@ -146,6 +155,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         if (userListenersByName == null) this.userListenersByName = new MapRealList<String,UserEventListener>();
         return userListenersByName;
+    }
+
+    public Handler getHandlerForTimers()
+    {
+        if (handlerForTimers == null) this.handlerForTimers = new Handler(); // Se asociará (debe) al hilo UI
+        return handlerForTimers;
     }
 
     private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -607,34 +622,30 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public Node addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)
+    public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)
     {
-        Node node = getNode(idObj);
-        View view = node.getView();
-        ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
-        DroidEventListener listenerWrapper = new DroidEventListener(this,view,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
+        View currentTarget = getView(idObj);
+        ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
+        DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
         viewData.getEventListeners().add(type,listenerWrapper);
         getDroidEventListeners().put(listenerId, listenerWrapper);
-
 
         if (type.equals("click"))
         {
             // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
             ClickEventListenerViewAdapter evtListAdapter = viewData.getClickEventListenerViewAdapter();
-            view.setOnClickListener(evtListAdapter);
+            currentTarget.setOnClickListener(evtListAdapter);
         }
         else if (type.startsWith("touch"))
         {
             TouchEventListenerViewAdapter evtListAdapter = viewData.getTouchEventListenerViewAdapter();
-            view.setOnTouchListener(evtListAdapter);
+            currentTarget.setOnTouchListener(evtListAdapter);
         }
         else if (type.startsWith("key"))
         {
             KeyEventListenerViewAdapter evtListAdapter = viewData.getKeyEventListenerViewAdapter();
-            view.setOnKeyListener(evtListAdapter);
+            currentTarget.setOnKeyListener(evtListAdapter);
         }
-
-        return node;
     }
 
     public void removeDroidEL(String listenerId)
@@ -676,15 +687,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void addUserEL(Object[] idObj,String name,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
-        Node currTarget = getNode(idObj);
-        View currTargetView = NodeImpl.getView(currTarget);
-        UserEventListener listenerWrapper = new UserEventListener(this,currTargetView,name,customFunc,listenerId,commMode,timeout);
+        View currTarget = getView(idObj);
+        UserEventListener listenerWrapper = new UserEventListener(this,currTarget,name,customFunc,listenerId,commMode,timeout);
         getUserEventListenersById().put(listenerId, listenerWrapper);
         MapList<String,UserEventListener> listenersByName;
         if (currTarget == null) listenersByName = getUserEventListenersByName();
         else
         {
-            ItsNatView itsNatView = getPageImpl().getItsNatView(currTargetView);
+            ItsNatView itsNatView = getPageImpl().getItsNatView(currTarget);
             listenersByName = (MapList<String,UserEventListener>)itsNatView.getUserData().get(key_itsNatUserListenersByName);
             if (listenersByName == null)
             {
@@ -734,10 +744,64 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void sendAsyncTaskEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
-        Node currTarget = getNode(idObj);
-        View currTargetView = NodeImpl.getView(currTarget);
-        AsyncTaskEventListener listenerWrapper = new AsyncTaskEventListener(this,currTargetView,customFunc,listenerId,commMode,timeout);
+        View currTarget = getView(idObj);
+        AsyncTaskEventListener listenerWrapper = new AsyncTaskEventListener(this,currTarget,customFunc,listenerId,commMode,timeout);
         DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
         listenerWrapper.dispatchEvent(evtWrapper);
+    }
+
+    public void addTimerEL(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout,long delay)
+    {
+        View currTarget = getView(idObj);
+        final TimerEventListener listenerWrapper = new TimerEventListener(this,currTarget,customFunc,listenerId,commMode,timeout);
+
+        Runnable callback = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                // Se ejecutará en el hilo UI
+                DOMExtEventImpl evtWrapper = (DOMExtEventImpl) listenerWrapper.createEventWrapper(null);
+                try
+                {
+                    listenerWrapper.dispatchEvent(evtWrapper);
+                }
+                catch(Exception ex)
+                {
+                    // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
+                    // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
+                    OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
+                    if (errorListener != null)
+                    {
+                        errorListener.onError(ex, evtWrapper);
+                        return;
+                    }
+                    else
+                    {
+                        if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
+                        else throw new ItsNatDroidException(ex);
+                    }
+                }
+            }
+        };
+        listenerWrapper.setCallback(callback);
+        getHandlerForTimers().postDelayed(callback, delay);
+        getTimerEventListeners().put(listenerId, listenerWrapper);
+    }
+
+    public void removeTimerEL(String listenerId)
+    {
+        TimerEventListener listenerWrapper = getTimerEventListeners().remove(listenerId);
+        if (listenerWrapper == null) return;
+        Runnable callback = listenerWrapper.getCallback();
+        getHandlerForTimers().removeCallbacks(callback);
+    }
+
+    public void updateTimerEL(String listenerId,long delay)
+    {
+        TimerEventListener listenerWrapper = getTimerEventListeners().get(listenerId);
+        if (listenerWrapper == null) return;
+        Runnable callback = listenerWrapper.getCallback();
+        getHandlerForTimers().postDelayed(callback, delay);
     }
 }

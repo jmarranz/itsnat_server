@@ -1,4 +1,5 @@
 
+* Hacer que el URL sea configurable al ppio
 
 * Añadir más datos a enviar de MouseEvent y KeyEvent, en teoría debería ser configurable
 

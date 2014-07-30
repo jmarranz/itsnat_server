@@ -19,15 +19,14 @@ package org.itsnat.impl.core.scriptren.jsren.listener;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.w3c.dom.Node;
-import org.w3c.dom.events.EventTarget;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatAsyncTaskEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatAsyncTaskEventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class JSRenderItsNatAsyncTaskEventListenerImpl extends JSRenderItsNatGenericTaskEventListenerImpl
+public class JSRenderItsNatAsyncTaskEventListenerImpl extends JSRenderItsNatGenericTaskEventListenerImpl implements RenderItsNatAsyncTaskEventListener
 {
     public static final JSRenderItsNatAsyncTaskEventListenerImpl SINGLETON = new JSRenderItsNatAsyncTaskEventListenerImpl();
 
@@ -40,21 +39,7 @@ public class JSRenderItsNatAsyncTaskEventListenerImpl extends JSRenderItsNatGene
 
     private String addItsNatAsyncTaskEventListenerCode(ItsNatAsyncTaskEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        EventTarget currentTarget = itsNatListener.getCurrentTarget();
-
-        String listenerId = itsNatListener.getId();
-        int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        StringBuilder code = new StringBuilder();
-
-        String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
-
-        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
-        // Hay que tener en cuenta que el currentTarget puede ser nulo
-        code.append( "itsNatDoc.sendAsyncTaskEvent(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + sync + "," + eventTimeout + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatAsyncTaskEventListenerImpl.addItsNatAsyncTaskEventListenerCode(itsNatListener,clientDoc,this);    
     }
 
     @Override    

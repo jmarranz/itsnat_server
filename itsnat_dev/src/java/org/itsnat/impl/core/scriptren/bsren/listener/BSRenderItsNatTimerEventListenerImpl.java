@@ -20,6 +20,8 @@ import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatTimerEventListener;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 
@@ -27,58 +29,33 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class BSRenderItsNatTimerEventListenerImpl extends BSRenderItsNatDOMExtEventListenerImpl
+public class BSRenderItsNatTimerEventListenerImpl extends BSRenderItsNatDOMExtEventListenerImpl implements RenderItsNatTimerEventListener
 {
-    public static final BSRenderItsNatTimerEventListenerImpl SINGLETON = new BSRenderItsNatTimerEventListenerImpl();
+    private static final BSRenderItsNatTimerEventListenerImpl SINGLETON = new BSRenderItsNatTimerEventListenerImpl();
 
     /** Creates a new instance of BSRenderItsNatTimerEventListenerImpl */
     public BSRenderItsNatTimerEventListenerImpl()
     {
     }
 
+    public static BSRenderItsNatTimerEventListenerImpl getBSRenderItsNatTimerEventListener()
+    {
+        return SINGLETON;
+    }    
+    
     private String addItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-
-        long delay = itsNatListener.getDelayFirstTime();
-
-        EventTarget currentTarget = itsNatListener.getCurrentTarget();
-
-        String listenerId = itsNatListener.getId();
-        int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
-
-        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
-        // Hay que tener en cuenta que currentTarget puede ser NULO
-        code.append( "itsNatDoc.addTimerEL(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatTimerEventListenerImpl.addItsNatTimerEventListenerCode(itsNatListener, clientDoc, this);
     }
 
     private String removeItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-
-        StringBuilder code = new StringBuilder();
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.removeTimerEL(\"" + listenerId + "\");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatTimerEventListenerImpl.removeItsNatTimerEventListenerCode(itsNatListener);
     }
 
-    public void updateItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,long computedPeriod,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    public String updateItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,long computedPeriod,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-
-        StringBuilder code = new StringBuilder();
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.updateTimerEL(\"" + listenerId + "\"," + computedPeriod + ");\n" );
-
-        clientDoc.addCodeToSend(code.toString());
+        return JSAndBSRenderItsNatTimerEventListenerImpl.updateItsNatTimerEventListenerCode(itsNatListener, computedPeriod);
     }
 
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)

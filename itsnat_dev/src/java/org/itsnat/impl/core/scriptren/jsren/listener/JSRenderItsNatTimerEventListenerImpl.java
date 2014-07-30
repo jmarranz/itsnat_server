@@ -19,66 +19,40 @@ package org.itsnat.impl.core.scriptren.jsren.listener;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.w3c.dom.Node;
-import org.w3c.dom.events.EventTarget;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatTimerEventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEventListenerImpl
+public class JSRenderItsNatTimerEventListenerImpl extends JSRenderItsNatDOMExtEventListenerImpl implements RenderItsNatTimerEventListener
 {
-    public static final JSRenderItsNatTimerEventListenerImpl SINGLETON = new JSRenderItsNatTimerEventListenerImpl();
+    private static final JSRenderItsNatTimerEventListenerImpl SINGLETON = new JSRenderItsNatTimerEventListenerImpl();
 
     /** Creates a new instance of JSRenderItsNatTimerEventListenerImpl */
     public JSRenderItsNatTimerEventListenerImpl()
     {
     }
 
+    public static JSRenderItsNatTimerEventListenerImpl getJSRenderItsNatTimerEventListener()
+    {
+        return SINGLETON;
+    }
+    
     private String addItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-
-        long delay = itsNatListener.getDelayFirstTime();
-
-        EventTarget currentTarget = itsNatListener.getCurrentTarget();
-
-        String listenerId = itsNatListener.getId();
-        int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
-
-        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
-        // Hay que tener en cuenta que currentTarget puede ser NULO
-        code.append( "itsNatDoc.addTimerEL(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + "," + delay + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatTimerEventListenerImpl.addItsNatTimerEventListenerCode(itsNatListener, clientDoc, this);
     }
 
     private String removeItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-
-        StringBuilder code = new StringBuilder();
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.removeTimerEL(\"" + listenerId + "\");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatTimerEventListenerImpl.removeItsNatTimerEventListenerCode(itsNatListener);
     }
 
-    public void updateItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,long computedPeriod,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String updateItsNatTimerEventListenerCode(ItsNatTimerEventListenerWrapperImpl itsNatListener,long computedPeriod,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-
-        StringBuilder code = new StringBuilder();
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.updateTimerEL(\"" + listenerId + "\"," + computedPeriod + ");\n" );
-
-        clientDoc.addCodeToSend(code.toString());
+        return JSAndBSRenderItsNatTimerEventListenerImpl.updateItsNatTimerEventListenerCode(itsNatListener, computedPeriod);
     }
 
     @Override    

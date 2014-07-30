@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout 
-            xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout             
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -215,6 +215,33 @@
         <TextView id="testAsyncTaskHiddenId" 
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
+        
+        <LinearLayout             
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+            <Button id="testTimerAddId" 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Timer" />  
+            
+            <CheckBox id="testTimerFixedRateId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fixed Rate" />            
+            
+            <Button id="testTimerRemoveId" 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remove Timer" />                          
+        </LinearLayout>
+        
+        <TextView id="testTimer_text_Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="">
+        </TextView>        
+        
         
     </LinearLayout>
 </ScrollView>

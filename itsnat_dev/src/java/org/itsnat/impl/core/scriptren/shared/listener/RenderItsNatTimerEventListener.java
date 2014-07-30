@@ -10,7 +10,7 @@ package org.itsnat.impl.core.scriptren.shared.listener;
  *
  * @author jmarranz
  */
-public interface RenderItsNatUserEventListener extends RenderItsNatNormalEventListener
+public interface RenderItsNatTimerEventListener extends RenderItsNatNormalEventListener
 {
-
+    
 }

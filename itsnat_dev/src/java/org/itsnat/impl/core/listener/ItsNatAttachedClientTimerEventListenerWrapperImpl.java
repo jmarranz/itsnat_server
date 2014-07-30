@@ -38,7 +38,9 @@ public class ItsNatAttachedClientTimerEventListenerWrapperImpl extends ItsNatAtt
 
         ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
         
-        String code = JSRenderItsNatAttachedClientTimerEventListenerImpl.SINGLETON.addItsNatEventListenerCodeClient(this,clientDocDeleg);
+        JSRenderItsNatAttachedClientTimerEventListenerImpl render = JSRenderItsNatAttachedClientTimerEventListenerImpl.getJSRenderItsNatAttachedClientTimerEventListener();
+        
+        String code = render.addItsNatEventListenerCodeClient(this,clientDocDeleg);
         clientDocDeleg.addCodeToSend(code);
     }
 
