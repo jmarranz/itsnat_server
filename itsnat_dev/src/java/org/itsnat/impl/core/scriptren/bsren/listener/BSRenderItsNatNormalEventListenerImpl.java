@@ -82,7 +82,7 @@ public abstract class BSRenderItsNatNormalEventListenerImpl extends BSRenderItsN
 
             String bindToCustomFunc = itsNatListener.getBindToCustomFunc();
             if ((bindToCustomFunc != null) && !bindToCustomFunc.equals(""))
-                code.append( "func." + bindToCustomFunc + ";\n" );
+                code.append( "func." + bindToCustomFunc + ";\n" );  // La verdad es que en Droid no se si tiene alguna utilidad o sentido
 
             return "func";
         }

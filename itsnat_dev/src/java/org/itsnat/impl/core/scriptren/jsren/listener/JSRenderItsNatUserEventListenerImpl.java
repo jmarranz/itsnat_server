@@ -18,8 +18,10 @@ package org.itsnat.impl.core.scriptren.jsren.listener;
 
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatUserEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatUserEventListener;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 
@@ -27,7 +29,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEventListenerImpl
+public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEventListenerImpl implements RenderItsNatUserEventListener
 {
     public static final JSRenderItsNatUserEventListenerImpl SINGLETON = new JSRenderItsNatUserEventListenerImpl();
 
@@ -38,35 +40,12 @@ public class JSRenderItsNatUserEventListenerImpl extends JSRenderItsNatDOMExtEve
 
     private String addItsNatUserEventListenerCode(ItsNatUserEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        EventTarget currentTarget = itsNatListener.getCurrentTarget();
-
-        String name = itsNatListener.getName();
-        String listenerId = itsNatListener.getId();
-        int commMode = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        StringBuilder code = new StringBuilder();
-
-        String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
-
-        // Hay que tener en cuenta que currentTarget puede ser NULO
-        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)currentTarget,true);
-
-        code.append( "itsNatDoc.addUserEL(" + nodeLoc.toScriptNodeLocation(false) + ",\"" + name + "\",\"" + listenerId + "\"," + functionVarName + "," + commMode + "," + eventTimeout + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatUserEventListenerImpl.addItsNatUserEventListenerCode(itsNatListener,clientDoc,this);
     }
 
     private String removeItsNatUserEventListenerCode(ItsNatUserEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-
-        StringBuilder code = new StringBuilder();
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.removeUserEL(\"" + listenerId + "\");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatUserEventListenerImpl.removeItsNatUserEventListenerCode(itsNatListener);
     }
 
     @Override    

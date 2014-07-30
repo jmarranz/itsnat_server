@@ -17,7 +17,7 @@ public abstract class TestDroidBase
 {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     
-    protected ItsNatDocument itsNatDoc;
+    protected final ItsNatDocument itsNatDoc;
 
     public TestDroidBase(ItsNatDocument itsNatDoc)
     {

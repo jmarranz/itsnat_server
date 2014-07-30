@@ -88,6 +88,7 @@ public class TestAsyncServerTask extends TestBaseHTMLDocument implements EventLi
         clientDoc.addAsynchronousTask(task,lockDoc,0,null,listener,CommMode.XHR_ASYNC,null,null,-1);
     }
 
+    @Override
     public void outText(String msg)
     {
         HTMLDocument doc = (HTMLDocument)itsNatDoc.getDocument();

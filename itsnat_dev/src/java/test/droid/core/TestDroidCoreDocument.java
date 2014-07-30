@@ -25,7 +25,6 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidServerException(itsNatDoc);
         new TestDroidClientException(itsNatDoc);        
         new TestDroidNativeListeners(itsNatDoc); 
-        new TestDroid_XHR_ASYNC(itsNatDoc);
         new TestDroidStyleAttrAndViewInsertion(itsNatDoc);
         new TestDroidCustomViewInsertion(itsNatDoc);
         new TestDroidViewTreeInsertion(itsNatDoc);
@@ -39,6 +38,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidContinueListener(itsNatDoc);
         new TestDroidUserListener(itsNatDoc);
         new TestDroidToDOM(itsNatDoc);
+        new TestDroidAsyncServerTask(itsNatDoc);
     }
 
 }

@@ -1,0 +1,6 @@
+Título: ItsNat Droid, el paradigma web en Android con native layouts remotos y beanshell scripting
+
+Una de las ventajas de las aplicaciones híbridas en Android basadas fundamentalmente en tecnologías web, es la capacidad de modificar la estética y comportamiento sin necesidad de actualizar la aplicación lo cual hace que estas tecnologías sean muy atractivas para entornos muy cambiantes tal y como tiendas online.
+
+En Android no ha sido posible descargar layouts remotos por razones técnicas, ItsNat Droid rompe esa limitación e introduce un modelo de programación céntrico en el servidor evitando actualizaciones ante cambios de layouts e incluso de comportamiento, ItsNat Droid adapta el paradigma web a Android pero con tecnologías nativas, creando un sencillo navegador de layouts de nativos (páginas), scripting basado en beanshell y proceso de eventos en el servidor similar a peticiones AJAX adaptando el framework ItsNat AJAX Web a Android aplicando el paradigma Single Page Interface.
+

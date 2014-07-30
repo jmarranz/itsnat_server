@@ -15,10 +15,13 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
@@ -727,5 +730,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         UserEvent evt = createUserEvent(name);
         dispatchUserEvent(currTargetView, evt);
+    }
+
+    public void sendAsyncTaskEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)
+    {
+        Node currTarget = getNode(idObj);
+        View currTargetView = NodeImpl.getView(currTarget);
+        AsyncTaskEventListener listenerWrapper = new AsyncTaskEventListener(this,currTargetView,customFunc,listenerId,commMode,timeout);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
+        listenerWrapper.dispatchEvent(evtWrapper);
     }
 }
