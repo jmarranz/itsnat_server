@@ -863,6 +863,7 @@ public interface ItsNatDocument extends ItsNatUserData
      *
      * @param eventType The <code>eventType</code> parameter specifies the
      *   type of <code>Event</code> interface to be created.
+     * @return the new event.
      */
     public Event createEvent(String eventType) throws DOMException;
     
@@ -880,6 +881,7 @@ public interface ItsNatDocument extends ItsNatUserData
      *
      * @param target the event target DOM object.
      * @param evt the DOM event to send to target.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      */
     public boolean dispatchEvent(EventTarget target,Event evt) throws EventException;
 
@@ -892,6 +894,7 @@ public interface ItsNatDocument extends ItsNatUserData
      *
      * @param target the event target DOM object.
      * @param evt the DOM event to send to target.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      */
     public boolean dispatchEventLocally(EventTarget target,Event evt) throws EventException;
 

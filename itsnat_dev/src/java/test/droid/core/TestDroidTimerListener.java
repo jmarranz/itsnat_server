@@ -33,6 +33,7 @@ public class TestDroidTimerListener extends TestDroidBase implements EventListen
     protected boolean fixedRate;
     protected ItsNatTimer timerMgr;
     protected LinkedList<ItsNatTimerHandle> timerHandleList = new LinkedList<ItsNatTimerHandle>();    
+    protected Element outElem;
     
     public TestDroidTimerListener(ItsNatDocument itsNatDoc)
     {
@@ -56,13 +57,13 @@ public class TestDroidTimerListener extends TestDroidBase implements EventListen
         this.timerMgr = clientDoc.createItsNatTimer();
 
         this.removeTimerElem = doc.getElementById("testTimerRemoveId");
-        ((EventTarget)removeTimerElem).addEventListener("click",this,false);        
+        ((EventTarget)removeTimerElem).addEventListener("click",this,false);
+        
+        this.outElem = getDocument().getElementById("testTimer_text_Id");        
     }
     
     public void handleEvent(Event evt)
     {     
-        Document doc = getDocument();        
-        final Element outElem = doc.getElementById("testTimer_text_Id");   
         
         EventTarget currentTarget = (EventTarget)evt.getCurrentTarget();
         if (currentTarget == addTimerElem)

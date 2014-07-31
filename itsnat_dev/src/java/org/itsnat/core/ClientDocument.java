@@ -218,6 +218,7 @@ public interface ClientDocument extends ItsNatUserData
      *
      * @param target the event target DOM object.
      * @param evt the DOM event to send to target.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      * @see #dispatchEvent(EventTarget,Event,int,long)
      */
     public boolean dispatchEvent(EventTarget target,Event evt) throws EventException;
@@ -241,6 +242,7 @@ public interface ClientDocument extends ItsNatUserData
      * @param evt the DOM event to send to target.
      * @param commMode communication mode.
      * @param eventTimeout the timeout of the event when asynchronous. If negative no timeout is defined.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      * @see ItsNatDocument#dispatchEvent(EventTarget,Event)
      * @see #startEventDispatcherThread(Runnable code)
      */

@@ -152,14 +152,11 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
         return clientDoc.getNodeReference(object,cacheIfPossible,true) + "." + propertyName;
     }
 
-    public static void addCodeDispatchEvent(EventTarget node,Event evt,String varResName,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static String getCodeDispatchEvent(EventTarget node,Event evt,String varResName,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         JSRenderEventImpl evtRender = JSRenderEventImpl.getJSEventRender(evt,clientDoc.getBrowserWeb());
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)node,true);
 
-        String code = evtRender.getDispatchEvent(varResName,nodeLoc,evt,clientDoc);
-
-        // A los clientes control remoto no hay que enviar (sólo un posible cacheado del nodo lo cual ya se ha hecho antes indirectamente en getNodeLocationWithParent)
-        clientDoc.addCodeToSend(code);
+        return evtRender.getDispatchEvent(varResName,nodeLoc,evt,clientDoc);
     }
 }

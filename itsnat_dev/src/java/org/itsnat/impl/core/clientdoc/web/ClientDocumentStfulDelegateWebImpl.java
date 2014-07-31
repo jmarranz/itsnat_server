@@ -173,6 +173,10 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         return JSRenderNodeImpl.removeNodeFromCache(id);
     }
 
+    protected String getCodeDispatchEvent(EventTarget target,Event evt,String varResName,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return JSRenderNodeImpl.getCodeDispatchEvent(target,evt,"res",this);
+    }    
     
     public boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException
     {
@@ -190,7 +194,8 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
 
         synchronized(itsNatDoc)
         {
-            JSRenderNodeImpl.addCodeDispatchEvent(target,evt,"res",this);
+            // A los clientes control remoto no hay que enviar (sólo un posible cacheado del nodo lo cual ya se ha hecho antes indirectamente en getNodeLocationWithParent)
+            clientDoc.addCodeToSend( getCodeDispatchEvent(target,evt,"res",this) );
 
             EventListener listener = new EventListenerInternal()
             {

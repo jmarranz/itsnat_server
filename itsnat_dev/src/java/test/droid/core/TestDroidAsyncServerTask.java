@@ -15,8 +15,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import static test.droid.core.TestDroidBase.ANDROID_NS;
-import static test.droid.core.TestDroidBase.logToTextView;
 
 /**
  *
@@ -24,24 +22,24 @@ import static test.droid.core.TestDroidBase.logToTextView;
  */
 public class TestDroidAsyncServerTask extends TestDroidBase implements EventListener
 {
-   
+    protected Element outElem;
+    
     public TestDroidAsyncServerTask(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
         Element testLauncher = getDocument().getElementById("testAsyncTaskId");    
         itsNatDoc.addEventListener((EventTarget)testLauncher,"click", this, false, CommMode.XHR_ASYNC);        
+        
+        this.outElem = getDocument().getElementById("testAsyncTask_text_Id");         
     }
     
     public void handleEvent(Event evt)
     {     
         ItsNatEvent evt2 = (ItsNatEvent)evt;
         ClientDocument clientDoc = evt2.getClientDocument();
-        Document doc = getDocument();
         //Element testLauncherHidden = doc.getElementById("testAsyncTaskHiddenId");  
         
-        final Element outElem = doc.getElementById("testAsyncTask_text_Id");         
-               
         final EventListener listener = new EventListener()
         {
             public void handleEvent(final Event evt)

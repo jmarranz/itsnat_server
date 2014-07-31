@@ -18,7 +18,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import static test.droid.core.TestDroidBase.logToTextView;
 import test.web.shared.EventListenerSerial;
 
 /**
@@ -28,6 +27,7 @@ import test.web.shared.EventListenerSerial;
 public class TestDroidCometNotifier extends TestDroidBase implements EventListener
 {
     protected CometNotifier comet;
+    protected Element outElem;
     
     public TestDroidCometNotifier(ItsNatDocument itsNatDoc)
     {
@@ -35,16 +35,15 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
 
         Element testLauncher = getDocument().getElementById("testCometNotifierId");        
         ((EventTarget)testLauncher).addEventListener("click", this, false);
+        
+        this.outElem = getDocument().getElementById("testCometNotifier_text_Id");        
     }
 
     public void handleEvent(final Event evt)
     {
         DroidEvent itsNatEvent = (DroidEvent)evt;        
         
-        Document doc = getDocument();        
-        final Element logElem = doc.getElementById("testCometNotifier_text_Id");
-        
-        logToTextView(logElem,"OK " + evt.getType() + " "); // Para que se vea
+        logToTextView(outElem,"OK " + evt.getType() + " "); // Para que se vea
 
         if ((comet == null)||comet.isStopped())
         {
@@ -61,7 +60,7 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
                 {
                     String model = (String)((ItsNatCometEvent)evt).getExtraParam("model");
                     if (model == null) throw new RuntimeException("TEST FAIL");
-                    logToTextView(logElem, "Comet Event " + evt.getType() + " ");
+                    logToTextView(outElem, "Comet Event " + evt.getType() + " ");
                 }
             };
             comet.addEventListener(listener);
@@ -84,7 +83,7 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
 
                         synchronized(itsNatDoc) 
                         {
-                            logToTextView(logElem,"End Comet Task ");
+                            logToTextView(outElem,"End Comet Task ");
                         }
 
                         if (comet.isStopped()) // por ejemplo cuando salgamos de la página
@@ -99,23 +98,23 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
 
                     synchronized(itsNatDoc)
                     {
-                        logToTextView(logElem,"Stopped Notifier (thread) ");
+                        logToTextView(outElem,"Stopped Notifier (thread) ");
                         if ((t2 - t1) >= timeout)
-                            logToTextView(logElem,"End Thread (timeout) ");
+                            logToTextView(outElem,"End Thread (timeout) ");
                         else
-                            logToTextView(logElem,"End Thread (notifier stopped) ");
+                            logToTextView(outElem,"End Thread (notifier stopped) ");
                     }
                 }
             };
 
             task.start();
 
-            logToTextView(logElem,"Created Notifier ");
+            logToTextView(outElem,"Created Notifier ");
         }
         else
         {
             comet.stop();
-            logToTextView(logElem,"Stop Notifier (manual) ");
+            logToTextView(outElem,"Stop Notifier (manual) ");
         }
     }    
 }

@@ -33,7 +33,6 @@ import org.itsnat.impl.core.comet.NormalCometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
-import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
@@ -42,10 +41,8 @@ import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerW
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
-import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatNormalCometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.dom.domext.ItsNatContinueEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.dom.domext.ItsNatTimerEventListenerRegistryImpl;

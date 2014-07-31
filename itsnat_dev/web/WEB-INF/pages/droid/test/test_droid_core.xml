@@ -257,5 +257,29 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <LinearLayout             
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+            
+            <EditText id="testKeyboardInputEditId"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="" 
+                android:hint="áéíñ"/>            
+            
+            <Button id="testKeyboardInputProcessId" 
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test Keyboard Input" />               
+                        
+        </LinearLayout>        
+        
+        <TextView id="testKeyboardInput_text_Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="">
+        </TextView>        
+        
     </LinearLayout>
 </ScrollView>

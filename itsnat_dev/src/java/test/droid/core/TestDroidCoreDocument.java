@@ -41,6 +41,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidAsyncServerTask(itsNatDoc);
         new TestDroidTimerListener(itsNatDoc);
         new TestDroidCometNotifier(itsNatDoc);
+        new TestDroidKeyboardInput(itsNatDoc);
     }
 
 }
