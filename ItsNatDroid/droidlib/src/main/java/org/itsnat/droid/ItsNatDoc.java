@@ -16,6 +16,7 @@ public interface ItsNatDoc
     public void alert(String title,Object value);
     public void toast(Object value,int duration);
     public void toast(Object value);
+    public void postDelayed(Runnable task,long delay);
 
     public UserEvent createUserEvent(String name);
     public void dispatchUserEvent(View currTarget,UserEvent evt);

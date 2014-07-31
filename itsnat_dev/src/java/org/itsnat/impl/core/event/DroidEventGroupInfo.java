@@ -18,6 +18,20 @@ package org.itsnat.impl.core.event;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidFocusEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidKeyEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidFocusEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidKeyEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
+import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.w3c.dom.DOMException;
 
 /**
  *
@@ -28,7 +42,8 @@ public class DroidEventGroupInfo
     public static final int UNKNOWN_EVENT = 0;
     public static final int MOTION_EVENT = 1;
     public static final int KEY_EVENT = 2;
-
+    public static final int FOCUS_EVENT = 3;
+    
     protected static final Map<String,DroidEventGroupInfo> eventGroups = new HashMap<String,DroidEventGroupInfo>(); // no sincronizamos porque es sólo lectura
     protected static final DroidEventGroupInfo eventGroupUnknownDefault = new DroidEventGroupInfo(UNKNOWN_EVENT);
 
@@ -43,6 +58,9 @@ public class DroidEventGroupInfo
         
         eventGroups.put("keydown",  new DroidEventGroupInfo(KEY_EVENT));
         eventGroups.put("keyup",    new DroidEventGroupInfo(KEY_EVENT));
+        
+        eventGroups.put("focus",  new DroidEventGroupInfo(FOCUS_EVENT));
+        eventGroups.put("blur",   new DroidEventGroupInfo(FOCUS_EVENT));        
     }
 
     protected int eventGroupCode;
@@ -76,4 +94,33 @@ public class DroidEventGroupInfo
         return eventGroupCode;
     }
 
+    public static ClientItsNatDroidEventImpl createClientItsNatDroidEvent(String type,ItsNatDroidEventListenerWrapperImpl listener,RequestNormalEventImpl request)
+    {
+        if ("click".equals(type) ||
+            "touchstart".equals(type) || 
+            "touchend".equals(type) ||
+            "touchmove".equals(type) ||
+            "touchcancel".equals(type))
+            return new ClientItsNatDroidMotionEventImpl(listener,request);
+        else if ("keydown".equals(type) ||
+                 "keyup".equals(type))
+            return new ClientItsNatDroidKeyEventImpl(listener,request);
+        else if ("focus".equals(type) ||
+                 "blur".equals(type))
+            return new ClientItsNatDroidFocusEventImpl(listener,request);        
+        
+        return null;
+    }    
+    
+    public static ServerItsNatDroidEventImpl createServerItsNatDroidEvent(String eventGroup,ItsNatStfulDocumentImpl itsNatDoc) throws DOMException
+    {
+        if ("MotionEvent".equals(eventGroup))
+            return new ServerItsNatDroidMotionEventImpl(itsNatDoc);
+        else if ("KeyEvent".equals(eventGroup))
+            return new ServerItsNatDroidKeyEventImpl(itsNatDoc);        
+        else if ("FocusEvent".equals(eventGroup))
+            return new ServerItsNatDroidFocusEventImpl(itsNatDoc);        
+        throw new ItsNatException("Event name " + eventGroup + " is unknown");
+    }    
+    
 }

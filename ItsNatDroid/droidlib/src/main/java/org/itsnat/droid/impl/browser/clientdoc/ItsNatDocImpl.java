@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
@@ -19,6 +20,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
@@ -59,7 +61,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected Map<String,TimerEventListener> timerEventListeners;
     protected Map<String,UserEventListener> userListenersById;
     protected MapList<String,UserEventListener> userListenersByName;
-    protected Handler handlerForTimers;
+    protected Handler handler;
 
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
@@ -158,10 +160,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return userListenersByName;
     }
 
-    public Handler getHandlerForTimers()
+    public Handler getHandler()
     {
-        if (handlerForTimers == null) this.handlerForTimers = new Handler(); // Se asociará (debe) al hilo UI
-        return handlerForTimers;
+        if (handler == null) this.handler = new Handler(); // Se asociará (debe) al hilo UI
+        return handler;
     }
 
     private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
@@ -247,6 +249,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void toast(Object value)
     {
         toast(value,Toast.LENGTH_SHORT);
+    }
+
+    public void postDelayed(Runnable task,long delay)
+    {
+        getHandler().postDelayed(task,delay);
     }
 
     public void onServerStateLost()
@@ -637,15 +644,20 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             ClickEventListenerViewAdapter evtListAdapter = viewData.getClickEventListenerViewAdapter();
             currentTarget.setOnClickListener(evtListAdapter);
         }
-        else if (type.startsWith("touch"))
+        else if (type.equals("focus") || type.equals("blur"))
         {
-            TouchEventListenerViewAdapter evtListAdapter = viewData.getTouchEventListenerViewAdapter();
-            currentTarget.setOnTouchListener(evtListAdapter);
+            FocusEventListenerViewAdapter evtListAdapter = viewData.getFocusEventListenerViewAdapter();
+            currentTarget.setOnFocusChangeListener(evtListAdapter);
         }
         else if (type.startsWith("key"))
         {
             KeyEventListenerViewAdapter evtListAdapter = viewData.getKeyEventListenerViewAdapter();
             currentTarget.setOnKeyListener(evtListAdapter);
+        }
+        else if (type.startsWith("touch"))
+        {
+            TouchEventListenerViewAdapter evtListAdapter = viewData.getTouchEventListenerViewAdapter();
+            currentTarget.setOnTouchListener(evtListAdapter);
         }
     }
 
@@ -786,7 +798,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         };
         listenerWrapper.setCallback(callback);
-        getHandlerForTimers().postDelayed(callback, delay);
+        getHandler().postDelayed(callback, delay);
         getTimerEventListeners().put(listenerId, listenerWrapper);
     }
 
@@ -795,7 +807,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         TimerEventListener listenerWrapper = getTimerEventListeners().remove(listenerId);
         if (listenerWrapper == null) return;
         Runnable callback = listenerWrapper.getCallback();
-        getHandlerForTimers().removeCallbacks(callback);
+        getHandler().removeCallbacks(callback);
     }
 
     public void updateTimerEL(String listenerId,long delay)
@@ -803,7 +815,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         TimerEventListener listenerWrapper = getTimerEventListeners().get(listenerId);
         if (listenerWrapper == null) return;
         Runnable callback = listenerWrapper.getCallback();
-        getHandlerForTimers().postDelayed(callback, delay);
+        getHandler().postDelayed(callback, delay);
     }
 
     public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout)

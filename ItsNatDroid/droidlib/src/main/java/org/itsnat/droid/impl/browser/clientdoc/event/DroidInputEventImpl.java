@@ -14,36 +14,14 @@ import java.util.List;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public abstract class DroidInputEventImpl extends NormalEventImpl implements DroidInputEvent
+public abstract class DroidInputEventImpl extends DroidEventImpl implements DroidInputEvent
 {
-    /**
-     * The current event phase is the capturing phase.
-     */
-    public static final short CAPTURING_PHASE           = 1;
-    /**
-     * The event is currently being evaluated at the target
-     * <code>EventTarget</code>.
-     */
-    public static final short AT_TARGET                 = 2;
-    /**
-     * The current event phase is the bubbling phase.
-     */
-    public static final short BUBBLING_PHASE            = 3;
-
     protected InputEvent evtNative;
-    protected int eventPhase;
-    protected View viewTarget;
 
     public DroidInputEventImpl(DroidEventListener listener, InputEvent evtNative)
     {
         super(listener);
         this.evtNative = evtNative;
-        this.eventPhase = AT_TARGET;
-    }
-
-    public DroidEventListener getDroidEventListener()
-    {
-        return (DroidEventListener)listener;
     }
 
     public InputEvent getInputEvent()
@@ -51,26 +29,7 @@ public abstract class DroidInputEventImpl extends NormalEventImpl implements Dro
         return evtNative;
     }
 
-    @Override
-    public String getType()
-    {
-        return getDroidEventListener().getType();
-    }
 
-    public int getEventPhase()
-    {
-        return eventPhase;
-    }
-
-    public void setEventPhase(int eventPhase)
-    {
-        this.eventPhase = eventPhase;
-    }
-
-    public void setViewTarget(View view)
-    {
-        this.viewTarget = view;
-    }
 
     @Override
     public void saveEvent()
@@ -93,16 +52,5 @@ public abstract class DroidInputEventImpl extends NormalEventImpl implements Dro
         parcelIn.recycle();
     }
 
-    public List<NameValuePair> genParamURL()
-    {
-        List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_eventPhase", "" + eventPhase));
 
-        View view = getDroidEventListener().getCurrentTarget();
-        String viewTargetStr = viewTarget != null && viewTarget != view? listener.getItsNatDocImpl().getStringPathFromView(viewTarget) : "null";
-        // Si viewTarget == currentTarget enviamos null para evitar tráfico, ya sabemos que es el currentTarget
-        params.add(new BasicNameValuePair("itsnat_evt_target",viewTargetStr));
-
-        return params;
-    }
 }

@@ -13,6 +13,7 @@ public interface ItsNatView
     public void setOnClickListener(View.OnClickListener l);
     public void setOnTouchListener(View.OnTouchListener l);
     public void setOnKeyListener(View.OnKeyListener l);
+    public void setOnFocusChangeListener(View.OnFocusChangeListener l);
 
     public UserData getUserData();
 }

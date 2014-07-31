@@ -6,6 +6,7 @@ import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
@@ -28,6 +29,8 @@ public class ItsNatViewImpl implements ItsNatView
     protected ClickEventListenerViewAdapter clickEvtListenerViewAdapter;
     protected TouchEventListenerViewAdapter touchEvtListenerViewAdapter;
     protected KeyEventListenerViewAdapter keyEvtListenerViewAdapter;
+    protected FocusEventListenerViewAdapter focusEvtListenerViewAdapter;
+
     protected String nodeCacheId;
     protected UserDataImpl userData;
 
@@ -92,6 +95,12 @@ public class ItsNatViewImpl implements ItsNatView
         return keyEvtListenerViewAdapter;
     }
 
+    public FocusEventListenerViewAdapter getFocusEventListenerViewAdapter()
+    {
+        if (focusEvtListenerViewAdapter == null) this.focusEvtListenerViewAdapter = new FocusEventListenerViewAdapter(this);
+        return focusEvtListenerViewAdapter;
+    }
+
     public void setOnClickListener(View.OnClickListener l)
     {
         ClickEventListenerViewAdapter evtListenerViewAdapter = getClickEventListenerViewAdapter();
@@ -111,6 +120,13 @@ public class ItsNatViewImpl implements ItsNatView
         KeyEventListenerViewAdapter evtListenerViewAdapter = getKeyEventListenerViewAdapter();
         view.setOnKeyListener(evtListenerViewAdapter);
         evtListenerViewAdapter.setOnKeyListener(l);
+    }
+
+    public void setOnFocusChangeListener(View.OnFocusChangeListener l)
+    {
+        FocusEventListenerViewAdapter evtListenerViewAdapter = getFocusEventListenerViewAdapter();
+        view.setOnFocusChangeListener(evtListenerViewAdapter);
+        evtListenerViewAdapter.setOnFocusChangeListener(l);
     }
 
     public String getNodeCacheId()

@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -16,29 +16,32 @@
 
 package org.itsnat.impl.core.event.server.droid;
 
-import org.itsnat.core.event.droid.DroidEvent;
+import org.itsnat.core.event.droid.DroidFocusEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.DroidEventGroupInfo;
-import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
-import org.w3c.dom.DOMException;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ServerItsNatDroidEventImpl extends ServerItsNatNormalEventImpl implements DroidEvent
+public class ServerItsNatDroidFocusEventImpl extends ServerItsNatDroidEventImpl implements DroidFocusEvent
 {
-    /**
-     * Creates a new instance of ServerItsNatDroidEventImpl
-     */
-    public ServerItsNatDroidEventImpl(ItsNatStfulDocumentImpl itsNatDoc)
+    protected boolean hasFocus;
+  
+    
+    public ServerItsNatDroidFocusEventImpl(ItsNatStfulDocumentImpl itsNatDoc)
     {
         super(itsNatDoc);
     }
 
-    public static ServerItsNatDroidEventImpl createServerItsNatDroidEvent(String eventGroup,ItsNatStfulDocumentImpl itsNatDoc) throws DOMException
+    public boolean hasFocus()
     {
-        return DroidEventGroupInfo.createServerItsNatDroidEvent(eventGroup,itsNatDoc);
+        return hasFocus;
     }
+
+    public void setFocus(boolean value)
+    {
+        this.hasFocus = value;
+    }
+
 
 }

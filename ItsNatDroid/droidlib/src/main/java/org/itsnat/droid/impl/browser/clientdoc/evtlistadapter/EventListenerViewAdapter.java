@@ -8,6 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
@@ -26,12 +27,12 @@ public abstract class EventListenerViewAdapter
         this.viewData = viewData;
     }
 
-    protected void dispatch(String type,InputEvent nativeEvt)
+    protected void dispatch(String type,Object nativeEvt)
     {
         dispatch(viewData,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewData.getView());
     }
 
-    protected static void dispatch(ItsNatViewImpl viewData,String type,InputEvent nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
+    protected static void dispatch(ItsNatViewImpl viewData,String type,Object nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
     {
         List<DroidEventListener> list = viewData.getEventListeners(type);
         if (list == null) return;
@@ -50,7 +51,7 @@ public abstract class EventListenerViewAdapter
                 }
             }
 
-            DroidInputEventImpl evtWrapper = (DroidInputEventImpl)listener.createEventWrapper(nativeEvt);
+            DroidEventImpl evtWrapper = (DroidEventImpl)listener.createEventWrapper(nativeEvt);
             try
             {
                 evtWrapper.setEventPhase(eventPhase);

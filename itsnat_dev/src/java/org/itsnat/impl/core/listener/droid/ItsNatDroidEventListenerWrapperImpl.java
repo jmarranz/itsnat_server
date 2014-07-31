@@ -19,7 +19,9 @@ package org.itsnat.impl.core.listener.droid;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.event.DroidEventGroupInfo;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidKeyEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidMotionEventImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
@@ -61,17 +63,7 @@ public class ItsNatDroidEventListenerWrapperImpl extends ItsNatNormalEventListen
     @Override
     public ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request)
     {
-        if ("click".equals(type) ||
-            "touchstart".equals(type) || 
-            "touchend".equals(type) ||
-            "touchmove".equals(type) ||
-            "touchcancel".equals(type))
-            return new ClientItsNatDroidMotionEventImpl(this,request);
-        else if ("keydown".equals(type) ||
-                 "keyup".equals(type))
-            return new ClientItsNatDroidKeyEventImpl(this,request);
-        
-        return null;
+        return DroidEventGroupInfo.createClientItsNatDroidEvent(type, this, request);
     }
 
     @Override
