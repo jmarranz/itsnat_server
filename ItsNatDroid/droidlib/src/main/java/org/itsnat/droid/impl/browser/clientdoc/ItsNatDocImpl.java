@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListener
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistener.CometTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
@@ -803,5 +804,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (listenerWrapper == null) return;
         Runnable callback = listenerWrapper.getCallback();
         getHandlerForTimers().postDelayed(callback, delay);
+    }
+
+    public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout)
+    {
+        CometTaskEventListener listenerWrapper = new CometTaskEventListener(this,listenerId,customFunc,commMode,timeout);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
+        listenerWrapper.dispatchEvent(evtWrapper);
     }
 }

@@ -19,12 +19,14 @@ package org.itsnat.impl.core.scriptren.bsren.listener;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatNormalCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatNormalCometTaskEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatNormalCometTaskEventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class BSRenderItsNatNormalCometTaskEventListenerImpl extends BSRenderItsNatGenericTaskEventListenerImpl
+public class BSRenderItsNatNormalCometTaskEventListenerImpl extends BSRenderItsNatGenericTaskEventListenerImpl implements RenderItsNatNormalCometTaskEventListener
 {
     public static final BSRenderItsNatNormalCometTaskEventListenerImpl SINGLETON = new BSRenderItsNatNormalCometTaskEventListenerImpl();
 
@@ -37,18 +39,7 @@ public class BSRenderItsNatNormalCometTaskEventListenerImpl extends BSRenderItsN
 
     private String addNormalCometTaskEventListenerCode(ItsNatNormalCometEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-        int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        StringBuilder code = new StringBuilder();
-
-        // A día de hoy no hay código del usuario en los eventos comet, podría añadirse fácilmente
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.sendCometTaskEvent(\"" + listenerId + "\"," + sync + "," + eventTimeout + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatNormalCometTaskEventListenerImpl.addNormalCometTaskEventListenerCode(itsNatListener, clientDoc,this);
     }
 
     protected String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)

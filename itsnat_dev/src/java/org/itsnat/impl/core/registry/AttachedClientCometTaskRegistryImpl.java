@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
@@ -44,7 +45,7 @@ public class AttachedClientCometTaskRegistryImpl extends CometTaskRegistryImpl
         return (ClientDocumentAttachedClientCometImpl)clientDoc;
     }
 
-    public CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer)
+    public CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer,ParamTransport[] extraParams,String preSendCode)
     {
         ClientDocumentAttachedClientCometImpl clientDoc = getClientDocumentAttachedClientComet();
         return new ItsNatAttachedClientCometEventListenerWrapperImpl(taskContainer,clientDoc);

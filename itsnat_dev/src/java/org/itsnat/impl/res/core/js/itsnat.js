@@ -1080,10 +1080,10 @@ function AsyncTaskEventListener(itsNatDoc,currentTarget,customFunc,id,commMode,t
     function createEventWrapper(evt) { return new DOMExtEvent(this); }
 }
 
-function CometTaskEventListener(itsNatDoc,id,commMode,timeout)
+function CometTaskEventListener(itsNatDoc,id,customFunc,commMode,timeout)
 {
     this.DOMExtEventListener = DOMExtEventListener;
-    this.DOMExtEventListener(itsNatDoc,"cometret",null,null,id,commMode,timeout);
+    this.DOMExtEventListener(itsNatDoc,"cometret",null,customFunc,id,commMode,timeout);
 
     this.createEventWrapper = createEventWrapper;
 
@@ -1555,9 +1555,9 @@ function Document()
         listenerWrapper.dispatchEvent(null);
     }
 
-    function sendCometTaskEvent(listenerId,commMode,timeout)
+    function sendCometTaskEvent(listenerId,customFunc,commMode,timeout)
     {
-        var listenerWrapper = new CometTaskEventListener(this,listenerId,commMode,timeout);
+        var listenerWrapper = new CometTaskEventListener(this,listenerId,customFunc,commMode,timeout);
         listenerWrapper.dispatchEvent(null);
     }
 

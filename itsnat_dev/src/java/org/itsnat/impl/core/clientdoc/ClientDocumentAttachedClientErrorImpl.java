@@ -89,4 +89,5 @@ public class ClientDocumentAttachedClientErrorImpl extends ClientDocumentWithout
         throw new ItsNatException("Not supported in this context");
     }
 
+  
 }

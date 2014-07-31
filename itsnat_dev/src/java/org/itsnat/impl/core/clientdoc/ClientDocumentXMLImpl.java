@@ -106,6 +106,11 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)    
+    {
+        throw new ItsNatException("Not supported in this context");
+    }        
+    
     public boolean isScriptingEnabled()
     {
         return false;

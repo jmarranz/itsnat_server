@@ -242,6 +242,20 @@
             android:text="">
         </TextView>        
         
+        <Button id="testCometNotifierId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Comet start/stop" />                
+        
+            <TextView id="testCometNotifier_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>        
+        
+        <TextView id="testCometNotifierHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
         
     </LinearLayout>
 </ScrollView>

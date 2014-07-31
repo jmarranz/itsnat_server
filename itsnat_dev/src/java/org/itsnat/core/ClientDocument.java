@@ -180,6 +180,18 @@ public interface ClientDocument extends ItsNatUserData
     public CometNotifier createCometNotifier(int commMode,long eventTimeout);
 
     /**
+     * Creates a COMET notifier bound to this client and to the server document associated.
+     *
+     * @param commMode the communication mode, must be pure asynchronous.
+     * @param extraParams optional client to server data transport and synchronization rules. May be null.
+     * @param preSendCode custom JavaScript code to execute before an event of this listener type is fired. May be null.      
+     * @param eventTimeout the timeout for any event used to notify the client. If negative no timeout is defined.
+     * @return a new COMET notifier.
+     * @see CommMode
+     */
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout);    
+    
+    /**
      * Executes the specified task in a new thread, this code is ready to
      * call <code>EventTarget.dispatchEvent(Event)</code> or
      * {@link #dispatchEvent(EventTarget,Event,int,long)}

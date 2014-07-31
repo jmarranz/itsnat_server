@@ -19,12 +19,14 @@ package org.itsnat.impl.core.scriptren.jsren.listener;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatNormalCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.JSAndBSRenderItsNatNormalCometTaskEventListenerImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.RenderItsNatNormalCometTaskEventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsNatGenericTaskEventListenerImpl
+public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsNatGenericTaskEventListenerImpl implements RenderItsNatNormalCometTaskEventListener
 {
     public static final JSRenderItsNatNormalCometTaskEventListenerImpl SINGLETON = new JSRenderItsNatNormalCometTaskEventListenerImpl();
 
@@ -37,18 +39,7 @@ public class JSRenderItsNatNormalCometTaskEventListenerImpl extends JSRenderItsN
 
     private String addNormalCometTaskEventListenerCode(ItsNatNormalCometEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-        int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        StringBuilder code = new StringBuilder();
-
-        // A día de hoy no hay código del usuario en los eventos comet, podría añadirse fácilmente
-
-        code.append( "\n" );
-        code.append( "itsNatDoc.sendCometTaskEvent(\"" + listenerId + "\"," + sync + "," + eventTimeout + ");\n" );
-
-        return code.toString();
+        return JSAndBSRenderItsNatNormalCometTaskEventListenerImpl.addNormalCometTaskEventListenerCode(itsNatListener, clientDoc,this);
     }
 
     @Override    

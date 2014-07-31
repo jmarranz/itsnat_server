@@ -58,7 +58,7 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
 
     public void addAttachedClientCometTask(AttachedClientCometNotifierImpl notifier)
     {
-        getAttachedClientCometTaskRegistry().addCometTask(notifier);
+        getAttachedClientCometTaskRegistry().addCometTask(notifier,null,null);
     }
 
     public CometTaskEventListenerWrapper removeAttachedClientCometTask(String id)

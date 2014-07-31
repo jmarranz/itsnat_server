@@ -18,6 +18,7 @@ package org.itsnat.impl.core.comet;
 
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
@@ -38,9 +39,11 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
     protected LinkedList<EventListener> normalEventListeners;
     protected EventListener listenerDispatcher;
     protected int commMode;
+    protected ParamTransport[] extraParams;
+    protected String preSendCode;
 
     /** Creates a new instance of NormalCometNotifierImpl */
-    public NormalCometNotifierImpl(int commMode,long eventTimeout,ClientDocumentStfulImpl clientDoc)
+    public NormalCometNotifierImpl(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,ClientDocumentStfulImpl clientDoc)
     {
         super(true,clientDoc); // userDataSync es true porque el CometNotifier típicamente será usado por hilos "background"
 
@@ -50,6 +53,8 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
             throw new ItsNatException("Communication transport mode must be pure asynchronous");
 
         this.commMode = commMode;
+        this.extraParams = extraParams;
+        this.preSendCode = preSendCode;
         this.eventTimeout = eventTimeout;
 
         this.listenerDispatcher = new EventListenerInternal()
@@ -69,7 +74,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         };
 
         clientDoc.addCometNotifier(this);
-        clientDoc.addCometTask(this);
+        clientDoc.addCometTask(this,extraParams,preSendCode);
     }
 
     public int getCommMode()
@@ -79,7 +84,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
 
     public void addCometTask()
     {
-        getClientDocumentStful().addCometTask(this);
+        getClientDocumentStful().addCometTask(this,extraParams,preSendCode);
     }
 
     public long getEventTimeout()
@@ -87,6 +92,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         return eventTimeout;
     }
 
+    @Override
     public void stopInternal()
     {
         super.stopInternal();

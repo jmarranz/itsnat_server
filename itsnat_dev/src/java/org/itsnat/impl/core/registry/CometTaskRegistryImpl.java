@@ -18,6 +18,7 @@ package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
@@ -49,18 +50,18 @@ public abstract class CometTaskRegistryImpl extends EventListenerRegistryImpl im
         return clientDoc.getItsNatStfulDocument();
     }
 
-    public abstract CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer);
+    public abstract CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer,ParamTransport[] extraParams,String preSendCode);
 
     public abstract boolean canAddItsNatEventListener(CometNotifierImpl notifier);
 
-    public void addCometTask(CometNotifierImpl notifier)
+    public void addCometTask(CometNotifierImpl notifier,ParamTransport[] extraParams,String preSendCode)
     {
         // Se supone que ItsNatDocument está sincronizado (bloqueado por este hilo)
         if (!canAddItsNatEventListener(notifier))
             return;
 
         CometTaskImpl taskContainer = new CometTaskImpl(notifier);
-        ItsNatEventListenerWrapperImpl listener = (ItsNatEventListenerWrapperImpl)createCometTaskEventListenerWrapper(taskContainer);
+        ItsNatEventListenerWrapperImpl listener = (ItsNatEventListenerWrapperImpl)createCometTaskEventListenerWrapper(taskContainer,extraParams,preSendCode);
 
         tasks.put(listener);
 

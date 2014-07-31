@@ -118,6 +118,11 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)    
+    {
+        throw new ItsNatException("Not supported in this context");
+    }    
+            
     public void startEventDispatcherThread(Runnable task)
     {
         throw new ItsNatException("Not supported in this context");

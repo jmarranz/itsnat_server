@@ -89,7 +89,7 @@ public class NodePropertyTransport extends SingleParamTransport
      */
     public NodePropertyTransport(String name,Class<?> type)
     {
-        this(name,buildJavaSetMethodName(name));
+        this(name,type,buildJavaSetMethodName(name));
     }
 
     /**

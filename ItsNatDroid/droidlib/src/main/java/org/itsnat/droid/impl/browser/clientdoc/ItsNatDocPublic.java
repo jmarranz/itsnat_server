@@ -68,4 +68,6 @@ public interface ItsNatDocPublic
     public void addTimerEL(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout,long delay);
     public void removeTimerEL(String listenerId);
     public void updateTimerEL(String listenerId,long delay);
+
+    public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout);
 }

@@ -51,6 +51,7 @@ public abstract class ClientDocumentAttachedServerImpl extends ClientDocumentWit
         return docTemplate;
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();

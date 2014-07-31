@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.listener.dom.domext;
 
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
@@ -36,9 +37,9 @@ public class ItsNatNormalCometEventListenerWrapperImpl extends ItsNatGenericTask
     /**
      * Creates a new instance of ItsNatNormalCometEventListenerWrapperImpl
      */
-    public ItsNatNormalCometEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,CometTaskImpl task)
+    public ItsNatNormalCometEventListenerWrapperImpl(ClientDocumentStfulImpl clientDoc,CometTaskImpl task,ParamTransport[] extraParams,String preSendCode)
     {
-        super(clientDoc,task,null,getEventListener(task),null,null,task.getEventTimeout(),null);
+        super(clientDoc,task,null,getEventListener(task),extraParams,preSendCode,task.getEventTimeout(),null);
     }
 
     public int getCommModeDeclared()

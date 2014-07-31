@@ -557,7 +557,12 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public CometNotifier createCometNotifier(int commMode,long eventTimeout)
     {
-        return new NormalCometNotifierImpl(commMode,eventTimeout,this);
+        return createCometNotifier(commMode,null,null,eventTimeout);
+    }    
+    
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)
+    {
+        return new NormalCometNotifierImpl(commMode,extraParams,preSendCode,eventTimeout,this);
     }
 
     public boolean hasCometNotifiers()
@@ -591,9 +596,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return cometTaskRegistry;
     }
 
-    public void addCometTask(NormalCometNotifierImpl notifier)
+    public void addCometTask(NormalCometNotifierImpl notifier,ParamTransport[] extraParams,String preSendCode)
     {
-        getCometTaskRegistry().addCometTask(notifier);
+        getCometTaskRegistry().addCometTask(notifier,extraParams,preSendCode);
     }
 
     public CometTaskEventListenerWrapper removeCometTask(String id)
