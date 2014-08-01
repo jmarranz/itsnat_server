@@ -17,6 +17,8 @@
 package org.itsnat.impl.core.clientdoc;
 
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.CustomParamTransport;
+import org.itsnat.core.event.ItsNatContinueEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.browser.Browser;
@@ -29,6 +31,9 @@ import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
 import org.itsnat.impl.core.dompath.DOMPathResolver;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
+import org.itsnat.impl.core.event.EventInternal;
+import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
@@ -254,6 +259,56 @@ public abstract class ClientDocumentStfulDelegateImpl
         }
     }        
     
+    
+    
+    public boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException
+    {
+        final ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
+        if (Thread.holdsLock(itsNatDoc))
+            throw new ItsNatException("Document must be unlocked in this call",this);
+        if (getClientDocumentStful() != itsNatDoc.getEventDispatcherClientDocByThread())
+            throw new ItsNatException("This thread is not an event dispatcher thread");
+
+        ((EventInternal)evt).checkInitializedEvent();
+        ((EventInternal)evt).setTarget(target);
+
+        final long evtDispMaxWait = itsNatDoc.getEventDispatcherMaxWait();
+        final boolean[] monitor = new boolean[1];
+
+        synchronized(itsNatDoc)
+        {
+            // A los clientes control remoto no hay que enviar (sólo un posible cacheado del nodo lo cual ya se ha hecho antes indirectamente en getNodeLocationWithParent)
+            clientDoc.addCodeToSend( getCodeDispatchEvent(target,evt,"res",this) );
+
+            EventListener listener = new EventListenerInternal()
+            {
+                public void handleEvent(Event evt)
+                {
+                    ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;
+                    // El hilo que ejecuta este método es un hilo request/response
+                    monitor[0] = Boolean.getBoolean((String)contEvt.getExtraParam("itsnat_res"));
+                    synchronized(monitor)
+                    {
+                        monitor.notifyAll(); // Desbloquea el hilo dispatcher de eventos
+                    }
+                    itsNatDoc.lockThread(evtDispMaxWait); // Bloquea el hilo del request/response para una posible siguiente llamada a dispatchEvent
+                }
+            };
+            CustomParamTransport param = new CustomParamTransport("itsnat_res","res");
+            getClientDocumentStful().addContinueEventListener(null,listener,commMode,new ParamTransport[]{param},null,eventTimeout);
+
+            itsNatDoc.notifyAll();  // Desbloquea el hilo del request/response para que se envíe el código al browser
+        }
+
+        synchronized(monitor)
+        {
+            // Bloqueamos el hilo dispatcher de eventos esperando la respuesta del navegador
+            try { monitor.wait(evtDispMaxWait); } catch(InterruptedException ex) { throw new ItsNatException(ex,this); }
+        }
+
+        return monitor[0];
+    }    
+    
     public abstract void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc);
     public abstract void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
     public abstract int removeAllPlatformEventListeners(EventTarget target,boolean updateClient);    
@@ -262,7 +317,7 @@ public abstract class ClientDocumentStfulDelegateImpl
     public abstract void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture);    
     
     public abstract ScriptUtil createScriptUtil();
-    public abstract boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException;   
+    protected abstract String getCodeDispatchEvent(EventTarget target,Event evt,String varResName,ClientDocumentStfulDelegateImpl clientDoc);      
     public abstract String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull);    
     protected abstract String renderAddNodeToCache(NodeLocationWithParentImpl nodeLoc);    
     protected abstract String renderRemoveNodeFromCache(String id);

@@ -22,17 +22,17 @@ import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.msie.JSRenderMSIEOldEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.w3c.JSRenderW3CEventImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderNormalEventImpl;
 import org.w3c.dom.events.Event;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderEventImpl
+public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderNormalEventImpl
 {
 
     /**

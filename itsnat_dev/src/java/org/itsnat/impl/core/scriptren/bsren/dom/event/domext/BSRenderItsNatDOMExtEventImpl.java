@@ -13,29 +13,30 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.impl.core.scriptren.jsren.dom.event.domext;
+package org.itsnat.impl.core.scriptren.bsren.dom.event.domext;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatDOMExtEvent;
 import org.itsnat.core.event.ItsNatUserEvent;
-import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderNormalEventImpl;
+import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderEventImpl;
+import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderNormalEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderItsNatDOMExtEventImpl extends JSRenderNormalEventImpl
+public abstract class BSRenderItsNatDOMExtEventImpl extends BSRenderNormalEventImpl
 {
 
     /** Creates a new instance of JSRenderItsNatDOMExtEventImpl */
-    public JSRenderItsNatDOMExtEventImpl()
+    public BSRenderItsNatDOMExtEventImpl()
     {
     }
 
-    public static JSRenderItsNatDOMExtEventImpl getJSRenderItsNatDOMExtEvent(ItsNatDOMExtEvent event)
+    public static BSRenderItsNatDOMExtEventImpl getBSRenderItsNatDOMExtEvent(ItsNatDOMExtEvent event)
     {
         if (event instanceof ItsNatUserEvent)
-            return JSRenderItsNatUserEventImpl.SINGLETON;
+            return BSRenderItsNatUserEventImpl.SINGLETON;
         else
             throw new ItsNatException("This event type is not supported",event);
     }

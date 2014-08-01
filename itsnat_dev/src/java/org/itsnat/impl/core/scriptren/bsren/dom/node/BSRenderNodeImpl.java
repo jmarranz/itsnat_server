@@ -22,12 +22,16 @@ import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderEventImpl;
 import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toLiteralStringJS;
 import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
 import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventTarget;
 
 /**
  *
@@ -118,5 +122,13 @@ public class BSRenderNodeImpl extends BSRenderImpl
     public static String removeNodeFromCache(String id)
     {
         return "itsNatDoc.removeNodeCache(new String[]{" + toLiteralStringJS(id) + "});\n";
+    }    
+    
+    public static String getCodeDispatchEvent(EventTarget node,Event evt,String varResName,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        BSRenderEventImpl evtRender = BSRenderEventImpl.getBSEventRender(evt);
+        NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)node,true);
+
+        return evtRender.getDispatchEvent(varResName,nodeLoc,evt,clientDoc);
     }    
 }

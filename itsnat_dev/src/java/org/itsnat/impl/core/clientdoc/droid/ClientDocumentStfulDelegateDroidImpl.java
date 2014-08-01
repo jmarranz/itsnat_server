@@ -28,6 +28,7 @@ import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.droid.ItsNatDroidEventListenerRegistryImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
@@ -57,11 +58,10 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
         return new BSScriptUtilFromClientImpl(this);
     }
 
-    @Override
-    public boolean dispatchEvent(EventTarget target, Event evt, int commMode, long eventTimeout) throws EventException
+    protected String getCodeDispatchEvent(EventTarget target,Event evt,String varResName,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        return BSRenderNodeImpl.getCodeDispatchEvent(target,evt,"res",this);
+    }    
 
     @Override
     public String getNodeReference(Node node, boolean cacheIfPossible, boolean errIfNull)

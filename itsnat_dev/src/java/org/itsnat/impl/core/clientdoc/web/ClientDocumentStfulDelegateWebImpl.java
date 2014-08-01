@@ -19,18 +19,13 @@ package org.itsnat.impl.core.clientdoc.web;
 import java.util.HashSet;
 import java.util.Set;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.CustomParamTransport;
-import org.itsnat.core.event.ItsNatContinueEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
-import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -40,7 +35,6 @@ import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistr
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -178,53 +172,6 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         return JSRenderNodeImpl.getCodeDispatchEvent(target,evt,"res",this);
     }    
     
-    public boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException
-    {
-        final ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
-        if (Thread.holdsLock(itsNatDoc))
-            throw new ItsNatException("Document must be unlocked in this call",this);
-        if (getClientDocumentStful() != itsNatDoc.getEventDispatcherClientDocByThread())
-            throw new ItsNatException("This thread is not an event dispatcher thread");
-
-        ((EventInternal)evt).checkInitializedEvent();
-        ((EventInternal)evt).setTarget(target);
-
-        final long evtDispMaxWait = itsNatDoc.getEventDispatcherMaxWait();
-        final boolean[] monitor = new boolean[1];
-
-        synchronized(itsNatDoc)
-        {
-            // A los clientes control remoto no hay que enviar (sólo un posible cacheado del nodo lo cual ya se ha hecho antes indirectamente en getNodeLocationWithParent)
-            clientDoc.addCodeToSend( getCodeDispatchEvent(target,evt,"res",this) );
-
-            EventListener listener = new EventListenerInternal()
-            {
-                public void handleEvent(Event evt)
-                {
-                    ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;
-                    // El hilo que ejecuta este método es un hilo request/response
-                    monitor[0] = Boolean.getBoolean((String)contEvt.getExtraParam("itsnat_res"));
-                    synchronized(monitor)
-                    {
-                        monitor.notifyAll(); // Desbloquea el hilo dispatcher de eventos
-                    }
-                    itsNatDoc.lockThread(evtDispMaxWait); // Bloquea el hilo del request/response para una posible siguiente llamada a dispatchEvent
-                }
-            };
-            CustomParamTransport param = new CustomParamTransport("itsnat_res","res");
-            getClientDocumentStful().addContinueEventListener(null,listener,commMode,new ParamTransport[]{param},null,eventTimeout);
-
-            itsNatDoc.notifyAll();  // Desbloquea el hilo del request/response para que se envíe el código al browser
-        }
-
-        synchronized(monitor)
-        {
-            // Bloqueamos el hilo dispatcher de eventos esperando la respuesta del navegador
-            try { monitor.wait(evtDispMaxWait); } catch(InterruptedException ex) { throw new ItsNatException(ex,this); }
-        }
-
-        return monitor[0];
-    }
     
     public boolean hasDOMStdEventListeners()
     {

@@ -7,7 +7,9 @@
 package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -24,13 +26,15 @@ public class TestDroidEventPreSendCode extends TestDroidBase implements EventLis
         super(itsNatDoc);
 
         Element testLauncher = getDocument().getElementById("testEventPreSendId");
-        String preSendCode = "itsNatDoc.alert(\"OK \" + event);";
+        String preSendCode = "event.setExtraParam(\"in_client\",\"OK Fired a \" + event.getType() + \" event \");\n";
+       
         itsNatDoc.addEventListener((EventTarget)testLauncher, "click", this, false, preSendCode);
     }
     
     public void handleEvent(Event evt)
     {     
-        // Nada que hacer
+        String res = (String)((ItsNatEvent)evt).getExtraParam("in_client");        
+        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"" + res + " OK Click Received (Server) \");");
     }
     
 }
