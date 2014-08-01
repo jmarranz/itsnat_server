@@ -33,18 +33,20 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
         this.editElement = getDocument().getElementById("testKeyboardInputEditId");        
         ((EventTarget)editElement).addEventListener("focus", this, false);
         
+        /*
+        String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);                
+        itsNatDoc.addCodeToSend("var elem = " + editRef + ";");                
+        itsNatDoc.addCodeToSend("elem.requestFocus(); ");   
+        */
+        
         ParamTransport textParam = new NodePropertyTransport("getText()",false);
         itsNatDoc.addEventListener((EventTarget)editElement, "blur", this, false, new ParamTransport[]{textParam});      
         
         this.processElement = getDocument().getElementById("testKeyboardInputProcessId");
         ((EventTarget)processElement).addEventListener("click", this, false);        
         
-        {
-            String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
-            itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
-            itsNatDoc.addCodeToSend("elem.setFocusable(true);");        
-            itsNatDoc.addCodeToSend("elem.setFocusableInTouchMode(true);");            
-        }
+  
+        
         
         this.outElem = getDocument().getElementById("testKeyboardInput_text_Id");        
     }
@@ -58,12 +60,19 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
  
         logToTextView(outElem,"Event " + evt2.getType() + " ");
         
-        if (currTarget == editElement && evt2.getType().equals("blur"))
+        if (currTarget == editElement)
         {
             
             if (evt2.getType().equals("focus"))
             {
-                 
+                // Hacemos el botón focusable para que al pulsarse le quite el foco al EditText y se ejecute el evento blur
+                String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
+                itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
+                itsNatDoc.addCodeToSend("elem.setFocusable(true);");        
+                itsNatDoc.addCodeToSend("elem.setFocusableInTouchMode(true);");                   
+                
+                // No hace falta hacer elem.setFocusable(false) para conseguir quitar el azul feo cuando el botón processElement tiene el foco, pues
+                // Android tiende a que una vez que un control ha tomado el foco ha de existir un control con el foco y siempre podemos cambiarlo al EditText
             }
             else if (evt2.getType().equals("blur"))
             {
@@ -71,29 +80,19 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
                 logToTextView(outElem,"\nTEXT: " + text + "\n");
                 
                 String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);                
-                itsNatDoc.addCodeToSend(editRef + ".setText(\"\");");                
+                itsNatDoc.addCodeToSend("var elem = " + editRef + ";");                
+                itsNatDoc.addCodeToSend("elem.setText(\"\");");
+
+                itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Esto es para que el botón processElement no se quede con el foco con un azul muy feo           
             }
         }
         else if (currTarget == processElement)
         {
-            /*
-            String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);
-            itsNatDoc.addCodeToSend("var elem = " + editRef + ";");            
-            itsNatDoc.addCodeToSend("elem.clearFocus();"); // Si el EditText es el primer componente "focusable" volverá a tener el foco automáticamente           
-            */   
-            
             String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
             itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
-            itsNatDoc.addCodeToSend("elem.requestFocus(); ");             
+            itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Para provocar el blur en el EditText si tuviera el foco           
             
-            String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);                
-            itsNatDoc.addCodeToSend("var elem = " + editRef + ";");            
-            itsNatDoc.addCodeToSend("elem.requestFocus(); ");                 
-            
-            
-            //itsNatDoc.addCodeToSend("elem.requestFocus(2); ");     // FOCUS_FORWARD == 2       
-             
-            //itsNatDoc.addCodeToSend("itsNatDoc.postDelayed(new Runnable(){ void run() {elem.clearFocus(); itsNatDoc.alert(true); }},5000);");            
+          
         }
     }
     
