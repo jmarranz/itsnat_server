@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 /**
  * Created by jmarranz on 24/07/14.
  */
-public class KeyEventListenerViewAdapter extends EventListenerViewAdapter implements View.OnKeyListener
+public class KeyEventListenerViewAdapter extends DroidEventListenerViewAdapter implements View.OnKeyListener
 {
     protected View.OnKeyListener keyboardListener;
 

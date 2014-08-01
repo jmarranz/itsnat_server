@@ -59,7 +59,11 @@ public abstract class DroidEventImpl extends NormalEventImpl implements DroidEve
         this.eventPhase = eventPhase;
     }
 
-    public void setViewTarget(View view)
+    public View getTarget()
+    {
+        return viewTarget;
+    }
+    public void setTarget(View view)
     {
         this.viewTarget = view;
     }

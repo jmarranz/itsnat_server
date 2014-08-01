@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 
-import android.view.InputEvent;
 import android.view.View;
 import android.view.ViewParent;
 
@@ -18,11 +17,11 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public abstract class EventListenerViewAdapter
+public abstract class DroidEventListenerViewAdapter
 {
     protected ItsNatViewImpl viewData;
 
-    public EventListenerViewAdapter(ItsNatViewImpl viewData)
+    public DroidEventListenerViewAdapter(ItsNatViewImpl viewData)
     {
         this.viewData = viewData;
     }
@@ -55,7 +54,7 @@ public abstract class EventListenerViewAdapter
             try
             {
                 evtWrapper.setEventPhase(eventPhase);
-                evtWrapper.setViewTarget(viewTarget);
+                evtWrapper.setTarget(viewTarget);
                 listener.dispatchEvent(evtWrapper);
             }
             catch(Exception ex)

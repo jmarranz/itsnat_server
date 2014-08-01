@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 /**
  * Created by jmarranz on 24/07/14.
  */
-public class ClickEventListenerViewAdapter extends EventListenerViewAdapter implements View.OnClickListener
+public class ClickEventListenerViewAdapter extends DroidEventListenerViewAdapter implements View.OnClickListener
 {
     protected View.OnClickListener clickListener;
 

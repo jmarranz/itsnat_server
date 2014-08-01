@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 
-import android.view.KeyEvent;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
@@ -8,7 +7,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 /**
  * Created by jmarranz on 24/07/14.
  */
-public class FocusEventListenerViewAdapter extends EventListenerViewAdapter implements View.OnFocusChangeListener
+public class FocusEventListenerViewAdapter extends DroidEventListenerViewAdapter implements View.OnFocusChangeListener
 {
     protected View.OnFocusChangeListener focusListener;
 

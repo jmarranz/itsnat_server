@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 /**
  * Created by jmarranz on 24/07/14.
  */
-public class TouchEventListenerViewAdapter extends EventListenerViewAdapter implements View.OnTouchListener
+public class TouchEventListenerViewAdapter extends DroidEventListenerViewAdapter implements View.OnTouchListener
 {
     protected View.OnTouchListener touchListener;
 
