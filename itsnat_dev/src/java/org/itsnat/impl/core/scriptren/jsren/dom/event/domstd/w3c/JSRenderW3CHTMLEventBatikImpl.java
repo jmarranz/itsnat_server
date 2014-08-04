@@ -33,7 +33,7 @@ public class JSRenderW3CHTMLEventBatikImpl extends JSRenderW3CHTMLEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         // Eventos como "blur" etc no tienen ningun uso en Batik (son HTMLEvents) pero al menos
         // para que no de error.

@@ -33,7 +33,7 @@ public class JSRenderW3CMutationEventImpl extends JSRenderW3CEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "MutationEvents";
     }

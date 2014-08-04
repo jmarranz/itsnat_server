@@ -6,6 +6,8 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.event.droid;
 
+import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.droid.DroidMotionEvent;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.w3c.dom.events.Event;
 
@@ -19,14 +21,12 @@ public class BSRenderItsNatDroidMotionEventImpl extends BSRenderItsNatDroidInput
     
     @Override
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    {       
+        DroidMotionEvent evt2 = (DroidMotionEvent)evt; 
+        if (evt2.getRawX() != 0) throw new ItsNatException("rawX property is obtained from native in the device, use an explicit 0 (default value) in creation of event");
+        if (evt2.getRawY() != 0) throw new ItsNatException("rawY property is obtained from native in the device, use an explicit 0 (default value) in creation of event");        
+        return "itsNatDoc.createMotionEvent(\"" + evt.getType() + "\"," + evt2.getX() + "f," + evt2.getY() + "f)";   // RawX y RawY se sacan de X e Y dentro de MotionEvent (al revés realmente)
     }
     
+
 }

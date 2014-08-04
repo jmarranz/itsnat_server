@@ -26,6 +26,11 @@ public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEve
         this.evtNative = evtNative;
     }
 
+    public static Boolean createFocusEvent(boolean hasFocus)
+    {
+        return new Boolean(hasFocus);
+    }
+
     public DroidEventListener getDroidEventListener()
     {
         return (DroidEventListener)listener;

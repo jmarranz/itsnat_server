@@ -6,6 +6,7 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.event.droid;
 
+import org.itsnat.core.event.droid.DroidKeyEvent;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.w3c.dom.events.Event;
 
@@ -20,13 +21,9 @@ public class BSRenderItsNatDroidKeyEventImpl extends BSRenderItsNatDroidInputEve
     @Override
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DroidKeyEvent evt2 = (DroidKeyEvent)evt; 
+        return "itsNatDoc.createKeyEvent(\"" + evt.getType() + "\"," + evt2.getKeyCode() + ")"; 
     }
 
-    @Override
-    public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

@@ -36,4 +36,9 @@ public abstract class TestDroidBase
         text += msg;
         outElem.setAttributeNS(ANDROID_NS, "text",text);    
     }
+    
+    public static String getLogTextView(Element outElem)
+    {
+        return outElem.getAttributeNS(ANDROID_NS, "text");        
+    }    
 }

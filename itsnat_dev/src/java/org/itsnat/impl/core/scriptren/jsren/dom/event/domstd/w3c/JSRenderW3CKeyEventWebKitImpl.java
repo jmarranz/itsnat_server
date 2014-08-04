@@ -51,7 +51,7 @@ public class JSRenderW3CKeyEventWebKitImpl extends JSRenderW3CKeyboardEventImpl
         return true;
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "KeyboardEvent"; // Yo creo que vale también "KeyboardEvents" (en plural)
     }

@@ -35,7 +35,7 @@ public class JSRenderW3CUIEventGenericDefaultImpl extends JSRenderW3CUIEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "UIEvents";
     }

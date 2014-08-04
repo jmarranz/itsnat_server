@@ -34,7 +34,7 @@ public class JSRenderW3CMouseEventDefaultImpl extends JSRenderW3CMouseEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "MouseEvents";
     }

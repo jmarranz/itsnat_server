@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -18,8 +20,12 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.DroidEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
@@ -781,7 +787,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 }
                 catch(Exception ex)
                 {
-                    // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
+                    // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                     // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
                     OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
                     if (errorListener != null)
@@ -823,5 +829,46 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         CometTaskEventListener listenerWrapper = new CometTaskEventListener(this,listenerId,customFunc,commMode,timeout);
         DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
         listenerWrapper.dispatchEvent(evtWrapper);
+    }
+
+    public MotionEvent createMotionEvent(String type,float x, float y)
+    {
+        return DroidMotionEventImpl.createMotionEvent(type,x,y);
+    }
+
+    public KeyEvent createKeyEvent(String type,int keyCode)
+    {
+        return DroidKeyEventImpl.createKeyEvent(type, keyCode);
+    }
+
+    public Boolean createFocusEvent(String type,boolean hasFocus)
+    {
+        return DroidFocusEventImpl.createFocusEvent(hasFocus);
+    }
+
+    public boolean dispatchEvent(Node node, String type, Object nativeEvt)
+    {
+        View currTarget = NodeImpl.getView(node);
+        return dispatchEvent(currTarget,type,nativeEvt);
+    }
+
+    public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt)
+    {
+        Node currTarget = getNode(idObj);
+        return dispatchEvent(currTarget,type,nativeEvt);
+    }
+
+    private boolean dispatchEvent(View target, String type, Object nativeEvt)
+    {
+        ItsNatViewImpl targetViewData = getPageImpl().getItsNatViewImpl(target);
+        DroidEventListenerViewAdapter.dispatch(targetViewData, type, nativeEvt);
+        return false; // No sabemos qué poner
+    }
+
+    public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)
+    {
+        View currTarget = getView(idObj);
+        dispatchUserEvent(currTarget,evt);
+        return false; // No sabemos qué poner;
     }
 }

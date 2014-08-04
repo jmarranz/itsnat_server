@@ -46,7 +46,7 @@ public class JSRenderW3CKeyEventBlackBerryOldImpl extends JSRenderW3CKeyboardEve
         return BlackBerryOldKeyEventImpl.toKeyIdentifier(keyCode);
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "KeyboardEvents"; // "KeyboardEvent" NO VALE, es con "s" al final
     }

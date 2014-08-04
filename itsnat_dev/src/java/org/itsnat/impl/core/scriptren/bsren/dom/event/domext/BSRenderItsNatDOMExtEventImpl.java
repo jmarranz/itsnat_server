@@ -18,7 +18,6 @@ package org.itsnat.impl.core.scriptren.bsren.dom.event.domext;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatDOMExtEvent;
 import org.itsnat.core.event.ItsNatUserEvent;
-import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderEventImpl;
 import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderNormalEventImpl;
 
 /**

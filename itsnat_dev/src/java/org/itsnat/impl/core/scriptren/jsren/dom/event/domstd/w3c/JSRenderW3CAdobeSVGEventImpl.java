@@ -56,7 +56,7 @@ public abstract class JSRenderW3CAdobeSVGEventImpl extends JSRenderW3CEventImpl
             return JSRenderW3CAdobeSVGEventDefaultImpl.SINGLETON;
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         // ASV v6
         // Increíble pero esta la única forma en el que conseguimos

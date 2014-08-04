@@ -6,6 +6,7 @@
 
 package org.itsnat.impl.core.scriptren.bsren.dom.event.droid;
 
+import org.itsnat.core.event.droid.DroidFocusEvent;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.w3c.dom.events.Event;
 
@@ -20,14 +21,8 @@ public class BSRenderItsNatDroidFocusEventImpl extends BSRenderItsNatDroidEventI
     @Override
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DroidFocusEvent evt2 = (DroidFocusEvent)evt; 
+        return "itsNatDoc.createFocusEvent(\"" + evt.getType() + "\"," + evt2.hasFocus() + ")"; 
     }
-
-    @Override
-    public String getInitEvent(Event evt, String evtVarName, ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 
 }

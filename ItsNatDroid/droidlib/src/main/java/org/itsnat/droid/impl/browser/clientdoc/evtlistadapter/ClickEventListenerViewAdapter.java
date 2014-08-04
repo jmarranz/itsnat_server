@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
 
 /**
  * Created by jmarranz on 24/07/14.
@@ -21,7 +22,7 @@ public class ClickEventListenerViewAdapter extends DroidEventListenerViewAdapter
     @Override
     public void onClick(View view)
     {
-        MotionEvent motionEvent = MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,0,0,0);
+        MotionEvent motionEvent = DroidMotionEventImpl.createMotionEvent("click",0,0);
 
         dispatch("click",motionEvent);
 

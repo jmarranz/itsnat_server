@@ -19,8 +19,11 @@ package org.itsnat.impl.core.event;
 import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.droid.DroidEvent;
+import org.itsnat.core.event.droid.DroidFocusEvent;
+import org.itsnat.core.event.droid.DroidKeyEvent;
+import org.itsnat.core.event.droid.DroidMotionEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidKeyEventImpl;
@@ -32,6 +35,7 @@ import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidMotionEventImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.events.Event;
 
 /**
  *
@@ -123,4 +127,17 @@ public class DroidEventGroupInfo
         throw new ItsNatException("Event name " + eventGroup + " is unknown");
     }    
     
+    public static String getEventGroup(Event evt)
+    {
+        if (evt instanceof DroidEvent)
+        {
+            if (evt instanceof DroidMotionEvent)
+                return "MotionEvent";
+            else if (evt instanceof DroidKeyEvent)
+                return "KeyEvent";            
+            else if (evt instanceof DroidFocusEvent)
+                return "FocusEvent";             
+        }
+        return null;
+    }
 }

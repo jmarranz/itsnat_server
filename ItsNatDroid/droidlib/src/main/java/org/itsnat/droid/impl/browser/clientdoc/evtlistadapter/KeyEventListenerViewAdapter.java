@@ -4,6 +4,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 
 /**
  * Created by jmarranz on 24/07/14.
@@ -20,18 +21,7 @@ public class KeyEventListenerViewAdapter extends DroidEventListenerViewAdapter i
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent)
     {
-        String type = "";
-        int action = keyEvent.getAction();
-        switch(action)
-        {
-            case KeyEvent.ACTION_DOWN:
-                type = "keydown";
-                break;
-            case KeyEvent.ACTION_UP:
-                type = "keyup";
-                break;
-            // keypress ??
-        }
+        String type = DroidKeyEventImpl.getTypeFromAction(keyEvent);
 
         dispatch(type,keyEvent);
 

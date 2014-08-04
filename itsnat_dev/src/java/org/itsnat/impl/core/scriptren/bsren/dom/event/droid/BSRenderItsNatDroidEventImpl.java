@@ -23,6 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.w3c.JSRenderW3CEventImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.event.DroidEventGroupInfo;
 import org.itsnat.impl.core.scriptren.bsren.dom.event.BSRenderNormalEventImpl;
 import org.w3c.dom.events.Event;
 
@@ -49,10 +50,20 @@ public abstract class BSRenderItsNatDroidEventImpl extends BSRenderNormalEventIm
         return null;
     }
 
+    public String getEventGroup(Event evt)    
+    {
+        return DroidEventGroupInfo.getEventGroup(evt);
+    }
+    
     public abstract String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateDroidImpl clientDoc);
 
-    public abstract String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateDroidImpl clientDoc);
 
+    public String getInitEvent(Event evt,String evtVarName,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        return "";
+    }        
+    
+    
     // public abstract String getStopPropagation(String evtVarName,ClientDocumentStfulDelegateDroidImpl clientDoc);
 
     // public abstract String getPreventDefault(String evtVarName,ClientDocumentStfulDelegateDroidImpl clientDoc);
@@ -124,6 +135,6 @@ public abstract class BSRenderItsNatDroidEventImpl extends BSRenderNormalEventIm
 
     public String getCallDispatchEvent(String targetRef,Event evt,String evtVarName,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        return "itsNatDoc.dispatchEvent(" + targetRef + ",\"" + evt.getType() + "\"," + evtVarName + ");\n";
+        return "itsNatDoc.dispatchEvent(" + targetRef + ",\"" + evt.getType() + "\"," + evtVarName + ");\n";        
     }
 }

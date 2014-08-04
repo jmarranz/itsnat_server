@@ -47,7 +47,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
     {
     }
 
-    protected abstract String getEventTypeGroup(Event evt);
+    protected abstract String getEventGroup(Event evt);
 
     public static JSRenderW3CEventImpl getJSW3CEventRender(ItsNatDOMStdEvent event,BrowserW3C browser)
     {
@@ -73,7 +73,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
     @Override    
     public String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        return "itsNatDoc.doc.createEvent(\"" + getEventTypeGroup(evt) + "\")";
+        return "itsNatDoc.doc.createEvent(\"" + getEventGroup(evt) + "\")";
     }
 
     public String getInitEventDefault(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)

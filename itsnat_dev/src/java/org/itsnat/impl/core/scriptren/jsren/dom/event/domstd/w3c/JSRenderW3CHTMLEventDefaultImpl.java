@@ -33,7 +33,7 @@ public class JSRenderW3CHTMLEventDefaultImpl extends JSRenderW3CHTMLEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "HTMLEvents";
     }

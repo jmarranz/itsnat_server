@@ -28,6 +28,11 @@ public abstract class DroidEventListenerViewAdapter
 
     protected void dispatch(String type,Object nativeEvt)
     {
+        dispatch(viewData,type,nativeEvt);
+    }
+
+    public static void dispatch(ItsNatViewImpl viewData,String type,Object nativeEvt)
+    {
         dispatch(viewData,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewData.getView());
     }
 
@@ -59,7 +64,7 @@ public abstract class DroidEventListenerViewAdapter
             }
             catch(Exception ex)
             {
-                // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatch(String,InputEvent) nunca debería
+                // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
                 OnEventErrorListener errorListener = viewData.getPageImpl().getOnEventErrorListener();
                 if (errorListener != null)

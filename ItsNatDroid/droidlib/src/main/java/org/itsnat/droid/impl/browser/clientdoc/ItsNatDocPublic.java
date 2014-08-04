@@ -1,7 +1,10 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 
+import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
 
 /**
@@ -70,4 +73,13 @@ public interface ItsNatDocPublic
     public void updateTimerEL(String listenerId,long delay);
 
     public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout);
+
+    public MotionEvent createMotionEvent(String type,float x, float y);
+    public KeyEvent createKeyEvent(String type,int keyCode);
+    public Boolean createFocusEvent(String type,boolean hasFocus);
+
+    public boolean dispatchEvent(Node node, String type, Object nativeEvt);
+    public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt);
+
+    public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt);
 }

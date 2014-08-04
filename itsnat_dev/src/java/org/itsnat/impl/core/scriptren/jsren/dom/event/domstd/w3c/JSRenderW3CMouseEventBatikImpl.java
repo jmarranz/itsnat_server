@@ -34,7 +34,7 @@ public class JSRenderW3CMouseEventBatikImpl extends JSRenderW3CMouseEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "MouseEvents";
     }

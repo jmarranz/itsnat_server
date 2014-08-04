@@ -33,7 +33,7 @@ public class JSRenderW3CKeyEventOperaImpl extends JSRenderW3CKeyEventImpl
     {
     }
 
-    protected String getEventTypeGroup(Event evt)
+    protected String getEventGroup(Event evt)
     {
         return "Events";
     }

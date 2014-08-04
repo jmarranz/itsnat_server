@@ -1,6 +1,8 @@
 
 * Hacer que el URL sea configurable al ppio
 
+* Tratar de considerar boolean canBubbleArg, boolean cancelableArg en lo que se pueda y aplicar al capture al menos
+
 * Añadir más datos a enviar de MouseEvent y KeyEvent, en teoría debería ser configurable
 
 
