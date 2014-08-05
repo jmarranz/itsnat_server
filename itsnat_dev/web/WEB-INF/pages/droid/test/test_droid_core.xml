@@ -320,5 +320,33 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <Button id="testDisconnectNodeId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Disconnect Node" />                
+        
+            <LinearLayout id="testDisconnectNodeContainerId"  
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView id="testDisconnectNodeText_1_Id"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Text 1 connected to Server"
+                    android:background="#ffdddd" />            
+
+                <TextView id="testDisconnectNodeText_2_Id" 
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Text 2 connected to Server"
+                        android:background="#00dd00" />               
+
+            </LinearLayout>      
+        
+        <TextView id="testDisconnectNodeHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
     </LinearLayout>
 </ScrollView>

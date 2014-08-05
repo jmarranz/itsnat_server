@@ -59,7 +59,9 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             code.append("import " + CustomFunction.class.getName() + ";");
             code.append("import " + NormalEvent.class.getName() + ";");
             code.append("import " + UserEvent.class.getName() + ";");
-
+            code.append("import android.view.*;");
+            code.append("import android.widget.*;");
+            
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a){return new Object[]{a};}");
             code.append("arr(a,b){return new Object[]{a,b};}");
