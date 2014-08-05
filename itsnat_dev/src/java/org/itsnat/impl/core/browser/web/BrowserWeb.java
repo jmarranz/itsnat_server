@@ -18,9 +18,9 @@ package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLAttributeImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLElementImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLTextImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLTextImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**

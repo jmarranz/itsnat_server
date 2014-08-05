@@ -23,7 +23,6 @@ import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.scriptren.jsren.ScriptReference;
 import org.w3c.dom.Node;
 
 /**

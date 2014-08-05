@@ -1,11 +1,13 @@
 package org.itsnat.itsnatdroidtest;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 
 
 public class MainActivity extends Activity {
@@ -22,12 +24,15 @@ public class MainActivity extends Activity {
     {
         setContentView(R.layout.activity_main);
 
+        final EditText editURL = (EditText)findViewById(R.id.remoteURL);
+        editURL.setText(loadURL());
         View testLocal = findViewById(R.id.testLocal);
         testLocal.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
+                saveURL(editURL.getText().toString());
                 TestLayoutLocal.test(MainActivity.this);
             }
         });
@@ -38,11 +43,16 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view)
             {
-                TestLayoutRemote.test(MainActivity.this);
+                String url = editURL.getText().toString();
+                saveURL(url);
+                TestLayoutRemote.test(MainActivity.this,url);
             }
         });
 
 
+
+
+        /*
         View parent = findViewById(R.id.frameParent);
         View child = findViewById(R.id.frameChild);
 
@@ -90,9 +100,23 @@ public class MainActivity extends Activity {
                 }
             });
         }
-
+        */
     }
 
+    private String loadURL()
+    {
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        String url = settings.getString("remoteUrlTestCore", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_core");
+        return url;
+    }
+
+    private void saveURL(String url)
+    {
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("remoteUrlTestCore", url);
+        editor.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -31,7 +31,7 @@ import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;

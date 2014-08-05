@@ -44,6 +44,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidKeyboardInput(itsNatDoc);
         new TestGlobalDocAndClientListeners(itsNatDoc);
         new TestDroidFireEventInServerWithBrowser(itsNatDoc);
+        new TestDroidFireEventInServerNoBrowser(itsNatDoc);
     }
 
 }

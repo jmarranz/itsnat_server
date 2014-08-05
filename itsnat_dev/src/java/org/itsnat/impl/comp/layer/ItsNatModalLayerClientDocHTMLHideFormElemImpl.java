@@ -22,7 +22,7 @@ import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -32,16 +32,15 @@ import bsh.EvalError;
  */
 public class TestLayoutRemote
 {
-    public static void test(MainActivity act)
+    public static void test(MainActivity act,String url)
     {
         ItsNatDroidBrowser droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
-        downloadLayoutRemote(act,droidBrowser);
+        downloadLayoutRemote(act,droidBrowser,url);
     }
 
-    private static void downloadLayoutRemote(final MainActivity act,final ItsNatDroidBrowser droidBrowser)
+    private static void downloadLayoutRemote(final MainActivity act,final ItsNatDroidBrowser droidBrowser,String url)
     {
         Toast.makeText(act, "DOWNLOADING", Toast.LENGTH_SHORT).show();
-        String url = "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_core";
 
         boolean testSSLSelfSignedAllowed = false;
         if (testSSLSelfSignedAllowed)
@@ -135,7 +134,7 @@ public class TestLayoutRemote
                             public void onError(Exception ex, Event evt)
                             {
                                 ex.printStackTrace();
-                                TestUtil.alertDialog(act, "User Msg: Event processing error,type: " + ((NormalEvent)evt).getType() + " Msg: " + ex.getMessage());
+                                TestUtil.alertDialog(act, "User Msg: Event processing error, type: " + ((NormalEvent)evt).getType() + "\nException Msg: " + ex.getMessage());
                                 if (ex instanceof ItsNatDroidServerResponseException)
                                     TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
                                 else if (ex instanceof ItsNatDroidScriptException)

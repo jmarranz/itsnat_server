@@ -28,7 +28,7 @@ import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.droid.ItsNatDroidEventListenerRegistryImpl;
 import org.itsnat.impl.core.scriptren.bsren.BSScriptUtilFromClientImpl;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNodeImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;

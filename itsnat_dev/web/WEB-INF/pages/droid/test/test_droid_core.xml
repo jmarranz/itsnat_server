@@ -305,5 +305,20 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <Button id="testFireEventInServerNoBrowserId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fire Event From Server No Browser" />                
+        
+            <TextView id="testFireEventInServerNoBrowser_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>         
+        
+        <TextView id="testFireEventInServerNoBrowserHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
     </LinearLayout>
 </ScrollView>

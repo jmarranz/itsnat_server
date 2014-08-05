@@ -16,13 +16,14 @@
 
 package org.itsnat.impl.core.scriptren.jsren;
 
+import org.itsnat.impl.core.scriptren.shared.ScriptReference;
 import org.itsnat.impl.core.scriptren.shared.ScriptExprImpl;
 import java.io.Serializable;
 import org.itsnat.core.script.ScriptExpr;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 

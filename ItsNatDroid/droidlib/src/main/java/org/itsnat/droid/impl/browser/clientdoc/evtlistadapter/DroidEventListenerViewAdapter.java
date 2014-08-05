@@ -46,13 +46,7 @@ public abstract class DroidEventListenerViewAdapter
         {
             if (checkUseCapture && listener.isUseCapture())
             {
-                PageImpl page = viewData.getPageImpl();
-                List<ViewParent> tree = getViewTree(view);
-                for(ViewParent viewParent : tree)
-                {
-                    ItsNatViewImpl viewParentData = page.getItsNatViewImpl((View)viewParent);
-                    dispatch(viewParentData,type,nativeEvt,false, DroidInputEventImpl.CAPTURING_PHASE,viewTarget);
-                }
+                dispatchCapture(viewData,view,type,nativeEvt,viewTarget);
             }
 
             DroidEventImpl evtWrapper = (DroidEventImpl)listener.createEventWrapper(nativeEvt);
@@ -81,7 +75,18 @@ public abstract class DroidEventListenerViewAdapter
         }
     }
 
-    protected static List<ViewParent> getViewTree(View view)
+    private static void dispatchCapture(ItsNatViewImpl viewData,View view,String type,Object nativeEvt,View viewTarget)
+    {
+        PageImpl page = viewData.getPageImpl();
+        List<ViewParent> tree = getViewTreeParent(view);
+        for (ViewParent viewParent : tree)
+        {
+            ItsNatViewImpl viewParentData = page.getItsNatViewImpl((View) viewParent);
+            dispatch(viewParentData, type, nativeEvt, false, DroidInputEventImpl.CAPTURING_PHASE, viewTarget);
+        }
+    }
+
+    protected static List<ViewParent> getViewTreeParent(View view)
     {
         List<ViewParent> tree = new LinkedList<ViewParent>();
         ViewParent parent = view.getParent(); // Asegura que en la lista no está el View inicial

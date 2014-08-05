@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren;
 
+import org.itsnat.impl.core.scriptren.shared.ScriptReference;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
 /**

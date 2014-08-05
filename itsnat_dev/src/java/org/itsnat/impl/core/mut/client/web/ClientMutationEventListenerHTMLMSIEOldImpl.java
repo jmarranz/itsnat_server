@@ -18,9 +18,9 @@ package org.itsnat.impl.core.mut.client.web;
 
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderAttributeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderAttributeImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.html.msie.JSRenderHTMLTextMSIEOldImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLTextMSIEOldImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Element;

@@ -27,7 +27,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.JSScriptUtilFromClientImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.node.JSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;

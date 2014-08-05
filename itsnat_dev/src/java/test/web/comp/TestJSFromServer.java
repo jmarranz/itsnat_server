@@ -12,7 +12,7 @@ package test.web.comp;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
-import org.itsnat.impl.core.scriptren.jsren.ScriptReference;
+import org.itsnat.impl.core.scriptren.shared.ScriptReference;
 import javax.swing.ButtonModel;
 import org.itsnat.comp.ItsNatHTMLComponentManager;
 import org.itsnat.core.script.ScriptUtil;

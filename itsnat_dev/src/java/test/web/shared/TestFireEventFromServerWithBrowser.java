@@ -72,7 +72,6 @@ public class TestFireEventFromServerWithBrowser implements EventListener,Seriali
     {
         final Document doc = itsNatDoc.getDocument();
 
-        final Element link = this.link;
         Runnable thread = new Runnable()
         {
             public void run()

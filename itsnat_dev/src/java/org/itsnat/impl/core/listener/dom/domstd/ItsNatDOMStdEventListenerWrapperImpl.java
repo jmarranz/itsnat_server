@@ -24,6 +24,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
@@ -101,7 +102,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
                     JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
                     retEvent.append( render.getPreventDefault("event.getNativeEvent()",clientDocWeb) );
                 }
-                else
+                else if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl)
                 {
                     throw new ItsNatException("preventDefault not supported in Droid");
                 }
@@ -117,7 +118,7 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
                     JSRenderItsNatDOMStdEventImpl render = JSRenderItsNatDOMStdEventImpl.getJSItsNatDOMStdEventRender((ClientItsNatDOMStdEventImpl)event,browser);
                     retEvent.append( render.getStopPropagation("event.getNativeEvent()",clientDocWeb) );
                 }
-                else
+                else if (clientDoc instanceof ClientDocumentStfulDelegateDroidImpl)
                 {
                     throw new ItsNatException("stopPropagation not supported in Droid"); // Con un poco esfuerzo sí podríamos soportarlo (evitar continuar el "capture") por ej.
                 }                    

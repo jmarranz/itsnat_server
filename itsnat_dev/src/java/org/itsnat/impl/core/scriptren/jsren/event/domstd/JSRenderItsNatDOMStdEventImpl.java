@@ -58,20 +58,6 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderNormalEventI
     public abstract String getStopPropagation(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc);
 
     public abstract String getPreventDefault(String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc);
-
-    public String stopAndPreventDefault(Event evt,String evtVarName,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
-        EventInternal evtInt = (EventInternal)evt;
-
-        StringBuilder code = new StringBuilder();
-        if (evtInt.getStopPropagation())
-            code.append(getStopPropagation(evtVarName,clientDoc));
-
-        if (evtInt.getPreventDefault())
-            code.append(getPreventDefault(evtVarName,clientDoc));
-
-        return code.toString();
-    }
    
     public String getInitEventSystem(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
@@ -95,8 +81,6 @@ public abstract class JSRenderItsNatDOMStdEventImpl extends JSRenderNormalEventI
         code.append( "var " + evtVarName + " = " + getCreateEventInstance(evt,clientDoc) + ";\n" );
 
         code.append( getInitEvent(evt,evtVarName,clientDoc) );
-
-        code.append( stopAndPreventDefault(evt,evtVarName,clientDoc) ); // Yo creo que puede ser prescindile pero por si acaso
 
         return code.toString();
     }

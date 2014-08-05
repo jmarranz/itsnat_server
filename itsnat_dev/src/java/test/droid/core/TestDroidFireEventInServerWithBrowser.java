@@ -65,7 +65,6 @@ public class TestDroidFireEventInServerWithBrowser extends TestDroidBase impleme
     {
         final Document doc = itsNatDoc.getDocument();
 
-        final Element testLauncher = this.testLauncher;
         Runnable thread = new Runnable()
         {
             public void run()

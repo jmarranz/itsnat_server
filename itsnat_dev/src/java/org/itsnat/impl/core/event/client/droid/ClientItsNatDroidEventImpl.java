@@ -74,11 +74,11 @@ public abstract class ClientItsNatDroidEventImpl extends ClientItsNatNormalEvent
 
     public boolean getCancelable()
     {
-        return false; // Por poner algo
+        return true; // Por poner algo
     }
 
     public boolean getBubbles()
     {
-        return false; // Por poner algo
+        return true; // Por poner algo
     }
 }
