@@ -17,10 +17,10 @@
 package org.itsnat.impl.core.mut.client;
 
 import java.util.LinkedList;
-import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderAttributeImpl;
-import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderAttributeImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.scriptren.bsren.dom.node.BSRenderNotAttrOrAbstractViewNodeImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNotAttrOrAbstractViewNodeImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Element;

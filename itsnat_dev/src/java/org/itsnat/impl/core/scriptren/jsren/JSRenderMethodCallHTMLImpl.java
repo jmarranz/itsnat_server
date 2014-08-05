@@ -20,7 +20,7 @@ import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.event.JSRenderEventImpl;
+import org.itsnat.impl.core.scriptren.jsren.event.JSRenderEventImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLElement;

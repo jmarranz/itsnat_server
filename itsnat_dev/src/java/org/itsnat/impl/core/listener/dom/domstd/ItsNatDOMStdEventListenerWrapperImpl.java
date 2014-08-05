@@ -30,7 +30,7 @@ import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventFactory;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
-import org.itsnat.impl.core.scriptren.jsren.dom.event.domstd.JSRenderItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.scriptren.jsren.event.domstd.JSRenderItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
