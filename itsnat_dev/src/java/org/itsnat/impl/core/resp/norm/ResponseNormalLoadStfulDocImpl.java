@@ -29,6 +29,7 @@ import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NodeConstraints;
@@ -64,8 +65,9 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)request.getItsNatDocument();
         if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)
             return new ResponseNormalLoadDroidDocImpl(request);
-        else
+        else if (itsNatDoc instanceof ItsNatStfulWebDocumentImpl)
             return ResponseNormalLoadStfulWebDocImpl.createResponseNormalLoadStfulWebDoc(request);
+        return null;
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()

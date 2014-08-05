@@ -18,7 +18,6 @@ package org.itsnat.impl.core.resp.shared;
 
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
-import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
@@ -29,7 +28,7 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
 {
     public ResponseDelegateStfulDroidLoadDocImpl(ResponseLoadStfulDocumentValid response)
     {
-        super(response);
+        super(response);      
     }
 
     protected void rewriteClientUIControlProperties()

@@ -17,11 +17,12 @@
 package org.itsnat.impl.core.resp.shared.bybrow.web;
 
 
-import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.resp.shared.bybrow.droid.ResponseDelegStfulLoadDocByDroidImpl;
 import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.droid.BrowserDroid;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 
@@ -42,9 +43,14 @@ public abstract class ResponseDelegStfulLoadDocByBrowserImpl
     {
         Browser browser = parent.getClientDocumentStful().getBrowser();
         if (browser instanceof BrowserDroid)
+        {
             return new ResponseDelegStfulLoadDocByDroidImpl((ResponseDelegateStfulDroidLoadDocImpl)parent);
-        else
+        }
+        else if (browser instanceof BrowserWeb)
+        {
             return ResponseDelegStfulLoadDocByWebBrowserImpl.createResponseDelegStfulLoadDocByWebBrowser((ResponseDelegateStfulWebLoadDocImpl)parent);
+        }
+        return null;
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()

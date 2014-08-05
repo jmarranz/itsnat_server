@@ -25,6 +25,9 @@ import org.itsnat.impl.core.resp.shared.otherns.ResponseDelegateOtherNSLoadDocIm
 import org.itsnat.impl.core.resp.shared.html.ResponseDelegateHTMLLoadDocImpl;
 import org.itsnat.impl.core.resp.*;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.droid.BrowserDroid;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -57,15 +60,28 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
 
     public static ResponseDelegateStfulLoadDocImpl createResponseDelegateStfulLoadDoc(ResponseLoadStfulDocumentValid responseParent)
     {
+        Browser browser = responseParent.getClientDocument().getBrowser();
+        
         ItsNatStfulDocumentImpl itsNatDoc = responseParent.getItsNatStfulDocument();
-        if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)        
+        if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)
+        {
+            if (!(browser instanceof BrowserDroid))
+                throw new ItsNatException("An Android layout only can be loaded by the ItsNat Droid Browser");
+            
             return new ResponseDelegateStfulDroidLoadDocImpl(responseParent);
-        else if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
-            return ResponseDelegateHTMLLoadDocImpl.createResponseDelegateHTMLLoadDoc(responseParent);
-        else if (itsNatDoc instanceof ItsNatOtherNSDocumentImpl)
-            return ResponseDelegateOtherNSLoadDocImpl.createResponseDelegateOtherNSLoadDoc(responseParent);
+        }
         else
-            return null; // No se llega nunca, futuros tipos
+        {
+            if (!(browser instanceof BrowserWeb))
+                throw new ItsNatException("A web layout cannot be loaded by the ItsNat Droid Browser");             
+            
+            if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
+                return ResponseDelegateHTMLLoadDocImpl.createResponseDelegateHTMLLoadDoc(responseParent);
+            else if (itsNatDoc instanceof ItsNatOtherNSDocumentImpl)
+                return ResponseDelegateOtherNSLoadDocImpl.createResponseDelegateOtherNSLoadDoc(responseParent);
+        }
+        
+        return null; // No se llega nunca, futuros tipos
     }
 
     public ResponseLoadStfulDocumentValid getResponseLoadStfulDocumentValid()
