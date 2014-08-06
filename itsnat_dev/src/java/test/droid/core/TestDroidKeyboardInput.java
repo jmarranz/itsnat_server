@@ -10,7 +10,7 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.event.NodePropertyTransport;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.droid.DroidEvent;
-import org.w3c.dom.Document;
+import org.itsnat.core.event.droid.DroidTextChangeEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -33,19 +33,14 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
         this.editElement = getDocument().getElementById("testKeyboardInputEditId");        
         ((EventTarget)editElement).addEventListener("focus", this, false);
         
-        /*
-        String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);                
-        itsNatDoc.addCodeToSend("var elem = " + editRef + ";");                
-        itsNatDoc.addCodeToSend("elem.requestFocus(); ");   
-        */
         
         ParamTransport textParam = new NodePropertyTransport("getText()",false);
         itsNatDoc.addEventListener((EventTarget)editElement, "blur", this, false, new ParamTransport[]{textParam});      
         
+        itsNatDoc.addEventListener((EventTarget)editElement, "change", this, false);         
+        
         this.processElement = getDocument().getElementById("testKeyboardInputProcessId");
         ((EventTarget)processElement).addEventListener("click", this, false);        
-        
-  
         
         
         this.outElem = getDocument().getElementById("testKeyboardInput_text_Id");        
@@ -62,8 +57,8 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
         
         if (currTarget == editElement)
         {
-            
-            if (evt2.getType().equals("focus"))
+            String type = evt2.getType();
+            if (type.equals("focus"))
             {
                 // Hacemos el botón focusable para que al pulsarse le quite el foco al EditText y se ejecute el evento blur
                 String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
@@ -74,7 +69,7 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
                 // No hace falta hacer elem.setFocusable(false) para conseguir quitar el azul feo cuando el botón processElement tiene el foco, pues
                 // Android tiende a que una vez que un control ha tomado el foco ha de existir un control con el foco y siempre podemos cambiarlo al EditText
             }
-            else if (evt2.getType().equals("blur"))
+            else if (type.equals("blur"))
             {
                 String text = (String)evt2.getExtraParam("getText()");
                 logToTextView(outElem,"\nTEXT: " + text + "\n");
@@ -85,14 +80,17 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
 
                 itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Esto es para que el botón processElement no se quede con el foco con un azul muy feo           
             }
+            else if (type.equals("change"))
+            {
+                DroidTextChangeEvent evt3 = (DroidTextChangeEvent)evt; 
+                logToTextView(outElem,"\nchange: " + evt3.getNewText() + "\n");               
+             }            
         }
         else if (currTarget == processElement)
         {
             String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
             itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
             itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Para provocar el blur en el EditText si tuviera el foco           
-            
-          
         }
     }
     

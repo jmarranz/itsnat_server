@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
@@ -30,6 +31,7 @@ public class ItsNatViewImpl implements ItsNatView
     protected TouchEventListenerViewAdapter touchEvtListenerViewAdapter;
     protected KeyEventListenerViewAdapter keyEvtListenerViewAdapter;
     protected FocusEventListenerViewAdapter focusEvtListenerViewAdapter;
+    protected TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter;
 
     protected String nodeCacheId;
     protected UserDataImpl userData;
@@ -99,6 +101,17 @@ public class ItsNatViewImpl implements ItsNatView
     {
         if (focusEvtListenerViewAdapter == null) this.focusEvtListenerViewAdapter = new FocusEventListenerViewAdapter(this);
         return focusEvtListenerViewAdapter;
+    }
+
+    public TextChangeEventListenerViewAdapter getTextChangeEventListenerViewAdapter()
+    {
+        // Como el listener nativo se puede registrar muchas veces nosotros tenemos que hacerlo UNA sola vez y necesitamos detectarlo
+        return textChangeEvtListenerViewAdapter;
+    }
+
+    public void setTextChangeEventListenerViewAdapter(TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter)
+    {
+        this.textChangeEvtListenerViewAdapter = textChangeEvtListenerViewAdapter;
     }
 
     public void setOnClickListener(View.OnClickListener l)

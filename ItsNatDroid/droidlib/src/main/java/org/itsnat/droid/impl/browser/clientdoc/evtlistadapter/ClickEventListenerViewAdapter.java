@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 
-import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,7 +21,7 @@ public class ClickEventListenerViewAdapter extends DroidEventListenerViewAdapter
     @Override
     public void onClick(View view)
     {
-        MotionEvent motionEvent = DroidMotionEventImpl.createMotionEvent("click",0,0);
+        MotionEvent motionEvent = DroidMotionEventImpl.createMotionEventNative("click", 0, 0);
 
         dispatch("click",motionEvent);
 

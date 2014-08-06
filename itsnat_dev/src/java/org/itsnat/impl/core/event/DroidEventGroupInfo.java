@@ -23,15 +23,18 @@ import org.itsnat.core.event.droid.DroidEvent;
 import org.itsnat.core.event.droid.DroidFocusEvent;
 import org.itsnat.core.event.droid.DroidKeyEvent;
 import org.itsnat.core.event.droid.DroidMotionEvent;
+import org.itsnat.core.event.droid.DroidTextChangeEvent;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidKeyEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidTextChangeEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidKeyEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidTextChangeEventImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.w3c.dom.DOMException;
@@ -47,6 +50,7 @@ public class DroidEventGroupInfo
     public static final int MOTION_EVENT = 1;
     public static final int KEY_EVENT = 2;
     public static final int FOCUS_EVENT = 3;
+    public static final int TEXT_CHANGE_EVENT = 4;    
     
     protected static final Map<String,DroidEventGroupInfo> eventGroups = new HashMap<String,DroidEventGroupInfo>(); // no sincronizamos porque es sólo lectura
     protected static final DroidEventGroupInfo eventGroupUnknownDefault = new DroidEventGroupInfo(UNKNOWN_EVENT);
@@ -65,6 +69,8 @@ public class DroidEventGroupInfo
         
         eventGroups.put("focus",  new DroidEventGroupInfo(FOCUS_EVENT));
         eventGroups.put("blur",   new DroidEventGroupInfo(FOCUS_EVENT));        
+        
+        eventGroups.put("change",   new DroidEventGroupInfo(TEXT_CHANGE_EVENT));        
     }
 
     protected int eventGroupCode;
@@ -112,6 +118,8 @@ public class DroidEventGroupInfo
         else if ("focus".equals(type) ||
                  "blur".equals(type))
             return new ClientItsNatDroidFocusEventImpl(listener,request);        
+        else if ("change".equals(type))
+            return new ClientItsNatDroidTextChangeEventImpl(listener,request);        
         
         return null;
     }    
@@ -124,6 +132,8 @@ public class DroidEventGroupInfo
             return new ServerItsNatDroidKeyEventImpl(itsNatDoc);        
         else if ("FocusEvent".equals(eventGroup))
             return new ServerItsNatDroidFocusEventImpl(itsNatDoc);        
+        else if ("TextChangeEvent".equals(eventGroup))
+            return new ServerItsNatDroidTextChangeEventImpl(itsNatDoc);         
         throw new ItsNatException("Event name " + eventGroup + " is unknown");
     }    
     
@@ -136,7 +146,9 @@ public class DroidEventGroupInfo
             else if (evt instanceof DroidKeyEvent)
                 return "KeyEvent";            
             else if (evt instanceof DroidFocusEvent)
-                return "FocusEvent";             
+                return "FocusEvent";  
+            else if (evt instanceof DroidTextChangeEvent)
+                return "TextChangeEvent";             
         }
         return null;
     }

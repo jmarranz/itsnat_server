@@ -1,12 +1,12 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -23,11 +23,13 @@ import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.DroidEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.CometTaskEventListener;
@@ -650,6 +652,19 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             ClickEventListenerViewAdapter evtListAdapter = viewData.getClickEventListenerViewAdapter();
             currentTarget.setOnClickListener(evtListAdapter);
         }
+        else if (type.equals("change"))
+        {
+            // Como el listener nativo se puede registrar muchas veces nosotros tenemos que hacerlo UNA sola vez y necesitamos detectarlo
+            // por ello evtListAdapter puede ser null
+            TextChangeEventListenerViewAdapter evtListAdapter = viewData.getTextChangeEventListenerViewAdapter();
+            if (evtListAdapter == null)
+            {
+                evtListAdapter = new TextChangeEventListenerViewAdapter(viewData);
+                viewData.setTextChangeEventListenerViewAdapter(evtListAdapter);
+                // El change está pensado para el componente EditText pero el método addTextChangedListener está a nivel de TextView, por si acaso
+                ((TextView)currentTarget).addTextChangedListener(evtListAdapter); // Sólo registramos una vez
+            }
+        }
         else if (type.equals("focus") || type.equals("blur"))
         {
             FocusEventListenerViewAdapter evtListAdapter = viewData.getFocusEventListenerViewAdapter();
@@ -833,17 +848,22 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public MotionEvent createMotionEvent(String type,float x, float y)
     {
-        return DroidMotionEventImpl.createMotionEvent(type,x,y);
+        return DroidMotionEventImpl.createMotionEventNative(type, x, y);
     }
 
     public KeyEvent createKeyEvent(String type,int keyCode)
     {
-        return DroidKeyEventImpl.createKeyEvent(type, keyCode);
+        return DroidKeyEventImpl.createKeyEventNative(type, keyCode);
     }
 
     public Boolean createFocusEvent(String type,boolean hasFocus)
     {
-        return DroidFocusEventImpl.createFocusEvent(hasFocus);
+        return DroidFocusEventImpl.createFocusEventNative(hasFocus);
+    }
+
+    public CharSequence createTextChangeEvent(String type,CharSequence newText)
+    {
+        return DroidTextChangeEventImpl.createTextChangeEventNative(newText);
     }
 
     public boolean dispatchEvent(Node node, String type, Object nativeEvt)

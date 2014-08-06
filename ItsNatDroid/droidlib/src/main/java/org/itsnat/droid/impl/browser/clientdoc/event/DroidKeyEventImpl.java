@@ -21,7 +21,7 @@ public class DroidKeyEventImpl extends DroidInputEventImpl
         super(listener, evtNative);
     }
 
-    public static KeyEvent createKeyEvent(String type,int keyCode)
+    public static KeyEvent createKeyEventNative(String type, int keyCode)
     {
         int action = getActionFromType(type);
 

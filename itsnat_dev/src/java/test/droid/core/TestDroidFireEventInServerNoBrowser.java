@@ -13,6 +13,7 @@ import org.itsnat.core.event.ItsNatUserEvent;
 import org.itsnat.core.event.droid.DroidFocusEvent;
 import org.itsnat.core.event.droid.DroidKeyEvent;
 import org.itsnat.core.event.droid.DroidMotionEvent;
+import org.itsnat.core.event.droid.DroidTextChangeEvent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.DocumentEvent;
@@ -45,6 +46,7 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
         ((EventTarget)testLauncherHidden).addEventListener("touchend",this,false);          
         ((EventTarget)testLauncherHidden).addEventListener("keydown",this,false);        
         ((EventTarget)testLauncherHidden).addEventListener("blur",this,false);
+        ((EventTarget)testLauncherHidden).addEventListener("change",this,false);        
         if (false) ((EventTarget)testLauncherHidden).addEventListener("itsnat:user:test",this,false);                 // Los dos modos valen
         else itsNatDoc.getClientDocumentOwner().addUserEventListener((EventTarget)testLauncherHidden, "test", this);  //    "
             
@@ -104,11 +106,16 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
         res = ((EventTarget)testLauncherHidden).dispatchEvent(eventKey);                 
 
 
-        DroidFocusEvent focusKey = (DroidFocusEvent)((DocumentEvent)doc).createEvent("FocusEvent");                 
-        focusKey.initEvent("blur",true,true);              
-        focusKey.setFocus(true);
-        res = ((EventTarget)testLauncherHidden).dispatchEvent(focusKey);                
+        DroidFocusEvent eventFocus = (DroidFocusEvent)((DocumentEvent)doc).createEvent("FocusEvent");                 
+        eventFocus.initEvent("blur",true,true);              
+        eventFocus.setFocus(true);
+        res = ((EventTarget)testLauncherHidden).dispatchEvent(eventFocus);                
 
+        DroidTextChangeEvent eventTextChange = (DroidTextChangeEvent)((DocumentEvent)doc).createEvent("TextChangeEvent");                 
+        eventTextChange.initEvent("change",true,true);              
+        eventTextChange.setNewText("Text changed");
+        res = ((EventTarget)testLauncherHidden).dispatchEvent(eventTextChange);          
+        
 
         ItsNatUserEvent userEvent = (ItsNatUserEvent)((DocumentEvent)doc).createEvent("itsnat:UserEvents");                
         userEvent.initEvent("itsnat:user:test",false,false);
@@ -120,9 +127,6 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
         // solo al registrar un continue listener
 
         TestUtil.checkError(getLogTextView(logElem).length() > 1); // Los mensajes se añadieron
-   
-
-
     }
 
     public void processReceivedEvent(Event evt)
@@ -156,6 +160,12 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
             msg = " blur: hasFocus: " + evt2.hasFocus();
             TestUtil.checkError(evt2.hasFocus() == true); 
         }
+        else if (type.equals("change"))
+        {
+            DroidTextChangeEvent evt2 = (DroidTextChangeEvent)evt;
+            msg = " change: newText: " + evt2.getNewText();
+            TestUtil.checkError(evt2.getNewText().equals("Text changed")); 
+        }        
         else if (evt instanceof ItsNatUserEvent)
             msg = " " + evt.getType() + " " + ((ItsNatUserEvent)evt).getExtraParam("extra");
 

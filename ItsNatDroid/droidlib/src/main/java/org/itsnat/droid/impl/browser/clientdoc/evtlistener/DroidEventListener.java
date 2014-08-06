@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 
@@ -28,6 +29,7 @@ public class DroidEventListener extends NormalEventListener
     public static final int MOTION_EVENT = 1;
     public static final int KEY_EVENT = 2;
     public static final int FOCUS_EVENT = 3;
+    public static final int TEXT_CHANGE_EVENT = 4;
 
     protected String type;
     protected boolean useCapture;
@@ -56,8 +58,10 @@ public class DroidEventListener extends NormalEventListener
         switch(eventGroupCode)
         {
             case MOTION_EVENT: return new DroidMotionEventImpl(this,(MotionEvent)evt);
-            case KEY_EVENT:   return new DroidKeyEventImpl(this,(KeyEvent)evt);
-            case FOCUS_EVENT:   return new DroidFocusEventImpl(this,(Boolean)evt);
+            case KEY_EVENT:    return new DroidKeyEventImpl(this,(KeyEvent)evt);
+            case FOCUS_EVENT:  return new DroidFocusEventImpl(this,(Boolean)evt);
+            case TEXT_CHANGE_EVENT:  return new DroidTextChangeEventImpl(this,(CharSequence)evt);
+
             default: throw new ItsNatDroidException("Event type not supported yet: " + type);
         }
     }

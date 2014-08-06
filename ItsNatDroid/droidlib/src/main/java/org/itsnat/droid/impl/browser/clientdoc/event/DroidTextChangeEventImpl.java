@@ -1,14 +1,8 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
-import android.os.Parcel;
-import android.view.InputEvent;
-import android.view.KeyEvent;
-import android.view.View;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.itsnat.droid.event.DroidFocusEvent;
-import org.itsnat.droid.event.DroidInputEvent;
+import org.itsnat.droid.event.DroidTextChangeEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.List;
@@ -16,19 +10,19 @@ import java.util.List;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEvent
+public class DroidTextChangeEventImpl extends DroidEventImpl implements DroidTextChangeEvent
 {
-    protected Boolean evtNative;
+    protected CharSequence evtNative;
 
-    public DroidFocusEventImpl(DroidEventListener listener, Boolean evtNative)
+    public DroidTextChangeEventImpl(DroidEventListener listener, CharSequence evtNative)
     {
         super(listener);
         this.evtNative = evtNative;
     }
 
-    public static Boolean createFocusEventNative(boolean hasFocus)
+    public static CharSequence createTextChangeEventNative(CharSequence newText)
     {
-        return new Boolean(hasFocus);
+        return newText;
     }
 
     public DroidEventListener getDroidEventListener()
@@ -36,12 +30,12 @@ public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEve
         return (DroidEventListener)listener;
     }
 
-    public Boolean getNativeEvent()
+    public CharSequence getNativeEvent()
     {
         return evtNative;
     }
 
-    public boolean hasFocus()
+    public CharSequence getNewText()
     {
         return evtNative;
     }
@@ -49,15 +43,14 @@ public class DroidFocusEventImpl extends DroidEventImpl implements DroidFocusEve
     @Override
     public void saveEvent()
     {
-
     }
 
     public List<NameValuePair> genParamURL()
     {
-        boolean hasFocus = hasFocus();
+        CharSequence newText = getNewText();
 
         List<NameValuePair> params = super.genParamURL();
-        params.add(new BasicNameValuePair("itsnat_evt_hasFocus","" + hasFocus));
+        params.add(new BasicNameValuePair("itsnat_evt_newText",newText.toString()));
         return params;
     }
 

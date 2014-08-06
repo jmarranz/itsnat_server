@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc.evtlistadapter;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 
 /**
  * Created by jmarranz on 24/07/14.
@@ -21,7 +22,9 @@ public class FocusEventListenerViewAdapter extends DroidEventListenerViewAdapter
     {
         String type = hasFocus ? "focus" : "blur";
 
-        dispatch(type,new Boolean(hasFocus));
+        Boolean nativeEvent = DroidFocusEventImpl.createFocusEventNative(hasFocus);
+
+        dispatch(type,nativeEvent);
 
         if (focusListener != null) focusListener.onFocusChange(view,hasFocus);
     }

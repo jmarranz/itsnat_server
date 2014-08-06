@@ -3,6 +3,9 @@ package org.itsnat.itsnatdroidtest;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -50,7 +53,29 @@ public class MainActivity extends Activity {
         });
 
 
+        // Pruebas temporales
 
+        EditText editText = (EditText)findViewById(R.id.editTextPrueba);
+        editText.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after)
+            {
+                Log.v("MainActivity", "beforeTextChanged " + charSequence + " " + start + " " + count + " " + after);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count)
+            {
+                Log.v("MainActivity", "onTextChanged " + charSequence + " " + start + " " + before + " " + count);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                Log.v("MainActivity", "afterTextChanged " + editable);
+            }
+        });
 
         /*
         View parent = findViewById(R.id.frameParent);

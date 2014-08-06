@@ -37,7 +37,7 @@ public class DroidMotionEventImpl extends DroidInputEventImpl
         return params;
     }
 
-    public static MotionEvent createMotionEvent(String type,float x, float y)
+    public static MotionEvent createMotionEventNative(String type, float x, float y)
     {
         int action = getActionFromType(type);
 
