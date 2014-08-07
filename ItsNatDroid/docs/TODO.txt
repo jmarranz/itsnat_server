@@ -1,6 +1,8 @@
 
 * Estudiar EditText.addTextChangedListener (TextWatcher watcher)
 
+* Hacer un map de eventos para hacer el binding de los ViewAdapter en vez de ifs
+
 * Añadir más datos a enviar de MouseEvent y KeyEvent, en teoría debería ser configurable
 
 * Probar el KeyEvent con un ejemplo de verdad http://www.mysamplecode.com/2012/06/android-edittext-enterkey-event-example.html

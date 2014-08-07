@@ -50,7 +50,7 @@ public class TestLayoutRemote
         }
 
         HttpParams httpParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
+        HttpConnectionParams.setConnectionTimeout(httpParams, 4000);
 
         boolean testSyncRequests = false;
         if (testSyncRequests)

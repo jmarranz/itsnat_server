@@ -48,7 +48,7 @@ public class BrowserDroid extends Browser
 
     public boolean isReferrerReferenceStrong()
     {
-        return false;
+        return true;
     }
 
     public boolean isClientWindowEventTarget()

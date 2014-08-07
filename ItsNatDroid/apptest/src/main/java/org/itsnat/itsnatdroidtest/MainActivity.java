@@ -55,19 +55,35 @@ public class MainActivity extends Activity {
 
         // Pruebas temporales
 
+/*
         EditText editText = (EditText)findViewById(R.id.editTextPrueba);
         editText.addTextChangedListener(new TextWatcher()
         {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after)
             {
-                Log.v("MainActivity", "beforeTextChanged " + charSequence + " " + start + " " + count + " " + after);
+                // Log.v("MainActivity", "beforeTextChanged " + charSequence + " " + start + " " + count + " " + after);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count)
             {
                 Log.v("MainActivity", "onTextChanged " + charSequence + " " + start + " " + before + " " + count);
+                CharSequence newText = count > 0 ? charSequence.subSequence(start, start + count) : "";
+                    Log.v("MainActivity", "------------- " + newText);
+                if (before < count)
+                {
+                    CharSequence changedText = count > 0 ? charSequence.subSequence(start + before, start + count) : "";
+                    Log.v("MainActivity", "ADDED-------- " + changedText);
+                }
+                else if (before == count)
+                {
+                    Log.v("MainActivity", "------------- NO CHANGE");
+                }
+                else if (before > count)
+                {
+                    Log.v("MainActivity", "REMOVED----- ");
+                }
             }
 
             @Override
@@ -76,6 +92,10 @@ public class MainActivity extends Activity {
                 Log.v("MainActivity", "afterTextChanged " + editable);
             }
         });
+
+        editText.setText("PRUEBA");
+*/
+
 
         /*
         View parent = findViewById(R.id.frameParent);

@@ -16,8 +16,11 @@
 
 package org.itsnat.impl.core.resp.norm.droid;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadStfulDocImpl;
+import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
  *
@@ -34,4 +37,20 @@ public class ResponseNormalLoadDroidDocImpl extends ResponseNormalLoadStfulDocIm
         super(request);
     }
 
+    @Override
+    public void dispatchRequestListeners()
+    {
+        // Caso de carga del documento por primera vez, el documento está recién creado
+
+        super.dispatchRequestListeners(); // En el método base en el caso de referrer se procesará el anterior antes de ser substituido por el actual documento
+        
+        if (isReferrerEnabled())
+        {
+            // No nos complicamos la vida con listeners load etc
+            ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();            
+            ClientDocumentStfulImpl clientDoc = getClientDocumentStful();            
+            ItsNatSessionImpl itsNatSession = clientDoc.getItsNatSessionImpl();
+            itsNatSession.getReferrer().pushItsNatStfulDocument(itsNatDoc);            
+        }   
+    }
 }

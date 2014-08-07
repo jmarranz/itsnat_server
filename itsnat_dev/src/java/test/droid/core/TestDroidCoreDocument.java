@@ -46,6 +46,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidFireEventInServerWithBrowser(itsNatDoc);
         new TestDroidFireEventInServerNoBrowser(itsNatDoc);
         new TestDroidDisconnectNode(itsNatDoc);
+        new TestDroidReferrer(itsNatDoc,request);        
     }
 
 }

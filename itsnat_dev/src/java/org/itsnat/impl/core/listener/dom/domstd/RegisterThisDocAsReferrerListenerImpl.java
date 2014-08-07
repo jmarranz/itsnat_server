@@ -49,4 +49,5 @@ public class RegisterThisDocAsReferrerListenerImpl implements EventListener,Seri
         itsNatSession.getReferrer().pushItsNatStfulDocument(itsNatDoc);
     }
 
+    
 }

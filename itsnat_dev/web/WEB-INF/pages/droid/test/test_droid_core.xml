@@ -348,5 +348,20 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <Button id="testReferrerId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Referrer" />                
+        
+            <TextView id="testReferrer_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>         
+        
+        <TextView id="testReferrerHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />          
+        
     </LinearLayout>
 </ScrollView>

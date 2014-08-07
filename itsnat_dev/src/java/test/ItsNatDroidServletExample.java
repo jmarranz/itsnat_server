@@ -43,9 +43,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         
         docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages); 
         docTemplate.addItsNatServletRequestListener(new TestDroidCoreDocLoadListener());
-        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
-        // docTemplate.setEventsEnabled(false);        
+        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));              
         docTemplate.setFastLoadMode(true);    
+        docTemplate.setReferrerEnabled(true);
+        //docTemplate.setReferrerPushEnabled(true);
         
         
         ItsNatDocFragmentTemplate docFragDesc;
