@@ -3,12 +3,8 @@ package org.itsnat.itsnatdroidtest;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -27,28 +23,44 @@ public class MainActivity extends Activity {
     {
         setContentView(R.layout.activity_main);
 
-        final EditText editURL = (EditText)findViewById(R.id.remoteURL);
-        editURL.setText(loadURL());
+        final EditText urlTestCore = (EditText)findViewById(R.id.urlTestCore);
+        urlTestCore.setText(loadURLTestCore());
+
+        final EditText urlTestRemCtrl = (EditText)findViewById(R.id.urlTestRemoteControl);
+        urlTestRemCtrl.setText(loadURLTestRemCtrl());
+
         View testLocal = findViewById(R.id.testLocal);
         testLocal.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                saveURL(editURL.getText().toString());
+                saveURL(urlTestCore.getText().toString(),urlTestRemCtrl.getText().toString());
                 TestLayoutLocal.test(MainActivity.this);
             }
         });
 
-        View testRemote = findViewById(R.id.testRemote);
-        testRemote.setOnClickListener(new View.OnClickListener()
+        View testRemoteCore = findViewById(R.id.testRemoteCore);
+        testRemoteCore.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String url = editURL.getText().toString();
-                saveURL(url);
-                TestLayoutRemote.test(MainActivity.this,url);
+                saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
+                String url = urlTestCore.getText().toString();
+                TestRemoteCore.test(MainActivity.this, url);
+            }
+        });
+
+        View testRemoteControl = findViewById(R.id.testRemoteControl);
+        testRemoteControl.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
+                String url = urlTestRemCtrl.getText().toString();
+                TestRemoteControl.test(MainActivity.this, url);
             }
         });
 
@@ -96,70 +108,28 @@ public class MainActivity extends Activity {
         editText.setText("PRUEBA");
 */
 
-
-        /*
-        View parent = findViewById(R.id.frameParent);
-        View child = findViewById(R.id.frameChild);
-
-        if (true)
-        {
-
-            parent.setOnTouchListener(new View.OnTouchListener()
-            {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent)
-                {
-                    System.out.println("IN PARENT " + motionEvent.getAction());
-                    return true;
-                }
-            });
-
-            child.setOnTouchListener(new View.OnTouchListener()
-            {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent)
-                {
-                    System.out.println("IN CHILD " + motionEvent.getAction());
-                    return true;
-                }
-            });
-        }
-
-        if (false)
-        {
-            parent.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    System.out.println("IN PARENT ");
-                }
-            });
-
-            child.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    System.out.println("IN CHILD ");
-                }
-            });
-        }
-        */
     }
 
-    private String loadURL()
+    private String loadURLTestCore()
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         String url = settings.getString("remoteUrlTestCore", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_core");
         return url;
     }
 
-    private void saveURL(String url)
+    private String loadURLTestRemCtrl()
+    {
+        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
+        String url = settings.getString("remoteUrlTestRemCtrl", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_ctrl");
+        return url;
+    }
+
+    private void saveURL(String remoteUrlTestCore,String remoteUrlTestRemCtrl)
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("remoteUrlTestCore", url);
+        editor.putString("remoteUrlTestCore", remoteUrlTestCore);
+        editor.putString("remoteUrlTestRemCtrl", remoteUrlTestRemCtrl);
         editor.commit();
     }
 

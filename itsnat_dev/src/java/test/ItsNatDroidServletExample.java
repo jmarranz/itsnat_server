@@ -17,6 +17,8 @@ import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import test.droid.core.TestDroidCoreDocLoadListener;
 import test.droid.core.TestDroidGlobalEventListener;
+import test.droid.remotectrl.TestDroidRemoteControlListener;
+import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
 
 /**
  *
@@ -47,6 +49,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.setFastLoadMode(true);    
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
+        
+        docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
+        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));        
         
         
         ItsNatDocFragmentTemplate docFragDesc;

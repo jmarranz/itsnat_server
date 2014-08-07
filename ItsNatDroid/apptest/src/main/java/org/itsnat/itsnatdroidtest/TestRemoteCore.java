@@ -30,7 +30,7 @@ import bsh.EvalError;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestLayoutRemote
+public class TestRemoteCore
 {
     public static void test(MainActivity act,String url)
     {
@@ -90,9 +90,20 @@ public class TestLayoutRemote
                             }
                         });
 
-                        View button3 = act.findViewById(R.id.buttonReload);
-                        if (button3 == null) throw new RuntimeException("FAIL");
-                        if (button3 != page.findViewByXMLId("buttonReload")) throw new RuntimeException("FAIL");
+                        View buttonReload = act.findViewById(R.id.buttonReload);
+                        if (buttonReload == null) throw new RuntimeException("FAIL");
+                        if (buttonReload != page.findViewByXMLId("buttonReload")) throw new RuntimeException("FAIL");
+
+                        buttonReload.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View view)
+                            {
+                                Toast.makeText(act, "DOWNLOADING AGAIN", Toast.LENGTH_SHORT).show();
+                                page.reusePageRequest().execute();
+                                //downloadLayoutRemote(act,droidBrowser);
+                            }
+                        });
 
                         View testNativeListenersButton = page.findViewByXMLId("testNativeListenersId");
                         ItsNatView testNativeListenersButtonItsNat = page.getItsNatView(testNativeListenersButton);
@@ -111,17 +122,6 @@ public class TestLayoutRemote
                             {
                                 Toast.makeText(act, "OK Touch Native, action:" + motionEvent.getAction(), Toast.LENGTH_SHORT).show();
                                 return true;
-                            }
-                        });
-
-                        button3.setOnClickListener(new View.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(View view)
-                            {
-                                Toast.makeText(act, "DOWNLOADING AGAIN", Toast.LENGTH_SHORT).show();
-                                page.requestReload().execute();
-                                //downloadLayoutRemote(act,droidBrowser);
                             }
                         });
 

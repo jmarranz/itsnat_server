@@ -220,7 +220,7 @@ public class PageImpl implements Page
         }
     }
 
-    public PageRequest requestReload()
+    public PageRequest reusePageRequest()
     {
         return pageRequest.clone();
     }

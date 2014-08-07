@@ -20,7 +20,9 @@ public class AttrDesc_view_View_padding extends AttrDesc
         int convValue = (int)getDimPixel(value,view.getContext());
 
         String name = getName();
-        if ("paddingLeft".equals(name))
+        if ("padding".equals(name))
+            view.setPadding(convValue,convValue,convValue,convValue);
+        else if ("paddingLeft".equals(name))
             view.setPadding(convValue,view.getPaddingTop(),view.getPaddingRight(),view.getPaddingBottom());
         else if ("paddingTop".equals(name))
             view.setPadding(view.getPaddingLeft(),convValue,view.getPaddingRight(),view.getPaddingBottom());
@@ -28,6 +30,7 @@ public class AttrDesc_view_View_padding extends AttrDesc
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),convValue,view.getPaddingBottom());
         else if ("paddingBottom".equals(name))
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),view.getPaddingRight(),convValue);
+
     }
 
     public void removeAttribute(View view)

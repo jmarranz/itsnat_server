@@ -32,6 +32,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
 
         addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
+        addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingRight"));

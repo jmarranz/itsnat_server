@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.web.remotectrl;
+package test.droid.remotectrl;
 
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletContext;
@@ -32,16 +32,20 @@ import test.web.shared.Shared;
  *
  * @author jmarranz
  */
-public class TestRemoteCtrlLauncherDocLoadListener implements ItsNatServletRequestListener
+public class TestDroidRemoteCtrlLauncherDocLoadListener implements ItsNatServletRequestListener
 {
 
     /** Creates a new instance of TestRemoteCtrlLauncherDocLoadListener */
-    public TestRemoteCtrlLauncherDocLoadListener()
+    public TestDroidRemoteCtrlLauncherDocLoadListener()
     {
     }
 
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
+
+//if (true) return;
+        
+        
         ItsNatServletContext appCtx = request.getItsNatServlet().getItsNatServletConfig().getItsNatServletContext();
 
         final LinkedList<ItsNatSession> sessions = new LinkedList<ItsNatSession>();
@@ -67,9 +71,7 @@ public class TestRemoteCtrlLauncherDocLoadListener implements ItsNatServletReque
             case CommMode.XHR_SYNC:
             case CommMode.XHR_ASYNC:
             case CommMode.XHR_ASYNC_HOLD: commMode = CommMode.XHR_ASYNC; break;
-            case CommMode.SCRIPT:
-            case CommMode.SCRIPT_HOLD: commMode = CommMode.SCRIPT; break;
-            default: throw new RuntimeException("Unexpected Error");
+            default: throw new RuntimeException("SCRIPT and SCRIPT_HOLD are not supported in Droid");
         }
         
         request.getServletRequest().setAttribute("servletURL",servletURL);

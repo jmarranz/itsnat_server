@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+       
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remote Control"
+            android:textSize="25dp" 
+            android:background="#00dd00">
+        </TextView>    
+
+        <LinearLayout id="sessions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"> 
+
+            <LinearLayout 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:orientation="vertical">         
+
+                <TextView 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="* Session: ${sessionId} ${agentInfo}"
+                    android:textSize="15dp" >
+                </TextView>        
+
+                <LinearLayout id="docs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">             
+
+                    <LinearLayout 
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical">                 
+
+                        <TextView 
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="- Remote Doc: ${docId} ${docName}"
+                            android:textSize="15dp" >
+                        </TextView>                 
+
+                        <LinearLayout 
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal">  
+
+                            <TextView 
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Timer"
+                                android:textSize="15dp" 
+                                android:layout_marginLeft="20dp"
+                                url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=2000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
+                            </TextView>                
+
+                            <TextView 
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Timer Full Ctrl"
+                                android:textSize="15dp" 
+                                android:layout_marginLeft="10dp">
+                            </TextView>   
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">    
+            <Button
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK" />
+
+            <Button id="buttonReload"
+                    android:id="@id/buttonReload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/button_reload"  />    
+        </LinearLayout>    
+    </LinearLayout>
+</ScrollView>

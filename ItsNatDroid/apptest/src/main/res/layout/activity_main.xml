@@ -15,38 +15,56 @@
               android:textSize="20dp"
               android:layout_alignParentTop="true"/>
 
-    <Button android:id="@+id/testRemote"
+    <EditText android:id="@+id/urlTestCore"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="textUri"
+              android:hint="Remote URL Test Core"
+              android:ems="10"
+              android:layout_below="@+id/testLocal"
+              android:layout_marginTop="10dp"/>
+
+    <Button android:id="@+id/testRemoteCore"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="TEST REMOTE"
+              android:text="TEST REMOTE CORE"
               android:textSize="20dp"
-              android:layout_below="@id/testLocal"/>
+              android:layout_below="@id/urlTestCore"/>
 
-    <EditText android:id="@+id/remoteURL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textUri"
-        android:hint="Remote URL"
-        android:ems="10"
-        android:layout_below="@+id/testRemote"
-        android:layout_marginTop="45dp"/>
+    <EditText android:id="@+id/urlTestRemoteControl"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="textUri"
+              android:hint="Remote URL Test Control"
+              android:ems="10"
+              android:layout_below="@+id/testRemoteCore"
+              android:layout_marginTop="10dp"/>
 
-
-
-        <FrameLayout android:id="@+id/frameParent"
+    <Button android:id="@+id/testRemoteControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="50dp"
-            android:background="#dd0000"
-            android:layout_below="@id/remoteURL">
-            <FrameLayout android:id="@+id/frameChild"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="#00dd00">
-            </FrameLayout>
-            <EditText android:id="@+id/editTextPrueba"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:text="TEST REMOTE CONTROL"
+            android:textSize="20dp"
+            android:layout_below="@id/urlTestRemoteControl"/>
+
+
+
+
+    <FrameLayout android:id="@+id/frameParent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="50dp"
+        android:background="#dd0000"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/testRemoteControl">
+        <FrameLayout android:id="@+id/frameChild"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="#00dd00">
         </FrameLayout>
+        <EditText android:id="@+id/editTextPrueba"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
 
 </RelativeLayout>
