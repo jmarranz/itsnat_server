@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
@@ -37,7 +38,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingRight"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));
-        addAttrDesc(new AttrDesc_view_View_visibility(this));
+        addAttrDesc(new AttrDesc_view_View_visibility(this)); // "visibility"
 
         // Debidos a ViewGroup
         addAttrDesc(new AttrDesc_view_View_layout_width(this));

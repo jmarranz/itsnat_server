@@ -33,6 +33,7 @@
                       android:layout_height="wrap_content"
                       android:text="@string/hello_world1"
                       android:textSize="15dp"
+                      android:textColor="#0000ff"
                       android:background="@android:color/holo_green_light"
                       android:layout_alignParentTop="true"
                       style="@style/test"/>

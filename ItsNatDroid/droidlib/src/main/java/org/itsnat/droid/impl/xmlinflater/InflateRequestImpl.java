@@ -7,6 +7,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 
 import java.io.InputStream;
 import java.io.Reader;
@@ -53,13 +54,13 @@ public class InflateRequestImpl implements InflateRequest
     @Override
     public InflatedLayout inflate(Reader input)
     {
-        return inflateInternal(input,new String[1]);
+        return inflateInternal(input,new String[1],null);
     }
 
-    public InflatedLayoutImpl inflateInternal(Reader input,String[] code)
+    public InflatedLayoutImpl inflateInternal(Reader input,String[] code,PageImpl page)
     {
         InflatedLayoutImpl inflated = new InflatedLayoutImpl(parent,inflateListener,ctx);
-        parent.getXMLLayoutInflateService().inflate(input, code, inflated);
+        parent.getXMLLayoutInflateService().inflate(input, code, inflated,page);
         return inflated;
     }
 

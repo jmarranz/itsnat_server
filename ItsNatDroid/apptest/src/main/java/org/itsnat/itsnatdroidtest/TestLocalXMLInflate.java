@@ -13,7 +13,7 @@ import static org.itsnat.itsnatdroidtest.Assert.assertEquals;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestXMLInflate
+public class TestLocalXMLInflate
 {
     public static void test(ScrollView compRoot,ScrollView parsedRoot)
     {
@@ -54,6 +54,7 @@ public class TestXMLInflate
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
+                assertEquals(compTextView1.getTextColors(), parsedTextView1.getTextColors());
                 assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
                 assertEqualsRelativeLayoutLayoutParams(compTextView1, parsedTextView1);
 

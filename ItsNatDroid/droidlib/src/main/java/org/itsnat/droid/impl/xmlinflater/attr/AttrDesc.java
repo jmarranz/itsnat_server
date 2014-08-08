@@ -213,6 +213,21 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
+    public static int getColor(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue,ctx);
+            return ctx.getResources().getColor(resId);
+        }
+        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+        {
+            return Color.parseColor(attrValue);
+        }
+
+        throw new ItsNatDroidException("Cannot process " + attrValue);
+    }
+
     protected static int parseMultipleName(String value, Map<String, Integer> valueMap)
     {
         String[] names = value.split("\\|");

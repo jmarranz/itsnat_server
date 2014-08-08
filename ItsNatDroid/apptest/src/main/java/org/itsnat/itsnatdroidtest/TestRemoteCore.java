@@ -200,13 +200,13 @@ public class TestRemoteCore
         }).setAttrCustomInflaterListener(new AttrCustomInflaterListener()
         {
             @Override
-            public void setAttribute(View view, String namespace, String name, String value)
+            public void setAttribute(Page page,View view, String namespace, String name, String value)
             {
                 System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
             }
 
             @Override
-            public void removeAttribute(View view, String namespace, String name)
+            public void removeAttribute(Page page,View view, String namespace, String name)
             {
                 System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
             }

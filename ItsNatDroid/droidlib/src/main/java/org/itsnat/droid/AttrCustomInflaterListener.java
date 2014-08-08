@@ -7,6 +7,6 @@ import android.view.View;
  */
 public interface AttrCustomInflaterListener
 {
-    public void setAttribute(View view,String namespace,String name,String value);
-    public void removeAttribute(View view,String namespace,String name);
+    public void setAttribute(Page page,View view,String namespace,String name,String value);
+    public void removeAttribute(Page page,View view,String namespace,String name);
 }

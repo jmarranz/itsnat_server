@@ -12,6 +12,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
@@ -20,6 +21,7 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.NormalEvent;
+import org.itsnat.droid.impl.browser.PageImpl;
 
 import bsh.EvalError;
 
@@ -136,14 +138,25 @@ public class TestRemoteControl
         }).setAttrCustomInflaterListener(new AttrCustomInflaterListener()
         {
             @Override
-            public void setAttribute(View view, String namespace, String name, String value)
+            public void setAttribute(final Page page,View view, String namespace, String name, final String value)
             {
-
-                System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
+                if (name.equals("url"))
+                {
+                    ItsNatView itsNatView = page.getItsNatView(view);
+                    itsNatView.setOnClickListener(new View.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(View view)
+                        {
+                            page.reusePageRequest().execute();
+                        }
+                    });
+                }
+                else System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
             }
 
             @Override
-            public void removeAttribute(View view, String namespace, String name)
+            public void removeAttribute(Page page,View view, String namespace, String name)
             {
                 System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
             }

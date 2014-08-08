@@ -177,21 +177,12 @@ public class PageRequestImpl implements PageRequest
 
     public void processResponse(String url,String result)
     {
-        StringReader input = new StringReader(result);
-
-        ItsNatDroidBrowserImpl browser = getItsNatDroidBrowserImpl();
-        InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
-        inflateRequest.setContext(getContext());
-        AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
-        if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
-
-        String[] scriptArr = new String[1];
-        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr);
-
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
-        String loadScript = scriptArr[0];
-        PageImpl page = new PageImpl(this,httpParamsRequest, inflated, result,loadScript);
+
+        AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
+
+        PageImpl page = new PageImpl(pageRequest,httpParamsRequest, result,inflateListener);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

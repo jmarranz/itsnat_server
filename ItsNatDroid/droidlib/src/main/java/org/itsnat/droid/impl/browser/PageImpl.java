@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
@@ -19,6 +20,7 @@ import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
+import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 import java.io.StringReader;
@@ -49,14 +51,25 @@ public class PageImpl implements Page
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,InflatedLayoutImpl inflated,String content,String loadScript)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String content,AttrCustomInflaterListener inflateListener)
     {
         this.httpParams = httpParams;
-        this.inflated = inflated;
         this.content = content;
         this.pageRequest = pageRequest;
 
+        StringReader input = new StringReader(content);
+
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
+        InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
+        inflateRequest.setContext(pageRequest.getContext());
+        if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
+
+
+        String[] scriptArr = new String[1];
+        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr,this);
+        this.inflated = inflated;
+
+        String loadScript = scriptArr[0];
 
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java

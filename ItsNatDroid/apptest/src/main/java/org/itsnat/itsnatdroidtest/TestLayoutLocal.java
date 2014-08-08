@@ -1,8 +1,6 @@
 package org.itsnat.itsnatdroidtest;
 
-import android.content.res.XmlResourceParser;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -10,6 +8,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.droid.Page;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -50,13 +49,13 @@ public class TestLayoutLocal
                 InflatedLayout layout = inflateRequest.setAttrCustomInflaterListener(new AttrCustomInflaterListener()
                 {
                     @Override
-                    public void setAttribute(View view, String namespace, String name, String value)
+                    public void setAttribute(Page page,View view, String namespace, String name, String value)
                     {
                         System.out.println("NOT FOUND ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
                     }
 
                     @Override
-                    public void removeAttribute(View view, String namespace, String name)
+                    public void removeAttribute(Page page,View view, String namespace, String name)
                     {
                         System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
                     }
@@ -91,7 +90,7 @@ public class TestLayoutLocal
                     }
                 });
 
-                TestXMLInflate.test((ScrollView) compiledView, (ScrollView) rootView);
+                TestLocalXMLInflate.test((ScrollView) compiledView, (ScrollView) rootView);
             }
         });
 

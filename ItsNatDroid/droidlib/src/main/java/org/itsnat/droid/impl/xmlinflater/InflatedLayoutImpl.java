@@ -8,6 +8,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
 /**
@@ -20,7 +21,6 @@ public class InflatedLayoutImpl implements InflatedLayout
     protected WeakMapWithValue<String,View> mapIdViewXMLStd;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
-
 
     public InflatedLayoutImpl(ItsNatDroidImpl parent,AttrCustomInflaterListener inflateListener,Context ctx)
     {

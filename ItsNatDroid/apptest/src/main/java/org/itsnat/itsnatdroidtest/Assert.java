@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -44,6 +45,11 @@ public class Assert
             assertEquals(((ColorDrawable) a).getColor(), ((ColorDrawable) b).getColor());
         }
         else throw new ItsNatDroidException("Cannot test");
+    }
+
+    public static void assertEquals(ColorStateList a,ColorStateList b)
+    {
+        if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEqualsRelativeLayoutLayoutParams(View a,View b)

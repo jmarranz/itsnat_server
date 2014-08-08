@@ -63,6 +63,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Timer"
                                 android:textSize="15dp" 
+                                android:textColor="#0000ff"                                
                                 android:layout_marginLeft="20dp"
                                 url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=2000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
                             </TextView>                

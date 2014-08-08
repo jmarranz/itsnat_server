@@ -6,7 +6,9 @@ import android.util.Xml;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
@@ -36,14 +38,14 @@ public class XMLLayoutInflateService
         return classDescViewMgr;
     }
 
-    public void inflate(Reader input,String[] script, InflatedLayoutImpl inflated)
+    public void inflate(Reader input,String[] script, InflatedLayoutImpl inflated,PageImpl page)
     {
         try
         {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            inflate(parser,script,inflated);
+            inflate(parser,script,inflated,page);
         }
         catch (XmlPullParserException ex)
         {
@@ -62,11 +64,11 @@ public class XMLLayoutInflateService
         }
     }
 
-    private void inflate(XmlPullParser parser,String[] script, InflatedLayoutImpl inflated)
+    private void inflate(XmlPullParser parser,String[] script, InflatedLayoutImpl inflated,PageImpl page)
     {
         try
         {
-            View rootView = createNextView(parser,null,script,inflated);
+            View rootView = createNextView(parser,null,script,inflated,page);
             inflated.setRootView(rootView);
         }
         catch (IOException ex)
@@ -79,7 +81,7 @@ public class XMLLayoutInflateService
         }
     }
 
-    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated) throws IOException, XmlPullParserException
+    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated,PageImpl page) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -96,30 +98,30 @@ public class XMLLayoutInflateService
             }
 
 
-            View view = createAndAddViewObjectAndFillAttributes(viewName,viewParent, parser, inflated);
+            View view = createAndAddViewObjectAndFillAttributes(viewName,viewParent, parser, inflated,page);
 
             // No funciona, sólo funciona con XML compilados:
             //AttributeSet attributes = Xml.asAttributeSet(parser);
             //LayoutInflater inf = LayoutInflater.from(ctx);
             //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
-            View childView = createNextView(parser,view,script,inflated);
+            View childView = createNextView(parser,view,script,inflated,page);
             while(childView != null)
             {
-                childView = createNextView(parser,view,script,inflated);
+                childView = createNextView(parser,view,script,inflated,page);
             }
             return view;
         }
         return null;
     }
 
-    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser, InflatedLayoutImpl inflated)
+    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser, InflatedLayoutImpl inflated,PageImpl page)
     {
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         Context ctx = inflated.getContext();
         int idStyle = findStyleAttribute(parser,ctx);
         View view = classDesc.createAndAddViewObject(viewParent,-1,idStyle,ctx);
-        fillViewAttributes(classDesc,view, parser,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        fillViewAttributes(classDesc,page,view, parser,inflated); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }
 
@@ -137,7 +139,7 @@ public class XMLLayoutInflateService
         return 0;
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,InflatedLayoutImpl inflated)
+    private void fillViewAttributes(ClassDescViewBased classDesc,PageImpl page,View view,XmlPullParser parser,InflatedLayoutImpl inflated)
     {
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
         for(int i = 0; i < parser.getAttributeCount(); i++)
@@ -145,7 +147,7 @@ public class XMLLayoutInflateService
             String namespace = parser.getAttributeNamespace(i);
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+            classDesc.setAttribute(page,view,namespace, name, value, oneTimeAttrProcess,inflated);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)

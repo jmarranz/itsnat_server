@@ -188,7 +188,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return AttrDesc.getIdentifier(value, ctx);
     }
 
-    public void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    public void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,PageImpl page)
     {
         View view = newChildToIn.getView();
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
@@ -198,7 +198,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             String namespace = attr.getNamespaceURI();
             String name = attr.getName();
             String value = attr.getValue();
-            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+            classDesc.setAttribute(page,view,namespace, name, value, oneTimeAttrProcess,inflated);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)
@@ -298,7 +298,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
+        viewClassDesc.setAttribute(page,view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
     }
 
     @Override
@@ -337,7 +337,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutImpl());
+        viewClassDesc.removeAttribute(page,view, namespaceURI, name, page.getInflatedLayoutImpl());
     }
 
     @Override
@@ -510,7 +510,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         newChildToIn.setView(view);
 
         if (newChildToIn.hasAttributes())
-            fillViewAttributes(classDesc,newChildToIn,inflated);
+            fillViewAttributes(classDesc,newChildToIn,inflated,page);
 
         newChildToIn.setInserted();
     }
