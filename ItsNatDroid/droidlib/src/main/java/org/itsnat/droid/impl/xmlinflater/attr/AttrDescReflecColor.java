@@ -34,6 +34,6 @@ public class AttrDescReflecColor extends AttrDescReflection
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"0");
+        setAttribute(view,"#000000");
     }
 }

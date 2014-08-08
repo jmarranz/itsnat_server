@@ -30,33 +30,27 @@
 
         <!-- Just a test comment (will be filtered) -->        
         
+        <!-- Test event timeout -->
         <Button id="testTimeoutId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test event timeout (reload after)" />         
         
-        <TextView id="testTimeoutHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
-        
+                 
+        <!-- Test server exception -->
         <Button id="testServerExceptionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test server exception (reload after)" />         
-        
-        <TextView id="testServerExceptionHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />        
-        
+                
+        <!-- Test client exception -->
         <Button id="testClientExceptionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test client exception (reload after)" />         
+            
         
-        <TextView id="testClientExceptionHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />        
-        
+        <!-- Test native listeners -->
         <Button id="testNativeListenersId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,12 +59,9 @@
             <TextView 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="OK if almost 2 touch and 1 click event info are shown" />         
-        
-        <TextView id="testNativeListenersHidddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
+                    android:text="OK if almost 2 touch and 1 click event info are shown" />                       
           
+        <!-- Test style attr and dynamic insertion -->
         <Button id="testStyleAttrId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,6 +71,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <!-- Test custom view insertion -->
         <Button id="testCustomViewInsertionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,6 +81,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <!-- Test view tree insertion -->
         <Button id="testViewTreeInsertionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,6 +91,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" /> 
         
+        <!-- Test view tree removing -->
         <Button id="testViewTreeRemovingId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,6 +101,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <!-- Test ScriptUtil -->
         <Button id="testScriptUtilId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,33 +111,27 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <!-- Test Touch Events -->
         <Button id="testTouchEventId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Touch Events" />         
+              
         
-        <TextView id="testTouchEventHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />        
-        
+        <!-- Test Event Pre Send code -->
         <Button id="testEventPreSendId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Event Pre Send code" />         
+            
         
-        <TextView id="testEventPreSendHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
-        
+        <!-- Test Event Param Transport -->
         <Button id="testEventParamTransportId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Event Param Transport" />         
-        
-        <TextView id="testEventParamTransportHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />                 
+                android:text="Test Event Param Transport" />                         
 
+        <!-- Test Event Capture -->
         <Button id="testEventCaptureId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,11 +149,9 @@
                     android:background="#00dd00">
                 </TextView>
             </FrameLayout>        
-        
-        <TextView id="testEventCaptureHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />       
+             
 
+        <!-- Test Fragment Insertion -->
         <Button id="testFragmentInsertionId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,15 +161,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
 
+        <!-- Test Continue Event Listener -->
         <Button id="testContinueEvtListenerId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Continue Event Listener" />                
+              
         
-        <TextView id="testContinueEvtListenerHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
-        
+        <!-- Test User Event -->
         <Button id="testUserEventId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -192,6 +178,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />           
         
+        <!-- Test insertion using toDOM(String) -->
         <Button id="testToDOMId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -201,6 +188,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <!-- Test Async Task -->
         <Button id="testAsyncTaskId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,11 +199,9 @@
                 android:layout_height="wrap_content"
                 android:text="">
             </TextView>        
+                
         
-        <TextView id="testAsyncTaskHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />        
-        
+        <!-- Test Timer -->
         <LinearLayout             
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -242,6 +228,7 @@
             android:text="">
         </TextView>        
         
+        <!-- Test Comet -->
         <Button id="testCometNotifierId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -252,11 +239,9 @@
                 android:layout_height="wrap_content"
                 android:text="">
             </TextView>        
+                 
         
-        <TextView id="testCometNotifierHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
-        
+        <!-- Test Keyboard Input -->
         <LinearLayout             
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -281,15 +266,14 @@
             android:text="">
         </TextView>       
         
+        <!-- Test Global Listeners -->
         <Button id="testGlobalListenersId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test Global Listeners" />                
+         
         
-        <TextView id="testGlobalListenersHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />          
-        
+        <!-- Test Fire Event From Server With Browser -->
         <Button id="testFireEventInServerWithBrowserId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -305,6 +289,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
+        <!-- Test Fire Event From Server No Browser -->
         <Button id="testFireEventInServerNoBrowserId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -320,6 +305,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />        
         
+        <!-- Test Disconnect Node -->
         <Button id="testDisconnectNodeId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -343,11 +329,9 @@
                         android:background="#00dd00" />               
 
             </LinearLayout>      
+                
         
-        <TextView id="testDisconnectNodeHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />         
-        
+        <!-- Test Referrer -->
         <Button id="testReferrerId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -357,11 +341,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="">
-            </TextView>         
-        
-        <TextView id="testReferrerHiddenId" 
-                android:layout_width="0dp"
-                android:layout_height="0dp" />          
+            </TextView>                  
         
     </LinearLayout>
 </ScrollView>

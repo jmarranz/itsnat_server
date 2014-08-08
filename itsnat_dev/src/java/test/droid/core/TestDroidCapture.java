@@ -29,9 +29,7 @@ public class TestDroidCapture extends TestDroidBase implements EventListener
     
     public void handleEvent(Event evt)
     {     
-        //Document doc = getDocument();
-        // Element testLauncherHidden = doc.getElementById("testEventCaptureHiddenId");  
-        
+       
         Element child = getDocument().getElementById("eventCaptureChildId");          
         ((EventTarget)child).addEventListener("click", new EventListener() {
 

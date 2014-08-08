@@ -36,8 +36,7 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
     public void handleEvent(Event evt)
     {     
         ItsNatEvent evt2 = (ItsNatEvent)evt;
-        ClientDocument clientDoc = evt2.getClientDocument();
-        //Element testLauncherHidden = doc.getElementById("testAsyncTaskHiddenId");  
+        ClientDocument clientDoc = evt2.getClientDocument(); 
         
         final EventListener listener = new EventListener()
         {

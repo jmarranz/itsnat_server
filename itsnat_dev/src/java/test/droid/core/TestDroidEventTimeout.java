@@ -36,11 +36,7 @@ public class TestDroidEventTimeout extends TestDroidBase implements EventListene
         try { Thread.sleep(5000); }
         catch (InterruptedException ex) { throw new RuntimeException(ex);  }        
         
-        
-        Document doc = getDocument();
-        Element testLauncherHidden = doc.getElementById("testTimeoutHiddenId");  
-
-  
+ 
     }
     
 }
