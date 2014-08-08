@@ -21,22 +21,23 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.ItsNatAttachedClientEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
-import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
+import org.itsnat.impl.core.resp.attachcli.droid.ResponseAttachedClientLoadDocDroidImpl;
+import org.itsnat.impl.core.resp.attachcli.web.ResponseAttachedClientLoadDocWebImpl;
 import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
@@ -60,10 +61,11 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
     public static ResponseAttachedClientLoadDocImpl createResponseAttachedClientLoadDoc(RequestAttachedClientLoadDocImpl request)
     {
         ItsNatStfulDocumentImpl itsNatDoc = request.getItsNatStfulDocument();
-        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
-            return new ResponseAttachedClientLoadDocHTMLImpl(request);
-        else
-            return new ResponseAttachedClientLoadDocOtherNSImpl(request);
+        if (itsNatDoc instanceof ItsNatStfulWebDocumentImpl)
+            return ResponseAttachedClientLoadDocWebImpl.createResponseAttachedClientLoadDocWeb(request);
+        else if (itsNatDoc instanceof ItsNatStfulDroidDocumentImpl)
+            return new ResponseAttachedClientLoadDocDroidImpl(request);
+        return null;
     }
 
     @Override
@@ -106,36 +108,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
 
     public void dispatchRequestListeners()
     {
-        // Aunque sea en carga, se procesa como si fuera un evento.
-
-        ItsNatAttachedClientEventImpl event = createItsNatAttachedClientEvent();
-        ItsNatAttachedClientEventListenerUtil.handleEventIncludingGlobalListeners(event);
-
-        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
-        int phase = clientDoc.getPhase();
-        if (phase == ItsNatAttachedClientEvent.UNLOAD) return;
-
-        // Ahora sí tenemos claro que desde el cliente se deben enviar eventos
-
-        int commMode = clientDoc.getCommModeDeclared();
-
-        String nodeRefForUnload;
-        String unloadType;
-        if (clientDoc.getBrowser().isClientWindowEventTarget())
-        {
-            nodeRefForUnload = "itsNatDoc.win";
-            unloadType = "unload";
-        }
-        else
-        {
-            nodeRefForUnload = "itsNatDoc.doc.documentElement";
-            unloadType = "SVGUnload";  // En ASV  no se ejecuta pero en fin, por coherencia
-        }
-
-        String code = "itsNatDoc.addAttachUnloadListener(" + nodeRefForUnload + ",\"" + unloadType + "\"," + commMode + ");\n";
-
-        clientDoc.addCodeToSend(code);
-
+        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();        
         clientDoc.startAttachedClient();  // Genera el JavaScript adecuado para enviar al servidor el primer evento para empezar a sincronizar (inicio de Comet o el primer evento timer).
     }
 
@@ -193,13 +166,13 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         // usados, así aceleramos el cálculo de paths para el observador.
         ItsNatStfulDocumentImpl itsNatDoc = clientAttached.getItsNatStfulDocument();
         ClientDocumentStfulOwnerImpl clientDocOwner = itsNatDoc.getClientDocumentStfulOwner();
-        ClientDocumentStfulDelegateWebImpl clientDocOwnerDeleg = (ClientDocumentStfulDelegateWebImpl)clientDocOwner.getClientDocumentStfulDelegate();
+        ClientDocumentStfulDelegateImpl clientDocOwnerDeleg = clientDocOwner.getClientDocumentStfulDelegate();
         NodeCacheRegistryImpl nodeCacheOwner = clientDocOwnerDeleg.getNodeCacheRegistry();
         if ((nodeCacheOwner == null) || nodeCacheOwner.isEmpty())
             return;
 
         StringBuilder code = new StringBuilder();
-        ClientDocumentStfulDelegateWebImpl clientAttachedDeleg = (ClientDocumentStfulDelegateWebImpl)clientAttached.getClientDocumentStfulDelegate();        
+        ClientDocumentStfulDelegateImpl clientAttachedDeleg = clientAttached.getClientDocumentStfulDelegate();        
         NodeCacheRegistryImpl nodeCacheObserver = clientAttachedDeleg.getNodeCacheRegistry(); // DEBE existir
         if (!nodeCacheObserver.isEmpty()) throw new ItsNatException("INTERNAL ERROR"); // Debe estar "virgen" no sea que hayamos ya antes cacheado nodos en el observador y estaríamos cacheando dos veces aunque sea con el mismo id lo cual no está permitido, provocamos error antes.
         ArrayList<LinkedList<Map.Entry<Node,String>>> cacheCopy = nodeCacheOwner.getOrderedByHeight();

@@ -19,7 +19,7 @@ package org.itsnat.impl.core.resp.attachcli;
 import java.util.LinkedList;
 import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventErrorImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;

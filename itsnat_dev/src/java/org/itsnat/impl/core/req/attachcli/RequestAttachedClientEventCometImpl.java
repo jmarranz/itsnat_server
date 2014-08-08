@@ -21,7 +21,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.listener.CometTaskImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientCometEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClientEventImpl;
 
 /**

@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.resp.attachcli;
+package org.itsnat.impl.core.resp.attachcli.web;
 
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.w3c.dom.Node;
@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class ResponseAttachedClientLoadDocOtherNSImpl extends ResponseAttachedClientLoadDocImpl
+public class ResponseAttachedClientLoadDocOtherNSImpl extends ResponseAttachedClientLoadDocWebImpl
 {
     /** Creates a new instance of ResponseAttachedClientLoadDocImpl */
     public ResponseAttachedClientLoadDocOtherNSImpl(RequestAttachedClientLoadDocImpl request)

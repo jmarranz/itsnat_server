@@ -14,12 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener;
+package org.itsnat.impl.core.listener.attachcli;
 
-import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
+import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
 
 /**

@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener;
+package org.itsnat.impl.core.listener.attachcli;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;

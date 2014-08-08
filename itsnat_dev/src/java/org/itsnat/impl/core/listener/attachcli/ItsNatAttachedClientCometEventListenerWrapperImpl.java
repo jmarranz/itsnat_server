@@ -14,31 +14,31 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.registry;
+package org.itsnat.impl.core.listener.attachcli;
 
-import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientCometEventListenerWrapperImpl;
-import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
-import org.itsnat.impl.core.comet.CometNotifierImpl;
+import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventCometImpl;
+import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
+import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
+import org.itsnat.impl.core.listener.CometTaskImpl;
+import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class AttachedClientCometTaskRegistryImpl extends CometTaskRegistryImpl
+public class ItsNatAttachedClientCometEventListenerWrapperImpl extends ItsNatAttachedClientEventListenerWrapperImpl implements CometTaskEventListenerWrapper
 {
+    protected CometTaskImpl task;
+
     /**
-     * Creates a new instance of AttachedClientCometTaskRegistryImpl
+     * Creates a new instance of ItsNatAttachedClientCometEventListenerWrapperImpl
      */
-    public AttachedClientCometTaskRegistryImpl(ClientDocumentAttachedClientCometImpl clientDoc)
+    public ItsNatAttachedClientCometEventListenerWrapperImpl(CometTaskImpl task,ClientDocumentAttachedClientCometImpl clientDoc)
     {
         super(clientDoc);
-    }
 
-    public boolean canAddItsNatEventListener(CometNotifierImpl notifier)
-    {
-        return true; // Sí, porque sino no podemos hacer control remoto
+        this.task = task;
     }
 
     public ClientDocumentAttachedClientCometImpl getClientDocumentAttachedClientComet()
@@ -46,9 +46,13 @@ public class AttachedClientCometTaskRegistryImpl extends CometTaskRegistryImpl
         return (ClientDocumentAttachedClientCometImpl)clientDoc;
     }
 
-    public CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer,ParamTransport[] extraParams,String preSendCode)
+    public CometTaskImpl getCometTask()
     {
-        ClientDocumentAttachedClientCometImpl clientDoc = getClientDocumentAttachedClientComet();
-        return new ItsNatAttachedClientCometEventListenerWrapperImpl(taskContainer,clientDoc);
+        return task;
+    }
+
+    public ItsNatAttachedClientEventImpl createItsNatAttachedClientEvent(RequestAttachedClientEventImpl request)
+    {
+        return new ItsNatAttachedClientEventCometImpl(request);
     }
 }

@@ -14,43 +14,35 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.listener;
+package org.itsnat.impl.core.listener.attachcli;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
-import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventCometImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientNotRefreshImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
+import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventNotRefreshImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ItsNatAttachedClientCometEventListenerWrapperImpl extends ItsNatAttachedClientEventListenerWrapperImpl implements CometTaskEventListenerWrapper
+public class ItsNatAttachedClientNotRefreshEventListenerWrapperImpl extends ItsNatAttachedClientEventListenerWrapperImpl
 {
-    protected CometTaskImpl task;
-
     /**
-     * Creates a new instance of ItsNatAttachedClientCometEventListenerWrapperImpl
+     * Creates a new instance of ItsNatAttachedClientTimerEventListenerWrapperImpl
      */
-    public ItsNatAttachedClientCometEventListenerWrapperImpl(CometTaskImpl task,ClientDocumentAttachedClientCometImpl clientDoc)
+    public ItsNatAttachedClientNotRefreshEventListenerWrapperImpl(ClientDocumentAttachedClientNotRefreshImpl clientDoc)
     {
         super(clientDoc);
-
-        this.task = task;
     }
 
-    public ClientDocumentAttachedClientCometImpl getClientDocumentAttachedClientComet()
+    public ClientDocumentAttachedClientNotRefreshImpl getClientDocumentAttachedClientNotRefresh()
     {
-        return (ClientDocumentAttachedClientCometImpl)clientDoc;
-    }
-
-    public CometTaskImpl getCometTask()
-    {
-        return task;
+        return (ClientDocumentAttachedClientNotRefreshImpl)clientDoc;
     }
 
     public ItsNatAttachedClientEventImpl createItsNatAttachedClientEvent(RequestAttachedClientEventImpl request)
     {
-        return new ItsNatAttachedClientEventCometImpl(request);
+        return new ItsNatAttachedClientEventNotRefreshImpl(request);
     }
+
 }

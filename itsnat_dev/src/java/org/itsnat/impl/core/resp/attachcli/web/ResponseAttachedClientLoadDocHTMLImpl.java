@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.resp.attachcli;
+package org.itsnat.impl.core.resp.attachcli.web;
 
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -26,7 +26,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class ResponseAttachedClientLoadDocHTMLImpl extends ResponseAttachedClientLoadDocImpl
+public class ResponseAttachedClientLoadDocHTMLImpl extends ResponseAttachedClientLoadDocWebImpl
 {
     /** Creates a new instance of ResponseAttachedClientLoadDocImpl */
     public ResponseAttachedClientLoadDocHTMLImpl(RequestAttachedClientLoadDocImpl request)

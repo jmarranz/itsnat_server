@@ -148,7 +148,7 @@ public class TestRemoteControl
                         @Override
                         public void onClick(View view)
                         {
-                            page.reusePageRequest().execute();
+                            page.reusePageRequest().setURL(value).execute();
                         }
                     });
                 }

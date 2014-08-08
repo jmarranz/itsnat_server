@@ -19,7 +19,7 @@ package org.itsnat.impl.core.clientdoc;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientNotRefreshEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientNotRefreshEventListenerWrapperImpl;
 
 /**
  *
