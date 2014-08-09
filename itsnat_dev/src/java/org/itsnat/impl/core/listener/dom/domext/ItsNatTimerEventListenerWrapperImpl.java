@@ -25,7 +25,7 @@ import org.itsnat.impl.core.doc.ItsNatTimerImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatTimerEventImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
-import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.norm.domext.JSRenderItsNatTimerEventListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.itsnat.impl.core.scriptren.bsren.listener.BSRenderItsNatTimerEventListenerImpl;
 import org.itsnat.impl.core.util.UserDataMonoThreadImpl;

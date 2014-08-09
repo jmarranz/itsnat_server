@@ -20,7 +20,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;

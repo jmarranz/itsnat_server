@@ -18,9 +18,9 @@ package org.itsnat.impl.core.scriptren.jsren.node;
 
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.CannotInsertAsMarkupCauseImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.CannotInsertAsMarkupCauseImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;

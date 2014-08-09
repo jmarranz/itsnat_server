@@ -17,10 +17,10 @@
 package org.itsnat.impl.core.scriptren.jsren.node;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.RenderNotAttrOrAbstractViewNode;
+import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.RenderNotAttrOrAbstractViewNode;
 import org.w3c.dom.Node;
 
 /**

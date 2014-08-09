@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.core.resp.shared;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
@@ -55,15 +57,23 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     
     protected String getInitDocumentScriptCode(final int prevScriptsToRemove)    
     {
+        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();        
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();        
-        ItsNatSessionImpl session = getClientDocumentStful().getItsNatSessionImpl();
+        ItsNatSessionImpl session = clientDoc.getItsNatSessionImpl();
         String stdSessionId = session.getStandardSessionId();  
         String token = session.getToken(); 
         String sessionId = session.getId();        
         String clientId =  getClientDocumentStful().getId();
         String servletPath = delegByBrowser.getServletPathForEvents();
-        int errorMode = itsNatDoc.getClientErrorMode();        
-        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ");"; // HACER
+        int errorMode = itsNatDoc.getClientErrorMode(); 
+        
+        String attachType = null;
+        if (clientDoc instanceof ClientDocumentAttachedClientImpl)
+        {
+            attachType = ((ClientDocumentAttachedClientImpl)clientDoc).getAttachType();
+        }        
+        
+        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ",\"" + attachType + "\");"; // HACER
     }
     
     @Override

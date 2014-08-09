@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.bsren.node;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.Node;
 
 /**

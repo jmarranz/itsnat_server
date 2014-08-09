@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.PropertyImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLPropertyImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLOptionElement;
 

@@ -46,13 +46,14 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages); 
         docTemplate.addItsNatServletRequestListener(new TestDroidCoreDocLoadListener());
         //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));              
+        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));        
         docTemplate.setFastLoadMode(true);    
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
         
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
-        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));        
+        
         
         
         ItsNatDocFragmentTemplate docFragDesc;

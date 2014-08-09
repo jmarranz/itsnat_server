@@ -35,6 +35,11 @@ public class ClientDocumentAttachedClientNotRefreshImpl extends ClientDocumentAt
         super(readOnly,commMode,eventTimeout,waitDocTimeout,browser,session,itsNatDoc);
     }
 
+    public String getAttachType()
+    {
+        return "attach_none";
+    }    
+    
     public void startAttachedClient()
     {
         this.listener = new ItsNatAttachedClientNotRefreshEventListenerWrapperImpl(this);

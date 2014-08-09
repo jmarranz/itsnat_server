@@ -19,6 +19,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
@@ -63,6 +64,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected PageImpl page;
     protected String servletPath;
     protected int errorMode;
+    protected String attachType;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected Map<String,DroidEventListener> droidEventListeners;
@@ -70,7 +72,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected Map<String,UserEventListener> userListenersById;
     protected MapList<String,UserEventListener> userListenersByName;
     protected Handler handler;
-
+    protected Runnable attachTimerRefreshCallback;
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
@@ -95,6 +97,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public String getServletPath()
     {
         return servletPath;
+    }
+
+    public String getAttachType()
+    {
+        return attachType;
     }
 
     public List<NameValuePair> genParamURL()
@@ -211,7 +218,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode)
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType)
     {
         if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
             throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
@@ -219,6 +226,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         page.setSessionIdAndClientId(stdSessionId,sessionToken,sessionId, clientId);
         this.servletPath = servletPath;
         this.errorMode = errorMode;
+        this.attachType = attachType;
+    }
+
+    public Runnable getAttachTimerRefreshCallback()
+    {
+        return attachTimerRefreshCallback;
     }
 
     public int getErrorMode()
@@ -890,5 +903,32 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         View currTarget = getView(idObj);
         dispatchUserEvent(currTarget,evt);
         return false; // No sabemos qué poner;
+    }
+
+    @Override
+    public void initAttachTimerRefresh(final int interval,final int commMode,final long timeout)
+    {
+        final ItsNatDocImpl itsNatDoc = this;
+        this.attachTimerRefreshCallback = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                itsNatDoc.sendAttachTimerRefresh(interval,commMode,timeout);
+            }
+        };
+        getHandler().postDelayed(attachTimerRefreshCallback, interval);
+    }
+
+    public void sendAttachTimerRefresh(int interval,int commMode,long timeout)
+    {
+        if (attachTimerRefreshCallback == null) return;
+        AttachedClientTimerRefreshEventImpl evt = new AttachedClientTimerRefreshEventImpl(this,interval,commMode,timeout);
+        evt.sendEvent();
+    }
+
+    public void stopAttachTimerRefresh()
+    {
+        getHandler().removeCallbacks(attachTimerRefreshCallback);
     }
 }

@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 
 /**
  *

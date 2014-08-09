@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

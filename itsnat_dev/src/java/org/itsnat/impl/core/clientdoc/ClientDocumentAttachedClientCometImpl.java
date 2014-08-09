@@ -44,6 +44,11 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
             throw new ItsNatException("Communication mode must be pure synchronous in Comet");
     }
 
+    public String getAttachType()
+    {
+        return "attach_comet";
+    }
+    
     public void startAttachedClient()
     {
         this.attachClientCometNotifier = new AttachedClientCometNotifierImpl(this);

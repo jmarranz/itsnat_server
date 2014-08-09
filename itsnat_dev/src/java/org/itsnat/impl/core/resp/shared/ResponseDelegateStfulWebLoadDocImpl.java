@@ -27,6 +27,7 @@ import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientNotRefreshImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
@@ -37,10 +38,8 @@ import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderPropertyImpl;
 import org.itsnat.impl.core.listener.dom.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.RequestImpl;
-import org.itsnat.impl.core.resp.ResponseLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
-import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 import org.w3c.dom.Document;
@@ -437,12 +436,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         String attachType = null;
         if (clientDoc instanceof ClientDocumentAttachedClientImpl)
         {
-            if (clientDoc instanceof ClientDocumentAttachedClientTimerImpl)
-                attachType = "attach_timer";
-            else if (clientDoc instanceof ClientDocumentAttachedClientCometImpl)
-                attachType = "attach_comet";
-            else
-                attachType = "attach_none";
+            attachType = ((ClientDocumentAttachedClientImpl)clientDoc).getAttachType();
         }
 
         boolean usePost = true;

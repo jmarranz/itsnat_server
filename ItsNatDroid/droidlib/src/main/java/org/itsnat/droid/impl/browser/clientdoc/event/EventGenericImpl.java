@@ -37,6 +37,11 @@ public abstract class EventGenericImpl implements Event
         return null; // Se redefine
     }
 
+    public void onEventReturned()
+    {
+        // Redefinir en derivada si se quiere hacer algo
+    }
+
     public void saveEvent()
     {
         // Se redefine en derivada

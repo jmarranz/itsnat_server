@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.InnerMarkupCodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementW3CImpl;

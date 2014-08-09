@@ -21,8 +21,8 @@ import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.RenderAttribute;
+import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.node.RenderAttribute;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 

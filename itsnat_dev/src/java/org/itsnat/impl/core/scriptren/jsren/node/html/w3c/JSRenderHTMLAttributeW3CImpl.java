@@ -20,7 +20,7 @@ import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.w3c.dom.Attr;
 

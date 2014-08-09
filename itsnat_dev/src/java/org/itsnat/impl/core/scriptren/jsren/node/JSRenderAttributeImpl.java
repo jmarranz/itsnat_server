@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.node;
 
-import org.itsnat.impl.core.scriptren.shared.dom.node.NodeScriptRefImpl;
+import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
@@ -29,7 +29,7 @@ import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSAttributeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.RenderAttribute;
+import org.itsnat.impl.core.scriptren.shared.node.RenderAttribute;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 

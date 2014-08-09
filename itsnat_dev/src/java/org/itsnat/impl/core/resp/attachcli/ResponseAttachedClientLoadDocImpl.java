@@ -26,6 +26,8 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.clientdoc.NodeCacheRegistryImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
@@ -39,6 +41,7 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.attachcli.droid.ResponseAttachedClientLoadDocDroidImpl;
 import org.itsnat.impl.core.resp.attachcli.web.ResponseAttachedClientLoadDocWebImpl;
 import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
 
@@ -195,7 +198,11 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
                 NodeLocationWithParentImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParentUsingCache(node,id,cacheParentIfPossible,nodeCacheObserver);
                 if (!nodeLoc.isJustCached())
                     throw new ItsNatException("INTERNAL ERROR");
-                code.append( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
+                
+                if (clientAttachedDeleg instanceof ClientDocumentStfulDelegateWebImpl)
+                    code.append( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
+                else if (clientAttachedDeleg instanceof ClientDocumentStfulDelegateDroidImpl)
+                    code.append( BSRenderNodeImpl.addNodeToCache(nodeLoc) );
             }
         }
 

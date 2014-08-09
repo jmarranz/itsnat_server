@@ -50,6 +50,8 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         this.waitDocTimeout = waitDocTimeout;
     }
 
+    public abstract String getAttachType();
+    
     public void registerInSession()
     {
         getItsNatSessionImpl().registerClientDocumentAttachedClient(this);

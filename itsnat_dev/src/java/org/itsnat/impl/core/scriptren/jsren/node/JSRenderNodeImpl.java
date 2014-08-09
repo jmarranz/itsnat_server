@@ -27,7 +27,7 @@ import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.scriptren.jsren.event.JSRenderEventImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNodeImpl;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -90,7 +90,7 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
 
     public static String addNodeToCache(NodeLocationImpl nodeLoc)
     {
-        return "itsNatDoc.addNodeCache(" + nodeLoc.toScriptNodeLocation(true) + ");\n";
+        return JSAndBSRenderNodeImpl.addNodeToCache(nodeLoc);
     }
 
     public static String removeNodeFromCache(String id)

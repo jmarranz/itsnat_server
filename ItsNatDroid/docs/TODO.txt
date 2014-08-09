@@ -1,5 +1,9 @@
 
-* Estudiar EditText.addTextChangedListener (TextWatcher watcher)
+* Hacer tabs para probar dos o tres a la vez
+
+* Pensar si en simular un "unload", no olvidar aplicarlo a AttachUnloadEvent
+
+* Estudiar si tiene sentido AttachUnloadEvent
 
 * Hacer un map de eventos para hacer el binding de los ViewAdapter en vez de ifs
 

@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
  */
 public interface ItsNatDocPublic
 {
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode);
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType);
 
     public void setDisabledEvents();
     public void onServerStateLost();
@@ -84,4 +84,7 @@ public interface ItsNatDocPublic
     public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt);
 
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt);
+
+    public void initAttachTimerRefresh(final int interval,final int commMode,final long timeout);
+    public void stopAttachTimerRefresh();
 }

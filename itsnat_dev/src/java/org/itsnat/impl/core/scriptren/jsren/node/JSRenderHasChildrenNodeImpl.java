@@ -16,13 +16,13 @@
 
 package org.itsnat.impl.core.scriptren.jsren.node;
 
-import org.itsnat.impl.core.scriptren.shared.dom.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.CodeListImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderHasChildrenNodeImpl;
-import org.itsnat.impl.core.scriptren.shared.dom.node.RenderHasChildrenNode;
+import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderHasChildrenNodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.RenderHasChildrenNode;
 import org.w3c.dom.Node;
 
 /**

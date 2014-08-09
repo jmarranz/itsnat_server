@@ -26,6 +26,7 @@ function pkg_itsnat(pkg)
     pkg.ContinueEventListener = ContinueEventListener;
     pkg.AsyncTaskEventListener = AsyncTaskEventListener;
     pkg.CometTaskEventListener = CometTaskEventListener;
+    pkg.AttachEventListener = AttachEventListener;
     pkg.Document = Document;
     pkg.DOMPathResolverHTMLDoc = DOMPathResolverHTMLDoc;
     pkg.HTMLDocument = HTMLDocument;
@@ -760,7 +761,7 @@ function UserEvent(evt,listener)
 function AttachEvent(commMode,timeout,itsNatDoc)
 {
     this.EventStful = EventStful;
-    this.EventStful(new EventStfulListener(itsNatDoc,itsNatDoc.attachType,commMode,timeout));
+    this.EventStful(new AttachEventListener(itsNatDoc,commMode,timeout));
 
     this.getCurrentTarget = function() { return this.itsNatDoc.doc; } // por poner algo
 }
@@ -1107,9 +1108,17 @@ function EventStatelessListener(itsNatDoc,commMode,timeout)
     }     
 }
 
+function AttachEventListener(itsNatDoc,commMode,timeout)
+{
+    this.EventStfulListener = EventStfulListener;
+    this.EventStfulListener(itsNatDoc,itsNatDoc.attachType,commMode,timeout);
+}
+
+
 function Document()
 {
     this.init = init;
+    this.initAttachTimerRefresh = initAttachTimerRefresh;
     this.getVisualRootElement = null;
     this.createDOMPathResolver = null;
     this.createScriptElement = null;
@@ -1246,6 +1255,17 @@ function Document()
             }
             while((numScripts > 0)&&(current != null));
         }
+    }
+
+    function initAttachTimerRefresh(interval,commMode,timeout)
+    {
+        var listener = function ()
+        {
+          var itsNatDoc = arguments.callee.itsNatDoc;
+          itsNatDoc.sendAttachTimerRefresh(arguments.callee,interval,commMode,timeout);
+        };
+        listener.itsNatDoc = this;
+        this.attachTimerHandle = this.setTimeout(listener,interval);        
     }
 
     function sendEventByScript(servletPath,paramURL,evt,timeout)

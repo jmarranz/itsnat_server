@@ -29,6 +29,7 @@ public class EventManager
 
     public void returnedEvent(EventGenericImpl evt)
     {
+        evt.onEventReturned();
         if (this.holdEvt == evt) processEvents(false);
     }
 

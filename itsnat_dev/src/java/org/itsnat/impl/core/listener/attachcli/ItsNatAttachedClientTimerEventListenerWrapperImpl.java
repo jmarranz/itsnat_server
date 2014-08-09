@@ -17,11 +17,14 @@
 package org.itsnat.impl.core.listener.attachcli;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventTimerImpl;
-import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatAttachedClientTimerEventListenerImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.attachcli.JSRenderItsNatAttachedClientTimerEventListenerImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
+import org.itsnat.impl.core.scriptren.bsren.listener.attachcli.BSRenderItsNatAttachedClientTimerEventListenerImpl;
 
 /**
  *
@@ -36,11 +39,18 @@ public class ItsNatAttachedClientTimerEventListenerWrapperImpl extends ItsNatAtt
     {
         super(clientDoc);
 
-        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
-        
-        JSRenderItsNatAttachedClientTimerEventListenerImpl render = JSRenderItsNatAttachedClientTimerEventListenerImpl.getJSRenderItsNatAttachedClientTimerEventListener();
-        
-        String code = render.addItsNatEventListenerCodeClient(this,clientDocDeleg);
+        String code = null;
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();        
+        if (clientDocDeleg instanceof ClientDocumentStfulDelegateWebImpl)
+        {
+            JSRenderItsNatAttachedClientTimerEventListenerImpl render = JSRenderItsNatAttachedClientTimerEventListenerImpl.getJSRenderItsNatAttachedClientTimerEventListener();
+            code = render.addItsNatEventListenerCodeClient(this,(ClientDocumentStfulDelegateWebImpl)clientDocDeleg);
+        }
+        else if (clientDocDeleg instanceof ClientDocumentStfulDelegateDroidImpl)
+        {
+            BSRenderItsNatAttachedClientTimerEventListenerImpl render = BSRenderItsNatAttachedClientTimerEventListenerImpl.getBSRenderItsNatAttachedClientTimerEventListener();
+            code = render.addItsNatEventListenerCodeClient(this,(ClientDocumentStfulDelegateDroidImpl)clientDocDeleg);
+        }        
         clientDocDeleg.addCodeToSend(code);
     }
 

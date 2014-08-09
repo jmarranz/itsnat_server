@@ -28,7 +28,7 @@ import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.bsren.event.BSRenderEventImpl;
 import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toLiteralStringJS;
-import org.itsnat.impl.core.scriptren.shared.dom.node.JSAndBSRenderNodeImpl;
+import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
@@ -116,7 +116,7 @@ public class BSRenderNodeImpl extends BSRenderImpl
     
     public static String addNodeToCache(NodeLocationImpl nodeLoc)
     {
-        return "itsNatDoc.addNodeCache(" + nodeLoc.toScriptNodeLocation(true) + ");\n";
+        return JSAndBSRenderNodeImpl.addNodeToCache(nodeLoc);
     }
 
     public static String removeNodeFromCache(String id)
