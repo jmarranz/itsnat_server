@@ -17,13 +17,11 @@
 package org.itsnat.impl.core.scriptren.bsren.event;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.event.ItsNatDOMExtEvent;
 import org.itsnat.core.event.droid.DroidEvent;
-import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.scriptren.bsren.BSRenderImpl;
 import org.itsnat.impl.core.scriptren.bsren.event.domext.BSRenderItsNatDOMExtEventImpl;
 import org.itsnat.impl.core.scriptren.bsren.event.droid.BSRenderItsNatDroidEventImpl;
 import org.w3c.dom.events.Event;
@@ -32,10 +30,10 @@ import org.w3c.dom.events.Event;
  *
  * @author jmarranz
  */
-public abstract class BSRenderEventImpl extends JSRenderImpl
+public abstract class BSRenderEventImpl extends BSRenderImpl
 {
 
-    /** Creates a new instance of JSRenderEventImpl */
+    /** Creates a new instance of BSRenderEventImpl */
     public BSRenderEventImpl()
     {
     }

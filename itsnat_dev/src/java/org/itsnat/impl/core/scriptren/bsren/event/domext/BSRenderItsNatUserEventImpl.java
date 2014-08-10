@@ -31,7 +31,7 @@ public class BSRenderItsNatUserEventImpl extends BSRenderItsNatDOMExtEventImpl
 {
     public static final BSRenderItsNatUserEventImpl SINGLETON = new BSRenderItsNatUserEventImpl();
 
-    /** Creates a new instance of JSRenderItsNatUserEventImpl */
+    /** Creates a new instance of BSRenderItsNatUserEventImpl */
     public BSRenderItsNatUserEventImpl()
     {
     }
@@ -50,7 +50,7 @@ public class BSRenderItsNatUserEventImpl extends BSRenderItsNatDOMExtEventImpl
             {
                 String nameParam = entry.getKey();
                 Object value = entry.getValue();
-                code.append( "evt.setExtraParam(\"" + nameParam + "\"," + javaToJS(value,true,clientDoc) + ");\n" );
+                code.append( "evt.setExtraParam(\"" + nameParam + "\"," + javaToBS(value,true,clientDoc) + ");\n" );
             }
         }
 

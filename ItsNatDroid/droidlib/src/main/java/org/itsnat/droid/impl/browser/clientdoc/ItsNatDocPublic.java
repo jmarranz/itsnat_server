@@ -78,7 +78,7 @@ public interface ItsNatDocPublic
     public KeyEvent createKeyEvent(String type,int keyCode);
     public Boolean createFocusEvent(String type,boolean hasFocus);
     public CharSequence createTextChangeEvent(String type,CharSequence newText);
-
+    public Object createOtherEvent(String type);
 
     public boolean dispatchEvent(Node node, String type, Object nativeEvt);
     public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt);

@@ -29,11 +29,13 @@ import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidKeyEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidOtherEventImpl;
 import org.itsnat.impl.core.event.client.droid.ClientItsNatDroidTextChangeEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidFocusEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidKeyEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidMotionEventImpl;
+import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidOtherEventImpl;
 import org.itsnat.impl.core.event.server.droid.ServerItsNatDroidTextChangeEventImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -51,7 +53,8 @@ public class DroidEventGroupInfo
     public static final int KEY_EVENT = 2;
     public static final int FOCUS_EVENT = 3;
     public static final int TEXT_CHANGE_EVENT = 4;    
-    
+    public static final int OTHER_EVENT = 5;
+        
     protected static final Map<String,DroidEventGroupInfo> eventGroups = new HashMap<String,DroidEventGroupInfo>(); // no sincronizamos porque es sólo lectura
     protected static final DroidEventGroupInfo eventGroupUnknownDefault = new DroidEventGroupInfo(UNKNOWN_EVENT);
 
@@ -71,6 +74,8 @@ public class DroidEventGroupInfo
         eventGroups.put("blur",   new DroidEventGroupInfo(FOCUS_EVENT));        
         
         eventGroups.put("change",   new DroidEventGroupInfo(TEXT_CHANGE_EVENT));        
+       
+        eventGroups.put("unload",   new DroidEventGroupInfo(OTHER_EVENT));                
     }
 
     protected int eventGroupCode;
@@ -120,7 +125,8 @@ public class DroidEventGroupInfo
             return new ClientItsNatDroidFocusEventImpl(listener,request);        
         else if ("change".equals(type))
             return new ClientItsNatDroidTextChangeEventImpl(listener,request);        
-        
+        else if ("unload".equals(type))
+            return new ClientItsNatDroidOtherEventImpl(listener,request);         
         return null;
     }    
     
@@ -134,6 +140,8 @@ public class DroidEventGroupInfo
             return new ServerItsNatDroidFocusEventImpl(itsNatDoc);        
         else if ("TextChangeEvent".equals(eventGroup))
             return new ServerItsNatDroidTextChangeEventImpl(itsNatDoc);         
+        else if ("OtherEvent".equals(eventGroup))
+            return new ServerItsNatDroidOtherEventImpl(itsNatDoc);        
         throw new ItsNatException("Event name " + eventGroup + " is unknown");
     }    
     
@@ -149,6 +157,8 @@ public class DroidEventGroupInfo
                 return "FocusEvent";  
             else if (evt instanceof DroidTextChangeEvent)
                 return "TextChangeEvent";             
+            else if (evt instanceof DroidOtherEvent)
+                return "OtherEvent";              
         }
         return null;
     }

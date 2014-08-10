@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public class UserEventImpl extends NormalEventImpl implements UserEvent
+public class UserEventImpl extends DOMExtEventImpl implements UserEvent
 {
     protected String name;
 

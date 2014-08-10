@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 7/07/14.
  */
-public class NormalEventImpl extends EventStfulImpl implements NormalEvent
+public abstract class NormalEventImpl extends EventStfulImpl implements NormalEvent
 {
     protected long timeStamp;
 

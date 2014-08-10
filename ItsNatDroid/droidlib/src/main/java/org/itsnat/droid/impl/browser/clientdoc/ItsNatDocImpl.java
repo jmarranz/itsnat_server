@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidOtherEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
@@ -879,6 +880,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return DroidTextChangeEventImpl.createTextChangeEventNative(newText);
     }
 
+    public Object createOtherEvent(String type)
+    {
+        return DroidOtherEventImpl.createOtherEventNative();
+    }
+
     public boolean dispatchEvent(Node node, String type, Object nativeEvt)
     {
         View currTarget = NodeImpl.getView(node);
@@ -898,6 +904,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return false; // No sabemos qué poner
     }
 
+    public void sendUnloadEvent()
+    {
+        Object nativeEvt = createOtherEvent("unload");
+        dispatchEvent((View)null, "unload", nativeEvt);
+    }
+
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)
     {
         View currTarget = getView(idObj);
@@ -914,21 +926,35 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             @Override
             public void run()
             {
-                itsNatDoc.sendAttachTimerRefresh(interval,commMode,timeout);
+
+            AttachedClientTimerRefreshEventImpl evtWrapper = new AttachedClientTimerRefreshEventImpl(itsNatDoc,interval,commMode,timeout);
+
+            try
+            {
+                evtWrapper.sendEvent();
+            }
+            catch(Exception ex)
+            {
+                OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
+                if (errorListener != null)
+                {
+                    errorListener.onError(ex, evtWrapper);
+                    return;
+                }
+                else
+                {
+                    if (ex instanceof ItsNatDroidException) throw (ItsNatDroidException) ex;
+                    else throw new ItsNatDroidException(ex);
+                }
+            }
             }
         };
         getHandler().postDelayed(attachTimerRefreshCallback, interval);
     }
 
-    public void sendAttachTimerRefresh(int interval,int commMode,long timeout)
-    {
-        if (attachTimerRefreshCallback == null) return;
-        AttachedClientTimerRefreshEventImpl evt = new AttachedClientTimerRefreshEventImpl(this,interval,commMode,timeout);
-        evt.sendEvent();
-    }
-
     public void stopAttachTimerRefresh()
     {
         getHandler().removeCallbacks(attachTimerRefreshCallback);
+        this.attachTimerRefreshCallback = null;
     }
 }

@@ -27,7 +27,7 @@ import org.itsnat.impl.core.scriptren.bsren.event.BSRenderNormalEventImpl;
 public abstract class BSRenderItsNatDOMExtEventImpl extends BSRenderNormalEventImpl
 {
 
-    /** Creates a new instance of JSRenderItsNatDOMExtEventImpl */
+    /** Creates a new instance of BSRenderItsNatDOMExtEventImpl */
     public BSRenderItsNatDOMExtEventImpl()
     {
     }

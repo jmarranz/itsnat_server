@@ -90,11 +90,13 @@ public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
         }
     }
 
+    @Override
     public boolean isLoadEvent()
     {
         return false;
     }
 
+    @Override
     public boolean isUnloadEvent()
     {
         return false;

@@ -17,4 +17,10 @@ public class DOMExtEventImpl extends NormalEventImpl implements DOMExtEvent
     {
         return (DOMExtEventListener)listener;
     }
+
+    @Override
+    public void saveEvent()
+    {
+    }
+
 }

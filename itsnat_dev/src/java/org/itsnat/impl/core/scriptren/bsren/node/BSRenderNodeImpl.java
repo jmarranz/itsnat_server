@@ -27,7 +27,6 @@ import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.bsren.event.BSRenderEventImpl;
-import static org.itsnat.impl.core.scriptren.jsren.JSRenderImpl.toLiteralStringJS;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNodeImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -121,7 +120,7 @@ public class BSRenderNodeImpl extends BSRenderImpl
 
     public static String removeNodeFromCache(String id)
     {
-        return "itsNatDoc.removeNodeCache(new String[]{" + toLiteralStringJS(id) + "});\n";
+        return "itsNatDoc.removeNodeCache(new String[]{" + toLiteralStringBS(id) + "});\n";
     }    
     
     public static String getCodeDispatchEvent(EventTarget node,Event evt,String varResName,ClientDocumentStfulDelegateDroidImpl clientDoc)

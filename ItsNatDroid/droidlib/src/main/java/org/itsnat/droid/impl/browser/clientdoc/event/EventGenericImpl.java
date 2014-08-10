@@ -42,10 +42,7 @@ public abstract class EventGenericImpl implements Event
         // Redefinir en derivada si se quiere hacer algo
     }
 
-    public void saveEvent()
-    {
-        // Se redefine en derivada
-    }
+    public abstract void saveEvent();
 
     public EventGenericListener getEventGenericListener()
     {

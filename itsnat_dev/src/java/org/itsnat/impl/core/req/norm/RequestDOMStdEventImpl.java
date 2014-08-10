@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDOMStdEventImpl;
@@ -50,7 +51,7 @@ public class RequestDOMStdEventImpl extends RequestNormalEventImpl
 
     public boolean isLoadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
         if (eventType.equals("load") || 
             eventType.equals("DOMContentLoaded") ||
             eventType.equals("SVGLoad")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload
@@ -61,7 +62,7 @@ public class RequestDOMStdEventImpl extends RequestNormalEventImpl
 
     public boolean isUnloadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
         if (eventType.equals("unload") || 
             eventType.equals("beforeunload") ||
             eventType.equals("SVGUnload")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload

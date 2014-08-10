@@ -23,6 +23,7 @@ import org.itsnat.core.event.droid.DroidTextChangeEvent;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.event.DroidEventGroupInfo;
+import org.itsnat.impl.core.event.DroidOtherEvent;
 import org.itsnat.impl.core.scriptren.bsren.event.BSRenderNormalEventImpl;
 import org.w3c.dom.events.Event;
 
@@ -34,7 +35,7 @@ public abstract class BSRenderItsNatDroidEventImpl extends BSRenderNormalEventIm
 {
 
     /**
-     * Creates a new instance of JSRenderItsNatDOMStdEventImpl
+     * Creates a new instance of BSRenderItsNatDroidEventImpl
      */
     public BSRenderItsNatDroidEventImpl()
     {
@@ -47,7 +48,9 @@ public abstract class BSRenderItsNatDroidEventImpl extends BSRenderNormalEventIm
         else if (event instanceof DroidFocusEvent)
             return BSRenderItsNatDroidFocusEventImpl.SINGLETON;
         else if (event instanceof DroidTextChangeEvent)
-            return BSRenderItsNatDroidTextChangeEventImpl.SINGLETON;        
+            return BSRenderItsNatDroidTextChangeEventImpl.SINGLETON;
+        else if (event instanceof DroidOtherEvent)
+            return BSRenderItsNatDroidOtherEventImpl.SINGLETON;
         return null;
     }
 

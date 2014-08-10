@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.listener.droid.ItsNatDroidEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDroidEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
@@ -54,7 +55,8 @@ public class RequestDroidEventImpl extends RequestNormalEventImpl
 
     public boolean isUnloadEvent()
     {
-        return false;
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
+        return eventType.equals("unload");
     }
 
 }

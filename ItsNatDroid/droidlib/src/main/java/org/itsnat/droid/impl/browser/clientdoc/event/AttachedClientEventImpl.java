@@ -28,5 +28,10 @@ public abstract class AttachedClientEventImpl extends EventStfulImpl
         return (AttachedClientEventListener)listener;
     }
 
+    @Override
+    public void saveEvent()
+    {
+    }
+
 }
 
