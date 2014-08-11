@@ -32,9 +32,8 @@ import bsh.EvalError;
  */
 public class TestRemoteCore
 {
-    public static void test(MainActivity act,String url)
+    public static void test(MainActivity act,ItsNatDroidBrowser droidBrowser,String url)
     {
-        ItsNatDroidBrowser droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
         downloadLayoutRemote(act,droidBrowser,url);
     }
 
@@ -100,6 +99,7 @@ public class TestRemoteCore
                             public void onClick(View view)
                             {
                                 Toast.makeText(act, "DOWNLOADING AGAIN", Toast.LENGTH_SHORT).show();
+                                page.dispose();
                                 page.reusePageRequest().execute();
                                 //downloadLayoutRemote(act,droidBrowser);
                             }

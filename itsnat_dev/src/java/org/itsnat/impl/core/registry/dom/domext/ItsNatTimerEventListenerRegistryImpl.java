@@ -61,7 +61,7 @@ public class ItsNatTimerEventListenerRegistryImpl extends ItsNatDOMExtEventListe
     {
         // El target puede ser nulo
         // Permitimos registrar múltiples veces el mismo listener para el mismo target
-        if (!canAddItsNatNormalEventListener(target,listener))
+        if (!canAddItsNatNormalEventListener(target,ItsNatTimerEventListenerWrapperImpl.getTypeStatic(),listener))
             return null;
 
         if (period < 0)

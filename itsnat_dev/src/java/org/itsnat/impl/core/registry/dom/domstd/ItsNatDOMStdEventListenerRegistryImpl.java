@@ -42,7 +42,7 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatNormalEventList
     }
 
     @Override
-    public boolean isValidEventTarget(EventTarget target,boolean throwErr)
+    public boolean isValidEventTarget(EventTarget target,String type,boolean throwErr)
     {
         if (target == null)
             if (throwErr)
@@ -50,7 +50,7 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatNormalEventList
             else
                 return false;
 
-        return super.isValidEventTarget(target,throwErr);
+        return super.isValidEventTarget(target,type,throwErr);
     }
 
     public void addItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
@@ -65,7 +65,7 @@ public class ItsNatDOMStdEventListenerRegistryImpl extends ItsNatNormalEventList
 
     public ItsNatDOMStdEventListenerWrapperImpl removeItsNatDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
-        if (!isValidEventTarget(target,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
+        if (!isValidEventTarget(target,type,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
         return (ItsNatDOMStdEventListenerWrapperImpl)removeItsNatNormalEventListener(target,type,listener,useCapture,updateClient);
     }

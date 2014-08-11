@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import org.itsnat.droid.ItsNatDroidBrowser;
+import org.itsnat.droid.ItsNatDroidRoot;
+
 
 public class MainActivity extends Activity {
 
@@ -40,6 +43,8 @@ public class MainActivity extends Activity {
             }
         });
 
+        final ItsNatDroidBrowser droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
+
         View testRemoteCore = findViewById(R.id.testRemoteCore);
         testRemoteCore.setOnClickListener(new View.OnClickListener()
         {
@@ -48,7 +53,7 @@ public class MainActivity extends Activity {
             {
                 saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
                 String url = urlTestCore.getText().toString();
-                TestRemoteCore.test(MainActivity.this, url);
+                TestRemoteCore.test(MainActivity.this,droidBrowser, url);
             }
         });
 
@@ -60,7 +65,7 @@ public class MainActivity extends Activity {
             {
                 saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
                 String url = urlTestRemCtrl.getText().toString();
-                TestRemoteControl.test(MainActivity.this, url);
+                TestRemoteControl.test(MainActivity.this,droidBrowser, url);
             }
         });
 

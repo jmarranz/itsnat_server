@@ -37,6 +37,7 @@ public class RequestAttachedClientEventCometImpl extends RequestAttachedClientEv
         super(itsNatRequest);
     }
 
+    @Override
     public void processClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
         if (isUnloadEvent())

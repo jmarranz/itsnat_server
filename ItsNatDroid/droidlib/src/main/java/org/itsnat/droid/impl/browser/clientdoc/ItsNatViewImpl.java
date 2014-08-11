@@ -20,34 +20,30 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/07/14.
  */
-public class ItsNatViewImpl implements ItsNatView
+public abstract class ItsNatViewImpl implements ItsNatView
 {
     public static final int ITSNAT_VIEW_DATA = 1111111111;
 
     protected PageImpl page;
-    protected View view;
     protected MapList<String,DroidEventListener> eventListeners;
-    protected ClickEventListenerViewAdapter clickEvtListenerViewAdapter;
-    protected TouchEventListenerViewAdapter touchEvtListenerViewAdapter;
-    protected KeyEventListenerViewAdapter keyEvtListenerViewAdapter;
-    protected FocusEventListenerViewAdapter focusEvtListenerViewAdapter;
-    protected TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter;
+
 
     protected String nodeCacheId;
     protected UserDataImpl userData;
 
-    public ItsNatViewImpl(PageImpl page,View view)
+    public ItsNatViewImpl(PageImpl page)
     {
         this.page = page;
-        this.view = view;
     }
 
     public static ItsNatViewImpl getItsNatView(PageImpl page,View view)
     {
-        ItsNatViewImpl viewData = (ItsNatViewImpl)view.getTag(ITSNAT_VIEW_DATA);
+        if (view == null)
+            return page.getItsNatDocImpl().getItsNatViewNull();
+        ItsNatViewNotNullImpl viewData = (ItsNatViewNotNullImpl)view.getTag(ITSNAT_VIEW_DATA);
         if (viewData == null)
         {
-            viewData = new ItsNatViewImpl(page,view);
+            viewData = new ItsNatViewNotNullImpl(page,view);
             view.setTag(ITSNAT_VIEW_DATA,viewData);
         }
         return viewData;
@@ -58,15 +54,9 @@ public class ItsNatViewImpl implements ItsNatView
         return page;
     }
 
-    public View getView()
-    {
-        return view;
-    }
+    public abstract View getView();
 
-    public String getXMLId()
-    {
-        return page.getInflatedLayoutImpl().getXMLId(view);
-    }
+    public abstract String getXMLId();
 
     public MapList<String,DroidEventListener> getEventListeners()
     {
@@ -79,68 +69,25 @@ public class ItsNatViewImpl implements ItsNatView
         return getEventListeners().get(type);
     }
 
-    public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()
-    {
-        if (clickEvtListenerViewAdapter == null) this.clickEvtListenerViewAdapter = new ClickEventListenerViewAdapter(this);
-        return clickEvtListenerViewAdapter;
-    }
+    public abstract ClickEventListenerViewAdapter getClickEventListenerViewAdapter();
 
-    public TouchEventListenerViewAdapter getTouchEventListenerViewAdapter()
-    {
-        if (touchEvtListenerViewAdapter == null) this.touchEvtListenerViewAdapter = new TouchEventListenerViewAdapter(this);
-        return touchEvtListenerViewAdapter;
-    }
+    public abstract TouchEventListenerViewAdapter getTouchEventListenerViewAdapter();
 
-    public KeyEventListenerViewAdapter getKeyEventListenerViewAdapter()
-    {
-        if (keyEvtListenerViewAdapter == null) this.keyEvtListenerViewAdapter = new KeyEventListenerViewAdapter(this);
-        return keyEvtListenerViewAdapter;
-    }
+    public abstract KeyEventListenerViewAdapter getKeyEventListenerViewAdapter();
 
-    public FocusEventListenerViewAdapter getFocusEventListenerViewAdapter()
-    {
-        if (focusEvtListenerViewAdapter == null) this.focusEvtListenerViewAdapter = new FocusEventListenerViewAdapter(this);
-        return focusEvtListenerViewAdapter;
-    }
+    public abstract FocusEventListenerViewAdapter getFocusEventListenerViewAdapter();
 
-    public TextChangeEventListenerViewAdapter getTextChangeEventListenerViewAdapter()
-    {
-        // Como el listener nativo se puede registrar muchas veces nosotros tenemos que hacerlo UNA sola vez y necesitamos detectarlo
-        return textChangeEvtListenerViewAdapter;
-    }
+    public abstract TextChangeEventListenerViewAdapter getTextChangeEventListenerViewAdapter();
 
-    public void setTextChangeEventListenerViewAdapter(TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter)
-    {
-        this.textChangeEvtListenerViewAdapter = textChangeEvtListenerViewAdapter;
-    }
+    public abstract void setTextChangeEventListenerViewAdapter(TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter);
 
-    public void setOnClickListener(View.OnClickListener l)
-    {
-        ClickEventListenerViewAdapter evtListenerViewAdapter = getClickEventListenerViewAdapter();
-        view.setOnClickListener(evtListenerViewAdapter);
-        evtListenerViewAdapter.setOnClickListener(l);
-    }
+    public abstract void setOnClickListener(View.OnClickListener l);
 
-    public void setOnTouchListener(View.OnTouchListener l)
-    {
-        TouchEventListenerViewAdapter evtListenerViewAdapter = getTouchEventListenerViewAdapter();
-        view.setOnTouchListener(evtListenerViewAdapter);
-        evtListenerViewAdapter.setOnTouchListener(l);
-    }
+    public abstract void setOnTouchListener(View.OnTouchListener l);
 
-    public void setOnKeyListener(View.OnKeyListener l)
-    {
-        KeyEventListenerViewAdapter evtListenerViewAdapter = getKeyEventListenerViewAdapter();
-        view.setOnKeyListener(evtListenerViewAdapter);
-        evtListenerViewAdapter.setOnKeyListener(l);
-    }
+    public abstract void setOnKeyListener(View.OnKeyListener l);
 
-    public void setOnFocusChangeListener(View.OnFocusChangeListener l)
-    {
-        FocusEventListenerViewAdapter evtListenerViewAdapter = getFocusEventListenerViewAdapter();
-        view.setOnFocusChangeListener(evtListenerViewAdapter);
-        evtListenerViewAdapter.setOnFocusChangeListener(l);
-    }
+    public abstract void setOnFocusChangeListener(View.OnFocusChangeListener l);
 
     public String getNodeCacheId()
     {

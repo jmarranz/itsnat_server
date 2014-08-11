@@ -61,14 +61,12 @@ public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener
 
     public ItsNatNormalEventListenerListSameTarget getItsNatNormalEventListenersByTarget(EventTarget target)
     {
-        if (!parentRegistry.isValidEventTarget(target,false)) return null; // Nos ahorramos la búsqueda
-
         return (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
     }
 
     public EventListener[] getEventListenersArrayCopy(EventTarget target,String type,boolean useCapture)
     {
-        if (!parentRegistry.isValidEventTarget(target,false)) return null; // Nos ahorramos la búsqueda
+        if (!parentRegistry.isValidEventTarget(target,type,false)) return null; // Nos ahorramos la búsqueda
 
         ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
@@ -105,8 +103,6 @@ public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener
 
     public int removeAllItsNatNormalEventListeners(EventTarget target,boolean updateClient)
     {
-        if (!parentRegistry.isValidEventTarget(target,false)) return 0; // No pudo registrarse, nos ahorramos una búsqueda inútil
-
         ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
             return 0;

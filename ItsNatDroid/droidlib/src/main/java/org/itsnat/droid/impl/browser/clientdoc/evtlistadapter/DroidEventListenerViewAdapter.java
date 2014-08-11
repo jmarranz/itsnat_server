@@ -31,22 +31,23 @@ public abstract class DroidEventListenerViewAdapter
         dispatch(viewData,type,nativeEvt);
     }
 
-    public static void dispatch(ItsNatViewImpl viewData,String type,Object nativeEvt)
+    public static void dispatch(ItsNatViewImpl viewDataCurrentTarget,String type,Object nativeEvt)
     {
-        dispatch(viewData,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewData.getView());
+        View viewTarget = viewDataCurrentTarget != null ? viewDataCurrentTarget.getView() : null; // En "unload" puede ser nulo
+        dispatch(viewDataCurrentTarget,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewTarget);
     }
 
-    protected static void dispatch(ItsNatViewImpl viewData,String type,Object nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
+    protected static void dispatch(ItsNatViewImpl viewDataCurrentTarget,String type,Object nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
     {
-        List<DroidEventListener> list = viewData.getEventListeners(type);
+        List<DroidEventListener> list = viewDataCurrentTarget.getEventListeners(type);
         if (list == null) return;
 
-        View view = viewData.getView();
+        View viewCurrentTarget = viewDataCurrentTarget.getView();
         for (DroidEventListener listener : list)
         {
             if (checkUseCapture && listener.isUseCapture())
             {
-                dispatchCapture(viewData,view,type,nativeEvt,viewTarget);
+                dispatchCapture(viewDataCurrentTarget,viewCurrentTarget,type,nativeEvt,viewTarget);
             }
 
             DroidEventImpl evtWrapper = (DroidEventImpl)listener.createEventWrapper(nativeEvt);
@@ -60,7 +61,7 @@ public abstract class DroidEventListenerViewAdapter
             {
                 // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
-                OnEventErrorListener errorListener = viewData.getPageImpl().getOnEventErrorListener();
+                OnEventErrorListener errorListener = viewDataCurrentTarget.getPageImpl().getOnEventErrorListener();
                 if (errorListener != null)
                 {
                     errorListener.onError(ex, evtWrapper);

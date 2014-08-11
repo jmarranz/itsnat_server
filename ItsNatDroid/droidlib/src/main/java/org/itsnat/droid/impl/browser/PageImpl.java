@@ -50,6 +50,7 @@ public class PageImpl implements Page
     protected HttpParams httpParams;
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
+    protected boolean dispose;
 
     public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String content,AttrCustomInflaterListener inflateListener)
     {
@@ -182,6 +183,11 @@ public class PageImpl implements Page
 
     public ItsNatDoc getItsNatDoc()
     {
+        return getItsNatDocImpl();
+    }
+
+    public ItsNatDocImpl getItsNatDocImpl()
+    {
         return itsNatDoc;
     }
 
@@ -240,6 +246,9 @@ public class PageImpl implements Page
 
     public void dispose()
     {
+        if (dispose) return;
+        this.dispose = true;
+        itsNatDoc.sendUnloadEvent();
         itsNatSession.disposePage(this);
         getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
     }

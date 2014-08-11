@@ -77,11 +77,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
-
+    protected ItsNatViewNullImpl nullView; // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
 
     public ItsNatDocImpl(PageImpl page)
     {
         this.page = page;
+        this.nullView = new ItsNatViewNullImpl(page);
     }
 
 
@@ -103,6 +104,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public String getAttachType()
     {
         return attachType;
+    }
+
+    public ItsNatViewNullImpl getItsNatViewNull()
+    {
+        return nullView;
     }
 
     public List<NameValuePair> genParamURL()
@@ -655,10 +661,15 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)
     {
         View currentTarget = getView(idObj);
+        if (currentTarget == null && !type.equals("unload")) // En el caso "unload" se permite que sea nulo el target
+            throw new ItsNatDroidException("INTERNAL ERROR");
         ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
-        viewData.getEventListeners().add(type,listenerWrapper);
         getDroidEventListeners().put(listenerId, listenerWrapper);
+        viewData.getEventListeners().add(type,listenerWrapper);
+
+        if (viewData instanceof ItsNatViewNullImpl)
+            return; // Nada más que hacer
 
         if (type.equals("click"))
         {
@@ -699,7 +710,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void removeDroidEL(String listenerId)
     {
         DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
-        ItsNatViewImpl viewData = page.getItsNatViewImpl(listenerWrapper.getCurrentTarget());
+        View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" puede ser nulo
+        ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
 

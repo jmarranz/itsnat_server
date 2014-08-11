@@ -41,15 +41,18 @@ public class ItsNatDroidEventListenerRegistryImpl extends ItsNatNormalEventListe
     }
 
     @Override
-    public boolean isValidEventTarget(EventTarget target,boolean throwErr)
+    public boolean isValidEventTarget(EventTarget target,String type,boolean throwErr)
     {
-        if (target == null)
+        // target puede ser null en "unload"
+        if (target == null && !"unload".equals(type))
+        {
             if (throwErr)
                 throw new ItsNatException("Null event target is not allowed");
             else
                 return false;
-
-        return super.isValidEventTarget(target,throwErr);
+        }   
+            
+        return super.isValidEventTarget(target,type,throwErr);
     }
 
     public void addItsNatDroidEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
@@ -64,7 +67,7 @@ public class ItsNatDroidEventListenerRegistryImpl extends ItsNatNormalEventListe
 
     public ItsNatDroidEventListenerWrapperImpl removeItsNatDroidEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
-        if (!isValidEventTarget(target,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
+        if (!isValidEventTarget(target,type,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
         return (ItsNatDroidEventListenerWrapperImpl)removeItsNatNormalEventListener(target,type,listener,useCapture,updateClient);
     }

@@ -80,19 +80,19 @@ public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListene
         return eventListenersById.isEmpty();
     }
 
-    public void checkValidEventTarget(EventTarget target)
+    public void checkValidEventTarget(EventTarget target,String type)
     {
-        isValidEventTarget(target,true);
+        isValidEventTarget(target,type,true);
     }
 
-    public boolean isValidEventTarget(EventTarget target,boolean throwErr)
+    public boolean isValidEventTarget(EventTarget target,String type,boolean throwErr)
     {
         // MSIE no admite asociar eventos DOM a text nodes y FireFox lo permite pero no los procesa por ej. los clicks
         // En los comentarios sí se permite aunque es absurdo (no pueden ser pulsados etc) delegamos en el programador
         if (target == null) return true; // Derivar si no se permite
         Node node = (Node)target; // nuestro AbstractView implementa Node
-        int type = node.getNodeType();
-        if (type == Node.TEXT_NODE)
+        int nodeType = node.getNodeType();
+        if (nodeType == Node.TEXT_NODE)
             if (throwErr) throw new ItsNatException("Text node is not allowed",target);
             else return false;
         return true;
@@ -103,11 +103,11 @@ public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListene
         return capturingCount;
     }
 
-    public boolean canAddItsNatNormalEventListener(EventTarget target,EventListener listener)
+    public boolean canAddItsNatNormalEventListener(EventTarget target,String type,EventListener listener)
     {
         if (!ItsNatNormalEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,itsNatDoc, clientDocTarget))
             return false;
-        checkValidEventTarget(target); // Lanza excepción si no es válido
+        checkValidEventTarget(target,type); // Lanza excepción si no es válido
         return true;
     }
 

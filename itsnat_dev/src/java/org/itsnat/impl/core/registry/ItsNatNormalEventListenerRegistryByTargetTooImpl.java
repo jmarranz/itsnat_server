@@ -44,7 +44,7 @@ public abstract class ItsNatNormalEventListenerRegistryByTargetTooImpl extends I
 
     public boolean canAddItsNatNormalEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
-        if (!canAddItsNatNormalEventListener(target,listener))
+        if (!canAddItsNatNormalEventListener(target,type,listener))
             return false;
 
         return !containsItsNatNormalEventListener(target,type,listener,useCapture);
@@ -82,7 +82,7 @@ public abstract class ItsNatNormalEventListenerRegistryByTargetTooImpl extends I
 
     public ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
-        if (!isValidEventTarget(target,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
+        if (!isValidEventTarget(target,type,false)) return null; // No pudo registrarse, nos ahorramos una búsqueda inútil
 
         ItsNatNormalEventListenerWrapperImpl listenerWrapper = eventListenersByTarget.removeItsNatNormalEventListener(target,type,listener,useCapture);
         if (listenerWrapper == null) return null;

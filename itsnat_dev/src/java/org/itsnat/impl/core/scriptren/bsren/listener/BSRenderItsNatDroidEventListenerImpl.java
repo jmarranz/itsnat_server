@@ -59,9 +59,9 @@ public class BSRenderItsNatDroidEventListenerImpl extends BSRenderItsNatNormalEv
         String functionVarName = addCustomFunctionCode(itsNatListener,code,clientDoc);
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
-        // El target en eventos estándar DOM NO puede ser nulo
-        code.append( "itsNatDoc.addDroidEL(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventGroupCode + ");\n" );
-        // El "elem" es utilizado por clases derivadas, elem puede ser window
+        // El target NO puede ser nulo excepto en el evento unload
+        boolean errIfNodeNull = !"unload".equals(type);
+        code.append( "itsNatDoc.addDroidEL(" + nodeLoc.toScriptNodeLocation(errIfNodeNull) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventGroupCode + ");\n" );
         return code.toString();        
     }
 
