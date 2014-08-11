@@ -17,6 +17,11 @@ public class AttachedClientUnloadEventImpl extends AttachedClientEventImpl
         super(parent,commMode,timeout);
     }
 
+    public boolean isIgnoreHold()
+    {
+        return true; // Es un unload
+    }
+
     public List<NameValuePair> genParamURL()
     {
         List<NameValuePair> params = super.genParamURL();

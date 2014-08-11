@@ -13,8 +13,6 @@ public abstract class EventGenericImpl implements Event
 {
     protected EventGenericListener listener;
     protected boolean mustBeSent = true;
-    protected boolean ignoreHold = false;
-
 
     public EventGenericImpl(EventGenericListener listener)
     {
@@ -29,7 +27,7 @@ public abstract class EventGenericImpl implements Event
 
     public boolean isIgnoreHold()
     {
-        return ignoreHold;
+        return false;
     }
 
     public String getType()

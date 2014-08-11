@@ -41,11 +41,9 @@ public class DroidOtherEventImpl extends DroidEventImpl implements DroidEvent
     {
     }
 
-    public List<NameValuePair> genParamURL()
+    public boolean isIgnoreHold()
     {
-        List<NameValuePair> params = super.genParamURL();
-        // params.add(new BasicNameValuePair("itsnat_evt_hasFocus","" + hasFocus));
-        return params;
+        return "unload".equals(getDroidEventListener().getType()); // Si es un unload
     }
 
 }
