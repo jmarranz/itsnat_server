@@ -1,7 +1,4 @@
 
-* Estudiar si tiene sentido AttachUnloadEvent
-
-* Hacer Comet
 
 * Hacer tabs para probar dos o tres a la vez
 

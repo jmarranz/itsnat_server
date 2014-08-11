@@ -98,7 +98,7 @@ public class TestDroidTimerListener extends TestDroidBase implements EventListen
             ItsNatTimerEvent timerEvt = (ItsNatTimerEvent)evt;
             ItsNatTimerHandle handle = timerEvt.getItsNatTimerHandle();
             long firstTime = handle.getFirstTime();
-            if ((new Date().getTime() - firstTime) > 10000) // to avoid never ending ticks
+            if ((new Date().getTime() - firstTime) > 15000) // to avoid never ending ticks
             {
                 handle.cancel();
                 logToTextView(outElem,"Timer canceled (timeout)");

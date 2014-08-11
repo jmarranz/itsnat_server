@@ -51,6 +51,8 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
         
+       
+        
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
         

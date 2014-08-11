@@ -78,7 +78,8 @@ public class PageImpl implements Page
         try
         {
             interp.set("itsNatDoc",itsNatDoc);
-            interp.eval(loadScript);
+            if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
+                interp.eval(loadScript);
         }
         catch (EvalError ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
         catch (Exception ex) { throw new ItsNatDroidScriptException(ex,loadScript); }

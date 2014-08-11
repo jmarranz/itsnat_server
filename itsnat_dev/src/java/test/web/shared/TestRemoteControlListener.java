@@ -53,7 +53,7 @@ public class TestRemoteControlListener implements ItsNatAttachedClientEventListe
                 if (event instanceof ItsNatAttachedClientTimerEvent)
                 {
                     ItsNatAttachedClientTimerEvent timerEvent = (ItsNatAttachedClientTimerEvent)event;
-                    boolean accepted = (timerEvent.getRefreshInterval() >= 1000);
+                    boolean accepted = (timerEvent.getRefreshInterval() >= 1000);                
                     if (!accepted)
                     {
                         try

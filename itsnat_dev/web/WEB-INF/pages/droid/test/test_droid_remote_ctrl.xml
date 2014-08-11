@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
        
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -49,35 +49,84 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="- Remote Doc: ${docId} ${docName}"
-                            android:textSize="15dp" >
+                            android:textSize="15dp" 
+                            android:layout_marginTop="10dp">
                         </TextView>                 
 
-                        <LinearLayout 
+                        <HorizontalScrollView 
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:orientation="horizontal">  
+                            android:layout_height="wrap_content">
 
-                            <TextView 
+                            <LinearLayout 
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Timer"
-                                android:textSize="15dp" 
-                                android:textColor="#0000ff"                                
-                                android:layout_marginLeft="20dp"
-                                url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=2000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
-                            </TextView>                
+                                android:layout_marginLeft="10dp"
+                                android:orientation="horizontal">                      
+                            
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Timer"
+                                    android:textSize="20dp" 
+                                    android:textColor="#0000ff"                                
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=2000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
+                                </TextView>                
 
-                            <TextView 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Timer Full Ctrl"
-                                android:textSize="15dp" 
-                                android:layout_marginLeft="10dp">
-                            </TextView>   
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Timer Full Ctrl"
+                                    android:textSize="20dp"
+                                    android:textColor="#0000ff"   
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=2000&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false">
+                                </TextView>
 
-                        </LinearLayout>
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Comet"
+                                    android:textSize="20dp"
+                                    android:textColor="#0000ff"   
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
+                                </TextView> 
 
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Comet Full Ctrl"
+                                    android:textSize="20dp"
+                                    android:textColor="#0000ff"   
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false">
+                                </TextView>                                                                                               
+                                
+
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="No Refresh"
+                                    android:textSize="20dp"
+                                    android:textColor="#0000ff"   
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=none&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}">
+                                </TextView>
+                                
+                                <TextView 
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="No Refresh Full Ctrl"
+                                    android:textSize="20dp"
+                                    android:textColor="#0000ff"   
+                                    android:layout_marginLeft="10dp"
+                                    url="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=none&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_comm_mode=${commModeRemCtrl}&amp;itsnat_event_timeout=${eventTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_read_only=false">
+                                </TextView>                                
+
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                            
                     </LinearLayout>
 
                 </LinearLayout>

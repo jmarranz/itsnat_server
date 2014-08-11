@@ -22,7 +22,7 @@ public class BSRenderItsNatDroidOtherEventImpl extends BSRenderItsNatDroidEventI
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         DroidEvent evt2 = (DroidEvent)evt; // No hay necesidad por ahora de definir un DroidOtherEvent público 
-        return "itsNatDoc.createOtherEvent(\"" + evt2.getType() + "\")"; 
+        return "itsNatDoc.createOtherEvent()"; 
     }
 
 }

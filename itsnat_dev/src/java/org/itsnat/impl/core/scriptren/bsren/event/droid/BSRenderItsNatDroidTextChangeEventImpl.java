@@ -22,7 +22,7 @@ public class BSRenderItsNatDroidTextChangeEventImpl extends BSRenderItsNatDroidE
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         DroidTextChangeEvent evt2 = (DroidTextChangeEvent)evt; 
-        return "itsNatDoc.createTextChangeEvent(\"" + evt.getType() + "\",\"" + evt2.getNewText() + "\")"; 
+        return "itsNatDoc.createTextChangeEvent(\"" + evt2.getNewText() + "\")"; 
     }
 
 }

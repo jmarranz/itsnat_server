@@ -53,15 +53,20 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
                 if (event instanceof ItsNatAttachedClientTimerEvent)
                 {
                     ItsNatAttachedClientTimerEvent timerEvent = (ItsNatAttachedClientTimerEvent)event;
-                    boolean accepted = (timerEvent.getRefreshInterval() >= 1000);
+                    boolean accepted = (timerEvent.getRefreshInterval() >= 1000);                  
                     if (!accepted)
-                    {
+                    {                       
                         try
                         {
                             Writer out = response.getWriter();
-                            out.write("<html><body><h1>Remote control request rejected. Interval too short: ");
-                            out.write(Integer.toString(timerEvent.getRefreshInterval()));
-                            out.write("</h1></body></html>");
+                            
+                            out.write("<TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
+                            out.write("    android:layout_width=\"match_parent\" ");
+                            out.write("    android:layout_height=\"wrap_content\" ");
+                            out.write("    android:text=\"Remote control request rejected. Interval too short:" + Integer.toString(timerEvent.getRefreshInterval()) + "\" ");
+                            out.write("    android:textSize=\"25dp\" "); 
+                            out.write("    android:background=\"#00dd00\">");
+                            out.write("</TextView>");                              
                         }
                         catch(IOException ex) { throw new RuntimeException(ex); }
                     }

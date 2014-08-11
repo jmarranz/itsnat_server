@@ -19,6 +19,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientUnloadEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
@@ -882,17 +883,17 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return DroidKeyEventImpl.createKeyEventNative(type, keyCode);
     }
 
-    public Boolean createFocusEvent(String type,boolean hasFocus)
+    public Boolean createFocusEvent(boolean hasFocus)
     {
         return DroidFocusEventImpl.createFocusEventNative(hasFocus);
     }
 
-    public CharSequence createTextChangeEvent(String type,CharSequence newText)
+    public CharSequence createTextChangeEvent(CharSequence newText)
     {
         return DroidTextChangeEventImpl.createTextChangeEventNative(newText);
     }
 
-    public Object createOtherEvent(String type)
+    public Object createOtherEvent()
     {
         return DroidOtherEventImpl.createOtherEventNative();
     }
@@ -918,7 +919,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void sendUnloadEvent()
     {
-        Object nativeEvt = createOtherEvent("unload");
+        Object nativeEvt = createOtherEvent();
         dispatchDroidEvent((View) null, "unload", nativeEvt);
 
         if (attachUnloadCallback != null)
@@ -972,6 +973,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         getHandler().removeCallbacks(attachTimerRefreshCallback);
         this.attachTimerRefreshCallback = null;
+    }
+
+    public void sendAttachCometTaskRefresh(String listenerId,int commMode,long timeout)
+    {
+        AttachedClientCometTaskRefreshEventImpl evt = new AttachedClientCometTaskRefreshEventImpl(this,listenerId,commMode,timeout);
+        evt.sendEvent();
     }
 
     public void addAttachUnloadListener(final int commMode)

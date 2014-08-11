@@ -51,7 +51,9 @@ public class TestRemoteTemplateResultDocument implements Serializable
             String type = input.getType();
             if ("text".equals(type)) { inputSearch = input; break; }
         }
-
+        if (inputSearch == null) inputSearch = (HTMLInputElement)list.item(0); // type="..." está omitido pero por defecto es "text"
+        if (inputSearch == null) return; // RARO
+        
         Element div = doc.createElement("div");
         div.setAttribute("style","font-size:25px;");
         div.appendChild(doc.createTextNode("End of demo. Yes I know, is a clone far of perfect :)"));

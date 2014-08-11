@@ -19,6 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren.listener.attachcli;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.attachcli.JSAndBSRenderItsNatAttachedClientCometEventListenerImpl;
 
 /**
  *
@@ -37,11 +38,7 @@ public class JSRenderItsNatAttachedClientCometEventListenerImpl extends JSRender
 
     private String addItsNatAttachedClientCometEventListenerCode(ItsNatAttachedClientCometEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        String listenerId = itsNatListener.getId();
-        int sync = itsNatListener.getCommModeDeclared();
-        long eventTimeout = itsNatListener.getEventTimeout();
-
-        return "itsNatDoc.sendAttachCometTaskRefresh(\"" + listenerId + "\"," + sync + "," + eventTimeout + ");\n";
+        return JSAndBSRenderItsNatAttachedClientCometEventListenerImpl.addItsNatAttachedClientCometEventListenerCode(itsNatListener);
     }
 
     @Override    

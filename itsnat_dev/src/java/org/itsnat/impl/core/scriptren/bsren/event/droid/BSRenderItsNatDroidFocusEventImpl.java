@@ -22,7 +22,7 @@ public class BSRenderItsNatDroidFocusEventImpl extends BSRenderItsNatDroidEventI
     public String getCreateEventInstance(Event evt, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         DroidFocusEvent evt2 = (DroidFocusEvent)evt; 
-        return "itsNatDoc.createFocusEvent(\"" + evt.getType() + "\"," + evt2.hasFocus() + ")"; 
+        return "itsNatDoc.createFocusEvent(" + evt2.hasFocus() + ")"; 
     }
 
 }

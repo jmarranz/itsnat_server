@@ -76,9 +76,9 @@ public interface ItsNatDocPublic
 
     public MotionEvent createMotionEvent(String type,float x, float y);
     public KeyEvent createKeyEvent(String type,int keyCode);
-    public Boolean createFocusEvent(String type,boolean hasFocus);
-    public CharSequence createTextChangeEvent(String type,CharSequence newText);
-    public Object createOtherEvent(String type);
+    public Boolean createFocusEvent(boolean hasFocus);
+    public CharSequence createTextChangeEvent(CharSequence newText);
+    public Object createOtherEvent();
 
     public boolean dispatchEvent(Node node, String type, Object nativeEvt);
     public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt);
@@ -87,6 +87,6 @@ public interface ItsNatDocPublic
 
     public void initAttachTimerRefresh(final int interval,final int commMode,final long timeout);
     public void stopAttachTimerRefresh();
-
+    public void sendAttachCometTaskRefresh(String listenerId,int commMode,long timeout);
     public void addAttachUnloadListener(int commMode);
 }

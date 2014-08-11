@@ -4,9 +4,7 @@
  */
 package test.web.remtmpl;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,7 @@ public class GoogleSearchResultSource implements TemplateSource
         try
         {
             query = java.net.URLEncoder.encode(query,"UTF-8");
-            URL url = new URL("http://www.google.com/search?q=" + query);
+            URL url = new URL("https://www.google.com/search?q=" + query + "&gws_rd=ssl"); // https://www.google.com/search?q=ItsNat&gws_rd=ssl
             URLConnection conn = url.openConnection();
 
             HttpServletRequest httpRequest = (HttpServletRequest)request.getServletRequest();
