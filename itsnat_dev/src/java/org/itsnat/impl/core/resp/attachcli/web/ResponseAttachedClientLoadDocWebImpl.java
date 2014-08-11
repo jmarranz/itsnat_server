@@ -14,6 +14,7 @@ import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClientLoadDocImpl;
+import org.itsnat.impl.core.scriptren.jsren.listener.attachcli.JSRenderItsNatAttachedClientEventListenerImpl;
 
 /**
  *
@@ -37,38 +38,9 @@ public abstract class ResponseAttachedClientLoadDocWebImpl extends ResponseAttac
     }    
     
     @Override
-    public void dispatchRequestListeners()
+    public String genAddAttachUnloadListenerCode()
     {
-        // Aunque sea en carga, se procesa como si fuera un evento.
-
-        ItsNatAttachedClientEventImpl event = createItsNatAttachedClientEvent();
-        ItsNatAttachedClientEventListenerUtil.handleEventIncludingGlobalListeners(event);
-
-        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
-        int phase = clientDoc.getPhase();
-        if (phase == ItsNatAttachedClientEvent.UNLOAD) return;
-
-        // Ahora sí tenemos claro que desde el cliente se deben enviar eventos
-
-        int commMode = clientDoc.getCommModeDeclared();
-
-        String nodeRefForUnload;
-        String unloadType;
-        if (clientDoc.getBrowser().isClientWindowEventTarget())
-        {
-            nodeRefForUnload = "itsNatDoc.win";
-            unloadType = "unload";
-        }
-        else
-        {
-            nodeRefForUnload = "itsNatDoc.doc.documentElement";
-            unloadType = "SVGUnload";  // En ASV  no se ejecuta pero en fin, por coherencia
-        }
-
-        String code = "itsNatDoc.addAttachUnloadListener(" + nodeRefForUnload + ",\"" + unloadType + "\"," + commMode + ");\n";
-
-        clientDoc.addCodeToSend(code);
-
-        super.dispatchRequestListeners(); 
+        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();        
+        return JSRenderItsNatAttachedClientEventListenerImpl.addAttachUnloadListenerCode(clientDoc);
     }    
 }

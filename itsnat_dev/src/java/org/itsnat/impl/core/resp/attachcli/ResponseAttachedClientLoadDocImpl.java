@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ItsNatAttachedClientEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -35,6 +36,7 @@ import org.itsnat.impl.core.doc.web.ItsNatStfulWebDocumentImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
@@ -109,12 +111,32 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         responseDelegate.processResponse();
     }
 
+
+    @Override
     public void dispatchRequestListeners()
     {
-        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();        
+        // Aunque sea en carga, se procesa como si fuera un evento.
+
+        ItsNatAttachedClientEventImpl event = createItsNatAttachedClientEvent();
+        ItsNatAttachedClientEventListenerUtil.handleEventIncludingGlobalListeners(event);
+
+        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();
+        int phase = clientDoc.getPhase();
+        if (phase == ItsNatAttachedClientEvent.UNLOAD) return;
+
+        // Ahora sí tenemos claro que desde el cliente se deben enviar eventos
+
+        String code = genAddAttachUnloadListenerCode();
+
+        clientDoc.addCodeToSend(code);
+      
         clientDoc.startAttachedClient();  // Genera el JavaScript adecuado para enviar al servidor el primer evento para empezar a sincronizar (inicio de Comet o el primer evento timer).
     }
 
+    public abstract String genAddAttachUnloadListenerCode();    
+    
+
+    
     public boolean isSerializeBeforeDispatching()
     {
         // El usuario con su AttachedClient listener tiene la oportunidad

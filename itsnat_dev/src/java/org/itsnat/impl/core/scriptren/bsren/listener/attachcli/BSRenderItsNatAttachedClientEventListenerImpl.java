@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.bsren.listener.attachcli;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientCometEventListenerWrapperImpl;
@@ -54,6 +55,13 @@ public abstract class BSRenderItsNatAttachedClientEventListenerImpl extends BSRe
     public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
+    }
+    
+    public static String addAttachUnloadListenerCode(ClientDocumentAttachedClientImpl clientDoc)
+    {        
+        int commMode = clientDoc.getCommModeDeclared();
+
+        return "itsNatDoc.addAttachUnloadListener(" + commMode + ");\n";    
     }
     
     protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateDroidImpl clientDoc);    

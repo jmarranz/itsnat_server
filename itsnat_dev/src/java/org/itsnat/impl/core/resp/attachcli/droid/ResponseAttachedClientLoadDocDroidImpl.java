@@ -6,8 +6,10 @@
 
 package org.itsnat.impl.core.resp.attachcli.droid;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientLoadDocImpl;
 import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClientLoadDocImpl;
+import org.itsnat.impl.core.scriptren.bsren.listener.attachcli.BSRenderItsNatAttachedClientEventListenerImpl;
 import org.w3c.dom.Node;
 
 /**
@@ -34,4 +36,10 @@ public class ResponseAttachedClientLoadDocDroidImpl extends ResponseAttachedClie
         return false;
     }
        
+    @Override
+    public String genAddAttachUnloadListenerCode()
+    {
+        ClientDocumentAttachedClientImpl clientDoc = getClientDocumentAttachedClient();        
+        return BSRenderItsNatAttachedClientEventListenerImpl.addAttachUnloadListenerCode(clientDoc);    
+    }     
 }

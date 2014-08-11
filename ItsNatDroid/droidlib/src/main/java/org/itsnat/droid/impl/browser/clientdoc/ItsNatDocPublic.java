@@ -87,4 +87,6 @@ public interface ItsNatDocPublic
 
     public void initAttachTimerRefresh(final int interval,final int commMode,final long timeout);
     public void stopAttachTimerRefresh();
+
+    public void addAttachUnloadListener(int commMode);
 }

@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.listener.attachcli;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientCometEventListenerWrapperImpl;
@@ -53,6 +54,26 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
     {
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
+    
+    public static String addAttachUnloadListenerCode(ClientDocumentAttachedClientImpl clientDoc)
+    {            
+        int commMode = clientDoc.getCommModeDeclared();
+
+        String nodeRefForUnload;
+        String unloadType;
+        if (clientDoc.getBrowser().isClientWindowEventTarget())
+        {
+            nodeRefForUnload = "itsNatDoc.win";
+            unloadType = "unload";
+        }
+        else
+        {
+            nodeRefForUnload = "itsNatDoc.doc.documentElement";
+            unloadType = "SVGUnload";  // En ASV  no se ejecuta pero en fin, por coherencia
+        }
+
+        return "itsNatDoc.addAttachUnloadListener(" + nodeRefForUnload + ",\"" + unloadType + "\"," + commMode + ");\n";    
+    }        
     
     protected abstract String addItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc);    
     protected abstract String removeItsNatEventListenerCodeInherit(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc);    

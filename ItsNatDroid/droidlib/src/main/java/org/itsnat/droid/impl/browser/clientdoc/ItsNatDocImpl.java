@@ -20,6 +20,7 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientUnloadEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DOMExtEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
@@ -74,6 +75,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected MapList<String,UserEventListener> userListenersByName;
     protected Handler handler;
     protected Runnable attachTimerRefreshCallback;
+    protected Runnable attachUnloadCallback;
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
@@ -828,8 +830,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 }
                 catch(Exception ex)
                 {
-                    // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
-                    // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
                     OnEventErrorListener errorListener = getPageImpl().getOnEventErrorListener();
                     if (errorListener != null)
                     {
@@ -900,7 +900,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public boolean dispatchEvent(Node node, String type, Object nativeEvt)
     {
         View currTarget = NodeImpl.getView(node);
-        return dispatchEvent(currTarget,type,nativeEvt);
+        return dispatchDroidEvent(currTarget, type, nativeEvt);
     }
 
     public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt)
@@ -909,7 +909,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return dispatchEvent(currTarget,type,nativeEvt);
     }
 
-    private boolean dispatchEvent(View target, String type, Object nativeEvt)
+    private boolean dispatchDroidEvent(View target, String type, Object nativeEvt)
     {
         ItsNatViewImpl targetViewData = getPageImpl().getItsNatViewImpl(target);
         DroidEventListenerViewAdapter.dispatch(targetViewData, type, nativeEvt);
@@ -919,7 +919,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void sendUnloadEvent()
     {
         Object nativeEvt = createOtherEvent("unload");
-        dispatchEvent((View)null, "unload", nativeEvt);
+        dispatchDroidEvent((View) null, "unload", nativeEvt);
+
+        if (attachUnloadCallback != null)
+        {
+            attachUnloadCallback.run();
+        }
     }
 
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)
@@ -940,7 +945,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             {
 
             AttachedClientTimerRefreshEventImpl evtWrapper = new AttachedClientTimerRefreshEventImpl(itsNatDoc,interval,commMode,timeout);
-
             try
             {
                 evtWrapper.sendEvent();
@@ -968,5 +972,19 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         getHandler().removeCallbacks(attachTimerRefreshCallback);
         this.attachTimerRefreshCallback = null;
+    }
+
+    public void addAttachUnloadListener(final int commMode)
+    {
+        final ItsNatDocImpl itsNatDoc = this;
+        this.attachUnloadCallback = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                AttachedClientUnloadEventImpl evt = new AttachedClientUnloadEventImpl(itsNatDoc,commMode,-1);
+                evt.sendEvent();
+            }
+        };
     }
 }
