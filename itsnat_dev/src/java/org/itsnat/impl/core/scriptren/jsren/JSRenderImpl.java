@@ -163,20 +163,12 @@ public abstract class JSRenderImpl
 
     public static String getSetPropertyCode(Object object,String propertyName,Object value,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-        code.append( javaToJS(object,cacheIfPossible,clientDoc) + "." + propertyName + "=" + javaToJS(value,cacheIfPossible,clientDoc) );
-        if (endSentence)
-            code.append( ";" );
-        return code.toString();
+        return JSAndBSRenderImpl.getSetPropertyCode(object, propertyName, value, endSentence, cacheIfPossible, clientDoc);
     }
 
     public static String getGetPropertyCode(Object object,String propertyName,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        StringBuilder code = new StringBuilder();
-        code.append( javaToJS(object,cacheIfPossible,clientDoc) + "." + propertyName );
-        if (endSentence)
-            code.append( ";" );
-        return code.toString();
+        return JSAndBSRenderImpl.getGetPropertyCode(object, propertyName, endSentence, cacheIfPossible, clientDoc);
     }
 
 }

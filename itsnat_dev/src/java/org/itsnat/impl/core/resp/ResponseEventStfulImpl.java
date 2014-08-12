@@ -30,7 +30,7 @@ public abstract class ResponseEventStfulImpl extends ResponseAlreadyLoadedDocImp
     {
         super(request);
 
-        this.delegate = new ResponseEventDelegateImpl(this);
+        this.delegate = ResponseEventDelegateImpl.createResponseEventDelegate(this);
     }
 
     protected void processResponse()

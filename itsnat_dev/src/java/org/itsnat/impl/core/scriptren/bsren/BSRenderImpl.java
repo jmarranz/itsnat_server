@@ -45,4 +45,14 @@ public class BSRenderImpl
     {
         return JSAndBSRenderImpl.toLiteralStringScript(value);
     }    
+    
+    public static String getSetPropertyCode(Object object,String propertyName,Object value,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return JSAndBSRenderImpl.getSetPropertyCode(object, propertyName, value, endSentence, cacheIfPossible, clientDoc);
+    }
+
+    public static String getGetPropertyCode(Object object,String propertyName,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return JSAndBSRenderImpl.getGetPropertyCode(object, propertyName, endSentence, cacheIfPossible, clientDoc);
+    }    
 }

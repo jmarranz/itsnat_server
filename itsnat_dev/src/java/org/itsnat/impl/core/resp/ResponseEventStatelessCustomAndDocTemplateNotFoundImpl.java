@@ -33,8 +33,8 @@ public class ResponseEventStatelessCustomAndDocTemplateNotFoundImpl extends Resp
     public ResponseEventStatelessCustomAndDocTemplateNotFoundImpl(RequestEventStatelessImpl request)
     {
         super(request);
-        
-        this.delegate = new ResponseEventDelegateImpl(this);        
+    
+        this.delegate = ResponseEventDelegateImpl.createResponseEventDelegate(this);  
     }
 
     public RequestEventStatelessImpl getRequestEventStatelessImpl()

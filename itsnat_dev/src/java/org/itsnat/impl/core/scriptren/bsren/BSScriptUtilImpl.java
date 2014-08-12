@@ -20,10 +20,8 @@ import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
-import org.itsnat.impl.core.scriptren.jsren.JSRenderImpl;
-import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 
 /**
@@ -54,27 +52,27 @@ public abstract class BSScriptUtilImpl extends ScriptUtilImpl implements ScriptU
     
     protected String renderAddNodeToCache(NodeLocationWithParentImpl nodeLoc)
     {
-        return JSRenderNodeImpl.addNodeToCache(nodeLoc);
+        return BSRenderNodeImpl.addNodeToCache(nodeLoc);
     }
     
     protected String renderGetCallMethodCode(Object obj,String methodName,Object[] params,boolean endSentence,ClientDocumentStfulDelegateImpl clientDoc)
     {      
-        return JSRenderMethodCallImpl.getCallMethodCode(obj,methodName,params,endSentence,false,clientDoc);    
+        return BSRenderMethodCallImpl.getCallMethodCode(obj,methodName,params,endSentence,false,clientDoc);    
     }
     
     protected String renderSetPropertyCode(Object obj,String propertyName,Object value,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
     {          
-        return JSRenderImpl.getSetPropertyCode(obj,propertyName,value,endSentence,false,clientDoc);    
+        return BSRenderImpl.getSetPropertyCode(obj,propertyName,value,endSentence,false,clientDoc);    
     }
     
     protected String renderGetPropertyCode(Object obj,String propertyName,boolean endSentence,ClientDocumentStfulDelegateImpl clientDoc)
     {              
-        return JSRenderImpl.getGetPropertyCode(obj,propertyName,endSentence,false,clientDoc); 
+        return BSRenderImpl.getGetPropertyCode(obj,propertyName,endSentence,false,clientDoc); 
     }
     
     protected String javaToScript(Object value,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        return JSRenderImpl.javaToJS(value,false,clientDoc);    
+        return BSRenderImpl.javaToBS(value,false,clientDoc);    
     }    
     
 }

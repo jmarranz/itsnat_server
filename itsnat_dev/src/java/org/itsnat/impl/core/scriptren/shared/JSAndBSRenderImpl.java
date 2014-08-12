@@ -195,4 +195,22 @@ public class JSAndBSRenderImpl
         else
             return value.toString();
     }    
+    
+    public static String getSetPropertyCode(Object object,String propertyName,Object value,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        StringBuilder code = new StringBuilder();
+        code.append( javaToScript(object,cacheIfPossible,clientDoc) + "." + propertyName + "=" + javaToScript(value,cacheIfPossible,clientDoc) );
+        if (endSentence)
+            code.append( ";" );
+        return code.toString();
+    }
+
+    public static String getGetPropertyCode(Object object,String propertyName,boolean endSentence,boolean cacheIfPossible,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        StringBuilder code = new StringBuilder();
+        code.append( javaToScript(object,cacheIfPossible,clientDoc) + "." + propertyName );
+        if (endSentence)
+            code.append( ";" );
+        return code.toString();
+    }    
 }
