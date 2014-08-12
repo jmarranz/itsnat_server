@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.remote;
 
 import android.os.StrictMode;
 import android.util.Log;
@@ -24,6 +24,9 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.event.NormalEvent;
+import org.itsnat.itsnatdroidtest.MainActivity;
+import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.TestUtil;
 
 import bsh.EvalError;
 

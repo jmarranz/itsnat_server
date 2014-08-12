@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.local;
 
 import android.widget.Button;
 import android.widget.LinearLayout;

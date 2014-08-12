@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,9 @@ import android.widget.EditText;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.itsnatdroidtest.local.TestLayoutLocal;
+import org.itsnat.itsnatdroidtest.remote.TestRemoteControl;
+import org.itsnat.itsnatdroidtest.remote.TestRemoteCore;
 
 
 public class MainActivity extends Activity {
@@ -20,9 +24,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setMainLayout();
+
+        String urlTestCore = loadURLTestCore();
+        String urlTestRemCtrl = loadURLTestRemCtrl();
+
+        Intent intent = new Intent(this, TestActivity.class);
+        intent.putExtra("urlTestCore",urlTestCore);
+        intent.putExtra("urlTestRemCtrl",urlTestRemCtrl);
+        startActivity(intent);
     }
 
-    protected void setMainLayout()
+    public void setMainLayout()
     {
         setContentView(R.layout.activity_main);
 
@@ -39,7 +51,7 @@ public class MainActivity extends Activity {
             public void onClick(View view)
             {
                 saveURL(urlTestCore.getText().toString(),urlTestRemCtrl.getText().toString());
-                TestLayoutLocal.test(MainActivity.this);
+                //TestLayoutLocal.test(MainActivity.this);
             }
         });
 
@@ -53,7 +65,7 @@ public class MainActivity extends Activity {
             {
                 saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
                 String url = urlTestCore.getText().toString();
-                TestRemoteCore.test(MainActivity.this,droidBrowser, url);
+                TestRemoteCore.test(MainActivity.this, droidBrowser, url);
             }
         });
 
@@ -65,7 +77,7 @@ public class MainActivity extends Activity {
             {
                 saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
                 String url = urlTestRemCtrl.getText().toString();
-                TestRemoteControl.test(MainActivity.this,droidBrowser, url);
+                TestRemoteControl.test(MainActivity.this, droidBrowser, url);
             }
         });
 

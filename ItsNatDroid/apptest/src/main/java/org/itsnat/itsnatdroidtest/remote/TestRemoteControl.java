@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.remote;
 
 import android.util.Log;
 import android.view.View;
@@ -22,6 +22,9 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.itsnatdroidtest.MainActivity;
+import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.TestUtil;
 
 import bsh.EvalError;
 
