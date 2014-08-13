@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.testact;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.itsnatdroidtest.local.TestLayoutLocal;
+import org.itsnat.itsnatdroidtest.R;
+import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 
 /**
  * Created by jmarranz on 12/08/14.
@@ -61,7 +64,7 @@ public class TestActivityTabFragment extends Fragment
 
         this.rootView = inflater.inflate(R.layout.fragment_index, container, false);
 
-        final TestActivity act = getTestActivity();
+
 
         View testLocal = rootView.findViewById(R.id.testLocal);
         testLocal.setOnClickListener(new View.OnClickListener()
@@ -73,29 +76,33 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
-            /*
-            View testRemoteCore = rootView.findViewById(R.id.testRemoteCore);
-            testRemoteCore.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    String url = act.getUrlTestCore();
-                    TestRemoteCore.test(MainActivity.this, act.getItsNatDroidBrowser(), url);
-                }
-            });
+        final TestActivity act = getTestActivity();
 
-            View testRemoteControl = rootView.findViewById(R.id.testRemoteControl);
-            testRemoteControl.setOnClickListener(new View.OnClickListener()
+        View testRemoteCore = rootView.findViewById(R.id.testRemoteCore);
+        testRemoteCore.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
             {
-                @Override
-                public void onClick(View view)
-                {
-                    String url = act.getUrlTestRemCtrl();
-                    TestRemoteControl.test(MainActivity.this, act.getItsNatDroidBrowser(), url);
-                }
-            });
-        */
+                String url = act.getUrlTestCore();
+                TestRemoteCore test = new TestRemoteCore(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
+
+
+        View testRemoteControl = rootView.findViewById(R.id.testRemoteControl);
+        testRemoteControl.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestRemCtrl();
+                TestRemoteControl test = new TestRemoteControl(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
+
 
         return rootView;
     }

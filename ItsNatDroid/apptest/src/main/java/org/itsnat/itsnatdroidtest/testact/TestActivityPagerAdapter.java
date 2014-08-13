@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.testact;
 
 /**
  * Created by jmarranz on 12/08/14.
@@ -8,6 +8,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Resources;
 import android.support.v13.app.FragmentPagerAdapter;
+
+import org.itsnat.itsnatdroidtest.R;
 
 import java.util.ArrayList;
 import java.util.Locale;

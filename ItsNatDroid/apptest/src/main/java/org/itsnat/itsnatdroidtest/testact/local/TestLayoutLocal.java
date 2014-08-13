@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.local;
+package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.view.View;
 import android.widget.ScrollView;
@@ -10,8 +10,8 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
-import org.itsnat.itsnatdroidtest.TestActivity;
-import org.itsnat.itsnatdroidtest.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.TestActivity;
+import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;

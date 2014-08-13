@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest.local;
+package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -6,8 +6,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import static org.itsnat.itsnatdroidtest.Assert.*;
-import static org.itsnat.itsnatdroidtest.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.*;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 
 
 /**

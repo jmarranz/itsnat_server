@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.testact.util;
 
 import android.app.AlertDialog;
 import android.content.Context;

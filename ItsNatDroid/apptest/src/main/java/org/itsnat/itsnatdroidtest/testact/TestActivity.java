@@ -1,12 +1,7 @@
-package org.itsnat.itsnatdroidtest;
-
-import java.util.ArrayList;
-import java.util.Locale;
+package org.itsnat.itsnatdroidtest.testact;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -17,6 +12,7 @@ import android.view.MenuItem;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
+import org.itsnat.itsnatdroidtest.R;
 
 
 public class TestActivity extends Activity implements ActionBar.TabListener {
@@ -120,7 +116,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.my, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_test, menu);
         return true;
     }
 

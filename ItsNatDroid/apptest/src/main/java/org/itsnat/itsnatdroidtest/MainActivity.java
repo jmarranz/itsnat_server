@@ -11,9 +11,9 @@ import android.widget.EditText;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
-import org.itsnat.itsnatdroidtest.local.TestLayoutLocal;
-import org.itsnat.itsnatdroidtest.remote.TestRemoteControl;
-import org.itsnat.itsnatdroidtest.remote.TestRemoteCore;
+import org.itsnat.itsnatdroidtest.testact.TestActivity;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 
 
 public class MainActivity extends Activity {
@@ -25,6 +25,11 @@ public class MainActivity extends Activity {
 
         setMainLayout();
 
+        startTestActivity();
+    }
+
+    public void startTestActivity()
+    {
         String urlTestCore = loadURLTestCore();
         String urlTestRemCtrl = loadURLTestRemCtrl();
 
@@ -38,46 +43,31 @@ public class MainActivity extends Activity {
     {
         setContentView(R.layout.activity_main);
 
+
+        View buttonGotoTests = findViewById(R.id.gotoTests);
+        buttonGotoTests.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                startTestActivity();           }
+        });
+
         final EditText urlTestCore = (EditText)findViewById(R.id.urlTestCore);
         urlTestCore.setText(loadURLTestCore());
 
         final EditText urlTestRemCtrl = (EditText)findViewById(R.id.urlTestRemoteControl);
         urlTestRemCtrl.setText(loadURLTestRemCtrl());
 
-        View testLocal = findViewById(R.id.testLocal);
-        testLocal.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                saveURL(urlTestCore.getText().toString(),urlTestRemCtrl.getText().toString());
-                //TestLayoutLocal.test(MainActivity.this);
-            }
-        });
 
-        final ItsNatDroidBrowser droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
 
-        View testRemoteCore = findViewById(R.id.testRemoteCore);
-        testRemoteCore.setOnClickListener(new View.OnClickListener()
+        View buttonSaveUrls = findViewById(R.id.saveUrls);
+        buttonSaveUrls.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
-                String url = urlTestCore.getText().toString();
-                TestRemoteCore.test(MainActivity.this, droidBrowser, url);
-            }
-        });
-
-        View testRemoteControl = findViewById(R.id.testRemoteControl);
-        testRemoteControl.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
-                String url = urlTestRemCtrl.getText().toString();
-                TestRemoteControl.test(MainActivity.this, droidBrowser, url);
             }
         });
 
