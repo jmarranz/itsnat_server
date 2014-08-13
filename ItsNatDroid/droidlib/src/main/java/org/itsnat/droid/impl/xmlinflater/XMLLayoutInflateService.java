@@ -24,6 +24,7 @@ import java.io.Reader;
 public class XMLLayoutInflateService
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
+    public static final String NS_PREFIX_ANDROID = "android";
 
     protected ItsNatDroidImpl parent;
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
@@ -68,7 +69,7 @@ public class XMLLayoutInflateService
     {
         try
         {
-            View rootView = createNextView(parser,null,script,inflated,page);
+            View rootView = createNextView(parser,null,script,inflated,page,true);
             inflated.setRootView(rootView);
         }
         catch (IOException ex)
@@ -81,12 +82,21 @@ public class XMLLayoutInflateService
         }
     }
 
-    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated,PageImpl page) throws IOException, XmlPullParserException
+    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated,PageImpl page,boolean isRootView) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
             if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
                 continue;
+
+            if (isRootView)
+            {
+                String namespace = parser.getNamespace("android");
+                if (!XMLNS_ANDROID.equals(namespace))
+                    throw new ItsNatDroidException("Only allowed \"android\" prefix");
+                isRootView = false;
+            }
+
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
             if (viewName.equals("script"))
@@ -105,10 +115,10 @@ public class XMLLayoutInflateService
             //LayoutInflater inf = LayoutInflater.from(ctx);
             //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
-            View childView = createNextView(parser,view,script,inflated,page);
+            View childView = createNextView(parser,view,script,inflated,page,false);
             while(childView != null)
             {
-                childView = createNextView(parser,view,script,inflated,page);
+                childView = createNextView(parser,view,script,inflated,page,false);
             }
             return view;
         }
@@ -144,6 +154,7 @@ public class XMLLayoutInflateService
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
+
             String namespace = parser.getAttributeNamespace(i);
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);

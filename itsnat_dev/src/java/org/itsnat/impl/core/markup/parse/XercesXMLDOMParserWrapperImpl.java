@@ -32,11 +32,11 @@ public class XercesXMLDOMParserWrapperImpl extends XercesDOMParserWrapperImpl
     /**
      * Creates a new instance of XercesXMLDOMParserWrapperImpl
      */
-    public XercesXMLDOMParserWrapperImpl()
+    public XercesXMLDOMParserWrapperImpl(boolean namespacesFeature)
     {
         try
         {
-            parser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+            parser.setFeature(NAMESPACES_FEATURE_ID, namespacesFeature);
             parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
             parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
             parser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, DEFAULT_DYNAMIC_VALIDATION);

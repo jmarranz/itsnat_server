@@ -213,6 +213,46 @@ public class NamespaceUtil
         return mime.equals(MIME_ANDROID_LAYOUT); 
     }    
     
+    public static boolean isMIME_XHTML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XHTML;
+    }
+
+    public static boolean isMIME_HTML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.HTML;
+    }
+
+    public static boolean isMIME_HTML_or_XHTML(int namespaceOfMIME)
+    {
+         return isMIME_HTML(namespaceOfMIME) || isMIME_XHTML(namespaceOfMIME);
+    }
+
+    public static boolean isMIME_OTHERNS(int namespaceOfMIME)
+    {
+         return isMIME_SVG(namespaceOfMIME) || isMIME_XUL(namespaceOfMIME);
+    }
+
+    public static boolean isMIME_SVG(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.SVG;
+    }
+
+    public static boolean isMIME_XUL(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XUL;
+    }
+
+    public static boolean isMIME_XML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XML;
+    }
+    
+    public static boolean isMIME_ANDROID_LAYOUT(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.ANDROID_LAYOUT;
+    }        
+    
     public static int getNamespaceCode(String mime)
     {
         if (isHTMLorXHTMLMime(mime))
