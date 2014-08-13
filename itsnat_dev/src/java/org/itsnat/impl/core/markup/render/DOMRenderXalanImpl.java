@@ -41,6 +41,7 @@ public class DOMRenderXalanImpl extends DOMRenderJAXPBaseImpl
         super(doc,mime,encoding,nodeOnlyRender);
     }
 
+    @Override
     public Properties getOutputProperties()
     {
         Properties props = super.getOutputProperties();

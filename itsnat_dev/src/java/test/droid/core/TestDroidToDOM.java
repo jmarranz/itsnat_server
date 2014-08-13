@@ -7,6 +7,7 @@
 package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -56,7 +57,29 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         
         DocumentFragment docFrag = itsNatDoc.toDOM(markup.toString());       
 
-        testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);  
+        testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);
+        
+        Element textView = (Element)testLauncherHidden.getPreviousSibling();
+        String layout_width;
+        
+        layout_width = textView.getAttributeNS(ANDROID_NS, "layout_width");
+        if (!"match_parent".equals(layout_width))
+            throw new RuntimeException("TEST FAIL");
+        
+        
+        /*
+        layout_width = textView.getAttributeNS(ANDROID_NS, "android:layout_width");
+        if (!"match_parent".equals(layout_width))
+            throw new RuntimeException("TEST FAIL");        
+        */
+        
+        /*
+        layout_width = textView.getAttribute("android:layout_width");
+        if (!"match_parent".equals(layout_width))
+            throw new RuntimeException("TEST FAIL");        
+        */
+        
+        
     }
     
 }

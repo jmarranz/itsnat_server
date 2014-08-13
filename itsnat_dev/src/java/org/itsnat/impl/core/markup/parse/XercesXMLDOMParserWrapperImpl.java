@@ -44,8 +44,9 @@ public class XercesXMLDOMParserWrapperImpl extends XercesDOMParserWrapperImpl
             parser.setFeature(DEFAULT_LOAD_DTD_GRAMMAR_ID, DEFAULT_LOAD_DTD_GRAMMAR);
             parser.setFeature(DEFAULT_LOAD_EXTERNAL_DTD_ID, DEFAULT_LOAD_EXTERNAL_DTD);
 
-            parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",
-                    OtherNSDocumentImpl.class.getName());
+          
+            
+            parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",OtherNSDocumentImpl.class.getName());
 
             //XMLDocumentFilter[] filters = { new NekoBatikDocumentFilterImpl() };
             //parser.setProperty("http://cyberneko.org/html/properties/filters", filters);

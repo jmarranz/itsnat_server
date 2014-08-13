@@ -340,10 +340,6 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return docTemplateVersion.getItsNatServlet();
     }
 
-    public boolean isMIME_XHTML()
-    {
-        return getItsNatDocumentTemplateVersion().isMIME_XHTML();
-    }
 
     public boolean isMIME_HTML()
     {
