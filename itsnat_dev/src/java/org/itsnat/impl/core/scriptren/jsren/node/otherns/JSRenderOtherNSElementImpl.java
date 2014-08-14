@@ -127,12 +127,12 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         //   http://social.msdn.microsoft.com/Forums/en-US/jscript/thread/fc6618f1-5130-47de-9840-c66af68d6c85
         //   http://www.alistapart.com/articles/crossbrowserscripting
        
-        String parentNodeJSLocator = innerMarkupRender.getParentNodeLocator();
+        String parentNodeLocator = innerMarkupRender.getParentNodeLocator();
         String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowserWeb());
         if (innerMarkupRender.isUseNodeLocation())
-            return "itsNatDoc.setInnerXML2(" + parentNodeJSLocator + "," + valueJS + ");\n";
-        else
-            return "itsNatDoc.setInnerXML(" + parentNodeJSLocator + "," + valueJS + ");\n";
+            return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + valueJS + ");\n";
+        else // Es directamente una variable
+            return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + valueJS + ");\n";
     }
 
     @Override

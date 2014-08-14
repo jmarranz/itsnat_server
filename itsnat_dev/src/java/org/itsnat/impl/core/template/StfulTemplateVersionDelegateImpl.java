@@ -146,6 +146,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
 
         Element parentElem = (Element)parent;
         String localName = parentElem.getLocalName();
+        if (localName == null) localName = parentElem.getNodeName();
         if (localName.equals("script"))
             return true;
 

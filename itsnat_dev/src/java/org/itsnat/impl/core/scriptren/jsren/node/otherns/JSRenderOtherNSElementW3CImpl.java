@@ -49,6 +49,7 @@ public abstract class JSRenderOtherNSElementW3CImpl extends JSRenderOtherNSEleme
             return JSRenderOtherNSElementW3CDefaultImpl.SINGLETON;
     }
 
+    @Override
     protected boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         if (!super.isInsertChildNodesAsMarkupCapable(parent,template))

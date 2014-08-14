@@ -108,7 +108,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowserWeb());
         if (innerMarkupRender.isUseNodeLocation())
             return "itsNatDoc.setInnerHTML2(" + parentNodeJSLocator + "," + valueJS + ");\n";
-        else
+        else // Es directamente una variable
             return "itsNatDoc.setInnerHTML(" + parentNodeJSLocator + "," + valueJS + ");\n";
     }
 

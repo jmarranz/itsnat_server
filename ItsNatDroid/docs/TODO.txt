@@ -1,5 +1,7 @@
 
 
+* Probar re-arranque de actividad
+
 
 * Pensar en eventos que puedan enviarse al servidor tipo GPS, giróscopo etc por ponerlo fácil aunque se puede hacer con UserEvents
 

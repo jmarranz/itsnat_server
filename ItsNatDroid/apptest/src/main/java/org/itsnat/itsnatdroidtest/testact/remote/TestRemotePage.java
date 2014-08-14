@@ -148,7 +148,7 @@ public abstract class TestRemotePage implements OnPageLoadListener,OnPageLoadErr
         StringBuilder msg = new StringBuilder();
         msg.append("User Msg: Event processing error");
         if (evt instanceof NormalEvent)
-            msg.append("\ntype: \" + ((NormalEvent) evt).getType()");
+            msg.append("\nType: " + ((NormalEvent)evt).getType());
         msg.append("\nException Msg: " + ex.getMessage());
 
         TestUtil.alertDialog(act,msg.toString());

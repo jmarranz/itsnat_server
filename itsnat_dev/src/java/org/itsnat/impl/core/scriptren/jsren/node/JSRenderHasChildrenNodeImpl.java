@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.scriptren.jsren.node;
 
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.CodeListImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;

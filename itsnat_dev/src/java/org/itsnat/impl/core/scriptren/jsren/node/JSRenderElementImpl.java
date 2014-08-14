@@ -71,6 +71,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        // No tienen sentido ni utilidad los namespaces en este contexto
         return "itsNatDoc.doc.createElement(\"" + tagName + "\")";
     }
 

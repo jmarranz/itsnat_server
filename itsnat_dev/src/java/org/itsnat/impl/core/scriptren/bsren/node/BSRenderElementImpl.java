@@ -23,7 +23,15 @@ import java.util.List;
 import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.dompath.NodeLocationImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.domutil.NodeConstraints;
+import org.itsnat.impl.core.scriptren.shared.node.CannotInsertAsMarkupCauseImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -33,8 +41,10 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implements NodeConstraints
+public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements NodeConstraints
 {
+    public static boolean SUPPORT_INSERTION_AS_MARKUP = true;
+    
     public static final BSRenderElementImpl SINGLETON = new BSRenderElementImpl();
     
     /** Creates a new instance of BSRenderElementImpl */
@@ -127,18 +137,227 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl //implement
         return code.toString();
     }
 
+    @Override
+    public Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        if (SUPPORT_INSERTION_AS_MARKUP)
+        {        
+            CannotInsertAsMarkupCauseImpl cannotInsertMarkup = canInsertAllChildrenAsMarkup((Element)parent,clientDoc.getItsNatStfulDocument().getItsNatStfulDocumentTemplateVersion(),insertMarkupInfo);
+            if (cannotInsertMarkup == null)
+            {
+                // Sabemos que el retorno, innerMarkup, nunca es nulo en este contexto
+                InnerMarkupCodeImpl innerMarkup = appendChildrenAsMarkup(parentVarName,parent,clientDoc);
+                return innerMarkup;
+            }
+            else
+            {
+                InsertAsMarkupInfoImpl insertMarkupInfoNextLevel = cannotInsertMarkup.createInsertAsMarkupInfoNextLevel(); // Puede ser null
+                return super.appendChildNodes(parent,parentVarName,beforeParent,insertMarkupInfoNextLevel,clientDoc);
+            }
+        }
+        else
+        {
+            InsertAsMarkupInfoImpl insertMarkupInfoNextLevel = null; // Puede ser null
+            return super.appendChildNodes(parent,parentVarName,beforeParent,insertMarkupInfoNextLevel,clientDoc);            
+        }
+    }    
+       
+    @Override    
+    public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        if (SUPPORT_INSERTION_AS_MARKUP)
+        {
+            CannotInsertAsMarkupCauseImpl cannotInsertMarkup = canInsertSingleChildNodeAsMarkup(newNode,clientDoc);
+            if (cannotInsertMarkup == null)
+                return appendSingleChildNodeAsMarkup(newNode,clientDoc);
+            else
+            {
+                InsertAsMarkupInfoImpl insertMarkupInfoNextLevel = cannotInsertMarkup.createInsertAsMarkupInfoNextLevel(); // Puede ser null
+                return super.getInsertNewNodeCode(newNode,insertMarkupInfoNextLevel,clientDoc);
+            }
+        }
+        else
+        {
+            InsertAsMarkupInfoImpl insertMarkupInfoNextLevel = null;
+            return super.getInsertNewNodeCode(newNode,insertMarkupInfoNextLevel,clientDoc);
+        }
+    }
+    
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
          return false;
+    }    
+    
+    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        String parentNodeLocator = innerMarkupRender.getParentNodeLocator();
+        String valueBS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowser());
+        if (innerMarkupRender.isUseNodeLocation())
+            return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + valueBS + ");\n";
+        else // Es directamente una variable
+                        return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + valueBS + ");\n";
+    }
+
+    private CannotInsertAsMarkupCauseImpl canInsertSingleChildNodeAsMarkup(Node newChildNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        // Este es un escenario en donde queremos insertar un nuevo nodo pero puede
+        // haber antes ya otros previamente insertados, por lo que sólo podemos
+        // insertar como markup si este nodo es el único nodo o el último
+        // y disponemos de un InnerMarkupCodeImpl
+
+        Element parent = (Element)newChildNode.getParentNode();
+        if (!DOMUtilInternal.isTheOnlyChildNode(newChildNode))
+        {
+            // Debe ser el último.
+            // De esta manera permitimos "reusar" el innerHTML (o innerXML) en casos
+            // por ejemplo de appendChild sucesivos por parte del programador (mismo padre claro)
+            if (parent.getLastChild() != newChildNode)
+                return new CannotInsertAsMarkupCauseImpl(parent); // No es el último
+            // Los anteriores debieron ser insertados inmediatamente antes como innerHTML
+            // quizás en el futuro podamos detectar que los últimos cambios realizados en el DOM no afectan
+            // al último InnerMarkupCodeImpl asociado al nodo actual pero por ahora es complicado
+            // y no merece la pena.
+            Object lastCode = clientDoc.getClientDocumentStful().getLastCodeToSend();
+            if (!(lastCode instanceof InnerMarkupCodeImpl))
+                return new CannotInsertAsMarkupCauseImpl(parent); // Si existe un InnerMarkupCodeImpl debe ser lo último que se hizo
+            InnerMarkupCodeImpl lastInnerCode = (InnerMarkupCodeImpl)lastCode;
+            if (lastInnerCode.getParentNode() != parent)
+                return new CannotInsertAsMarkupCauseImpl(parent); // Es un inner de otro nodo padre
+            // Si llegamos aquí es que los anteriores al nuevo son compatibles con innerHTML o nuestro innerXML
+        }
+
+        ItsNatStfulDocumentTemplateVersionImpl template = clientDoc.getItsNatStfulDocument().getItsNatStfulDocumentTemplateVersion();
+        return canInsertChildNodeAsMarkupIgnoringOther(parent,newChildNode,template); // En el caso de único hijo obviamente los demás se ignoran pues no hay más
+    }
+
+    private InnerMarkupCodeImpl appendSingleChildNodeAsMarkup(Node newNode, ClientDocumentStfulDelegateDroidImpl clientDoc)
+    {
+        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
+        String newNodeMarkup = itsNatDoc.serializeNode(newNode);
+        if (DOMUtilInternal.isTheOnlyChildNode(newNode))
+        {
+            // Caso de único nodo
+            Element parent = (Element)newNode.getParentNode();
+            return appendChildrenCodeAsMarkup(null,parent,newNodeMarkup,clientDoc);
+        }
+        else // Caso de último nodo, sabemos que podemos usar el último InnerMarkupCodeImpl el cual está asociado al nodo padre
+        {
+            InnerMarkupCodeImpl lastCode = (InnerMarkupCodeImpl)clientDoc.getClientDocumentStful().getLastCodeToSend();
+            lastCode.addInnerMarkup(newNodeMarkup);
+            return null; // No se añade nada y se deja como último este lastCode
+        }
+    }
+
+    private InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        // Se supone que hay nodos hijo (si no no llamar).
+        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
+        StringBuilder childrenCode = new StringBuilder();
+
+        if (parentNode.hasChildNodes())
+        {
+            Node child = parentNode.getFirstChild();
+            while(child != null)
+            {
+                String nodeCode = itsNatDoc.serializeNode(child);
+                childrenCode.append( nodeCode );
+
+                child = child.getNextSibling();
+            }
+        }
+        
+        return appendChildrenCodeAsMarkup(parentVarName,(Element)parentNode,childrenCode.toString(),clientDoc);
+    }
+
+    protected boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
+    {
+        // En principio todos los elementos tienen capacidad de insertar nodos hijos como markup
+        // a través de nuestro setInnerXML 
+        return true;
+    }
+
+    public boolean match(Node node, Object context)
+    {
+        // Esto es por claridad pues "match" no nos dice mucho sobre lo que tenemos que hacer
+        return isChildNotValidInsertedAsMarkup(node,(MarkupTemplateVersionImpl)context);
+    }
+
+    public boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template)
+    {
+        // Realmente sólo hay elementos pues los nodos de texto son como mucho de espacios
+        return false;
+    }
+
+    private CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
+    {
+        if (!isInsertChildNodesAsMarkupCapable(parent,template))
+            return new CannotInsertAsMarkupCauseImpl(parent);
+
+        // Preguntamos si puede insertarse como markup si fuera el único nodo hijo
+        Node badChildNode = DOMUtilInternal.getNodeOrFirstContainedNodeMatching(childNode,this,template);
+        if (badChildNode != null)
+            return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
+
+        return null;
+    }
+
+    public boolean canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template)
+    {
+        CannotInsertAsMarkupCauseImpl cannotInsertMarkup = canInsertAllChildrenAsMarkup(parent,template,null);
+        return (cannotInsertMarkup == null);
+    }
+
+    public CannotInsertAsMarkupCauseImpl canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template,InsertAsMarkupInfoImpl insertMarkupInfo)
+    {
+        int res = InsertAsMarkupInfoImpl.DO_NOT_KNOW;
+        if (insertMarkupInfo != null)
+        {
+            res = insertMarkupInfo.canInsertAllChildrenAsMarkup(parent);
+            if (res == InsertAsMarkupInfoImpl.CANNOT_INSERT_CHILDREN_VERIFIED)
+                return new CannotInsertAsMarkupCauseImpl(insertMarkupInfo); // Salvamos así en la causa todo lo que ya sabemos del "subárbol"
+            // Si se llega aquí, es el caso desconocido InsertAsMarkupInfoImpl.DO_NOT_KNOW
+            // o bien IS_VALID_INSERTED_AS_MARKUP
+        }
+        // Vemos si tiene capacidad de insertar como markup sus hijos, por ejemplo si tiene innerHTML
+        if (!isInsertChildNodesAsMarkupCapable(parent,template))
+            return new CannotInsertAsMarkupCauseImpl(parent);
+
+        // Ahora vemos si sus hijos son insertables como markup:
+
+        // Si sabemos que puede ser insertado como markup entonces
+        // sabemos que los hijos pueden ser también insertados como markup
+        // por tanto no lo averiguamos de nuevo y así ganamos en rendimiento
+        if (res != InsertAsMarkupInfoImpl.IS_VALID_INSERTED_AS_MARKUP)
+        {
+            Node badChildNode = getFirstChildIsNotValidInsertedAsMarkup(parent,template);
+            if (badChildNode != null)
+                return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
+        }
+        return null;
+    }
+
+    public Node getFirstChildIsNotValidInsertedAsMarkup(Element parent,MarkupTemplateVersionImpl template)
+    {
+        return DOMUtilInternal.getFirstContainedNodeMatching(parent,this,template);
+    }
+
+    protected InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        boolean useNodeLocation;
+        String parentNodeLocator;
+        if (parentVarName == null)
+        {
+            useNodeLocation = true;
+            NodeLocationImpl parentLoc = clientDoc.getNodeLocation(parentNode,true);
+            parentNodeLocator = parentLoc.toScriptNodeLocation(true);
+        }
+        else
+        {
+            useNodeLocation = false;
+            parentNodeLocator = parentVarName;
+        }
+
+        return new InnerMarkupCodeBSImpl(this,parentNode,parentNodeLocator,useNodeLocation,childrenCode);
     }
     
-    public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
-    {
-        // No hay inserción como markup porque en cuanto a namespaces son los atributos son los que tienen namespace y al serializar el DOM no podemos conseguir
-        // que los atributos automáticamente se pongan con prefijo salvo que lo especifique el usuario en el localName del setAttributeNS, el problema es que sin
-        // usar prefijo funciona sin inserción markup y obligaríamos al usuario a usar siempre el prefijo y tendríamos que filtrarlo por otra parte en el servidor
-        // Es un tema SOLO de rendimiento pot lo que podemos sacrificar la inserción como markup.
-        InsertAsMarkupInfoImpl insertMarkupInfoNextLevel = null; 
-        return super.getInsertNewNodeCode(newNode,insertMarkupInfoNextLevel,clientDoc);
-    }    
 }
