@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
@@ -110,7 +109,7 @@ public class ClassDescViewBased
         }
         else if (isElementIdAttrAsDOM(namespace,name))
         {
-            inflated.setElementId(value, view);
+            inflated.setXMLId(value, view);
         }
         else
         {

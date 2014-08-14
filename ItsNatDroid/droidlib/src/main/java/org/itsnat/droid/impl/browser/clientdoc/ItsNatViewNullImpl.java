@@ -30,6 +30,12 @@ public class ItsNatViewNullImpl extends ItsNatViewImpl
         return null;
     }
 
+    @Override
+    public void setXMLId(String id)
+    {
+        throw new ItsNatDroidException("INTERNAL ERROR");
+    }
+
     public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()
     {
         throw new ItsNatDroidException("INTERNAL ERROR");

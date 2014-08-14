@@ -3,8 +3,8 @@ package org.itsnat.droid.impl.browser.clientdoc.event;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.EventStfulListener;
+import org.itsnat.droid.impl.util.MapLight;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +13,14 @@ import java.util.Map;
  */
 public abstract class EventStfulImpl extends EventGenericImpl
 {
-    protected Map<String,Object> extraParams;
+    protected MapLight<String,Object> extraParams;
 
     public EventStfulImpl(EventStfulListener listener)
     {
         super(listener);
     }
 
-    public Map<String,Object> getExtraParams()
+    public MapLight<String,Object> getExtraParams()
     {
         return extraParams; // Puede ser null
     }
@@ -33,7 +33,7 @@ public abstract class EventStfulImpl extends EventGenericImpl
 
     public void setExtraParam(String name,Object value)
     {
-        if (extraParams == null) this.extraParams = new HashMap<String,Object>();
+        if (extraParams == null) this.extraParams = new MapLight<String,Object>();
         extraParams.put(name,value);
     }
 
@@ -43,7 +43,7 @@ public abstract class EventStfulImpl extends EventGenericImpl
 
         if (extraParams != null)
         {
-            for (Map.Entry<String,Object> entry : extraParams.entrySet())
+            for (Map.Entry<String,Object> entry : extraParams.getEntryList())
             {
                 String name = entry.getKey();
                 Object value = entry.getValue();

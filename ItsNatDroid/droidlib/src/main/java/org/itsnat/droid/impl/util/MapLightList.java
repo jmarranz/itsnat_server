@@ -1,10 +1,8 @@
 package org.itsnat.droid.impl.util;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * El motivo de esta clase es evitar un Map cuando tenemos la previsión de que habrá apenas dos o tres elementos de clave, un LinkedList
@@ -15,7 +13,7 @@ import java.util.Map;
  */
 public class MapLightList<Key,Value> implements MapList<Key,Value>
 {
-    protected List<Map.Entry<Key,List<Value>>> map = new LinkedList<Map.Entry<Key,List<Value>>>();
+    protected MapLight<Key,List<Value>> map = new MapLight<Key,List<Value>>();
 
     public MapLightList()
     {
@@ -23,29 +21,12 @@ public class MapLightList<Key,Value> implements MapList<Key,Value>
 
     public List<Value> get(Key key)
     {
-        for(Iterator<Map.Entry<Key,List<Value>>> it = map.iterator(); it.hasNext(); )
-        {
-            Map.Entry<Key,List<Value>> entry = it.next();
-            if (entry.getKey().equals(key))
-                return entry.getValue();
-        }
-
-        return null;
+        return map.get(key);
     }
 
     private List<Value> remove(Key key)
     {
-        for(Iterator<Map.Entry<Key,List<Value>>> it = map.iterator(); it.hasNext(); )
-        {
-            Map.Entry<Key,List<Value>> entry = it.next();
-            if (entry.getKey().equals(key))
-            {
-                it.remove();
-                return entry.getValue();
-            }
-        }
-
-        return null;
+        return map.remove(key);
     }
 
     public void add(Key key,Value value)
@@ -54,8 +35,7 @@ public class MapLightList<Key,Value> implements MapList<Key,Value>
         if (list == null)
         {
             list = new LinkedList<Value>();
-            MapEntryImpl<Key,List<Value>> entry = new MapEntryImpl<Key,List<Value>>(key,list);
-            map.add(entry);
+            map.put(key,list);
         }
         list.add(value);
     }
@@ -67,9 +47,9 @@ public class MapLightList<Key,Value> implements MapList<Key,Value>
         for(Iterator<Value> it = valueList.iterator(); it.hasNext(); )
         {
             Value currValue = it.next();
-            if (value.equals(currValue))
+            if (ValueUtil.equalsNullAllowed(value,currValue))
             {
-                it.remove();
+                it.remove(); // Comprobado que el size() de la lista cambia tras la llamada
                 if (valueList.isEmpty()) remove(key);
                 return true;
             }
@@ -77,33 +57,4 @@ public class MapLightList<Key,Value> implements MapList<Key,Value>
         return false;
     }
 
-    public static class MapEntryImpl<Key,Value> implements Map.Entry<Key,Value>
-    {
-        protected Key key;
-        protected Value value;
-
-        public MapEntryImpl(Key key, Value value)
-        {
-            this.key = key;
-            this.value = value;
-        }
-
-        @Override
-        public Key getKey()
-        {
-            return key;
-        }
-
-        @Override
-        public Value getValue()
-        {
-            return value;
-        }
-
-        @Override
-        public Value setValue(Value value)
-        {
-            return value;
-        }
-    }
 }

@@ -40,7 +40,7 @@ public class MapRealList<Key,Value> implements MapList<Key,Value>
         for(Iterator<Value> it = valueList.iterator(); it.hasNext(); )
         {
             Value currValue = it.next();
-            if (value.equals(currValue))
+            if (ValueUtil.equalsNullAllowed(value,currValue))
             {
                 it.remove();
                 if (valueList.isEmpty()) map.remove(key);

@@ -1,6 +1,5 @@
 
 
-* Hacer tabs para probar dos o tres a la vez
 
 * Pensar en eventos que puedan enviarse al servidor tipo GPS, giróscopo etc por ponerlo fácil aunque se puede hacer con UserEvents
 

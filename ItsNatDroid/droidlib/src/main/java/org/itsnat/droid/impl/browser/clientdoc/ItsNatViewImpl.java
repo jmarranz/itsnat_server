@@ -58,6 +58,8 @@ public abstract class ItsNatViewImpl implements ItsNatView
 
     public abstract String getXMLId();
 
+    public abstract void setXMLId(String id);
+
     public MapList<String,DroidEventListener> getEventListeners()
     {
         if (eventListeners == null) eventListeners = new MapLightList<String,DroidEventListener>();

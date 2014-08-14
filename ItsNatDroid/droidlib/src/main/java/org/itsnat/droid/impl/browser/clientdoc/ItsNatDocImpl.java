@@ -308,6 +308,17 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void setAttributeNS(Node node,String namespaceURI,String name,String value)
     {
+        if (namespaceURI == null)
+        {
+            String prefix = getPrefix(name);
+            if (prefix != null)
+            {
+                namespaceURI = getPageImpl().getInflatedLayoutImpl().getNamespace(prefix);
+                if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
+                    name = getLocalName(name);
+            }
+        }
+
         if (node instanceof NodeToInsertImpl)
         {
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
@@ -342,6 +353,20 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
+    private static String getPrefix(String name)
+    {
+        int pos = name.indexOf(':');
+        if (pos == -1) return null;
+        return name.substring(0,pos);
+    }
+
+    private static String getLocalName(String name)
+    {
+        int pos = name.indexOf(':');
+        if (pos == -1) return name;
+        return name.substring(pos + 1);
+    }
+
     @Override
     public void removeAttribute(Node node, String name)
     {
@@ -357,6 +382,29 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     @Override
     public void removeAttributeNS(Node node, String namespaceURI, String name)
     {
+        if (namespaceURI == null)
+        {
+            String prefix = getPrefix(name);
+            if (prefix != null)
+            {
+                namespaceURI = getPageImpl().getInflatedLayoutImpl().getNamespace(prefix);
+                if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
+                    name = getLocalName(name);
+            }
+        }
+
+        if (node instanceof NodeToInsertImpl)
+        {
+            // Esto es raro pero es por si cambia de opinión para un atributo recién definido
+            NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
+            if (!nodeToIn.isInserted())
+            {
+                nodeToIn.removeAttribute(namespaceURI, name);
+                return;
+            }
+        }
+
+
         View view = node.getView();
         ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);

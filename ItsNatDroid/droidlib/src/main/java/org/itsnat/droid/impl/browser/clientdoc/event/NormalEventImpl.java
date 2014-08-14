@@ -7,9 +7,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.NormalEventListener;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 7/07/14.

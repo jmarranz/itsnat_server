@@ -71,4 +71,10 @@ public class NodeToInsertImpl extends NodeImpl
         String id = toId(namespaceURI,name);
         getAttributes().put(id,new AttrImpl(namespaceURI,name,value));
     }
+
+    public void removeAttribute(String namespaceURI,String name)
+    {
+        String id = toId(namespaceURI,name);
+        getAttributes().remove(id);
+    }
 }

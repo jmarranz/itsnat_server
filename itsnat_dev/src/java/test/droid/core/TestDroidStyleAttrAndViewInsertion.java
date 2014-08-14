@@ -35,19 +35,19 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         
         Element textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
-        textView.setAttributeNS(ANDROID_NS, "text", "OK if text has left/right padding, background pink and width is match_parent");         
+        textView.setAttribute("android:text", "OK if text has left/right padding, background pink and width is match_parent");         
         textView.setAttribute("style","@style/test");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, testStyleAttrHidden);
         
         // Test definir atributos después de insertar            
-        textView.setAttributeNS(ANDROID_NS, "layout_width", "match_parent");        
-        textView.setAttributeNS(ANDROID_NS, "layout_height", "wrap_content");        
-        textView.setAttributeNS(ANDROID_NS, "background", "#ffdddd");         
-        textView.removeAttributeNS(ANDROID_NS, "background");   
+        textView.setAttribute("android:layout_width", "match_parent");        
+        textView.setAttribute("android:layout_height", "wrap_content");        
+        textView.setAttribute("android:background", "#ffdddd");         
+        textView.removeAttribute("android:background");   
         String nodeRef = itsNatDoc.getScriptUtil().getNodeReference(textView);
-        itsNatDoc.addCodeToSend("if (" + nodeRef + ".getBackground() != null) itsNatDoc.alert(\"FAIL removeAttributeNS\");");
-        textView.setAttributeNS(ANDROID_NS, "background", "#ffdddd");  // Rosa   
+        itsNatDoc.addCodeToSend("if (" + nodeRef + ".getBackground() != null) itsNatDoc.alert(\"FAIL removeAttribute\");");
+        textView.setAttribute("android:background", "#ffdddd");  // Rosa   
         
         // Test uso del atributo DOM id
         textView.setAttribute("id", "BAD_ID");  

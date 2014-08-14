@@ -48,7 +48,7 @@ public class TestDroidCapture extends TestDroidBase implements EventListener
             }
         }, false);        
         
-        parent.setAttributeNS(ANDROID_NS, "visibility","visible");
+        parent.setAttribute("android:visibility","visible");
     }
     
 }

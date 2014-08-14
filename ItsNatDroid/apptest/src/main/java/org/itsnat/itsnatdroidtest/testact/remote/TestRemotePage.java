@@ -145,7 +145,13 @@ public abstract class TestRemotePage implements OnPageLoadListener,OnPageLoadErr
         TestActivity act = getTestActivity();
 
         ex.printStackTrace();
-        TestUtil.alertDialog(act, "User Msg: Event processing error, type: " + ((NormalEvent) evt).getType() + "\nException Msg: " + ex.getMessage());
+        StringBuilder msg = new StringBuilder();
+        msg.append("User Msg: Event processing error");
+        if (evt instanceof NormalEvent)
+            msg.append("\ntype: \" + ((NormalEvent) evt).getType()");
+        msg.append("\nException Msg: " + ex.getMessage());
+
+        TestUtil.alertDialog(act,msg.toString());
         if (ex instanceof ItsNatDroidServerResponseException)
             TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
         else if (ex instanceof ItsNatDroidScriptException)

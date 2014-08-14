@@ -16,11 +16,10 @@ import org.itsnat.droid.event.NormalEvent;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.clientdoc.CustomFunction;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -38,7 +37,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     protected HttpContext httpContext = new BasicHttpContext(); // Para las cookies (ej para las sesiones), la verdad es que no se si es multihilo pero no tengo más remedio
     protected Interpreter interp = new Interpreter(); // Global
     protected UniqueIdGenerator idGenerator = new UniqueIdGenerator();
-    protected Map<String,ItsNatSessionImpl> sessionList = new HashMap<String, ItsNatSessionImpl>();
+    protected MapLight<String,ItsNatSessionImpl> sessionList = new MapLight<String, ItsNatSessionImpl>();
     protected int maxPagesInSession = 5;
     protected boolean sslSelfSignedAllowed = false; // Sólo poner a true en pruebas de desarrollo
 
@@ -120,7 +119,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
 
     public void disposeEmptySessions()
     {
-        for(Iterator<Map.Entry<String,ItsNatSessionImpl>> it = sessionList.entrySet().iterator(); it.hasNext(); )
+        for(Iterator<Map.Entry<String,ItsNatSessionImpl>> it = sessionList.getEntryList().iterator(); it.hasNext(); )
         {
             Map.Entry<String,ItsNatSessionImpl> entry = it.next();
             if (entry.getValue().getPageCount() == 0) it.remove();

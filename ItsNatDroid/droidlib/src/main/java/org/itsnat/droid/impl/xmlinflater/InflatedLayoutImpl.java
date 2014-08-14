@@ -8,7 +8,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
 /**
@@ -21,6 +21,8 @@ public class InflatedLayoutImpl implements InflatedLayout
     protected WeakMapWithValue<String,View> mapIdViewXMLStd;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
+    protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
+    protected String androidNSPrefix;
 
     public InflatedLayoutImpl(ItsNatDroidImpl parent,AttrCustomInflaterListener inflateListener,Context ctx)
     {
@@ -33,6 +35,23 @@ public class InflatedLayoutImpl implements InflatedLayout
     public XMLLayoutInflateService getXMLLayoutInflateService()
     {
         return parent.getXMLLayoutInflateService();
+    }
+
+    public String getAndroidNSPrefix()
+    {
+        return androidNSPrefix;
+    }
+
+    public void addNamespace(String prefix,String ns)
+    {
+        namespacesByPrefix.put(prefix,ns);
+        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(ns))
+            this.androidNSPrefix = prefix;
+    }
+
+    public String getNamespace(String prefix)
+    {
+        return namespacesByPrefix.get(prefix);
     }
 
     @Override
@@ -68,11 +87,6 @@ public class InflatedLayoutImpl implements InflatedLayout
         return mapIdViewXMLStd;
     }
 
-    public void setElementId(String id, View view)
-    {
-        getMapIdViewXMLStd().put(id,view);
-    }
-
     public String unsetElementId(View view)
     {
         return getMapIdViewXMLStd().removeByValue(view);
@@ -102,6 +116,11 @@ public class InflatedLayoutImpl implements InflatedLayout
     public String getXMLId(View view)
     {
         return getMapIdViewXMLStd().getKeyByValue(view);
+    }
+
+    public void setXMLId(String id, View view)
+    {
+        getMapIdViewXMLStd().put(id,view);
     }
 
     public View findViewByXMLId(String id)

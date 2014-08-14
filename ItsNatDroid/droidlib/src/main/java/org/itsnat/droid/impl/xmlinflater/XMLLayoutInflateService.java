@@ -1,12 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
-import android.content.res.XmlResourceParser;
 import android.util.Xml;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.Page;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -15,7 +13,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 
 /**
@@ -24,7 +21,6 @@ import java.io.Reader;
 public class XMLLayoutInflateService
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
-    public static final String NS_PREFIX_ANDROID = "android";
 
     protected ItsNatDroidImpl parent;
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
@@ -91,9 +87,18 @@ public class XMLLayoutInflateService
 
             if (isRootView)
             {
-                String namespace = parser.getNamespace("android");
-                if (!XMLNS_ANDROID.equals(namespace))
-                    throw new ItsNatDroidException("Only allowed \"android\" prefix");
+                int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
+                int nsEnd = parser.getNamespaceCount(parser.getDepth());
+                for (int i = nsStart; i < nsEnd; i++)
+                {
+                    String prefix = parser.getNamespacePrefix(i);
+                    String ns = parser.getNamespaceUri(i);
+                    inflated.addNamespace(prefix,ns);
+                }
+
+                if (inflated.getAndroidNSPrefix() == null)
+                    throw new ItsNatDroidException("Missing android namespace declaration in root element");
+
                 isRootView = false;
             }
 

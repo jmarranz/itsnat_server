@@ -1,10 +1,6 @@
 package org.itsnat.droid.impl.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 4/07/14.

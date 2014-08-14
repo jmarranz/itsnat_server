@@ -45,4 +45,14 @@ public class ValueUtil
         try { return new String(data,encoding); }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
     }
+
+    public static boolean equalsNullAllowed(Object value1,Object value2)
+    {
+        if (value1 != null)
+            return value1.equals(value2);
+        else if (value2 != null)
+            return false;
+        else
+            return true; // Los dos son null
+    }
 }
