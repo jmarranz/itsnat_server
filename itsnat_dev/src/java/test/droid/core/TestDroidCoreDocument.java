@@ -34,7 +34,8 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidEventPreSendCode(itsNatDoc);
         new TestDroidParamTransport(itsNatDoc);
         new TestDroidCapture(itsNatDoc);   
-        new TestDroidFragmentInsertion(itsNatDoc);
+        new TestDroidFragmentInsertionInnerXML(itsNatDoc);
+        new TestDroidFragmentInsertionUsingAPI(itsNatDoc);
         new TestDroidContinueListener(itsNatDoc);
         new TestDroidUserListener(itsNatDoc);
         new TestDroidToDOM(itsNatDoc);

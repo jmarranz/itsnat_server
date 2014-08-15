@@ -108,7 +108,12 @@ public class EventSender
             Interpreter interp = page.getInterpreter();
             try
             {
+//long start = System.currentTimeMillis();
+
                 interp.eval(result);
+
+//long end = System.currentTimeMillis();
+//System.out.println("LAPSE" + (end - start));
             }
             catch (EvalError ex)
             {

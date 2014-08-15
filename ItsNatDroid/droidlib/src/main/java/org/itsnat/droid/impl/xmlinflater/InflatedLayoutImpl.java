@@ -8,6 +8,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
@@ -129,4 +130,8 @@ public class InflatedLayoutImpl implements InflatedLayout
         return getElementById(id);
     }
 
+    public void insertFragment(View parentView,String markup,PageImpl page)
+    {
+        getXMLLayoutInflateService().insertFragment(parentView,markup,this,page);
+    }
 }

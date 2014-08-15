@@ -195,7 +195,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements 
         if (innerMarkupRender.isUseNodeLocation())
             return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + valueBS + ");\n";
         else // Es directamente una variable
-                        return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + valueBS + ");\n";
+            return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + valueBS + ");\n";
     }
 
     private CannotInsertAsMarkupCauseImpl canInsertSingleChildNodeAsMarkup(Node newChildNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
@@ -333,6 +333,29 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements 
             if (badChildNode != null)
                 return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
         }
+        
+        // Debe haber al menos un Element como hijo para que valga la pena
+        // usar serialización y parsing con DOMRender
+        // Hay que tener en cuenta que DOMRender no es como una simple llamada a innerHTML
+
+        boolean hasSomeElement = false;
+        if (parent.hasChildNodes())
+        {
+            Node child = parent.getFirstChild();
+            while(child != null)
+            {
+                if (child.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    hasSomeElement = true;  // Sí merece la pena insertar como markup
+                    break;
+                }
+                
+                child = child.getNextSibling();
+            }
+        }
+        
+        if (!hasSomeElement) return new CannotInsertAsMarkupCauseImpl(parent); // No merece la pena          
+        
         return null;
     }
 

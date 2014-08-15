@@ -101,7 +101,7 @@ public abstract class XercesDOMParserWrapperImpl implements ErrorHandler
         if (NamespaceUtil.isMIME_HTML_or_XHTML(namespaceOfMIME))
             return new NekoHTMLDOMParserWrapperImpl(defaultEncoding);
         else if (NamespaceUtil.isMIME_ANDROID_LAYOUT(namespaceOfMIME))
-            return new XercesXMLDOMParserWrapperImpl(false); // En Android no queremos que los atributos con prefijo "android:" desaparezcan
+            return new XercesXMLDOMParserWrapperImpl(false); // En Android no queremos que el prefijo de los atributos con prefijo "android:" desaparezca
         else
             return new XercesXMLDOMParserWrapperImpl(true);
     }

@@ -65,32 +65,6 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         return true;
     }
 
-    @Override
-    public CannotInsertAsMarkupCauseImpl canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template,InsertAsMarkupInfoImpl insertMarkupInfo)
-    {
-        CannotInsertAsMarkupCauseImpl cannotInsertMarkup = super.canInsertAllChildrenAsMarkup(parent,template,insertMarkupInfo);
-        if (cannotInsertMarkup != null)
-            return cannotInsertMarkup;
-
-        // Debe haber al menos un Element como hijo para que valga la pena
-        // usar serialización y parsing con DOMRender
-        // Hay que tener en cuenta que DOMRender no es como una simple llamada a innerHTML
-
-        if (parent.hasChildNodes())
-        {
-            Node child = parent.getFirstChild();
-            while(child != null)
-            {
-                if (child.getNodeType() == Node.ELEMENT_NODE)
-                    return null; // Sí merece la pena insertar como markup
-
-                child = child.getNextSibling();
-            }
-        }
-        
-        return new CannotInsertAsMarkupCauseImpl(parent); // No merece la pena
-    }
-
     public boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template)
     {
         // Para detectar si el nodo puede ser insertado como markup

@@ -151,16 +151,26 @@
             </FrameLayout>        
              
 
-        <!-- Test Fragment Insertion -->
-        <Button id="testFragmentInsertionId" 
+        <!-- Test Fragment Insertion using InnerXML -->
+        <Button id="testFragmentInsertionInnerXMLId" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion" />                
+                android:text="Test Fragment Insertion by InnerXML" />                
         
-        <TextView id="testFragmentInsertionHiddenId" 
+        <TextView id="testFragmentInsertionInnerXMLHiddenId" 
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
 
+        <!-- Test Fragment Insertion using API -->
+        <Button id="testFragmentInsertionUsingAPIId" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion by BS API" />                
+        
+        <TextView id="testFragmentInsertionUsingAPIHiddenId" 
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
         <!-- Test Continue Event Listener -->
         <Button id="testContinueEvtListenerId" 
                 android:layout_width="wrap_content"

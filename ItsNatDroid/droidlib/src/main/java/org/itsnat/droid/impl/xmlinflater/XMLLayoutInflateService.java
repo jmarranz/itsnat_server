@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater;
 import android.content.Context;
 import android.util.Xml;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
@@ -14,6 +15,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Created by jmarranz on 25/06/14.
@@ -65,7 +67,8 @@ public class XMLLayoutInflateService
     {
         try
         {
-            View rootView = createNextView(parser,null,script,inflated,page,true);
+            View rootView = pasrseRootView(parser, script, inflated, page);
+
             inflated.setRootView(rootView);
         }
         catch (IOException ex)
@@ -78,29 +81,48 @@ public class XMLLayoutInflateService
         }
     }
 
-    private View createNextView(XmlPullParser parser,View viewParent,String[] script,InflatedLayoutImpl inflated,PageImpl page,boolean isRootView) throws IOException, XmlPullParserException
+    private View pasrseRootView(XmlPullParser parser, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
             if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
                 continue;
 
-            if (isRootView)
+
+            int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
+            int nsEnd = parser.getNamespaceCount(parser.getDepth());
+            for (int i = nsStart; i < nsEnd; i++)
             {
-                int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
-                int nsEnd = parser.getNamespaceCount(parser.getDepth());
-                for (int i = nsStart; i < nsEnd; i++)
-                {
-                    String prefix = parser.getNamespacePrefix(i);
-                    String ns = parser.getNamespaceUri(i);
-                    inflated.addNamespace(prefix,ns);
-                }
-
-                if (inflated.getAndroidNSPrefix() == null)
-                    throw new ItsNatDroidException("Missing android namespace declaration in root element");
-
-                isRootView = false;
+                String prefix = parser.getNamespacePrefix(i);
+                String ns = parser.getNamespaceUri(i);
+                inflated.addNamespace(prefix,ns);
             }
+
+            if (inflated.getAndroidNSPrefix() == null)
+                throw new ItsNatDroidException("Missing android namespace declaration in root element");
+
+            String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+
+            View rootView = createAndAddViewObjectAndFillAttributes(viewName,null, parser, inflated,page);
+
+            View childView = parseNextView(parser, rootView, script, inflated, page);
+            while(childView != null)
+            {
+                childView = parseNextView(parser, rootView, script, inflated, page);
+            }
+
+            return rootView;
+        }
+
+        throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
+    }
+
+    private View parseNextView(XmlPullParser parser, View viewParent, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
+    {
+        while (parser.next() != XmlPullParser.END_TAG)
+        {
+            if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
+                continue;
 
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
@@ -120,10 +142,10 @@ public class XMLLayoutInflateService
             //LayoutInflater inf = LayoutInflater.from(ctx);
             //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
-            View childView = createNextView(parser,view,script,inflated,page,false);
+            View childView = parseNextView(parser, view, script, inflated, page);
             while(childView != null)
             {
-                childView = createNextView(parser,view,script,inflated,page,false);
+                childView = parseNextView(parser, view, script, inflated, page);
             }
             return view;
         }
@@ -168,5 +190,44 @@ public class XMLLayoutInflateService
 
         if (oneTimeAttrProcess.neededSetLayoutParams)
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+    }
+
+    public void insertFragment(View parentView,String markup,InflatedLayoutImpl inflated,PageImpl page)
+    {
+        // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
+        // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
+        // LayoutParams se hagan bien
+
+        StringBuilder newMarkup = new StringBuilder();
+        newMarkup.append( "<" + parentView.getClass().getName() + " xmlns:" + inflated.getAndroidNSPrefix() + "=\"" + XMLNS_ANDROID + "\">" );
+        newMarkup.append( markup );
+        newMarkup.append( "</" + parentView.getClass().getName() + ">");
+
+        markup = newMarkup.toString();
+
+        XmlPullParser parser = Xml.newPullParser();
+        try
+        {
+            StringReader input = new StringReader(markup);
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
+            parser.setInput(input);
+            String[] script = new String[1]; // Necesario pasar pero no se usa
+            ViewGroup falseParentView = (ViewGroup)parseNextView(parser,null,script,inflated,page);
+            while(falseParentView.getChildCount() > 0)
+            {
+                View child = falseParentView.getChildAt(0);
+                falseParentView.removeViewAt(0);
+                ((ViewGroup)parentView).addView(child);
+            }
+        }
+        catch (XmlPullParserException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+        catch (IOException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+
     }
 }

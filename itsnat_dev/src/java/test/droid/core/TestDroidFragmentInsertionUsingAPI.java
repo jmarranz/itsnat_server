@@ -9,6 +9,7 @@ package test.droid.core;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -20,21 +21,21 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestDroidFragmentInsertion extends TestDroidBase implements EventListener
+public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements EventListener
 {
    
-    public TestDroidFragmentInsertion(ItsNatDocument itsNatDoc)
+    public TestDroidFragmentInsertionUsingAPI(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testFragmentInsertionId");        
+        Element testLauncher = getDocument().getElementById("testFragmentInsertionUsingAPIId");        
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
     
     public void handleEvent(Event evt)
     {     
         Document doc = getDocument();
-        Element testLauncherHidden = doc.getElementById("testFragmentInsertionHiddenId");  
+        Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingAPIHiddenId");  
         
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc); 
@@ -42,7 +43,17 @@ public class TestDroidFragmentInsertion extends TestDroidBase implements EventLi
         
         final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
 
-        testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
+        boolean old = BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP;
+        BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = false;
+        
+        try
+        {
+            testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
+        }
+        finally
+        {
+            BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
+        }
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){
             public void handleEvent(Event evt)

@@ -5,7 +5,6 @@ import android.view.View;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.event.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -17,6 +16,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
+import org.itsnat.droid.event.Event;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;

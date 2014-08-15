@@ -5,7 +5,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
 
 /**
  * Métodos llamados por el servidor pero ninguno público para el usuario
@@ -49,11 +48,13 @@ public interface ItsNatDocPublic
     public void removeChild2(String id,boolean isText);
     public void removeChild3(Object[] parentIdObj,String childRelPath,boolean isText);
 
-    public void removeNodeCache(String[] idList);
-
     public void removeAllChild2(Object[] parentIdObj);
 
     public Node addNodeCache(Object[] idObj);
+    public void removeNodeCache(String[] idList);
+
+    public void setInnerXML(Node parentNode,String markup);
+    public void setInnerXML2(Object[] idObj,String markup);
 
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode);
     public void removeDroidEL(String listenerId);
