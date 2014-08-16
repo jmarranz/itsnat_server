@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 
@@ -37,13 +38,15 @@ public abstract class JSRenderHTMLElementSVGPluginImpl extends JSRenderHTMLEleme
     }
 
     @Override
-    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Redefinimos setInnerHTML antes de que sea usada (también indirectamente al llamar a setInnerHTML2)
+        
+        ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
         StringBuilder code = new StringBuilder();
 
         final String methodName = "setInnerHTML";
-        if (!clientDoc.isClientMethodBounded(methodName))
+        if (!clientDocWeb.isClientMethodBounded(methodName))
         {
             code.append( "var func = function (parentNode,value)" );
             code.append( "{" );
@@ -51,7 +54,7 @@ public abstract class JSRenderHTMLElementSVGPluginImpl extends JSRenderHTMLEleme
             code.append( "};\n" );
             code.append( "itsNatDoc." + methodName + " = func;\n" );
 
-            clientDoc.bindClientMethod(methodName);
+            clientDocWeb.bindClientMethod(methodName);
         }
 
         code.append( super.getAppendChildrenCodeAsMarkupSentence(innerMarkupRender, clientDoc) );

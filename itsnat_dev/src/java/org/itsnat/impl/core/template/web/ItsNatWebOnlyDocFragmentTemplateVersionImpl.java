@@ -86,4 +86,5 @@ public abstract class ItsNatWebOnlyDocFragmentTemplateVersionImpl extends ItsNat
 
         return render.canInsertAllChildrenAsMarkup(elem,this);
     }    
+    
 }

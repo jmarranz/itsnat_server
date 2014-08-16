@@ -95,7 +95,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
     }
 
     @Override    
-    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Usamos innerHTML que es mucho más eficaz que
         // con DOM en JavaScript pues JavaScript es muy lento
@@ -105,7 +105,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         // Chrome 2.0 y Safari 3.1)        
 
         String parentNodeJSLocator = innerMarkupRender.getParentNodeLocator();
-        String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowserWeb());
+        String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowser());
         if (innerMarkupRender.isUseNodeLocation())
             return "itsNatDoc.setInnerHTML2(" + parentNodeJSLocator + "," + valueJS + ");\n";
         else // Es directamente una variable

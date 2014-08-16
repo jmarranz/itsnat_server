@@ -61,16 +61,6 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
     {
         // Sólo es llamado si hay algún hijo
 
-        // Ojo, si el nodo a serializar de esta forma tiene
-        // nodos procedientes de fragmentos cacheados no se pueden
-        // tratar aquí, la solución es inhabilitar el cacheado
-        // en el fragmento a insertar o bien declarar itsnat:nocache="true"
-        // en el nodo problemático que se cachea automáticamente
-        // En el caso de inserción de fragmentos XML en documentos XML
-        // no es problema pues a día de hoy no admite eventos y este código
-        // es llamado ante mutation events los cuales no están activados
-        // en la manipulación de un documento todavía no cargado
-
         CodeListImpl code = new CodeListImpl();
 
         if (parent.hasChildNodes())

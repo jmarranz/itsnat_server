@@ -50,6 +50,11 @@ public class InflatedLayoutImpl implements InflatedLayout
             this.androidNSPrefix = prefix;
     }
 
+    public MapLight<String,String> getNamespacesByPrefix()
+    {
+        return namespacesByPrefix;
+    }
+
     public String getNamespace(String prefix)
     {
         return namespacesByPrefix.get(prefix);

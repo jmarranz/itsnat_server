@@ -19,21 +19,25 @@ package org.itsnat.impl.core.scriptren.shared.node;
 import java.lang.ref.WeakReference;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.w3c.dom.Element;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class InnerMarkupCodeImpl
+public class InnerMarkupCodeImpl
 {
+    protected RenderElement render;
     protected WeakReference<Element> parentNodeRef; // No usamos una referencia normal pues supondria sujetar nodos inútilmente, pues cuando es usada todavía forma parte del documento y está sujeta por referencias normales, si se pierde no pasa nada porque devuelva null, no se usa para renderizar sólo para añadir nuevos trozos (implica que sigue referenciado)
     protected String parentNodeLocator;
     protected boolean useNodeLocation;
     protected StringBuilder innerMarkup = new StringBuilder();
 
-    public InnerMarkupCodeImpl(Element parentNode,String parentNodeLocator,boolean useNodeLocation,String firstInnerMarkup)
+    public InnerMarkupCodeImpl(RenderElement render,Element parentNode,String parentNodeLocator,boolean useNodeLocation,String firstInnerMarkup)
     {
+        this.render = render;
         this.parentNodeRef = new WeakReference<Element>(parentNode);
         this.parentNodeLocator = parentNodeLocator;
         this.useNodeLocation = useNodeLocation;        
@@ -71,6 +75,10 @@ public abstract class InnerMarkupCodeImpl
         throw new ItsNatException("INTERNAL ERROR");
     }
     
-    public abstract String render(ClientDocumentImpl clientDoc);
+    public String render(ClientDocumentImpl clientDoc)
+    {
+        ClientDocumentStfulDelegateImpl clientDocDeleg = (ClientDocumentStfulDelegateImpl)((ClientDocumentStfulImpl)clientDoc).getClientDocumentStfulDelegate();
+        return render.getAppendChildrenCodeAsMarkupSentence(this,clientDocDeleg);
+    }
 
 }

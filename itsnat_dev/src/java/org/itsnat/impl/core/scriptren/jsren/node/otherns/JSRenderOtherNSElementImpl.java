@@ -69,7 +69,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
     {
         // Para detectar si el nodo puede ser insertado como markup
 
-        if (childNode.getNodeType() != Node.ELEMENT_NODE) return false;
+        if (childNode.getNodeType() != Node.ELEMENT_NODE) return false; // Los no Element se puede insertar sin problema 
 
         // El caso de los elementos <script> es problemático pues
         // su simple inserción (que se haría en el cliente via setInnerXML)
@@ -80,7 +80,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
     }
 
     @Override
-    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Navegadores W3C:
 
@@ -102,7 +102,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         //   http://www.alistapart.com/articles/crossbrowserscripting
        
         String parentNodeLocator = innerMarkupRender.getParentNodeLocator();
-        String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowserWeb());
+        String valueJS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowser());
         if (innerMarkupRender.isUseNodeLocation())
             return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + valueJS + ");\n";
         else // Es directamente una variable

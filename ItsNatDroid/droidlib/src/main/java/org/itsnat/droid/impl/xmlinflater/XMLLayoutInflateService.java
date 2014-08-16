@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
@@ -16,6 +17,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 25/06/14.
@@ -199,7 +202,16 @@ public class XMLLayoutInflateService
         // LayoutParams se hagan bien
 
         StringBuilder newMarkup = new StringBuilder();
-        newMarkup.append( "<" + parentView.getClass().getName() + " xmlns:" + inflated.getAndroidNSPrefix() + "=\"" + XMLNS_ANDROID + "\">" );
+
+        newMarkup.append( "<" + parentView.getClass().getName() );
+
+        MapLight<String,String> namespaceMap = inflated.getNamespacesByPrefix();
+        for(Iterator<Map.Entry<String,String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
+        {
+            Map.Entry<String,String> entry = it.next();
+            newMarkup.append( " xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">" );
+        }
+        newMarkup.append( ">" );
         newMarkup.append( markup );
         newMarkup.append( "</" + parentView.getClass().getName() + ">");
 
