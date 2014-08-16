@@ -58,7 +58,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
             return JSRenderOtherNSElementNativeImpl.getJSRenderOtherNSElementNative(clientDoc.getBrowserWeb());
     }
 
-    protected boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
+    public boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         // En principio todos los elementos tienen capacidad de insertar nodos hijos como markup
         // a través de nuestro setInnerXML 
@@ -69,14 +69,17 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
     {
         // Para detectar si el nodo puede ser insertado como markup
 
-        if (childNode.getNodeType() != Node.ELEMENT_NODE) return false; // Los no Element se puede insertar sin problema 
+        if (childNode.getNodeType() == Node.ELEMENT_NODE) 
+        {
+            // El caso de los elementos <script> es problemático pues
+            // su simple inserción (que se haría en el cliente via setInnerXML)
+            // no asegura que se ejecute el código contenido
 
-        // El caso de los elementos <script> es problemático pues
-        // su simple inserción (que se haría en el cliente via setInnerXML)
-        // no asegura que se ejecute el código contenido
-
-        String localName = ((Element)childNode).getLocalName();
-        return "script".equals(localName);
+            String localName = ((Element)childNode).getLocalName();
+            return "script".equals(localName); // Los demás Element se puede insertar sin problema 
+        }
+        
+        return false; // Los no Element se puede insertar sin problema 
     }
 
     @Override

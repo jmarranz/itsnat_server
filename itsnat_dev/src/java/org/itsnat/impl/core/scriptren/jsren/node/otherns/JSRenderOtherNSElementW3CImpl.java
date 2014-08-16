@@ -50,7 +50,7 @@ public abstract class JSRenderOtherNSElementW3CImpl extends JSRenderOtherNSEleme
     }
 
     @Override
-    protected boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
+    public boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         if (!super.isInsertChildNodesAsMarkupCapable(parent,template))
             return false; 

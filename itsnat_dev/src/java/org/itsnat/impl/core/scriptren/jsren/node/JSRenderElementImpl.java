@@ -22,16 +22,12 @@ import org.itsnat.impl.core.scriptren.shared.node.CannotInsertAsMarkupCauseImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderElementImpl;
 import org.itsnat.impl.core.scriptren.shared.node.RenderElement;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
@@ -43,7 +39,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl implements RenderElement,NodeConstraints
+public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl implements RenderElement
 {
 
     /** Creates a new instance of JSElementRender */
@@ -130,44 +126,13 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     private InnerMarkupCodeImpl appendSingleChildNodeAsMarkup(Node newNode, ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        String newNodeMarkup = itsNatDoc.serializeNode(newNode);
-        if (DOMUtilInternal.isTheOnlyChildNode(newNode))
-        {
-            // Caso de único nodo
-            Element parent = (Element)newNode.getParentNode();
-            return appendChildrenCodeAsMarkup(null,parent,newNodeMarkup,clientDoc);
-        }
-        else // Caso de último nodo, sabemos que podemos usar el último InnerMarkupCodeImpl el cual está asociado al nodo padre
-        {
-            InnerMarkupCodeImpl lastCode = (InnerMarkupCodeImpl)clientDoc.getClientDocumentStful().getLastCodeToSend();
-            lastCode.addInnerMarkup(newNodeMarkup);
-            return null; // No se añade nada y se deja como último este lastCode
-        }
+        return JSAndBSRenderElementImpl.appendSingleChildNodeAsMarkup(newNode,clientDoc,this);
     }
 
     private InnerMarkupCodeImpl appendChildrenAsMarkup(String parentVarName, Node parentNode, ClientDocumentStfulDelegateImpl clientDoc)
     {
-        // Se supone que hay nodos hijo (si no no llamar).
-        ItsNatStfulDocumentImpl itsNatDoc = clientDoc.getItsNatStfulDocument();
-        StringBuilder childrenCode = new StringBuilder();
-
-        if (parentNode.hasChildNodes())
-        {
-            Node child = parentNode.getFirstChild();
-            while(child != null)
-            {
-                String nodeCode = itsNatDoc.serializeNode(child);
-                childrenCode.append( nodeCode );
-
-                child = child.getNextSibling();
-            }
-        }
-        
-        return appendChildrenCodeAsMarkup(parentVarName,(Element)parentNode,childrenCode.toString(),clientDoc);
+        return JSAndBSRenderElementImpl.appendChildrenAsMarkup(parentVarName,parentNode,clientDoc,this);
     }
-
-    protected abstract boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template);
 
     public boolean match(Node node, Object context)
     {
@@ -179,15 +144,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
     {
-        if (!isInsertChildNodesAsMarkupCapable(parent,template))
-            return new CannotInsertAsMarkupCauseImpl(parent);
-
-        // Preguntamos si puede insertarse como markup si fuera el único nodo hijo
-        Node badChildNode = DOMUtilInternal.getNodeOrFirstContainedNodeMatching(childNode,this,template);
-        if (badChildNode != null)
-            return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
-
-        return null;
+        return JSAndBSRenderElementImpl.canInsertChildNodeAsMarkupIgnoringOther(parent, childNode, template, this);
     }
 
     public boolean canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template)
@@ -198,55 +155,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
 
     public CannotInsertAsMarkupCauseImpl canInsertAllChildrenAsMarkup(Element parent,MarkupTemplateVersionImpl template,InsertAsMarkupInfoImpl insertMarkupInfo)
     {
-        int res = InsertAsMarkupInfoImpl.DO_NOT_KNOW;
-        if (insertMarkupInfo != null)
-        {
-            res = insertMarkupInfo.canInsertAllChildrenAsMarkup(parent);
-            if (res == InsertAsMarkupInfoImpl.CANNOT_INSERT_CHILDREN_VERIFIED)
-                return new CannotInsertAsMarkupCauseImpl(insertMarkupInfo); // Salvamos así en la causa todo lo que ya sabemos del "subárbol"
-            // Si se llega aquí, es el caso desconocido InsertAsMarkupInfoImpl.DO_NOT_KNOW
-            // o bien IS_VALID_INSERTED_AS_MARKUP
-        }
-        // Vemos si tiene capacidad de insertar como markup sus hijos, por ejemplo si tiene innerHTML
-        if (!isInsertChildNodesAsMarkupCapable(parent,template))
-            return new CannotInsertAsMarkupCauseImpl(parent);
-
-        // Ahora vemos si sus hijos son insertables como markup:
-
-        // Si sabemos que puede ser insertado como markup entonces
-        // sabemos que los hijos pueden ser también insertados como markup
-        // por tanto no lo averiguamos de nuevo y así ganamos en rendimiento
-        if (res != InsertAsMarkupInfoImpl.IS_VALID_INSERTED_AS_MARKUP)
-        {
-            Node badChildNode = getFirstChildIsNotValidInsertedAsMarkup(parent,template);
-            if (badChildNode != null)
-                return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
-        }
-        
-        // Debe haber al menos un Element como hijo para que valga la pena
-        // usar serialización y parsing con DOMRender
-        // Hay que tener en cuenta que DOMRender no es como una simple llamada a innerHTML
-
-        boolean hasSomeElement = false;
-        if (parent.hasChildNodes())
-        {
-            Node child = parent.getFirstChild();
-            while(child != null)
-            {
-                if (child.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    hasSomeElement = true;  // Sí merece la pena insertar como markup
-                    break;
-                }
-                
-                child = child.getNextSibling();
-            }
-        }
-        
-        if (!hasSomeElement) return new CannotInsertAsMarkupCauseImpl(parent); // No merece la pena        
-        
-        
-        return null;
+        return JSAndBSRenderElementImpl.canInsertAllChildrenAsMarkup(parent,template,insertMarkupInfo,this);
     }
 
     public Node getFirstChildIsNotValidInsertedAsMarkup(Element parent,MarkupTemplateVersionImpl template)

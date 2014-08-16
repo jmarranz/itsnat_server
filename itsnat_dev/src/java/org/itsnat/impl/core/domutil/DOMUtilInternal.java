@@ -39,6 +39,13 @@ public class DOMUtilInternal
     {
     }
 
+    public static String getLocalName(Element elem)
+    {
+        String localName = elem.getLocalName(); 
+        if (localName != null) return localName;
+        return elem.getNodeName(); // localName es nulo cuando el elemento no tiene asociado un namespace, es el caso de layouts de Android
+    }
+    
     public static Element getElementById(String id,Node container)
     {
         /* Este método resuelve el problema de elementos con id duplicado,

@@ -74,7 +74,7 @@ public abstract class ItsNatStfulDocumentTemplateVersionImpl extends ItsNatDocum
         String docCode = wrapBodyAsDocument(fragCode);
 
         XercesDOMParserWrapperImpl parser = itsNatDoc.getMarkupParser();
-        Document doc = parseDocument(docCode,parser);
+        Document doc = parseDocument(docCode,parser,true);
         templateDelegate.normalizeDocument(doc);
 
         Element body = getBodyParentElement(doc);

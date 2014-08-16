@@ -347,14 +347,14 @@ public abstract class ItsNatDocumentTemplateVersionImpl extends MarkupTemplateVe
         DocumentType docType = doc.getDoctype();
         if (docType != null)
             cloneDocType = domImplClone.createDocumentType(docType.getNodeName(),docType.getPublicId(),docType.getSystemId());
-        Element docElem = doc.getDocumentElement();
+        Element docElem = doc.getDocumentElement();        
         DocumentImpl docClone = (DocumentImpl)domImplClone.createDocument(docElem.getNamespaceURI(),docElem.getTagName(),cloneDocType);
         XMLDecImpl xmlDec = ((DocumentImpl)doc).getXMLDec();
         if (xmlDec != null)
             docClone.setXMLDec(xmlDec.getVersion(),xmlDec.getEncoding(),xmlDec.getStandalone());
         return docClone;
     }
-
+    
     protected Element manualCloneElement(Element elem,Document cloneDoc)
     {
         // No es un clonado profundo, tampoco los atributos

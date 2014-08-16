@@ -314,7 +314,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
 
     public Document parseDocument(String code)
     {
-        return docTemplateVersion.parseDocument(code,getMarkupParser());
+        return docTemplateVersion.parseDocument(code,getMarkupParser(),false);
     }
 
     public String serializeDocument(Document doc,boolean resCachedNodes)

@@ -44,6 +44,7 @@ public class BatikItsNatDOMImplementationImpl extends GenericDOMImplementation
         return SINGLETON;
     }
 
+    @Override
     public Document createDocument(String namespaceURI,
                                    String qualifiedName,
                                    DocumentType doctype) throws DOMException
@@ -70,6 +71,7 @@ public class BatikItsNatDOMImplementationImpl extends GenericDOMImplementation
             return NamespaceUtil.isXHTMLNamespace(namespaceURI);
     }
 
+    @Override
     public DocumentType createDocumentType(String qualifiedName,
                                            String publicId,
                                            String systemId)
@@ -79,6 +81,7 @@ public class BatikItsNatDOMImplementationImpl extends GenericDOMImplementation
         return new GenericDocumentType(qualifiedName,publicId,systemId);
     }
 
+    @Override
     public EventSupport createEventSupport(AbstractNode n)
     {
         return new EventSupportItsNatFixed(n);

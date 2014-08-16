@@ -70,7 +70,7 @@ public class XMLLayoutInflateService
     {
         try
         {
-            View rootView = pasrseRootView(parser, script, inflated, page);
+            View rootView = parseRootView(parser, script, inflated, page);
 
             inflated.setRootView(rootView);
         }
@@ -84,13 +84,12 @@ public class XMLLayoutInflateService
         }
     }
 
-    private View pasrseRootView(XmlPullParser parser, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
+    private View parseRootView(XmlPullParser parser, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
             if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
                 continue;
-
 
             int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
             int nsEnd = parser.getNamespaceCount(parser.getDepth());

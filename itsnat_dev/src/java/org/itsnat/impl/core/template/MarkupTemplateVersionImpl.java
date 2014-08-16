@@ -71,7 +71,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         this.timeStamp = timeStamp;
 
         this.templateDelegate = createMarkupTemplateVersionDelegate();
-        this.templateDoc = parseDocument(source,markupTemplate.getMarkupParser()); // No hay problema de usar el parser compartido por todas las versiones pues la construcción de versiones se hace en monohilo
+        this.templateDoc = parseDocument(source,markupTemplate.getMarkupParser(),false); // No hay problema de usar el parser compartido por todas las versiones pues la construcción de versiones se hace en monohilo
 
         // Podemos considerar el templateDoc patrón de como thread-safe en sólo lectura (recorriendo)
         // porque en Batik DOM las colecciones de atributos y childNodes se crean
@@ -145,13 +145,13 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         return DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),true);
     }
 
-    public Document parseDocument(String code,XercesDOMParserWrapperImpl parser)
+    public Document parseDocument(String code,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
         StringReader reader = new StringReader(code);
-        return parseDocument(new InputSource(reader),parser);
+        return parseDocument(new InputSource(reader),parser,isFragment);
     }
 
-    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser)
+    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
         String encoding = getEncoding();
         input.setEncoding(encoding);

@@ -28,8 +28,10 @@ import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
@@ -39,11 +41,37 @@ import org.xml.sax.InputSource;
  */
 public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
 {
+    protected String androidNamespacePrefix;
+    
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
         super(docTemplate, source, timeStamp, request, response);
+        
+        Element rootElem = templateDoc.getDocumentElement();
+        if (rootElem.hasAttributes())
+        {
+            NamedNodeMap attribs = rootElem.getAttributes();
+            for(int i = 0; i < attribs.getLength(); i++)
+            {
+                Attr attr = (Attr)attribs.item(i);
+                String name = attr.getName();
+                if (name.startsWith("xmlns:")) // Esperamos prefijo si o si por eso incluimos los ":". getPrefix en este caso NO devuelve "xmlns"
+                {
+                    int pos = name.indexOf(':');
+                    String prefix = name.substring(pos + 1);    
+                    String namespaceURI = attr.getValue();
+                    if (NamespaceUtil.ANDROID_NAMESPACE.equals(namespaceURI))
+                    {
+                        this.androidNamespacePrefix = prefix;
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO
     }
-
+    
     public String wrapBodyAsDocument(String source)
     {
         // Es curioso porque "source" puede contener elementos propios
@@ -53,7 +81,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         // al <head>.
 
         StringBuilder code = new StringBuilder();
-        code.append( "<root xmlns:android=\"" + NamespaceUtil.ANDROID_NAMESPACE + "\">");
+        code.append( "<root xmlns:" + androidNamespacePrefix + "=\"" + NamespaceUtil.ANDROID_NAMESPACE + "\">");
         code.append( source );
         code.append( "</root>" );
 
@@ -79,9 +107,10 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     }
     
     @Override
-    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser)
+    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
-        Document doc = super.parseDocument(input,parser);
+        Document doc = super.parseDocument(input,parser,isFragment);
+                
         // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments 
         
         Node child = ItsNatTreeWalker.getNextNode(doc);

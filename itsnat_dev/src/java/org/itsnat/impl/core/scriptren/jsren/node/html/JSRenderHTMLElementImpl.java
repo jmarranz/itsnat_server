@@ -74,7 +74,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
         return tagNamesNotValidInsideInnerHTML;
     }
 
-    protected boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
+    public boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         // Si el elemento admite innerHTML podrá usarse innerHTML
 
