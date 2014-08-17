@@ -16,6 +16,9 @@
 
 package org.itsnat.impl.core.template.droid;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Map;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
@@ -28,6 +31,7 @@ import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
+import org.itsnat.impl.core.util.MapEntryImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -42,7 +46,8 @@ import org.xml.sax.InputSource;
 public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocumentTemplateVersionImpl
 {
     protected String androidNamespacePrefix;
-    
+    protected LinkedList<Map.Entry<String,String>> namespacesDeclared = new LinkedList<Map.Entry<String,String>>();
+            
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
         super(docTemplate, source, timeStamp, request, response);
@@ -60,10 +65,11 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
                     int pos = name.indexOf(':');
                     String prefix = name.substring(pos + 1);    
                     String namespaceURI = attr.getValue();
+                    namespacesDeclared.add(new MapEntryImpl<String,String>(prefix,namespaceURI));
+                    
                     if (NamespaceUtil.ANDROID_NAMESPACE.equals(namespaceURI))
                     {
                         this.androidNamespacePrefix = prefix;
-                        break;
                     }
                 }
             }
@@ -81,7 +87,13 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         // al <head>.
 
         StringBuilder code = new StringBuilder();
-        code.append( "<root xmlns:" + androidNamespacePrefix + "=\"" + NamespaceUtil.ANDROID_NAMESPACE + "\">");
+        code.append( "<root" );
+        for(Map.Entry<String,String> entry : namespacesDeclared)
+        {
+            code.append( " xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+
+        code.append( ">" );
         code.append( source );
         code.append( "</root>" );
 

@@ -1,5 +1,4 @@
 
-* Medir el rendimiento de usar Beanshell or setInnerXML
 
 * Probar re-arranque de actividad
 
