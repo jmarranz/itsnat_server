@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.web.stateless;
+package test.web.stateless.core;
 
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -18,18 +18,18 @@ import org.itsnat.core.html.ItsNatHTMLDocument;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessEventDocLoadListener implements ItsNatServletRequestListener
+public class TestStatelessCoreInitialDocLoadListener implements ItsNatServletRequestListener
 {
     /**
      * Creates a new instance of TestCoreDocLoadListener
      */
-    public TestCoreStatelessEventDocLoadListener()
+    public TestStatelessCoreInitialDocLoadListener()
     {
     }
    
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestCoreStatelessEventDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
+        new TestStatelessCoreInitialDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
     }
 
 }

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package test.web.stateless;
+package test.web.stateless.core;
 
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
@@ -15,11 +15,11 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessTemplateLevelEventListener implements EventListener,Serializable
+public class TestStatelessCoreTemplateLevelEventListener implements EventListener,Serializable
 {
     protected Object parent;
 
-    public TestCoreStatelessTemplateLevelEventListener(Object parent)
+    public TestStatelessCoreTemplateLevelEventListener(Object parent)
     {
         this.parent = parent;
     }

@@ -32,8 +32,8 @@ import test.web.comp.TestComponentsDocLoadListener;
 import test.web.comp.TestCreateItsNatComponentListener;
 import test.web.core.TestCoreAttachServerLauncherDocLoadListener;
 import test.web.core.TestCoreDocLoadListener;
-import test.web.stateless.TestCoreStatelessEventDocLoadListener;
-import test.web.stateless.TestCoreStatelessInitialDocLoadListener;
+import test.web.stateless.core.TestStatelessCoreEventDocLoadListener;
+import test.web.stateless.core.TestStatelessCoreInitialDocLoadListener;
 import test.web.coreiframe.TestCoreIFrameDocLoadListener;
 import test.web.noajax.TestNoAJAXDocLoadListener;
 import test.web.noscript.TestNoScriptDocLoadListener;
@@ -52,7 +52,7 @@ import test.web.remotectrl.TestRemoteCtrlLauncherDocLoadListener;
 import test.web.remtmpl.GoogleSearchResultSource;
 import test.web.remtmpl.TestRemoteTemplateDocLoadListener;
 import test.web.remtmpl.TestRemoteTemplateResultDocLoadListener;
-import test.web.stateless.TestCoreStatelessTemplateLevelEventListener;
+import test.web.stateless.core.TestStatelessCoreTemplateLevelEventListener;
 import test.web.shared.TestSerialization;
 import test.web.svg.TestSVGAttachServerLauncherDocLoadListener;
 import test.web.svg.TestSVGDocLoadListener;
@@ -352,14 +352,14 @@ public class ItsNatServletExample extends HttpServletWrapper
 
         // Stateless main
         
-        docTemplate = registerDocument("test_core_stateless_initial","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessInitialDocLoadListener());       
+        docTemplate = registerDocument("test_stateless_core_initial","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
+        docTemplate.addItsNatServletRequestListener(new TestStatelessCoreInitialDocLoadListener());       
         docTemplate.setEventsEnabled(false);
         
         // Stateless to load fragment       
-        docTemplate = registerDocument("test_core_stateless_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestCoreStatelessEventDocLoadListener());
-        docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));        
+        docTemplate = registerDocument("test_stateless_core_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
+        docTemplate.addItsNatServletRequestListener(new TestStatelessCoreEventDocLoadListener());
+        docTemplate.addEventListener(new TestStatelessCoreTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(false);        
         
         

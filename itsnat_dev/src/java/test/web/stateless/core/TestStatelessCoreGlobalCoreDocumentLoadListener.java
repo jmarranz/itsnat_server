@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.web.stateless;
+package test.web.stateless.core;
 
 import javax.servlet.ServletRequest;
 import org.itsnat.core.ItsNatServletRequest;
@@ -17,7 +17,7 @@ import org.itsnat.core.ItsNatServletResponse;
  *
  * @author jmarranz
  */
-public class TestGlobalStatelessDocumentLoadListener 
+public class TestStatelessCoreGlobalCoreDocumentLoadListener 
 {
     public static void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {

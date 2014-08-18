@@ -18,7 +18,7 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
-import test.web.stateless.TestGlobalStatelessDocumentLoadListener;
+import test.web.stateless.core.TestStatelessCoreGlobalCoreDocumentLoadListener;
 
 /**
  *
@@ -49,7 +49,7 @@ public class TestGlobalDocumentLoadListener implements ItsNatServletRequestListe
             String itsNatAction = servReq.getParameter("itsnat_action");  
             if ("event_stateless".equals(itsNatAction))
             {
-                TestGlobalStatelessDocumentLoadListener.processRequest(request, response);            
+                TestStatelessCoreGlobalCoreDocumentLoadListener.processRequest(request, response);            
             }
             else
             {

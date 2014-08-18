@@ -596,6 +596,9 @@ function EventGeneric(listener)
     this.processRespTimeout = processRespTimeout;
     this.processRespError = processRespError;
     this.processRespValid = processRespValid;
+    this.getExtraParam = getExtraParam;
+    this.setExtraParam = setExtraParam;  
+  
     this.getCurrentTarget = null; // implementar
     this.saveEvent = null; // se implementa si es necesario
 
@@ -604,16 +607,10 @@ function EventGeneric(listener)
     this.mustBeSent = true;
     this.listener = listener;
     this.itsNatDoc = listener.itsNatDoc;
+    this.extraParams = null;  
+
 
     function getListenerWrapper() { return this.listener; }
-
-    function genParamURL()
-    {
-        var url = "";
-        url += this.itsNatDoc.genParamURL();
-        url += this.listener.genParamURL(this);
-        return url;
-    }
 
     function setMustBeSent(value) { this.mustBeSent = value; }
     function sendEvent() { if (this.mustBeSent) this.itsNatDoc.evtMgr.sendEvent(this); }
@@ -659,33 +656,7 @@ function EventGeneric(listener)
             catch(e) { this.itsNatDoc.showErrorMessage(false,e,response); }
         }
     }
-}
-
-function EventStful(listener)
-{
-    this.EventGeneric = EventGeneric;
-    this.EventGeneric(listener);
-}
-
-function NormalEvent(listener)
-{
-    this.EventStful = EventStful;
-    this.EventStful(listener);
-
-    this.getExtraParam = getExtraParam;
-    this.setExtraParam = setExtraParam; 
-    this.getCurrentTarget = getCurrentTarget;
-    this.getTranspUtil = getTranspUtil;
-
-    this.timeStamp = new Date().getTime();
-    this.extraParams = null;     
     
-    this.EventStful_super_genParamURL = this.genParamURL;
-    this.genParamURL = genParamURL;    
-    
-    function getCurrentTarget() { return this.listener.getCurrentTarget(); }
-    function getTranspUtil() { return itsnat.TransportUtil; }
-     
     function getExtraParam(name)
     {        
         if (this.extraParams == null) this.extraParams = new Object();
@@ -696,12 +667,14 @@ function NormalEvent(listener)
     {
         if (this.extraParams == null) this.extraParams = new Object();
         this.extraParams[name] = value;
-    }     
-     
+    }             
+    
     function genParamURL()
     {
-        var url = this.EventStful_super_genParamURL();
-        url += "&itsnat_evt_timeStamp=" + this.timeStamp; // En vez del problematico Event.timeStamp       
+        var url = "";
+        url += this.itsNatDoc.genParamURL();
+        url += this.listener.genParamURL(this);
+        
         var params = this.extraParams;
         if (params != null)
             for(var name in params)
@@ -712,6 +685,48 @@ function NormalEvent(listener)
                 else
                     url += "&" + name + "=" + encodeURIComponent(value);
             }        
+        return url;        
+    }        
+}
+
+function EventStful(listener)
+{
+    this.EventGeneric = EventGeneric;
+    this.EventGeneric(listener);
+
+    this.EventGeneric_super_genParamURL = this.genParamURL;
+    this.genParamURL = genParamURL; 
+    
+    function genParamURL()
+    {
+        var url = this.EventGeneric_super_genParamURL();
+      
+        return url;
+    }        
+}
+
+function NormalEvent(listener)
+{
+    this.EventStful = EventStful;
+    this.EventStful(listener);
+
+    this.getCurrentTarget = getCurrentTarget;
+    this.getTranspUtil = getTranspUtil;
+
+    this.timeStamp = new Date().getTime();  
+    
+    this.EventStful_super_genParamURL = this.genParamURL;
+    this.genParamURL = genParamURL;    
+    
+    function getCurrentTarget() { return this.listener.getCurrentTarget(); }
+    function getTranspUtil() { return itsnat.TransportUtil; }
+     
+    
+    function genParamURL()
+    {
+        var url = this.EventStful_super_genParamURL();
+        url += "&itsnat_evt_timeStamp=" + this.timeStamp; // En vez del problematico Event.timeStamp       
+ 
         return url;
     }    
 }

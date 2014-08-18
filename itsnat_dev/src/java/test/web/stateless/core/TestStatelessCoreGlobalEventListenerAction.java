@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package test.web.stateless;
+package test.web.stateless.core;
 
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEventStateless;
@@ -11,7 +11,7 @@ import org.itsnat.core.event.ItsNatEventStateless;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessGlobalEventListenerAction 
+public class TestStatelessCoreGlobalEventListenerAction 
 {
     public static void handleEvent(ItsNatEventStateless itsNatEvt)
     {

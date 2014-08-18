@@ -11,7 +11,7 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ItsNatEventStateless;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import test.web.stateless.TestCoreStatelessGlobalEventListenerAction;
+import test.web.stateless.core.TestStatelessCoreGlobalEventListenerAction;
 
 /**
  *
@@ -31,7 +31,7 @@ public class TestGlobalEventListener implements EventListener,Serializable
         ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
         if (itsNatEvt instanceof ItsNatEventStateless)
         {
-            TestCoreStatelessGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
+            TestStatelessCoreGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
         }
         else
         {

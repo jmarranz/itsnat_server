@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package test.web.stateless;
+package test.web.stateless.core;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatServletRequest;
@@ -18,14 +18,14 @@ import org.itsnat.core.html.ItsNatHTMLDocument;
  *
  * @author jmarranz
  */
-public class TestCoreStatelessInitialDocument implements Serializable
+public class TestStatelessCoreInitialDocument implements Serializable
 {
     protected ItsNatHTMLDocument itsNatDoc;
 
     /**
      * Creates a new instance of TestCoreLoadListener
      */
-    public TestCoreStatelessInitialDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
+    public TestStatelessCoreInitialDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         this.itsNatDoc = itsNatDoc;
 
