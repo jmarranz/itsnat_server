@@ -119,9 +119,9 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     }
     
     @Override
-    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
+    public Document parseDocumentOrFragment(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
-        Document doc = super.parseDocument(input,parser,isFragment);
+        Document doc = super.parseDocumentOrFragment(input,parser,isFragment);
                 
         // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments 
         
