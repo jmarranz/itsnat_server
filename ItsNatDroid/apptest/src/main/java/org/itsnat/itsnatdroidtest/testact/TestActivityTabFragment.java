@@ -10,6 +10,7 @@ import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePage;
 
 /**
  * Created by jmarranz on 12/08/14.
@@ -103,6 +104,17 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
+        View testRemoteStatelessCore = rootView.findViewById(R.id.testRemoteStatelessCore);
+        testRemoteStatelessCore.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestStatelessCore();
+                TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
 
         return rootView;
     }

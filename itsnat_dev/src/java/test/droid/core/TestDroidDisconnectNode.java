@@ -7,7 +7,6 @@
 package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
-import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;

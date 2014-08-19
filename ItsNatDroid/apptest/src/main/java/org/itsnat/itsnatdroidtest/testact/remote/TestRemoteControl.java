@@ -1,31 +1,20 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
-import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.OnPageLoadListener;
-import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
-import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-
-import bsh.EvalError;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestRemoteControl extends TestRemotePage
+public class TestRemoteControl extends TestRemotePageBase
 {
     public TestRemoteControl(final TestActivityTabFragment fragment,final ItsNatDroidBrowser droidBrowser)
     {

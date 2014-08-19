@@ -16,47 +16,32 @@
             android:layout_alignParentTop="true" />
 
 
-    <TextView android:id="@+id/titleUrlTestCore"
+    <TextView android:id="@+id/titleUrlBase"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:text="URL Test Core"
+              android:text="URL Base"
               android:ems="10"
               android:layout_marginTop="30dp"
               android:layout_below="@id/gotoTests" />
 
-    <EditText android:id="@+id/urlTestCore"
+    <EditText android:id="@+id/urlBase"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:inputType="textUri"
               android:hint="Remote URL Test Core"
               android:ems="10"
               android:layout_marginTop="5dp"
-              android:layout_below="@id/titleUrlTestCore" />
+              android:layout_below="@id/titleUrlBase" />
 
-    <TextView android:id="@+id/titleUrlRemoteControl"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:text="URL Test Remote Control"
-              android:ems="10"
-              android:layout_marginTop="10dp"
-              android:layout_below="@+id/urlTestCore" />
 
-    <EditText android:id="@+id/urlTestRemoteControl"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:inputType="textUri"
-              android:hint="Remote URL Test Control"
-              android:ems="10"
-              android:layout_marginTop="5dp"
-              android:layout_below="@+id/titleUrlRemoteControl" />
-
-    <Button android:id="@+id/saveUrls"
+    <Button android:id="@+id/saveUrl"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="SAVE URLs"
+              android:text="SAVE URL BASE"
               android:textSize="20dp"
               android:layout_marginTop="20dp"
-              android:layout_below="@id/urlTestRemoteControl"/>
+              android:layout_below="@id/urlBase"/>
+
 
 
 
@@ -68,7 +53,7 @@
         android:padding="50dp"
         android:background="#dd0000"
         android:layout_marginTop="20dp"
-        android:layout_below="@id/saveUrls">
+        android:layout_below="@id/saveUrl">
         <FrameLayout android:id="@+id/frameChild"
             android:layout_width="100dp"
             android:layout_height="100dp"

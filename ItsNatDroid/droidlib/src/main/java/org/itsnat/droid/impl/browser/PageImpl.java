@@ -66,11 +66,12 @@ public class PageImpl implements Page
         if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
 
 
-        String[] scriptArr = new String[1];
-        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, scriptArr,this);
+        String[] loadScriptArr = new String[1];
+        List<String> scriptList = new LinkedList<String>();
+        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, loadScriptArr,scriptList,this);
         this.inflated = inflated;
 
-        String loadScript = scriptArr[0];
+        String loadScript = loadScriptArr[0];
 
         this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
         this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
@@ -78,6 +79,15 @@ public class PageImpl implements Page
         try
         {
             interp.set("itsNatDoc",itsNatDoc);
+
+            if (!scriptList.isEmpty())
+            {
+                for(String code : scriptList)
+                {
+                    interp.eval(code);
+                }
+            }
+
             if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
                 interp.eval(loadScript);
         }
@@ -252,5 +262,33 @@ public class PageImpl implements Page
         itsNatDoc.sendUnloadEvent();
         itsNatSession.disposePage(this);
         getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
+    }
+
+    public void insertFragment(View parentView,String markup)
+    {
+        String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
+        List<String> scriptList = new LinkedList<String>();
+
+        getInflatedLayoutImpl().insertFragment(parentView,markup,loadScript,scriptList,this);
+
+        if (!scriptList.isEmpty())
+        {
+            Interpreter interp = getInterpreter();
+            for(String code : scriptList)
+            {
+                try
+                {
+                    interp.eval(code);
+                }
+                catch (EvalError ex)
+                {
+                    throw new ItsNatDroidScriptException(ex, code);
+                }
+                catch (Exception ex)
+                {
+                    throw new ItsNatDroidScriptException(ex, code);
+                }
+            }
+        }
     }
 }

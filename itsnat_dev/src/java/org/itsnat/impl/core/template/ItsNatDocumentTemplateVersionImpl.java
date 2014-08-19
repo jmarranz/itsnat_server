@@ -83,9 +83,9 @@ public abstract class ItsNatDocumentTemplateVersionImpl extends MarkupTemplateVe
         doCacheAndNormalizeDocument();
     }
     
-    public XercesDOMParserWrapperImpl createMarkupParser(String defaultEncoding)
+    public XercesDOMParserWrapperImpl createMarkupParser()
     {
-        return markupTemplate.createMarkupParser(defaultEncoding);
+        return markupTemplate.createMarkupParser();
     }
 
     public boolean isFastLoadMode()

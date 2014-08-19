@@ -16,13 +16,21 @@
             android:paddingBottom="@dimen/activity_vertical_margin"
             tools:context="org.itsnat.itsnatdroidtest.MainActivity">
 
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TEST CORE"
+            android:textSize="25dp" 
+            android:background="#00ff00">
+        </TextView>        
+        
         <Button
                 android:id="@id/back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="BACK" />   
          
-        <Button id="buttonReload" 
+        <Button id="buttonReload"
                 android:id="@id/buttonReload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="Test client exception (reload after)" />         
             
-        
+       
         <!-- Test native listeners -->
         <Button id="testNativeListenersId" 
                 android:layout_width="wrap_content"

@@ -71,7 +71,7 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
 
         this.delegate = createMarkupTemplateDelegate(source);
 
-        this.parser = createMarkupParser(encoding);
+        this.parser = createMarkupParser();
     }
 
     public abstract MarkupTemplateDelegateImpl createMarkupTemplateDelegate(MarkupSourceImpl source);
@@ -81,11 +81,11 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
         return parser; // Usar en monohilo
     }
 
-    protected XercesDOMParserWrapperImpl createMarkupParser(String defaultEncoding)
+    protected XercesDOMParserWrapperImpl createMarkupParser()
     {
-        return XercesDOMParserWrapperImpl.createXercesDOMParserWrapper(namespaceOfMIME,defaultEncoding);
-    }
-
+        return XercesDOMParserWrapperImpl.createXercesDOMParserWrapper(namespaceOfMIME,encoding);
+    }    
+    
     public abstract boolean isDocFragment();
 
 

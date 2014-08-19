@@ -18,6 +18,7 @@ package org.itsnat.impl.core.dompath;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -48,16 +49,14 @@ public class DOMPathResolverDroid extends DOMPathResolver
         Node currNode = parentNode.getFirstChild();
         while(currNode != null)
         {
-                int type = currNode.getNodeType();
-                if (currPos == pos)
-                {
-                    if (type == Node.ELEMENT_NODE)
-                    {
-                        return currNode;
-                    }
-                }
-                else if (type == Node.ELEMENT_NODE) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto
-                        currPos++;
+            int type = currNode.getNodeType();
+            if (type == Node.ELEMENT_NODE) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto
+            {
+                if (currPos == pos)                    
+                    return currNode;
+                else 
+                    currPos++;
+            }
 
             currNode = currNode.getNextSibling();
         }

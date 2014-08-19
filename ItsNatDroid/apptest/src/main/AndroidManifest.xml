@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".testact.TestActivity"
-            android:label="@string/title_activity_my" >
+            android:label="@string/title_activity_test" >
         </activity>
     </application>
 

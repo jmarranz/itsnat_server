@@ -308,7 +308,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
 
     public XercesDOMParserWrapperImpl getMarkupParser()
     {
-        if (parser == null) this.parser = docTemplateVersion.createMarkupParser(getEncoding()); // Creamos un parser propio porque no es multihilo (no puede ser compartido a nivel de template)
+        if (parser == null) this.parser = docTemplateVersion.createMarkupParser(); // Creamos un parser propio porque no es multihilo (no puede ser compartido a nivel de template)
         return parser;
     }
 

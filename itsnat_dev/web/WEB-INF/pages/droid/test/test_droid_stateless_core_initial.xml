@@ -1,0 +1,42 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+       
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TEST STATELESS CORE"
+            android:textSize="25dp" 
+            android:background="#00ff00">
+        </TextView> 
+
+        <Button
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK" />   
+         
+        <Button id="buttonReload"
+                android:id="@id/buttonReload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_reload" />         
+                  
+        
+        <Button id="testEventCustomId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Test Event Custom"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp">
+        </Button>
+
+    </LinearLayout>
+</ScrollView>        
+        

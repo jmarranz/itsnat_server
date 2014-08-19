@@ -19,6 +19,9 @@ import test.droid.core.TestDroidCoreDocLoadListener;
 import test.droid.core.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
+import test.droid.stateless.core.TestDroidStatelessCoreEventDocLoadListener;
+import test.droid.stateless.core.TestDroidStatelessCoreInitialDocLoadListener;
+import test.droid.stateless.core.TestDroidStatelessCoreTemplateLevelEventListener;
 
 /**
  *
@@ -51,10 +54,21 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
         
-       
         
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
+        
+        // Stateless main
+        
+        docTemplate = registerDocument("test_droid_stateless_core_initial","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreInitialDocLoadListener());       
+        docTemplate.setEventsEnabled(false);
+        
+        // Stateless to load fragment       
+        docTemplate = registerDocument("test_droid_stateless_core_event","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreEventDocLoadListener());
+        docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));        
+        docTemplate.setEventsEnabled(false);
         
         
         
@@ -65,12 +79,16 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
   
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)
     {
-        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, pathPrefix + pages.getProperty(name));
+        String fileName = pages.getProperty(name);
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");
+        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, pathPrefix + fileName);
     }
 
     public ItsNatDocFragmentTemplate registerDocFragment(String name,String mime,String pathPrefix, Properties pages)
     {
-        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + pages.getProperty(name));
+        String fileName = pages.getProperty(name);
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");        
+        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + fileName);
     }    
     
     public Properties loadProperties(String path)

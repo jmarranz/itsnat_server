@@ -79,6 +79,6 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     @Override
     protected String generateFinalScriptsMarkup()
     {
-        return "<script><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>";
+        return "<script id=\"itsnat_load_script\"><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>";
     }
 }

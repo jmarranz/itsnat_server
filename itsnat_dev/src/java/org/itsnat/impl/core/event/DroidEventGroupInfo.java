@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as

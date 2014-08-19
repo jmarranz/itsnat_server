@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,14 +41,14 @@ public class XMLLayoutInflateService
         return classDescViewMgr;
     }
 
-    public void inflate(Reader input,String[] script, InflatedLayoutImpl inflated,PageImpl page)
+    public void inflate(Reader input,String[] loadScript,List<String> scriptList, InflatedLayoutImpl inflated,PageImpl page)
     {
         try
         {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            inflate(parser,script,inflated,page);
+            inflate(parser,loadScript,scriptList,inflated,page);
         }
         catch (XmlPullParserException ex)
         {
@@ -66,11 +67,11 @@ public class XMLLayoutInflateService
         }
     }
 
-    private void inflate(XmlPullParser parser,String[] script, InflatedLayoutImpl inflated,PageImpl page)
+    private void inflate(XmlPullParser parser,String[] loadScript,List<String> scriptList, InflatedLayoutImpl inflated,PageImpl page)
     {
         try
         {
-            View rootView = parseRootView(parser, script, inflated, page);
+            View rootView = parseRootView(parser, loadScript,scriptList, inflated, page);
 
             inflated.setRootView(rootView);
         }
@@ -84,7 +85,7 @@ public class XMLLayoutInflateService
         }
     }
 
-    private View parseRootView(XmlPullParser parser, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
+    private View parseRootView(XmlPullParser parser, String[] loadScript,List<String> scriptList, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -107,10 +108,10 @@ public class XMLLayoutInflateService
 
             View rootView = createAndAddViewObjectAndFillAttributes(viewName,null, parser, inflated,page);
 
-            View childView = parseNextView(parser, rootView, script, inflated, page);
+            View childView = parseNextView(parser, rootView, loadScript,scriptList, inflated, page);
             while(childView != null)
             {
-                childView = parseNextView(parser, rootView, script, inflated, page);
+                childView = parseNextView(parser, rootView, loadScript,scriptList, inflated, page);
             }
 
             return rootView;
@@ -119,7 +120,7 @@ public class XMLLayoutInflateService
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
     }
 
-    private View parseNextView(XmlPullParser parser, View viewParent, String[] script, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
+    private View parseNextView(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList, InflatedLayoutImpl inflated, PageImpl page) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -130,9 +131,25 @@ public class XMLLayoutInflateService
 
             if (viewName.equals("script"))
             {
-                while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
-                script[0] = parser.getText();
-                while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+                if (page != null)
+                {
+                    boolean isLoadScript = parser.getAttributeCount() == 1 &&
+                            "id".equals(parser.getAttributeName(0)) &&
+                            "itsnat_load_script".equals(parser.getAttributeValue(0));
+
+                    while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
+
+                    String code = parser.getText();
+                    if (isLoadScript) loadScript[0] = code;
+                    else scriptList.add(code);
+
+                    while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+                }
+                else
+                {
+                    while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+                }
+
                 continue;
             }
 
@@ -144,10 +161,10 @@ public class XMLLayoutInflateService
             //LayoutInflater inf = LayoutInflater.from(ctx);
             //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
-            View childView = parseNextView(parser, view, script, inflated, page);
+            View childView = parseNextView(parser, view, loadScript,scriptList, inflated, page);
             while(childView != null)
             {
-                childView = parseNextView(parser, view, script, inflated, page);
+                childView = parseNextView(parser, view, loadScript,scriptList, inflated, page);
             }
             return view;
         }
@@ -194,8 +211,10 @@ public class XMLLayoutInflateService
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
     }
 
-    public void insertFragment(View parentView,String markup,InflatedLayoutImpl inflated,PageImpl page)
+    public void insertFragment(View parentView,String markup,String[] loadScript,List<String> scriptList,InflatedLayoutImpl inflated,PageImpl page)
     {
+        if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
+
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
         // LayoutParams se hagan bien
@@ -222,8 +241,7 @@ public class XMLLayoutInflateService
             StringReader input = new StringReader(markup);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            String[] script = new String[1]; // Necesario pasar pero no se usa
-            ViewGroup falseParentView = (ViewGroup)parseNextView(parser,null,script,inflated,page);
+            ViewGroup falseParentView = (ViewGroup)parseNextView(parser,null,loadScript,scriptList,inflated,page);
             while(falseParentView.getChildCount() > 0)
             {
                 View child = falseParentView.getChildAt(0);
@@ -239,6 +257,5 @@ public class XMLLayoutInflateService
         {
             throw new ItsNatDroidException(ex);
         }
-
     }
 }

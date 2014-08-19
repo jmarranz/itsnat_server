@@ -9,11 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import org.itsnat.droid.ItsNatDroidBrowser;
-import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
-import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
-import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 
 
 public class MainActivity extends Activity {
@@ -30,12 +26,12 @@ public class MainActivity extends Activity {
 
     public void startTestActivity()
     {
-        String urlTestCore = loadURLTestCore();
-        String urlTestRemCtrl = loadURLTestRemCtrl();
+        String urlTestBase = loadURLBase();
 
         Intent intent = new Intent(this, TestActivity.class);
-        intent.putExtra("urlTestCore",urlTestCore);
-        intent.putExtra("urlTestRemCtrl",urlTestRemCtrl);
+        intent.putExtra("urlTestCore",   urlTestBase + "?itsnat_doc_name=test_droid_core");
+        intent.putExtra("urlTestRemCtrl",urlTestBase + "?itsnat_doc_name=test_droid_remote_ctrl");
+        intent.putExtra("urlTestStatelessCore",urlTestBase + "?itsnat_doc_name=test_droid_stateless_core_initial");
         startActivity(intent);
     }
 
@@ -53,21 +49,16 @@ public class MainActivity extends Activity {
                 startTestActivity();           }
         });
 
-        final EditText urlTestCore = (EditText)findViewById(R.id.urlTestCore);
-        urlTestCore.setText(loadURLTestCore());
+        final EditText urlTestBase = (EditText)findViewById(R.id.urlBase);
+        urlTestBase.setText(loadURLBase());
 
-        final EditText urlTestRemCtrl = (EditText)findViewById(R.id.urlTestRemoteControl);
-        urlTestRemCtrl.setText(loadURLTestRemCtrl());
-
-
-
-        View buttonSaveUrls = findViewById(R.id.saveUrls);
+        View buttonSaveUrls = findViewById(R.id.saveUrl);
         buttonSaveUrls.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                saveURL(urlTestCore.getText().toString(), urlTestRemCtrl.getText().toString());
+                saveURLBase(urlTestBase.getText().toString());
             }
         });
 
@@ -117,26 +108,19 @@ public class MainActivity extends Activity {
 
     }
 
-    private String loadURLTestCore()
+    private String loadURLBase()
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        String url = settings.getString("remoteUrlTestCore", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_core");
+        String url = settings.getString("remoteUrlBase", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample");
         return url;
     }
 
-    private String loadURLTestRemCtrl()
-    {
-        SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        String url = settings.getString("remoteUrlTestRemCtrl", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_ctrl");
-        return url;
-    }
 
-    private void saveURL(String remoteUrlTestCore,String remoteUrlTestRemCtrl)
+    private void saveURLBase(String remoteUrlBase)
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("remoteUrlTestCore", remoteUrlTestCore);
-        editor.putString("remoteUrlTestRemCtrl", remoteUrlTestRemCtrl);
+        editor.putString("remoteUrlBase", remoteUrlBase);
         editor.commit();
     }
 

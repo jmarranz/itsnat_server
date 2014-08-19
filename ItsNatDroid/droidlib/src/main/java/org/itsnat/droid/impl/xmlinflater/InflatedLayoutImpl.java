@@ -12,6 +12,8 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 
+import java.util.List;
+
 /**
  * Created by jmarranz on 16/06/14.
  */
@@ -135,8 +137,8 @@ public class InflatedLayoutImpl implements InflatedLayout
         return getElementById(id);
     }
 
-    public void insertFragment(View parentView,String markup,PageImpl page)
+    public void insertFragment(View parentView,String markup,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        getXMLLayoutInflateService().insertFragment(parentView,markup,this,page);
+        getXMLLayoutInflateService().insertFragment(parentView,markup,loadScript,scriptList,this,page);
     }
 }

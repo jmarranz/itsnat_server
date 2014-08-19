@@ -713,7 +713,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
-        getPageImpl().getInflatedLayoutImpl().insertFragment(parentNode.getView(),markup,getPageImpl());
+        getPageImpl().insertFragment(parentNode.getView(),markup);
     }
 
     public void setInnerXML2(Object[] idObj,String markup)

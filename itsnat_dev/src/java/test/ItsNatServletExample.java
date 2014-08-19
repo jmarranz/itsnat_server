@@ -390,13 +390,17 @@ public class ItsNatServletExample extends HttpServletWrapper
 
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)
     {
-        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, pathPrefix + pages.getProperty(name));
+        String fileName = pages.getProperty(name);
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");
+        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, pathPrefix + fileName);
     }
 
     public ItsNatDocFragmentTemplate registerDocFragment(String name,String mime,String pathPrefix, Properties pages)
     {
-        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + pages.getProperty(name));
-    }
+        String fileName = pages.getProperty(name);
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");        
+        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + fileName);
+    }    
 
     public Properties loadProperties(String path)
     {

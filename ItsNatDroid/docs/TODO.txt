@@ -1,5 +1,7 @@
 
 
+* Hacer ItsNatView.setXMLId() local ?????
+
 * Probar re-arranque de actividad
 
 

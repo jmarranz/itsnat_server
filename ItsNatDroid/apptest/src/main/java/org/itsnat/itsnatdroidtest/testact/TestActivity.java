@@ -30,6 +30,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
     protected ItsNatDroidBrowser droidBrowser;
     protected String urlTestCore;
     protected String urlTestRemCtrl;
+    protected String urlTestStatelessCore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
 
         this.urlTestCore =    intent.getStringExtra("urlTestCore");
         this.urlTestRemCtrl = intent.getStringExtra("urlTestRemCtrl");
+        this.urlTestStatelessCore = intent.getStringExtra("urlTestStatelessCore");
 
         getActionBar().setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
 
@@ -108,9 +110,9 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
         return urlTestRemCtrl;
     }
 
-    public void setUrlTestRemCtrl(String urlTestRemCtrl)
+    public String getUrlTestStatelessCore()
     {
-        this.urlTestRemCtrl = urlTestRemCtrl;
+        return urlTestStatelessCore;
     }
 
     @Override
