@@ -13,6 +13,7 @@ import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -55,6 +56,9 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
             }            
         },false);   
   
+        // En el template fragment hay un <script> que DEBE desaparecer
+        NodeList scripts = doc.getElementsByTagName("script");
+        if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");         
     }
     
 }

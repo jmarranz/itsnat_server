@@ -18,6 +18,7 @@ package org.itsnat.impl.core.template.droid;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -25,6 +26,7 @@ import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
@@ -37,6 +39,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**
@@ -47,11 +50,43 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
 {
     protected String androidNamespacePrefix;
     protected LinkedList<Map.Entry<String,String>> namespacesDeclared = new LinkedList<Map.Entry<String,String>>();
-            
+    protected List<String> scriptCodeList = new LinkedList<String>();
+    
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
         super(docTemplate, source, timeStamp, request, response);
         
+        extractScriptElements();        
+        
+        readNamespaces();
+    }
+    
+    protected void extractScriptElements()
+    {
+        Document doc = this.templateDoc;
+        // Recuerda que el <script> principal nunca llega a ser DOM pues se mete como cadena en la string del documento serializado
+        NodeList scriptElemList = doc.getElementsByTagName("script");
+        for(int i = 0; i < scriptElemList.getLength(); i++)
+        {
+            Element scriptElem = (Element)scriptElemList.item(i);
+            String code = DOMUtilInternal.getTextContent(scriptElem, true);
+            scriptCodeList.add(code);
+        }
+        
+        while(scriptElemList.getLength() > 0)
+        {
+            Element scriptElem = (Element)scriptElemList.item(0);
+            scriptElem.getParentNode().removeChild(scriptElem);
+        }               
+    }    
+    
+    public List<String> getScriptCodeList()
+    {
+        return scriptCodeList;
+    }
+    
+    protected void readNamespaces()
+    {
         Element rootElem = templateDoc.getDocumentElement();
         if (rootElem.hasAttributes())
         {
@@ -75,7 +110,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
             }
         }
         
-        if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO
+        if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO        
     }
     
     public String wrapBodyAsDocument(String source)

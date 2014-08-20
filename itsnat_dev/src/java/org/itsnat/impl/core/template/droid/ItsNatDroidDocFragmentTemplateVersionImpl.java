@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.template.droid;
 
-import org.itsnat.impl.core.template.xml.*;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.template.MarkupTemplateVersionDelegateImpl;
@@ -30,17 +29,17 @@ import org.xml.sax.InputSource;
  */
 public class ItsNatDroidDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
 {
-
     /**
      * Creates a new instance of ItsNatDroidDocFragmentTemplateVersionImpl
      */
     public ItsNatDroidDocFragmentTemplateVersionImpl(ItsNatDroidDocFragmentTemplateImpl docTemplate,InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         super(docTemplate,source,timeStamp,request,response);
-
+        
         this.templateDoc = null; // Para que no se vuelva a usar y para salvar memoria
     }
 
+    
     public Element getContainerElement()
     {
         // El nodo padre puede ser cualquiera, por ejemplo <root>

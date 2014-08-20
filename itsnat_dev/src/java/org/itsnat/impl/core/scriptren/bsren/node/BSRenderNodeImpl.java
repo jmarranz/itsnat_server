@@ -28,6 +28,7 @@ import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.bsren.event.BSRenderEventImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNodeImpl;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
@@ -45,7 +46,7 @@ public class BSRenderNodeImpl extends BSRenderImpl
         {
             // Está primero los más habituales (Element y Text nodes)
             case Node.ELEMENT_NODE:
-                return BSRenderElementImpl.getBSRenderElement();
+                return BSRenderElementImpl.getBSRenderElement((Element)node);
             case Node.TEXT_NODE:
                 return BSRenderTextImpl.getBSRenderText();            
             case Node.ATTRIBUTE_NODE:

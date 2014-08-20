@@ -7,8 +7,10 @@
 package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -33,6 +35,10 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         Document doc = getDocument();
         Element testLauncherHidden = doc.getElementById("testViewTreeInsertionHiddenId");  
         
+        // Test ignorar nodos de texto: este test lo ponemos aquí por ponerlo en algún sitio
+        testLauncherHidden.getParentNode().insertBefore(doc.createTextNode("IGNORE TEXT NODE"), testLauncherHidden);     // Aunque lo insertemos, en el cálculo de paths etc se ignorará          
+        
+        
         Element frameLayoutView = doc.createElement("FrameLayout"); 
         frameLayoutView.setAttribute("android:layout_width", "match_parent");        
         frameLayoutView.setAttribute("android:layout_height", "wrap_content");         
@@ -54,12 +60,15 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         
         frameLayoutView.appendChild(frameLayoutViewInner);        
        
+        Element scriptElem = doc.createElement("script"); 
+        CDATASection scriptCode = doc.createCDATASection("itsNatDoc.alert(\"Inserted by normal DOM \\n(OK testing <script> in DOM)\");"); // El \\n es necesario al estar dentro de una ""
+        scriptElem.appendChild(scriptCode);
+        frameLayoutView.appendChild(scriptElem);         
         
-        // Test ignorar nodos de texto: este test lo ponemos aquí por ponerlo en algún sitio
-        testLauncherHidden.getParentNode().insertBefore(doc.createTextNode("IGNORE TEXT NODE"), testLauncherHidden);     // Aunque lo insertemos, en el cálculo de paths etc se ignorará          
+        testLauncherHidden.getParentNode().insertBefore(frameLayoutView, testLauncherHidden); 
         
-        
-        testLauncherHidden.getParentNode().insertBefore(frameLayoutView, testLauncherHidden);   
+        NodeList scripts = doc.getElementsByTagName("script");
+        if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");
     }
     
 }

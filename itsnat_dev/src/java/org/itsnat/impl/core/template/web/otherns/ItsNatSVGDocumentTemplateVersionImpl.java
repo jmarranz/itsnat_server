@@ -45,6 +45,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
         super(docTemplate,source,timeStamp,request,response);
     }
 
+    @Override
     public Browser getBrowser(ItsNatServletRequestImpl itsNatRequest)
     {
         Browser browser = super.getBrowser(itsNatRequest);
@@ -110,6 +111,7 @@ public class ItsNatSVGDocumentTemplateVersionImpl extends ItsNatOtherNSDocumentT
         return (browser instanceof BrowserMSIEOld);
     }
 
+    @Override
     public Document loadDocument(Browser browser)
     {
         if (isGeneratedDocumentFake(browser))

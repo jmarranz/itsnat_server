@@ -13,6 +13,9 @@
             android:text="Click Here to Remove"
             android:background="#00dd00">
         </TextView>
+        
+        <script><![CDATA[ itsNatDoc.alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
+        
         <TextView
             android:layout_width="200dp"
             android:layout_height="20dp"

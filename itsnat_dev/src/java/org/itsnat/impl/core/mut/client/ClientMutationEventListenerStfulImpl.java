@@ -283,7 +283,7 @@ public abstract class ClientMutationEventListenerStfulImpl implements Serializab
         }
     }    
     
-    public void removeAllChild(Node node)
+    public void removeAllChildNodes(Node node)
     {
         if (canRenderAndSendMutationCode()) // Por si acaso está desactivado el enviar código en este cliente
         {

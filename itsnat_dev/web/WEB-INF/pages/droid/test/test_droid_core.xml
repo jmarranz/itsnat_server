@@ -38,6 +38,8 @@
 
         <!-- Just a test comment (will be filtered) -->        
         
+        <script><![CDATA[ itsNatDoc.alert("LOADING \n(OK testing <script> on load)"); ]]></script>
+        
         <!-- Test event timeout -->
         <Button id="testTimeoutId" 
                 android:layout_width="wrap_content"

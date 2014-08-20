@@ -7,7 +7,9 @@
 package test.droid.core;
 
 import org.itsnat.core.ItsNatDocument;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -23,6 +25,7 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
     {
         super(itsNatDoc);
 
+        Document doc = getDocument();
         Element elem = getDocument().getDocumentElement();
 
         ((EventTarget)elem).addEventListener("click", this,false);
@@ -35,6 +38,9 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         ((EventTarget)elem).removeEventListener("touchend", this,false);        
                
 
+        // Hay un <script> en el template inicial que DEBE desaparecer
+        NodeList scripts = doc.getElementsByTagName("script");
+        if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
     }
     
     public void handleEvent(Event evt)

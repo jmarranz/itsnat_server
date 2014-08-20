@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -23,16 +23,12 @@ import java.util.List;
 import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.scriptren.shared.node.CannotInsertAsMarkupCauseImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderElementImpl;
 import org.itsnat.impl.core.scriptren.shared.node.RenderElement;
-import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -43,20 +39,21 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements RenderElement
+public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements RenderElement
 {
     public static boolean SUPPORT_INSERTION_AS_MARKUP = true;
-    
-    public static final BSRenderElementImpl SINGLETON = new BSRenderElementImpl();
-    
+        
     /** Creates a new instance of BSRenderElementImpl */
     public BSRenderElementImpl()
     {
     }
 
-    public static BSRenderElementImpl getBSRenderElement()
+    public static BSRenderElementImpl getBSRenderElement(Element elem)
     {
-        return BSRenderElementImpl.SINGLETON;
+        if ("script".equals(elem.getTagName()))
+            return BSRenderElementScriptImpl.SINGLETON;
+        else
+            return BSRenderElementViewImpl.SINGLETON;
     }
 
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
@@ -71,17 +68,7 @@ public class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements 
         return createElement(nodeElem,tagName,clientDoc);
     }
 
-    protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
-    {
-        String namespaceURI = nodeElem.getNamespaceURI();
-        if (namespaceURI != null)
-        {
-            String namespaceURIScript = shortNamespaceURI(namespaceURI);            
-            return "itsNatDoc.createElementNS(" + namespaceURIScript + ",\"" + tagName + "\")";
-        }
-        else
-            return "itsNatDoc.createElement(\"" + tagName + "\")";      
-    }
+    protected abstract String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc);
 
     public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {

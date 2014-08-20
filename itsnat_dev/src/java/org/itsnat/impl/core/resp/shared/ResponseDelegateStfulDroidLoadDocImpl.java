@@ -16,11 +16,14 @@
 
 package org.itsnat.impl.core.resp.shared;
 
+import java.util.List;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
+import org.itsnat.impl.core.template.droid.ItsNatStfulDroidDocumentTemplateVersionImpl;
 
 /**
  *
@@ -33,6 +36,11 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         super(response);      
     }
 
+    public ItsNatStfulDroidDocumentImpl getItsNatStfulDroidDocument()
+    {
+        return (ItsNatStfulDroidDocumentImpl)getItsNatStfulDocument();
+    }
+    
     protected void rewriteClientUIControlProperties()
     {
         // En Android no hay autofill etc
@@ -63,7 +71,7 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         String stdSessionId = session.getStandardSessionId();  
         String token = session.getToken(); 
         String sessionId = session.getId();        
-        String clientId =  getClientDocumentStful().getId();
+        String clientId =  clientDoc.getId();
         String servletPath = delegByBrowser.getServletPathForEvents();
         int errorMode = itsNatDoc.getClientErrorMode(); 
         
@@ -79,6 +87,18 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     @Override
     protected String generateFinalScriptsMarkup()
     {
-        return "<script id=\"itsnat_load_script\"><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>";
+        ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();           
+        ItsNatStfulDroidDocumentTemplateVersionImpl templateVersion = itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion();
+        List<String> scriptCodeList = templateVersion.getScriptCodeList();
+        
+        StringBuilder code = new StringBuilder();
+        if (!scriptCodeList.isEmpty())
+        {
+            for(String script : scriptCodeList)
+                code.append( "<script><![CDATA[ " + script + " ]]></script>" );
+        }
+        code.append( "<script id=\"itsnat_load_script\"><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>" );
+        
+        return code.toString();
     }
 }

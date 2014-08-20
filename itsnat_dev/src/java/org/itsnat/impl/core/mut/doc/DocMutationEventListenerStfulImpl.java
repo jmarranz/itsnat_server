@@ -356,11 +356,10 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            //if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
             ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
             ClientMutationEventListenerStfulImpl mutListener = clientDocDeleg.getClientMutationEventListenerStful();            
             
-            mutListener.removeAllChild(node); // Se eliminan en el cliente
+            mutListener.removeAllChildNodes(node); // Se eliminan en el cliente
         }
 
         // Se supone que el nodo está vacío en el servidor pues no dejamos insertar hasta que haya reconexión

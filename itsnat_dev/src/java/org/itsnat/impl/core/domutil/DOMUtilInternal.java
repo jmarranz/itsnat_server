@@ -389,6 +389,22 @@ public class DOMUtilInternal
 
     // Este método es mucho más eficiente que Document.getElementsByTagName
     // que tiene el problema de que es tolerante a cambios => más lento
+    public static LinkedList<Node> getElementListWithTagName(Node node,final String tagName,boolean recursive)
+    {
+        NodeConstraints rules = new NodeConstraints()
+        {
+            public boolean match(Node node, Object context)
+            {
+                if (!(node instanceof Element)) return false;
+                Element elem = (Element)node;
+                return elem.getTagName().equals(tagName);
+            }
+        };        
+        return getNodeListMatching(node,rules,recursive,null);
+    }    
+    
+    // Este método es mucho más eficiente que Document.getElementsByTagName
+    // que tiene el problema de que es tolerante a cambios => más lento
     public static LinkedList<Node> getChildElementListWithTagName(Node parent,final String tagName,boolean recursive)
     {
         NodeConstraints rules = new NodeConstraints()
@@ -423,15 +439,28 @@ public class DOMUtilInternal
         };
         return getChildNodeListMatching(parent,rules,recursive,null);
     }
+  
+    private static LinkedList<Node> getNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,Object context)
+    {
+        LinkedList<Node> nodeList = null;
+        if (rules.match(parent,context))
+        {
+            if (nodeList == null) nodeList = new LinkedList<Node>();
+            nodeList.add(parent);
+        }        
+        
+        return getChildNodeListMatching(parent,rules,recursive,nodeList,context);
+    }        
     
     public static LinkedList<Node> getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,Object context)
     {
         return getChildNodeListMatching(parent,rules,recursive,null,context);
     }
 
-    public static LinkedList<Node> getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,LinkedList<Node> nodeList,Object context)
+    
+    private static LinkedList<Node> getChildNodeListMatching(Node parent,NodeConstraints rules,boolean recursive,LinkedList<Node> nodeList,Object context)
     {
-        // El propio nodo no se considera
+        // El propio nodo parent no se considera
         Node child = parent.getFirstChild();
         while(child != null)
         {

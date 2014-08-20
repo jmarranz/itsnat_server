@@ -31,6 +31,7 @@ import org.itsnat.impl.core.mut.doc.droid.DocMutationEventListenerStfulDroidImpl
 import org.itsnat.impl.core.registry.droid.ItsNatDroidEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.droid.ItsNatStfulDroidDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -152,4 +153,8 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
             getDroidEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }    
 
+    public ItsNatStfulDroidDocumentTemplateVersionImpl getItsNatStfulDroidDocumentTemplateVersion()
+    {
+        return (ItsNatStfulDroidDocumentTemplateVersionImpl)getItsNatDocumentTemplateVersion();
+    }
 }

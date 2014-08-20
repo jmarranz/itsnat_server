@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderAttributeImpl;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNodeImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderNotAttrOrAbstractViewNodeImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
@@ -55,7 +56,28 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
         // Nada que hacer (ver la clase Web para verlo claro)
     }
 
-
+    @Override
+    public void renderAndSendMutationCode(MutationEvent mutEvent)
+    {
+        super.renderAndSendMutationCode(mutEvent);
+        
+        String type = mutEvent.getType();
+        if (type.equals("DOMNodeInserted"))
+        {
+            Node newNode = (Node)mutEvent.getTarget();
+            
+            // Eliminamos los <script> que podamos haber añadido
+            
+            // Creo que mi método es más rápido que Element.getElementsByTagName(), además hay que evaluar el propio newNode
+            // Como los <script> NO pueden estar anidados no hay problema alguno en ese sentido
+            LinkedList<Node> scriptList = DOMUtilInternal.getElementListWithTagName(newNode,"script",true);
+            for(Node script : scriptList)
+            {
+                script.getParentNode().removeChild(script);
+            }                 
+        }
+    }
+    
     @Override
     public Object getTreeDOMNodeInsertedCode(Node newNode)
     {

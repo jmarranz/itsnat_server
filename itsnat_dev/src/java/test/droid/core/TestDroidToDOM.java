@@ -47,6 +47,9 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         markup.append("  android:text=\"OK if purple and left/right padding\"> \n");
         markup.append("</TextView>");         
         
+        markup.append("<script><![CDATA[ itsNatDoc.alert(\"Inserted by toDOM \\n(OK testing <script> in toDOM)\"); ]]></script> ");       
+        // El \\n con dos barras es necesario en este caso por estar metido en una ""
+        
         markup.append("<TextView ");
         markup.append("  android:layout_width=\"match_parent\" \n");
         markup.append("  android:layout_height=\"25dp\" \n");
