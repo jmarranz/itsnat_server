@@ -138,10 +138,11 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         templateDelegate.normalizeDocument(getDocument());
     }
 
-    public DOMRenderImpl createNodeDOMRender(Document doc)
+           
+    public DOMRenderImpl createNodeDOMRender(Document doc,boolean nodeOnlyRender)
     {
         // Sirve para serializar nodos concretos no el documento completo
-        return DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),true);
+        return DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),nodeOnlyRender);
     }
 
     public Document parseDocumentOrFragment(String code,XercesDOMParserWrapperImpl parser,boolean isFragment)
@@ -513,7 +514,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     protected void doCacheDocument()
     {
         Document docTemplate = getDocument();
-        DOMRenderImpl nodeRender = createNodeDOMRender(docTemplate);
+        DOMRenderImpl nodeRender = createNodeDOMRender(docTemplate,true);
 
         Element rootElem = docTemplate.getDocumentElement();
         LinkedList<Node> cacheableChildren = new LinkedList<Node>();

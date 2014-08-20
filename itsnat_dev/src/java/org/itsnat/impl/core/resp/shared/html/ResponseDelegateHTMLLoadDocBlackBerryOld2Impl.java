@@ -81,7 +81,7 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
                 return docMarkup; // No hay ningún <input type="file">
 
 
-            Document docTmp = itsNatDoc.parseDocument(docMarkup);
+            Document docTmp = parseDocument(itsNatDoc,docMarkup);
             // No es necesario normalizar ya fue normalizado el documento original que dio lugar a la cadena
             attributes = processTreeInputFileElements(docTmp);
             // Como el documento temporal se pierde no es necesario restaurar nada
@@ -101,6 +101,11 @@ public class ResponseDelegateHTMLLoadDocBlackBerryOld2Impl extends ResponseDeleg
         }
     }
 
+    public static Document parseDocument(ItsNatStfulDocumentImpl itsNatDoc,String code)
+    {
+        return itsNatDoc.getItsNatDocumentTemplateVersion().parseDocumentOrFragment(code,itsNatDoc.getMarkupParser(),false);
+    }    
+    
     protected Map<Element,Attr> processTreeInputFileElements(Document doc)
     {
         Map<Element,Attr> attributes = null;

@@ -302,7 +302,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
 
     public DOMRenderImpl getDOMRenderForNodes()
     {
-        if (nodeRender == null) this.nodeRender = docTemplateVersion.createNodeDOMRender(doc);
+        if (nodeRender == null) this.nodeRender = docTemplateVersion.createNodeDOMRender(doc,true);
         return nodeRender;
     }
 
@@ -312,14 +312,9 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return parser;
     }
 
-    public Document parseDocument(String code)
-    {
-        return docTemplateVersion.parseDocumentOrFragment(code,getMarkupParser(),false);
-    }
-
     public String serializeDocument(Document doc,boolean resCachedNodes)
     {
-        DOMRenderImpl docRender = DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),false);
+        DOMRenderImpl docRender = docTemplateVersion.createNodeDOMRender(doc,false);
         return serializeDocument(doc,docRender,resCachedNodes);
     }
 
