@@ -21,7 +21,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -37,7 +37,7 @@ import bsh.NameSpace;
 public class PageImpl implements Page
 {
     protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
-    protected InflatedLayoutImpl inflated;
+    protected InflatedLayoutPageImpl inflated;
     protected String content;
     protected String uniqueId;
     protected Interpreter interp;
@@ -68,8 +68,7 @@ public class PageImpl implements Page
 
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        InflatedLayoutImpl inflated = inflateRequest.inflateInternal(input, loadScriptArr,scriptList,this);
-        this.inflated = inflated;
+        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(input, loadScriptArr,scriptList,this);
 
         String loadScript = loadScriptArr[0];
 
@@ -112,13 +111,13 @@ public class PageImpl implements Page
     @Override
     public View getRootView()
     {
-        return getInflatedLayoutImpl().getRootView();
+        return getInflatedLayoutPageImpl().getRootView();
     }
 
     @Override
     public View findViewByXMLId(String id)
     {
-        return getInflatedLayoutImpl().findViewByXMLId(id);
+        return getInflatedLayoutPageImpl().findViewByXMLId(id);
     }
 
     public HttpParams getHttpParams()
@@ -132,7 +131,7 @@ public class PageImpl implements Page
         return pageRequest.getURL();
     }
 
-    public InflatedLayoutImpl getInflatedLayoutImpl()
+    public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
         return inflated;
     }
@@ -172,7 +171,7 @@ public class PageImpl implements Page
 
     public Context getContext()
     {
-        return getInflatedLayoutImpl().getContext();
+        return getInflatedLayoutPageImpl().getContext();
     }
 
     @Override
@@ -269,7 +268,7 @@ public class PageImpl implements Page
         String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
         List<String> scriptList = new LinkedList<String>();
 
-        getInflatedLayoutImpl().insertFragment(parentView,markup,loadScript,scriptList,this);
+        getInflatedLayoutPageImpl().insertFragment(parentView, markup, loadScript, scriptList);
 
         if (!scriptList.isEmpty())
         {

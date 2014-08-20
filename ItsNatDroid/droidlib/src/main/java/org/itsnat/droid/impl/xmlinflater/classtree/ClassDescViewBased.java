@@ -13,6 +13,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -80,7 +81,7 @@ public class ClassDescViewBased
         return attrDescMap.get(name);
     }
 
-    public boolean setAttribute(PageImpl page,View view,String namespace,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,InflatedLayoutImpl inflated)
+    public boolean setAttribute(View view,String namespace,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
@@ -97,11 +98,12 @@ public class ClassDescViewBased
             {
                 if (parent != null)
                 {
-                    parent.setAttribute(page,view, namespace, name, value, oneTimeAttrProcess, inflated);
+                    parent.setAttribute(view, namespace, name, value, oneTimeAttrProcess, inflated);
                 }
                 else
                 {
                     // No se encuentra opción de proceso custom
+                    PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
                     AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
                     if (listener != null) listener.setAttribute(page,view,namespace, name, value);
                 }
@@ -115,6 +117,7 @@ public class ClassDescViewBased
         {
             // No se encuentra opción de proceso custom
             AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
+            PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
             if (listener != null) listener.setAttribute(page,view,namespace, name, value);
         }
 
@@ -122,7 +125,7 @@ public class ClassDescViewBased
     }
 
 
-    public boolean removeAttribute(PageImpl page,View view,String namespace,String name,InflatedLayoutImpl inflated)
+    public boolean removeAttribute(View view,String namespace,String name,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
@@ -139,11 +142,12 @@ public class ClassDescViewBased
             {
                 if (parent != null)
                 {
-                    parent.removeAttribute(page,view, namespace, name, inflated);
+                    parent.removeAttribute(view, namespace, name, inflated);
                 }
                 else
                 {
                     // No se encuentra opción de proceso custom
+                    PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
                     AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
                     if (listener != null) listener.removeAttribute(page,view, namespace, name);
                 }
@@ -157,6 +161,7 @@ public class ClassDescViewBased
         {
             // No se encuentra opción de proceso custom
             AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
+            PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
             if (listener != null) listener.removeAttribute(page,view, namespace, name);
         }
 

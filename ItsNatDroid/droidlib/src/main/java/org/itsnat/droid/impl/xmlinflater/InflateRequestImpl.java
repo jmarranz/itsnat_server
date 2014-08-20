@@ -57,8 +57,9 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        InflatedLayoutImpl inflated = new InflatedLayoutImpl(parent,inflateListener,ctx);
-        parent.getXMLLayoutInflateService().inflate(input, loadScript,scriptList,inflated,page);
+        InflatedLayoutImpl inflated = page != null ? new InflatedLayoutPageImpl(page,inflateListener,ctx) :
+                                                     new InflatedLayoutStandaloneImpl(parent,inflateListener,ctx);
+        parent.getXMLLayoutInflateService().inflate(input, loadScript,scriptList,inflated);
         return inflated;
     }
 

@@ -215,7 +215,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             String namespace = attr.getNamespaceURI();
             String name = attr.getName();
             String value = attr.getValue();
-            classDesc.setAttribute(page,view,namespace, name, value, oneTimeAttrProcess,inflated);
+            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)
@@ -224,7 +224,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private Context getContext()
     {
-        return page.getInflatedLayoutImpl().getContext();
+        return page.getInflatedLayoutPageImpl().getContext();
     }
 
     @Override
@@ -313,7 +313,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             String prefix = getPrefix(name);
             if (prefix != null)
             {
-                namespaceURI = getPageImpl().getInflatedLayoutImpl().getNamespace(prefix);
+                namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
                 if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
                     name = getLocalName(name);
             }
@@ -330,9 +330,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
 
         View view = node.getView();
-        ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.setAttribute(page,view,namespaceURI,name,value,null,page.getInflatedLayoutImpl());
+        viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutPageImpl());
     }
 
     @Override
@@ -387,7 +387,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             String prefix = getPrefix(name);
             if (prefix != null)
             {
-                namespaceURI = getPageImpl().getInflatedLayoutImpl().getNamespace(prefix);
+                namespaceURI = getPageImpl().getInflatedLayoutPageImpl().getNamespace(prefix);
                 if (namespaceURI != null) // Sólo se soportan namespaces declarados en el View root, si es null se procesará como un atributo desconocido
                     name = getLocalName(name);
             }
@@ -406,9 +406,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
 
         View view = node.getView();
-        ClassDescViewMgr viewMgr = page.getInflatedLayoutImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.removeAttribute(page,view, namespaceURI, name, page.getInflatedLayoutImpl());
+        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
     }
 
     @Override
@@ -542,8 +542,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         // El namespaceURI es irrelevante
         /*
-        Context ctx = page.getInflatedLayoutImpl().getContext();
-        XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
+        Context ctx = page.getInflatedLayoutPageImpl().getContext();
+        XMLLayoutInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
         ClassDescViewBase classDesc = inflaterService.getClassDescViewBase(name);
         View currentTarget = classDesc.createAndAddViewObject(null, 0, ctx);
         */
@@ -570,9 +570,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
-        InflatedLayoutImpl inflated = page.getInflatedLayoutImpl();
+        InflatedLayoutImpl inflated = page.getInflatedLayoutPageImpl();
         Context ctx = inflated.getContext();
-        XMLLayoutInflateService inflaterService = page.getInflatedLayoutImpl().getXMLLayoutInflateService();
+        XMLLayoutInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
         ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 

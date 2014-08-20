@@ -34,12 +34,12 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
 
     public String getXMLId()
     {
-        return page.getInflatedLayoutImpl().getXMLId(view);
+        return page.getInflatedLayoutPageImpl().getXMLId(view);
     }
 
     public void setXMLId(String id)
     {
-        page.getInflatedLayoutImpl().setXMLId(id, view);
+        page.getInflatedLayoutPageImpl().setXMLId(id, view);
     }
 
     public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()
