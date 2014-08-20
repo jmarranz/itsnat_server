@@ -65,9 +65,12 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         scriptElem.appendChild(scriptCode);
         frameLayoutView.appendChild(scriptElem);         
         
+        NodeList scripts = frameLayoutView.getElementsByTagName("script");
+        if (scripts.getLength() == 0) throw new RuntimeException("Expected <string> element");         
+        
         testLauncherHidden.getParentNode().insertBefore(frameLayoutView, testLauncherHidden); 
         
-        NodeList scripts = doc.getElementsByTagName("script");
+        scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");
     }
     

@@ -40,10 +40,13 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc); 
-        
-        
+                    
         final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
 
+        // En el template fragment hay un <script> que DEBE desaparecer
+        NodeList scripts = frameLayoutViewToRemove.getElementsByTagName("script");
+        if (scripts.getLength() == 0) throw new RuntimeException("Expected <string> element");         
+        
         // Sabemos con seguridad que el fragment se insertará (parcialmente) via markup, nos aseguramos de todas formas que está activado
         if (!BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP) throw new RuntimeException("CANNOT TEST");
         
@@ -57,7 +60,7 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         },false);   
   
         // En el template fragment hay un <script> que DEBE desaparecer
-        NodeList scripts = doc.getElementsByTagName("script");
+        scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");         
     }
     

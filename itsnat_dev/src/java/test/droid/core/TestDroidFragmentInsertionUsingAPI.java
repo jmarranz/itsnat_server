@@ -44,6 +44,10 @@ public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements
         
         final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
 
+        // En el template fragment hay un <script> que DEBE desaparecer
+        NodeList scripts = frameLayoutViewToRemove.getElementsByTagName("script");
+        if (scripts.getLength() == 0) throw new RuntimeException("Expected <string> element");         
+        
         boolean old = BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP;
         BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = false;
         
@@ -64,7 +68,7 @@ public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements
         },false);   
   
         // En el template fragment hay un <script> que DEBE desaparecer
-        NodeList scripts = doc.getElementsByTagName("script");
+        scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
     }
     

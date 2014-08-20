@@ -147,7 +147,7 @@ public class XMLLayoutInflateService
                 }
                 else
                 {
-                    while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+                    throw new ItsNatDroidException("<script> elements are not allowed in standalone parsing layouts");
                 }
 
                 continue;

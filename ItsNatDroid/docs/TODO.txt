@@ -25,3 +25,5 @@
 * Implementar con infinita paciencia los más atributos posibles:
 
   http://developer.android.com/reference/android/R.styleable.html
+
+* Drag and drop events (hay métodos nativos para drag & drop)

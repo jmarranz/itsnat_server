@@ -28,6 +28,7 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
+import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
@@ -159,19 +160,19 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         Document doc = super.parseDocumentOrFragment(input,parser,isFragment);
                 
         // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments 
-        
-        Node child = ItsNatTreeWalker.getNextNode(doc);
-        while(child != null)
+        NodeConstraints rule = new NodeConstraints()
         {
-            if (child.getNodeType() == Node.COMMENT_NODE)
+            public boolean match(Node node, Object context)
             {
-                Node newChild = child.getPreviousSibling();
-                if (newChild == null) newChild = child.getParentNode();
-                child.getParentNode().removeChild(child);
-                child = newChild;
-            }
-            child = ItsNatTreeWalker.getNextNode(child);
-        }        
+                return node.getNodeType() == Node.COMMENT_NODE;
+            }            
+        };
+        LinkedList<Node> commentList = DOMUtilInternal.getChildNodeListMatching(doc,rule,true,null);
+        if (commentList != null)
+        {
+            for(Node comment : commentList)
+                comment.getParentNode().removeChild(comment);
+        }
         
         return doc;
     }    

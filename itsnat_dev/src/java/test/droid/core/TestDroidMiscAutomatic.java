@@ -38,7 +38,7 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         ((EventTarget)elem).removeEventListener("touchend", this,false);        
                
 
-        // Hay un <script> en el template inicial que DEBE desaparecer
+        // Hay un <script> en el template inicial que DEBE desaparecer en tiempo de carga antes de poder acceder al Document
         NodeList scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
     }
