@@ -44,8 +44,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
-import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -197,7 +196,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
     }
 
-    public static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    private static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
     {
         AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
         if (styleAttr == null) return 0;
@@ -205,7 +204,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return AttrDesc.getIdentifier(value, ctx);
     }
 
-    public void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,PageImpl page)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,PageImpl page)
     {
         View view = newChildToIn.getView();
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
@@ -330,9 +329,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
 
         View view = node.getView();
-        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.setAttribute(view,namespaceURI,name,value,null,page.getInflatedLayoutPageImpl());
+        page.getInflatedLayoutPageImpl().setAttribute(view, namespaceURI, name, value);
     }
 
     @Override
@@ -406,9 +403,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
 
         View view = node.getView();
-        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
+        page.getInflatedLayoutPageImpl().removeAttribute(view, namespaceURI, name);
     }
 
     @Override
@@ -541,12 +536,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public Node createElementNS(String namespaceURI,String name)
     {
         // El namespaceURI es irrelevante
-        /*
-        Context ctx = page.getInflatedLayoutPageImpl().getContext();
-        XMLLayoutInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
-        ClassDescViewBase classDesc = inflaterService.getClassDescViewBase(name);
-        View currentTarget = classDesc.createAndAddViewObject(null, 0, ctx);
-        */
         return new NodeToInsertImpl(name);
     }
 
@@ -713,7 +702,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
-        getPageImpl().insertFragment(parentNode.getView(),markup);
+
+        String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
+        List<String> scriptList = new LinkedList<String>();
+
+        getPageImpl().getInflatedLayoutPageImpl().insertFragment(parentNode.getView(), markup, loadScript, scriptList);
+        getPageImpl().executeScriptList(scriptList);
     }
 
     public void setInnerXML2(Object[] idObj,String markup)

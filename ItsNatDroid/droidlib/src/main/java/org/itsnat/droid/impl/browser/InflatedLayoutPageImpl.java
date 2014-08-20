@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater;
+package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 import android.util.Xml;
@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -36,12 +38,6 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         return page;
     }
 
-    /*
-    public void insertFragment(View parentView,String markup,String[] loadScript,List<String> scriptList)
-    {
-        getXMLLayoutInflateService().insertFragment(parentView,markup,loadScript,scriptList,this,page);
-    }
-*/
 
     public void insertFragment(View parentView,String markup,String[] loadScript,List<String> scriptList)
     {
@@ -73,8 +69,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             StringReader input = new StringReader(markup);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            XMLLayoutInflateService inflateService = getItsNatDroidImpl().getXMLLayoutInflateService();
-            ViewGroup falseParentView = (ViewGroup)inflateService.parseNextView(parser,null,loadScript,scriptList,this);
+
+            ViewGroup falseParentView = (ViewGroup)parseNextView(parser,null,loadScript,scriptList);
             while(falseParentView.getChildCount() > 0)
             {
                 View child = falseParentView.getChildAt(0);
@@ -90,5 +86,34 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         {
             throw new ItsNatDroidException(ex);
         }
+    }
+
+    protected void parseScriptElement(XmlPullParser parser,View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    {
+        boolean isLoadScript = parser.getAttributeCount() == 1 &&
+                "id".equals(parser.getAttributeName(0)) &&
+                "itsnat_load_script".equals(parser.getAttributeValue(0));
+
+        while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
+
+        String code = parser.getText();
+        if (isLoadScript) loadScript[0] = code;
+        else scriptList.add(code);
+
+        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+    }
+
+    public void setAttribute(View view,String namespaceURI,String name,String value)
+    {
+        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
+        viewClassDesc.setAttribute(view, namespaceURI, name, value, null, this);
+    }
+
+    public void removeAttribute(View view,String namespaceURI,String name)
+    {
+        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBased viewClassDesc = viewMgr.get(view);
+        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
     }
 }

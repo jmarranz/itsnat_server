@@ -21,7 +21,6 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -263,31 +262,26 @@ public class PageImpl implements Page
         getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
     }
 
-    public void insertFragment(View parentView,String markup)
+    public void executeScriptList(List<String> scriptList)
     {
-        String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
-        List<String> scriptList = new LinkedList<String>();
+        if (scriptList.isEmpty()) return;
 
-        getInflatedLayoutPageImpl().insertFragment(parentView, markup, loadScript, scriptList);
-
-        if (!scriptList.isEmpty())
+        Interpreter interp = getInterpreter();
+        for (String code : scriptList)
         {
-            Interpreter interp = getInterpreter();
-            for(String code : scriptList)
+            try
             {
-                try
-                {
-                    interp.eval(code);
-                }
-                catch (EvalError ex)
-                {
-                    throw new ItsNatDroidScriptException(ex, code);
-                }
-                catch (Exception ex)
-                {
-                    throw new ItsNatDroidScriptException(ex, code);
-                }
+                interp.eval(code);
+            }
+            catch (EvalError ex)
+            {
+                throw new ItsNatDroidScriptException(ex, code);
+            }
+            catch (Exception ex)
+            {
+                throw new ItsNatDroidScriptException(ex, code);
             }
         }
+
     }
 }

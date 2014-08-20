@@ -13,12 +13,6 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
-
-import java.io.StringReader;
-import java.net.SocketTimeoutException;
 
 /**
  * Created by jmarranz on 5/06/14.

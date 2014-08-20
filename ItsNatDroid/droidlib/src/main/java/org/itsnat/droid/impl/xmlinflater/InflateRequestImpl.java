@@ -5,7 +5,9 @@ import android.content.Context;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
+import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 
 import java.io.Reader;
@@ -57,10 +59,10 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        InflatedLayoutImpl inflated = page != null ? new InflatedLayoutPageImpl(page,inflateListener,ctx) :
+        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,inflateListener,ctx) :
                                                      new InflatedLayoutStandaloneImpl(parent,inflateListener,ctx);
-        parent.getXMLLayoutInflateService().inflate(input, loadScript,scriptList,inflated);
-        return inflated;
+        inflatedLayout.inflate(input, loadScript,scriptList);
+        return inflatedLayout;
     }
 
 }
