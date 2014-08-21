@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
+import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -107,13 +110,54 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        viewClassDesc.setAttribute(view, namespaceURI, name, value, null, this);
+        setAttribute(viewClassDesc,view,namespaceURI, name, value, null);
     }
 
     public void removeAttribute(View view,String namespaceURI,String name)
     {
         ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
+        removeAttribute(viewClassDesc, view, namespaceURI, name);
+    }
+
+    public boolean setAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess)
+    {
+        if (namespaceURI.isEmpty())
+        {
+            if (name.equals("onclick"))
+            {
+                ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
+                ClickEventListenerViewAdapter evtListenerViewAdapter = viewData.getClickEventListenerViewAdapter();
+                evtListenerViewAdapter.setInlineCode(value);
+                view.setOnClickListener(evtListenerViewAdapter);
+                return true;
+            }
+            else
+                return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess);
+        }
+        else
+        {
+            return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess);
+        }
+    }
+
+    public boolean removeAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name)
+    {
+        if (namespaceURI == null)
+        {
+            if (name.equals("onclick"))
+            {
+                ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
+                ClickEventListenerViewAdapter evtListenerViewAdapter = viewData.getClickEventListenerViewAdapter();
+                evtListenerViewAdapter.setInlineCode(null);
+                view.setOnClickListener(evtListenerViewAdapter);
+                return true;
+            }
+            else return viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
+        }
+        else
+        {
+            return viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
+        }
     }
 }

@@ -211,10 +211,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
         {
             AttrImpl attr = entry.getValue();
-            String namespace = attr.getNamespaceURI();
+            String namespaceURI = attr.getNamespaceURI();
             String name = attr.getName();
             String value = attr.getValue();
-            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,inflated);
+            inflated.setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)

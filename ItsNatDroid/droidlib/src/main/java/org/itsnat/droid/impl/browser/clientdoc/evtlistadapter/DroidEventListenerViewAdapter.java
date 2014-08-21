@@ -4,15 +4,20 @@ import android.view.View;
 import android.view.ViewParent;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import bsh.EvalError;
+import bsh.Interpreter;
 
 /**
  * Created by jmarranz on 4/07/14.
@@ -100,5 +105,27 @@ public abstract class DroidEventListenerViewAdapter
         if (view == null || !(view instanceof View)) return;
         tree.add(0, view);
         getViewTree(view.getParent(),tree);
+    }
+
+    protected void executeInlineEventHandler(String inlineCode, String type, int eventGroupCode, Object nativeEvt)
+    {
+        View view = viewData.getView();
+        DroidEventListener listenerFake = new DroidEventListener(viewData.getPageImpl().getItsNatDocImpl(), view, type, null, null, false, -1, -1, eventGroupCode);
+        NormalEventImpl event = listenerFake.createEventWrapper(nativeEvt);
+
+        Interpreter interp = viewData.getPageImpl().getInterpreter();
+        try
+        {
+            interp.set("event", event);
+            interp.eval(inlineCode);
+        }
+        catch (EvalError ex)
+        {
+            throw new ItsNatDroidScriptException(ex, inlineCode);
+        }
+        catch (Exception ex)
+        {
+            throw new ItsNatDroidScriptException(ex, inlineCode);
+        }
     }
 }

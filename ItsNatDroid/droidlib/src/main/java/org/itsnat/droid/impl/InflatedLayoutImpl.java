@@ -9,7 +9,6 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -296,15 +295,18 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
-
-            String namespace = parser.getAttributeNamespace(i);
+            String namespaceURI = parser.getAttributeNamespace(i);
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            classDesc.setAttribute(view,namespace, name, value, oneTimeAttrProcess,this);
+            setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
     }
 
+    public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess)
+    {
+        return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,this);
+    }
 }
