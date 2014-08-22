@@ -129,9 +129,19 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             String type = getTypeInlineEventHandler(name);
             if (type != null)
             {
-                ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
+                ItsNatViewImpl viewData;
+                if (type.equals("load") || type.equals("unload"))
+                {
+                    // Ignoramos el View contenedor del onload o onunload y registramos con null
+                    viewData = page.getItsNatViewImpl(null);
+                }
+                else
+                {
+                    viewData = page.getItsNatViewImpl(view);
+                    ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
+                }
+
                 viewData.setOnTypeInlineCode(name, value);
-                ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
 
                 return true;
             }
@@ -151,7 +161,17 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             String type = getTypeInlineEventHandler(name);
             if (type != null)
             {
-                ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
+                ItsNatViewImpl viewData;
+                if (type.equals("load") || type.equals("unload"))
+                {
+                    // Ignoramos el View contenedor del onload o onunload y registramos con null
+                    viewData = page.getItsNatViewImpl(null);
+                }
+                else
+                {
+                    viewData = page.getItsNatViewImpl(view);
+                }
+
                 viewData.removeOnTypeInlineCode(name);
 
                 return true;

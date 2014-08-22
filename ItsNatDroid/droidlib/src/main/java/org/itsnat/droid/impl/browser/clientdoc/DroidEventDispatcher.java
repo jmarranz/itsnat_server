@@ -37,7 +37,7 @@ public class DroidEventDispatcher
             executeInlineEventHandler(viewDataCurrentTarget, inlineCode, type, nativeEvt);
         }
 
-        View viewTarget = viewDataCurrentTarget != null ? viewDataCurrentTarget.getView() : null; // En "unload" puede ser nulo
+        View viewTarget = viewDataCurrentTarget.getView(); // En "unload" viewDataCurrentTarget es ItsNatViewNullImpl por lo que getView() es nulo
         dispatch(viewDataCurrentTarget,type,nativeEvt,true, DroidEventImpl.AT_TARGET,viewTarget);
     }
 
@@ -120,6 +120,7 @@ public class DroidEventDispatcher
         {
             interp.set("event", event);
             interp.eval(inlineCode);
+            interp.set("event", null); // Para evitar un memory leak
         }
         catch (EvalError ex)
         {

@@ -113,14 +113,14 @@ public abstract class ItsNatViewImpl implements ItsNatView
         return userData;
     }
 
-    public String getOnTypeInlineCode(String type)
+    public String getOnTypeInlineCode(String attrName)
     {
-        return getOnTypeInlineCodeMap().get(type);
+        return getOnTypeInlineCodeMap().get(attrName);
     }
 
-    public void setOnTypeInlineCode(String type,String code)
+    public void setOnTypeInlineCode(String attrName,String code)
     {
-        getOnTypeInlineCodeMap().put(type,code);
+        getOnTypeInlineCodeMap().put(attrName,code);
     }
 
     public void removeOnTypeInlineCode(String type)
