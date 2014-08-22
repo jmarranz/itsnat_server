@@ -41,7 +41,7 @@ public class DroidEventListener extends NormalEventListener
 
     public NormalEventImpl createNormalEvent(Object evt)
     {
-        return DroidEventGroupInfo.createNormalEvent(eventGroupCode,this,evt);
+        return DroidEventGroupInfo.createDroidEvent(eventGroupCode, this, evt);
     }
 
     public void genParamURL(EventGenericImpl evt,List<NameValuePair> params)

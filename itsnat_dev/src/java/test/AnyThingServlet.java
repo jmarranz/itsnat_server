@@ -36,7 +36,7 @@ public class AnyThingServlet extends HttpServletWrapper
         itsNatConfig.setMaxOpenClientsByDocument(maxOpenClientsByDocument);
 
 
-        String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/test/";
+        String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/web/test/";
         Properties pages = loadProperties(pathPrefix + "pages.properties");
 
         ItsNatDocumentTemplate docTemplate;

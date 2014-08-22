@@ -9,7 +9,6 @@ import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.LinkedList;
@@ -39,7 +38,7 @@ public class DroidEventDispatcher
         }
 
         View viewTarget = viewDataCurrentTarget != null ? viewDataCurrentTarget.getView() : null; // En "unload" puede ser nulo
-        dispatch(viewDataCurrentTarget,type,nativeEvt,true, DroidInputEventImpl.AT_TARGET,viewTarget);
+        dispatch(viewDataCurrentTarget,type,nativeEvt,true, DroidEventImpl.AT_TARGET,viewTarget);
     }
 
     private void dispatch(ItsNatViewImpl viewDataCurrentTarget,String type,Object nativeEvt,boolean checkUseCapture,int eventPhase,View viewTarget)
@@ -112,7 +111,9 @@ public class DroidEventDispatcher
         View view = viewData.getView();
         int eventGroupCode = DroidEventGroupInfo.getEventGroupCode(type);
         DroidEventListener listenerFake = new DroidEventListener(viewData.getPageImpl().getItsNatDocImpl(), view, type, null, null, false, -1, -1, eventGroupCode);
-        NormalEventImpl event = listenerFake.createNormalEvent(nativeEvt);
+        DroidEventImpl event = (DroidEventImpl)listenerFake.createNormalEvent(nativeEvt);
+        event.setEventPhase(DroidEventImpl.AT_TARGET);
+        event.setTarget(event.getCurrentTarget()); // El inline handler no participa en capture en web
 
         Interpreter interp = viewData.getPageImpl().getInterpreter();
         try

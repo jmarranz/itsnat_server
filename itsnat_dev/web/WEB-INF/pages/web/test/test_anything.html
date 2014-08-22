@@ -23,9 +23,15 @@ function init()
     <h1>Test Anything</h1>
 
 
-    <div><a id="elemId" href="javascript:;">Test</a></div>
+    <div  style="width: 100px; height:50px" onclick="alert(event.target.nodeName)">
+        <a id="elemId" href="javascript:;" >Test</a></div>
     <div id="logId" />
 
+    <script>
+        var elem = document.getElementById("elemId");
+        elem.addEventListener("click",function() {alert("at link")},true);
+    </script>
+    
 
 <script>
    

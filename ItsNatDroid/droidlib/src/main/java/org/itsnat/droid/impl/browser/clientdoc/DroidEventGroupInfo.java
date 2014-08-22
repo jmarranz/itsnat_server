@@ -4,12 +4,12 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.clientdoc.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidFocusEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidOtherEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.NormalEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 
 import java.util.HashMap;
@@ -105,7 +105,7 @@ public class DroidEventGroupInfo
     }
 */
 
-    public static NormalEventImpl createNormalEvent(int eventGroupCode,DroidEventListener listener,Object evt)
+    public static DroidEventImpl createDroidEvent(int eventGroupCode, DroidEventListener listener, Object evt)
     {
         switch(eventGroupCode)
         {
