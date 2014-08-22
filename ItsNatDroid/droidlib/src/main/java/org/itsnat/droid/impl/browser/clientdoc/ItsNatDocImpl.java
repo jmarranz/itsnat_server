@@ -6,7 +6,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.apache.http.NameValuePair;
@@ -18,6 +17,7 @@ import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
+import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
@@ -29,12 +29,6 @@ import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidOtherEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.DroidEventListenerViewAdapter;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TextChangeEventListenerViewAdapter;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.CometTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener;
@@ -44,7 +38,6 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -80,6 +73,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
     protected ItsNatViewNullImpl nullView; // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
+    protected DroidEventDispatcher eventDispatcher = new DroidEventDispatcher(this);
 
     public ItsNatDocImpl(PageImpl page)
     {
@@ -111,6 +105,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public ItsNatViewNullImpl getItsNatViewNull()
     {
         return nullView;
+    }
+
+    public DroidEventDispatcher getDroidEventDispatcher()
+    {
+        return eventDispatcher;
     }
 
     public List<NameValuePair> genParamURL()
@@ -730,40 +729,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (viewData instanceof ItsNatViewNullImpl)
             return; // Nada más que hacer
 
-        if (type.equals("click"))
-        {
-            // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
-            ClickEventListenerViewAdapter evtListAdapter = viewData.getClickEventListenerViewAdapter();
-            currentTarget.setOnClickListener(evtListAdapter);
-        }
-        else if (type.equals("change"))
-        {
-            // Como el listener nativo se puede registrar muchas veces nosotros tenemos que hacerlo UNA sola vez y necesitamos detectarlo
-            // por ello evtListAdapter puede ser null
-            TextChangeEventListenerViewAdapter evtListAdapter = viewData.getTextChangeEventListenerViewAdapter();
-            if (evtListAdapter == null)
-            {
-                evtListAdapter = new TextChangeEventListenerViewAdapter(viewData);
-                viewData.setTextChangeEventListenerViewAdapter(evtListAdapter);
-                // El change está pensado para el componente EditText pero el método addTextChangedListener está a nivel de TextView, por si acaso
-                ((TextView)currentTarget).addTextChangedListener(evtListAdapter); // Sólo registramos una vez
-            }
-        }
-        else if (type.equals("focus") || type.equals("blur"))
-        {
-            FocusEventListenerViewAdapter evtListAdapter = viewData.getFocusEventListenerViewAdapter();
-            currentTarget.setOnFocusChangeListener(evtListAdapter);
-        }
-        else if (type.startsWith("key"))
-        {
-            KeyEventListenerViewAdapter evtListAdapter = viewData.getKeyEventListenerViewAdapter();
-            currentTarget.setOnKeyListener(evtListAdapter);
-        }
-        else if (type.startsWith("touch"))
-        {
-            TouchEventListenerViewAdapter evtListAdapter = viewData.getTouchEventListenerViewAdapter();
-            currentTarget.setOnTouchListener(evtListAdapter);
-        }
+        ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
     }
 
     public void removeDroidEL(String listenerId)
@@ -788,7 +754,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         Node currTarget = getNode(idObj); // idObj puede ser nulo
         View currTargetView = currTarget != null ? currTarget.getView() : null;
         ContinueEventListener listenerWrapper = new ContinueEventListener(this,currTargetView,customFunc,listenerId,commMode,timeout);
-        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createNormalEvent(null);
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
@@ -850,7 +816,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (listeners == null) return;
         for(UserEventListener listener : listeners)
         {
-            UserEventImpl evt2 = (UserEventImpl)listener.createEventWrapper(evt);
+            UserEventImpl evt2 = (UserEventImpl)listener.createNormalEvent(evt);
             listener.dispatchEvent(evt2);
         }
     }
@@ -865,7 +831,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         View currTarget = getView(idObj);
         AsyncTaskEventListener listenerWrapper = new AsyncTaskEventListener(this,currTarget,customFunc,listenerId,commMode,timeout);
-        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createNormalEvent(null);
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
@@ -880,7 +846,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             public void run()
             {
                 // Se ejecutará en el hilo UI
-                DOMExtEventImpl evtWrapper = (DOMExtEventImpl) listenerWrapper.createEventWrapper(null);
+                DOMExtEventImpl evtWrapper = (DOMExtEventImpl) listenerWrapper.createNormalEvent(null);
                 try
                 {
                     listenerWrapper.dispatchEvent(evtWrapper);
@@ -925,7 +891,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
         CometTaskEventListener listenerWrapper = new CometTaskEventListener(this,listenerId,customFunc,commMode,timeout);
-        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createEventWrapper(null);
+        DOMExtEventImpl evtWrapper = (DOMExtEventImpl)listenerWrapper.createNormalEvent(null);
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
@@ -969,7 +935,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private boolean dispatchDroidEvent(View target, String type, Object nativeEvt)
     {
         ItsNatViewImpl targetViewData = getPageImpl().getItsNatViewImpl(target);
-        DroidEventListenerViewAdapter.dispatch(targetViewData, type, nativeEvt);
+        eventDispatcher.dispatch(targetViewData, type, nativeEvt);
         return false; // No sabemos qué poner
     }
 

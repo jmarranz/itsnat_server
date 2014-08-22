@@ -69,7 +69,6 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         View buttonReload = rootView.findViewById(R.id.buttonReload);
         if (buttonReload == null) throw new RuntimeException("FAIL");
-        if (buttonReload != page.findViewByXMLId("buttonReload")) throw new RuntimeException("FAIL");
 
         buttonReload.setOnClickListener(new View.OnClickListener()
         {

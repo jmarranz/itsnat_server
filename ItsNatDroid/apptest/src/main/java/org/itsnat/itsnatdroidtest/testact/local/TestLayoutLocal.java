@@ -84,9 +84,6 @@ public class TestLayoutLocal
                 View buttonReload = dynamicRootView.findViewById(R.id.buttonReload);
                 if (buttonReload == null) throw new RuntimeException("FAIL");
 
-                if (layout.findViewByXMLId("buttonReload") != buttonReload)
-                    throw new RuntimeException("FAIL");
-
                 buttonReload.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -95,6 +92,13 @@ public class TestLayoutLocal
                         test(fragment);
                     }
                 });
+
+                // Test findViewByXMLId
+                View textViewTest1 = dynamicRootView.findViewById(R.id.textViewTest1);
+                if (textViewTest1 == null) throw new RuntimeException("FAIL");
+                if (layout.findViewByXMLId("textViewTest1") != textViewTest1)
+                    throw new RuntimeException("FAIL");
+
 
                 TestLocalXMLInflate.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }

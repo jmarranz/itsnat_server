@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerVi
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TextChangeEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
+import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.UserDataImpl;
@@ -26,10 +27,9 @@ public abstract class ItsNatViewImpl implements ItsNatView
 
     protected PageImpl page;
     protected MapList<String,DroidEventListener> eventListeners;
-
-
     protected String nodeCacheId;
     protected UserDataImpl userData;
+    protected MapLight<String,String> onTypeInlineCodeMap;
 
     public ItsNatViewImpl(PageImpl page)
     {
@@ -59,6 +59,12 @@ public abstract class ItsNatViewImpl implements ItsNatView
     public abstract String getXMLId();
 
     public abstract void setXMLId(String id);
+
+    public MapLight<String,String> getOnTypeInlineCodeMap()
+    {
+        if (onTypeInlineCodeMap == null) onTypeInlineCodeMap = new MapLight<String,String>();
+        return onTypeInlineCodeMap;
+    }
 
     public MapList<String,DroidEventListener> getEventListeners()
     {
@@ -105,5 +111,20 @@ public abstract class ItsNatViewImpl implements ItsNatView
     {
         if (userData == null) this.userData = new UserDataImpl();
         return userData;
+    }
+
+    public String getOnTypeInlineCode(String type)
+    {
+        return getOnTypeInlineCodeMap().get(type);
+    }
+
+    public void setOnTypeInlineCode(String type,String code)
+    {
+        getOnTypeInlineCodeMap().put(type,code);
+    }
+
+    public void removeOnTypeInlineCode(String type)
+    {
+        getOnTypeInlineCodeMap().remove(type);
     }
 }

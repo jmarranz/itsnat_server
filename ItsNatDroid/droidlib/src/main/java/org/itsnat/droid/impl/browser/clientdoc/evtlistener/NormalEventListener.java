@@ -51,5 +51,5 @@ public abstract class NormalEventListener extends EventStfulListener
         params.add(new BasicNameValuePair("itsnat_listener_id", "" + getId()));
     }
 
-    public abstract NormalEventImpl createEventWrapper(Object evt);
+    public abstract NormalEventImpl createNormalEvent(Object evt);
 }

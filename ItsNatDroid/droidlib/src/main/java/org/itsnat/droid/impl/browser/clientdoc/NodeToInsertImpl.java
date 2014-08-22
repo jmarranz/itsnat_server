@@ -19,7 +19,7 @@ public class NodeToInsertImpl extends NodeImpl
     public NodeToInsertImpl(String viewName)
     {
         this.viewName = viewName;
-        // currentTarget es null inicialmente
+        this.view = null; // para que quede claro que view es null inicialmente
     }
 
     public void setView(View view)
@@ -38,9 +38,9 @@ public class NodeToInsertImpl extends NodeImpl
         return attribs;
     }
 
-    private static String toId(String namespaceURI,String name)
+    private static String toKey(String namespaceURI, String name)
     {
-        return ValueUtil.isEmpty(namespaceURI) ? name : namespaceURI + ":" + name;
+        return ValueUtil.isEmpty(namespaceURI) ? name : (namespaceURI + ":" + name);
     }
 
     public String getName()
@@ -62,19 +62,19 @@ public class NodeToInsertImpl extends NodeImpl
     public AttrImpl getAttribute(String namespaceURI,String name)
     {
         if (attribs == null) return null;
-        String id = toId(namespaceURI,name);
-        return getAttributes().get(id);
+        String key = toKey(namespaceURI, name);
+        return getAttributes().get(key);
     }
 
     public void setAttribute(String namespaceURI,String name,String value)
     {
-        String id = toId(namespaceURI,name);
-        getAttributes().put(id,new AttrImpl(namespaceURI,name,value));
+        String key = toKey(namespaceURI, name);
+        getAttributes().put(key,new AttrImpl(namespaceURI,name,value));
     }
 
     public void removeAttribute(String namespaceURI,String name)
     {
-        String id = toId(namespaceURI,name);
-        getAttributes().remove(id);
+        String key = toKey(namespaceURI, name);
+        getAttributes().remove(key);
     }
 }

@@ -10,6 +10,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.util.WeakMapWithValue;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
@@ -280,8 +281,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     {
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
-            String namespace = parser.getAttributeNamespace(i);
-            if (!namespace.isEmpty()) continue; // style no tiene namespace
+            String namespaceURI = parser.getAttributeNamespace(i);
+            if (!ValueUtil.isEmpty(namespaceURI)) continue; // style no tiene namespace
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             if (!"style".equals(name)) continue;
             String value = parser.getAttributeValue(i);

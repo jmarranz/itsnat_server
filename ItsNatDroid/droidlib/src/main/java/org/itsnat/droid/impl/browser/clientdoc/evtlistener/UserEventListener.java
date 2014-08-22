@@ -22,7 +22,7 @@ public class UserEventListener extends DOMExtEventListener
     public String getName() { return name; }
 
     @Override
-    public NormalEventImpl createEventWrapper(Object evt)
+    public NormalEventImpl createNormalEvent(Object evt)
     {
         return new UserEventImpl(this,(UserEventImpl)evt);
     }

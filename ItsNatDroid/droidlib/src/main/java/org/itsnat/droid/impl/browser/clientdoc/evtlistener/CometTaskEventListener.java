@@ -18,7 +18,7 @@ public class CometTaskEventListener extends DOMExtEventListener
     }
 
     @Override
-    public NormalEventImpl createEventWrapper(Object evt)
+    public NormalEventImpl createNormalEvent(Object evt)
     {
         return new DOMExtEventImpl(this);
     }

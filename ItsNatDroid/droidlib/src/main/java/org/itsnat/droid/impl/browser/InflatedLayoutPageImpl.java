@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
-import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
@@ -122,14 +124,15 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     public boolean setAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess)
     {
-        if (namespaceURI.isEmpty())
+        if (ValueUtil.isEmpty(namespaceURI))
         {
-            if (name.equals("onclick"))
+            String type = getTypeInlineEventHandler(name);
+            if (type != null)
             {
                 ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
-                ClickEventListenerViewAdapter evtListenerViewAdapter = viewData.getClickEventListenerViewAdapter();
-                evtListenerViewAdapter.setInlineCode(value);
-                view.setOnClickListener(evtListenerViewAdapter);
+                viewData.setOnTypeInlineCode(name, value);
+                ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
+
                 return true;
             }
             else
@@ -143,14 +146,14 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     public boolean removeAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name)
     {
-        if (namespaceURI == null)
+        if (ValueUtil.isEmpty(namespaceURI))
         {
-            if (name.equals("onclick"))
+            String type = getTypeInlineEventHandler(name);
+            if (type != null)
             {
                 ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
-                ClickEventListenerViewAdapter evtListenerViewAdapter = viewData.getClickEventListenerViewAdapter();
-                evtListenerViewAdapter.setInlineCode(null);
-                view.setOnClickListener(evtListenerViewAdapter);
+                viewData.removeOnTypeInlineCode(name);
+
                 return true;
             }
             else return viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
@@ -159,5 +162,15 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         {
             return viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
         }
+    }
+
+    private String getTypeInlineEventHandler(String name)
+    {
+        if (!name.startsWith("on")) return null;
+        String type = name.substring(2);
+        DroidEventGroupInfo eventGroup = DroidEventGroupInfo.getEventGroupInfo(type);
+        if (eventGroup.getEventGroupCode() == DroidEventGroupInfo.UNKNOWN_EVENT)
+            return null;
+        return type;
     }
 }

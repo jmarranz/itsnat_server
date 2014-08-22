@@ -108,7 +108,26 @@ public class DroidEventGroupInfo
     {
         return eventGroupCode;
     }
-
+    
+    public static String getEventGroup(Event evt)
+    {
+        // No se usa todavía
+        if (evt instanceof DroidEvent)
+        {
+            if (evt instanceof DroidMotionEvent)
+                return "MotionEvent";
+            else if (evt instanceof DroidKeyEvent)
+                return "KeyEvent";            
+            else if (evt instanceof DroidFocusEvent)
+                return "FocusEvent";  
+            else if (evt instanceof DroidTextChangeEvent)
+                return "TextChangeEvent";             
+            else if (evt instanceof DroidOtherEvent)
+                return "OtherEvent";              
+        }
+        return null;
+    }
+    
     public static ClientItsNatDroidEventImpl createClientItsNatDroidEvent(String type,ItsNatDroidEventListenerWrapperImpl listener,RequestNormalEventImpl request)
     {
         if ("click".equals(type) ||
@@ -144,22 +163,5 @@ public class DroidEventGroupInfo
             return new ServerItsNatDroidOtherEventImpl(itsNatDoc);        
         throw new ItsNatException("Event name " + eventGroup + " is unknown");
     }    
-    
-    public static String getEventGroup(Event evt)
-    {
-        if (evt instanceof DroidEvent)
-        {
-            if (evt instanceof DroidMotionEvent)
-                return "MotionEvent";
-            else if (evt instanceof DroidKeyEvent)
-                return "KeyEvent";            
-            else if (evt instanceof DroidFocusEvent)
-                return "FocusEvent";  
-            else if (evt instanceof DroidTextChangeEvent)
-                return "TextChangeEvent";             
-            else if (evt instanceof DroidOtherEvent)
-                return "OtherEvent";              
-        }
-        return null;
-    }
+
 }

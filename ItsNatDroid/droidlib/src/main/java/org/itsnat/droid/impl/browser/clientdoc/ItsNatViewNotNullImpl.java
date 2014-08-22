@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.view.View;
+import android.widget.TextView;
 
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
@@ -106,4 +107,43 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
         evtListenerViewAdapter.setOnFocusChangeListener(l);
     }
 
+    public void registerEventListenerViewAdapter(String type)
+    {
+        if (type.equals("click"))
+        {
+            // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
+            ClickEventListenerViewAdapter evtListAdapter = getClickEventListenerViewAdapter();
+            view.setOnClickListener(evtListAdapter);
+        }
+        else if (type.equals("change"))
+        {
+            // Como el listener nativo se puede registrar muchas veces nosotros tenemos que hacerlo UNA sola vez y necesitamos detectarlo
+            // por ello evtListAdapter puede ser null
+            TextChangeEventListenerViewAdapter evtListAdapter = getTextChangeEventListenerViewAdapter();
+            if (evtListAdapter == null)
+            {
+                evtListAdapter = new TextChangeEventListenerViewAdapter(this);
+                setTextChangeEventListenerViewAdapter(evtListAdapter);
+                // El change está pensado para el componente EditText pero el método addTextChangedListener está a nivel de TextView, por si acaso
+                ((TextView) view).addTextChangedListener(evtListAdapter); // Sólo registramos una vez
+            }
+        }
+        else if (type.equals("focus") || type.equals("blur"))
+        {
+            FocusEventListenerViewAdapter evtListAdapter = getFocusEventListenerViewAdapter();
+            view.setOnFocusChangeListener(evtListAdapter);
+        }
+        else if (type.startsWith("key"))
+        {
+            KeyEventListenerViewAdapter evtListAdapter = getKeyEventListenerViewAdapter();
+            view.setOnKeyListener(evtListAdapter);
+        }
+        else if (type.startsWith("touch"))
+        {
+            TouchEventListenerViewAdapter evtListAdapter = getTouchEventListenerViewAdapter();
+            view.setOnTouchListener(evtListAdapter);
+        }
+
+        // Es posible que sea un load, unload etc, no damos error, simplemente no tiene ViewAdapter
+    }
 }

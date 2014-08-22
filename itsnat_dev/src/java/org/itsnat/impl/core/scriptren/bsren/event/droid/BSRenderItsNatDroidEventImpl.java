@@ -53,11 +53,6 @@ public abstract class BSRenderItsNatDroidEventImpl extends BSRenderNormalEventIm
             return BSRenderItsNatDroidOtherEventImpl.SINGLETON;
         return null;
     }
-
-    public String getEventGroup(Event evt)    
-    {
-        return DroidEventGroupInfo.getEventGroup(evt);
-    }
     
     public abstract String getCreateEventInstance(Event evt,ClientDocumentStfulDelegateDroidImpl clientDoc);
 
