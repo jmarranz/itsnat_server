@@ -86,7 +86,7 @@ public class ClassDescViewBased
     {
         if (!isInit()) init();
 
-        if (!ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
+        if (ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -130,7 +130,7 @@ public class ClassDescViewBased
     {
         if (!isInit()) init();
 
-        if (!ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
+        if (ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {

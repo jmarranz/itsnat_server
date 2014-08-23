@@ -94,6 +94,8 @@ public class PageImpl implements Page
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
+
+        getItsNatDocImpl().sendLoadEvent();
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()

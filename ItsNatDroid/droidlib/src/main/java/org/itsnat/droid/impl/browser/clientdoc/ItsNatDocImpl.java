@@ -112,6 +112,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return eventDispatcher;
     }
 
+    @Override
+    public View findViewByXMLId(String id)
+    {
+        return getPageImpl().findViewByXMLId(id);
+    }
+
     public List<NameValuePair> genParamURL()
     {
         List<NameValuePair> params = new LinkedList<NameValuePair>();
@@ -719,7 +725,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)
     {
         View currentTarget = getView(idObj);
-        if (currentTarget == null && !type.equals("unload")) // En el caso "unload" se permite que sea nulo el target
+        if (currentTarget == null && (!type.equals("unload") && !type.equals("load"))) // En el caso "unload" y "load" se permite que sea nulo el target
             throw new ItsNatDroidException("INTERNAL ERROR");
         ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
@@ -735,7 +741,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void removeDroidEL(String listenerId)
     {
         DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
-        View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" puede ser nulo
+        View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" y "load" puede ser nulo
         ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
@@ -948,6 +954,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         {
             attachUnloadCallback.run();
         }
+    }
+
+    public void sendLoadEvent()
+    {
+        Object nativeEvt = createOtherEvent();
+        dispatchDroidEvent((View) null, "load", nativeEvt);
     }
 
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)

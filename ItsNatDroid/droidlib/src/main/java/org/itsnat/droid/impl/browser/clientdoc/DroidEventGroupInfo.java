@@ -50,6 +50,7 @@ public class DroidEventGroupInfo
 
         eventGroups.put("change",     new DroidEventGroupInfo(TEXT_CHANGE_EVENT));
 
+        eventGroups.put("load",       new DroidEventGroupInfo(OTHER_EVENT));
         eventGroups.put("unload",     new DroidEventGroupInfo(OTHER_EVENT));
     }
 

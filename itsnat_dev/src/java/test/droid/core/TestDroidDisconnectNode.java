@@ -56,10 +56,10 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
         this.childNodes = (DocumentFragment)itsNatDoc.disconnectChildNodesFromClient(container);
 
         StringBuilder code = new StringBuilder();
-        code.append("ViewGroup container = itsNatDoc.getPage().findViewByXMLId(\"testDisconnectNodeContainerId\");");
-        code.append("container.removeViewAt(0);");        
-        code.append("TextView textView = (TextView)container.getChildAt(0); ");        
-        code.append("textView.setText(\"Text 2 DISCONNECTED from Server\");");                
+        code.append("ViewGroup container = itsNatDoc.findViewByXMLId(\"testDisconnectNodeContainerId\");\n");
+        code.append("container.removeViewAt(0);\n");        
+        code.append("TextView textView = (TextView)container.getChildAt(0);\n ");        
+        code.append("textView.setText(\"Text 2 DISCONNECTED from Server\");\n");                
         
         itsNatDoc.addCodeToSend(code);
         
@@ -71,17 +71,20 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
     {
         TestUtil.checkError(itsNatDoc.isDisconnectedChildNodesFromClient(container));
 
+if (false)        
+{
         // Probamos a ver si se reconecta implícitamente sólo por el hecho de insertar un nodo
         Element elemTemp = itsNatDoc.getDocument().createElement("Button");
         container.appendChild(elemTemp);
         TestUtil.checkError(!itsNatDoc.isDisconnectedChildNodesFromClient(container));
-
+        
         // Desconectamos de nuevo
         Element elemTemp2 = (Element)itsNatDoc.disconnectChildNodesFromClient(container);
-        if (elemTemp != elemTemp2) throw new RuntimeException("Test ERROR");
-
-        // Finalmente reconectamos de nuevo ahora explícitamente
+        if (elemTemp != elemTemp2) throw new RuntimeException("Test ERROR");     
+}
+        // Finalmente reconectamos de nuevo ahora explícitamente 
         itsNatDoc.reconnectChildNodesToClient(container);
+        //while(container.getFirstChild() != null) { container.getParentNode().removeChild(container.getFirstChild()); }        
         container.appendChild(childNodes);
         this.childNodes = null;
         

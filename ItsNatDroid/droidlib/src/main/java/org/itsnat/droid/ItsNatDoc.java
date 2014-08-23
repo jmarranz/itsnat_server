@@ -18,6 +18,8 @@ public interface ItsNatDoc
     public void toast(Object value);
     public void postDelayed(Runnable task,long delay);
 
+    public View findViewByXMLId(String id);
+
     public UserEvent createUserEvent(String name);
     public void dispatchUserEvent(View currTarget,UserEvent evt);
     public void fireUserEvent(View currTarget,String name);

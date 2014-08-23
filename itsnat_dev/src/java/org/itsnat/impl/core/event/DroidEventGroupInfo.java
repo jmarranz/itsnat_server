@@ -67,15 +67,16 @@ public class DroidEventGroupInfo
         eventGroups.put("touchmove",  new DroidEventGroupInfo(MOTION_EVENT)); 
         eventGroups.put("touchcancel",new DroidEventGroupInfo(MOTION_EVENT)); 
         
-        eventGroups.put("keydown",  new DroidEventGroupInfo(KEY_EVENT));
-        eventGroups.put("keyup",    new DroidEventGroupInfo(KEY_EVENT));
+        eventGroups.put("keydown",    new DroidEventGroupInfo(KEY_EVENT));
+        eventGroups.put("keyup",      new DroidEventGroupInfo(KEY_EVENT));
         
-        eventGroups.put("focus",  new DroidEventGroupInfo(FOCUS_EVENT));
-        eventGroups.put("blur",   new DroidEventGroupInfo(FOCUS_EVENT));        
+        eventGroups.put("focus",      new DroidEventGroupInfo(FOCUS_EVENT));
+        eventGroups.put("blur",       new DroidEventGroupInfo(FOCUS_EVENT));        
         
-        eventGroups.put("change",   new DroidEventGroupInfo(TEXT_CHANGE_EVENT));        
+        eventGroups.put("change",     new DroidEventGroupInfo(TEXT_CHANGE_EVENT));        
        
-        eventGroups.put("unload",   new DroidEventGroupInfo(OTHER_EVENT));                
+        eventGroups.put("load",       new DroidEventGroupInfo(OTHER_EVENT));        
+        eventGroups.put("unload",     new DroidEventGroupInfo(OTHER_EVENT));                
     }
 
     protected int eventGroupCode;
@@ -144,8 +145,9 @@ public class DroidEventGroupInfo
             return new ClientItsNatDroidFocusEventImpl(listener,request);        
         else if ("change".equals(type))
             return new ClientItsNatDroidTextChangeEventImpl(listener,request);        
-        else if ("unload".equals(type))
-            return new ClientItsNatDroidOtherEventImpl(listener,request);         
+        else if ("load".equals(type) || 
+                 "unload".equals(type))
+            return new ClientItsNatDroidOtherEventImpl(listener,request);                
         return null;
     }    
     

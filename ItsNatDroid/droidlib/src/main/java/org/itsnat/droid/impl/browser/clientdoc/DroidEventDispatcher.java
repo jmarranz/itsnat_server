@@ -37,7 +37,7 @@ public class DroidEventDispatcher
             executeInlineEventHandler(viewDataCurrentTarget, inlineCode, type, nativeEvt);
         }
 
-        View viewTarget = viewDataCurrentTarget.getView(); // En "unload" viewDataCurrentTarget es ItsNatViewNullImpl por lo que getView() es nulo
+        View viewTarget = viewDataCurrentTarget.getView(); // En "unload" y "load" viewDataCurrentTarget es ItsNatViewNullImpl por lo que getView() es nulo
         dispatch(viewDataCurrentTarget,type,nativeEvt,true, DroidEventImpl.AT_TARGET,viewTarget);
     }
 
@@ -119,8 +119,14 @@ public class DroidEventDispatcher
         try
         {
             interp.set("event", event);
-            interp.eval(inlineCode);
-            interp.set("event", null); // Para evitar un memory leak
+            try
+            {
+                interp.eval(inlineCode);
+            }
+            finally
+            {
+                interp.set("event", null); // Para evitar un memory leak
+            }
         }
         catch (EvalError ex)
         {

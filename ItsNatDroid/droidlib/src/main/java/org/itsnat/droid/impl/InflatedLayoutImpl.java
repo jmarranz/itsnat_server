@@ -152,14 +152,14 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return getElementById(id);
     }
 
-    public void inflate(Reader input,String[] loadScript,List<String> scriptList)
+    public View inflate(Reader input,String[] loadScript,List<String> scriptList)
     {
         try
         {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            inflate(parser,loadScript,scriptList);
+            return inflate(parser,loadScript,scriptList);
         }
         catch (XmlPullParserException ex)
         {
@@ -178,13 +178,11 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         }
     }
 
-    private void inflate(XmlPullParser parser,String[] loadScript,List<String> scriptList)
+    private View inflate(XmlPullParser parser,String[] loadScript,List<String> scriptList)
     {
         try
         {
-            View rootView = parseRootView(parser, loadScript,scriptList);
-
-            setRootView(rootView);
+            return parseRootView(parser, loadScript,scriptList);
         }
         catch (IOException ex)
         {
@@ -253,7 +251,6 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
                 // No funciona, sólo funciona con XML compilados:
                 //AttributeSet attributes = Xml.asAttributeSet(parser);
                 //LayoutInflater inf = LayoutInflater.from(ctx);
-                //View currentTarget = inf.createAndAddViewObjectAndFillAttributes(viewName,null,attributes);
 
                 View childView = parseNextView(parser, view, loadScript, scriptList);
                 while (childView != null)
@@ -273,6 +270,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         Context ctx = getContext();
         int idStyle = findStyleAttribute(parser,ctx);
         View view = classDesc.createAndAddViewObject(viewParent,-1,idStyle,ctx);
+        if (viewParent == null)
+            setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
         fillViewAttributes(classDesc,view, parser); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }

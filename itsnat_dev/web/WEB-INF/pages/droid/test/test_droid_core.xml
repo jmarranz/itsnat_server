@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    onload="load(event)"
+    onunload="unload(event)" >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -42,22 +44,20 @@
 
 
         <!-- Test load event -->
-        <TextView id="testLoadId"
+        <TextView id="testLoadInlineHandlerId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="load:" 
-                onload="load(event)"/>
+                android:text="load inline handler: " />
 
-        <script><![CDATA[ void load(event) { itsNatDoc.getPage().findViewByXMLId("testLoadId").setText("load: OK"); } ]]></script>        
+        <script><![CDATA[ void load(event) { var view = itsNatDoc.findViewByXMLId("testLoadInlineHandlerId"); view.setText(view.getText() + "OK"); } ]]></script>        
         
         <!-- Test unload event -->
-        <TextView id="testUnloadId"
+        <TextView id="testUnloadInlineHandlerId"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="unload:"                
-                onunload="unload(event)"  />
+                android:text="unload inline handler: " />
 
-        <script><![CDATA[ void unload(event) { itsNatDoc.getPage().findViewByXMLId("testUnloadId").setText("unload: OK"); } ]]></script>
+        <script><![CDATA[ void unload(event) { var view = itsNatDoc.findViewByXMLId("testUnloadInlineHandlerId"); view.setText(view.getText() + "OK"); } ]]></script>
 
 
         <!-- Test event timeout -->

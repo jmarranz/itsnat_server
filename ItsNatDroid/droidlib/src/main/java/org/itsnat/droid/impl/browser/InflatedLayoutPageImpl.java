@@ -32,7 +32,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page,AttrCustomInflaterListener inflateListener, Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page, AttrCustomInflaterListener inflateListener, Context ctx)
     {
         super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), inflateListener, ctx);
         this.page = page;
@@ -44,7 +44,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     }
 
 
-    public void insertFragment(View parentView,String markup,String[] loadScript,List<String> scriptList)
+    public void insertFragment(View parentView, String markup, String[] loadScript, List<String> scriptList)
     {
         if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
 
@@ -54,17 +54,17 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
         StringBuilder newMarkup = new StringBuilder();
 
-        newMarkup.append( "<" + parentView.getClass().getName() );
+        newMarkup.append("<" + parentView.getClass().getName());
 
-        MapLight<String,String> namespaceMap = getNamespacesByPrefix();
-        for(Iterator<Map.Entry<String,String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
+        MapLight<String, String> namespaceMap = getNamespacesByPrefix();
+        for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
         {
-            Map.Entry<String,String> entry = it.next();
-            newMarkup.append( " xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">" );
+            Map.Entry<String, String> entry = it.next();
+            newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
         }
-        newMarkup.append( ">" );
-        newMarkup.append( markup );
-        newMarkup.append( "</" + parentView.getClass().getName() + ">");
+        newMarkup.append(">");
+        newMarkup.append(markup);
+        newMarkup.append("</" + parentView.getClass().getName() + ">");
 
         markup = newMarkup.toString();
 
@@ -75,12 +75,12 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
 
-            ViewGroup falseParentView = (ViewGroup)parseNextView(parser,null,loadScript,scriptList);
-            while(falseParentView.getChildCount() > 0)
+            ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, loadScript, scriptList);
+            while (falseParentView.getChildCount() > 0)
             {
                 View child = falseParentView.getChildAt(0);
                 falseParentView.removeViewAt(0);
-                ((ViewGroup)parentView).addView(child);
+                ((ViewGroup) parentView).addView(child);
             }
         }
         catch (XmlPullParserException ex)
@@ -93,7 +93,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         }
     }
 
-    protected void parseScriptElement(XmlPullParser parser,View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, View viewParent, String[] loadScript, List<String> scriptList) throws IOException, XmlPullParserException
     {
         boolean isLoadScript = parser.getAttributeCount() == 1 &&
                 "id".equals(parser.getAttributeName(0)) &&
@@ -108,40 +108,31 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
     }
 
-    public void setAttribute(View view,String namespaceURI,String name,String value)
+    public void setAttribute(View view, String namespaceURI, String name, String value)
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        setAttribute(viewClassDesc,view,namespaceURI, name, value, null);
+        setAttribute(viewClassDesc, view, namespaceURI, name, value, null);
     }
 
-    public void removeAttribute(View view,String namespaceURI,String name)
+    public void removeAttribute(View view, String namespaceURI, String name)
     {
         ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
 
-    public boolean setAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess)
+    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         if (ValueUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
             if (type != null)
             {
-                ItsNatViewImpl viewData;
-                if (type.equals("load") || type.equals("unload"))
-                {
-                    // Ignoramos el View contenedor del onload o onunload y registramos con null
-                    viewData = page.getItsNatViewImpl(null);
-                }
-                else
-                {
-                    viewData = page.getItsNatViewImpl(view);
-                    ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
-                }
-
+                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
                 viewData.setOnTypeInlineCode(name, value);
+                if (viewData instanceof ItsNatViewNotNullImpl)
+                    ((ItsNatViewNotNullImpl) viewData).registerEventListenerViewAdapter(type);
 
                 return true;
             }
@@ -154,24 +145,14 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         }
     }
 
-    public boolean removeAttribute(ClassDescViewBased viewClassDesc,View view,String namespaceURI,String name)
+    public boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
     {
         if (ValueUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
             if (type != null)
             {
-                ItsNatViewImpl viewData;
-                if (type.equals("load") || type.equals("unload"))
-                {
-                    // Ignoramos el View contenedor del onload o onunload y registramos con null
-                    viewData = page.getItsNatViewImpl(null);
-                }
-                else
-                {
-                    viewData = page.getItsNatViewImpl(view);
-                }
-
+                ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
                 viewData.removeOnTypeInlineCode(name);
 
                 return true;
@@ -181,6 +162,24 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         else
         {
             return viewClassDesc.removeAttribute(view, namespaceURI, name, page.getInflatedLayoutPageImpl());
+        }
+    }
+
+    private ItsNatViewImpl getItsNatViewOfInlineHandler(String type,View view)
+    {
+        if (type.equals("load") || type.equals("unload"))
+        {
+            // El handler inline de load o unload sólo se puede poner una vez por layout por lo que obligamos
+            // a que sea el View root de forma similar al <body> en HTML
+            if (view != getRootView())
+                throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
+
+            // Ignoramos el View contenedor del onload o onunload y registramos con null
+            return page.getItsNatViewImpl(null);
+        }
+        else
+        {
+            return page.getItsNatViewImpl(view);
         }
     }
 

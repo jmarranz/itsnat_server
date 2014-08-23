@@ -18,7 +18,6 @@ package org.itsnat.impl.core.dompath;
 
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -50,9 +49,10 @@ public class DOMPathResolverDroid extends DOMPathResolver
         while(currNode != null)
         {
             int type = currNode.getNodeType();
-            if (type == Node.ELEMENT_NODE) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto
+            
+            if (type == Node.ELEMENT_NODE && !currNode.getNodeName().equals("script")) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto, los <script> son temporales, no cuentan, en cuanto se puede se eliminan
             {
-                if (currPos == pos)                    
+                if (currPos == pos) 
                     return currNode;
                 else 
                     currPos++;

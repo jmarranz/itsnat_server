@@ -71,10 +71,13 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
             // Creo que mi método es más rápido que Element.getElementsByTagName(), además hay que evaluar el propio newNode
             // Como los <script> NO pueden estar anidados no hay problema alguno en ese sentido
             LinkedList<Node> scriptList = DOMUtilInternal.getElementListWithTagName(newNode,"script",true);
-            for(Node script : scriptList)
+            if (scriptList != null)
             {
-                script.getParentNode().removeChild(script);
-            }                 
+                for(Node script : scriptList)
+                {
+                    script.getParentNode().removeChild(script);
+                }
+            }
         }
     }
     

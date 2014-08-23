@@ -52,10 +52,10 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         // Test uso del atributo DOM id
         textView.setAttribute("id", "BAD_ID");  
         textView.removeAttribute("id");         
-        itsNatDoc.addCodeToSend("if (itsNatDoc.getPage().findViewByXMLId(\"BAD_ID\") != null) itsNatDoc.alert(\"FAIL removeAttribute XML Id\");");        
+        itsNatDoc.addCodeToSend("if (itsNatDoc.findViewByXMLId(\"BAD_ID\") != null) itsNatDoc.alert(\"FAIL removeAttribute XML Id\");");        
         
         textView.setAttribute("id", "testStyleAttrTextId");
-        itsNatDoc.addCodeToSend("if (" + nodeRef + "!= itsNatDoc.getPage().findViewByXMLId(\"testStyleAttrTextId\")) itsNatDoc.alert(\"FAIL setAttribute XML Id\");");        
+        itsNatDoc.addCodeToSend("if (" + nodeRef + "!= itsNatDoc.findViewByXMLId(\"testStyleAttrTextId\")) itsNatDoc.alert(\"FAIL setAttribute XML Id\");");        
         
     }
     
