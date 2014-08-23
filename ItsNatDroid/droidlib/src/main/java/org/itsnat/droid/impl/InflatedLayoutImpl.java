@@ -126,7 +126,10 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         ViewParent parent = viewFound.getParent();
         while(parent != null)
         {
-            if (parent == rootView) return viewFound;
+            if (parent == rootView)
+            {
+                return viewFound;
+            }
             parent = parent.getParent();
         }
         // Está registrado pero sin embargo no está en el árbol de Views, podríamos eliminarlo (remove) para que no de la lata
@@ -149,7 +152,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     public View findViewByXMLId(String id)
     {
         // No llamamos a este método getElementById() porque devuelve un View no un DOM Node
-        return getElementById(id);
+        View view = getElementById(id);
+        return view;
     }
 
     public View inflate(Reader input,String[] loadScript,List<String> scriptList)
@@ -215,7 +219,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            View rootView = createAndAddViewObjectAndFillAttributes(viewName,null, parser);
+            View rootView = createRootViewObjectAndFillAttributes(viewName,parser);
 
             View childView = parseNextView(parser, rootView, loadScript,scriptList);
             while(childView != null)
@@ -263,15 +267,29 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return null;
     }
 
-    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser)
+    private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,XmlPullParser parser)
+    {
+        Context ctx = getContext();
+        int idStyle = findStyleAttribute(parser, ctx);
+        return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
+    }
+
+    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser)
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        Context ctx = getContext();
-        int idStyle = findStyleAttribute(parser,ctx);
-        View view = classDesc.createAndAddViewObject(viewParent,-1,idStyle,ctx);
-        if (viewParent == null)
-            setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
+        View view = createAndAddViewObject(classDesc,null,parser);
+        setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
+        fillViewAttributes(classDesc,view, parser); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        return view;
+    }
+
+    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser)
+    {
+        // viewParent es null en el caso de parseo de fragment
+        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
+        View view = createAndAddViewObject(classDesc,viewParent,parser);
         fillViewAttributes(classDesc,view, parser); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }

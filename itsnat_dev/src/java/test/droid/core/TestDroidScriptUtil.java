@@ -40,7 +40,7 @@ public class TestDroidScriptUtil extends TestDroidBase implements EventListener
         code = codeGen.getCallMethodCode(codeGen.createScriptExpr("itsNatDoc"),"alert",new Object[]{"OK getCallMethodCode "},true);
         itsNatDoc.addCodeToSend(code);
         
-        code = "if (" + codeGen.getNodeReference(testLauncherHidden) + " == itsNatDoc.findViewByXMLId(\"testScriptUtilHiddenId\")) itsNatDoc.alert(\"OK test getNodeReference:\"); else itsNatDoc.alert(\"FAILED test getNodeReference:\");";
+        code = "var view = " + codeGen.getNodeReference(testLauncherHidden) + "; itsNatDoc.alert(\"view 1 :\" + view); itsNatDoc.alert(\"view 2 :\" + itsNatDoc.findViewByXMLId(\"testScriptUtilHiddenId\"));     if (view == itsNatDoc.findViewByXMLId(\"testScriptUtilHiddenId\")) itsNatDoc.alert(\"OK getNodeReference:\"); else itsNatDoc.alert(\"FAILED getNodeReference:\");";
         itsNatDoc.addCodeToSend(code);    
   
     }

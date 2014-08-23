@@ -64,6 +64,8 @@ public class WeakMapWithValue<Key,Value>
 
     public Value put(Key key,Value value)
     {
+        if (value == null)
+            throw new ItsNatDroidException("null value is not allowed"); // Usar removeByKey
         cleanUnused();
 
         mapByValue.put(value,key);
@@ -94,7 +96,8 @@ public class WeakMapWithValue<Key,Value>
                 Map.Entry<Key, WeakReference<Value>> entry = it.next();
                 WeakReference<Value> weakRef = entry.getValue();
                 Value value = weakRef.get();
-                if (!mapByValue.containsKey(value)) it.remove();
+                if (!mapByValue.containsKey(value))
+                    it.remove();
             }
         }
         // Despues aun así no hay 100% garantía de que los tamaños sean iguales, una colección puede disminuir en cualquier momento
