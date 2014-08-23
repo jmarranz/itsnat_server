@@ -60,8 +60,6 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         
         frameLayoutView.appendChild(frameLayoutViewInner);        
        
-if (false)        
-{
         Element scriptElem = doc.createElement("script"); 
         CDATASection scriptCode = doc.createCDATASection("itsNatDoc.alert(\"Inserted by normal DOM \\n(OK testing <script> in DOM)\");"); // El \\n es necesario al estar dentro de una ""
         scriptElem.appendChild(scriptCode);
@@ -69,14 +67,12 @@ if (false)
         
         NodeList scripts = frameLayoutView.getElementsByTagName("script");
         if (scripts.getLength() == 0) throw new RuntimeException("Expected <string> element");         
- }       
+       
         testLauncherHidden.getParentNode().insertBefore(frameLayoutView, testLauncherHidden); 
         
-if (false)        
-{
-        NodeList scripts = doc.getElementsByTagName("script");
+        scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");
-}
+
     }
     
 }

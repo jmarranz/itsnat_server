@@ -52,6 +52,11 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
         
+        if (doc.getElementById("fragmentTestId") == null) throw new RuntimeException("FAIL");
+        
+        itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) itsNatDoc.alert(\"FAIL TEST\"); ");
+        
+        
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){
             public void handleEvent(Event evt)
             {

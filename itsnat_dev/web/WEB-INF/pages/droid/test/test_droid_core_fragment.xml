@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout 
+    
+    <LinearLayout id="fragmentTestId"
         android:layout_width="250dp"
         android:layout_height="70dp"
         android:background="#dd0000"
-        android:orientation="vertical"> 
+        android:orientation="vertical"
+        onclick="itsNatDoc.alert(&quot;Removed (OK testing onclick inline handler)&quot;);"> 
         
         <TextView
             android:layout_width="200dp"
@@ -12,8 +14,9 @@
             android:layout_marginTop="10dp"
             android:text="Click Here to Remove"
             android:background="#00dd00">
-        </TextView>
-        
+        </TextView>           
+               
+                
         <script><![CDATA[ itsNatDoc.alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
         
         <TextView
@@ -22,6 +25,7 @@
             android:text="Just another text"
             android:background="#dddddd">
         </TextView>                
+             
         
     </LinearLayout>
 </root>

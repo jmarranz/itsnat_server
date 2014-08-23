@@ -55,8 +55,9 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
         // automáticamente pero es conveniente que lo haga el programador manualmente
         this.childNodes = (DocumentFragment)itsNatDoc.disconnectChildNodesFromClient(container);
 
+        // Es posible poner "var" en vez de ViewGroup y TextView y quitar los casts pero así probamos el import implícito
         StringBuilder code = new StringBuilder();
-        code.append("ViewGroup container = itsNatDoc.findViewByXMLId(\"testDisconnectNodeContainerId\");\n");
+        code.append("ViewGroup container = (ViewGroup)itsNatDoc.findViewByXMLId(\"testDisconnectNodeContainerId\");\n");
         code.append("container.removeViewAt(0);\n");        
         code.append("TextView textView = (TextView)container.getChildAt(0);\n ");        
         code.append("textView.setText(\"Text 2 DISCONNECTED from Server\");\n");                
@@ -71,8 +72,6 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
     {
         TestUtil.checkError(itsNatDoc.isDisconnectedChildNodesFromClient(container));
 
-if (false)        
-{
         // Probamos a ver si se reconecta implícitamente sólo por el hecho de insertar un nodo
         Element elemTemp = itsNatDoc.getDocument().createElement("Button");
         container.appendChild(elemTemp);
@@ -81,7 +80,8 @@ if (false)
         // Desconectamos de nuevo
         Element elemTemp2 = (Element)itsNatDoc.disconnectChildNodesFromClient(container);
         if (elemTemp != elemTemp2) throw new RuntimeException("Test ERROR");     
-}
+
+        
         // Finalmente reconectamos de nuevo ahora explícitamente 
         itsNatDoc.reconnectChildNodesToClient(container);
         //while(container.getFirstChild() != null) { container.getParentNode().removeChild(container.getFirstChild()); }        
