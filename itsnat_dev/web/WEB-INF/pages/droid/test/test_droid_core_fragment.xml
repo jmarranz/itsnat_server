@@ -6,7 +6,7 @@
         android:layout_height="70dp"
         android:background="#dd0000"
         android:orientation="vertical"
-        onclick="itsNatDoc.alert(&quot;Removed (OK testing onclick inline handler)&quot;);"> 
+        onclick="alert(&quot;Removed (OK testing onclick inline handler)&quot;);"> 
         
         <TextView
             android:layout_width="200dp"
@@ -17,7 +17,7 @@
         </TextView>           
                
                 
-        <script><![CDATA[ itsNatDoc.alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
+        <script><![CDATA[ alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
         
         <TextView
             android:layout_width="200dp"

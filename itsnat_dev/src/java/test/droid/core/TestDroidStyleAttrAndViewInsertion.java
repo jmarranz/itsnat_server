@@ -46,16 +46,16 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         textView.setAttribute("android:background", "#ffdddd");         
         textView.removeAttribute("android:background");   
         String nodeRef = itsNatDoc.getScriptUtil().getNodeReference(textView);
-        itsNatDoc.addCodeToSend("if (" + nodeRef + ".getBackground() != null) itsNatDoc.alert(\"FAIL removeAttribute\");");
+        itsNatDoc.addCodeToSend("if (" + nodeRef + ".getBackground() != null) alert(\"FAIL removeAttribute\");");
         textView.setAttribute("android:background", "#ffdddd");  // Rosa   
         
         // Test uso del atributo DOM id
         textView.setAttribute("id", "BAD_ID");  
         textView.removeAttribute("id");         
-        itsNatDoc.addCodeToSend("if (itsNatDoc.findViewByXMLId(\"BAD_ID\") != null) itsNatDoc.alert(\"FAIL removeAttribute XML Id\");");        
+        itsNatDoc.addCodeToSend("if (itsNatDoc.findViewByXMLId(\"BAD_ID\") != null) alert(\"FAIL removeAttribute XML Id\");");        
         
         textView.setAttribute("id", "testStyleAttrTextId");
-        itsNatDoc.addCodeToSend("if (" + nodeRef + "!= itsNatDoc.findViewByXMLId(\"testStyleAttrTextId\")) itsNatDoc.alert(\"FAIL setAttribute XML Id\");");        
+        itsNatDoc.addCodeToSend("if (" + nodeRef + "!= itsNatDoc.findViewByXMLId(\"testStyleAttrTextId\")) alert(\"FAIL setAttribute XML Id\");");        
         
     }
     

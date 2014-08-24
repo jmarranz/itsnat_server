@@ -1,12 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc.event;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.event.DroidEvent;
-import org.itsnat.droid.event.DroidFocusEvent;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
-
-import java.util.List;
 
 /**
  * Created by jmarranz on 7/07/14.
@@ -43,7 +38,13 @@ public class DroidOtherEventImpl extends DroidEventImpl implements DroidEvent
 
     public boolean isIgnoreHold()
     {
-        return "unload".equals(getDroidEventListener().getType()); // Si es un unload
+        // Hemos quitado el caso "unload" como ignoreHold porque esto NO es web, en web el evento unload no llega al servidor
+        // en Android no hay problema controlamos totalmente la destrucción, el ignoreHold provoca que se envíen
+        // a la vez los eventos lo que hace que un unload listener del usuario en el servidor pueda no ejecutarse porque
+        // el evento unload estándar de destrucción del documento ha llegado antes.
+        // Así aseguramos que los listener unload se ejecuten deterministicamente
+
+        return false; // "unload".equals(getDroidEventListener().getType()); // Si es un unload
     }
 
 }

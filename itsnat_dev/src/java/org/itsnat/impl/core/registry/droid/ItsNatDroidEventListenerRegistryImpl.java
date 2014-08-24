@@ -44,7 +44,7 @@ public class ItsNatDroidEventListenerRegistryImpl extends ItsNatNormalEventListe
     public boolean isValidEventTarget(EventTarget target,String type,boolean throwErr)
     {
         // target puede ser null en "unload"
-        if (target == null && !"unload".equals(type))
+        if (target == null && (!"unload".equals(type) && !"load".equals(type)))
         {
             if (throwErr)
                 throw new ItsNatException("Null event target is not allowed");

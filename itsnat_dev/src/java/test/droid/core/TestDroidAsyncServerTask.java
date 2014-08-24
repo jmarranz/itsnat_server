@@ -42,7 +42,6 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
         {
             public void handleEvent(final Event evt)
             {
-                //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK End Async Task Lock Doc 2/2\");");
                 logToTextView(outElem,"OK 2/2 ");             
             }
         };
@@ -59,7 +58,6 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
 
                 synchronized(itsNatDoc) // Obligatorio, lockDoc es false
                 {
-                    //itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK End Async Task Lock Doc 1/2\");");
                     logToTextView(outElem,"OK 1/2 ");                   
                 }
             }

@@ -58,7 +58,7 @@ public class TestGlobalDocAndClientListeners extends TestDroidBase implements Ev
             };
             itsNatDoc.getClientDocumentOwner().addEventListener(global_client); 
             
-            itsNatDoc.addCodeToSend("itsNatDoc.alert(\"Registered globals, click again!!\");");
+            itsNatDoc.addCodeToSend("alert(\"Registered globals, click again!!\");");
         }
         else
         {
@@ -68,7 +68,7 @@ public class TestGlobalDocAndClientListeners extends TestDroidBase implements Ev
             String msg;
             if ((objDoc != null)&&(objClient != null)) msg = "OK";
             else msg = "WROOOOONG";
-            itsNatDoc.addCodeToSend("itsNatDoc.alert(\"" + msg + " \");");
+            itsNatDoc.addCodeToSend("alert(\"" + msg + " \");");
             
             itsNatDoc.removeEventListener(global_doc);
             itsNatDoc.removeEventListener(global_client);

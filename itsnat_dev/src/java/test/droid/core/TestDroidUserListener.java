@@ -57,7 +57,7 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
 
                 String model = (String)userEvt.getExtraParam("model");                
                 if (model == null || model.isEmpty()) throw new RuntimeException("Failed test");
-                itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK " + (currTarget != null ? ((Element)currTarget).getTagName() : null)  + " Model: " + model + "\");");
+                itsNatDoc.addCodeToSend("alert(\"OK " + (currTarget != null ? ((Element)currTarget).getTagName() : null)  + " Model: " + model + "\");");
 
                 String name = userEvt.getName();
                 

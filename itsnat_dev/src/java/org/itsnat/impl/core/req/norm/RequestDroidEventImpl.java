@@ -50,7 +50,8 @@ public class RequestDroidEventImpl extends RequestNormalEventImpl
 
     public boolean isLoadEvent()
     {
-        return false;
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
+        return eventType.equals("load");
     }
 
     public boolean isUnloadEvent()

@@ -26,7 +26,7 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         super(itsNatDoc);
 
         Document doc = getDocument();
-        Element elem = getDocument().getDocumentElement();
+        Element elem = doc.getDocumentElement();
 
         ((EventTarget)elem).addEventListener("click", this,false);
         ((EventTarget)elem).addEventListener("touchstart", this,false);        
@@ -36,8 +36,10 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         ((EventTarget)elem).removeEventListener("click", this,false);            
         ((EventTarget)elem).removeEventListener("touchstart", this,false);        
         ((EventTarget)elem).removeEventListener("touchend", this,false);        
-               
-
+          
+        itsNatDoc.addEventListener(null, "load", this, false);
+        itsNatDoc.addEventListener(null, "unload", this, false);       
+        
         // Hay un <script> en el template inicial que DEBE desaparecer en tiempo de carga antes de poder acceder al Document
         NodeList scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
@@ -45,7 +47,19 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
     
     public void handleEvent(Event evt)
     {     
-        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"Unexpected event\");");
+        String type = evt.getType();
+        if (type.equals("load"))
+        {
+            itsNatDoc.addCodeToSend("var view = itsNatDoc.findViewByXMLId(\"testLoadListenerId\"); view.setText(view.getText() + \"OK\");");            
+        }
+        else if (type.equals("unload"))
+        {
+            itsNatDoc.addCodeToSend("var view = itsNatDoc.findViewByXMLId(\"testUnloadListenerId\"); view.setText(view.getText() + \"OK\");");            
+        }        
+        else
+        {
+            itsNatDoc.addCodeToSend("alert(\"Unexpected event\");");
+        }
   
     }
     

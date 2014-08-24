@@ -48,7 +48,7 @@ public class TestDroidContinueListener extends TestDroidBase implements EventLis
                 ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;
                 String manufacturer = (String)contEvt.getExtraParam("manufacturer");
                 String model = (String)contEvt.getExtraParam("model");
-                itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK " + manufacturer + " " + model + "\");");                
+                itsNatDoc.addCodeToSend("alert(\"OK " + manufacturer + " " + model + "\");");                
             }
         };
 

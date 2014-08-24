@@ -34,7 +34,7 @@ public class TestDroidEventPreSendCode extends TestDroidBase implements EventLis
     public void handleEvent(Event evt)
     {     
         String res = (String)((ItsNatEvent)evt).getExtraParam("in_client");        
-        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"" + res + " OK Click Received (Server) \");");
+        itsNatDoc.addCodeToSend("alert(\"" + res + " OK Click Received (Server) \");");
     }
     
 }

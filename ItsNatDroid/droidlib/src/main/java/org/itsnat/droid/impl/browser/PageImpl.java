@@ -77,7 +77,6 @@ public class PageImpl implements Page
         try
         {
             interp.set("itsNatDoc",itsNatDoc);
-            interp.eval("void alert(data){itsNatDoc.alert(data);}");
 
             if (!scriptList.isEmpty())
             {

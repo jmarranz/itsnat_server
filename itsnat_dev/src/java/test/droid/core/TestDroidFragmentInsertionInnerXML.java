@@ -54,7 +54,7 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         
         if (doc.getElementById("fragmentTestId") == null) throw new RuntimeException("FAIL");
         
-        itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) itsNatDoc.alert(\"FAIL TEST\"); ");
+        itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) alert(\"FAIL TEST\"); ");
         
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){

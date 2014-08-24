@@ -42,7 +42,7 @@ public class TestDroidReferrer extends TestDroidBase implements EventListener
     
     public void handleEvent(Event evt)
     {     
-        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"Does nothing\");");
+        itsNatDoc.addCodeToSend("alert(\"Does nothing\");");
     }
     
 }

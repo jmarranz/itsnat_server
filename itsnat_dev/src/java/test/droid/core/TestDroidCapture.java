@@ -35,7 +35,7 @@ public class TestDroidCapture extends TestDroidBase implements EventListener
 
             public void handleEvent(Event evt)
             {
-                itsNatDoc.addCodeToSend("itsNatDoc.toast(\"CHILD at target: " + (evt.getEventPhase() == Event.AT_TARGET) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
+                itsNatDoc.addCodeToSend("toast(\"CHILD at target: " + (evt.getEventPhase() == Event.AT_TARGET) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
             }
         }, true); // Notar que capture ES TRUE
         
@@ -44,7 +44,7 @@ public class TestDroidCapture extends TestDroidBase implements EventListener
 
             public void handleEvent(Event evt)
             {
-                itsNatDoc.addCodeToSend("itsNatDoc.toast(\"PARENT capturing: " + (evt.getEventPhase() == Event.CAPTURING_PHASE) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
+                itsNatDoc.addCodeToSend("toast(\"PARENT capturing: " + (evt.getEventPhase() == Event.CAPTURING_PHASE) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
             }
         }, false);        
         

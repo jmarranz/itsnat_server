@@ -42,7 +42,7 @@ public class TestDroidGlobalEventListener implements EventListener,Serializable
                 // El ClientDocument es especial para el caso de documento no encontrado
                 // aún así algunas cosas funcionan.
                 ClientDocument clientDoc = itsNatEvt.getClientDocument();
-                clientDoc.addCodeToSend("itsNatDoc.alert(\"Session or page is lost\");");
+                clientDoc.addCodeToSend("alert(\"Session or page is lost\");");
 
                 itsNatEvt.getItsNatEventListenerChain().stop();
             }

@@ -35,7 +35,7 @@ public class TestDroidTouchEvent extends TestDroidBase implements EventListener
         DroidMotionEvent evt2 = (DroidMotionEvent)evt;
         String data = "rawX: " + evt2.getRawX() + " rawY: " + evt2.getRawY() + " x: " + evt2.getX() + " y: " + evt2.getY();        
         
-        itsNatDoc.addCodeToSend("itsNatDoc.alert(\"OK " + evt.getType() + " " + data + "\");");  
+        itsNatDoc.addCodeToSend("alert(\"OK " + evt.getType() + " " + data + "\");");  
     }
     
 }
