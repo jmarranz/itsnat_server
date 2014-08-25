@@ -17,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLButtonElement;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 import test.web.comp.TestButtonBase;
 
 /**

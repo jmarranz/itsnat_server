@@ -17,7 +17,7 @@ public interface Page
     public View findViewByXMLId(String id);
     public Context getContext();
     public HttpParams getHttpParams();
-    public String getContent();
+    public String getLoadedContent();
     public ItsNatSession getItsNatSession();
     public ItsNatView getItsNatView(View view);
     public UserData getUserData();

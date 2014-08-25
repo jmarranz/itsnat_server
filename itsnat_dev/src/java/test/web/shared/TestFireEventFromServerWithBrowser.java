@@ -10,6 +10,7 @@
 package test.web.shared;
 
 
+import test.shared.TestUtil;
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;

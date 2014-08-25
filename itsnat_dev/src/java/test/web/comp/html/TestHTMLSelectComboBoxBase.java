@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLSelectElement;
 import test.web.comp.TestComboBoxBase;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

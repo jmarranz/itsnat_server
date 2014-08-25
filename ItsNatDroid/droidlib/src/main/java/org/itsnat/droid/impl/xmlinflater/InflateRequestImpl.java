@@ -59,7 +59,7 @@ public class InflateRequestImpl implements InflateRequest
     public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,inflateListener,ctx) :
-                                                     new InflatedLayoutStandaloneImpl(parent,inflateListener,ctx);
+                                                           new InflatedLayoutStandaloneImpl(parent,inflateListener,ctx);
         inflatedLayout.inflate(input, loadScript,scriptList);
         return inflatedLayout;
     }

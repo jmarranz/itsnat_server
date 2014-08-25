@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.events.EventTarget;
 import test.web.shared.Shared;
 import test.web.shared.TestSerialization;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

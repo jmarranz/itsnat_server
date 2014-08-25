@@ -25,7 +25,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLTextAreaElement;
 import test.web.shared.BrowserUtil2;
 import test.web.shared.TestBaseHTMLDocument;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

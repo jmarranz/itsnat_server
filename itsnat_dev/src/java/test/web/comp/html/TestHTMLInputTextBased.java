@@ -20,7 +20,7 @@ import org.itsnat.core.event.ItsNatKeyEvent;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import test.web.shared.TestBaseHTMLDocument;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

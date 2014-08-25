@@ -13,12 +13,10 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatCometEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.droid.DroidEvent;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -54,7 +52,7 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
             
             //comet.setExpirationDelay(10000);
 
-            EventListener listener = new EventListenerSerial()
+            EventListener listener = new EventListener()
             {
                 public void handleEvent(Event evt)
                 {

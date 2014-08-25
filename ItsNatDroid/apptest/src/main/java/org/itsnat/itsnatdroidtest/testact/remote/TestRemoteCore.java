@@ -8,12 +8,12 @@ import android.widget.Toast;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.event.Event;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.event.Event;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
@@ -76,6 +76,9 @@ public class TestRemoteCore extends TestRemotePageBase
     {
         super.onPageLoad(page);
 
+        if (page.getId() == null)
+            return;
+
         final TestActivity act = getTestActivity();
 
         View testNativeListenersButton = page.findViewByXMLId("testNativeListenersId");
@@ -112,9 +115,6 @@ public class TestRemoteCore extends TestRemotePageBase
                 Log.v("TestActivity", "Evt Monitor: after, timeout: " + timeout);
             }
         });
-
-
-        //page.dispose();
 
     }
 

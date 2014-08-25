@@ -12,7 +12,7 @@ package test.web.core;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.domutil.ElementTree;
 import org.itsnat.core.domutil.ElementTreeNode;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

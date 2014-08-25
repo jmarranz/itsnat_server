@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.DocumentEvent;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

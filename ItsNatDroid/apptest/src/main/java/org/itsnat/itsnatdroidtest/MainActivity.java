@@ -29,9 +29,7 @@ public class MainActivity extends Activity {
         String urlTestBase = loadURLBase();
 
         Intent intent = new Intent(this, TestActivity.class);
-        intent.putExtra("urlTestCore",   urlTestBase + "?itsnat_doc_name=test_droid_core");
-        intent.putExtra("urlTestRemCtrl",urlTestBase + "?itsnat_doc_name=test_droid_remote_ctrl");
-        intent.putExtra("urlTestStatelessCore",urlTestBase + "?itsnat_doc_name=test_droid_stateless_core_initial");
+        intent.putExtra("urlTestBase",urlTestBase);
         startActivity(intent);
     }
 

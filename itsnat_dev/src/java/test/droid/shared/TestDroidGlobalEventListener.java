@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package test.droid.core;
+package test.droid.shared;
 
 import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
@@ -11,7 +11,7 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ItsNatEventStateless;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import test.web.stateless.core.TestStatelessCoreGlobalEventListenerAction;
+import test.droid.stateless.core.TestDroidStatelessCoreGlobalEventListenerAction;
 
 /**
  *
@@ -32,7 +32,7 @@ public class TestDroidGlobalEventListener implements EventListener,Serializable
         if (itsNatEvt instanceof ItsNatEventStateless)
         {
             // REVISAR para Droid
-            TestStatelessCoreGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
+            TestDroidStatelessCoreGlobalEventListenerAction.handleEvent((ItsNatEventStateless)itsNatEvt);
         }
         else
         {

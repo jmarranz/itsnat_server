@@ -10,6 +10,7 @@ import org.apache.http.params.HttpParams;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
@@ -63,6 +64,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             @Override
             public void onClick(View view)
             {
+                page.dispose();
                 fragment.gotoLayoutIndex();
             }
         });
@@ -87,17 +89,27 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     @Override
     public void onPageLoad(final Page page)
     {
-        if (page.getItsNatSession().getPageCount() > droidBrowser.getMaxPagesInSession())
-            throw new RuntimeException("FAIL");
-
         final TestActivity act = getTestActivity();
 
-        Log.v("TestActivity", "CONTENT:" + new String(page.getContent()));
+        if (page.getId() == null)
+        {
+            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found");
+            View rootView = page.getRootView();
+            changeLayout(rootView);
+            return;
+        }
+
+        ItsNatSession session = page.getItsNatSession();
+
+        if (session.getPageCount() > droidBrowser.getMaxPagesInSession())
+            throw new RuntimeException("FAIL");
+
+        Log.v("TestActivity", "CONTENT:" + new String(page.getLoadedContent()));
 
         boolean showContentInAlert = false;
         if (showContentInAlert)
         {
-            TestUtil.alertDialog(act, "LAYOUT", new String(page.getContent()));
+            TestUtil.alertDialog(act, "LAYOUT", new String(page.getLoadedContent()));
         }
 
         View rootView = page.getRootView();
@@ -152,7 +164,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         TestUtil.alertDialog(act,msg.toString());
         if (ex instanceof ItsNatDroidServerResponseException)
-            TestUtil.alertDialog(act, "User Msg: Server content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
+            TestUtil.alertDialog(act, "User Msg: Server loadedContent returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
         else if (ex instanceof ItsNatDroidScriptException)
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;

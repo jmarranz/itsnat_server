@@ -18,7 +18,7 @@ import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLOptionElement;
 import org.w3c.dom.html.HTMLSelectElement;
 import test.web.shared.TestBaseHTMLDocument;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

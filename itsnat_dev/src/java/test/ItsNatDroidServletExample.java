@@ -16,9 +16,10 @@ import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import test.droid.core.TestDroidCoreDocLoadListener;
-import test.droid.core.TestDroidGlobalEventListener;
+import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
+import test.droid.shared.TestDroidGlobalDocumentLoadListener;
 import test.droid.stateless.core.TestDroidStatelessCoreEventDocLoadListener;
 import test.droid.stateless.core.TestDroidStatelessCoreInitialDocLoadListener;
 import test.droid.stateless.core.TestDroidStatelessCoreTemplateLevelEventListener;
@@ -37,9 +38,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
         //ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();        
         
-        //itsNatServlet.addItsNatServletRequestListener(new TestDroidGlobalDocumentLoadListener());
+        itsNatServlet.addItsNatServletRequestListener(new TestDroidGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestDroidGlobalEventListener(itsNatServlet));
         //itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());        
+      
         
         String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/droid/test/";
         Properties pages = loadProperties(pathPrefix + "pages.properties");        

@@ -23,7 +23,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import test.web.shared.EventListenerSerial;
 import test.web.shared.BrowserUtil;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

@@ -19,7 +19,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

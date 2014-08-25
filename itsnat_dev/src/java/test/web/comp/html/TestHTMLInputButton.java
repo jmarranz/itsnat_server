@@ -19,7 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLInputElement;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 import test.web.comp.TestButtonBase;
 
 /**

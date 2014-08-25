@@ -27,22 +27,23 @@ public class ViewMapByXMLId
     public String getXMLId(View view)
     {
         // Quiero el id de este View, no es relevante si está dentro del árbol de Views o no
-        ItsNatViewLayoutImpl itsNatView = ItsNatViewLayoutImpl.getItsNatViewLayout(layout,view);
-        return itsNatView.getXMLId(); // Puede ser null el resultado obviamente
+        ViewId viewId = ViewId.getViewId(layout, view);
+        return viewId.getXMLId(); // Puede ser null el resultado obviamente
         //return getMapIdViewXMLStd().getKeyByValue(view);
     }
 
     public void setXMLId(String id, View view)
     {
-        ItsNatViewLayoutImpl itsNatView = ItsNatViewLayoutImpl.getItsNatViewLayout(layout,view);
-        itsNatView.setXMLId(id);
+        ViewId viewId = ViewId.getViewId(layout, view);
+        viewId.setXMLId(id);
         getMapIdViewXMLStd().put(id,view);
     }
 
     public String unsetXMLId(View view)
     {
-        ItsNatViewLayoutImpl itsNatView = ItsNatViewLayoutImpl.getItsNatViewLayout(layout,view);
-        itsNatView.unsetXMLId();
+        ViewId viewId = ViewId.getViewId(layout, view);
+        viewId.unsetXMLId();
+        viewId.disconnect(); // Así liberamos memoria y el objeto ViewId se pierde
         return getMapIdViewXMLStd().removeByValue(view);
     }
 

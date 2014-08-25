@@ -188,11 +188,11 @@ public class PageRequestImpl implements PageRequest
         PageRequestImpl request = new PageRequestImpl(browser);
         request.setContext(ctx)
                .setHttpParams(httpParams)
-                .setOnPageLoadListener(pageListener)
-                .setOnPageLoadErrorListener(errorListener)
-                .setAttrCustomInflaterListener(inflateListener)
-                .setSynchronous(sync)
-                .setURL(url);
+               .setOnPageLoadListener(pageListener)
+               .setOnPageLoadErrorListener(errorListener)
+               .setAttrCustomInflaterListener(inflateListener)
+               .setSynchronous(sync)
+               .setURL(url);
         return request;
     }
 }

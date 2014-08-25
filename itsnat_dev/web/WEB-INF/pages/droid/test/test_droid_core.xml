@@ -148,6 +148,36 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
 
+        <!-- Test Fragment Insertion using InnerXML -->
+        <Button id="testFragmentInsertionInnerXMLId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion by InnerXML" />
+
+        <TextView id="testFragmentInsertionInnerXMLHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Fragment Insertion using API -->
+        <Button id="testFragmentInsertionUsingAPIId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion by BS API" />
+
+        <TextView id="testFragmentInsertionUsingAPIHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <!-- Test insertion using toDOM(String) -->
+        <Button id="testToDOMId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test insertion using toDOM(String)" />
+
+        <TextView id="testToDOMHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
         <!-- Test ScriptUtil -->
         <Button id="testScriptUtilId"
                 android:layout_width="wrap_content"
@@ -210,26 +240,6 @@
             </FrameLayout>
 
 
-        <!-- Test Fragment Insertion using InnerXML -->
-        <Button id="testFragmentInsertionInnerXMLId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion by InnerXML" />
-
-        <TextView id="testFragmentInsertionInnerXMLHiddenId"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-
-        <!-- Test Fragment Insertion using API -->
-        <Button id="testFragmentInsertionUsingAPIId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion by BS API" />
-
-        <TextView id="testFragmentInsertionUsingAPIHiddenId"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-
         <!-- Test Continue Event Listener -->
         <Button id="testContinueEvtListenerId"
                 android:layout_width="wrap_content"
@@ -247,15 +257,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
 
-        <!-- Test insertion using toDOM(String) -->
-        <Button id="testToDOMId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test insertion using toDOM(String)" />
-
-        <TextView id="testToDOMHiddenId"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
 
         <!-- Test Async Task -->
         <Button id="testAsyncTaskId"

@@ -14,7 +14,7 @@ import org.itsnat.core.domutil.ElementTree;
 import org.itsnat.core.domutil.ElementTreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

@@ -238,14 +238,14 @@ public class ClassDescViewBased
         // El problema es que no he conseguido usar AttributeSet vacío para lo que lo quería.
         // El método lo dejo inutilizado por si en el futuro se necesita un AttributeSet
 
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.4.2_r1/android/content/res/XmlBlock.java?av=f
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.4.2_r1/android/loadedContent/res/XmlBlock.java?av=f
 
         InputStream input = null; // ctx.getResources().openRawResource(R.raw.prueba_compilado);
         byte[] content = IOUtil.read(input);
 
         try
         {
-            Class<?> xmlBlockClass = Class.forName("android.content.res.XmlBlock");
+            Class<?> xmlBlockClass = Class.forName("android.loadedContent.res.XmlBlock");
 
             Constructor xmlBlockClassConstr = xmlBlockClass.getConstructor(byte[].class);
             Object xmlBlock = xmlBlockClassConstr.newInstance(content);

@@ -16,6 +16,7 @@ import org.itsnat.core.ItsNatSessionCallback;
 import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.core.domutil.ItsNatDOMUtil;
 import java.util.LinkedList;
+import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.CommMode;
@@ -59,7 +60,7 @@ public class TestRemoteCtrlLauncherDocLoadListener implements ItsNatServletReque
 
         ItsNatHttpServletRequest httpRequest = (ItsNatHttpServletRequest)request;
 
-        String servletURL = Shared.getServletURL(httpRequest);
+        String servletURL = getServletURL(httpRequest);
 
         int commMode;
         switch(itsNatDoc.getCommMode())
@@ -120,4 +121,13 @@ public class TestRemoteCtrlLauncherDocLoadListener implements ItsNatServletReque
 
     }
 
+    public static String getServletURL(ItsNatHttpServletRequest httpRequest)
+    {
+        HttpServletRequest request = httpRequest.getHttpServletRequest();
+        return request.getRequestURL().toString();
+        //return "";
+        //String servletURL = httpRequest.getHttpServletRequest().getContextPath();
+        //return servletURL + "/" + httpRequest.getItsNatHttpServlet().getServlet().getServletConfig().getServletName();
+    }        
+    
 }

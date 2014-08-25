@@ -15,7 +15,7 @@ import org.itsnat.comp.label.ItsNatHTMLLabel;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.w3c.dom.html.HTMLElement;
 import test.web.shared.TestBaseHTMLDocument;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

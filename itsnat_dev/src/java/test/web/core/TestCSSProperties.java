@@ -18,7 +18,7 @@ import org.w3c.dom.css.ElementCSSInlineStyle;
 import org.w3c.dom.css.Rect;
 import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLElement;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

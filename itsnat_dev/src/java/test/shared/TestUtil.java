@@ -6,7 +6,7 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-package test.web.shared;
+package test.shared;
 
 /**
  *
@@ -14,8 +14,6 @@ package test.web.shared;
  */
 public class TestUtil
 {
-
-    public static boolean mobileBrowser;
 
     /** Creates a new instance of TestUtil */
     public TestUtil()

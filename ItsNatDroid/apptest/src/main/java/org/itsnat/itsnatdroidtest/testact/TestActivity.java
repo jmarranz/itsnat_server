@@ -40,9 +40,11 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
 
         Intent intent = getIntent();
 
-        this.urlTestCore =    intent.getStringExtra("urlTestCore");
-        this.urlTestRemCtrl = intent.getStringExtra("urlTestRemCtrl");
-        this.urlTestStatelessCore = intent.getStringExtra("urlTestStatelessCore");
+        String urlTestBase = intent.getStringExtra("urlTestBase");
+
+        this.urlTestCore =          urlTestBase + "?itsnat_doc_name=test_droid_core";
+        this.urlTestRemCtrl =       urlTestBase + "?itsnat_doc_name=test_droid_remote_ctrl";
+        this.urlTestStatelessCore = urlTestBase + "?itsnat_doc_name=test_droid_stateless_core_initial";
 
         getActionBar().setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
 

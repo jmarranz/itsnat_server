@@ -17,13 +17,13 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestGlobalDocAndClientListeners extends TestDroidBase implements EventListener
+public class TestDroidGlobalDocAndClientListeners extends TestDroidBase implements EventListener
 {
     protected Element testLauncher;
     protected EventListener global_doc;
     protected EventListener global_client;    
     
-    public TestGlobalDocAndClientListeners(ItsNatDocument itsNatDoc)
+    public TestDroidGlobalDocAndClientListeners(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 

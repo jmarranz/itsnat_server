@@ -15,7 +15,7 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.w3c.dom.Text;
 import org.w3c.dom.html.HTMLDivElement;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

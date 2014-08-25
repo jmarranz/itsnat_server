@@ -17,7 +17,7 @@ import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import test.web.shared.TestUtil;
+import test.shared.TestUtil;
 
 /**
  *

@@ -37,8 +37,8 @@ public class PageImpl implements Page
 {
     protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected InflatedLayoutPageImpl inflated;
-    protected String content;
-    protected String uniqueId;
+    protected String loadedContent;
+    protected String uniqueIdForInterpreter;
     protected Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
@@ -51,13 +51,13 @@ public class PageImpl implements Page
     protected List<EventMonitor> evtMonitorList;
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String content,AttrCustomInflaterListener inflateListener)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String loadedContent,AttrCustomInflaterListener inflateListener)
     {
         this.httpParams = httpParams;
-        this.content = content;
+        this.loadedContent = loadedContent;
         this.pageRequest = pageRequest;
 
-        StringReader input = new StringReader(content);
+        StringReader input = new StringReader(loadedContent);
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
@@ -71,12 +71,18 @@ public class PageImpl implements Page
 
         String loadScript = loadScriptArr[0];
 
-        this.uniqueId = browser.getUniqueIdGenerator().generateId("c"); // c = client (page)
-        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(),uniqueId) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
+        this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
+        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 //long start = System.currentTimeMillis();
         try
         {
             interp.set("itsNatDoc",itsNatDoc);
+
+            StringBuilder methods = new StringBuilder();
+            methods.append("alert(data){itsNatDoc.alert(data);}");
+            methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
+            methods.append("toast(value){itsNatDoc.toast(value);}");
+            interp.eval(methods.toString());
 
             if (!scriptList.isEmpty())
             {
@@ -95,7 +101,10 @@ public class PageImpl implements Page
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
 
-        getItsNatDocImpl().sendLoadEvent();
+        if (getId() != null)
+            getItsNatDocImpl().sendLoadEvent();
+        else
+            dispose(); // En el servidor
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
@@ -138,9 +147,9 @@ public class PageImpl implements Page
     }
 
     @Override
-    public String getContent()
+    public String getLoadedContent()
     {
-        return content;
+        return loadedContent;
     }
 
     public Interpreter getInterpreter()
@@ -259,9 +268,13 @@ public class PageImpl implements Page
     {
         if (dispose) return;
         this.dispose = true;
-        itsNatDoc.sendUnloadEvent();
-        itsNatSession.disposePage(this);
-        getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
+        if (getId() != null)
+            itsNatDoc.sendUnloadEvent();
+        if (itsNatSession != null) // itsNatSession es null cuando la página no contiene script de inicialización
+        {
+            itsNatSession.disposePage(this);
+            getItsNatDroidBrowserImpl().disposeSessionIfEmpty(itsNatSession);
+        }
     }
 
     public void executeScriptList(List<String> scriptList)

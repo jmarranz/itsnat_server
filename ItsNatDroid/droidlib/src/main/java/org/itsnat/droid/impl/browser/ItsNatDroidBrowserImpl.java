@@ -54,7 +54,9 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         {
 
             interp.set("NSAND", XMLLayoutInflateService.XMLNS_ANDROID);
-            interp.set("itsNatDoc",null); // Esto es necesario para los alert y toast que se definen luego y que usan itsNatDoc, luego cambiará con el objeto de verdad
+            // No definimos aquí set("itsNatDoc",null) o similar para poder definir métodos alert y toast
+            // porque queda "itsNatDoc" como global y cualquier set() cambia valor global y por tanto ya no es local por Page
+            //interp.set("itsNatDoc",new Object()); // Esto es necesario para los alert y toast que se definen luego y que usan itsNatDoc, luego cambiará con el objeto de verdad
 
             // Funciones de utilidad que se reflejarán en los Interpreter hijos, pero así se interpretan una sola vez
             StringBuilder code = new StringBuilder();
@@ -70,9 +72,6 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
             code.append("arr(a,b){return new Object[]{a,b};}");
             code.append("arr(a,b,c){return new Object[]{a,b,c};}");
             code.append("arr(a,b,c,d){return new Object[]{a,b,c,d};}");
-            code.append("void alert(data){itsNatDoc.alert(data);}"); // Aunque no esté definido aquí itsNatDoc, memoriza el código y al ejecutar evalúa el itsNatDoc
-            code.append("void toast(value,duration){itsNatDoc.toast(value,duration);}");
-            code.append("void toast(value){itsNatDoc.toast(value);}");
 
             interp.eval(code.toString());
         }

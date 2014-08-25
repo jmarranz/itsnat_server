@@ -66,8 +66,5 @@ public class Shared
     {
         HttpServletRequest request = httpRequest.getHttpServletRequest();
         return request.getRequestURL().toString();
-        //return "";
-        //String servletURL = httpRequest.getHttpServletRequest().getContextPath();
-        //return servletURL + "/" + httpRequest.getItsNatHttpServlet().getServlet().getServletConfig().getServletName();
     }
 }

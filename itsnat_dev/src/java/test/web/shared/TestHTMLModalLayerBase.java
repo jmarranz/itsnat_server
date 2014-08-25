@@ -9,6 +9,7 @@
 
 package test.web.shared;
 
+import test.shared.TestUtil;
 import java.io.Serializable;
 import javax.swing.DefaultComboBoxModel;
 import org.itsnat.comp.ItsNatComponentManager;

@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
-import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

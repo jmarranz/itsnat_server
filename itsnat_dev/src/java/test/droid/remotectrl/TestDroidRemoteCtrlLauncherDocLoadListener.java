@@ -16,6 +16,7 @@ import org.itsnat.core.ItsNatSessionCallback;
 import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.core.domutil.ItsNatDOMUtil;
 import java.util.LinkedList;
+import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.CommMode;
@@ -26,7 +27,6 @@ import org.itsnat.core.domutil.ElementList;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.core.http.ItsNatHttpServletRequest;
 import org.itsnat.core.http.ItsNatHttpSession;
-import test.web.shared.Shared;
 
 /**
  *
@@ -63,7 +63,7 @@ public class TestDroidRemoteCtrlLauncherDocLoadListener implements ItsNatServlet
 
         ItsNatHttpServletRequest httpRequest = (ItsNatHttpServletRequest)request;
 
-        String servletURL = Shared.getServletURL(httpRequest);
+        String servletURL = getServletURL(httpRequest);
 
         int commMode;
         switch(itsNatDoc.getCommMode())
@@ -122,4 +122,9 @@ public class TestDroidRemoteCtrlLauncherDocLoadListener implements ItsNatServlet
 
     }
 
+    public static String getServletURL(ItsNatHttpServletRequest httpRequest)
+    {
+        HttpServletRequest request = httpRequest.getHttpServletRequest();
+        return request.getRequestURL().toString();
+    }    
 }
