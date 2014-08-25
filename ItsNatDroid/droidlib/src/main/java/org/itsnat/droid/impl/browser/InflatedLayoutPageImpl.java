@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
@@ -145,7 +145,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         }
     }
 
-    public boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
+    protected boolean removeAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name)
     {
         if (ValueUtil.isEmpty(namespaceURI))
         {
@@ -173,14 +173,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             // a que sea el View root de forma similar al <body> en HTML
             if (view != getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
-
-            // Ignoramos el View contenedor del onload o onunload y registramos con null
-            return page.getItsNatViewImpl(null);
         }
-        else
-        {
-            return page.getItsNatViewImpl(view);
-        }
+        return page.getItsNatViewImpl(view);
     }
 
     private String getTypeInlineEventHandler(String name)

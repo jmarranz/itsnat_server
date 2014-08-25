@@ -26,19 +26,19 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         super(itsNatDoc);
 
         Document doc = getDocument();
-        Element elem = doc.getDocumentElement();
+        Element rootElem = doc.getDocumentElement();
 
-        ((EventTarget)elem).addEventListener("click", this,false);
-        ((EventTarget)elem).addEventListener("touchstart", this,false);        
-        ((EventTarget)elem).addEventListener("touchend", this,false);        
+        ((EventTarget)rootElem).addEventListener("click", this,false);
+        ((EventTarget)rootElem).addEventListener("touchstart", this,false);        
+        ((EventTarget)rootElem).addEventListener("touchend", this,false);        
         
         
-        ((EventTarget)elem).removeEventListener("click", this,false);            
-        ((EventTarget)elem).removeEventListener("touchstart", this,false);        
-        ((EventTarget)elem).removeEventListener("touchend", this,false);        
+        ((EventTarget)rootElem).removeEventListener("click", this,false);            
+        ((EventTarget)rootElem).removeEventListener("touchstart", this,false);        
+        ((EventTarget)rootElem).removeEventListener("touchend", this,false);        
           
-        itsNatDoc.addEventListener(null, "load", this, false);
-        itsNatDoc.addEventListener(null, "unload", this, false);       
+        itsNatDoc.addEventListener((EventTarget)rootElem, "load", this, false);
+        itsNatDoc.addEventListener((EventTarget)rootElem, "unload", this, false);       
         
         // Hay un <script> en el template inicial que DEBE desaparecer en tiempo de carga antes de poder acceder al Document
         NodeList scripts = doc.getElementsByTagName("script");
@@ -51,6 +51,9 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         if (type.equals("load"))
         {
             itsNatDoc.addCodeToSend("var view = itsNatDoc.findViewByXMLId(\"testLoadListenerId\"); view.setText(view.getText() + \"OK\");");            
+            
+            Element rootElem = getDocument().getDocumentElement();            
+            itsNatDoc.removeEventListener((EventTarget)rootElem, "load", this, false);  // No sirve para nada pero por si fallara
         }
         else if (type.equals("unload"))
         {

@@ -16,10 +16,10 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class TestDroidCapture extends TestDroidBase implements EventListener
+public class TestDroidEventCapture extends TestDroidBase implements EventListener
 {
    
-    public TestDroidCapture(ItsNatDocument itsNatDoc)
+    public TestDroidEventCapture(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 

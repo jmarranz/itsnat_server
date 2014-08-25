@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 /**
  * Created by jmarranz on 13/06/14.
@@ -55,7 +55,7 @@ public class DOMPathResolverImpl implements DOMPathResolver
             {
                 InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
                 String id = firstPos.substring("eid:".length());
-                View viewRes = layout.getElementById(id);
+                View viewRes = layout.findViewByXMLId(id);
                 return viewRes;
             }
         }

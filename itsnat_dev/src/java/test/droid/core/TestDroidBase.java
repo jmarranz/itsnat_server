@@ -30,14 +30,14 @@ public abstract class TestDroidBase
         return itsNatDoc.getDocument();
     }
     
-    public static void logToTextView(Element outElem,String msg)
+    public void logToTextView(Element outElem,String msg)
     {
         String text = outElem.getAttribute("android:text");
         text += msg;
         outElem.setAttribute("android:text",text);    
     }
     
-    public static String getLogTextView(Element outElem)
+    public String getLogTextView(Element outElem)
     {
         return outElem.getAttribute("android:text");        
     }    

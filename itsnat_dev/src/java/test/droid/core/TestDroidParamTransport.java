@@ -38,13 +38,20 @@ public class TestDroidParamTransport extends TestDroidBase implements EventListe
     public void handleEvent(Event evt)
     {     
         ItsNatEvent evt2 = (ItsNatEvent)evt;
-        itsNatDoc.addCodeToSend("alert(\"OK " + evt2.getExtraParam("manufacturer") + " " + evt2.getExtraParam("model") + "\");");
+        
+        Element logElem = getDocument().getElementById("testEventParamTransport_text_Id");         
+
+        StringBuilder msg = new StringBuilder();
+        msg.append("OK model: " + evt2.getExtraParam("manufacturer") + " " + evt2.getExtraParam("model") + "\n"); 
         
         String[] multivalue = (String[])evt2.getExtraParamMultiple("multivalue");        
-        itsNatDoc.addCodeToSend("alert(\"OK multivalue (expected: one 2): " + multivalue[0] + " " + multivalue[1] + "\");");
+        msg.append("OK multivalue (expected: one 2): " + multivalue[0] + " " + multivalue[1] + "\n");        
         
-        int visibility = Integer.parseInt((String)evt2.getExtraParam("getVisibility()")); 
-        itsNatDoc.addCodeToSend("alert(\"OK visibility (expected: 0): " + visibility + "\");");        
+        int visibility = Integer.parseInt((String)evt2.getExtraParam("getVisibility()"));   
+        msg.append("OK visibility (expected: 0): " + visibility + "\n");        
+      
+        
+        logToTextView(logElem,msg.toString()); 
     }
     
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

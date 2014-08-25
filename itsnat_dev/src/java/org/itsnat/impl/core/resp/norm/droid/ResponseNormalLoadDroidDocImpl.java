@@ -16,21 +16,14 @@
 
 package org.itsnat.impl.core.resp.norm.droid;
 
-import org.itsnat.core.CommMode;
-import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.dom.domstd.OnUnloadListenerImpl;
-import org.itsnat.impl.core.listener.dom.domstd.RegisterThisDocAsReferrerListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadStfulDocImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
-import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
-import org.w3c.dom.views.AbstractView;
-import org.w3c.dom.views.DocumentView;
 
 /**
  *
@@ -54,17 +47,17 @@ public class ResponseNormalLoadDroidDocImpl extends ResponseNormalLoadStfulDocIm
 
         super.dispatchRequestListeners(); // En el método base en el caso de referrer se procesará el anterior antes de ser substituido por el actual documento
         
+        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();         
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();          
         if (isReferrerEnabled())
         {
-            // No nos complicamos la vida con listeners load etc
-            ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();                      
+            // No nos complicamos la vida con listeners load etc                
             ItsNatSessionImpl itsNatSession = clientDoc.getItsNatSessionImpl();
             itsNatSession.getReferrer().pushItsNatStfulDocument(itsNatDoc);            
         }   
 
-        clientDoc.addEventListener(null,"unload",OnUnloadListenerImpl.SINGLETON,false, clientDoc.getCommMode());        
+        Element rootElem = itsNatDoc.getDocument().getDocumentElement(); // En SVG es también el elemento root, es más "natural" que forzar el uso de Window 
+        clientDoc.addEventListener((EventTarget)rootElem,"unload",OnUnloadListenerImpl.SINGLETON,false, clientDoc.getCommMode());        
     }
-    
-    
+
 }

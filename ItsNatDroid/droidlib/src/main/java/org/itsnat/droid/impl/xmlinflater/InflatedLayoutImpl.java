@@ -1,20 +1,16 @@
-package org.itsnat.droid.impl;
+package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
 import android.util.Xml;
 import android.view.View;
-import android.view.ViewParent;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.util.WeakMapWithValue;
-import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
@@ -31,7 +27,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 {
     protected ItsNatDroidImpl parent;
     protected View rootView;
-    protected WeakMapWithValue<String,View> mapIdViewXMLStd;
+    protected ViewMapByXMLId viewMapByXMLId;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
@@ -104,56 +100,31 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return ctx;
     }
 
-    private WeakMapWithValue<String,View> getMapIdViewXMLStd()
+    private ViewMapByXMLId getViewMapByXMLId()
     {
-        if (mapIdViewXMLStd == null) mapIdViewXMLStd = new WeakMapWithValue<String,View>();
-        return mapIdViewXMLStd;
+        if (viewMapByXMLId == null) viewMapByXMLId = new ViewMapByXMLId(this);
+        return viewMapByXMLId;
     }
 
-    public String unsetElementId(View view)
+    public String unsetXMLId(View view)
     {
-        return getMapIdViewXMLStd().removeByValue(view);
-    }
-
-    public View getElementById(String id)
-    {
-        View viewFound = getMapIdViewXMLStd().getValueByKey(id);
-        if (viewFound == null) return null;
-        // Ojo, puede estar desconectado aunque el objeto Java esté "vivo"
-
-        if (viewFound == rootView) return viewFound; // No está desconectado
-
-        ViewParent parent = viewFound.getParent();
-        while(parent != null)
-        {
-            if (parent == rootView)
-            {
-                return viewFound;
-            }
-            parent = parent.getParent();
-        }
-        // Está registrado pero sin embargo no está en el árbol de Views, podríamos eliminarlo (remove) para que no de la lata
-        // pero si se vuelve a insertar perderíamos el elemento pues al reinsertar no podemos capturar la operación y definir el id,
-        // tampoco es que sea demasiado importante porque el programador una vez que cambia el árbol de views por su cuenta
-        // "rompe" los "contratos" de ItsNatDroid
-        return null;
+        return getViewMapByXMLId().unsetXMLId(view);
     }
 
     public String getXMLId(View view)
     {
-        return getMapIdViewXMLStd().getKeyByValue(view);
+        return getViewMapByXMLId().getXMLId(view);
     }
 
     public void setXMLId(String id, View view)
     {
-        getMapIdViewXMLStd().put(id,view);
+        getViewMapByXMLId().setXMLId(id, view);
     }
 
     public View findViewByXMLId(String id)
     {
-        // No llamamos a este método getElementById() porque devuelve un View no un DOM Node
-        View view = getElementById(id);
-        return view;
+        if (viewMapByXMLId == null) return null;
+        return viewMapByXMLId.findViewByXMLId(id);
     }
 
     public View inflate(Reader input,String[] loadScript,List<String> scriptList)

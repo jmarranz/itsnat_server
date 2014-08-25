@@ -23,7 +23,7 @@ import java.util.List;
  */
 public abstract class ItsNatViewImpl implements ItsNatView
 {
-    public static final int ITSNAT_VIEW_DATA = 1111111111;
+    public static final int ITSNAT_VIEW_KEY = 1111111111;
 
     protected PageImpl page;
     protected MapList<String,DroidEventListener> eventListeners;
@@ -40,11 +40,11 @@ public abstract class ItsNatViewImpl implements ItsNatView
     {
         if (view == null)
             return page.getItsNatDocImpl().getItsNatViewNull();
-        ItsNatViewNotNullImpl viewData = (ItsNatViewNotNullImpl)view.getTag(ITSNAT_VIEW_DATA);
+        ItsNatViewNotNullImpl viewData = (ItsNatViewNotNullImpl)view.getTag(ITSNAT_VIEW_KEY);
         if (viewData == null)
         {
             viewData = new ItsNatViewNotNullImpl(page,view);
-            view.setTag(ITSNAT_VIEW_DATA,viewData);
+            view.setTag(ITSNAT_VIEW_KEY,viewData);
         }
         return viewData;
     }

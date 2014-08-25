@@ -17,7 +17,7 @@ import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
@@ -725,7 +725,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)
     {
         View currentTarget = getView(idObj);
-        if (currentTarget == null && (!type.equals("unload") && !type.equals("load"))) // En el caso "unload" y "load" se permite que sea nulo el target
+        if (currentTarget == null /*&& (!type.equals("unload") && !type.equals("load")) */) // En el caso "unload" y "load" se permite que sea nulo el target
             throw new ItsNatDroidException("INTERNAL ERROR");
         ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
@@ -741,7 +741,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void removeDroidEL(String listenerId)
     {
         DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
-        View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" y "load" puede ser nulo
+        View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" y "load" puede ser nulo => ¡¡YA NO!!
         ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
@@ -948,7 +948,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void sendUnloadEvent()
     {
         Object nativeEvt = createOtherEvent();
-        dispatchDroidEvent((View) null, "unload", nativeEvt);
+
+        dispatchDroidEvent(getPageImpl().getRootView(), "unload", nativeEvt);
 
         if (attachUnloadCallback != null)
         {
@@ -959,7 +960,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void sendLoadEvent()
     {
         Object nativeEvt = createOtherEvent();
-        dispatchDroidEvent((View) null, "load", nativeEvt);
+        dispatchDroidEvent(getPageImpl().getRootView(), "load", nativeEvt);
     }
 
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)

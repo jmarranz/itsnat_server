@@ -60,7 +60,7 @@ public class BSRenderItsNatDroidEventListenerImpl extends BSRenderItsNatNormalEv
 
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation((Node)nodeTarget,true);
         // El target NO puede ser nulo excepto en el evento unload
-        boolean errIfNodeNull = !"unload".equals(type) && !"load".equals(type);
+        boolean errIfNodeNull = true; // !"unload".equals(type) && !"load".equals(type);
         code.append( "itsNatDoc.addDroidEL(" + nodeLoc.toScriptNodeLocation(errIfNodeNull) + ",\"" + type + "\",\"" + listenerId + "\"," + functionVarName + "," + useCapture + "," + commMode + "," + eventTimeout + "," + eventGroupCode + ");\n" );
         return code.toString();        
     }

@@ -12,7 +12,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
@@ -156,7 +156,7 @@ public class ClassDescViewBased
         }
         else if (isElementIdAttrAsDOM(namespaceURI,name))
         {
-            inflated.unsetElementId(view);
+            inflated.unsetXMLId(view);
         }
         else
         {

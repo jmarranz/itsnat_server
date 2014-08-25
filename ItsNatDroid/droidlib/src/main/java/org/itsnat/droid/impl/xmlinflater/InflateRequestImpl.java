@@ -5,7 +5,6 @@ import android.content.Context;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
-import org.itsnat.droid.impl.InflatedLayoutImpl;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;

@@ -90,6 +90,12 @@
                 android:layout_height="wrap_content"
                 android:text="Test client exception (reload after)" />
 
+        <!-- Test inline handler (onclick) -->
+        <Button 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test inline handler (onclick)" 
+                onclick="alert(&quot;on&quot; + event.getType() + &quot; OK&quot;);"/>
 
         <!-- Test native listeners -->
         <Button id="testNativeListenersId"
@@ -165,6 +171,12 @@
                 android:layout_height="wrap_content"
                 android:text="Test Event Pre Send code" />
 
+            <TextView id="testEventPreSend_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>        
+        
 
         <!-- Test Event Param Transport -->
         <Button id="testEventParamTransportId"
@@ -172,6 +184,12 @@
                 android:layout_height="wrap_content"
                 android:text="Test Event Param Transport" />
 
+            <TextView id="testEventParamTransport_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>              
+        
         <!-- Test Event Capture -->
         <Button id="testEventCaptureId"
                 android:layout_width="wrap_content"

@@ -4,8 +4,6 @@
 
 * Probar re-arranque de actividad
 
-* alert() sin itsNatDoc: todos los tests cambiarlos
-
 
 * Pensar en eventos que puedan enviarse al servidor tipo GPS, giróscopo etc por ponerlo fácil aunque se puede hacer con UserEvents
 
