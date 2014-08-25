@@ -6,6 +6,7 @@
 
 package test.droid.core;
 
+import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,7 +58,8 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         }
         else if (type.equals("unload"))
         {
-            itsNatDoc.addCodeToSend("var view = itsNatDoc.findViewByXMLId(\"testUnloadListenerId\"); view.setText(view.getText() + \"OK\");");            
+            ClientDocument clientDoc = itsNatDoc.getClientDocumentOwner(); // En el caso de control remoto NO interesa enviar este código
+            clientDoc.addCodeToSend("var view = itsNatDoc.findViewByXMLId(\"testUnloadListenerId\"); view.setText(view.getText() + \"OK\");");            
         }        
         else
         {

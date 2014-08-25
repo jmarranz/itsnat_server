@@ -20,6 +20,7 @@ import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
 import test.droid.shared.TestDroidGlobalDocumentLoadListener;
+import test.droid.shared.TestDroidGlobalRemoteControlListener;
 import test.droid.stateless.core.TestDroidStatelessCoreEventDocLoadListener;
 import test.droid.stateless.core.TestDroidStatelessCoreInitialDocLoadListener;
 import test.droid.stateless.core.TestDroidStatelessCoreTemplateLevelEventListener;
@@ -40,7 +41,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         
         itsNatServlet.addItsNatServletRequestListener(new TestDroidGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestDroidGlobalEventListener(itsNatServlet));
-        //itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());        
+        itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());        
       
         
         String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/droid/test/";

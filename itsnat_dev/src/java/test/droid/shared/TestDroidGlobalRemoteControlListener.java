@@ -43,15 +43,21 @@ public class TestDroidGlobalRemoteControlListener implements ItsNatAttachedClien
             try
             {
                 Writer out = response.getServletResponse().getWriter();
-                out.write("<html><body><h1>Session/document not found with id:");
-                out.write(sessionId + "/" + docId);
-                out.write("</h1></body></html>");
+                
+                out.write("  <TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
+                out.write("      android:layout_width=\"match_parent\" ");
+                out.write("      android:layout_height=\"wrap_content\" ");
+                out.write("      android:text=\"Session/document not found with id: " + sessionId + "/" + docId + "\" ");
+                out.write("      android:textSize=\"25dp\" "); 
+                out.write("      android:background=\"#00dd00\">");
+                out.write("  </TextView>");                 
+                
             }
             catch(IOException ex) { throw new RuntimeException(ex); }
         }
         else // ItsNatAttachedClientEvent.REFRESH
         {
-           response.addCodeToSend("if (confirm('Session is expired or observed doc lost. Close?')) window.close();");
+           response.addCodeToSend("alert(\"Session is expired or observed doc lost\");");
         }
 
         event.getItsNatEventListenerChain().stop();

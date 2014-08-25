@@ -18,8 +18,6 @@ import org.itsnat.core.event.ItsNatAttachedClientCometEvent;
 import org.itsnat.core.event.ItsNatAttachedClientEvent;
 import org.itsnat.core.event.ItsNatAttachedClientEventListener;
 import org.itsnat.core.event.ItsNatAttachedClientTimerEvent;
-import org.w3c.dom.Document;
-import org.w3c.dom.html.HTMLDocument;
 
 /**
  *
@@ -95,7 +93,7 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
             case ItsNatAttachedClientEvent.REFRESH:
                 if (itsNatDoc.isInvalid())
                 {
-                    observer.addCodeToSend("alert('Observed document was destroyed');");
+                    observer.addCodeToSend("alert(\"Observed document was destroyed\");");
                 }
                 else if (event instanceof ItsNatAttachedClientTimerEvent)
                 {
@@ -111,8 +109,9 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
                     if (currentTime - initTime > limitMilisec)
                     {
                         event.setAccepted(false);
-                        observer.addCodeToSend("alert('Remote Control Timeout');");
+                        observer.addCodeToSend("alert(\"Remote Control Timeout\");");
                     }
+                    /*
                     else if (refreshMsg)
                     {
                         Document doc = itsNatDoc.getDocument();
@@ -126,6 +125,7 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
                             ((HTMLDocument)doc).getBody().appendChild(doc.createTextNode("OK remote ctrl " + phaseStr + " "));
                         }
                     }
+                    */
                 }
                 break;
             case ItsNatAttachedClientEvent.UNLOAD:
