@@ -12,7 +12,6 @@ package test.web.stateless.core;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
-import org.itsnat.core.html.ItsNatHTMLDocument;
 
 /**
  *
@@ -29,7 +28,6 @@ public class TestStatelessCoreInitialDocLoadListener implements ItsNatServletReq
    
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestStatelessCoreInitialDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
     }
 
 }

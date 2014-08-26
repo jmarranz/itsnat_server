@@ -93,7 +93,7 @@
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title);
-        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event MAL');        
+        userEvt.setExtraParam('itsnat_doc_name','test_stateless_core_event_WRONG_NAME');        
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }
     </script>
@@ -105,7 +105,7 @@
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title); 
-        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','test_core_stateless_event');            
+        userEvt.setExtraParam('itsnat_doc_name_second_opportunity','test_stateless_core_event');            
         document.getItsNatDoc().dispatchEventStateless(userEvt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
     }
     </script>
@@ -116,7 +116,7 @@
     {
         var userEvt = document.getItsNatDoc().createEventStateless();
         userEvt.setExtraParam('title',document.title);
-        userEvt.setExtraParam('itsnat_doc_name','test_core_stateless_event');        
+        userEvt.setExtraParam('itsnat_doc_name','test_stateless_core_event');        
         document.getItsNatDoc().dispatchEventStateless(userEvt,sendMode, 1000000);
     }
     </script>    

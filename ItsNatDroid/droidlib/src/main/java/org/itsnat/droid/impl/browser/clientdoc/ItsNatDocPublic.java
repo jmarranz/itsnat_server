@@ -52,6 +52,7 @@ public interface ItsNatDocPublic
 
     public Node addNodeCache(Object[] idObj);
     public void removeNodeCache(String[] idList);
+    public void clearNodeCache();
 
     public void setInnerXML(Node parentNode,String markup);
     public void setInnerXML2(Object[] idObj,String markup);

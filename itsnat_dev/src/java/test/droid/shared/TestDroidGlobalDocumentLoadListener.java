@@ -50,7 +50,6 @@ public class TestDroidGlobalDocumentLoadListener implements ItsNatServletRequest
             String itsNatAction = servReq.getParameter("itsnat_action");  
             if ("event_stateless".equals(itsNatAction))
             {
-                // REVISAR:
                 TestDroidStatelessCoreGlobalCoreDocumentLoadListener.processRequest(request, response);            
             }
             else

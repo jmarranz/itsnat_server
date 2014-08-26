@@ -12,7 +12,6 @@ package test.droid.stateless.core;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
-import org.itsnat.core.html.ItsNatHTMLDocument;
 
 /**
  *
@@ -29,7 +28,7 @@ public class TestDroidStatelessCoreEventDocLoadListener implements ItsNatServlet
    
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestDroidStatelessCoreEventDocument((ItsNatHTMLDocument)request.getItsNatDocument(),request,response);
+        new TestDroidStatelessCoreEventDocument(request.getItsNatDocument(),request,response);
     }
 
 }

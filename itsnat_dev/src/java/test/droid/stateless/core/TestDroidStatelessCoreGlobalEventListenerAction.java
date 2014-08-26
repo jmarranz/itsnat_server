@@ -21,9 +21,9 @@ public class TestDroidStatelessCoreGlobalEventListenerAction
             //ServletRequest request = itsNatEvt.getItsNatServletRequest().getServletRequest();
             String docName = (String)itsNatEvt.getExtraParam("itsnat_doc_name");
             if (docName != null)
-                clientDoc.addCodeToSend("alert('Stateless event OK with not found itsnat_doc_name: " + docName + " and title " + itsNatEvt.getExtraParam("title") + "');"); 
+                clientDoc.addCodeToSend("alert(\"Stateless event OK with not found itsnat_doc_name: " + docName + " and model " + itsNatEvt.getExtraParam("model") + "\");"); 
             else
-                clientDoc.addCodeToSend("alert('Custom stateless event OK and title " + itsNatEvt.getExtraParam("title") + "');");                             
+                clientDoc.addCodeToSend("alert(\"Custom stateless event OK and model " + itsNatEvt.getExtraParam("model") + "\");");                             
         }
     }
 }

@@ -28,7 +28,6 @@ public class TestDroidStatelessCoreInitialDocLoadListener implements ItsNatServl
    
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestDroidStatelessCoreInitialDocument(request.getItsNatDocument());
     }
 
 }

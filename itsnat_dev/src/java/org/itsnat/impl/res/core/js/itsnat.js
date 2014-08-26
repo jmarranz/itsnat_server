@@ -876,7 +876,7 @@ function EventStatelessPublic()
     this.EventPublic();
 }
 
-function UserEventStateless(evt,itsNatDoc,commMode,timeout)
+function EventStateless(evt,itsNatDoc,commMode,timeout)
 {
     this.EventGeneric = EventGeneric;
     this.EventGeneric(new EventStatelessListener(itsNatDoc,commMode,timeout));
@@ -1675,7 +1675,7 @@ function Document()
 
     function dispatchEventStateless(evt,commMode,timeout)
     {
-        var evt = new UserEventStateless(evt,this,commMode,timeout);
+        var evt = new EventStateless(evt,this,commMode,timeout);
         evt.sendEvent();
     }
 

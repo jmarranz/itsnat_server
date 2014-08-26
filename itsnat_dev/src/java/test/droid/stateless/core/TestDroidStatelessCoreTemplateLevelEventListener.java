@@ -28,7 +28,7 @@ public class TestDroidStatelessCoreTemplateLevelEventListener implements EventLi
     {
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;        
         ClientDocument clientDoc = itsNatEvt.getClientDocument();
-        clientDoc.addCodeToSend("alert('OK Template Level Listener');");         
+        clientDoc.addCodeToSend("alert(\"OK Template Level Listener\");");         
     }
 
 }

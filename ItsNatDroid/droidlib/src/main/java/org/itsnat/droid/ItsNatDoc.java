@@ -2,6 +2,7 @@ package org.itsnat.droid;
 
 import android.view.View;
 
+import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 
 /**
@@ -23,5 +24,9 @@ public interface ItsNatDoc
     public UserEvent createUserEvent(String name);
     public void dispatchUserEvent(View currTarget,UserEvent evt);
     public void fireUserEvent(View currTarget,String name);
+
+    public EventStateless createEventStateless();
+    public void dispatchEventStateless(EventStateless evt,int commMode,long timeout);
+
 }
 

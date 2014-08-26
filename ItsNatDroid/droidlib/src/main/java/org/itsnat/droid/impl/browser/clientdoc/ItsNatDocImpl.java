@@ -16,8 +16,8 @@ import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
@@ -28,6 +28,7 @@ import org.itsnat.droid.impl.browser.clientdoc.event.DroidKeyEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidMotionEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidOtherEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidTextChangeEventImpl;
+import org.itsnat.droid.impl.browser.clientdoc.event.EventStatelessImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.UserEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.AsyncTaskEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.CometTaskEventListener;
@@ -38,6 +39,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -664,6 +666,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
+    public void clearNodeCache()
+    {
+        nodeCacheById.clear();
+    }
+
     private View getChildNode(int i,Node parentNode)
     {
         View parentView = parentNode.getView();
@@ -831,6 +838,17 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         UserEvent evt = createUserEvent(name);
         dispatchUserEvent(currTargetView, evt);
+    }
+
+    public EventStateless createEventStateless()
+    {
+        return new EventStatelessImpl();
+    }
+
+    public void dispatchEventStateless(EventStateless evt,int commMode,long timeout)
+    {
+        EventStatelessImpl evt2 = new EventStatelessImpl(this,(EventStatelessImpl)evt,commMode,timeout);
+        evt2.sendEvent();
     }
 
     public void sendAsyncTaskEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)

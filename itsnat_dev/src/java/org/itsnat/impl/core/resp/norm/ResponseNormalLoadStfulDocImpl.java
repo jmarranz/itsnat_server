@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatDOMException;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.BoundElementDocContainerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
@@ -97,9 +97,9 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
             // Descuidadamente es posible que el programador genere nodos cacheados en fase de carga del documento stateless por ejemplo al usar un getNodeReference 
             // por eso hacemos un clearNodeCache() al ppio en el cliente para que esos cacheos no tengan ningún problema con algún posible resto de nodos cacheados en el cliente
             ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
             clientDocDeleg.getNodeCacheRegistry().clearCache(); 
-            clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache();\n");             
+            clientDoc.addCodeToSend("itsNatDoc.clearNodeCache();\n");             
             
             responseDelegate.dispatchRequestListeners(); // Evitamos la serialización innecesaria del ItsNatDocument
             

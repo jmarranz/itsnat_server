@@ -16,8 +16,8 @@
 
 package org.itsnat.impl.core.resp.norm;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
 
@@ -37,9 +37,9 @@ public class ResponseDOMEventStatelessImpl extends ResponseNormalEventImpl
     public void processEvent()    
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
         clientDocDeleg.getNodeCacheRegistry().clearCache(); // Elimina los nodos cacheados en la fase de carga, lo que cuenta es la fase del evento pues es la que devuelve el JavaScript que se envía al cliente
-        clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache(); try{ \n");          
+        clientDoc.addCodeToSend("itsNatDoc.clearNodeCache(); try{ \n");          
         try
         {
             super.processEvent();
@@ -47,7 +47,7 @@ public class ResponseDOMEventStatelessImpl extends ResponseNormalEventImpl
         finally
         {
             // Pase lo que pase lo dejamos limpito  
-            clientDoc.addCodeToSend("\n }finally{ document.getItsNatDoc().clearNodeCache(); }");              
+            clientDoc.addCodeToSend("\n }finally{ itsNatDoc.clearNodeCache(); }");              
         }      
     }
     

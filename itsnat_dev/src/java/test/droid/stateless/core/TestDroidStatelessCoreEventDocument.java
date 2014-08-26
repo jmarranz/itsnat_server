@@ -16,7 +16,6 @@ import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatEventDOMStateless;
-import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.core.tmpl.ItsNatHTMLDocFragmentTemplate;
 import org.w3c.dom.Document;
@@ -31,12 +30,12 @@ import org.w3c.dom.events.EventListener;
  */
 public class TestDroidStatelessCoreEventDocument implements Serializable,EventListener
 {
-    protected ItsNatHTMLDocument itsNatDoc;
+    protected ItsNatDocument itsNatDoc;
 
     /**
      * Creates a new instance of TestCoreLoadListener
      */
-    public TestDroidStatelessCoreEventDocument(ItsNatHTMLDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
+    public TestDroidStatelessCoreEventDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         this.itsNatDoc = itsNatDoc;
         
@@ -48,6 +47,13 @@ public class TestDroidStatelessCoreEventDocument implements Serializable,EventLi
 
     public void handleEvent(Event evt)
     {
+if (true)        
+{
+        ClientDocument clientDoc = ((ItsNatEventDOMStateless)evt).getClientDocument();    
+        clientDoc.addCodeToSend("alert(\"OK PROVISIONAL\");");    
+    return;
+}
+        
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
         
         ItsNatDocument itsNatDoc = itsNatEvt.getItsNatDocument();
