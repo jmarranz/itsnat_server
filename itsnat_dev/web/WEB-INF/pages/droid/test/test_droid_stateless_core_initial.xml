@@ -98,8 +98,7 @@
         <script>
         void sendEventStateless()
         {
-            var evt = itsNatDoc.createEventStateless();
-            evt.setExtraParam("model",android.os.Build.MODEL);   
+            var evt = itsNatDoc.createEventStateless();  
             evt.setExtraParam("itsnat_doc_name","test_droid_stateless_core_event");            
             itsNatDoc.dispatchEventStateless(evt,CommMode.XHR_ASYNC_HOLD, 1000000);
         }

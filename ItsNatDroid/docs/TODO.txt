@@ -1,6 +1,6 @@
 
 
-* Probar re-arranque de actividad
+* Probar re-arranque de actividad (volver a restaurar bien el setting)
 
 * Pensar en eventos que puedan enviarse al servidor tipo GPS, giróscopo etc por ponerlo fácil aunque se puede hacer con UserEvents
 

@@ -6,7 +6,7 @@
 
 package test.droid.core;
 
-import test.droid.shared.TestDroidBase;
+import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.event.NodePropertyTransport;
 import org.itsnat.core.event.ParamTransport;
@@ -16,6 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.droid.shared.TestDroidBase;
 
 /**
  *
@@ -52,8 +53,9 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
         EventTarget currTarget = evt.getCurrentTarget();
         DroidEvent evt2 = (DroidEvent)evt;        
         
-        //Document doc = getDocument();
- 
+        ClientDocument clientDoc = evt2.getClientDocument();   
+        // Usamos ClientDocument.getScriptUtil() y addCodeToSend en vez de ItsNatDocument para que en control remoto no se dupliquen las operaciones (se vuelve loco el ejemplo)
+        
         logToTextView(outElem,"Event " + evt2.getType() + " ");
         
         if (currTarget == editElement)
@@ -62,10 +64,12 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
             if (type.equals("focus"))
             {
                 // Hacemos el botón focusable para que al pulsarse le quite el foco al EditText y se ejecute el evento blur
-                String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
-                itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
-                itsNatDoc.addCodeToSend("elem.setFocusable(true);");        
-                itsNatDoc.addCodeToSend("elem.setFocusableInTouchMode(true);");                   
+                
+                String processRef = clientDoc.getScriptUtil().getNodeReference(processElement);
+                clientDoc.addCodeToSend("var elem = " + processRef + ";");            
+                clientDoc.addCodeToSend("elem.setFocusable(true);");        
+                clientDoc.addCodeToSend("elem.setFocusableInTouchMode(true);");                
+                
                 
                 // No hace falta hacer elem.setFocusable(false) para conseguir quitar el azul feo cuando el botón processElement tiene el foco, pues
                 // Android tiende a que una vez que un control ha tomado el foco ha de existir un control con el foco y siempre podemos cambiarlo al EditText
@@ -74,12 +78,11 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
             {
                 String text = (String)evt2.getExtraParam("getText()");
                 logToTextView(outElem,"\nTEXT: " + text + "\n");
-                
-                String editRef = itsNatDoc.getScriptUtil().getNodeReference(editElement);                
-                itsNatDoc.addCodeToSend("var elem = " + editRef + ";");                
-                itsNatDoc.addCodeToSend("elem.setText(\"\");");
-
-                itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Esto es para que el botón processElement no se quede con el foco con un azul muy feo           
+                               
+                String editRef = clientDoc.getScriptUtil().getNodeReference(editElement);                
+                clientDoc.addCodeToSend("var elem = " + editRef + ";");                
+                clientDoc.addCodeToSend("elem.setText(\"\");");
+                clientDoc.addCodeToSend("elem.requestFocus(); ");  // Esto es para que el botón processElement no se quede con el foco con un azul muy feo                 
             }
             else if (type.equals("change"))
             {
@@ -88,10 +91,10 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
              }            
         }
         else if (currTarget == processElement)
-        {
-            String processRef = itsNatDoc.getScriptUtil().getNodeReference(processElement);
-            itsNatDoc.addCodeToSend("var elem = " + processRef + ";");            
-            itsNatDoc.addCodeToSend("elem.requestFocus(); ");  // Para provocar el blur en el EditText si tuviera el foco           
+        {        
+            String processRef = clientDoc.getScriptUtil().getNodeReference(processElement);
+            clientDoc.addCodeToSend("var elem = " + processRef + ";");            
+            clientDoc.addCodeToSend("elem.requestFocus(); ");  // Para provocar el blur en el EditText si tuviera el foco                  
         }
     }
     
