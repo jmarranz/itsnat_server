@@ -110,7 +110,7 @@ public class ClassDescViewBased
                 }
             }
         }
-        else if (isElementIdAttrAsDOM(namespaceURI,name))
+        else if (isXMLIdAttrAsDOM(namespaceURI, name))
         {
             inflated.setXMLId(value, view);
         }
@@ -154,7 +154,7 @@ public class ClassDescViewBased
                 }
             }
         }
-        else if (isElementIdAttrAsDOM(namespaceURI,name))
+        else if (isXMLIdAttrAsDOM(namespaceURI, name))
         {
             inflated.unsetXMLId(view);
         }
@@ -169,7 +169,7 @@ public class ClassDescViewBased
         return true;
     }
 
-    public static boolean isElementIdAttrAsDOM(String namespaceURI,String name)
+    public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
     {
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
     }

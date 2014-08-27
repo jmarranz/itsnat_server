@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package test.droid.core;
+package test.droid.shared;
 
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;

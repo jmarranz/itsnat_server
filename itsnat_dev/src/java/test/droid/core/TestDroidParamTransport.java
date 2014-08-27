@@ -6,6 +6,7 @@
 
 package test.droid.core;
 
+import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;

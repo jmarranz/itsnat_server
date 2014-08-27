@@ -1,38 +1,19 @@
-
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:itsnat="http://itsnat.org/itsnat"
+<FrameView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:itsnat="http://itsnat.org/itsnat"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-       
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameView itsnat:locById="true" id="testElemId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">            
+    </FrameView>
+
+    <TextView itsnat:locById="true" id="testElem_text_Id"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:text="">
+    </TextView>         
 
-        <TextView 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TEST: CORE STATELESS EVENT"
-            android:textSize="25dp" 
-            android:background="#00ff00">
-        </TextView> 
+</FrameView>
 
-        <Button
-                android:id="@id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BACK" />   
-         
-        <Button 
-                android:id="@id/buttonReload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_reload" /> 
-
-        <FrameView itsnat:locById="true" id="testElemId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">            
-        </FrameView>
-        
-    </LinearLayout>
-</ScrollView>
         

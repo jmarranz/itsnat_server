@@ -6,6 +6,7 @@
 
 package test.droid.core;
 
+import test.droid.shared.TestDroidBase;
 import org.itsnat.core.CometNotifier;
 import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;

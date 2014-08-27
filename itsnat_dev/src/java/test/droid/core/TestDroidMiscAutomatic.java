@@ -6,6 +6,7 @@
 
 package test.droid.core;
 
+import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;

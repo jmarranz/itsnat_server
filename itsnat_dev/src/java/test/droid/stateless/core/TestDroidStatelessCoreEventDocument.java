@@ -15,6 +15,7 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ItsNatEventDOMStateless;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
@@ -23,24 +24,25 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
+import test.droid.shared.TestDroidBase;
 
 /**
  *
  * @author jmarranz
  */
-public class TestDroidStatelessCoreEventDocument implements Serializable,EventListener
+public class TestDroidStatelessCoreEventDocument extends TestDroidBase implements Serializable,EventListener
 {
-    protected ItsNatDocument itsNatDoc;
-
     /**
      * Creates a new instance of TestCoreLoadListener
      */
     public TestDroidStatelessCoreEventDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        this.itsNatDoc = itsNatDoc;
+        super(itsNatDoc);
         
         if (!itsNatDoc.isCreatedByStatelessEvent())
             throw new RuntimeException("Only to test stateless, must be loaded by a stateless event");
+        
+        itsNatDoc.getDocument();
         
         itsNatDoc.addEventListener(this);
     }
@@ -57,9 +59,11 @@ public class TestDroidStatelessCoreEventDocument implements Serializable,EventLi
         ScriptUtil scriptGen = itsNatDoc.getScriptUtil();
         String elemParentRef = scriptGen.getNodeReference(elemParent);
         ClientDocument clientDoc = itsNatEvt.getClientDocument();
-        clientDoc.addCodeToSend("View view = (View)" + elemParentRef + "; alert(view);");        
+        clientDoc.addCodeToSend("View view = (View)" + elemParentRef + "; ");        
         clientDoc.addCodeToSend("view.removeAllViews();");         
-        clientDoc.addCodeToSend("alert(\"Removed current children\");");        
+        
+        Element logElem = doc.getElementById("testElem_text_Id");
+        logToTextView(logElem, "Removed current children before insertion");    
                 
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();  
         ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment");  
@@ -68,7 +72,13 @@ public class TestDroidStatelessCoreEventDocument implements Serializable,EventLi
   
         elemParent.appendChild(docFrag); // docFrag is empty now  
         
+        // Cambiamos el texto del TextView del fragment que está diseñado para otro test, así ejercitamos la capacidad de modificar DOM sin problema en el doc auxiliar
+        // y trasladarse los cambios al ppal sin problemas 
+        Element fragmentRoot = doc.getElementById("fragmentTestId");
+        fragmentRoot.removeAttribute("onclick");         
+        Element textView = ItsNatTreeWalker.getFirstChildElement(fragmentRoot);
+        textView.setAttributeNS(ANDROID_NS,"text","Some Text");
         
-        clientDoc.addCodeToSend("alert(\"OK\");");
+        logToTextView(logElem, "\nOK"); 
     }    
 }

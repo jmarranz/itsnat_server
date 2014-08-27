@@ -6,6 +6,7 @@
 
 package test.droid.core;
 
+import test.droid.shared.TestDroidBase;
 import java.util.Date;
 import java.util.LinkedList;
 import org.itsnat.core.ClientDocument;
