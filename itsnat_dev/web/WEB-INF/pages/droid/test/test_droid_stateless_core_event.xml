@@ -14,6 +14,12 @@
         android:text="">
     </TextView>         
 
+    <FrameView itsnat:locById="true" id="testElemContainerId" 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+    </FrameView>    
+    
 </FrameView>
 
         
