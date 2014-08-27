@@ -38,7 +38,7 @@ public class DOMUtilInternal
     public DOMUtilInternal()
     {
     }
-
+    
     public static String getLocalName(Element elem)
     {
         String localName = elem.getLocalName(); 

@@ -17,7 +17,7 @@ import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatEventDOMStateless;
 import org.itsnat.core.script.ScriptUtil;
-import org.itsnat.core.tmpl.ItsNatHTMLDocFragmentTemplate;
+import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -47,12 +47,7 @@ public class TestDroidStatelessCoreEventDocument implements Serializable,EventLi
 
     public void handleEvent(Event evt)
     {
-if (true)        
-{
-        ClientDocument clientDoc = ((ItsNatEventDOMStateless)evt).getClientDocument();    
-        clientDoc.addCodeToSend("alert(\"OK PROVISIONAL\");");    
-    return;
-}
+
         
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
         
@@ -60,19 +55,20 @@ if (true)
         Document doc = itsNatDoc.getDocument();
         Element elemParent = doc.getElementById("testElemId");
         ScriptUtil scriptGen = itsNatDoc.getScriptUtil();
-        String elemRef = scriptGen.getNodeReference(elemParent);
+        String elemParentRef = scriptGen.getNodeReference(elemParent);
         ClientDocument clientDoc = itsNatEvt.getClientDocument();
-        clientDoc.addCodeToSend(elemRef + ".innerHTML = '';");        
-        clientDoc.addCodeToSend("alert('Removed current children');");        
+        clientDoc.addCodeToSend("View view = (View)" + elemParentRef + "; alert(view);");        
+        clientDoc.addCodeToSend("view.removeAllViews();");         
+        clientDoc.addCodeToSend("alert(\"Removed current children\");");        
                 
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();  
-        ItsNatHTMLDocFragmentTemplate docFragTemplate = (ItsNatHTMLDocFragmentTemplate)servlet.getItsNatDocFragmentTemplate("test_html_fragment_fragment");  
+        ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment");  
 
-        DocumentFragment docFrag = docFragTemplate.loadDocumentFragmentBody(itsNatDoc);  
+        DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);  
   
         elemParent.appendChild(docFrag); // docFrag is empty now  
         
         
-        clientDoc.addCodeToSend("alert('OK');");
+        clientDoc.addCodeToSend("alert(\"OK\");");
     }    
 }

@@ -84,6 +84,25 @@
         }
         </script>
 
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Stateless Event"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp"
+            onclick="sendEventStateless()">
+        </TextView>
+        <script>
+        void sendEventStateless()
+        {
+            var evt = itsNatDoc.createEventStateless();
+            evt.setExtraParam("model",android.os.Build.MODEL);   
+            evt.setExtraParam("itsnat_doc_name","test_droid_stateless_core_event");            
+            itsNatDoc.dispatchEventStateless(evt, 3 /*XHR_ASYNC_HOLD*/, 1000000);
+        }
+        </script>
+
 
     </LinearLayout>
 </ScrollView>        

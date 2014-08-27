@@ -197,10 +197,18 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return handler;
     }
 
-    private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,NodeToInsertImpl newChildToIn,int index,Context ctx)
+    private View createAndAddViewObjectAndFillAttributes(ClassDescViewBased classDesc, View viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
     {
+        Context ctx = inflated.getContext();
         int idStyle = findStyleAttribute(newChildToIn, ctx);
-        return classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+        View view = classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+
+        newChildToIn.setView(view);
+
+        if (newChildToIn.hasAttributes())
+            fillViewAttributes(classDesc,newChildToIn,inflated);
+
+        return view;
     }
 
     private static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
@@ -211,10 +219,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return AttrDesc.getIdentifier(value, ctx);
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,PageImpl page)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
     {
         View view = newChildToIn.getView();
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+
         for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
         {
             AttrImpl attr = entry.getValue();
@@ -567,17 +576,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
         InflatedLayoutImpl inflated = page.getInflatedLayoutPageImpl();
-        Context ctx = inflated.getContext();
         XMLLayoutInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
         ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = createAndAddViewObject(classDesc,parentNode.getView(),newChildToIn,index,ctx);
-
-        newChildToIn.setView(view);
-
-        if (newChildToIn.hasAttributes())
-            fillViewAttributes(classDesc,newChildToIn,inflated,page);
+        View view = createAndAddViewObjectAndFillAttributes(classDesc, parentNode.getView(), newChildToIn, index, inflated);
 
         newChildToIn.setInserted();
     }

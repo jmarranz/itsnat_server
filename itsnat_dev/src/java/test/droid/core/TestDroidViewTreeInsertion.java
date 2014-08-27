@@ -40,21 +40,21 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         
         
         Element frameLayoutView = doc.createElement("FrameLayout"); 
-        frameLayoutView.setAttribute("android:layout_width", "match_parent");        
-        frameLayoutView.setAttribute("android:layout_height", "wrap_content");         
-        frameLayoutView.setAttribute("android:background", "#ddffdd");         
-        frameLayoutView.setAttribute("android:paddingLeft", "10dp");        
-        frameLayoutView.setAttribute("android:paddingBottom", "10dp");        
-        frameLayoutView.setAttribute("android:paddingTop", "10dp");          
-        frameLayoutView.setAttribute("android:paddingRight", "10dp");              
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:layout_width", "match_parent");        
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:layout_height", "wrap_content");         
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:background", "#ddffdd");         
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:paddingLeft", "10dp");        
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:paddingBottom", "10dp");        
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:paddingTop", "10dp");          
+        frameLayoutView.setAttributeNS(ANDROID_NS,"android:paddingRight", "10dp");              
         
         Element frameLayoutViewInner = doc.createElement("FrameLayout");  
-        frameLayoutViewInner.setAttribute("android:layout_width", "match_parent");        
-        frameLayoutViewInner.setAttribute("android:layout_height", "wrap_content");         
-        frameLayoutViewInner.setAttribute("android:background", "#ddddff");            
+        frameLayoutViewInner.setAttributeNS(ANDROID_NS,"android:layout_width", "match_parent");        
+        frameLayoutViewInner.setAttributeNS(ANDROID_NS,"android:layout_height", "wrap_content");         
+        frameLayoutViewInner.setAttributeNS(ANDROID_NS,"android:background", "#ddddff");            
         
         Element textViewInner = doc.createElement("TextView");       
-        textViewInner.setAttribute("android:text", "OK if two anidated rects (green/purple)");  
+        textViewInner.setAttributeNS(ANDROID_NS,"android:text", "OK if two anidated rects (green/purple)");  
 
         frameLayoutViewInner.appendChild(textViewInner);         
         

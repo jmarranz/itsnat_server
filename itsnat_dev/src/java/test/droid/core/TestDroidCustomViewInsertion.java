@@ -36,8 +36,8 @@ public class TestDroidCustomViewInsertion extends TestDroidBase implements Event
         Element customTextView = doc.createElement("org.itsnat.itsnatdroidtest.CustomTextView");
         // El style debe definirse ANTES de insertar
         customTextView.setAttribute("style", "@style/test"); // Añade left/right padding
-        customTextView.setAttribute("android:text", "OK if text shown, pink background and left/right padding");    // CustomTextView deriva de TextView
-        customTextView.setAttribute("android:background", "#ffdddd");        
+        customTextView.setAttributeNS(ANDROID_NS,"android:text", "OK if text shown, pink background and left/right padding");    // CustomTextView deriva de TextView
+        customTextView.setAttributeNS(ANDROID_NS,"android:background", "#ffdddd");        
         
         testLauncherHidden.getParentNode().insertBefore(customTextView, testLauncherHidden);
     }

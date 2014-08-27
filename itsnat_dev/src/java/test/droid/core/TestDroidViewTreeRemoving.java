@@ -34,14 +34,14 @@ public class TestDroidViewTreeRemoving extends TestDroidBase implements EventLis
         Element testLauncherHidden = doc.getElementById("testViewTreeRemovingHiddenId");  
         
         final Element frameLayoutViewToRemove = doc.createElement("FrameLayout");        
-        frameLayoutViewToRemove.setAttribute("android:layout_width", "match_parent");        
-        frameLayoutViewToRemove.setAttribute("android:layout_height", "wrap_content");         
-        frameLayoutViewToRemove.setAttribute("android:background", "#ddddff");        
+        frameLayoutViewToRemove.setAttributeNS(ANDROID_NS,"android:layout_width", "match_parent");        
+        frameLayoutViewToRemove.setAttributeNS(ANDROID_NS,"android:layout_height", "wrap_content");         
+        frameLayoutViewToRemove.setAttributeNS(ANDROID_NS,"android:background", "#ddddff");        
 
         Element textViewToRemove = doc.createElement("TextView"); 
-        textViewToRemove.setAttribute("android:layout_width", "match_parent");        
-        textViewToRemove.setAttribute("android:layout_height", "50dp");         
-        textViewToRemove.setAttribute("android:text", "CLICK HERE TO REMOVE");        
+        textViewToRemove.setAttributeNS(ANDROID_NS,"android:layout_width", "match_parent");        
+        textViewToRemove.setAttributeNS(ANDROID_NS,"android:layout_height", "50dp");         
+        textViewToRemove.setAttributeNS(ANDROID_NS,"android:text", "CLICK HERE TO REMOVE");        
         frameLayoutViewToRemove.appendChild(textViewToRemove);
 
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        

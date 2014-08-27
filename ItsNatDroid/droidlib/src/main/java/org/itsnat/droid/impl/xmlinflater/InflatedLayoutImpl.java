@@ -282,6 +282,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser)
     {
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
             String namespaceURI = parser.getAttributeNamespace(i);

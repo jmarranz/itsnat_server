@@ -475,6 +475,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     {
         // atributo itsnat:nocache
         String nocache = elem.getAttributeNS(NamespaceUtil.ITSNAT_NAMESPACE,"nocache");
+        
         return "true".equals(nocache);
     }
 

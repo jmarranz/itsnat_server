@@ -32,13 +32,13 @@ public abstract class TestDroidBase
     
     public void logToTextView(Element outElem,String msg)
     {
-        String text = outElem.getAttribute("android:text");
+        String text = outElem.getAttributeNS(ANDROID_NS,"text");
         text += msg;
-        outElem.setAttribute("android:text",text);    
+        outElem.setAttributeNS(ANDROID_NS,"android:text",text);         
     }
     
     public String getLogTextView(Element outElem)
     {
-        return outElem.getAttribute("android:text");        
+        return outElem.getAttributeNS(ANDROID_NS,"text");        
     }    
 }

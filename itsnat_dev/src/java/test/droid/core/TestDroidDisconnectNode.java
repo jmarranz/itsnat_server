@@ -64,7 +64,7 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
         
         itsNatDoc.addCodeToSend(code);
         
-        testLauncher.setAttribute("android:text", "Click to RECONNECT Node");
+        testLauncher.setAttributeNS(ANDROID_NS,"android:text", "Click to RECONNECT Node");
         
     }    
     
@@ -88,7 +88,7 @@ public class TestDroidDisconnectNode extends TestDroidBase implements EventListe
         container.appendChild(childNodes);
         this.childNodes = null;
         
-        testLauncher.setAttribute("android:text", "Test Disconnect Node");        
+        testLauncher.setAttributeNS(ANDROID_NS,"android:text", "Test Disconnect Node");        
         
     }    
 }

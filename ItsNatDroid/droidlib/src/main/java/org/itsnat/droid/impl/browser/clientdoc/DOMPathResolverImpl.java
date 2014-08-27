@@ -48,9 +48,9 @@ public class DOMPathResolverImpl implements DOMPathResolver
         if (arrayPath.length == 1)
         {
             String firstPos = arrayPath[0];
-            if (firstPos.equals("window")) throw new ItsNatDroidException("Unexpected");
-            else if (firstPos.equals("document")) throw new ItsNatDroidException("Unexpected");
-            else if (firstPos.equals("doctype")) throw new ItsNatDroidException("Unexpected");
+            if (firstPos.equals("window")) throw new ItsNatDroidException("Unexpected window");
+            else if (firstPos.equals("document")) throw new ItsNatDroidException("Unexpected document node");
+            else if (firstPos.equals("doctype")) throw new ItsNatDroidException("Unexpected doctype node");
             else if (firstPos.indexOf("eid:") == 0)
             {
                 InflatedLayoutImpl layout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
@@ -61,16 +61,16 @@ public class DOMPathResolverImpl implements DOMPathResolver
         }
 
         if (topParent == null) topParent = viewRoot;
-        View node = topParent;
+        View viewRes = topParent;
 
         int len = arrayPath.length;
         for(int i = 0; i < len; i++)
         {
             String posStr = arrayPath[i];
-            node = getChildNodeFromStrPos(node,posStr);
+            viewRes = getChildNodeFromStrPos(viewRes,posStr);
         }
 
-        return node;
+        return viewRes;
     }
 
     private View getChildNodeFromStrPos(View parentNode,String posStr)

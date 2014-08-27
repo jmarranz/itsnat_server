@@ -18,6 +18,7 @@ package org.itsnat.impl.core.markup.parse;
 
 import org.itsnat.core.ItsNatException;
 import org.apache.xerces.parsers.DOMParser;
+import org.apache.xerces.parsers.SAXParser;
 import org.itsnat.impl.core.domimpl.otherns.OtherNSDocumentImpl;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
@@ -36,7 +37,8 @@ public class XercesXMLDOMParserWrapperImpl extends XercesDOMParserWrapperImpl
     {
         try
         {
-            parser.setFeature(NAMESPACES_FEATURE_ID, namespacesFeature);
+            parser.setFeature(NAMESPACES_FEATURE_ID, namespacesFeature);            
+            
             parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
             parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
             parser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, DEFAULT_DYNAMIC_VALIDATION);
