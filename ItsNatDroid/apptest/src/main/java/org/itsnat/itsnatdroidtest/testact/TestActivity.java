@@ -31,6 +31,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
     protected String urlTestCore;
     protected String urlTestRemCtrl;
     protected String urlTestStatelessCore;
+    //protected String urlTestCoreAttachServerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
         this.urlTestCore =          urlTestBase + "?itsnat_doc_name=test_droid_core";
         this.urlTestRemCtrl =       urlTestBase + "?itsnat_doc_name=test_droid_remote_ctrl";
         this.urlTestStatelessCore = urlTestBase + "?itsnat_doc_name=test_droid_stateless_core_initial";
+        //this.urlTestCoreAttachServerLauncher = urlTestBase + "?itsnat_doc_name=test_droid_core_attached_server_launcher";
 
         getActionBar().setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
 
@@ -116,6 +118,8 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
     {
         return urlTestStatelessCore;
     }
+
+    //public String getUrlTestCoreAttachServerLauncher() { return urlTestCoreAttachServerLauncher; }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

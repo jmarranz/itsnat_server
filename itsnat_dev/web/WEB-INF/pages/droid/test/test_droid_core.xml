@@ -42,7 +42,7 @@
 
         <script><![CDATA[ toast("LOADING \n(OK testing <script> on load)"); ]]></script>
 
-
+   
         <!-- Test load event inline -->
         <TextView id="testLoadInlineHandlerId"
                 android:layout_width="match_parent"
@@ -230,7 +230,8 @@
                 android:layout_width="250dp"
                 android:layout_height="100dp"
                 android:background="#dd0000"
-                android:visibility="gone">
+                android:visibility="gone">                
+            
                 <TextView id="eventCaptureChildId"
                     android:layout_width="200dp"
                     android:layout_height="50dp"
@@ -239,7 +240,7 @@
                 </TextView>
             </FrameLayout>
 
-
+ 
         <!-- Test Continue Event Listener -->
         <Button id="testContinueEvtListenerId"
                 android:layout_width="wrap_content"

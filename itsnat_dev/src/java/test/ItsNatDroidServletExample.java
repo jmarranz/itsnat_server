@@ -73,7 +73,22 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(false);
         
+        // Attached server
         
+        /*
+        docTemplate = registerDocument("test_droid_core_attached_server_launcher","android/layout",pathPrefix,pages);  // El motivo de este template es para poder generar una página con un template complejo evitando hacer una copia como estático
+        docTemplate.addItsNatServletRequestListener(new TestDroidCoreAttachServerLauncherDocLoadListener());
+        docTemplate.setScriptingEnabled(false);
+        docTemplate.setFastLoadMode(true); // REVISAR ?????? FUNDAMENTAL para añadir los <script> de attachment a la página inicial        
+        
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplateAttachedServer("test_droid_core_attached_server","android/layout");  
+        docTemplate.addItsNatServletRequestListener(new TestCoreDocLoadListener());
+        docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
+        docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));
+        //docTemplate.setCommMode(CommMode.SCRIPT_HOLD);        
+        */
+        
+        // Fragments 
         
         ItsNatDocFragmentTemplate docFragDesc;
 

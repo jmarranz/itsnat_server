@@ -116,6 +116,20 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
+        /*
+        View testCoreAttachServerLauncher = rootView.findViewById(R.id.testCoreAttachServerLauncher);
+        testCoreAttachServerLauncher.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestStatelessCore();
+                TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
+        */
+
         return rootView;
     }
 
