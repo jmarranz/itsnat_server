@@ -10,7 +10,7 @@
 package test.droid.comp;
 
 import org.itsnat.comp.ItsNatComponentManager;
-import org.itsnat.comp.droid.CheckBox;
+import org.itsnat.comp.android.widget.CheckBox;
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

@@ -14,36 +14,39 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.comp.droid;
+package org.itsnat.impl.comp.android.view;
 
 import org.itsnat.comp.ItsNatComponentUI;
-import org.itsnat.comp.droid.CheckBox;
+import org.itsnat.comp.android.view.View;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  *
  * @author jmarranz
  */
-public class CheckBoxImpl extends ItsNatElementComponentImpl implements CheckBox
+public abstract class ViewImpl extends ItsNatElementComponentImpl implements View
 {
-    protected Object value;
-
     /** Creates a new instance of CheckBoxImpl */
-    public CheckBoxImpl(Element element,NameValue[] artifacts,ItsNatDocComponentManagerImpl componentMgr)
+    public ViewImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
-
-        init();
     }
 
+    public Document getDocument()
+    {
+        return getItsNatDocument().getDocument();
+    }
+    
     public Object createDefaultStructure()
     {
         return null;
@@ -52,28 +55,21 @@ public class CheckBoxImpl extends ItsNatElementComponentImpl implements CheckBox
     @Override
     public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ItsNatCompNormalEventListenersByDocDefaultImpl(this);
     }
 
     @Override
     public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ItsNatCompNormalEventListenersByClientDefaultImpl(this,clientDoc);
     }
 
     @Override
     public ItsNatComponentUI createDefaultItsNatComponentUI()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
-    @Override
-    public Node createDefaultNode()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ParamTransport[] getInternalParamTransports(String type, ClientDocumentImpl clientDoc)
     {
         return null;
@@ -91,21 +87,16 @@ public class CheckBoxImpl extends ItsNatElementComponentImpl implements CheckBox
 
     public void initialSyncUIWithDataModel()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Object createDefaultModelInternal()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
-    public boolean isEnabled()
+    protected String getNodeReference()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getItsNatDocument().getScriptUtil().getNodeReference(getElement());
     }
-
-    public void setEnabled(boolean b)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }

@@ -20,8 +20,8 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecCharSequence(this, "text"));
         addAttrDesc(new AttrDesc_widget_TextView_gravity(this));  // gravity
+        addAttrDesc(new AttrDescReflecCharSequence(this, "text"));
         addAttrDesc(new AttrDescReflecColor(this,"textColor")); // textColor
         addAttrDesc(new AttrDesc_widget_TextView_textSize(this)); // textSize
         addAttrDesc(new AttrDesc_widget_TextView_textAppearance(this)); // "textAppearance"

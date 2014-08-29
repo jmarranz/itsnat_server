@@ -14,12 +14,12 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.comp.droid.factory;
+package org.itsnat.impl.comp.android.factory.widget;
 
 import org.itsnat.comp.ItsNatElementComponent;
-import org.itsnat.comp.droid.CheckBox;
+import org.itsnat.comp.android.widget.CheckBox;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.droid.CheckBoxImpl;
+import org.itsnat.impl.comp.android.widget.CheckBoxImpl;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
@@ -27,12 +27,12 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class FactoryCheckBoxImpl extends FactoryItsNatDroidComponentImpl
+public class FactoryDroidCheckBoxImpl extends FactoryDroidCompoundButtonImpl
 {
-    public final static FactoryCheckBoxImpl SINGLETON = new FactoryCheckBoxImpl();
+    public final static FactoryDroidCheckBoxImpl SINGLETON = new FactoryDroidCheckBoxImpl();
 
     /** Creates a new instance of FactoryItsNatHTMLInputTextImpl */
-    public FactoryCheckBoxImpl()
+    public FactoryDroidCheckBoxImpl()
     {
     }
     

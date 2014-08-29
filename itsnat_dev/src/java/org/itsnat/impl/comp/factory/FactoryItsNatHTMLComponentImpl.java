@@ -69,6 +69,7 @@ public abstract class FactoryItsNatHTMLComponentImpl extends FactoryItsNatCompon
     public ItsNatComponent createItsNatComponent(Element element,String compType,NameValue[] artifacts,boolean autoBuildMode,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr)
     {
         // Si no es modo auto-build nos da igual lo que el diga el markup, es el caso de orden explícita de creación de componente (si se puede)
+        // Ver el manual para entender esto que sólo afecta a HTML aunque parezca genérico
         if (autoBuildMode && !mustBeCreatedAutoBuildMode(element))
             return null;
 

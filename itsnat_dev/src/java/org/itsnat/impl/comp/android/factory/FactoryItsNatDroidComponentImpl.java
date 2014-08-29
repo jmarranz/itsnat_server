@@ -14,7 +14,7 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.comp.droid.factory;
+package org.itsnat.impl.comp.android.factory;
 
 import org.itsnat.impl.comp.factory.*;
 import org.itsnat.comp.ItsNatComponent;

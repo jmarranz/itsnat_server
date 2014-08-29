@@ -26,10 +26,9 @@ import org.itsnat.comp.table.ItsNatTableCellEditor;
 import org.itsnat.comp.tree.ItsNatTreeCellEditor;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.droid.factory.FactoryCheckBoxImpl;
-import org.itsnat.impl.comp.droid.factory.FactoryItsNatDroidComponentImpl;
+import org.itsnat.impl.comp.android.factory.widget.FactoryDroidCheckBoxImpl;
+import org.itsnat.impl.comp.android.factory.FactoryItsNatDroidComponentImpl;
 import org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl;
-import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.Element;
@@ -44,7 +43,7 @@ public class ItsNatStfulDroidDocComponentManagerImpl extends ItsNatStfulDocCompo
     
     static
     {
-        addDROIDFactory(FactoryCheckBoxImpl.SINGLETON);        
+        addDROIDFactory(FactoryDroidCheckBoxImpl.SINGLETON);        
     }
     
     public ItsNatStfulDroidDocComponentManagerImpl(ItsNatStfulDocumentImpl itsNatDoc)
