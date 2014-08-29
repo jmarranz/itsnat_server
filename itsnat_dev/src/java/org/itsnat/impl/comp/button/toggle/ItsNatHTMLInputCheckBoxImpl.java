@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputCheckBox;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -33,7 +33,7 @@ public class ItsNatHTMLInputCheckBoxImpl extends ItsNatHTMLInputButtonToggleImpl
     /**
      * Creates a new instance of ItsNatHTMLInputCheckBoxImpl
      */
-    public ItsNatHTMLInputCheckBoxImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputCheckBoxImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

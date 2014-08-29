@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.button.normal.ItsNatHTMLButton;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.normal.ItsNatHTMLButtonDefaultImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLButtonElement;
 import org.w3c.dom.html.HTMLElement;
 
@@ -39,7 +39,7 @@ public class FactoryItsNatHTMLButtonDefaultImpl extends FactoryItsNatHTMLButtonI
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLButtonDefault((HTMLButtonElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -49,7 +49,7 @@ public class FactoryItsNatHTMLButtonDefaultImpl extends FactoryItsNatHTMLButtonI
         return null;
     }
 
-    public ItsNatHTMLButton createItsNatHTMLButtonDefault(HTMLButtonElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLButton createItsNatHTMLButtonDefault(HTMLButtonElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLButton comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

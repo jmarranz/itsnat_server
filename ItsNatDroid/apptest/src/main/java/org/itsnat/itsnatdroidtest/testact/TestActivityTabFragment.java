@@ -63,7 +63,7 @@ public class TestActivityTabFragment extends Fragment
         Bundle bundle = getArguments();
         this.sectionNumber = bundle.getInt(ARG_SECTION_NUMBER);
 
-        this.rootView = inflater.inflate(R.layout.fragment_index, container, false);
+        this.rootView = inflater.inflate(R.layout.fragment_test_index, container, false);
 
 
 
@@ -115,6 +115,20 @@ public class TestActivityTabFragment extends Fragment
                 test.test(url);
             }
         });
+
+        View testRemoteComponents = rootView.findViewById(R.id.testRemoteComponents);
+        testRemoteComponents.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestComponents();
+                TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
+
+
 
         /*
         View testCoreAttachServerLauncher = rootView.findViewById(R.id.testCoreAttachServerLauncher);

@@ -33,7 +33,6 @@ public abstract class FactoryItsNatComponentImpl
 
     public abstract String getCompType();  // En componentes de elementos HTML reconocidos puede ser nulo (opcional)
     public abstract String getKey();
-    public abstract ItsNatComponent createItsNatComponent(Element elem,String compType,NameValue[] artifacts,boolean ignoreIsComponentAttr,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr);
 
     public static boolean hasBeforeAfterCreateItsNatComponentListener(boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr)
     {
@@ -84,4 +83,6 @@ public abstract class FactoryItsNatComponentImpl
         if (useStructureParam == null) return null;
         return new NameValue[] { useStructureParam };
     }
+        
+    public abstract ItsNatComponent createItsNatComponent(Element elem,String compType,NameValue[] artifacts,boolean autoBuildMode,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr);   
 }

@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLComponentManager;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.ItsNatHTMLElementComponentUI;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -34,7 +34,7 @@ public abstract class ItsNatHTMLElementComponentImpl extends ItsNatElementCompon
     /**
      * Creates a new instance of ItsNatHTMLElementComponentImpl
      */
-    public ItsNatHTMLElementComponentImpl(HTMLElement node,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLElementComponentImpl(HTMLElement node,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(node,artifacts,componentMgr);
     }
@@ -47,14 +47,14 @@ public abstract class ItsNatHTMLElementComponentImpl extends ItsNatElementCompon
         return null;
     }
 
-    public ItsNatStfulDocComponentManagerImpl getItsNatStfulDocComponentManager()
+    public ItsNatStfulWebDocComponentManagerImpl getItsNatStfulWebDocComponentManager()
     {
-        return (ItsNatStfulDocComponentManagerImpl)componentMgr;
+        return (ItsNatStfulWebDocComponentManagerImpl)componentMgr;
     }
 
     public ItsNatHTMLComponentManager getItsNatHTMLComponentManager()
     {
-        return getItsNatStfulDocComponentManager();
+        return getItsNatStfulWebDocComponentManager();
     }
 
     public ItsNatHTMLElementComponentUI getItsNatHTMLElementComponentUI()

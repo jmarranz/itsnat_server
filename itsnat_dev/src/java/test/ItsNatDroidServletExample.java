@@ -15,6 +15,8 @@ import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
+import test.droid.comp.TestDroidComponentsDocLoadListener;
+import test.droid.comp.TestDroidCreateItsNatComponentListener;
 import test.droid.core.TestDroidCoreDocLoadListener;
 import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
@@ -72,6 +74,17 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreEventDocLoadListener());
         docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(false);
+        
+        // Components
+        docTemplate = registerDocument("test_droid_components","android/layout",pathPrefix,pages); 
+        docTemplate.addItsNatServletRequestListener(new TestDroidComponentsDocLoadListener());
+        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));
+        docTemplate.addCreateItsNatComponentListener(new TestDroidCreateItsNatComponentListener());
+        // docTemplate.setAutoBuildComponents(true);
+        //docTemplate.registerArtifact("tableComplexStructure",new TestComplexHTMLTableStructure());
+        //docTemplate.setJoystickMode(joystickMode);
+        //docTemplate.setScriptingEnabled(false);
+        //docTemplate.setEventsEnabled(false);        
         
         // Attached server
         

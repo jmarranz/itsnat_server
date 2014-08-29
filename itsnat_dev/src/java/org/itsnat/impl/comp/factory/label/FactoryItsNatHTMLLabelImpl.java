@@ -21,7 +21,7 @@ import org.itsnat.comp.label.ItsNatHTMLLabel;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.label.ItsNatHTMLLabelImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLLabelElement;
 
@@ -40,7 +40,7 @@ public class FactoryItsNatHTMLLabelImpl extends FactoryItsNatHTMLComponentImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLLabel((HTMLLabelElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -60,7 +60,7 @@ public class FactoryItsNatHTMLLabelImpl extends FactoryItsNatHTMLComponentImpl
         return null;
     }
 
-    public ItsNatHTMLLabel createItsNatHTMLLabel(HTMLLabelElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLLabel createItsNatHTMLLabel(HTMLLabelElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLLabel comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

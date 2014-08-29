@@ -25,7 +25,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefau
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.events.EventListener;
@@ -45,7 +45,7 @@ public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementCompo
     /**
      * Creates a new instance of ItsNatHTMLFormComponentImpl
      */
-    public ItsNatHTMLFormComponentImpl(HTMLElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLFormComponentImpl(HTMLElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }
@@ -89,7 +89,7 @@ public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementCompo
             return null;
         if ((formComp == null)||(formComp.getHTMLFormElement() != formElem))
         {
-            ItsNatStfulDocComponentManagerImpl componentMgr = getItsNatStfulDocComponentManager();
+            ItsNatStfulWebDocComponentManagerImpl componentMgr = getItsNatStfulWebDocComponentManager();
             this.formComp = componentMgr.getItsNatHTMLForm(formElem);
         }
         return formComp;

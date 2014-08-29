@@ -30,7 +30,7 @@ import javax.swing.text.PlainDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -56,7 +56,7 @@ public class ItsNatHTMLTextAreaImpl extends ItsNatHTMLFormCompValueBasedImpl imp
     /**
      * Creates a new instance of ItsNatHTMLTextAreaImpl
      */
-    public ItsNatHTMLTextAreaImpl(HTMLTextAreaElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLTextAreaImpl(HTMLTextAreaElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

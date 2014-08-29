@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.text.ItsNatHTMLTextArea;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.comp.text.ItsNatHTMLTextAreaImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLTextAreaElement;
@@ -40,7 +40,7 @@ public class FactoryItsNatHTMLTextAreaImpl extends FactoryItsNatHTMLComponentImp
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLTextArea((HTMLTextAreaElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -60,7 +60,7 @@ public class FactoryItsNatHTMLTextAreaImpl extends FactoryItsNatHTMLComponentImp
         return null;
     }
 
-    public ItsNatHTMLTextArea createItsNatHTMLTextArea(HTMLTextAreaElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLTextArea createItsNatHTMLTextArea(HTMLTextAreaElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLTextArea comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

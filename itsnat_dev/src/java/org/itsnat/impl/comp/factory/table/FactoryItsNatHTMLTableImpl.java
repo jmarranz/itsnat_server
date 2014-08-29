@@ -21,7 +21,7 @@ import org.itsnat.comp.table.ItsNatHTMLTable;
 import org.itsnat.comp.table.ItsNatTableStructure;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.comp.table.ItsNatHTMLTableImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLTableElement;
@@ -41,7 +41,7 @@ public class FactoryItsNatHTMLTableImpl extends FactoryItsNatHTMLComponentImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLTable((HTMLTableElement)element,null,artifacts,execCreateFilters,compMgr);
     }
@@ -61,7 +61,7 @@ public class FactoryItsNatHTMLTableImpl extends FactoryItsNatHTMLComponentImpl
         return null;
     }
 
-    public ItsNatHTMLTable createItsNatHTMLTable(HTMLTableElement element,ItsNatTableStructure structure,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLTable createItsNatHTMLTable(HTMLTableElement element,ItsNatTableStructure structure,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLTable comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

@@ -23,7 +23,7 @@ import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.list.ItsNatHTMLSelectComboBoxImpl;
 import org.itsnat.impl.comp.list.ItsNatHTMLSelectMultImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLSelectElement;
 
@@ -42,7 +42,7 @@ public class FactoryItsNatHTMLSelectImpl extends FactoryItsNatHTMLComponentImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         HTMLSelectElement select = (HTMLSelectElement)element;
         if (select.getMultiple())
@@ -66,7 +66,7 @@ public class FactoryItsNatHTMLSelectImpl extends FactoryItsNatHTMLComponentImpl
         return null;
     }
 
-    public ItsNatHTMLSelectMult createItsNatHTMLSelectMult(HTMLSelectElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLSelectMult createItsNatHTMLSelectMult(HTMLSelectElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLSelectMult comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);
@@ -78,7 +78,7 @@ public class FactoryItsNatHTMLSelectImpl extends FactoryItsNatHTMLComponentImpl
         return comp;
     }
 
-    public ItsNatHTMLSelectComboBox createItsNatHTMLSelectComboBox(HTMLSelectElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLSelectComboBox createItsNatHTMLSelectComboBox(HTMLSelectElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLSelectComboBox comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

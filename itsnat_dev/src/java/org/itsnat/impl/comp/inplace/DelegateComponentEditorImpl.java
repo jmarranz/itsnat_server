@@ -58,7 +58,7 @@ public abstract class DelegateComponentEditorImpl implements Serializable
             if (compMgr instanceof ItsNatHTMLDocComponentManagerImpl)
             {
                 // Lo más normal es que el editor vaya a un elemento HTML
-                return new DelegateHTMLInputTextEditorImpl(compMgr.createItsNatHTMLInputText(null,null));
+                return new DelegateHTMLInputTextEditorImpl(((ItsNatHTMLDocComponentManagerImpl)compMgr).createItsNatHTMLInputText(null,null));
             }
             else if (compMgr instanceof ItsNatXULDocComponentManagerImpl)
             {

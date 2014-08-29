@@ -28,7 +28,7 @@ import javax.swing.event.ListSelectionListener;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ItsNatEvent;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLSelectElement;
@@ -45,7 +45,7 @@ public class ItsNatHTMLSelectMultImpl extends ItsNatHTMLSelectImpl implements It
     /**
      * Creates a new instance of ItsNatHTMLSelectMultImpl
      */
-    public ItsNatHTMLSelectMultImpl(HTMLSelectElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLSelectMultImpl(HTMLSelectElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

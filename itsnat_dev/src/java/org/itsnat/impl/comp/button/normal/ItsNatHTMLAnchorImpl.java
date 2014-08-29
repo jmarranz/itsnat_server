@@ -31,7 +31,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefau
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -49,7 +49,7 @@ public abstract class ItsNatHTMLAnchorImpl extends ItsNatHTMLElementComponentImp
     protected ItsNatButtonSharedImpl buttonDelegate = createItsNatButtonShared();
 
     /** Creates a new instance of ItsNatHTMLAnchorImpl */
-    public ItsNatHTMLAnchorImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLAnchorImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }

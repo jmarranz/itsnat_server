@@ -37,7 +37,7 @@ public abstract class FactoryItsNatFreeComponentImpl extends FactoryItsNatCompon
         return getKey();
     }
 
-    public ItsNatComponent createItsNatComponent(Element elem,String compType,NameValue[] artifacts,boolean ignoreIsComponentAttr,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr)
+    public ItsNatComponent createItsNatComponent(Element elem,String compType,NameValue[] artifacts,boolean autoBuildMode,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr)
     {
         return createItsNatFreeComponent(elem,compType,artifacts,execCreateFilters,compMgr);
     }

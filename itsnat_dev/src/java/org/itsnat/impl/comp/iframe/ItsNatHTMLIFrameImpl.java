@@ -28,7 +28,7 @@ import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefau
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -51,7 +51,7 @@ public class ItsNatHTMLIFrameImpl extends ItsNatHTMLElementComponentImpl impleme
     /**
      * Creates a new instance of ItsNatHTMLIFrameImpl
      */
-    public ItsNatHTMLIFrameImpl(HTMLIFrameElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLIFrameImpl(HTMLIFrameElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

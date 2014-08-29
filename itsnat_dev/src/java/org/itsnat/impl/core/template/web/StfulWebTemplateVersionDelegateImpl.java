@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -187,5 +188,13 @@ public abstract class StfulWebTemplateVersionDelegateImpl extends StfulTemplateV
 
         normalizeHTMLElements(doc);
     }    
-    
+ 
+    @Override
+    public boolean declaredAsComponent(Element elem)
+    {
+        boolean decAsComp = super.declaredAsComponent(elem);
+        if (decAsComp) return true;
+
+        return ItsNatStfulWebDocComponentManagerImpl.declaredAsHTMLComponent(elem);
+    }    
 }

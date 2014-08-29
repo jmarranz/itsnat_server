@@ -21,7 +21,7 @@ import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.normal.ItsNatHTMLInputButtonImpl;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -38,7 +38,7 @@ public class FactoryItsNatHTMLInputButtonImpl extends FactoryItsNatHTMLInputImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLInputButton((HTMLInputElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -53,7 +53,7 @@ public class FactoryItsNatHTMLInputButtonImpl extends FactoryItsNatHTMLInputImpl
         return null;
     }
 
-    public ItsNatHTMLInputButton createItsNatHTMLInputButton(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLInputButton createItsNatHTMLInputButton(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLInputButton comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

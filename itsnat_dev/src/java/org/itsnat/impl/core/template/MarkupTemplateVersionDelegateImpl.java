@@ -57,6 +57,6 @@ public abstract class MarkupTemplateVersionDelegateImpl
 
     public boolean declaredAsComponent(Element elem)
     {
-        return ItsNatDocComponentManagerImpl.declaredAsComponent(elem);
+        return ItsNatDocComponentManagerImpl.declaredWithCompTypeAttribute(elem);
     }
 }

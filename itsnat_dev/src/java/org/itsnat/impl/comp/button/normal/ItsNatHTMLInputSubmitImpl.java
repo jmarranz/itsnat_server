@@ -18,7 +18,7 @@ package org.itsnat.impl.comp.button.normal;
 
 import org.itsnat.comp.button.normal.ItsNatHTMLInputSubmit;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -35,7 +35,7 @@ public class ItsNatHTMLInputSubmitImpl extends ItsNatHTMLInputButtonTextImpl imp
     /**
      * Creates a new instance of ItsNatHTMLInputButtonTextImpl
      */
-    public ItsNatHTMLInputSubmitImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputSubmitImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

@@ -19,7 +19,7 @@ package org.itsnat.impl.comp.factory.text;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.text.ItsNatHTMLInputTextFormatted;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.comp.text.ItsNatHTMLInputTextFormattedImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -37,7 +37,7 @@ public class FactoryItsNatHTMLInputTextFormattedImpl extends FactoryItsNatHTMLIn
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLInputTextFormatted((HTMLInputElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -47,7 +47,7 @@ public class FactoryItsNatHTMLInputTextFormattedImpl extends FactoryItsNatHTMLIn
         return "formattedTextField";
     }
 
-    public ItsNatHTMLInputTextFormatted createItsNatHTMLInputTextFormatted(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLInputTextFormatted createItsNatHTMLInputTextFormatted(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLInputTextFormatted comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

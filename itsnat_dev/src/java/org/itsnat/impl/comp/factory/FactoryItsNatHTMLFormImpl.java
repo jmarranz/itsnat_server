@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.ItsNatHTMLForm;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.ItsNatHTMLFormImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 
@@ -39,7 +39,7 @@ public class FactoryItsNatHTMLFormImpl extends FactoryItsNatHTMLComponentImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLForm((HTMLFormElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -59,7 +59,7 @@ public class FactoryItsNatHTMLFormImpl extends FactoryItsNatHTMLComponentImpl
         return null;
     }
 
-    public ItsNatHTMLForm createItsNatHTMLForm(HTMLFormElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLForm createItsNatHTMLForm(HTMLFormElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLForm comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

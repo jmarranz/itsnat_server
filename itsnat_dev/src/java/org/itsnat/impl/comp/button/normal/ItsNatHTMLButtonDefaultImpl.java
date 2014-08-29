@@ -17,7 +17,7 @@
 package org.itsnat.impl.comp.button.normal;
 
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLButtonElement;
 
 /**
@@ -28,7 +28,7 @@ public class ItsNatHTMLButtonDefaultImpl extends ItsNatHTMLButtonImpl
 {
 
     /** Creates a new instance of ItsNatHTMLButtonDefaultImpl */
-    public ItsNatHTMLButtonDefaultImpl(HTMLButtonElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLButtonDefaultImpl(HTMLButtonElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

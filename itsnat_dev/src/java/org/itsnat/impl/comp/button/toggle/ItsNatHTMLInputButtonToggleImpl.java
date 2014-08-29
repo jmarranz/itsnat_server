@@ -21,7 +21,7 @@ import javax.swing.JToggleButton.ToggleButtonModel;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputButtonToggle;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.ItsNatHTMLInputButtonBaseImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -35,7 +35,7 @@ public abstract class ItsNatHTMLInputButtonToggleImpl extends ItsNatHTMLInputBut
     /**
      * Creates a new instance of ItsNatHTMLInputButtonToggleImpl
      */
-    public ItsNatHTMLInputButtonToggleImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputButtonToggleImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

@@ -19,12 +19,9 @@ package org.itsnat.impl.core.template;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Iterator;
-import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,14 +43,6 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         super(parent);
     }
 
-    @Override
-    public boolean declaredAsComponent(Element elem)
-    {
-        boolean decAsComp = super.declaredAsComponent(elem);
-        if (decAsComp) return true;
-
-        return ItsNatStfulDocComponentManagerImpl.declaredAsHTMLComponent(elem);
-    }
 
     @Override
     public void serializeNode(Node node,Writer out,DOMRenderImpl nodeRender)

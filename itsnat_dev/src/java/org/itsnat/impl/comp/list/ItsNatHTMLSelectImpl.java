@@ -29,7 +29,7 @@ import org.itsnat.comp.list.ItsNatListStructure;
 import org.itsnat.comp.list.ItsNatHTMLSelectUI;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -53,7 +53,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
     /**
      * Creates a new instance of ItsNatHTMLSelectImpl
      */
-    public ItsNatHTMLSelectImpl(HTMLSelectElement selectElem, NameValue[] artifacts, ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLSelectImpl(HTMLSelectElement selectElem, NameValue[] artifacts, ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(selectElem, artifacts, componentMgr);
 

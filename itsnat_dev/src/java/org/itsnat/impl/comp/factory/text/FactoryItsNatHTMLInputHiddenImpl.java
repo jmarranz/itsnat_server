@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.text.ItsNatHTMLInputHidden;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.comp.text.ItsNatHTMLInputHiddenImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -38,7 +38,7 @@ public class FactoryItsNatHTMLInputHiddenImpl extends FactoryItsNatHTMLInputImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLInputHidden((HTMLInputElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -53,7 +53,7 @@ public class FactoryItsNatHTMLInputHiddenImpl extends FactoryItsNatHTMLInputImpl
         return null;
     }
 
-    public ItsNatHTMLInputHidden createItsNatHTMLInputHidden(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLInputHidden createItsNatHTMLInputHidden(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLInputHidden comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

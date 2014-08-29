@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.comp.mgr.droid;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.label.ItsNatLabelEditor;
 import org.itsnat.comp.layer.ItsNatModalLayer;
@@ -24,6 +26,10 @@ import org.itsnat.comp.table.ItsNatTableCellEditor;
 import org.itsnat.comp.tree.ItsNatTreeCellEditor;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
+import org.itsnat.impl.comp.droid.factory.FactoryCheckBoxImpl;
+import org.itsnat.impl.comp.droid.factory.FactoryItsNatDroidComponentImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatHTMLComponentImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.Element;
@@ -34,10 +40,38 @@ import org.w3c.dom.Element;
  */
 public class ItsNatStfulDroidDocComponentManagerImpl extends ItsNatStfulDocComponentManagerImpl
 {
+    protected static final Map<String,FactoryItsNatDroidComponentImpl> DROID_FACTORIES = new HashMap<String,FactoryItsNatDroidComponentImpl>(); // No sincronizamos porque va a ser siempre usada en modo lectura
+    
+    static
+    {
+        addDROIDFactory(FactoryCheckBoxImpl.SINGLETON);        
+    }
+    
     public ItsNatStfulDroidDocComponentManagerImpl(ItsNatStfulDocumentImpl itsNatDoc)
     {
         super(itsNatDoc);
     }
+    
+    protected static void addDROIDFactory(FactoryItsNatDroidComponentImpl factory)
+    {
+        DROID_FACTORIES.put(factory.getKey(),factory);
+    }    
+    
+    @Override
+    protected FactoryItsNatComponentImpl getFactoryItsNatComponent(Element elem,String compType)
+    {
+        FactoryItsNatComponentImpl factory = super.getFactoryItsNatComponent(elem,compType);
+        if (factory != null) return factory;
+
+        return getDroidFactoryStatic(elem,compType);
+    }        
+    
+    protected static FactoryItsNatComponentImpl getDroidFactoryStatic(Element elem,String compType)
+    {
+        String key = FactoryItsNatDroidComponentImpl.getKey(elem,compType);
+
+        return DROID_FACTORIES.get(key);
+    }    
     
     public ItsNatModalLayer createItsNatModalLayer(Element element,boolean clean,int zIndex,float opacity, String background, NameValue[] artifacts)
     {

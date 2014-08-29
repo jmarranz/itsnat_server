@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.comp.iframe.ItsNatHTMLIFrame;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.iframe.ItsNatHTMLIFrameImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLIFrameElement;
 
@@ -39,7 +39,7 @@ public class FactoryItsNatHTMLIFrameImpl extends FactoryItsNatHTMLComponentImpl
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLIFrame((HTMLIFrameElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -59,7 +59,7 @@ public class FactoryItsNatHTMLIFrameImpl extends FactoryItsNatHTMLComponentImpl
         return null;
     }
 
-    public ItsNatHTMLIFrame createItsNatHTMLIFrame(HTMLIFrameElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLIFrame createItsNatHTMLIFrame(HTMLIFrameElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLIFrame comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

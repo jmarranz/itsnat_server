@@ -17,7 +17,7 @@
 package org.itsnat.impl.comp;
 
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -28,7 +28,7 @@ public abstract class ItsNatHTMLFormCompValueBasedImpl extends ItsNatHTMLFormCom
 {
 
     /** Creates a new instance of ItsNatHTMLFormCompValueBasedImpl */
-    public ItsNatHTMLFormCompValueBasedImpl(HTMLElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLFormCompValueBasedImpl(HTMLElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }
