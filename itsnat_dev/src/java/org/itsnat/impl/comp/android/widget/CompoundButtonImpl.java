@@ -19,6 +19,7 @@ package org.itsnat.impl.comp.android.widget;
 import org.itsnat.comp.android.widget.CompoundButton;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
 
 /**
@@ -31,6 +32,25 @@ public abstract class CompoundButtonImpl extends ButtonImpl implements CompoundB
     public CompoundButtonImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
+    }
+    
+    public boolean isChecked()
+    {
+        Element elem = getElement();
+        return "true".equals( elem.getAttributeNS(NamespaceUtil.ANDROID_NAMESPACE, "checked") );
+    }
+    
+    public void setChecked(boolean checked)
+    {
+        if (isChecked() == checked) return;
+        
+        Element elem = getElement();
+        elem.setAttributeNS(NamespaceUtil.ANDROID_NAMESPACE,getAndroidNamespacePrefix() + ":" + "checked","" + checked);       
+    }    
+        
+    public void toggle()
+    {   
+        setChecked(!isChecked());        
     }
 
 }

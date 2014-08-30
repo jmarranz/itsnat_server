@@ -16,19 +16,12 @@
 
 package org.itsnat.impl.comp.android.widget;
 
-import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.android.widget.CheckBox;
 import org.itsnat.core.NameValue;
-import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.w3c.dom.Document;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import org.w3c.dom.events.Event;
 
 /**
  *
@@ -44,11 +37,30 @@ public class CheckBoxImpl extends CompoundButtonImpl implements CheckBox
         init();
     }
 
+    @Override
+    public String getClassName()
+    {
+        return "CheckBox";
+    }
+    
+    @Override
+    public void enableEventListenersByDoc()
+    {
+        super.enableEventListenersByDoc();
+
+        enableEventListener("click"); // Por defecto se procesa, pues es lo importante
+    }    
 
     @Override
-    public Node createDefaultNode()
+    public void processNormalEvent(Event evt)
     {
-        return getDocument().createElement("CheckBox");
+        String type = evt.getType();
+        if (type.equals("click"))
+        {
+            toggle();
+        }
     }
+
+
 
 }

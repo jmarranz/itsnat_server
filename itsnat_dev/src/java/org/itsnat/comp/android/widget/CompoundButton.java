@@ -16,13 +16,12 @@
 
 package org.itsnat.comp.android.widget;
 
-import org.itsnat.comp.ItsNatElementComponent;
-
 /**
  *
  * @author jmarranz
  */
-public interface CompoundButton extends Button
+public interface CompoundButton extends Button,Checkable
 {
-    
+
+            
 }

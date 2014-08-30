@@ -3,10 +3,10 @@ package org.itsnat.droid.impl.xmlinflater;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 
@@ -45,6 +45,9 @@ public class ClassDescViewMgr
 
         ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
         addClassDescViewBase(widget_Button);
+
+        ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
+        addClassDescViewBase(widget_CompoundButton);
     }
 
     private void addClassDescViewBase(ClassDescViewBased viewDesc)

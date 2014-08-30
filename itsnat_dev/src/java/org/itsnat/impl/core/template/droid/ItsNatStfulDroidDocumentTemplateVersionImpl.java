@@ -62,6 +62,11 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         readNamespaces();
     }
     
+    public String getAndroidNamespacePrefix()
+    {
+        return androidNamespacePrefix;
+    }
+    
     protected void extractScriptElements()
     {
         Document doc = this.templateDoc;

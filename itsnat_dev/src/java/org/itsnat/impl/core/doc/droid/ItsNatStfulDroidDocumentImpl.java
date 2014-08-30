@@ -51,6 +51,11 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         super(doc, docTemplate, browser, requestURL, ownerSession, stateless);
     }
 
+    public ItsNatStfulDroidDocumentTemplateVersionImpl getItsNatStfulDroidDocumentTemplateVersion()
+    {
+        return (ItsNatStfulDroidDocumentTemplateVersionImpl)docTemplateVersion;
+    }    
+    
     @Override
     public Element getVisualRootElement()
     {
@@ -153,8 +158,4 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
             getDroidEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }    
 
-    public ItsNatStfulDroidDocumentTemplateVersionImpl getItsNatStfulDroidDocumentTemplateVersion()
-    {
-        return (ItsNatStfulDroidDocumentTemplateVersionImpl)getItsNatDocumentTemplateVersion();
-    }
 }

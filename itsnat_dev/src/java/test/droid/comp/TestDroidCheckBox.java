@@ -24,7 +24,8 @@ import test.droid.shared.TestDroidBase;
  */
 public class TestDroidCheckBox extends TestDroidBase implements EventListener
 {
-
+    protected CheckBox checkBox;
+    
     /**
      * Creates a new instance of TestSelectComboBoxListener
      */
@@ -40,16 +41,15 @@ public class TestDroidCheckBox extends TestDroidBase implements EventListener
         Document doc = itsNatDoc.getDocument();
         Element checkBoxElem = doc.getElementById("checkBoxId");
         ItsNatComponentManager componentMgr = itsNatDoc.getItsNatComponentManager();
-        CheckBox input = (CheckBox)componentMgr.findItsNatComponent(checkBoxElem);
+        this.checkBox = (CheckBox)componentMgr.findItsNatComponent(checkBoxElem);
 
-        input.addEventListener("click",this);
+        checkBox.addEventListener("click",this);
     }
 
     public void handleEvent(Event evt)
     {
-        itsNatDoc.addCodeToSend("alert(\"BIEN\");");
-        //logToTextView(null, "OK " + evt.getType() + " ");
+        Element logElem = getDocument().getElementById("checkBox_text_Id");
+        
+        logToTextView(logElem, "OK " + evt.getType() + " " + checkBox.isChecked() + " ");
     }
-
-
 }

@@ -50,8 +50,10 @@ public class DOMPathResolverDroid extends DOMPathResolver
         {
             int type = currNode.getNodeType();
             
-            if (type == Node.ELEMENT_NODE && !currNode.getNodeName().equals("script")) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto, los <script> son temporales, no cuentan, en cuanto se puede se eliminan
+            if (type == Node.ELEMENT_NODE) // Sólo contamos nodos elemento, ni comentarios ni nodos de texto
             {
+                if ("script".equals(currNode.getNodeName())) throw new ItsNatException("INTERNAL ERROR"); // los <script> son temporales, no cuentan, en cuanto se puede se eliminan, no se debería pasar por aquí
+                    
                 if (currPos == pos) 
                     return currNode;
                 else 

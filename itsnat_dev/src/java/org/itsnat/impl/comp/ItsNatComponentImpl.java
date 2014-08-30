@@ -326,40 +326,34 @@ public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements 
         normalEventListenersByDoc.disableEventListener(type);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void addEventListener(ClientDocument clientDoc,String type,EventListener listener)
     {
         addEventListener(clientDoc,type, listener,false);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void removeEventListener(ClientDocument clientDoc,String type,EventListener listener)
     {
         removeEventListener(clientDoc,type, listener,false);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void addEventListener(ClientDocument clientDoc,String type,EventListener listener,boolean before)
     {
         ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
         listeners.addUserEventListener(type,listener,before);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void removeEventListener(ClientDocument clientDoc,String type,EventListener listener,boolean before)
     {
         ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
         listeners.removeUserEventListener(type,listener,before);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void enableEventListener(ClientDocument clientDoc,String type)
     {
         ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);
         listeners.enableEventListener(type);
     }
 
-    /* DEBE HACERSE PUBLICO */
     public void disableEventListener(ClientDocument clientDoc,String type)
     {
         ItsNatCompNormalEventListenersByClientImpl listeners = normalEventListenersByClient.getItsNatCompNormalEventListenersByClient((ClientDocumentImpl)clientDoc);

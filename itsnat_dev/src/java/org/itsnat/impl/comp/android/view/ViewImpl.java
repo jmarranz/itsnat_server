@@ -27,8 +27,11 @@ import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultI
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  *
@@ -45,6 +48,11 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     public Document getDocument()
     {
         return getItsNatDocument().getDocument();
+    }
+    
+    public ItsNatStfulDroidDocumentImpl getItsNatStfulDroidDocument()            
+    {
+        return (ItsNatStfulDroidDocumentImpl)getItsNatDocumentImpl();
     }
     
     public Object createDefaultStructure()
@@ -99,4 +107,17 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
         return getItsNatDocument().getScriptUtil().getNodeReference(getElement());
     }
     
+    @Override
+    public Node createDefaultNode()
+    {
+        return getDocument().createElement(getClassName());
+    }
+    
+    public String getAndroidNamespacePrefix()
+    {
+        ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();
+        return itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion().getAndroidNamespacePrefix();
+    }    
+    
+    public abstract String getClassName();
 }
