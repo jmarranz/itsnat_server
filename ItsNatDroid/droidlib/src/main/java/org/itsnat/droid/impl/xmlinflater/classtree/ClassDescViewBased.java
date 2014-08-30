@@ -72,6 +72,11 @@ public class ClassDescViewBased
         this.attrDescMap = new HashMap<String,AttrDesc>();
     }
 
+    protected static boolean isStyleAttribute(String namespaceURI,String name)
+    {
+        return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
+    }
+
     protected void addAttrDesc(AttrDesc attrDesc)
     {
         attrDescMap.put(attrDesc.getName(),attrDesc);
@@ -86,7 +91,7 @@ public class ClassDescViewBased
     {
         if (!isInit()) init();
 
-        if (ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
+        if (isStyleAttribute(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -130,7 +135,7 @@ public class ClassDescViewBased
     {
         if (!isInit()) init();
 
-        if (ValueUtil.isEmpty(namespaceURI) && name.equals("style")) return false; // Se trata de forma especial
+        if (isStyleAttribute(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {

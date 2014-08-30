@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecColor;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_height;
@@ -30,6 +33,13 @@ public class ClassDesc_view_View extends ClassDescViewBased
     protected void init()
     {
         super.init();
+
+        // android:accessibilityLiveRegion es Level 19
+        addAttrDesc(new AttrDescReflecFloat(this,"alpha",1));
+        addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
+        addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
+        addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
+
 
         addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDesc_view_View_id(this)); // "id"

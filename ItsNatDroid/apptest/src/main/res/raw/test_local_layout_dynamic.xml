@@ -19,12 +19,12 @@
             android:text="BACK" />
 
         <Button
-                android:id="@id/buttonReload"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/button_reload" />
+            android:id="@id/buttonReload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_reload" />
 
-        <!-- Testing misc attribs -->
+        <!-- Testing misc attribs (for instance access resources by res id) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -135,6 +135,25 @@
 
         </LinearLayout>
 
+        <!-- Test View Attribs (level 15)-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test View Attribs"
+                android:alpha="0.7"
+                android:background="#ffdddd"
+                android:clickable="true"
+                android:contentDescription="For Testing View Attribs"
+                android:drawingCacheQuality="auto"
+                />
+
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
-

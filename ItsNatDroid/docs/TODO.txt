@@ -1,4 +1,5 @@
 
+* No olvidar hacer los nuevos tests de compiled/dynamic
 
 * Probar re-arranque de actividad (volver a restaurar bien el setting)
 

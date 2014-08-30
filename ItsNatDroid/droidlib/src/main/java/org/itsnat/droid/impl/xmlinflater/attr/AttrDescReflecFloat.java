@@ -6,37 +6,39 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
- * Created by jmarranz on 1/05/14.
+ * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecColor extends AttrDescReflection
+public class AttrDescReflecFloat extends AttrDescReflection
 {
-    protected String defaultValue;
+    protected float defaultValue;
 
-    public AttrDescReflecColor(ClassDescViewBased parent, String name, String methodName,String defaultValue)
+    public AttrDescReflecFloat(ClassDescViewBased parent, String name, String methodName, float defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecColor(ClassDescViewBased parent, String name,String defaultValue)
+    public AttrDescReflecFloat(ClassDescViewBased parent, String name, float defaultValue)
     {
-        super(parent, name);
+        super(parent,name);
         this.defaultValue = defaultValue;
     }
 
     protected Class<?> getClassParam()
     {
-        return int.class;
+        return float.class;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int convValue = getColor(value,view.getContext());
+        float convValue = getFloat(value, view.getContext());
         setAttribute(view,convValue);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,defaultValue);
+        setAttribute(view,getDefaultValue());
     }
+
+    public float getDefaultValue() { return defaultValue; };
 }
