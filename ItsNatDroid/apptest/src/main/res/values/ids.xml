@@ -6,4 +6,5 @@
     <item name="textViewTest2" type="id">textViewTest2</item>
     <item name="textViewTest3" type="id">textViewTest3</item>
     <item name="textViewTest4" type="id">textViewTest4</item>
+    <item name="testId" type="id">testId</item>
 </resources>

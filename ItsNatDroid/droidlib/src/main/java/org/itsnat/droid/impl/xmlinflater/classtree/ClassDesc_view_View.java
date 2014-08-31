@@ -42,10 +42,24 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
         addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
-        // android:duplicateParentState no tiene métodos nativos asociados
+        // android:duplicateParentState no tiene método set nativo asociado
         addAttrDesc(new AttrDescReflecBoolean(this,"fadeScrollbars","setScrollbarFadingEnabled",true));
         addAttrDesc(new AttrDescReflecDimensionInt(this,"fadingEdgeLength",null));
+        addAttrDesc(new AttrDescReflecBoolean(this,"filterTouchesWhenObscured",false));
+        // android:fitsSystemWindows es Level 16
+        addAttrDesc(new AttrDescReflecBoolean(this,"focusable",false));
+        addAttrDesc(new AttrDescReflecBoolean(this,"focusableInTouchMode",false));
+        addAttrDesc(new AttrDescReflecBoolean(this,"hapticFeedbackEnabled",true));
+        addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
+        // android:importantForAccessibility es Level 16
+        addAttrDesc(new AttrDescReflecBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
+
+
+
         addAttrDesc(new AttrDescReflecFloat(this,"rotation",0f));
+        addAttrDesc(new AttrDescReflecFloat(this,"rotationX",0f));
+        addAttrDesc(new AttrDescReflecFloat(this,"rotationY",0f));
+
 
 
 
@@ -55,7 +69,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
 
 
 
-        addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
+
         addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));

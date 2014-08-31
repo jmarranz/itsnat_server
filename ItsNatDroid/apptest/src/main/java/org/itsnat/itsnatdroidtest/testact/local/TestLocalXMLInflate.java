@@ -1,13 +1,24 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.*;
+import org.itsnat.droid.ItsNatDroidException;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsLinearLayoutLayoutParams;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsRelativeLayoutLayoutParams;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsViewGroupMarginLayoutParams;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
 
 /**
@@ -148,7 +159,7 @@ public class TestLocalXMLInflate
 
                 ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
                 ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
-                assertTrue(compScrollView.isScrollbarFadingEnabled());
+                assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
                 assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
                 assertPositive(compScrollView.getVerticalFadingEdgeLength());
                 assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
@@ -158,10 +169,46 @@ public class TestLocalXMLInflate
                 TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
                 TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
+                assertTrue(compTextView2.getFilterTouchesWhenObscured());
+                assertEquals(compTextView2.getFilterTouchesWhenObscured(), parsedTextView2.getFilterTouchesWhenObscured());
+                assertTrue(compTextView2.isFocusable());
+                assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
+                assertTrue(compTextView2.isFocusableInTouchMode());
+                assertEquals(compTextView2.isFocusableInTouchMode(), parsedTextView2.isFocusableInTouchMode());
+                assertFalse(compTextView2.isHapticFeedbackEnabled());
+                assertEquals(compTextView2.isHapticFeedbackEnabled(), parsedTextView2.isHapticFeedbackEnabled());
+                assertPositive(compTextView2.getId());
+                assertEquals(compTextView2.getId(), parsedTextView2.getId());
+                // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
+
+//System.out.println("DEFAULT VALUE: " + parsedTextView2.isScrollContainer());
+//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
+
+
                 assertEquals(compTextView2.getRotation(), parsedTextView2.getRotation());
             }
         }
 
 
+    }
+
+    protected static Object execMethod(View view, String methodName, Class classParam,Object param)
+    {
+        try
+        {
+            if (classParam != null)
+            {
+                Method method = view.getClass().getMethod(methodName, classParam);
+                return method.invoke(view, param);
+            }
+            else
+            {
+                Method method = view.getClass().getMethod(methodName);
+                return method.invoke(view);
+            }
+        }
+        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
+        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
+        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
     }
 }

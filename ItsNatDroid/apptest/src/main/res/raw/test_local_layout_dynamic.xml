@@ -165,6 +165,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test View Attribs 2"
+                android:filterTouchesWhenObscured="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hapticFeedbackEnabled="false"
+                android:id="@id/testId"
+                android:isScrollContainer="true"
+
+
                 android:rotation="3.5"/>
 
         </LinearLayout>
