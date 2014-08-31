@@ -140,18 +140,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            >
+            android:background="#ffdddd">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test View Attribs"
+                android:text="Test View Attribs 1"
                 android:alpha="0.7"
-                android:background="#ffdddd"
+                android:background="#dddddd"
                 android:clickable="true"
                 android:contentDescription="For Testing View Attribs"
-                android:drawingCacheQuality="auto"
-                />
+                android:drawingCacheQuality="auto" />
+
+            <!-- Necesario un ScrollView o similar para poder testear fadeScrollbars, en TextView es ignorado
+                requiresFadingEdge es necesario para que no se ignore fadingEdgeLength
+             -->
+            <ScrollView android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:fadeScrollbars="true"
+                        android:requiresFadingEdge="vertical|horizontal"
+                        android:fadingEdgeLength="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test View Attribs 2"
+                android:rotation="3.5"/>
+
 
         </LinearLayout>
 

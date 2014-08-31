@@ -99,6 +99,7 @@ public class TestLayoutLocal
                 if (layout.findViewByXMLId("textViewTest1") != textViewTest1)
                     throw new RuntimeException("FAIL");
 
+//System.out.println("DEFAULT VALUE: " + dynamicRootView.getDrawingCacheQuality());
 
                 TestLocalXMLInflate.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }

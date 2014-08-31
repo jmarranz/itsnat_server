@@ -26,7 +26,7 @@ public abstract class AttrDesc_view_View_layout_widthheight_Base extends AttrDes
         else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
         {
-            dimension = (int) getDimPixel(value,view.getContext());
+            dimension = (int) getDimension(value, view.getContext());
         }
         return dimension;
     }

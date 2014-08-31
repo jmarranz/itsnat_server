@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -16,9 +15,24 @@ import org.itsnat.droid.ItsNatDroidException;
  */
 public class Assert
 {
+    public static void assertPositive(int a)
+    {
+        if (a <= 0) throw new ItsNatDroidException("Failed");
+    }
+
+    public static void assertFalse(boolean a)
+    {
+        if (a) throw new ItsNatDroidException("Failed");
+    }
+
     public static void assertTrue(boolean a)
     {
         if (!a) throw new ItsNatDroidException("Failed");
+    }
+
+    public static void assertEquals(boolean a,boolean b)
+    {
+        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEquals(int a,int b)

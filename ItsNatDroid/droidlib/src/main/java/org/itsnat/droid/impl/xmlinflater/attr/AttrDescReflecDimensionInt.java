@@ -6,19 +6,20 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
+ * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecFloat extends AttrDescReflection
+public class AttrDescReflecDimensionInt extends AttrDescReflection
 {
     protected Float defaultValue;
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecDimensionInt(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescReflecDimensionInt(ClassDescViewBased parent, String name, Float defaultValue)
     {
         super(parent,name);
         this.defaultValue = defaultValue;
@@ -26,12 +27,12 @@ public class AttrDescReflecFloat extends AttrDescReflection
 
     protected Class<?> getClassParam()
     {
-        return float.class;
+        return int.class;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        float convValue = getFloat(value, view.getContext());
+        int convValue = (int)getDimension(value, view.getContext());
         setAttribute(view,convValue);
     }
 
@@ -41,4 +42,5 @@ public class AttrDescReflecFloat extends AttrDescReflection
         if (defaultValue != null)
             setAttribute(view,defaultValue);
     }
+
 }

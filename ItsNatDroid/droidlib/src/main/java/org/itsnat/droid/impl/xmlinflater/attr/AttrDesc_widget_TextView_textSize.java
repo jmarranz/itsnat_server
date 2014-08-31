@@ -21,16 +21,13 @@ public class AttrDesc_widget_TextView_textSize extends AttrDesc
         // Existe un setTextSize(int) pero vale la pena, así es perfecto
         TextView textView = (TextView)view;
 
-        String valueTrim = value.trim();
-        String suffix = getDimensionSuffix(valueTrim);
-        int complexUnit = getDimensionSuffixAsInt(suffix);
+        Dimension dim = getDimensionObject(value,view.getContext());
 
-        float num = extractFloat(valueTrim, suffix);
-        textView.setTextSize(complexUnit,num);
+        textView.setTextSize(dim.getComplexUnit(),dim.getValue());
     }
 
     public void removeAttribute(View view)
     {
-        // No se que hacer, poner a cero el texto no tiene sentido
+        // No se que hacer, poner a cero el texto no tiene sentido, se tendría que extraer del Theme actual, un follón y total será muy raro
     }
 }

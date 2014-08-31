@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
@@ -18,6 +19,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginTo
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingEdge;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
 /**
@@ -35,13 +37,24 @@ public class ClassDesc_view_View extends ClassDescViewBased
         super.init();
 
         // android:accessibilityLiveRegion es Level 19
-        addAttrDesc(new AttrDescReflecFloat(this,"alpha",1));
+        addAttrDesc(new AttrDescReflecFloat(this,"alpha",1f));
+        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
         addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
+        // android:duplicateParentState no tiene métodos nativos asociados
+        addAttrDesc(new AttrDescReflecBoolean(this,"fadeScrollbars","setScrollbarFadingEnabled",true));
+        addAttrDesc(new AttrDescReflecDimensionInt(this,"fadingEdgeLength",null));
+        addAttrDesc(new AttrDescReflecFloat(this,"rotation",0f));
 
 
-        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
+
+        addAttrDesc(new AttrDesc_view_View_requiresFadingEdge(this)); // requiresFadingEdge
+
+
+
+
+
         addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
         addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));

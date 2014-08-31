@@ -17,7 +17,7 @@ public class AttrDesc_view_View_padding extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int convValue = (int)getDimPixel(value,view.getContext());
+        int convValue = (int) getDimension(value, view.getContext());
 
         String name = getName();
         if ("padding".equals(name))

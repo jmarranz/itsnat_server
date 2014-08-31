@@ -117,7 +117,7 @@ public abstract class AttrDesc
         else return Boolean.parseBoolean(attrValue);
     }
 
-    protected int getDimensionSuffixAsInt(String suffix)
+    protected static int getDimensionSuffixAsInt(String suffix)
     {
         if (suffix.equals("dp"))
             return TypedValue.COMPLEX_UNIT_DIP;
@@ -133,7 +133,7 @@ public abstract class AttrDesc
             throw new ItsNatDroidException("Internal error");
     }
 
-    protected String getDimensionSuffix(String value)
+    protected static String getDimensionSuffix(String value)
     {
         String valueTrim = value.trim();
 
@@ -147,7 +147,7 @@ public abstract class AttrDesc
             return "in";
         else if (valueTrim.endsWith("mm"))
             return "mm";
-        else throw new ItsNatDroidException("Internal error");
+        else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
     }
 
     protected static float extractFloat(String value, String suffix)
@@ -157,44 +157,49 @@ public abstract class AttrDesc
         return Float.parseFloat(value);
     }
 
-    public static float getDimPixel(String attrValue, Context ctx)
+    public static Dimension getDimensionObject(String attrValue, Context ctx)
     {
+        // El retorno es en px
         Resources res = ctx.getResources();
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue, ctx);
-            return res.getDimension(resId);
+            float num = res.getDimension(resId);
+            return new Dimension(TypedValue.COMPLEX_UNIT_PX,num);
         }
         else
         {
             String valueTrim = attrValue.trim();
-            if (valueTrim.endsWith("dp"))
-            {
-                float num = extractFloat(valueTrim, "dp");
-                return ValueUtil.dpToPixel(num, res);
-            }
-            else if (valueTrim.endsWith("px"))
-            {
-                return extractFloat(valueTrim, "px");
-            }
-            else if (valueTrim.endsWith("sp"))
-            {
-                float num = extractFloat(valueTrim, "sp");
-                return ValueUtil.spToPixel(num, res);
-            }
-            else if (valueTrim.endsWith("in"))
-            {
-                float num = extractFloat(valueTrim, "in");
-                return ValueUtil.inToPixel(num, res);
-            }
-            else if (valueTrim.endsWith("mm"))
-            {
-                float num = extractFloat(valueTrim, "mm");
-                return ValueUtil.mmToPixel(num, res);
-            }
-
-            throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
+            String suffix = getDimensionSuffix(valueTrim);
+            int complexUnit = getDimensionSuffixAsInt(suffix);
+            float num = extractFloat(valueTrim, suffix);
+            return new Dimension(complexUnit,num);
         }
+    }
+
+    public static float getDimension(String attrValue, Context ctx)
+    {
+        // El retorno es en px
+        Resources res = ctx.getResources();
+
+        Dimension dimen = getDimensionObject(attrValue,ctx);
+        int unit = dimen.getComplexUnit();
+        float num = dimen.getValue();
+        switch(unit)
+        {
+            case TypedValue.COMPLEX_UNIT_DIP:
+                return ValueUtil.dpToPixel(num, res);
+            case TypedValue.COMPLEX_UNIT_PX:
+                return num;
+            case TypedValue.COMPLEX_UNIT_SP:
+                return ValueUtil.spToPixel(num, res);
+            case TypedValue.COMPLEX_UNIT_IN:
+                return ValueUtil.inToPixel(num, res);
+            case TypedValue.COMPLEX_UNIT_MM:
+                return ValueUtil.mmToPixel(num, res);
+        }
+
+        throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
     }
 
     public static Drawable getDrawable(String attrValue, Context ctx)
@@ -249,4 +254,26 @@ public abstract class AttrDesc
     public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess);
 
     public abstract void removeAttribute(View view);
+}
+
+class Dimension
+{
+    private int complexUnit;
+    private float value;
+
+    public Dimension(int complexUnit,float value)
+    {
+        this.complexUnit = complexUnit;
+        this.value = value;
+    }
+
+    public int getComplexUnit()
+    {
+        return complexUnit;
+    }
+
+    public float getValue()
+    {
+        return value;
+    }
 }

@@ -129,5 +129,39 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView.getGravity(), parsedTextView.getGravity());
             }
         }
+
+        childCount++;
+
+        // Test View Attribs
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            {
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getAlpha(), parsedTextView.getAlpha());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                assertEquals(compTextView.isClickable(), parsedTextView.isClickable());
+                assertEquals(compTextView.getContentDescription(), parsedTextView.getContentDescription());
+                assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
+
+                ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
+                ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
+                assertTrue(compScrollView.isScrollbarFadingEnabled());
+                assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
+                assertPositive(compScrollView.getVerticalFadingEdgeLength());
+                assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
+                assertPositive(compScrollView.getHorizontalFadingEdgeLength());
+                assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
+
+                TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
+                TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
+                assertEquals(compTextView2.getText(), parsedTextView2.getText());
+                assertEquals(compTextView2.getRotation(), parsedTextView2.getRotation());
+            }
+        }
+
+
     }
 }

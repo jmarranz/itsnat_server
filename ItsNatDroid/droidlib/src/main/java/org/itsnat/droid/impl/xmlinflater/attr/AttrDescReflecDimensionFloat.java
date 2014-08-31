@@ -8,17 +8,17 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecFloat extends AttrDescReflection
+public class AttrDescReflecDimensionFloat extends AttrDescReflection
 {
     protected Float defaultValue;
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecDimensionFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescReflecDimensionFloat(ClassDescViewBased parent, String name, Float defaultValue)
     {
         super(parent,name);
         this.defaultValue = defaultValue;
@@ -31,7 +31,7 @@ public class AttrDescReflecFloat extends AttrDescReflection
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        float convValue = getFloat(value, view.getContext());
+        float convValue = getDimension(value, view.getContext());
         setAttribute(view,convValue);
     }
 
@@ -41,4 +41,5 @@ public class AttrDescReflecFloat extends AttrDescReflection
         if (defaultValue != null)
             setAttribute(view,defaultValue);
     }
+
 }
