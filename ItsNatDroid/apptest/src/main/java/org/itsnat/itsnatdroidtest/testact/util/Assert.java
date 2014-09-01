@@ -17,17 +17,23 @@ public class Assert
 {
     public static void assertPositive(int a)
     {
-        if (a <= 0) throw new ItsNatDroidException("Failed");
+        if (a <= 0) throw new ItsNatDroidException("Failed " + a);
     }
+
+    public static void assertPositive(float a)
+    {
+        if (a <= 0) throw new ItsNatDroidException("Failed " + a);
+    }
+
 
     public static void assertFalse(boolean a)
     {
-        if (a) throw new ItsNatDroidException("Failed");
+        if (a) throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertTrue(boolean a)
     {
-        if (!a) throw new ItsNatDroidException("Failed");
+        if (!a) throw new ItsNatDroidException("Failed " + a);
     }
 
     public static void assertEquals(boolean a,boolean b)

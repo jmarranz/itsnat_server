@@ -43,20 +43,23 @@ public abstract class AttrDesc
     public static int getIdentifier(String attrValue, Context ctx)
     {
         if (attrValue.startsWith("?"))
-        {
-            // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
-            // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
-            TypedValue outValue = new TypedValue();
-            ctx.getTheme().resolveAttribute(getIdentifierSimple(attrValue, ctx), outValue, true);
-            return outValue.resourceId;
-        }
+            return getIdentifierTheme(attrValue, ctx);
         else if (attrValue.startsWith("@"))
-            return getIdentifierSimple(attrValue,ctx);
+            return getIdentifierResource(attrValue, ctx);
         else
             throw new ItsNatDroidException("INTERNAL ERROR");
     }
 
-    private static int getIdentifierSimple(String attrValue, Context ctx)
+    private static int getIdentifierTheme(String attrValue, Context ctx)
+    {
+        // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
+        // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
+        TypedValue outValue = new TypedValue();
+        ctx.getTheme().resolveAttribute(getIdentifierResource(attrValue, ctx), outValue, true);
+        return outValue.resourceId;
+    }
+
+    private static int getIdentifierResource(String attrValue, Context ctx)
     {
         Resources res = ctx.getResources();
 

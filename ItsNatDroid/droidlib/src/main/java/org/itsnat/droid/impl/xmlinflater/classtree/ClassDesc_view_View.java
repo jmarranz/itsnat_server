@@ -5,8 +5,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecId;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layerType;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
@@ -36,6 +38,8 @@ public class ClassDesc_view_View extends ClassDescViewBased
     {
         super.init();
 
+        // Atributos analizados para Android 4.4 (API Level: 19) pero teniendo en cuenta que sólo soportamos Level 15 (Android 4.0.3)
+
         // android:accessibilityLiveRegion es Level 19
         addAttrDesc(new AttrDescReflecFloat(this,"alpha",1f));
         addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
@@ -53,28 +57,39 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
         // android:importantForAccessibility es Level 16
         addAttrDesc(new AttrDescReflecBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
-
-
-
+        addAttrDesc(new AttrDescReflecBoolean(this,"keepScreenOn",false));
+        addAttrDesc(new AttrDesc_view_View_layerType(this)); // layerType
+        // android:layoutDirection es Level 17
+        addAttrDesc(new AttrDescReflecBoolean(this,"longClickable",false));
+        addAttrDesc(new AttrDescReflecDimensionInt(this,"minHeight","setMinimumHeight",null));
+        addAttrDesc(new AttrDescReflecDimensionInt(this,"minWidth","setMinimumWidth",null));
+        addAttrDesc(new AttrDescReflecId(this,"nextFocusDown","setNextFocusDownId"));
+        addAttrDesc(new AttrDescReflecId(this,"nextFocusForward","setNextFocusForwardId"));
+        addAttrDesc(new AttrDescReflecId(this,"nextFocusLeft","setNextFocusLeftId"));
+        addAttrDesc(new AttrDescReflecId(this,"nextFocusRight","setNextFocusRightId"));
+        addAttrDesc(new AttrDescReflecId(this,"nextFocusUp","setNextFocusUpId"));
+        // android:onClick no tiene método set nativo asociado y así evitamos cierta colisión de nombres con nuestro "onclick"
+        addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
+        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));
+        // android:paddingEnd es Level 17
+        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));
+        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingRight"));
+        // android:paddingStart es Level 17
+        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));
+        addAttrDesc(new AttrDesc_view_View_requiresFadingEdge(this)); // requiresFadingEdge
         addAttrDesc(new AttrDescReflecFloat(this,"rotation",0f));
         addAttrDesc(new AttrDescReflecFloat(this,"rotationX",0f));
         addAttrDesc(new AttrDescReflecFloat(this,"rotationY",0f));
+        addAttrDesc(new AttrDescReflecBoolean(this,"saveEnabled",true));
+        addAttrDesc(new AttrDescReflecFloat(this,"scaleX",1f));
+        addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
+        // android:scrollX y android:scrollY la doc por una parte no parece vincularlos a métodos nativos aunque aparentemente existen
+        // (get/setScrollX/Y()) el problema es que NO HE CONSEGUIDO que en layouts compilados los atributos se manifiesten visualmente, son ignorados
+        // y métodos como getScrollX() devuelven 0 aunque android:scrollX diga lo contrario
 
 
 
 
-        addAttrDesc(new AttrDesc_view_View_requiresFadingEdge(this)); // requiresFadingEdge
-
-
-
-
-
-
-        addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
-        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingLeft"));
-        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));
-        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingRight"));
-        addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));
         addAttrDesc(new AttrDesc_view_View_visibility(this)); // "visibility"
 
         // Debidos a ViewGroup

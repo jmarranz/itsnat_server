@@ -36,10 +36,6 @@ public class TestLocalXMLInflate
         LinearLayout comp = (LinearLayout)compRoot.getChildAt(0);
         LinearLayout parsed = (LinearLayout)parsedRoot.getChildAt(0);
 
-        assertEquals(comp.getPaddingLeft(),parsed.getPaddingLeft());
-        assertEquals(comp.getPaddingRight(),parsed.getPaddingRight());
-        assertEquals(comp.getPaddingTop(),parsed.getPaddingTop());
-        assertEquals(comp.getPaddingBottom(),parsed.getPaddingBottom());
         assertEquals(comp.getOrientation(),parsed.getOrientation());
 
         int childCount = 1;
@@ -65,6 +61,14 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
+                assertPositive(compTextView1.getPaddingLeft());
+                assertEquals(compTextView1.getPaddingLeft(),parsedTextView1.getPaddingLeft());
+                assertPositive(compTextView1.getPaddingRight());
+                assertEquals(compTextView1.getPaddingRight(),parsedTextView1.getPaddingRight());
+                assertPositive(compTextView1.getPaddingTop());
+                assertEquals(compTextView1.getPaddingTop(),parsedTextView1.getPaddingTop());
+                assertPositive(compTextView1.getPaddingBottom());
+                assertEquals(compTextView1.getPaddingBottom(),parsedTextView1.getPaddingBottom());
                 assertEquals(compTextView1.getTextColors(), parsedTextView1.getTextColors());
                 assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
                 assertEqualsRelativeLayoutLayoutParams(compTextView1, parsedTextView1);
@@ -180,12 +184,53 @@ public class TestLocalXMLInflate
                 assertPositive(compTextView2.getId());
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
+                assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
+                assertEquals(compTextView2.getLayerType(), View.LAYER_TYPE_HARDWARE);
+                assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
+                assertTrue(compTextView2.isLongClickable());
+                assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
+                // No puedo testear android:minHeight porque  getMinimumHeight() se define en un Level superior
+                // No puedo testear android:minWidth porque  getMinimumWidth() se define en un Level superior
+                assertPositive(compTextView2.getNextFocusDownId());
+                assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
+                assertPositive(compTextView2.getNextFocusForwardId());
+                assertEquals(compTextView2.getNextFocusForwardId(), parsedTextView2.getNextFocusForwardId());
+                assertPositive(compTextView2.getNextFocusLeftId());
+                assertEquals(compTextView2.getNextFocusLeftId(), parsedTextView2.getNextFocusLeftId());
+                assertPositive(compTextView2.getNextFocusRightId());
+                assertEquals(compTextView2.getNextFocusRightId(), parsedTextView2.getNextFocusRightId());
+                assertPositive(compTextView2.getNextFocusUpId());
+                assertEquals(compTextView2.getNextFocusUpId(), parsedTextView2.getNextFocusUpId());
+                // No puedo testear android:onClick porque no hay get nativo asociado
+                assertPositive(compTextView2.getPaddingLeft());
+                assertEquals(compTextView2.getPaddingLeft(),parsedTextView2.getPaddingLeft());
+                assertPositive(compTextView2.getPaddingRight());
+                assertEquals(compTextView2.getPaddingRight(),parsedTextView2.getPaddingRight());
+                assertPositive(compTextView2.getPaddingTop());
+                assertEquals(compTextView2.getPaddingTop(),parsedTextView2.getPaddingTop());
+                assertPositive(compTextView2.getPaddingBottom());
+                assertEquals(compTextView2.getPaddingBottom(),parsedTextView2.getPaddingBottom());
+                assertPositive(compTextView2.getRotation());
+                assertEquals(compTextView2.getRotation(),parsedTextView2.getRotation());
+                assertPositive(compTextView2.getRotationX());
+                assertEquals(compTextView2.getRotationX(),parsedTextView2.getRotationX());
+                assertPositive(compTextView2.getRotationY());
+                assertEquals(compTextView2.getRotationY(),parsedTextView2.getRotationY());
+                assertFalse(compTextView2.isSaveEnabled());
+                assertEquals(compTextView2.isSaveEnabled(),parsedTextView2.isSaveEnabled());
+                assertPositive(compTextView2.getScaleX());
+                assertEquals(compTextView2.getScaleX(),parsedTextView2.getScaleX());
+                assertPositive(compTextView2.getScaleY());
+                assertEquals(compTextView2.getScaleY(),parsedTextView2.getScaleY());
 
-//System.out.println("DEFAULT VALUE: " + parsedTextView2.isScrollContainer());
+
+
+
+System.out.println("\nDEFAULT VALUE: " + compTextView2.getScrollX());
 //System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
 
 
-                assertEquals(compTextView2.getRotation(), parsedTextView2.getRotation());
+                // tRotation(), parsedTextView2.getRotation());
             }
         }
 
