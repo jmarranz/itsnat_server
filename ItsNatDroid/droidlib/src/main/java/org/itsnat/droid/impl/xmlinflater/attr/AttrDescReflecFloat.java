@@ -32,13 +32,13 @@ public class AttrDescReflecFloat extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         float convValue = getFloat(value, view.getContext());
-        setAttribute(view,convValue);
+        callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
         // En el caso de defaultValue nulo es que no sabemos qué poner, es el caso por ejemplo de poner a cero el tamaño texto, no tiene sentido, se tendría que extraer el tamaño por defecto del Theme actual, un follón y total será muy raro
         if (defaultValue != null)
-            setAttribute(view,defaultValue);
+            callMethod(view, defaultValue);
     }
 }

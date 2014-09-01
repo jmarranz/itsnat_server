@@ -27,11 +27,11 @@ public class AttrDesc_view_View_id extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         int resId = getIdentifier(value,view.getContext());
-        setAttribute(view,resId);
+        callMethod(view, resId);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,0);
+        callMethod(view, 0);
     }
 }

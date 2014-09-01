@@ -28,12 +28,12 @@ public class AttrDescReflecCharSequence extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         String convValue = getString(value, view.getContext());
-        setAttribute(view,convValue);
+        callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"");
+        callMethod(view, "");
     }
 
 }

@@ -190,6 +190,13 @@
                 android:saveEnabled="false"
                 android:scaleX="1.2"
                 android:scaleY="1.2"
+                android:scrollbarStyle="insideInset"
+                android:soundEffectsEnabled="false"
+                android:tag="theTag"
+                android:transformPivotX="70dp"
+                android:transformPivotY="10dp"
+                android:translationX="10dp"
+                android:translationY="10dp"
                 />
 
         </LinearLayout>

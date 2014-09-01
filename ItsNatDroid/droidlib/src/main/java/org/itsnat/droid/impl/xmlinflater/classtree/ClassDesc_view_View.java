@@ -2,10 +2,12 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecId;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecObject;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layerType;
@@ -22,6 +24,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingEdge;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
 /**
@@ -84,12 +87,24 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecFloat(this,"scaleX",1f));
         addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
         // android:scrollX y android:scrollY la doc por una parte no parece vincularlos a métodos nativos aunque aparentemente existen
-        // (get/setScrollX/Y()) el problema es que NO HE CONSEGUIDO que en layouts compilados los atributos se manifiesten visualmente, son ignorados
-        // y métodos como getScrollX() devuelven 0 aunque android:scrollX diga lo contrario
-
-
-
-
+        //   (get/setScrollX/Y()) el problema es que NO HE CONSEGUIDO que en layouts compilados los atributos se manifiesten visualmente, son ignorados
+        //   y métodos como getScrollX() devuelven 0 aunque android:scrollX diga lo contrario
+        // android:scrollbarAlwaysDrawHorizontalTrack y android:scrollbarAlwaysDrawVerticalTrack no parecen tener métodos nativos asociados
+        // android:scrollbarDefaultDelayBeforeFade es Level 16
+        // android:scrollbarFadeDuration es Level 16
+        // android:scrollbarSize es Level 16
+        addAttrDesc(new AttrDesc_view_View_scrollbarStyle(this)); // scrollbarStyle
+        // android:scrollbarThumbHorizontal y android:scrollbarThumbVertical no parecen tener métodos nativos asociados
+        // android:scrollbarTrackHorizontal y android:scrollbarTrackVertical no parecen tener métodos nativos asociados
+        // android:scrollbars no parece tener métodos nativos asociados
+        addAttrDesc(new AttrDescReflecBoolean(this,"soundEffectsEnabled",true));
+        addAttrDesc(new AttrDescReflecObject(this,"tag"));
+        // android:textAlignment es Level 17
+        // android:textDirection es Level 17
+        addAttrDesc(new AttrDescReflecDimensionFloat(this,"transformPivotX","setPivotX",0f));
+        addAttrDesc(new AttrDescReflecDimensionFloat(this,"transformPivotY","setPivotY",0f));
+        addAttrDesc(new AttrDescReflecDimensionFloat(this,"translationX",0f));
+        addAttrDesc(new AttrDescReflecDimensionFloat(this,"translationY",0f));
         addAttrDesc(new AttrDesc_view_View_visibility(this)); // "visibility"
 
         // Debidos a ViewGroup

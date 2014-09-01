@@ -222,15 +222,26 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView2.getScaleX(),parsedTextView2.getScaleX());
                 assertPositive(compTextView2.getScaleY());
                 assertEquals(compTextView2.getScaleY(),parsedTextView2.getScaleY());
+                assertPositive(compTextView2.getScrollBarStyle());
+                assertEquals(compTextView2.getScrollBarStyle(),parsedTextView2.getScrollBarStyle());
+                assertFalse(compTextView2.isSoundEffectsEnabled());
+                assertEquals(compTextView2.isSoundEffectsEnabled(),parsedTextView2.isSoundEffectsEnabled());
+                assertEquals((String)compTextView2.getTag(),"theTag");
+                assertEquals((String)compTextView2.getTag(),(String)parsedTextView2.getTag());
+                assertPositive(compTextView2.getPivotX());
+                assertEquals(compTextView2.getPivotX(),parsedTextView2.getPivotX());
+                assertPositive(compTextView2.getPivotY());
+                assertEquals(compTextView2.getPivotY(),parsedTextView2.getPivotY());
+                assertPositive(compTextView2.getTranslationX());
+                assertEquals(compTextView2.getTranslationX(),parsedTextView2.getTranslationX());
+                assertPositive(compTextView2.getTranslationY());
+                assertEquals(compTextView2.getTranslationY(),parsedTextView2.getTranslationY());
 
 
-
-
-System.out.println("\nDEFAULT VALUE: " + compTextView2.getScrollX());
+//System.out.println("\nDEFAULT VALUE: " + parsedTextView2.getTranslationX() + " " + parsedTextView2.getTranslationY());
 //System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
 
 
-                // tRotation(), parsedTextView2.getRotation());
             }
         }
 

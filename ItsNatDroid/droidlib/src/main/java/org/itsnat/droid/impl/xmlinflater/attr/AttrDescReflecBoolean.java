@@ -32,13 +32,11 @@ public class AttrDescReflecBoolean extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         boolean convValue = getBoolean(value, view.getContext());
-        setAttribute(view,convValue);
+        callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,getDefaultValue());
+        callMethod(view, defaultValue);
     }
-
-    public boolean getDefaultValue() { return defaultValue; };
 }

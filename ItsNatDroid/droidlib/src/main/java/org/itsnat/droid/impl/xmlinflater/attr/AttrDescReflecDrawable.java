@@ -29,11 +29,11 @@ public class AttrDescReflecDrawable extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         Drawable convValue = getDrawable(value,view.getContext());
-        setAttribute(view,convValue);
+        callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,null);
+        callMethod(view, null);
     }
 }

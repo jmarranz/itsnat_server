@@ -32,11 +32,12 @@ public class AttrDescReflecColor extends AttrDescReflection
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
         int convValue = getColor(value,view.getContext());
-        setAttribute(view,convValue);
+        callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,defaultValue);
+        if (defaultValue != null)
+            callMethod(view, defaultValue);
     }
 }

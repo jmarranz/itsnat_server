@@ -34,7 +34,7 @@ public abstract class AttrDescReflection extends AttrDesc
 
     protected abstract Class<?> getClassParam();
 
-    protected void setAttribute(View view, Object convertedValue)
+    protected void callMethod(View view, Object convertedValue)
     {
         try
         {
