@@ -17,7 +17,7 @@ public class AttrDesc_view_View_padding extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int convValue = (int) getDimension(value, view.getContext());
+        int convValue = getDimensionInt(value, view.getContext());
 
         String name = getName();
         if ("padding".equals(name))
@@ -30,11 +30,10 @@ public class AttrDesc_view_View_padding extends AttrDesc
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),convValue,view.getPaddingBottom());
         else if ("paddingBottom".equals(name))
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),view.getPaddingRight(),convValue);
-
     }
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"0",null);
+        setAttribute(view,"0dp",null);
     }
 }

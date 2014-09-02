@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
 
 import java.util.HashMap;
 
@@ -31,23 +32,23 @@ public class ClassDescViewMgr
         ClassDesc_view_View view_View = new ClassDesc_view_View();
         addClassDescViewBase(view_View);
 
-        ClassDescViewBased view_ViewGroup = new ClassDescViewBased("android.view.ViewGroup",view_View);
-        addClassDescViewBase(view_ViewGroup);
+          ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
+          addClassDescViewBase(view_ViewGroup);
 
-        ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
-        addClassDescViewBase(widget_LinearLayout);
+            ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
+            addClassDescViewBase(widget_LinearLayout);
 
-        ClassDescViewBased widget_RelativeLayout = new ClassDescViewBased("android.widget.RelativeLayout",view_ViewGroup);
-        addClassDescViewBase(widget_RelativeLayout);
+            ClassDescViewBased widget_RelativeLayout = new ClassDescViewBased("android.widget.RelativeLayout",view_ViewGroup);
+            addClassDescViewBase(widget_RelativeLayout);
 
-        ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
-        addClassDescViewBase(widget_TextView);
+          ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
+          addClassDescViewBase(widget_TextView);
 
-        ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
-        addClassDescViewBase(widget_Button);
+            ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
+            addClassDescViewBase(widget_Button);
 
-        ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
-        addClassDescViewBase(widget_CompoundButton);
+              ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
+              addClassDescViewBase(widget_CompoundButton);
     }
 
     private void addClassDescViewBase(ClassDescViewBased viewDesc)

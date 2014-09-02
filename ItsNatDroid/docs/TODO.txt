@@ -1,7 +1,7 @@
 
 * Pensar en como soportar los atributos con level superior
 
-* No olvidar hacer los nuevos tests de compiled/dynamic
+* Pensar como modelar los drawable por ejemplo para definir bordes etc desde el servidor
 
 * Probar re-arranque de actividad (volver a restaurar bien el setting)
 

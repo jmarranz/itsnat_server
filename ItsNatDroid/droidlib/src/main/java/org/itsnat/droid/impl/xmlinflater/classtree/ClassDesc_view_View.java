@@ -22,8 +22,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginRi
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_onClick;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingEdge;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scroll_X_Y;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
@@ -71,7 +73,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecId(this,"nextFocusLeft","setNextFocusLeftId"));
         addAttrDesc(new AttrDescReflecId(this,"nextFocusRight","setNextFocusRightId"));
         addAttrDesc(new AttrDescReflecId(this,"nextFocusUp","setNextFocusUpId"));
-        // android:onClick no tiene método set nativo asociado y así evitamos cierta colisión de nombres con nuestro "onclick"
+        addAttrDesc(new AttrDesc_view_View_onClick(this));
         addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));
         // android:paddingEnd es Level 17
@@ -86,9 +88,8 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecBoolean(this,"saveEnabled",true));
         addAttrDesc(new AttrDescReflecFloat(this,"scaleX",1f));
         addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
-        // android:scrollX y android:scrollY la doc por una parte no parece vincularlos a métodos nativos aunque aparentemente existen
-        //   (get/setScrollX/Y()) el problema es que NO HE CONSEGUIDO que en layouts compilados los atributos se manifiesten visualmente, son ignorados
-        //   y métodos como getScrollX() devuelven 0 aunque android:scrollX diga lo contrario
+        addAttrDesc(new AttrDesc_view_View_scroll_X_Y(this,"scrollX"));
+        addAttrDesc(new AttrDesc_view_View_scroll_X_Y(this,"scrollY"));
         // android:scrollbarAlwaysDrawHorizontalTrack y android:scrollbarAlwaysDrawVerticalTrack no parecen tener métodos nativos asociados
         // android:scrollbarDefaultDelayBeforeFade es Level 16
         // android:scrollbarFadeDuration es Level 16

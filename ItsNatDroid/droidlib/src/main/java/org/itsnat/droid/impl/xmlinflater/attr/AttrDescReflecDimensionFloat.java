@@ -31,7 +31,7 @@ public class AttrDescReflecDimensionFloat extends AttrDescReflection
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        float convValue = getDimension(value, view.getContext());
+        float convValue = getDimensionFloat(value, view.getContext());
         callMethod(view, convValue);
     }
 

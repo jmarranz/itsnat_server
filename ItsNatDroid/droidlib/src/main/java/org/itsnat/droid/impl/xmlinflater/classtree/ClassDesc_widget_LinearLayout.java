@@ -8,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orien
  */
 public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_LinearLayout(ClassDescViewBased parent)
+    public ClassDesc_widget_LinearLayout(ClassDescViewBased parentClass)
     {
-        super("android.widget.LinearLayout",parent);
+        super("android.widget.LinearLayout",parentClass);
     }
 
     protected void init()

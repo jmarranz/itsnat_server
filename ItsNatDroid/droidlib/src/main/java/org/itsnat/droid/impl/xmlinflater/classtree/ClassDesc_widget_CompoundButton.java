@@ -7,9 +7,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
  */
 public class ClassDesc_widget_CompoundButton extends ClassDescViewBased
 {
-    public ClassDesc_widget_CompoundButton(ClassDescViewBased parent)
+    public ClassDesc_widget_CompoundButton(ClassDescViewBased parentClass)
     {
-        super("android.widget.CompoundButton",parent);
+        super("android.widget.CompoundButton",parentClass);
     }
 
     protected void init()

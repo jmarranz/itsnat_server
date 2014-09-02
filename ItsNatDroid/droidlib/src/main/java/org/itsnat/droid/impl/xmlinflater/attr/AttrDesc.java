@@ -120,7 +120,7 @@ public abstract class AttrDesc
         else return Boolean.parseBoolean(attrValue);
     }
 
-    protected static int getDimensionSuffixAsInt(String suffix)
+    private static int getDimensionSuffixAsInt(String suffix)
     {
         if (suffix.equals("dp"))
             return TypedValue.COMPLEX_UNIT_DIP;
@@ -136,7 +136,7 @@ public abstract class AttrDesc
             throw new ItsNatDroidException("Internal error");
     }
 
-    protected static String getDimensionSuffix(String value)
+    private static String getDimensionSuffix(String value)
     {
         String valueTrim = value.trim();
 
@@ -153,7 +153,7 @@ public abstract class AttrDesc
         else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
     }
 
-    protected static float extractFloat(String value, String suffix)
+    private static float extractFloat(String value, String suffix)
     {
         int pos = value.lastIndexOf(suffix);
         value = value.substring(0,pos);
@@ -180,7 +180,12 @@ public abstract class AttrDesc
         }
     }
 
-    public static float getDimension(String attrValue, Context ctx)
+    public static int getDimensionInt(String attrValue, Context ctx)
+    {
+        return (int)getDimensionFloat(attrValue,ctx);
+    }
+
+    public static float getDimensionFloat(String attrValue, Context ctx)
     {
         // El retorno es en px
         Resources res = ctx.getResources();

@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.itsnatdroidtest.R;
 
 
-public class TestActivity extends Activity implements ActionBar.TabListener {
+public class TestActivity extends Activity implements ActionBar.TabListener
+{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -164,4 +167,8 @@ public class TestActivity extends Activity implements ActionBar.TabListener {
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    public void clickHandler(View view)
+    {
+        Toast.makeText(this,"Executed onClick handler",Toast.LENGTH_SHORT).show();
+    }
 }

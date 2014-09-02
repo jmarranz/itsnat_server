@@ -34,13 +34,13 @@ public class ClassDescViewBased
     protected Class<View> clasz;
     protected Constructor<View> constructor;
     protected HashMap<String,AttrDesc> attrDescMap;
-    protected ClassDescViewBased parent;
+    protected ClassDescViewBased parentClass;
     protected boolean initiated;
 
-    public ClassDescViewBased(String className,ClassDescViewBased parent)
+    public ClassDescViewBased(String className,ClassDescViewBased parentClass)
     {
         this.className = className;
-        this.parent = parent;
+        this.parentClass = parentClass;
     }
 
     public String getClassName()
@@ -102,9 +102,9 @@ public class ClassDescViewBased
             }
             else
             {
-                if (parent != null)
+                if (parentClass != null)
                 {
-                    parent.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess, inflated);
+                    parentClass.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess, inflated);
                 }
                 else
                 {
@@ -146,9 +146,9 @@ public class ClassDescViewBased
             }
             else
             {
-                if (parent != null)
+                if (parentClass != null)
                 {
-                    parent.removeAttribute(view, namespaceURI, name, inflated);
+                    parentClass.removeAttribute(view, namespaceURI, name, inflated);
                 }
                 else
                 {

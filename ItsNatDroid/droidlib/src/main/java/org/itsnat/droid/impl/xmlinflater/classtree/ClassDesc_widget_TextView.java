@@ -11,9 +11,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textSize;
  */
 public class ClassDesc_widget_TextView extends ClassDescViewBased
 {
-    public ClassDesc_widget_TextView(ClassDescViewBased parent)
+    public ClassDesc_widget_TextView(ClassDescViewBased parentClass)
     {
-        super("android.widget.TextView",parent);
+        super("android.widget.TextView",parentClass);
     }
 
     protected void init()

@@ -5,9 +5,9 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
  */
 public class ClassDescUnknown extends ClassDescViewBased
 {
-    public ClassDescUnknown(String className,ClassDescViewBased parent)
+    public ClassDescUnknown(String className,ClassDescViewBased parentClass)
     {
-        super(className,parent);
+        super(className,parentClass);
     }
 
 }

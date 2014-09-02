@@ -56,7 +56,7 @@ public class TestLayoutLocal
                     @Override
                     public void setAttribute(Page page, View view, String namespace, String name, String value)
                     {
-                        System.out.println("NOT FOUND ATTRIBUTE (callMethod): " + namespace + " " + name + " " + value);
+                        System.out.println("NOT FOUND ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
                     }
 
                     @Override

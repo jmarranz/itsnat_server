@@ -18,7 +18,7 @@ public abstract class AttrDesc_view_View_layout_margin_Base extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int valueInt = (int) getDimension(value, view.getContext());
+        int valueInt = getDimensionInt(value, view.getContext());
 
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
         setAttribute(params, valueInt);

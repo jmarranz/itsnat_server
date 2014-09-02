@@ -1,6 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +19,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsLinearL
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsRelativeLayoutLayoutParams;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsViewGroupMarginLayoutParams;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
@@ -154,11 +157,15 @@ public class TestLocalXMLInflate
             {
                 TextView compTextView = (TextView) compLinLayout.getChildAt(0);
                 TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
-                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getAlpha(),0.7f);
                 assertEquals(compTextView.getAlpha(), parsedTextView.getAlpha());
+                assertEquals(((ColorDrawable)compTextView.getBackground()).getColor(), 0xffdddddd);
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                assertFalse(compTextView.isClickable());
                 assertEquals(compTextView.isClickable(), parsedTextView.isClickable());
+                assertEquals(compTextView.getContentDescription(), "For Testing View Attribs");
                 assertEquals(compTextView.getContentDescription(), parsedTextView.getContentDescription());
+                assertEquals(compTextView.getDrawingCacheQuality(), View.DRAWING_CACHE_QUALITY_HIGH);
                 assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
 
                 ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
@@ -169,6 +176,7 @@ public class TestLocalXMLInflate
                 assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
                 assertPositive(compScrollView.getHorizontalFadingEdgeLength());
                 assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
+
 
                 TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
                 TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
@@ -184,6 +192,7 @@ public class TestLocalXMLInflate
                 assertPositive(compTextView2.getId());
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
+                assertTrue(compTextView2.getKeepScreenOn());
                 assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
                 assertEquals(compTextView2.getLayerType(), View.LAYER_TYPE_HARDWARE);
                 assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
@@ -222,6 +231,8 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView2.getScaleX(),parsedTextView2.getScaleX());
                 assertPositive(compTextView2.getScaleY());
                 assertEquals(compTextView2.getScaleY(),parsedTextView2.getScaleY());
+                // No testeamos android:scrollX y android:scrollY (con getScrollX() y getScrollY()) porque después de definirse correctamente
+                // algo hace poner a cero los valores, quizás al insertar la View
                 assertPositive(compTextView2.getScrollBarStyle());
                 assertEquals(compTextView2.getScrollBarStyle(),parsedTextView2.getScrollBarStyle());
                 assertFalse(compTextView2.isSoundEffectsEnabled());
@@ -236,14 +247,38 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView2.getTranslationX(),parsedTextView2.getTranslationX());
                 assertPositive(compTextView2.getTranslationY());
                 assertEquals(compTextView2.getTranslationY(),parsedTextView2.getTranslationY());
-
-
-//System.out.println("\nDEFAULT VALUE: " + parsedTextView2.getTranslationX() + " " + parsedTextView2.getTranslationY());
-//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
-
-
             }
+
         }
+
+        childCount++;
+
+        // Test ViewGroup Attribs
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            assertEquals(compLinLayout.addStatesFromChildren(), parsedLinLayout.addStatesFromChildren());
+            assertFalse(compLinLayout.isAlwaysDrawnWithCacheEnabled());
+            assertEquals(compLinLayout.isAlwaysDrawnWithCacheEnabled(), parsedLinLayout.isAlwaysDrawnWithCacheEnabled());
+            assertNotNull(compLinLayout.getLayoutTransition()); // Test de android:animateLayoutChanges
+            assertNotNull(parsedLinLayout.getLayoutTransition()); // "
+            assertFalse(compLinLayout.isAnimationCacheEnabled());
+            assertEquals(compLinLayout.isAnimationCacheEnabled(), parsedLinLayout.isAnimationCacheEnabled());
+            // No podemos testear android:clipChildren porque no tenemos el método get es Level 18
+            // No podemos testear android:clipToPadding porque no tenemos un método get
+            assertEquals(compLinLayout.getDescendantFocusability(),ViewGroup.FOCUS_AFTER_DESCENDANTS);
+            assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
+            {
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+            }
+
+
+System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getDescendantFocusability() + " " + parsedLinLayout.getDescendantFocusability() + " " + ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+System.out.println("\n\n\n");
+//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
+        }
+
 
 
     }

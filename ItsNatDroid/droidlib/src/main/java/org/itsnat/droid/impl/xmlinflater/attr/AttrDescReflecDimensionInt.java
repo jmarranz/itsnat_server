@@ -32,7 +32,7 @@ public class AttrDescReflecDimensionInt extends AttrDescReflection
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
     {
-        int convValue = (int)getDimension(value, view.getContext());
+        int convValue = getDimensionInt(value, view.getContext());
         callMethod(view, convValue);
     }
 

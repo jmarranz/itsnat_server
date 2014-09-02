@@ -25,6 +25,10 @@ public class Assert
         if (a <= 0) throw new ItsNatDroidException("Failed " + a);
     }
 
+    public static void assertNotNull(Object a)
+    {
+        if (a == null) throw new ItsNatDroidException("Failed " + a);
+    }
 
     public static void assertFalse(boolean a)
     {
@@ -51,6 +55,7 @@ public class Assert
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
+
     public static void assertEquals(CharSequence a,CharSequence b)
     {
         if (a == b) return;
@@ -71,6 +76,8 @@ public class Assert
     {
         if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
+
+
 
     public static void assertEqualsRelativeLayoutLayoutParams(View a,View b)
     {
