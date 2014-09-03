@@ -304,12 +304,22 @@ public class TestLocalXMLInflate
 
             assertFalse(compLinLayout.isBaselineAligned());
             assertEquals(compLinLayout.isBaselineAligned(), parsedLinLayout.isBaselineAligned());
-            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
-            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
+            //assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
+            //assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
+            // No podemos testear android:divider porque getDividerDrawable() es Level 16
+            assertEquals(compLinLayout.getShowDividers(), 3);
+            assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
+            assertPositive(compLinLayout.getDividerPadding());
+            assertEquals(compLinLayout.getDividerPadding(),parsedLinLayout.getDividerPadding());
+
+            assertTrue(compLinLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLinLayout.isMeasureWithLargestChildEnabled(),parsedLinLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLinLayout.getWeightSum(),1.0f);
+            assertEquals(compLinLayout.getWeightSum(),parsedLinLayout.getWeightSum());
 
 
 
-System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getDividerDrawable() + " " + parsedLinLayout.getDividerDrawable());
+System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getShowDividers() + " " + parsedLinLayout.getShowDividers());
 System.out.println("\n\n\n");
 //System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
 

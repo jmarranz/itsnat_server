@@ -26,7 +26,7 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
         ViewGroup.LayoutParams params = view.getLayoutParams();
         if (params instanceof LinearLayout.LayoutParams)
             ((LinearLayout.LayoutParams)params).gravity = valueInt;
-        if (params instanceof FrameLayout.LayoutParams)
+        else if (params instanceof FrameLayout.LayoutParams)
             ((FrameLayout.LayoutParams)params).gravity = valueInt;
 
         if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
@@ -35,9 +35,13 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
+        int valueInt = 0x03; // left
 
-        params.gravity = 0x03; // left
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        if (params instanceof LinearLayout.LayoutParams)
+            ((LinearLayout.LayoutParams)params).gravity = valueInt;
+        else if (params instanceof FrameLayout.LayoutParams)
+            ((FrameLayout.LayoutParams)params).gravity = valueInt;
 
         view.setLayoutParams(params);
     }
