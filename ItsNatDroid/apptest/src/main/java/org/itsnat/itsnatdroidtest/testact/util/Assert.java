@@ -78,7 +78,6 @@ public class Assert
     }
 
 
-
     public static void assertEqualsRelativeLayoutLayoutParams(View a,View b)
     {
         RelativeLayout.LayoutParams a_params = (RelativeLayout.LayoutParams)a.getLayoutParams();

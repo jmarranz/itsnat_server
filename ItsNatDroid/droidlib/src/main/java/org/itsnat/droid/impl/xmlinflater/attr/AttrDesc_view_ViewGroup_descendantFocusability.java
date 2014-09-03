@@ -10,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_descendantFocusability extends AttrDesc
+public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDesc
 {
-    public AttrDesc_view_View_descendantFocusability(ClassDescViewBased parent)
+    public AttrDesc_view_ViewGroup_descendantFocusability(ClassDescViewBased parent)
     {
         super(parent,"descendantFocusability");
     }

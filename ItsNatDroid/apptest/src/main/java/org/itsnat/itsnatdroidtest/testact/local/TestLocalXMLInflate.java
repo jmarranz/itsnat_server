@@ -268,13 +268,19 @@ public class TestLocalXMLInflate
             // No podemos testear android:clipToPadding porque no tenemos un método get
             assertEquals(compLinLayout.getDescendantFocusability(),ViewGroup.FOCUS_AFTER_DESCENDANTS);
             assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
+            assertPositive(compLinLayout.getLayoutAnimation().getDelay()); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
+            assertEquals(compLinLayout.getLayoutAnimation().getDelay(),parsedLinLayout.getLayoutAnimation().getDelay());
+            assertEquals(compLinLayout.getPersistentDrawingCache(),parsedLinLayout.getPersistentDrawingCache());
+            assertTrue(compLinLayout.isMotionEventSplittingEnabled());
+            assertEquals(compLinLayout.isMotionEventSplittingEnabled(),parsedLinLayout.isMotionEventSplittingEnabled());
+
             {
                 TextView compTextView = (TextView) compLinLayout.getChildAt(0);
                 TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
             }
 
 
-System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getDescendantFocusability() + " " + parsedLinLayout.getDescendantFocusability() + " " + ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getLayoutAnimation() + " " + parsedLinLayout.getLayoutAnimation());
 System.out.println("\n\n\n");
 //System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
         }

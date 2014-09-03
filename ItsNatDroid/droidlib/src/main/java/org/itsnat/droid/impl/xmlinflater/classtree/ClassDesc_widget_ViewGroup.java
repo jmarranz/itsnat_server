@@ -2,7 +2,9 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_animateLayoutChanges;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_descendantFocusability;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_descendantFocusability;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_layoutAnimation;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_persistentDrawingCache;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -24,7 +26,11 @@ public class ClassDesc_widget_ViewGroup extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecBoolean(this,"animationCache","setAnimationCacheEnabled",true));
         addAttrDesc(new AttrDescReflecBoolean(this,"clipChildren",true));
         addAttrDesc(new AttrDescReflecBoolean(this,"clipToPadding",true));
-        addAttrDesc(new AttrDesc_view_View_descendantFocusability(this));
+        addAttrDesc(new AttrDesc_view_ViewGroup_descendantFocusability(this)); // descendantFocusability
+        addAttrDesc(new AttrDesc_view_ViewGroup_layoutAnimation(this)); // layoutAnimation
+        // android:layoutMode es Level 18
+        addAttrDesc(new AttrDesc_view_ViewGroup_persistentDrawingCache(this)); // persistentDrawingCache
+        addAttrDesc(new AttrDescReflecBoolean(this,"splitMotionEvents","setMotionEventSplittingEnabled",false));
 
     }
 }

@@ -218,6 +218,9 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:descendantFocusability="afterDescendants"
+            android:layoutAnimation="@anim/fade_in_layout"
+            android:persistentDrawingCache="animation"
+            android:splitMotionEvents="true"
             >
 
             <TextView
