@@ -231,5 +231,21 @@
 
         </LinearLayout>
 
+        <!-- Test FrameLayout Attribs -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="#55ddffdd"
+            android:foregroundGravity="bottom|right"
+            android:measureAllChildren="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test FrameLayout Attribs"
+                android:background="#dddddd" />
+        </FrameLayout>
+
+
     </LinearLayout>
 </ScrollView>

@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_persistent
  */
 public class ClassDesc_widget_ViewGroup extends ClassDescViewBased
 {
-    public ClassDesc_widget_ViewGroup(ClassDescViewBased parentClass)
+    public ClassDesc_widget_ViewGroup(ClassDesc_view_View parentClass)
     {
         super("android.view.ViewGroup",parentClass);
     }

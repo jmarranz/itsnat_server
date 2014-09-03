@@ -4,6 +4,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -257,6 +258,7 @@ public class TestLocalXMLInflate
         {
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            assertTrue(compLinLayout.addStatesFromChildren());
             assertEquals(compLinLayout.addStatesFromChildren(), parsedLinLayout.addStatesFromChildren());
             assertFalse(compLinLayout.isAlwaysDrawnWithCacheEnabled());
             assertEquals(compLinLayout.isAlwaysDrawnWithCacheEnabled(), parsedLinLayout.isAlwaysDrawnWithCacheEnabled());
@@ -269,23 +271,36 @@ public class TestLocalXMLInflate
             assertEquals(compLinLayout.getDescendantFocusability(),ViewGroup.FOCUS_AFTER_DESCENDANTS);
             assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
             assertPositive(compLinLayout.getLayoutAnimation().getDelay()); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
-            assertEquals(compLinLayout.getLayoutAnimation().getDelay(),parsedLinLayout.getLayoutAnimation().getDelay());
+            assertEquals(compLinLayout.getLayoutAnimation().getDelay(), parsedLinLayout.getLayoutAnimation().getDelay());
             assertEquals(compLinLayout.getPersistentDrawingCache(),parsedLinLayout.getPersistentDrawingCache());
             assertTrue(compLinLayout.isMotionEventSplittingEnabled());
             assertEquals(compLinLayout.isMotionEventSplittingEnabled(),parsedLinLayout.isMotionEventSplittingEnabled());
-
             {
                 TextView compTextView = (TextView) compLinLayout.getChildAt(0);
                 TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
             }
-
-
-System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getLayoutAnimation() + " " + parsedLinLayout.getLayoutAnimation());
-System.out.println("\n\n\n");
-//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
         }
 
+        childCount++;
 
+        // Test FrameLayout Attribs
+        {
+            FrameLayout compFrameLayout = (FrameLayout) comp.getChildAt(childCount);
+            FrameLayout parsedFrameLayout = (FrameLayout) parsed.getChildAt(childCount);
+
+            assertEquals(((ColorDrawable)compFrameLayout.getForeground()).getColor(), 0x55ddffdd);
+            assertEquals(compFrameLayout.getForeground(), parsedFrameLayout.getForeground());
+            // No podemos testear android:foregroundGravity porque getForegroundGravity() es Level 16
+            assertTrue(compFrameLayout.getMeasureAllChildren());
+            assertEquals(compFrameLayout.getMeasureAllChildren(), parsedFrameLayout.getMeasureAllChildren());
+
+
+
+            System.out.println("\n\n\nDEFAULT VALUE: " + compFrameLayout.getForeground() + " " + parsedFrameLayout.getForeground());
+            System.out.println("\n\n\n");
+//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
+
+        }
 
     }
 

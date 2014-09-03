@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_gravity;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecGravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orientation;
 
 /**
@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orien
  */
 public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_LinearLayout(ClassDescViewBased parentClass)
+    public ClassDesc_widget_LinearLayout(ClassDesc_widget_ViewGroup parentClass)
     {
         super("android.widget.LinearLayout",parentClass);
     }
@@ -17,8 +17,7 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
     {
         super.init();
 
-
-        addAttrDesc(new AttrDesc_widget_LinearLayout_gravity(this)); // "gravity"
+        addAttrDesc(new AttrDescReflecGravity(this,"gravity")); // "orientation"
         addAttrDesc(new AttrDesc_widget_LinearLayout_orientation(this)); // "orientation"
     }
 }

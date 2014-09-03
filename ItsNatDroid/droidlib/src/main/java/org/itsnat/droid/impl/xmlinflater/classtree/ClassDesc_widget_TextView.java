@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecColor;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_gravity;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecGravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textSize;
 
@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_TextView_textSize;
  */
 public class ClassDesc_widget_TextView extends ClassDescViewBased
 {
-    public ClassDesc_widget_TextView(ClassDescViewBased parentClass)
+    public ClassDesc_widget_TextView(ClassDesc_view_View parentClass)
     {
         super("android.widget.TextView",parentClass);
     }
@@ -20,7 +20,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDesc_widget_TextView_gravity(this));  // gravity
+        addAttrDesc(new AttrDescReflecGravity(this,"gravity"));
         addAttrDesc(new AttrDescReflecCharSequence(this, "text"));
         addAttrDesc(new AttrDescReflecColor(this,"textColor","#000000")); // textColor
         addAttrDesc(new AttrDesc_widget_TextView_textSize(this)); // textSize

@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import org.itsnat.droid.ItsNatDroidException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +17,7 @@ public class AttrDescGravityUtil
         // http://developer.android.com/reference/android/widget/LinearLayout.LayoutParams.html#attr_android:layout_gravity
         // http://developer.android.com/reference/android/widget/LinearLayout.html#attr_android:gravity
         // http://developer.android.com/reference/android/widget/TextView.html#attr_android:gravity
+        // http://developer.android.com/reference/android/widget/FrameLayout.html#attr_android:foregroundGravity
 
         valueMap.put("top",0x30);
         valueMap.put("bottom", 0x50);
@@ -34,5 +33,8 @@ public class AttrDescGravityUtil
         valueMap.put("clip_horizontal", 0x08);
         valueMap.put("start", 0x00800003);
         valueMap.put("end", 0x00800005);
+
+        // En el caso del atributo FrameLayout android:foregroundGravity, los casos start y end no aplican según los javadoc pero mi impresión es que es un olvido, de todas formas el programador obediente no debería usar entonces esos casos "no documentados" en el javadoc
+
     }
 }
