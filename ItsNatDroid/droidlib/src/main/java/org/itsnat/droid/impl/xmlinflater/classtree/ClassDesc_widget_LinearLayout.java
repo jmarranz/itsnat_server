@@ -1,6 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecGravity;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orientation;
 
 /**
@@ -17,7 +19,11 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecGravity(this,"gravity")); // "orientation"
+        addAttrDesc(new AttrDescReflecBoolean(this,"baselineAligned",true));
+        addAttrDesc(new AttrDescReflecInt(this,"baselineAlignedChildIndex",-1));
+
+
+        addAttrDesc(new AttrDescReflecGravity(this,"gravity"));
         addAttrDesc(new AttrDesc_widget_LinearLayout_orientation(this)); // "orientation"
     }
 }

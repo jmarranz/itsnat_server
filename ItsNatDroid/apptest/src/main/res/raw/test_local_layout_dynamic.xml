@@ -236,7 +236,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="#55ddffdd"
-            android:foregroundGravity="bottom|right"
+            android:foregroundGravity="top|left"
             android:measureAllChildren="true"
             >
             <TextView
@@ -246,6 +246,32 @@
                 android:background="#dddddd" />
         </FrameLayout>
 
+        <!-- Test LinearLayout Attribs -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+            android:baselineAligned="false"
+            android:baselineAlignedChildIndex="1"
+            android:divider="#ff0000"
+
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout Attribs"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Some text"
+                android:background="#dddddd" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

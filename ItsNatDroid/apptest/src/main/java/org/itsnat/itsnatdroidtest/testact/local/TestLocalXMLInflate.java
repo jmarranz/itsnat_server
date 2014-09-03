@@ -293,11 +293,24 @@ public class TestLocalXMLInflate
             // No podemos testear android:foregroundGravity porque getForegroundGravity() es Level 16
             assertTrue(compFrameLayout.getMeasureAllChildren());
             assertEquals(compFrameLayout.getMeasureAllChildren(), parsedFrameLayout.getMeasureAllChildren());
+        }
+
+        childCount++;
+
+        // Test LinearLayout Attribs
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+
+            assertFalse(compLinLayout.isBaselineAligned());
+            assertEquals(compLinLayout.isBaselineAligned(), parsedLinLayout.isBaselineAligned());
+            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
+            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
 
 
 
-            System.out.println("\n\n\nDEFAULT VALUE: " + compFrameLayout.getForeground() + " " + parsedFrameLayout.getForeground());
-            System.out.println("\n\n\n");
+System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getDividerDrawable() + " " + parsedLinLayout.getDividerDrawable());
+System.out.println("\n\n\n");
 //System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
 
         }
