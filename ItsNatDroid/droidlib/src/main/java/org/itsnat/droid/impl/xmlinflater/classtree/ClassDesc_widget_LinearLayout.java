@@ -5,8 +5,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_baselineAlignedChildIndex;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_orientation;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_LinearLayout_showDividers;
 
@@ -25,7 +25,7 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescReflecBoolean(this,"baselineAligned",true));
-        addAttrDesc(new AttrDescReflecInt(this,"baselineAlignedChildIndex",-1));
+        addAttrDesc(new AttrDesc_widget_LinearLayout_baselineAlignedChildIndex(this));
         addAttrDesc(new AttrDescReflecDrawable(this,"divider","setDividerDrawable"));
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
         addAttrDesc(new AttrDesc_widget_LinearLayout_showDividers(this));  // showDividers

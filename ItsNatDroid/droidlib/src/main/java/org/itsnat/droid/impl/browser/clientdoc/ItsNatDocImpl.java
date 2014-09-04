@@ -41,6 +41,7 @@ import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
@@ -223,6 +224,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         View view = newChildToIn.getView();
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+        PendingAttrTasks pending = null;
 
         for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
         {
@@ -230,7 +232,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             String namespaceURI = attr.getNamespaceURI();
             String name = attr.getName();
             String value = attr.getValue();
-            inflated.setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess);
+            inflated.setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)

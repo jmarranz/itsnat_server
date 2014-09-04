@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +18,7 @@ public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDesc
         super(parent,"descendantFocusability");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int intValue;
         if ("beforeDescendants".equals(value))
@@ -34,6 +35,6 @@ public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"beforeDescendants",null);
+        setAttribute(view,"beforeDescendants",null,null);
     }
 }

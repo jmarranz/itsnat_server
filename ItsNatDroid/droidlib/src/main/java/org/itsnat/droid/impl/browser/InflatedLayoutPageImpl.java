@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -112,7 +113,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        setAttribute(viewClassDesc, view, namespaceURI, name, value, null);
+        setAttribute(viewClassDesc, view, namespaceURI, name, value, null,null);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
@@ -122,7 +123,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
 
-    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name, String value,
+                                OneTimeAttrProcess oneTimeAttrProcess,PendingAttrTasks pending)
     {
         if (ValueUtil.isEmpty(namespaceURI))
         {
@@ -137,11 +139,11 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
                 return true;
             }
             else
-                return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess);
+                return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
         else
         {
-            return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess);
+            return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
     }
 

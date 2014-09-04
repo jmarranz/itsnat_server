@@ -1,7 +1,7 @@
 
-* Hacer android:baselineAlignedChildIndex definiéndola después de renderizar los hijos
+* Añadir método con el número de versión del framework
 
-* Pensar en como soportar los atributos con level superior
+* Pensar en como soportar los atributos con Android level superior
 
 * Pensar como modelar los drawable por ejemplo para definir bordes etc desde el servidor
 

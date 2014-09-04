@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -34,7 +35,7 @@ public class AttrDescReflecMultipleName extends AttrDescReflection
         return int.class;
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int valueInt = parseMultipleName(value, valueMap);
         callMethod(view, valueInt);
@@ -45,7 +46,7 @@ public class AttrDescReflecMultipleName extends AttrDescReflection
         if (defaultName != null)
         {
             if (defaultName.equals("")) callMethod(view, -1); // Android utiliza el -1 de vez en cuando como valor por defecto
-            else setAttribute(view, defaultName, null);
+            else setAttribute(view, defaultName, null,null);
         }
     }
 }

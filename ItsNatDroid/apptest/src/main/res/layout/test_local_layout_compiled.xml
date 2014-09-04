@@ -254,14 +254,14 @@
             android:layout_height="wrap_content"
             android:background="#ffdddd"
             android:baselineAligned="false"
-
+            android:baselineAlignedChildIndex="1"
             android:divider="@drawable/divider_test"
             android:showDividers="beginning|middle"
             android:dividerPadding="10dp"
             android:measureWithLargestChild="true"
             android:orientation="vertical"
             android:weightSum="1.0"
-            ><!-- android:baselineAlignedChildIndex="1" -->
+            >
 
             <TextView
                 android:layout_width="wrap_content"

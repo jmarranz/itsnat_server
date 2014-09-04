@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -26,7 +27,7 @@ public class AttrDescReflecDrawable extends AttrDescReflection
         return Drawable.class;
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         Drawable convValue = getDrawable(value,view.getContext());
         callMethod(view, convValue);

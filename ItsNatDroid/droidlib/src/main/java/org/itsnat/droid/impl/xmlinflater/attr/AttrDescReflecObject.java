@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -25,7 +26,7 @@ public class AttrDescReflecObject extends AttrDescReflection
         return Object.class;
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         String convValue = getString(value, view.getContext());
         callMethod(view, convValue);

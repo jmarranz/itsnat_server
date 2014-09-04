@@ -190,13 +190,13 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            View rootView = createRootViewObjectAndFillAttributes(viewName,parser);
+            PendingAttrTasks pending = new PendingAttrTasks();
 
-            View childView = parseNextView(parser, rootView, loadScript,scriptList);
-            while(childView != null)
-            {
-                childView = parseNextView(parser, rootView, loadScript,scriptList);
-            }
+            View rootView = createRootViewObjectAndFillAttributes(viewName,parser,pending);
+
+            processChildViews(parser,rootView,loadScript,scriptList);
+
+            pending.executePostInsertChildrenTasks();
 
             return rootView;
         }
@@ -206,7 +206,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     protected abstract void parseScriptElement(XmlPullParser parser,View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException;
 
-    public View parseNextView(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    protected View parseNextView(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -221,21 +221,31 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             }
             else
             {
-                View view = createAndAddViewObjectAndFillAttributes(viewName, viewParent, parser);
+                PendingAttrTasks pending = new PendingAttrTasks();
+
+                View view = createAndAddViewObjectAndFillAttributes(viewName, viewParent, parser,pending);
 
                 // No funciona, sólo funciona con XML compilados:
                 //AttributeSet attributes = Xml.asAttributeSet(parser);
                 //LayoutInflater inf = LayoutInflater.from(ctx);
 
-                View childView = parseNextView(parser, view, loadScript, scriptList);
-                while (childView != null)
-                {
-                    childView = parseNextView(parser, view, loadScript, scriptList);
-                }
+                processChildViews(parser,view,loadScript,scriptList);
+
+                pending.executePostInsertChildrenTasks();
+
                 return view;
             }
         }
         return null;
+    }
+
+    protected void processChildViews(XmlPullParser parser, View view, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    {
+        View childView = parseNextView(parser, view, loadScript, scriptList);
+        while (childView != null)
+        {
+            childView = parseNextView(parser, view, loadScript, scriptList);
+        }
     }
 
     private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,XmlPullParser parser)
@@ -245,23 +255,23 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
     }
 
-    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser)
+    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingAttrTasks pending)
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View view = createAndAddViewObject(classDesc,null,parser);
         setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
-        fillViewAttributes(classDesc,view, parser); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        fillViewAttributes(classDesc,view, parser,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }
 
-    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser)
+    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser,PendingAttrTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View view = createAndAddViewObject(classDesc,viewParent,parser);
-        fillViewAttributes(classDesc,view, parser); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        fillViewAttributes(classDesc,view, parser,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         return view;
     }
 
@@ -279,7 +289,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return 0;
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser)
+    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,PendingAttrTasks pending)
     {
         OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
 
@@ -288,15 +298,17 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             String namespaceURI = parser.getAttributeNamespace(i);
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess);
+            setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
 
         if (oneTimeAttrProcess.neededSetLayoutParams)
             view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess)
+    public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,
+                                OneTimeAttrProcess oneTimeAttrProcess,PendingAttrTasks pending)
     {
-        return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,this);
+        return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,pending,this);
     }
 }

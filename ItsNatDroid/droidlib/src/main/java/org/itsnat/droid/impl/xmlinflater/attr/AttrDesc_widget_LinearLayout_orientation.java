@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +18,7 @@ public class AttrDesc_widget_LinearLayout_orientation extends AttrDesc
         super(parent,"orientation");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         if      ("horizontal".equals(value)) ((LinearLayout)view).setOrientation(LinearLayout.HORIZONTAL);
         else if ("vertical".equals(value))   ((LinearLayout)view).setOrientation(LinearLayout.VERTICAL);

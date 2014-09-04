@@ -3,12 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -20,7 +17,7 @@ public class AttrDesc_view_View_layout_weight extends AttrDesc
         super(parent,"layout_weight");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
 

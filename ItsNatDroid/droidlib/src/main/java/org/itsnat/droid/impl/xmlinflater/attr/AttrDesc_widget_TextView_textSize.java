@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -16,7 +17,7 @@ public class AttrDesc_widget_TextView_textSize extends AttrDesc
         super(parent,"textSize");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         // Existe un setTextSize(int) pero vale la pena, así es perfecto
         TextView textView = (TextView)view;

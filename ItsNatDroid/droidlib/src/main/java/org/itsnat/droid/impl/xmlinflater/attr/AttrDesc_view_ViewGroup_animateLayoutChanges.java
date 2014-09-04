@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +18,7 @@ public class AttrDesc_view_ViewGroup_animateLayoutChanges extends AttrDesc
         super(parent,"animateLayoutChanges");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         // Tomado del código fuente de ViewGroup
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/view/ViewGroup.java?av=f
@@ -28,6 +29,6 @@ public class AttrDesc_view_ViewGroup_animateLayoutChanges extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"false",null);
+        setAttribute(view,"false",null,null);
     }
 }

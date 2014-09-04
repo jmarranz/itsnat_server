@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -16,7 +17,7 @@ public abstract class AttrDesc_view_View_layout_margin_Base extends AttrDesc
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int valueInt = getDimensionInt(value, view.getContext());
 

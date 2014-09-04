@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
-import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 
@@ -87,7 +88,7 @@ public class ClassDescViewBased
         return attrDescMap.get(name);
     }
 
-    public boolean setAttribute(View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,InflatedLayoutImpl inflated)
+    public boolean setAttribute(View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,PendingAttrTasks pending,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
@@ -98,13 +99,13 @@ public class ClassDescViewBased
             AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(view, value, oneTimeAttrProcess);
+                attrDesc.setAttribute(view, value, oneTimeAttrProcess,pending);
             }
             else
             {
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess, inflated);
+                    parentClass.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess,pending,inflated);
                 }
                 else
                 {

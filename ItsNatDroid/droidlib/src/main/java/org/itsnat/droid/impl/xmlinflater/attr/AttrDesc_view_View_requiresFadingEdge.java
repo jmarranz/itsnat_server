@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -16,7 +17,7 @@ public class AttrDesc_view_View_requiresFadingEdge extends AttrDesc
         super(parent,"requiresFadingEdge");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         String[] names = value.split("\\|");
         for(String name : names)
@@ -40,6 +41,6 @@ public class AttrDesc_view_View_requiresFadingEdge extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"vertical",null);
+        setAttribute(view,"vertical",null,null );
     }
 }

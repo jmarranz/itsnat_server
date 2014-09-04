@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -15,7 +16,7 @@ public class AttrDesc_view_View_padding extends AttrDesc
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int convValue = getDimensionInt(value, view.getContext());
 
@@ -34,6 +35,6 @@ public class AttrDesc_view_View_padding extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"0dp",null);
+        setAttribute(view,"0dp",null,null);
     }
 }

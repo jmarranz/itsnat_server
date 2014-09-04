@@ -4,6 +4,7 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -16,7 +17,7 @@ public class AttrDesc_view_View_scrollbarStyle extends AttrDesc
         super(parent,"scrollbarStyle");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int intValue;
         if      ("insideOverlay".equals(value))
@@ -35,6 +36,6 @@ public class AttrDesc_view_View_scrollbarStyle extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"insideOverlay",null);
+        setAttribute(view,"insideOverlay",null,null);
     }
 }

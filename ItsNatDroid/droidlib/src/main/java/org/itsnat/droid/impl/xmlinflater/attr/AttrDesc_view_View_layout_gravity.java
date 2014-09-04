@@ -6,6 +6,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -18,7 +19,7 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
         super(parent,"layout_gravity");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int valueInt = parseMultipleName(value, AttrDescGravityUtil.valueMap);
 

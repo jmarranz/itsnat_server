@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +18,7 @@ public class AttrDesc_view_ViewGroup_layoutAnimation extends AttrDesc
         super(parent,"layoutAnimation");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
     {
         int id = getIdentifier(value, view.getContext());
 
@@ -29,6 +30,6 @@ public class AttrDesc_view_ViewGroup_layoutAnimation extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"0",null);
+        setAttribute(view,"0",null,null);
     }
 }
