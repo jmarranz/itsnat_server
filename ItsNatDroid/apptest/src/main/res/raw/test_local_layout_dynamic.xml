@@ -216,8 +216,10 @@
             android:alignmentMode="alignBounds"
             android:columnCount="2"
             android:columnOrderPreserved="false"
-
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:rowCount="2"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
             >
             <TextView
                 android:layout_width="wrap_content"

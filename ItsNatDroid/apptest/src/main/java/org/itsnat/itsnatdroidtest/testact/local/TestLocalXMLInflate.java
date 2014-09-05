@@ -279,8 +279,14 @@ public class TestLocalXMLInflate
             assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
             assertFalse(compGridLayout.isColumnOrderPreserved());
             assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
-
-
+            assertEquals(compGridLayout.getOrientation(),GridLayout.HORIZONTAL);
+            assertEquals(compGridLayout.getOrientation(),parsedGridLayout.getOrientation());
+            assertEquals(compGridLayout.getRowCount(),2);
+            assertEquals(compGridLayout.getRowCount(),parsedGridLayout.getRowCount());
+            assertFalse(compGridLayout.isRowOrderPreserved());
+            assertEquals(compGridLayout.isRowOrderPreserved(),parsedGridLayout.isRowOrderPreserved());
+            assertTrue(compGridLayout.getUseDefaultMargins());
+            assertEquals(compGridLayout.getUseDefaultMargins(),parsedGridLayout.getUseDefaultMargins());
 
 
 //            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());

@@ -69,7 +69,7 @@ public class TestLayoutLocal
                 View dynamicRootView = layout.getRootView();
                 changeLayout(fragment,dynamicRootView);
 
-                Toast.makeText(act, "OK XML LOCAL", Toast.LENGTH_SHORT).show();
+                Toast.makeText(act, "OK XML DYNAMIC", Toast.LENGTH_SHORT).show();
 
                 View backButton = dynamicRootView.findViewById(R.id.back);
                 backButton.setOnClickListener(new View.OnClickListener()

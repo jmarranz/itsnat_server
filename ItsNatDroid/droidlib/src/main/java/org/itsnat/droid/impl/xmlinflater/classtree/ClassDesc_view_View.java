@@ -25,7 +25,6 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_onClick;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingEdge;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scroll_X_Y;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
@@ -88,8 +87,9 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecBoolean(this,"saveEnabled",true));
         addAttrDesc(new AttrDescReflecFloat(this,"scaleX",1f));
         addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
-        addAttrDesc(new AttrDesc_view_View_scroll_X_Y(this,"scrollX"));
-        addAttrDesc(new AttrDesc_view_View_scroll_X_Y(this,"scrollY"));
+        addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollX",0f));
+        addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollY",0f));
+
         // android:scrollbarAlwaysDrawHorizontalTrack y android:scrollbarAlwaysDrawVerticalTrack no parecen tener métodos nativos asociados
         // android:scrollbarDefaultDelayBeforeFade es Level 16
         // android:scrollbarFadeDuration es Level 16
