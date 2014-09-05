@@ -1,9 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.view.View;
-
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -11,42 +7,23 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescReflecMultipleName extends AttrDescReflection
+public class AttrDescReflecMultipleName extends AttrDescReflecNameBased
 {
-    protected Map<String, Integer> valueMap;
-    protected String defaultName;
-
     public AttrDescReflecMultipleName(ClassDescViewBased parent, String name, String methodName,Map<String, Integer> valueMap,String defaultName)
     {
-        super(parent,name,methodName);
-        this.valueMap = valueMap;
-        this.defaultName = defaultName;
+        super(parent,name,methodName,valueMap,defaultName);
     }
 
     public AttrDescReflecMultipleName(ClassDescViewBased parent, String name,Map<String, Integer> valueMap,String defaultName)
     {
-        super(parent, name);
-        this.valueMap = valueMap;
-        this.defaultName = defaultName;
+        super(parent, name,valueMap,defaultName);
     }
 
-    protected Class<?> getClassParam()
+    @Override
+    protected int parseNameBasedValue(String value)
     {
-        return int.class;
+        return parseMultipleName(value, valueMap);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        int valueInt = parseMultipleName(value, valueMap);
-        callMethod(view, valueInt);
-    }
 
-    public void removeAttribute(View view)
-    {
-        if (defaultName != null)
-        {
-            if (defaultName.equals("")) callMethod(view, -1); // Android utiliza el -1 de vez en cuando como valor por defecto
-            else setAttribute(view, defaultName, null,null);
-        }
-    }
 }

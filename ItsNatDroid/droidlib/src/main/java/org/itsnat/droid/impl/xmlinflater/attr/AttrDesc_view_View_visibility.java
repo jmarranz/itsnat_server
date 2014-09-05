@@ -2,38 +2,26 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_visibility extends AttrDesc
+public class AttrDesc_view_View_visibility extends AttrDescReflecSingleName
 {
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static
+    {
+        valueMap.put("visible", View.VISIBLE);
+        valueMap.put("invisible",View.INVISIBLE);
+        valueMap.put("gone",View.GONE);
+    }
+
     public AttrDesc_view_View_visibility(ClassDescViewBased parent)
     {
-        super(parent,"visibility");
-    }
-
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        int intValue;
-        if ("visible".equals(value))
-            intValue = View.VISIBLE;
-        else if ("invisible".equals(value))
-            intValue = View.INVISIBLE;
-        else if ("gone".equals(value))
-            intValue = View.GONE;
-        else
-            throw new ItsNatDroidException("Unrecognized value " + value + " for attribute " + name);
-
-        view.setVisibility(intValue);
-    }
-
-    public void removeAttribute(View view)
-    {
-        setAttribute(view,"visible",null,null);
+        super(parent,"visibility",valueMap,"visible");
     }
 }

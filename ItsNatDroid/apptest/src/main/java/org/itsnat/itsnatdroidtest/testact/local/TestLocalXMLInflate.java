@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -131,21 +132,6 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
                 assertEqualsViewGroupMarginLayoutParams(compTextView, parsedTextView);
-            }
-        }
-
-        childCount++;
-
-        // Test LinearLayout gravity
-        {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
-                assertEquals(compTextView.getText(), parsedTextView.getText());
-                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
-                assertEquals(compTextView.getGravity(), parsedTextView.getGravity());
             }
         }
 
@@ -281,6 +267,26 @@ public class TestLocalXMLInflate
             }
         }
 
+
+        childCount++;
+
+        // Test GridLayout Attribs
+        {
+            GridLayout compGridLayout = (GridLayout) comp.getChildAt(childCount);
+            GridLayout parsedGridLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compGridLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compGridLayout.getColumnCount(),2);
+            assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
+            assertFalse(compGridLayout.isColumnOrderPreserved());
+            assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
+
+
+
+
+//            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());
+            System.out.println("\n\n\n");
+        }
+
         childCount++;
 
         // Test FrameLayout Attribs
@@ -304,8 +310,8 @@ public class TestLocalXMLInflate
 
             assertFalse(compLinLayout.isBaselineAligned());
             assertEquals(compLinLayout.isBaselineAligned(), parsedLinLayout.isBaselineAligned());
-            //assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
-            //assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
+            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
+            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
             // No podemos testear android:divider porque getDividerDrawable() es Level 16
             assertEquals(compLinLayout.getShowDividers(), 3);
             assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
@@ -316,14 +322,23 @@ public class TestLocalXMLInflate
             assertEquals(compLinLayout.isMeasureWithLargestChildEnabled(),parsedLinLayout.isMeasureWithLargestChildEnabled());
             assertEquals(compLinLayout.getWeightSum(),1.0f);
             assertEquals(compLinLayout.getWeightSum(),parsedLinLayout.getWeightSum());
-
-
-
-System.out.println("\n\n\nDEFAULT VALUE: " + compLinLayout.getShowDividers() + " " + parsedLinLayout.getShowDividers());
-System.out.println("\n\n\n");
-//System.out.println("DEFAULT VALUE: " + execMethod(parsedTextView2,"isScrollContainer()",null,null));
-
         }
+
+        childCount++;
+
+        // Test LinearLayout gravity
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            {
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                assertEquals(compTextView.getGravity(), parsedTextView.getGravity());
+            }
+        }
+
 
     }
 

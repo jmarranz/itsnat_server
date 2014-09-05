@@ -1,32 +1,27 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.view.View;
 import android.widget.LinearLayout;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_LinearLayout_orientation extends AttrDesc
+public class AttrDesc_widget_LinearLayout_orientation extends AttrDescReflecSingleName
 {
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static
+    {
+        valueMap.put("horizontal", LinearLayout.HORIZONTAL);
+        valueMap.put("vertical",LinearLayout.VERTICAL);
+    }
+
     public AttrDesc_widget_LinearLayout_orientation(ClassDescViewBased parent)
     {
-        super(parent,"orientation");
+        super(parent,"orientation",valueMap,"horizontal");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        if      ("horizontal".equals(value)) ((LinearLayout)view).setOrientation(LinearLayout.HORIZONTAL);
-        else if ("vertical".equals(value))   ((LinearLayout)view).setOrientation(LinearLayout.VERTICAL);
-        else throw new ItsNatDroidException("Unrecognized value: " + value);
-    }
-
-    public void removeAttribute(View view)
-    {
-        ((LinearLayout)view).setOrientation(LinearLayout.HORIZONTAL); // Por defecto es horizontal
-    }
 }

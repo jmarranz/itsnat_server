@@ -242,6 +242,14 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
+    protected static int parseSingleName(String value, Map<String, Integer> valueMap)
+    {
+        Integer valueInt = valueMap.get(value);
+        if (valueInt == null)
+            throw new ItsNatDroidException("Unrecognized value name " + value + " for attribute");
+        return valueInt;
+    }
+
     protected static int parseMultipleName(String value, Map<String, Integer> valueMap)
     {
         String[] names = value.split("\\|");
@@ -252,7 +260,7 @@ public abstract class AttrDesc
             String name = names[i];
             Integer valueInt = valueMap.get(name);
             if (valueInt == null)
-                throw new ItsNatDroidException("Unknown name " + name + " for attribute");
+                throw new ItsNatDroidException("Unrecognized value name " + name + " for attribute");
 
             res |= valueInt;
         }

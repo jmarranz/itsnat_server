@@ -1,3 +1,4 @@
+* Hacer GridLayout.LayoutParams
 
 * Añadir método con el número de versión del framework
 

@@ -111,28 +111,6 @@
 
         </LinearLayout>
 
-        <!-- Test LinearLayout gravity -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#dddddd"
-            android:gravity="right"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test LinearLayout gravity 1"
-                android:background="#aaaaaa"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test LinearLayout gravity 2"
-                android:background="#aaaaaa"/>
-
-        </LinearLayout>
-
         <!-- Test View Attribs -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -231,6 +209,34 @@
 
         </LinearLayout>
 
+        <!-- Test GridLayout Attribs -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="2"
+            android:columnOrderPreserved="false"
+
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cell 2"
+                android:background="#dddddd" />
+        </GridLayout>
+
+
         <!-- Test FrameLayout Attribs -->
         <FrameLayout
             android:layout_width="match_parent"
@@ -272,6 +278,28 @@
                 android:layout_height="wrap_content"
                 android:text="Some text"
                 android:background="#dddddd"/>
+
+        </LinearLayout>
+
+        <!-- Test LinearLayout gravity -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddddd"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout gravity 1"
+                android:background="#aaaaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout gravity 2"
+                android:background="#aaaaaa"/>
 
         </LinearLayout>
 

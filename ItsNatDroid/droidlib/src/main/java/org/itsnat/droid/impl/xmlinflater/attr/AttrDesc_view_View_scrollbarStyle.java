@@ -2,40 +2,28 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_scrollbarStyle extends AttrDesc
+public class AttrDesc_view_View_scrollbarStyle extends AttrDescReflecSingleName
 {
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static
+    {
+        valueMap.put("insideOverlay", View.SCROLLBARS_INSIDE_OVERLAY);
+        valueMap.put("insideInset",   View.SCROLLBARS_INSIDE_INSET);
+        valueMap.put("outsideOverlay",View.SCROLLBARS_OUTSIDE_OVERLAY);
+        valueMap.put("outsideInset",View.SCROLLBARS_OUTSIDE_INSET);
+    }
+
     public AttrDesc_view_View_scrollbarStyle(ClassDescViewBased parent)
     {
-        super(parent,"scrollbarStyle");
+        super(parent,"scrollbarStyle","setScrollBarStyle",valueMap,"insideOverlay");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        int intValue;
-        if      ("insideOverlay".equals(value))
-            intValue = View.SCROLLBARS_INSIDE_OVERLAY;
-        else if ("insideInset".equals(value))
-            intValue = View.SCROLLBARS_INSIDE_INSET;
-        else if ("outsideOverlay".equals(value))
-            intValue = View.SCROLLBARS_OUTSIDE_OVERLAY;
-        else if ("outsideInset".equals(value))
-            intValue = View.SCROLLBARS_OUTSIDE_INSET;
-        else
-            throw new ItsNatDroidException("Unrecognized value " + value + " for attribute " + name);
-
-        view.setScrollBarStyle(intValue);
-    }
-
-    public void removeAttribute(View view)
-    {
-        setAttribute(view,"insideOverlay",null,null);
-    }
 }

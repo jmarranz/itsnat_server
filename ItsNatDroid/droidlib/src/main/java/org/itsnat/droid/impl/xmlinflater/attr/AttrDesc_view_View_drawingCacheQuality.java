@@ -2,38 +2,27 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_drawingCacheQuality extends AttrDesc
+public class AttrDesc_view_View_drawingCacheQuality extends AttrDescReflecSingleName
 {
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static
+    {
+        valueMap.put("auto", View.DRAWING_CACHE_QUALITY_AUTO);
+        valueMap.put("low",View.DRAWING_CACHE_QUALITY_LOW);
+        valueMap.put("high",View.DRAWING_CACHE_QUALITY_HIGH);
+    }
+
     public AttrDesc_view_View_drawingCacheQuality(ClassDescViewBased parent)
     {
-        super(parent,"drawingCacheQuality");
+        super(parent,"drawingCacheQuality",valueMap,"auto");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        int intValue;
-        if ("auto".equals(value))
-            intValue = View.DRAWING_CACHE_QUALITY_AUTO;
-        else if ("low".equals(value))
-            intValue = View.DRAWING_CACHE_QUALITY_LOW;
-        else if ("high".equals(value))
-            intValue = View.DRAWING_CACHE_QUALITY_HIGH;
-        else
-            throw new ItsNatDroidException("Unrecognized value " + value + " for attribute " + name);
-
-        view.setDrawingCacheQuality(intValue);
-    }
-
-    public void removeAttribute(View view)
-    {
-        setAttribute(view,"auto",null,null);
-    }
 }

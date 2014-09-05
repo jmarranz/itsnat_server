@@ -1,40 +1,28 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDesc
+public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDescReflecSingleName
 {
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static
+    {
+        valueMap.put("beforeDescendants", ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+        valueMap.put("afterDescendants",  ViewGroup.FOCUS_AFTER_DESCENDANTS);
+        valueMap.put("blocksDescendants", ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+    }
+
     public AttrDesc_view_ViewGroup_descendantFocusability(ClassDescViewBased parent)
     {
-        super(parent,"descendantFocusability");
+        super(parent,"descendantFocusability",valueMap,"beforeDescendants");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
-    {
-        int intValue;
-        if ("beforeDescendants".equals(value))
-            intValue = ViewGroup.FOCUS_BEFORE_DESCENDANTS;
-        else if ("afterDescendants".equals(value))
-            intValue = ViewGroup.FOCUS_AFTER_DESCENDANTS;
-        else if ("blocksDescendants".equals(value))
-            intValue = ViewGroup.FOCUS_BLOCK_DESCENDANTS;
-        else
-            throw new ItsNatDroidException("Unrecognized value " + value + " for attribute " + name);
-
-        ((ViewGroup)view).setDescendantFocusability(intValue);
-    }
-
-    public void removeAttribute(View view)
-    {
-        setAttribute(view,"beforeDescendants",null,null);
-    }
 }
