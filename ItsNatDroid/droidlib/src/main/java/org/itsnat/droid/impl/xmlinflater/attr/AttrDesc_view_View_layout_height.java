@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +17,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_
         super(parent,"layout_height");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         int height = getDimension(view,value);
 
@@ -25,7 +25,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_
 
         params.height = height;
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
+        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
         else view.setLayoutParams(view.getLayoutParams());
     }
 

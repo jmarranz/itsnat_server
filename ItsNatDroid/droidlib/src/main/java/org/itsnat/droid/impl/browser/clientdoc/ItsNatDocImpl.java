@@ -41,7 +41,7 @@ import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
@@ -223,8 +223,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
     {
         View view = newChildToIn.getView();
-        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
-        PendingAttrTasks pending = null;
+        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view);
+        PendingPostInsertChildrenTasks pending = null;
 
         for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
         {
@@ -235,8 +235,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             inflated.setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
 
-        if (oneTimeAttrProcess.neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+        oneTimeAttrProcess.finish();
     }
 
     private Context getContext()

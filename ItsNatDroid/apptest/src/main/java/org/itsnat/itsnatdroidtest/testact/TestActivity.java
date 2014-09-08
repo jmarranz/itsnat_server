@@ -1,11 +1,11 @@
 package org.itsnat.itsnatdroidtest.testact;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,6 +90,9 @@ public class TestActivity extends Activity implements ActionBar.TabListener
                             .setText(mTestActivityPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+
+
+        //org.itsnat.droid.impl.util.MapLightAndRealPerformTest.test();
 
     }
 

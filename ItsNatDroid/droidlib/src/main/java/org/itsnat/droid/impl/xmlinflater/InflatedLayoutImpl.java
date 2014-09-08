@@ -190,13 +190,13 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            PendingAttrTasks pending = new PendingAttrTasks();
+            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
             View rootView = createRootViewObjectAndFillAttributes(viewName,parser,pending);
 
             processChildViews(parser,rootView,loadScript,scriptList);
 
-            pending.executePostInsertChildrenTasks();
+            pending.executeTasks();
 
             return rootView;
         }
@@ -221,7 +221,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             }
             else
             {
-                PendingAttrTasks pending = new PendingAttrTasks();
+                PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
                 View view = createAndAddViewObjectAndFillAttributes(viewName, viewParent, parser,pending);
 
@@ -231,7 +231,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
                 processChildViews(parser,view,loadScript,scriptList);
 
-                pending.executePostInsertChildrenTasks();
+                pending.executeTasks();
 
                 return view;
             }
@@ -255,7 +255,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
     }
 
-    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingAttrTasks pending)
+    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
@@ -265,7 +265,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return view;
     }
 
-    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser,PendingAttrTasks pending)
+    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
@@ -289,9 +289,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return 0;
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,PendingAttrTasks pending)
+    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = new OneTimeAttrProcess();
+        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view);
 
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
@@ -301,13 +301,11 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
 
-        if (oneTimeAttrProcess.neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
-
+        oneTimeAttrProcess.finish();
     }
 
     public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,
-                                OneTimeAttrProcess oneTimeAttrProcess,PendingAttrTasks pending)
+                                OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,pending,this);
     }

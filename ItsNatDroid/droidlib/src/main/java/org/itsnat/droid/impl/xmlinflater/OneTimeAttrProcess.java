@@ -1,11 +1,34 @@
 package org.itsnat.droid.impl.xmlinflater;
 
+import android.view.View;
+import android.widget.GridLayout;
+
 /**
  * Created by jmarranz on 6/05/14.
  */
-public class OneTimeAttrProcess
+public abstract class OneTimeAttrProcess
 {
-    public OneTimeAttrProcess()
-    {}
-    public boolean neededSetLayoutParams;
+    protected View view;
+    protected boolean neededSetLayoutParams;
+
+    public OneTimeAttrProcess(View view)
+    {
+        this.view = view;
+    }
+
+    public static OneTimeAttrProcess createOneTimeAttrProcess(View view)
+    {
+        return (view.getParent() instanceof GridLayout) ? new OneTimeAttrProcessChildGridLayout(view) : new OneTimeAttrProcessDefault(view);
+    }
+
+    public void setNeededSetLayoutParams()
+    {
+        this.neededSetLayoutParams = true;
+    }
+
+    public void finish()
+    {
+        if (neededSetLayoutParams)
+            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
+    }
 }

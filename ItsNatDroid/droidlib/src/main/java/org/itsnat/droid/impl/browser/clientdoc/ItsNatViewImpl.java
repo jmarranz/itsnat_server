@@ -62,13 +62,13 @@ public abstract class ItsNatViewImpl implements ItsNatView
 
     public MapLight<String,String> getOnTypeInlineCodeMap()
     {
-        if (onTypeInlineCodeMap == null) onTypeInlineCodeMap = new MapLight<String,String>();
+        if (onTypeInlineCodeMap == null) this.onTypeInlineCodeMap = new MapLight<String,String>();
         return onTypeInlineCodeMap;
     }
 
     public MapList<String,DroidEventListener> getEventListeners()
     {
-        if (eventListeners == null) eventListeners = new MapLightList<String,DroidEventListener>();
+        if (eventListeners == null) this.eventListeners = new MapLightList<String,DroidEventListener>();
         return eventListeners;
     }
 

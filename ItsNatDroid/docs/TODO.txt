@@ -1,4 +1,14 @@
+
+* Hacer AttrDesc_view_View_layout_column.removeAttribute idem los demás attribs, intentando llamar a métodos ocultos
+de GridLayout.LayoutParams
+
 * Hacer GridLayout.LayoutParams
+
+   Probar     android:layout_columnSpan="3"
+              android:layout_rowSpan="2"
+
+   en elementos dentro del GridLayout
+
 
 * Añadir método con el número de versión del framework
 

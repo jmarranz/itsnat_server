@@ -13,6 +13,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layerType;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_column;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_columnSpan;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_height;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_margin;
@@ -20,6 +22,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginBo
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginLeft;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginRight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginTop;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_row;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_rowSpan;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_onClick;
@@ -112,6 +116,12 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_width(this));
         addAttrDesc(new AttrDesc_view_View_layout_height(this));
 
+        // Debidos a GridLayout
+        addAttrDesc(new AttrDesc_view_View_layout_column(this));
+        addAttrDesc(new AttrDesc_view_View_layout_columnSpan(this));
+        addAttrDesc(new AttrDesc_view_View_layout_row(this));
+        addAttrDesc(new AttrDesc_view_View_layout_rowSpan(this));
+
         // Debidos a LinearLayout
         addAttrDesc(new AttrDesc_view_View_layout_weight(this));
 
@@ -123,7 +133,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_margin(this));
 
 
-        // Debidos a LinearLayout y FrameLayout
+        // Debidos a LinearLayout, FrameLayout y GridLayout
         addAttrDesc(new AttrDesc_view_View_layout_gravity(this));
 
 

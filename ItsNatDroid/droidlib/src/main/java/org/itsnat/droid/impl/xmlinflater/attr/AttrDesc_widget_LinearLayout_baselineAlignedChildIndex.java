@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -16,7 +16,7 @@ public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends Attr
         super(parent,"baselineAlignedChildIndex",-1);
     }
 
-    public void setAttribute(final View view,final String value,final OneTimeAttrProcess oneTimeAttrProcess,final PendingAttrTasks pending)
+    public void setAttribute(final View view,final String value,final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)
     {
         if (pending != null)
         {
@@ -28,7 +28,7 @@ public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends Attr
                     AttrDesc_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view,value,oneTimeAttrProcess,pending);
                 }
             };
-            pending.addPostInsertChildrenTask(task);
+            pending.addTask(task);
         }
         else super.setAttribute(view,value,oneTimeAttrProcess,pending);
     }

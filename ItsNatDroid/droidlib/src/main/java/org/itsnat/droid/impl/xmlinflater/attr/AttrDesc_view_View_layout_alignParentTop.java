@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,14 +17,14 @@ public class AttrDesc_view_View_layout_alignParentTop extends AttrDesc
         super(parent,"layout_alignParentTop");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         boolean convValue = getBoolean(value, view.getContext());
 
         params.addRule(RelativeLayout.ALIGN_PARENT_TOP, convValue ? RelativeLayout.TRUE : 0);
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
+        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
         else view.setLayoutParams(view.getLayoutParams());
     }
 

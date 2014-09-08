@@ -11,7 +11,7 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -268,7 +268,7 @@ public abstract class AttrDesc
         return res;
     }
 
-    public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending);
+    public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
 
     public abstract void removeAttribute(View view);
 }

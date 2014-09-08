@@ -270,28 +270,77 @@ public class TestLocalXMLInflate
 
         childCount++;
 
-        // Test GridLayout Attribs
+        // Test GridLayout Attribs Horizontal
         {
             GridLayout compGridLayout = (GridLayout) comp.getChildAt(childCount);
             GridLayout parsedGridLayout = (GridLayout) parsed.getChildAt(childCount);
             assertEquals(compGridLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
-            assertEquals(compGridLayout.getColumnCount(),2);
+            assertEquals(compGridLayout.getColumnCount(),3);
             assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
             assertFalse(compGridLayout.isColumnOrderPreserved());
             assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
             assertEquals(compGridLayout.getOrientation(),GridLayout.HORIZONTAL);
             assertEquals(compGridLayout.getOrientation(),parsedGridLayout.getOrientation());
-            assertEquals(compGridLayout.getRowCount(),2);
+            assertEquals(compGridLayout.getRowCount(),3);
             assertEquals(compGridLayout.getRowCount(),parsedGridLayout.getRowCount());
             assertFalse(compGridLayout.isRowOrderPreserved());
             assertEquals(compGridLayout.isRowOrderPreserved(),parsedGridLayout.isRowOrderPreserved());
             assertTrue(compGridLayout.getUseDefaultMargins());
             assertEquals(compGridLayout.getUseDefaultMargins(),parsedGridLayout.getUseDefaultMargins());
 
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    TextView compTextView = (TextView) compGridLayout.getChildAt(i);
+                    TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
+                    // Testeamos los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+                    GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
+                    GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
+                    compParams.columnSpec.equals(parsedParams.columnSpec);
+                    compParams.rowSpec.equals(parsedParams.rowSpec);
+                }
+            }
+        }
+
+        childCount++;
+
+        // Test GridLayout Attribs Vertical
+        {
+            GridLayout compGridLayout = (GridLayout) comp.getChildAt(childCount);
+            GridLayout parsedGridLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compGridLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compGridLayout.getColumnCount(),3);
+            assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
+            assertFalse(compGridLayout.isColumnOrderPreserved());
+            assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
+            assertEquals(compGridLayout.getOrientation(),GridLayout.VERTICAL);
+            assertEquals(compGridLayout.getOrientation(),parsedGridLayout.getOrientation());
+            assertEquals(compGridLayout.getRowCount(),3);
+            assertEquals(compGridLayout.getRowCount(),parsedGridLayout.getRowCount());
+            assertFalse(compGridLayout.isRowOrderPreserved());
+            assertEquals(compGridLayout.isRowOrderPreserved(),parsedGridLayout.isRowOrderPreserved());
+            assertTrue(compGridLayout.getUseDefaultMargins());
+            assertEquals(compGridLayout.getUseDefaultMargins(),parsedGridLayout.getUseDefaultMargins());
+
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    TextView compTextView = (TextView) compGridLayout.getChildAt(i);
+                    TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
+                    // Testeamos los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
+                    GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
+                    GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
+                    compParams.columnSpec.equals(parsedParams.columnSpec);
+                    compParams.rowSpec.equals(parsedParams.rowSpec);
+                }
+            }
+
 
 //            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());
             System.out.println("\n\n\n");
         }
+
+
 
         childCount++;
 

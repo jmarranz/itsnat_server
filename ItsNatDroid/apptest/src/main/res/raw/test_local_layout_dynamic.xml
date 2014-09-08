@@ -209,35 +209,69 @@
 
         </LinearLayout>
 
-        <!-- Test GridLayout Attribs -->
+        <!-- Test GridLayout Attribs Horizontal -->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:alignmentMode="alignBounds"
-            android:columnCount="2"
+            android:columnCount="3"
             android:columnOrderPreserved="false"
             android:orientation="horizontal"
-            android:rowCount="2"
+            android:rowCount="3"
             android:rowOrderPreserved="false"
             android:useDefaultMargins="true"
             >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Cell 0"
                 android:background="#dddddd" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Cell 1"
                 android:background="#dddddd" />
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
                 android:background="#dddddd" />
         </GridLayout>
 
+        <!-- Test GridLayout Attribs Vertical -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            android:orientation="vertical"
+            android:rowCount="3"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
+            >
+            <TextView
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_row="1"
+                android:layout_rowSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
+                android:background="#dddddd" />
+        </GridLayout>
 
         <!-- Test FrameLayout Attribs -->
         <FrameLayout

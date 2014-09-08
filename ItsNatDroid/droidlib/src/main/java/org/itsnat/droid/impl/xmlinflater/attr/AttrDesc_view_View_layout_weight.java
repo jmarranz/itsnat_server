@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingAttrTasks;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
@@ -17,7 +17,7 @@ public class AttrDesc_view_View_layout_weight extends AttrDesc
         super(parent,"layout_weight");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingAttrTasks pending)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
 
@@ -25,7 +25,7 @@ public class AttrDesc_view_View_layout_weight extends AttrDesc
 
         params.weight = weight;
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.neededSetLayoutParams = true;
+        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
         else view.setLayoutParams(view.getLayoutParams());
     }
 
