@@ -10,26 +10,29 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_layout_below extends AttrDesc
+public class AttrDesc_view_View_layout_rellayout_byId extends AttrDesc
 {
-    public AttrDesc_view_View_layout_below(ClassDescViewBased parent)
+    protected int selector;
+
+    public AttrDesc_view_View_layout_rellayout_byId(ClassDescViewBased parent,String name,int selector)
     {
-        super(parent,"layout_below");
+        super(parent,name);
+        this.selector = selector;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        if (value.isEmpty())
+        if (!value.isEmpty())
         {
-            // El valor vacío del atributo es un caso específico de ItsNatDroid, útil en actualización del Layout via DOM para
-            // indicar que quitamos la regla. removeRule es el método adecuado pero es posterior a 4.0.3
-            params.addRule(RelativeLayout.BELOW, 0);
+            int viewId = getIdentifier(value, view.getContext());
+            params.addRule(selector, viewId);
         }
         else
         {
-            int viewId = getIdentifier(value, view.getContext());
-            params.addRule(RelativeLayout.BELOW, viewId);
+            // El valor vacío del atributo es un caso específico de ItsNatDroid, útil en actualización del Layout via DOM para
+            // indicar que quitamos la regla. removeRule es el método adecuado pero es posterior a 4.0.3
+            params.addRule(selector, 0);
         }
 
         if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
@@ -39,7 +42,7 @@ public class AttrDesc_view_View_layout_below extends AttrDesc
     public void removeAttribute(View view)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        params.addRule(RelativeLayout.BELOW, 0);
+        params.addRule(selector, 0);
 
         view.setLayoutParams(view.getLayoutParams());
     }

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import android.widget.RelativeLayout;
+
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionFloat;
@@ -11,8 +13,6 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecObject;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layerType;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignParentTop;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_below;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_column;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_columnSpan;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
@@ -22,6 +22,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginBo
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginLeft;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginRight;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_marginTop;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_rellayout_byBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_rellayout_byId;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_row;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_rowSpan;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_weight;
@@ -116,29 +118,50 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_width(this));
         addAttrDesc(new AttrDesc_view_View_layout_height(this));
 
-        // Debidos a GridLayout
-        addAttrDesc(new AttrDesc_view_View_layout_column(this));
-        addAttrDesc(new AttrDesc_view_View_layout_columnSpan(this));
-        addAttrDesc(new AttrDesc_view_View_layout_row(this));
-        addAttrDesc(new AttrDesc_view_View_layout_rowSpan(this));
 
-        // Debidos a LinearLayout
-        addAttrDesc(new AttrDesc_view_View_layout_weight(this));
-
-        // Debidos a views padre con soporte de ViewGroup.MarginLayoutParams
+        // Debidos a ViewGroup.MarginLayoutParams
         addAttrDesc(new AttrDesc_view_View_layout_marginBottom(this));
         addAttrDesc(new AttrDesc_view_View_layout_marginLeft(this));
         addAttrDesc(new AttrDesc_view_View_layout_marginTop(this));
         addAttrDesc(new AttrDesc_view_View_layout_marginRight(this));
         addAttrDesc(new AttrDesc_view_View_layout_margin(this));
 
+        // Debidos a LinearLayout.LayoutParams
+        addAttrDesc(new AttrDesc_view_View_layout_weight(this));
 
-        // Debidos a LinearLayout, FrameLayout y GridLayout
+        // Debidos a LinearLayout.LayoutParams, FrameLayout.LayoutParams y GridLayout.LayoutParams
         addAttrDesc(new AttrDesc_view_View_layout_gravity(this));
 
+        // Debidos a GridLayout.LayoutParams
+        addAttrDesc(new AttrDesc_view_View_layout_column(this));
+        addAttrDesc(new AttrDesc_view_View_layout_columnSpan(this));
+        addAttrDesc(new AttrDesc_view_View_layout_row(this));
+        addAttrDesc(new AttrDesc_view_View_layout_rowSpan(this));
 
-        // Debidos a RelativeLayout
-        addAttrDesc(new AttrDesc_view_View_layout_alignParentTop(this));
-        addAttrDesc(new AttrDesc_view_View_layout_below(this));
+        // Debidos a RelativeLayout.LayoutParams
+
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_above",RelativeLayout.ABOVE));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignBaseline",RelativeLayout.ALIGN_BASELINE));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignBottom",RelativeLayout.ALIGN_BOTTOM));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignEnd",RelativeLayout.ALIGN_END));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignLeft",RelativeLayout.ALIGN_LEFT));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentBottom", RelativeLayout.ALIGN_PARENT_BOTTOM));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentEnd", RelativeLayout.ALIGN_PARENT_END));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentLeft", RelativeLayout.ALIGN_PARENT_LEFT));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentRight", RelativeLayout.ALIGN_PARENT_RIGHT));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentStart", RelativeLayout.ALIGN_PARENT_START));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_alignParentTop", RelativeLayout.ALIGN_PARENT_TOP));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignRight",RelativeLayout.ALIGN_RIGHT));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignStart",RelativeLayout.ALIGN_START));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignTop",RelativeLayout.ALIGN_TOP));
+        // android:layout_alignWithParentIfMissing sólo funciona como atributo, no existe una rule ALIGN_PARENT_IF_MISSING o similar (ver código fuente)
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_below",RelativeLayout.BELOW));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_centerHorizontal",RelativeLayout.CENTER_HORIZONTAL));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_centerInParent",RelativeLayout.CENTER_IN_PARENT));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_centerVertical",RelativeLayout.CENTER_VERTICAL));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toEndOf",RelativeLayout.END_OF));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toLeftOf",RelativeLayout.LEFT_OF));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toRightOf",RelativeLayout.RIGHT_OF));
+        addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toStartOf",RelativeLayout.START_OF));
     }
 }

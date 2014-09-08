@@ -425,6 +425,32 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
             }
         }
+
+        childCount++;
+
+        // Test RelativeLayout.LayoutParams
+        {
+            RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
+            RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
+
+            for(int i = 0; i < 2; i++)
+            {
+                TextView compTextView = (TextView) compLayout.getChildAt(i);
+                TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+
+                RelativeLayout.LayoutParams compTextParams = (RelativeLayout.LayoutParams)compTextView.getLayoutParams();
+                RelativeLayout.LayoutParams parsedTextParams = (RelativeLayout.LayoutParams)parsedTextView.getLayoutParams();
+                int[] compTextRules = compTextParams.getRules();
+                int[] parsedTextRules = parsedTextParams.getRules();
+                assertEquals(compTextRules.length, parsedTextRules.length);
+                for(int j = 0; j < compTextRules.length; j++)
+                {
+                    assertEquals(compTextRules[j],parsedTextRules[j]);
+                }
+            }
+        }
     }
 
     protected static Object execMethod(View view, String methodName, Class classParam,Object param)

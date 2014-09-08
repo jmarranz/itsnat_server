@@ -349,7 +349,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test RelativeLayout"
+                android:text="Test RelativeLayout gravity"
                 android:background="#aaaaaa"/>
 
         </RelativeLayout>
@@ -358,16 +358,40 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:background="#ffdddd"
+            android:background="#dddddd"
             android:gravity="bottom|right"
-            android:ignoreGravity="@id/textViewTest2"> <!-- ignoreGravity anula el efecto de gravity -->
+            android:ignoreGravity="@id/textViewTest2">
 
             <TextView
                 android:id="@id/textViewTest2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test RelativeLayout"
+                android:text="Test RelativeLayout ignoreGravity"
                 android:background="#aaaaaa"/>
+
+        </RelativeLayout>
+
+        <!-- Test RelativeLayout.LayoutParams
+        Son muchos attribs pero al final todos basados en id o boolean -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd">
+
+            <TextView android:id="@id/testRelLayoutId"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Test RelativeLayout.LayoutParams"
+                      android:background="#aaaaaa"
+                      android:layout_alignParentBottom="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="To Right Of"
+                android:background="#aaaaaa"
+                android:layout_toRightOf="@id/testRelLayoutId"/>
 
         </RelativeLayout>
 

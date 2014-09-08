@@ -10,11 +10,14 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_layout_alignParentTop extends AttrDesc
+public class AttrDesc_view_View_layout_rellayout_byBoolean extends AttrDesc
 {
-    public AttrDesc_view_View_layout_alignParentTop(ClassDescViewBased parent)
+    protected int selector;
+
+    public AttrDesc_view_View_layout_rellayout_byBoolean(ClassDescViewBased parent, String name,int selector)
     {
-        super(parent,"layout_alignParentTop");
+        super(parent,name);
+        this.selector = selector;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -22,7 +25,7 @@ public class AttrDesc_view_View_layout_alignParentTop extends AttrDesc
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         boolean convValue = getBoolean(value, view.getContext());
 
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, convValue ? RelativeLayout.TRUE : 0);
+        params.addRule(selector, convValue ? RelativeLayout.TRUE : 0);
 
         if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
         else view.setLayoutParams(view.getLayoutParams());
@@ -31,7 +34,7 @@ public class AttrDesc_view_View_layout_alignParentTop extends AttrDesc
     public void removeAttribute(View view)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0); // ver el caso LayoutBelow
+        params.addRule(selector, 0); // ver el caso LayoutBelow
 
         view.setLayoutParams(view.getLayoutParams());
     }
