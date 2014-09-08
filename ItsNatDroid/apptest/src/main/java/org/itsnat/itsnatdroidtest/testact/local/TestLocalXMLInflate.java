@@ -394,7 +394,37 @@ public class TestLocalXMLInflate
             }
         }
 
+        childCount++;
 
+        // Test RelativeLayout (gravity)
+        {
+            RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
+            RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
+            // No puedo testear android:gravity porque getGravity() es Level 16
+
+            {
+                TextView compTextView = (TextView) compLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+            }
+        }
+
+        childCount++;
+
+        // Test RelativeLayout (ignoreGravity)
+        {
+            RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
+            RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
+            // No puedo testear android:gravity porque getGravity() es Level 16
+
+            {
+                TextView compTextView = (TextView) compLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+            }
+        }
     }
 
     protected static Object execMethod(View view, String methodName, Class classParam,Object param)

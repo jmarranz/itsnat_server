@@ -339,5 +339,37 @@
 
         </LinearLayout>
 
+        <!-- Test RelativeLayout (gravity) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="#ffdddd"
+            android:gravity="bottom|right">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test RelativeLayout"
+                android:background="#aaaaaa"/>
+
+        </RelativeLayout>
+
+        <!-- Test RelativeLayout (ignoreGravity) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:background="#ffdddd"
+            android:gravity="bottom|right"
+            android:ignoreGravity="@id/textViewTest2"> <!-- ignoreGravity anula el efecto de gravity -->
+
+            <TextView
+                android:id="@id/textViewTest2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test RelativeLayout"
+                android:background="#aaaaaa"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>

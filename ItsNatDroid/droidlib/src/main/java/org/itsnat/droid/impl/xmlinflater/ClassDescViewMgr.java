@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButt
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
 
@@ -46,7 +47,7 @@ public class ClassDescViewMgr
             ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
             addClassDescViewBase(widget_LinearLayout);
 
-            ClassDescViewBased widget_RelativeLayout = new ClassDescViewBased("android.widget.RelativeLayout",view_ViewGroup);
+            ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(view_ViewGroup);
             addClassDescViewBase(widget_RelativeLayout);
 
           ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
