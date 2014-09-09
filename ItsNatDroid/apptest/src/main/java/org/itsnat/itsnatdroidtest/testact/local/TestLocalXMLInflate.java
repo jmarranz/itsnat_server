@@ -7,17 +7,14 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsLinearLayoutLayoutParams;
@@ -482,29 +479,19 @@ public class TestLocalXMLInflate
             assertEquals(compLayout.isStackFromBottom(), parsedLayout.isStackFromBottom());
             assertTrue(compLayout.isTextFilterEnabled());
             assertEquals(compLayout.isTextFilterEnabled(), parsedLayout.isTextFilterEnabled());
-            assertEquals(compLayout.getTranscriptMode(),AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            assertEquals(compLayout.getTranscriptMode(), AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
             assertEquals(compLayout.getTranscriptMode(), parsedLayout.getTranscriptMode());
 
          }
+
+        childCount++;
+
+        // Test GridView
+        {
+            GridView compLayout = (GridView) comp.getChildAt(childCount);
+            GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
+
+        }
     }
 
-    protected static Object execMethod(View view, String methodName, Class classParam,Object param)
-    {
-        try
-        {
-            if (classParam != null)
-            {
-                Method method = view.getClass().getMethod(methodName, classParam);
-                return method.invoke(view, param);
-            }
-            else
-            {
-                Method method = view.getClass().getMethod(methodName);
-                return method.invoke(view);
-            }
-        }
-        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
-        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
-        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
-    }
 }

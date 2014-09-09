@@ -1,6 +1,9 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.res.Resources;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -99,12 +102,25 @@ public class TestLayoutLocal
                 if (layout.findViewByXMLId("textViewTest1") != textViewTest1)
                     throw new RuntimeException("FAIL");
 
+                defineGridView(act,dynamicRootView);
+
+
 //System.out.println("DEFAULT VALUE: " + dynamicRootView.getDrawingCacheQuality());
 
                 TestLocalXMLInflate.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 
+        defineGridView(act,compiledRootView);
+
+    }
+
+    private static void defineGridView(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        GridView gridView = (GridView)rootView.findViewById(R.id.gridTestId);
+        CharSequence[] entries = res.getTextArray(R.array.sports_array);
+        ((GridView)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
     }
 
     private static void changeLayout(TestActivityTabFragment fragment,View rootView)

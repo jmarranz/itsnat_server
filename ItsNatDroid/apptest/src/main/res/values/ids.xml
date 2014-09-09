@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <item name="back" type="id">back</item>
     <item name="buttonReload" type="id">buttonReload</item>
     <item name="textViewTest1" type="id">textViewTest1</item>
@@ -8,4 +9,6 @@
     <item name="textViewTest4" type="id">textViewTest4</item>
     <item name="testId" type="id">testId</item>
     <item name="testRelLayoutId" type="id">testRelLayoutId</item>
+    <item name="gridTestId" type="id">gridTestId</item>
+
 </resources>

@@ -416,6 +416,17 @@
 
         </ListView>
 
+        <!-- Test GridView -->
+        <GridView android:id="@id/gridTestId"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#ffdddd"
+
+
+            >
+
+        </GridView>
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
