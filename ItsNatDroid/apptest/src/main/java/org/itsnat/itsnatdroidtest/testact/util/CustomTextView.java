@@ -1,4 +1,4 @@
-package org.itsnat.itsnatdroidtest;
+package org.itsnat.itsnatdroidtest.testact.util;
 
 import android.content.Context;
 import android.util.AttributeSet;

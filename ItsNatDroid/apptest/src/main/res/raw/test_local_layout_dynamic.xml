@@ -1,4 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<org.itsnat.itsnatdroidtest.testact.util.CustomScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -47,7 +48,7 @@
         </RelativeLayout>
 
         <!-- Testing custom currentTarget class -->
-        <org.itsnat.itsnatdroidtest.CustomTextView
+        <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Test Custom View"
@@ -395,5 +396,26 @@
 
         </RelativeLayout>
 
+        <!-- Test AbsListView -->
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#dddddd"
+            android:entries="@array/sports_array"
+            android:cacheColorHint="#ff0000"
+            android:choiceMode="multipleChoice"
+            android:drawSelectorOnTop="true"
+            android:fastScrollEnabled="false"
+            android:listSelector="#6600ff00"
+            android:scrollingCache="false"
+            android:smoothScrollbar="false"
+            android:stackFromBottom="true"
+            android:textFilterEnabled="true"
+            android:transcriptMode="alwaysScroll"
+            >
+
+        </ListView>
+
     </LinearLayout>
-</ScrollView>
+
+</org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

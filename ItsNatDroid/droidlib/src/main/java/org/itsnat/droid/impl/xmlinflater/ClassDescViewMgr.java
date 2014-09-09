@@ -6,10 +6,12 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
@@ -37,6 +39,17 @@ public class ClassDescViewMgr
 
           ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
           addClassDescViewBase(view_ViewGroup);
+
+            // AbsoluteLayout y su derivada (WebView) no tienen atributos
+
+            ClassDescViewBased widget_AdapterView = new ClassDescViewBased("android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
+            addClassDescViewBase(widget_AdapterView);
+
+                ClassDesc_widget_AbsListView widget_AbsListView = new ClassDesc_widget_AbsListView(widget_AdapterView);
+                addClassDescViewBase(widget_AbsListView);
+
+                    ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(widget_AbsListView);
+                    addClassDescViewBase(widget_ListView);
 
             ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
             addClassDescViewBase(widget_FrameLayout);

@@ -111,6 +111,16 @@ public abstract class AttrDesc
         else return attrValue;
     }
 
+    public static CharSequence[] getTextArray(String attrValue, Context ctx)
+    {
+        if (isResource(attrValue))
+        {
+            int resId = getIdentifier(attrValue, ctx);
+            return ctx.getResources().getTextArray(resId);
+        }
+        else return null;
+    }
+
     public static boolean getBoolean(String attrValue, Context ctx)
     {
         if (isResource(attrValue))

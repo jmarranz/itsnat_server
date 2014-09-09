@@ -28,6 +28,7 @@ public class AttrDesc_view_View_layerType extends AttrDescReflecSingleName
     @Override
     protected void callMethod(View view, Object convertedValue)
     {
+        // Redefinimos porque setLayerType no tiene la signatura setLayerType(int) (tiene un Paint añadido)
         int layerType = (Integer)convertedValue;
         view.setLayerType(layerType,null);
     }
