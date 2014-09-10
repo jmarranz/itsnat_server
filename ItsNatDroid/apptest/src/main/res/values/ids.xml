@@ -9,6 +9,7 @@
     <item name="textViewTest4" type="id">textViewTest4</item>
     <item name="testId" type="id">testId</item>
     <item name="testRelLayoutId" type="id">testRelLayoutId</item>
-    <item name="gridTestId" type="id">gridTestId</item>
+    <item name="gridViewTestId" type="id">gridTestId</item>
+    <item name="expanListViewTestId" type="id">expanListViewTestId</item>
 
 </resources>

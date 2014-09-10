@@ -408,7 +408,7 @@
         </ListView>
 
         <!-- Test GridView -->
-        <GridView android:id="@id/gridTestId"
+        <GridView android:id="@id/gridViewTestId"
                   android:layout_width="match_parent"
                   android:layout_height="75dp"
                   android:background="#ffdddd"
@@ -432,6 +432,13 @@
             android:headerDividersEnabled="false"
             > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
         </ListView>
+
+        <!-- Test ExpandableListView -->
+        <ExpandableListView android:id="@id/expanListViewTestId"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:background="#ffdddd">
+        </ExpandableListView>
 
 
     </LinearLayout>
