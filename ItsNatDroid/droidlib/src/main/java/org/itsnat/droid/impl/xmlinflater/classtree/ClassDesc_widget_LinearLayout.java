@@ -30,7 +30,7 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
         addAttrDesc(new AttrDesc_widget_LinearLayout_showDividers(this));  // showDividers
         addAttrDesc(new AttrDescReflecDimensionInt(this,"dividerPadding",0f));
-        addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", AttrDescGravityUtil.valueMap,""));
+        addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", AttrDescGravityUtil.valueMap,"start|top"));
         addAttrDesc(new AttrDescReflecBoolean(this,"measureWithLargestChild","setMeasureWithLargestChildEnabled",false));
         addAttrDesc(new AttrDesc_widget_LinearLayout_orientation(this)); // "orientation"
         addAttrDesc(new AttrDescReflecFloat(this,"weightSum",-1.0f));

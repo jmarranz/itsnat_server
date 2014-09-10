@@ -54,64 +54,6 @@
             android:text="Test Custom View"
             android:background="#ffdddd"/>
 
-        <!-- Testing layout_gravity y layout_weight -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#dddddd"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test layout_gravity 1"
-                android:background="#aaaaaa"
-                android:layout_gravity="top|left"
-                android:layout_weight="70"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test layout_gravity 2"
-                android:background="#aaaaaa"
-                android:layout_gravity="bottom|right"
-                android:layout_weight="30"/>
-
-        </LinearLayout>
-
-        <!-- Test margins and gravity -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffdddd"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginRight="0dp"
-                android:text="Test Margins 1"
-                android:background="#aaaaaa"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Test Margins 2"
-                android:background="#aaaaaa"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Test gravity"
-                android:gravity="bottom|right"
-                android:background="#aaaaaa"/>
-
-        </LinearLayout>
-
         <!-- Test View Attribs -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -207,6 +149,32 @@
                 android:layout_height="wrap_content"
                 android:text="Test ViewGroup Attribs"
                 android:background="#dddddd" />
+
+        </LinearLayout>
+
+        <!-- Test ViewGroup.MarginLayoutParams -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="0dp"
+                android:text="Test Margins 1"
+                android:background="#aaaaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Test Margins 2"
+                android:background="#aaaaaa"/>
 
         </LinearLayout>
 
@@ -340,6 +308,31 @@
 
         </LinearLayout>
 
+        <!-- Testing LinearLayout.LayoutParams -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#dddddd"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinLay.LayoutParams 1"
+                android:background="#aaaaaa"
+                android:layout_gravity="top|left"
+                android:layout_weight="70"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinLay.LayoutParams 2"
+                android:background="#aaaaaa"
+                android:layout_gravity="bottom|right"
+                android:layout_weight="30"/>
+
+        </LinearLayout>
+
         <!-- Test RelativeLayout (gravity) -->
         <RelativeLayout
             android:layout_width="match_parent"
@@ -418,11 +411,15 @@
 
         <!-- Test GridView -->
         <GridView android:id="@id/gridTestId"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="#ffdddd"
-
-
+                  android:layout_width="match_parent"
+                  android:layout_height="75dp"
+                  android:background="#ffdddd"
+                  android:columnWidth="20dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:horizontalSpacing="5dp"
+                  android:numColumns="3"
+                  android:stretchMode="columnWidth"
+                  android:verticalSpacing="5dp"
             >
 
         </GridView>

@@ -18,7 +18,7 @@ public class ClassDesc_widget_RelativeLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", AttrDescGravityUtil.valueMap,""));
+        addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", AttrDescGravityUtil.valueMap,"left|top"));
         addAttrDesc(new AttrDescReflecId(this,"ignoreGravity"));
     }
 }

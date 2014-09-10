@@ -17,9 +17,6 @@ import android.widget.TextView;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsLinearLayoutLayoutParams;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsRelativeLayoutLayoutParams;
-import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsViewGroupMarginLayoutParams;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
@@ -76,14 +73,12 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView1.getPaddingBottom(),parsedTextView1.getPaddingBottom());
                 assertEquals(compTextView1.getTextColors(), parsedTextView1.getTextColors());
                 assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
-                assertEqualsRelativeLayoutLayoutParams(compTextView1, parsedTextView1);
 
                 TextView compTextView2 = (TextView) compRelLayout.getChildAt(1);
                 TextView parsedTextView2 = (TextView) parsedRelLayout.getChildAt(1);
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
-                assertEqualsRelativeLayoutLayoutParams(compTextView2, parsedTextView2);
                 // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
                 assertEquals(compTextView2.getTextSize(), parsedTextView2.getTextSize());
             }
@@ -99,41 +94,6 @@ public class TestLocalXMLInflate
             assertEquals(compCustomTextView.getBackground(), parsedCustomTextView.getBackground());
         }
 
-        childCount++;
-
-        // Testing layout_gravity y layout_weight
-        {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            {
-                TextView compTextView1 = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView1 = (TextView) parsedLinLayout.getChildAt(0);
-                assertEquals(compTextView1.getText(), parsedTextView1.getText());
-                assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
-                assertEqualsLinearLayoutLayoutParams(compTextView1, compTextView1);
-
-                TextView compTextView2 = (TextView) compLinLayout.getChildAt(1);
-                TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(1);
-                assertEquals(compTextView2.getText(), parsedTextView2.getText());
-                assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
-                assertEqualsLinearLayoutLayoutParams(compTextView2, parsedTextView2);
-            }
-        }
-
-        childCount++;
-
-        // Test margins
-        {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
-                assertEquals(compTextView.getText(), parsedTextView.getText());
-                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
-                assertEqualsViewGroupMarginLayoutParams(compTextView, parsedTextView);
-            }
-        }
 
         childCount++;
 
@@ -270,6 +230,29 @@ public class TestLocalXMLInflate
             }
         }
 
+        childCount++;
+
+        // Test ViewGroup.MarginLayoutParams
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            for(int i = 0; i < 2; i++)
+            {
+                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+
+                ViewGroup.MarginLayoutParams a_params = (ViewGroup.MarginLayoutParams)compTextView.getLayoutParams();
+                ViewGroup.MarginLayoutParams b_params = (ViewGroup.MarginLayoutParams)parsedTextView.getLayoutParams();
+
+                assertEquals(a_params.topMargin,b_params.topMargin);
+                assertEquals(a_params.leftMargin,b_params.leftMargin);
+                assertEquals(a_params.bottomMargin,b_params.bottomMargin);
+                assertEquals(a_params.rightMargin,b_params.rightMargin);
+            }
+        }
+
 
         childCount++;
 
@@ -296,7 +279,7 @@ public class TestLocalXMLInflate
                 {
                     TextView compTextView = (TextView) compGridLayout.getChildAt(i);
                     TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
-                    // Testeamos los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+                    // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
                     GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
                     GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
                     compParams.columnSpec.equals(parsedParams.columnSpec);
@@ -330,7 +313,7 @@ public class TestLocalXMLInflate
                 {
                     TextView compTextView = (TextView) compGridLayout.getChildAt(i);
                     TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
-                    // Testeamos los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
+                    // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
                     GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
                     GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
                     compParams.columnSpec.equals(parsedParams.columnSpec);
@@ -338,9 +321,6 @@ public class TestLocalXMLInflate
                 }
             }
 
-
-//            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());
-            System.out.println("\n\n\n");
         }
 
 
@@ -394,6 +374,27 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
                 assertEquals(compTextView.getGravity(), parsedTextView.getGravity());
+            }
+        }
+
+        childCount++;
+
+        // Testing LinearLayout.LayoutParams
+        {
+            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            for(int i = 0; i < 2; i++)
+            {
+                TextView compTextView1 = (TextView) compLinLayout.getChildAt(i);
+                TextView parsedTextView1 = (TextView) parsedLinLayout.getChildAt(i);
+                assertEquals(compTextView1.getText(), parsedTextView1.getText());
+                assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
+
+                LinearLayout.LayoutParams compParams = (LinearLayout.LayoutParams)compTextView1.getLayoutParams();
+                LinearLayout.LayoutParams parsedParams = (LinearLayout.LayoutParams)parsedTextView1.getLayoutParams();
+
+                assertEquals(compParams.gravity,parsedParams.gravity);
+                assertEquals(compParams.weight,parsedParams.weight);
             }
         }
 
@@ -488,10 +489,32 @@ public class TestLocalXMLInflate
 
         // Test GridView
         {
-            GridView compLayout = (GridView) comp.getChildAt(childCount);
-            GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
+            final GridView compLayout = (GridView) comp.getChildAt(childCount);
+            final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
 
+            // No podemos testear android:columnWidth, getColumnWidth es Level 16
+            // No podemos testear android:gravity, getGravity es Level 16
+            // No podemos testear android:horizontalSpacing, getHorizontalSpacing es Level 16
+            assertEquals(compLayout.getNumColumns(), 3);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // Usamos un OnLayoutChangeListener porque el setNumColumns define un atributo "request" que no es el atributo
+                    // donde va el numColumns definitivo el cual se calcula al hacer el layout
+                    assertEquals(compLayout.getNumColumns(),parsedLayout.getNumColumns());
+                }
+            });
+            assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
+            assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
+            // No podemos testear android:verticalSpacing, getVerticalSpacing es Level 16
         }
+
+
+
+//            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());
+        //System.out.println("\n\n\n");
     }
 
 }
