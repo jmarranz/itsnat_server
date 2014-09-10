@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.util;
 
 import android.content.res.ColorStateList;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -54,6 +55,16 @@ public class Assert
 
     public static void assertEquals(CharSequence a,CharSequence b)
     {
+        assertEqualsInternal(a,b);
+    }
+
+    public static void assertEquals(Rect a,Rect b)
+    {
+        assertEqualsInternal(a,b);
+    }
+
+    public final static void assertEqualsInternal(Object a,Object b)
+    {
         if (a == b) return;
         if (a != null && !a.equals(b) || b != null && !b.equals(a)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
@@ -65,6 +76,10 @@ public class Assert
         {
             assertEquals(((ColorDrawable) a).getColor(), ((ColorDrawable) b).getColor());
         }
+        /*else if (a instanceof GradientDrawable)
+        {
+
+        }*/
         else throw new ItsNatDroidException("Cannot test");
     }
 

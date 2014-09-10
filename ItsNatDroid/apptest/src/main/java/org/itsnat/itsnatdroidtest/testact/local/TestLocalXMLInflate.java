@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -511,6 +512,22 @@ public class TestLocalXMLInflate
             // No podemos testear android:verticalSpacing, getVerticalSpacing es Level 16
         }
 
+        childCount++;
+
+        // Test ListView
+        {
+            final ListView compLayout = (ListView) comp.getChildAt(childCount);
+            final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
+
+            // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
+            // Test visual: líneas rojas separadoras de items
+            assertNotNull(((GradientDrawable) compLayout.getDivider()));
+            assertNotNull(((GradientDrawable) parsedLayout.getDivider()));
+            assertPositive(compLayout.getDividerHeight());
+            assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
+            // No se puede testear android:footerDividersEnabled y android:headerDividersEnabled porque no hay métodos get (areFooterDividersEnabled/areHeaderDividersEnabled son Level 19)
+
+        }
 
 
 //            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());

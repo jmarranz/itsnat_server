@@ -404,9 +404,7 @@
             android:smoothScrollbar="false"
             android:stackFromBottom="true"
             android:textFilterEnabled="true"
-            android:transcriptMode="alwaysScroll"
-            >
-
+            android:transcriptMode="alwaysScroll">
         </ListView>
 
         <!-- Test GridView -->
@@ -419,10 +417,22 @@
                   android:horizontalSpacing="5dp"
                   android:numColumns="3"
                   android:stretchMode="columnWidth"
-                  android:verticalSpacing="5dp"
-            >
-
+                  android:verticalSpacing="5dp">
         </GridView>
+
+        <!-- Test ListView -->
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#dddddd"
+            android:divider="@drawable/divider_test"
+            android:dividerHeight="2dp"
+            android:entries="@array/sports_array"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
+        </ListView>
+
 
     </LinearLayout>
 
