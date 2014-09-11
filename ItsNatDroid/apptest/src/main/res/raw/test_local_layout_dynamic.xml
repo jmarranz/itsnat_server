@@ -435,7 +435,8 @@
 
         <!-- Test ExpandableListView -->
         <!-- childIndicator* e indicator* están un poco al tontún porque no consigo
-         que funcionen como se espera -->
+         que funcionen como se espera en un Nexus 4, usar el emulador mejor para
+         verificar indicatorLeft/Right (childIndicator* ni idea) -->
         <ExpandableListView
             android:id="@id/expanListViewTestId"
             android:layout_width="match_parent"
@@ -444,12 +445,32 @@
             android:childDivider="@drawable/divider_test"
             android:childIndicator="@drawable/group_indicator_test"
             android:childIndicatorLeft="10dp"
-            android:childIndicatorRight="50dp"
+            android:childIndicatorRight="40dp"
             android:groupIndicator="@drawable/group_indicator_test"
             android:indicatorLeft="10dp"
-            android:indicatorRight="50dp">
+            android:indicatorRight="40dp">
         </ExpandableListView>
 
+        <!-- space for page scrolling between lists -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling between lists)"
+            android:gravity="center"/>
+
+        <!-- Test AbsSpinner (entries sólo) y Gallery
+        Gallery está deprecated pero desde el level 16 -->
+        <Gallery
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#dddddd"
+            android:entries="@array/sports_array"
+            android:animationDuration="100"
+            android:gravity="center_vertical"
+            android:spacing="50dp"
+            android:unselectedAlpha="0.6"
+            >
+        </Gallery>
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.AbsSpinner;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -12,9 +13,9 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_ListView_entries extends AttrDesc
+public class AttrDesc_widget_ListViewAndAbsSpinner_entries extends AttrDesc
 {
-    public AttrDesc_widget_ListView_entries(ClassDescViewBased parent)
+    public AttrDesc_widget_ListViewAndAbsSpinner_entries(ClassDescViewBased parent)
     {
         super(parent,"entries");
     }
@@ -24,7 +25,11 @@ public class AttrDesc_widget_ListView_entries extends AttrDesc
         Context ctx = view.getContext();
         CharSequence[] entries = getTextArray(value,view.getContext());
 
-        ((ListView)view).setAdapter(new ArrayAdapter<CharSequence>(ctx, android.R.layout.simple_list_item_1, entries));
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(ctx, android.R.layout.simple_list_item_1, entries);
+        if (view instanceof ListView)
+            ((ListView)view).setAdapter(adapter);
+        else if (view instanceof AbsSpinner)
+            ((AbsSpinner)view).setAdapter(adapter);
     }
 
     public void removeAttribute(View view)

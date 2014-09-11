@@ -7,9 +7,11 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Gallery;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
@@ -59,6 +61,11 @@ public class ClassDescViewMgr
                         ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(widget_ListView);
                         addClassDescViewBase(widget_ExListView);
 
+                ClassDesc_widget_AbsSpinner widget_AbsSpinner = new ClassDesc_widget_AbsSpinner(widget_AdapterView);
+                addClassDescViewBase(widget_AbsSpinner);
+
+                    ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(widget_AbsSpinner);
+                    addClassDescViewBase(widget_Gallery);
 
             ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
             addClassDescViewBase(widget_FrameLayout);

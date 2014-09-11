@@ -2,12 +2,14 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
+import android.widget.Gallery;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -545,6 +547,39 @@ public class TestLocalXMLInflate
             // Lo mismo ocurre con los demás atributos de esta clase
             // android:childIndicator, android:childIndicatorLeft,android:childIndicatorRight,groupIndicator
             // android:indicatorLeft, android:indicatorRight
+        }
+
+        childCount++;
+
+        // Space for page scrolling between lists
+        {
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+        }
+
+        childCount++;
+
+        // Test AbsSpinner (entries sólo) y Gallery
+        {
+            final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
+            final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
+            assertEquals((Integer) getField(compLayout, "mAnimationDuration"), 100);
+            assertEquals((Integer)getField(compLayout,"mAnimationDuration"),(Integer)getField(parsedLayout,"mAnimationDuration"));
+            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.CENTER_VERTICAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                }
+            });
+            assertPositive((Integer)getField(compLayout,"mSpacing"));
+            assertEquals((Integer)getField(compLayout,"mSpacing"),(Integer)getField(parsedLayout,"mSpacing"));
+            assertEquals((Float)getField(compLayout,"mUnselectedAlpha"),0.6f);
+            assertEquals((Float)getField(compLayout,"mUnselectedAlpha"),(Float)getField(parsedLayout,"mUnselectedAlpha"));
+
         }
 
 
