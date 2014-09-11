@@ -7,6 +7,7 @@ import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.ScrollView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
@@ -110,6 +111,7 @@ public class TestLayoutLocal
 
                 defineGridView(act,dynamicRootView);
                 defineExpandableListView(act,dynamicRootView);
+                defineSpinner(act,dynamicRootView);
 
 //System.out.println("DEFAULT VALUE: " + dynamicRootView.getDrawingCacheQuality());
 
@@ -119,6 +121,7 @@ public class TestLayoutLocal
 
         defineGridView(act,compiledRootView);
         defineExpandableListView(act,compiledRootView);
+        defineSpinner(act,compiledRootView);
     }
 
     private static void defineGridView(TestActivity act,View rootView)
@@ -127,6 +130,14 @@ public class TestLayoutLocal
         GridView gridView = (GridView)rootView.findViewById(R.id.gridViewTestId);
         CharSequence[] entries = res.getTextArray(R.array.sports_array);
         ((GridView)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
+    }
+
+    private static void defineSpinner(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerTestId);
+        CharSequence[] entries = res.getTextArray(R.array.sports_array);
+        ((Spinner)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
     }
 
     private static void defineExpandableListView(TestActivity act,View rootView)

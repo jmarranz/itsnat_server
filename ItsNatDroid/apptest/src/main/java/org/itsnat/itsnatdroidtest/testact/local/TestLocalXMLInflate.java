@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -575,11 +576,18 @@ public class TestLocalXMLInflate
                     assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
                 }
             });
-            assertPositive((Integer)getField(compLayout,"mSpacing"));
+            assertPositive((Integer) getField(compLayout, "mSpacing"));
             assertEquals((Integer)getField(compLayout,"mSpacing"),(Integer)getField(parsedLayout,"mSpacing"));
-            assertEquals((Float)getField(compLayout,"mUnselectedAlpha"),0.6f);
+            assertEquals((Float) getField(compLayout, "mUnselectedAlpha"), 0.6f);
             assertEquals((Float)getField(compLayout,"mUnselectedAlpha"),(Float)getField(parsedLayout,"mUnselectedAlpha"));
+        }
 
+        childCount++;
+
+        // Test Spinner
+        {
+            final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
+            final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
         }
 
 

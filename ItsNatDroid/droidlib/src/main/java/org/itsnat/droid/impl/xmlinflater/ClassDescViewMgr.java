@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
 
@@ -66,6 +67,9 @@ public class ClassDescViewMgr
 
                     ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(widget_AbsSpinner);
                     addClassDescViewBase(widget_Gallery);
+
+                    ClassDesc_widget_Spinner widget_Spinner = new ClassDesc_widget_Spinner(widget_AbsSpinner);
+                    addClassDescViewBase(widget_Spinner);
 
             ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
             addClassDescViewBase(widget_FrameLayout);

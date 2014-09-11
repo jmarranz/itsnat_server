@@ -475,6 +475,15 @@
             >
         </Gallery>
 
+        <!-- Test Spinner -->
+        <Spinner
+            android:id="@id/spinnerTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#ffdddd"
+            >
+        </Spinner>
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>
