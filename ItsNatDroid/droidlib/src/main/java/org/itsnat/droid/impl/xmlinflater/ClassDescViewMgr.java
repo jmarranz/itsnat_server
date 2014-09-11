@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
@@ -54,6 +55,10 @@ public class ClassDescViewMgr
 
                     ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(widget_AbsListView);
                     addClassDescViewBase(widget_ListView);
+
+                        ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(widget_ListView);
+                        addClassDescViewBase(widget_ExListView);
+
 
             ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
             addClassDescViewBase(widget_FrameLayout);

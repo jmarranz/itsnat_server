@@ -437,10 +437,20 @@
         </ListView>
 
         <!-- Test ExpandableListView -->
-        <ExpandableListView android:id="@id/expanListViewTestId"
-                  android:layout_width="match_parent"
-                  android:layout_height="150dp"
-                  android:background="#ffdddd">
+        <!-- childIndicator* e indicator* están un poco al tontún porque no consigo
+         que funcionen como se espera -->
+        <ExpandableListView
+                android:id="@id/expanListViewTestId"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="#ffdddd"
+                android:childDivider="@drawable/divider_test"
+                android:childIndicator="@drawable/group_indicator_test"
+                android:childIndicatorLeft="10dp"
+                android:childIndicatorRight="50dp"
+                android:groupIndicator="@drawable/group_indicator_test"
+                android:indicatorLeft="10dp"
+                android:indicatorRight="50dp">
         </ExpandableListView>
 
     </LinearLayout>

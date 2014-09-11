@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.GridView;
@@ -15,7 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
+
+import java.lang.reflect.Field;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
@@ -529,9 +533,34 @@ public class TestLocalXMLInflate
 
         }
 
+        childCount++;
 
-//            System.out.println("\n\n\nDEFAULT VALUE: " + compGridLayout.getColumnCount() + " " + parsedGridLayout.getColumnCount());
+        // Test ExpandableListView
+        {
+            final ExpandableListView compLayout = (ExpandableListView) comp.getChildAt(childCount);
+            final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
+
+            // No puedo testear android:childDivider por que no hay método get
+            // Test visual: líneas rojas separadoras de items
+            // Lo mismo ocurre con los demás atributos de esta clase
+            // android:childIndicator, android:childIndicatorLeft,android:childIndicatorRight,groupIndicator
+            // android:indicatorLeft, android:indicatorRight
+        }
+
+
+//         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");
     }
 
+    protected static Object getField(View view,String fieldName)
+    {
+        try
+        {
+            Field field = view.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(view);
+        }
+        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
+        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+    }
 }
