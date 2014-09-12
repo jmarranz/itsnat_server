@@ -35,6 +35,6 @@ public class AttrDescReflecDrawable extends AttrDescReflection
 
     public void removeAttribute(View view)
     {
-        callMethod(view, null);
+        callMethod(view, null); // El null equivaldría a un "@null" en el atributo
     }
 }

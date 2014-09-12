@@ -2,6 +2,11 @@
 
 * Añadir método con el número de versión del framework
 
+* Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
+como páginas
+
+ Utilizar el <a> por ejemplo en el ejemplo de control remoto
+
 * Ver como conseguir que un ListView obtenga sus entries y el layout de cada item desde el servidor
 
 * Hacer una navegador autónomos de layouts, hacer ejemplo con eventos y sin eventos (sólo "links").

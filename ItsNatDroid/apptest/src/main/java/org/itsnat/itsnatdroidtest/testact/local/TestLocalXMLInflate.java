@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +141,7 @@ public class TestLocalXMLInflate
                 // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
                 // por ello mostramos un alertDialog no lanzamos una excepción
                 if (compTextView2.getFilterTouchesWhenObscured() != parsedTextView2.getFilterTouchesWhenObscured())
-                    TestUtil.alertDialog(compTextView2.getContext(),"Test fail in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.3 emulator?)");
+                    TestUtil.alertDialog(compTextView2.getContext(),"Test fail in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
                 assertTrue(compTextView2.isFocusable());
                 assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
                 assertTrue(compTextView2.isFocusableInTouchMode());
@@ -150,14 +151,18 @@ public class TestLocalXMLInflate
                 assertPositive(compTextView2.getId());
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
+                //assertTrue( (((int)((Integer)getField(compTextView2,View.class,"mPrivateFlags"))) & 0x00100000) != 0); // PFLAG_SCROLL_CONTAINER_ADDED 0x00100000
+
                 assertTrue(compTextView2.getKeepScreenOn());
                 assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
                 assertEquals(compTextView2.getLayerType(), View.LAYER_TYPE_HARDWARE);
                 assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
                 assertTrue(compTextView2.isLongClickable());
                 assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
-                // No puedo testear android:minHeight porque  getMinimumHeight() se define en un Level superior
-                // No puedo testear android:minWidth porque  getMinimumWidth() se define en un Level superior
+                assertPositive((int) ((Integer) getField(compTextView2, View.class, "mMinHeight")));
+                assertEquals((int) ((Integer) getField(compTextView2, View.class, "mMinHeight")), (int) ((Integer) getField(parsedTextView2, View.class, "mMinHeight")));
+                assertPositive( (int)((Integer)getField(compTextView2,View.class,"mMinWidth")) );
+                assertEquals( (int)((Integer)getField(compTextView2,View.class,"mMinWidth")),(int)((Integer)getField(parsedTextView2,View.class,"mMinWidth")) );
                 assertPositive(compTextView2.getNextFocusDownId());
                 assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
                 assertPositive(compTextView2.getNextFocusForwardId());
@@ -223,9 +228,13 @@ public class TestLocalXMLInflate
             assertNotNull(parsedLinLayout.getLayoutTransition()); // "
             assertFalse(compLinLayout.isAnimationCacheEnabled());
             assertEquals(compLinLayout.isAnimationCacheEnabled(), parsedLinLayout.isAnimationCacheEnabled());
-            // No podemos testear android:clipChildren porque no tenemos el método get es Level 18
-            // No podemos testear android:clipToPadding porque no tenemos un método get
-            assertEquals(compLinLayout.getDescendantFocusability(),ViewGroup.FOCUS_AFTER_DESCENDANTS);
+            // Tests de android:clipChildren (el método get es Level 18)
+            assertFalse( ((int)(Integer)getField(compLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1 ); // FLAG_CLIP_CHILDREN = 0x1
+            assertEquals( ((int)(Integer)getField(compLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1, ((int)(Integer)getField(parsedLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1 );
+            // Tests de android:clipToPadding
+            assertFalse(((int) (Integer) getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
+            assertEquals(((int) (Integer) getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer) getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
+            assertEquals(compLinLayout.getDescendantFocusability(), ViewGroup.FOCUS_AFTER_DESCENDANTS);
             assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
             assertPositive(compLinLayout.getLayoutAnimation().getDelay()); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
             assertEquals(compLinLayout.getLayoutAnimation().getDelay(), parsedLinLayout.getLayoutAnimation().getDelay());
@@ -342,7 +351,9 @@ public class TestLocalXMLInflate
 
             assertEquals(((ColorDrawable)compFrameLayout.getForeground()).getColor(), 0x55ddffdd);
             assertEquals(compFrameLayout.getForeground(), parsedFrameLayout.getForeground());
-            // No podemos testear android:foregroundGravity porque getForegroundGravity() es Level 16
+            // Test android:foregroundGravity (getForegroundGravity() es Level 16):
+            assertEquals((int)(Integer)getField(compFrameLayout,"mForegroundGravity"),Gravity.TOP | Gravity.LEFT );
+            assertEquals((int) (Integer) getField(compFrameLayout,"mForegroundGravity"), (int) (Integer) getField(parsedFrameLayout, "mForegroundGravity"));
             assertTrue(compFrameLayout.getMeasureAllChildren());
             assertEquals(compFrameLayout.getMeasureAllChildren(), parsedFrameLayout.getMeasureAllChildren());
         }
@@ -351,19 +362,22 @@ public class TestLocalXMLInflate
 
         // Test LinearLayout Attribs
         {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            final LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
+            final LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
 
             assertFalse(compLinLayout.isBaselineAligned());
             assertEquals(compLinLayout.isBaselineAligned(), parsedLinLayout.isBaselineAligned());
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
-            // No podemos testear android:divider porque getDividerDrawable() es Level 16
+            // Tests android:divider (getDividerDrawable() es Level 16):
+            // No se como testear dos GradientDrawable, si no se define devuelve otro tipo de Drawable
+            assertNotNull( (GradientDrawable)getField(compLinLayout,"mDivider") );
+            assertNotNull( (GradientDrawable)getField(parsedLinLayout,"mDivider") );
+
             assertEquals(compLinLayout.getShowDividers(), 3);
             assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
             assertPositive(compLinLayout.getDividerPadding());
             assertEquals(compLinLayout.getDividerPadding(),parsedLinLayout.getDividerPadding());
-
             assertTrue(compLinLayout.isMeasureWithLargestChildEnabled());
             assertEquals(compLinLayout.isMeasureWithLargestChildEnabled(),parsedLinLayout.isMeasureWithLargestChildEnabled());
             assertEquals(compLinLayout.getWeightSum(),1.0f);
@@ -400,7 +414,6 @@ public class TestLocalXMLInflate
 
                 LinearLayout.LayoutParams compParams = (LinearLayout.LayoutParams)compTextView1.getLayoutParams();
                 LinearLayout.LayoutParams parsedParams = (LinearLayout.LayoutParams)parsedTextView1.getLayoutParams();
-
                 assertEquals(compParams.gravity,parsedParams.gravity);
                 assertEquals(compParams.weight,parsedParams.weight);
             }
@@ -410,9 +423,19 @@ public class TestLocalXMLInflate
 
         // Test RelativeLayout (gravity)
         {
-            RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
-            RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
-            // No puedo testear android:gravity porque getGravity() es Level 16
+            final RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
+            final RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
+            // Tests android:gravity (getGravity() es Level 16):
+            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.BOTTOM|Gravity.RIGHT);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                }
+            });
 
             {
                 TextView compTextView = (TextView) compLayout.getChildAt(0);
@@ -428,7 +451,9 @@ public class TestLocalXMLInflate
         {
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
-            // No puedo testear android:gravity porque getGravity() es Level 16
+            // Tests android:ignoreGravity (no hay get):
+            assertPositive((Integer) getField(compLayout, "mIgnoreGravity"));
+            assertEquals((Integer) getField(compLayout, "mIgnoreGravity"), (Integer) getField(parsedLayout, "mIgnoreGravity"));
 
             {
                 TextView compTextView = (TextView) compLayout.getChildAt(0);
@@ -500,9 +525,40 @@ public class TestLocalXMLInflate
             final GridView compLayout = (GridView) comp.getChildAt(childCount);
             final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
 
-            // No podemos testear android:columnWidth, getColumnWidth es Level 16
-            // No podemos testear android:gravity, getGravity es Level 16
-            // No podemos testear android:horizontalSpacing, getHorizontalSpacing es Level 16
+            // Tests android:columnWidth (getColumnWidth es Level 16):
+            assertPositive((Integer)getField(compLayout,"mColumnWidth"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mColumnWidth"),(Integer)getField(parsedLayout,"mColumnWidth"));
+                }
+            });
+            // Tests android:gravity (getGravity es Level 16)
+            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                }
+            });
+
+            // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
+            assertPositive((Integer) getField(compLayout, "mHorizontalSpacing"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mHorizontalSpacing"),(Integer)getField(parsedLayout,"mHorizontalSpacing"));
+                }
+            });
             assertEquals(compLayout.getNumColumns(), 3);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
@@ -516,7 +572,17 @@ public class TestLocalXMLInflate
             });
             assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
             assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
-            // No podemos testear android:verticalSpacing, getVerticalSpacing es Level 16
+            // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
+            assertPositive((Integer)getField(compLayout,"mVerticalSpacing"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)getField(compLayout,"mVerticalSpacing"),(Integer)getField(parsedLayout,"mVerticalSpacing"));
+                }
+            });
         }
 
         childCount++;
@@ -526,13 +592,19 @@ public class TestLocalXMLInflate
             final ListView compLayout = (ListView) comp.getChildAt(childCount);
             final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
 
+            // Test android:divider
             // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
             // Test visual: líneas rojas separadoras de items
             assertNotNull(((GradientDrawable) compLayout.getDivider()));
             assertNotNull(((GradientDrawable) parsedLayout.getDivider()));
             assertPositive(compLayout.getDividerHeight());
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
-            // No se puede testear android:footerDividersEnabled y android:headerDividersEnabled porque no hay métodos get (areFooterDividersEnabled/areHeaderDividersEnabled son Level 19)
+            // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
+            assertFalse((Boolean) getField(compLayout, "mFooterDividersEnabled"));
+            assertEquals((Boolean) getField(compLayout, "mFooterDividersEnabled"), (Boolean) getField(parsedLayout, "mFooterDividersEnabled"));
+            // Test android:headerDividersEnabled (areHeaderDividersEnabled es Level 19)
+            assertFalse((Boolean)getField(compLayout,"mHeaderDividersEnabled"));
+            assertEquals((Boolean)getField(compLayout,"mHeaderDividersEnabled"),(Boolean)getField(parsedLayout,"mHeaderDividersEnabled"));
 
         }
 
@@ -543,11 +615,30 @@ public class TestLocalXMLInflate
             final ExpandableListView compLayout = (ExpandableListView) comp.getChildAt(childCount);
             final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
 
-            // No puedo testear android:childDivider por que no hay método get
+            // Test android:childDivider, no hay método get
+            // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
             // Test visual: líneas rojas separadoras de items
-            // Lo mismo ocurre con los demás atributos de esta clase
-            // android:childIndicator, android:childIndicatorLeft,android:childIndicatorRight,groupIndicator
-            // android:indicatorLeft, android:indicatorRight
+            assertNotNull((GradientDrawable) getField(compLayout, "mChildDivider"));
+            assertNotNull((GradientDrawable)getField(parsedLayout,"mChildDivider"));
+
+            // Test android:childIndicator, no hay método get, si no se define devuelve null
+            // No se como testear la igualdad de dos GradientDrawable
+            assertNotNull((GradientDrawable)getField(compLayout,"mChildIndicator"));
+            assertNotNull((GradientDrawable)getField(parsedLayout,"mChildIndicator"));
+
+            // Test android:childIndicatorLeft, no hay método get
+            // No entiendo porqué mChildIndicatorLeft es cero incluso con el layout realizado
+            //assertPositive((Integer)getField(compLayout,"mChildIndicatorLeft"));
+            //assertEquals((Integer)getField(compLayout,"mChildIndicatorLeft"),(Integer)getField(parsedLayout,"mChildIndicatorLeft"));
+            // No testeamos android:childIndicatorRight pues idéntico a childIndicatorLeft
+
+            // Test android:groupIndicator, no hay método get
+            // No se como testear la igualdad de dos StateListDrawable
+            assertNotNull((StateListDrawable)getField(compLayout,"mGroupIndicator"));
+            assertNotNull((StateListDrawable)getField(parsedLayout,"mGroupIndicator"));
+
+            // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft
+            //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));
         }
 
         childCount++;
@@ -564,7 +655,7 @@ public class TestLocalXMLInflate
         {
             final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
             final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
-            assertEquals((Integer) getField(compLayout, "mAnimationDuration"), 100);
+            assertEquals((Integer)getField(compLayout, "mAnimationDuration"), 100);
             assertEquals((Integer)getField(compLayout,"mAnimationDuration"),(Integer)getField(parsedLayout,"mAnimationDuration"));
             assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.CENTER_VERTICAL);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
@@ -595,13 +686,18 @@ public class TestLocalXMLInflate
         //System.out.println("\n\n\n");
     }
 
-    protected static Object getField(View view,String fieldName)
+    protected static <T> T getField(View view,String fieldName)
+    {
+        return getField(view,view.getClass(),fieldName);
+    }
+
+    protected static <T> T getField(View view,Class clasz,String fieldName)
     {
         try
         {
-            Field field = view.getClass().getDeclaredField(fieldName);
+            Field field = clasz.getDeclaredField(fieldName);
             field.setAccessible(true);
-            return field.get(view);
+            return (T)field.get(view);
         }
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }

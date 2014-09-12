@@ -443,7 +443,7 @@
             android:layout_height="100dp"
             android:background="#ffdddd"
             android:childDivider="@drawable/divider_test"
-            android:childIndicator="@drawable/group_indicator_test"
+            android:childIndicator="@drawable/child_indicator_test"
             android:childIndicatorLeft="10dp"
             android:childIndicatorRight="40dp"
             android:groupIndicator="@drawable/group_indicator_test"
