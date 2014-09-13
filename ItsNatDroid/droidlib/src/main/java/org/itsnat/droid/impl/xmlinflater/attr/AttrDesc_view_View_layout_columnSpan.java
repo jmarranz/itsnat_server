@@ -39,7 +39,7 @@ public class AttrDesc_view_View_layout_columnSpan extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        // No se que hacer
+        // Cannot be changed post creation
     }
 
 }

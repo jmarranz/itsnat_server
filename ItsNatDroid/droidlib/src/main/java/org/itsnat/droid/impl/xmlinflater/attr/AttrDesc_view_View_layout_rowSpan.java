@@ -39,6 +39,6 @@ public class AttrDesc_view_View_layout_rowSpan extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        // No se que hacer
+        // cannot be changed post creation
     }
 }

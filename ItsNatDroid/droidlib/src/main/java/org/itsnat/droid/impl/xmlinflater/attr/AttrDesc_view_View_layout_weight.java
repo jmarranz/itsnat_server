@@ -19,9 +19,9 @@ public class AttrDesc_view_View_layout_weight extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
-
         float weight = getFloat(value,view.getContext());
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
 
         params.weight = weight;
 
@@ -31,6 +31,10 @@ public class AttrDesc_view_View_layout_weight extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        // No se que hacer
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)view.getLayoutParams();
+
+        params.weight = 0;
+
+        view.setLayoutParams(view.getLayoutParams());
     }
 }

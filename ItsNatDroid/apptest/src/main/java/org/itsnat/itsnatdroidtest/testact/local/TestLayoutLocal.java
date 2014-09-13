@@ -136,8 +136,10 @@ public class TestLayoutLocal
     {
         Resources res = act.getResources();
         Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerTestId);
-        CharSequence[] entries = res.getTextArray(R.array.sports_array);
-        ((Spinner)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner)gridView).setAdapter(adapter);
     }
 
     private static void defineExpandableListView(TestActivity act,View rootView)

@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -219,6 +220,21 @@ public abstract class AttrDesc
         }
 
         throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
+    }
+
+    protected int getDimensionWithName(View view, String value)
+    {
+        int dimension;
+
+        // No hace falta hacer trim en caso de "match_parent" etc un espacio fastidia el attr
+        if      ("fill_parent".equals(value))  dimension = ViewGroup.LayoutParams.MATCH_PARENT;
+        else if ("match_parent".equals(value)) dimension = ViewGroup.LayoutParams.MATCH_PARENT;
+        else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
+        else
+        {
+            dimension = getDimensionInt(value, view.getContext());
+        }
+        return dimension;
     }
 
     public static Drawable getDrawable(String attrValue, Context ctx)

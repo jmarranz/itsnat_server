@@ -471,8 +471,7 @@
             android:animationDuration="100"
             android:gravity="center_vertical"
             android:spacing="50dp"
-            android:unselectedAlpha="0.6"
-            >
+            android:unselectedAlpha="0.6">
         </Gallery>
 
         <!-- Test Spinner -->
@@ -480,9 +479,15 @@
             android:id="@id/spinnerTestId"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="#ffdddd"
+            android:dropDownHorizontalOffset="50dp"
+            android:dropDownVerticalOffset="10dp"
+            android:dropDownWidth="200dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:popupBackground="#eeee55"
+            android:prompt="@string/sport_list"
+
             >
-        </Spinner>
+        </Spinner> <!-- android:spinnerMode="dropdown" -->
 
     </LinearLayout>
 

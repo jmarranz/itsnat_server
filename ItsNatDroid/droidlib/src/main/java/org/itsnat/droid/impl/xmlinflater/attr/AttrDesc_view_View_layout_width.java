@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_layout_width extends AttrDesc_view_View_layout_widthheight_Base
+public class AttrDesc_view_View_layout_width extends AttrDesc
 {
     public AttrDesc_view_View_layout_width(ClassDescViewBased parent)
     {
@@ -20,7 +20,7 @@ public class AttrDesc_view_View_layout_width extends AttrDesc_view_View_layout_w
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int width = getDimension(view,value);
+        int width = getDimensionWithName(view, value);
 
         ViewGroup.LayoutParams params = view.getLayoutParams();
 

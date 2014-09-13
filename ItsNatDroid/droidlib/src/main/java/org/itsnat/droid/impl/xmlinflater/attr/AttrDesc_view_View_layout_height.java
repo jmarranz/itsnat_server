@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_widthheight_Base
+public class AttrDesc_view_View_layout_height extends AttrDesc
 {
     public AttrDesc_view_View_layout_height(ClassDescViewBased parent)
     {
@@ -19,7 +19,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int height = getDimension(view,value);
+        int height = getDimensionWithName(view, value);
 
         ViewGroup.LayoutParams params = view.getLayoutParams();
 
@@ -33,7 +33,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc_view_View_layout_
     {
         ViewGroup.LayoutParams params = view.getLayoutParams();
 
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT; // Por poner algo, no lo tengo claro y yo creo que puede cambiar según el ViewGroup padre
 
         view.setLayoutParams(params);
     }

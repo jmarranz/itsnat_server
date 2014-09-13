@@ -14,16 +14,15 @@ import android.widget.Gallery;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-
-import java.lang.reflect.Field;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
@@ -141,7 +140,7 @@ public class TestLocalXMLInflate
                 // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
                 // por ello mostramos un alertDialog no lanzamos una excepción
                 if (compTextView2.getFilterTouchesWhenObscured() != parsedTextView2.getFilterTouchesWhenObscured())
-                    TestUtil.alertDialog(compTextView2.getContext(),"Test fail in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
+                    TestUtil.alertDialog(compTextView2.getContext(),"Test failed in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
                 assertTrue(compTextView2.isFocusable());
                 assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
                 assertTrue(compTextView2.isFocusableInTouchMode());
@@ -159,10 +158,10 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
                 assertTrue(compTextView2.isLongClickable());
                 assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
-                assertPositive((int) ((Integer) getField(compTextView2, View.class, "mMinHeight")));
-                assertEquals((int) ((Integer) getField(compTextView2, View.class, "mMinHeight")), (int) ((Integer) getField(parsedTextView2, View.class, "mMinHeight")));
-                assertPositive( (int)((Integer)getField(compTextView2,View.class,"mMinWidth")) );
-                assertEquals( (int)((Integer)getField(compTextView2,View.class,"mMinWidth")),(int)((Integer)getField(parsedTextView2,View.class,"mMinWidth")) );
+                assertPositive((Integer)TestUtil.getField(compTextView2, View.class, "mMinHeight"));
+                assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (int) ((Integer)TestUtil.getField(parsedTextView2, View.class, "mMinHeight")));
+                assertPositive((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth"));
+                assertEquals( (int)((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth")),(int)((Integer)TestUtil.getField(parsedTextView2, View.class, "mMinWidth")) );
                 assertPositive(compTextView2.getNextFocusDownId());
                 assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
                 assertPositive(compTextView2.getNextFocusForwardId());
@@ -229,11 +228,11 @@ public class TestLocalXMLInflate
             assertFalse(compLinLayout.isAnimationCacheEnabled());
             assertEquals(compLinLayout.isAnimationCacheEnabled(), parsedLinLayout.isAnimationCacheEnabled());
             // Tests de android:clipChildren (el método get es Level 18)
-            assertFalse( ((int)(Integer)getField(compLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1 ); // FLAG_CLIP_CHILDREN = 0x1
-            assertEquals( ((int)(Integer)getField(compLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1, ((int)(Integer)getField(parsedLinLayout,ViewGroup.class,"mGroupFlags") & 0x1) == 0x1 );
+            assertFalse( ((int)(Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 ); // FLAG_CLIP_CHILDREN = 0x1
+            assertEquals( ((int)(Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1, ((int)(Integer)TestUtil.getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 );
             // Tests de android:clipToPadding
-            assertFalse(((int) (Integer) getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
-            assertEquals(((int) (Integer) getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer) getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
+            assertFalse(((int) (Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
+            assertEquals(((int) (Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer)TestUtil.getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
             assertEquals(compLinLayout.getDescendantFocusability(), ViewGroup.FOCUS_AFTER_DESCENDANTS);
             assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
             assertPositive(compLinLayout.getLayoutAnimation().getDelay()); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
@@ -275,33 +274,41 @@ public class TestLocalXMLInflate
 
         // Test GridLayout Attribs Horizontal
         {
-            GridLayout compGridLayout = (GridLayout) comp.getChildAt(childCount);
-            GridLayout parsedGridLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compGridLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
-            assertEquals(compGridLayout.getColumnCount(),3);
-            assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
-            assertFalse(compGridLayout.isColumnOrderPreserved());
-            assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
-            assertEquals(compGridLayout.getOrientation(),GridLayout.HORIZONTAL);
-            assertEquals(compGridLayout.getOrientation(),parsedGridLayout.getOrientation());
-            assertEquals(compGridLayout.getRowCount(),3);
-            assertEquals(compGridLayout.getRowCount(),parsedGridLayout.getRowCount());
-            assertFalse(compGridLayout.isRowOrderPreserved());
-            assertEquals(compGridLayout.isRowOrderPreserved(),parsedGridLayout.isRowOrderPreserved());
-            assertTrue(compGridLayout.getUseDefaultMargins());
-            assertEquals(compGridLayout.getUseDefaultMargins(),parsedGridLayout.getUseDefaultMargins());
+            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
+            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getColumnCount(),3);
+            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
+            assertFalse(compLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.getOrientation(),GridLayout.HORIZONTAL);
+            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+            assertEquals(compLayout.getRowCount(), 3);
+            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
+            assertFalse(compLayout.isRowOrderPreserved());
+            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
+            assertTrue(compLayout.getUseDefaultMargins());
+            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                for(int i = 0; i < 5; i++)
+                compLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                 {
-                    TextView compTextView = (TextView) compGridLayout.getChildAt(i);
-                    TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
-                    // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
-                    GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
-                    GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
-                    compParams.columnSpec.equals(parsedParams.columnSpec);
-                    compParams.rowSpec.equals(parsedParams.rowSpec);
-                }
+                    @Override
+                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                    {
+                        for(i = 0; i < 5; i++)
+                        {
+                            TextView compTextView = (TextView) compLayout.getChildAt(i);
+                            TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                            // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+                            GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
+                            GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
+                    }
+                });
+
             }
         }
 
@@ -309,33 +316,40 @@ public class TestLocalXMLInflate
 
         // Test GridLayout Attribs Vertical
         {
-            GridLayout compGridLayout = (GridLayout) comp.getChildAt(childCount);
-            GridLayout parsedGridLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compGridLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
-            assertEquals(compGridLayout.getColumnCount(),3);
-            assertEquals(compGridLayout.getColumnCount(),parsedGridLayout.getColumnCount());
-            assertFalse(compGridLayout.isColumnOrderPreserved());
-            assertEquals(compGridLayout.isColumnOrderPreserved(),parsedGridLayout.isColumnOrderPreserved());
-            assertEquals(compGridLayout.getOrientation(),GridLayout.VERTICAL);
-            assertEquals(compGridLayout.getOrientation(),parsedGridLayout.getOrientation());
-            assertEquals(compGridLayout.getRowCount(),3);
-            assertEquals(compGridLayout.getRowCount(),parsedGridLayout.getRowCount());
-            assertFalse(compGridLayout.isRowOrderPreserved());
-            assertEquals(compGridLayout.isRowOrderPreserved(),parsedGridLayout.isRowOrderPreserved());
-            assertTrue(compGridLayout.getUseDefaultMargins());
-            assertEquals(compGridLayout.getUseDefaultMargins(),parsedGridLayout.getUseDefaultMargins());
+            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
+            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getColumnCount(),3);
+            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
+            assertFalse(compLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.getOrientation(),GridLayout.VERTICAL);
+            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+            assertEquals(compLayout.getRowCount(), 3);
+            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
+            assertFalse(compLayout.isRowOrderPreserved());
+            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
+            assertTrue(compLayout.getUseDefaultMargins());
+            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                for(int i = 0; i < 5; i++)
+                compLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                 {
-                    TextView compTextView = (TextView) compGridLayout.getChildAt(i);
-                    TextView parsedTextView = (TextView) parsedGridLayout.getChildAt(i);
-                    // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
-                    GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
-                    GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
-                    compParams.columnSpec.equals(parsedParams.columnSpec);
-                    compParams.rowSpec.equals(parsedParams.rowSpec);
-                }
+                    @Override
+                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                    {
+                        for (i = 0; i < 5; i++)
+                        {
+                            TextView compTextView = (TextView) compLayout.getChildAt(i);
+                            TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                            // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
+                            GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
+                            GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
+                    }
+                });
             }
 
         }
@@ -352,8 +366,8 @@ public class TestLocalXMLInflate
             assertEquals(((ColorDrawable)compFrameLayout.getForeground()).getColor(), 0x55ddffdd);
             assertEquals(compFrameLayout.getForeground(), parsedFrameLayout.getForeground());
             // Test android:foregroundGravity (getForegroundGravity() es Level 16):
-            assertEquals((int)(Integer)getField(compFrameLayout,"mForegroundGravity"),Gravity.TOP | Gravity.LEFT );
-            assertEquals((int) (Integer) getField(compFrameLayout,"mForegroundGravity"), (int) (Integer) getField(parsedFrameLayout, "mForegroundGravity"));
+            assertEquals((Integer)TestUtil.getField(compFrameLayout, "mForegroundGravity"),Gravity.TOP | Gravity.LEFT );
+            assertEquals((Integer)TestUtil.getField(compFrameLayout, "mForegroundGravity"), (Integer)TestUtil.getField(parsedFrameLayout, "mForegroundGravity"));
             assertTrue(compFrameLayout.getMeasureAllChildren());
             assertEquals(compFrameLayout.getMeasureAllChildren(), parsedFrameLayout.getMeasureAllChildren());
         }
@@ -371,8 +385,8 @@ public class TestLocalXMLInflate
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
             // No se como testear dos GradientDrawable, si no se define devuelve otro tipo de Drawable
-            assertNotNull( (GradientDrawable)getField(compLinLayout,"mDivider") );
-            assertNotNull( (GradientDrawable)getField(parsedLinLayout,"mDivider") );
+            assertNotNull( (GradientDrawable)TestUtil.getField(compLinLayout, "mDivider") );
+            assertNotNull( (GradientDrawable)TestUtil.getField(parsedLinLayout, "mDivider") );
 
             assertEquals(compLinLayout.getShowDividers(), 3);
             assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
@@ -403,12 +417,12 @@ public class TestLocalXMLInflate
 
         // Testing LinearLayout.LayoutParams
         {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
             for(int i = 0; i < 2; i++)
             {
-                TextView compTextView1 = (TextView) compLinLayout.getChildAt(i);
-                TextView parsedTextView1 = (TextView) parsedLinLayout.getChildAt(i);
+                TextView compTextView1 = (TextView) compLayout.getChildAt(i);
+                TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(i);
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
 
@@ -426,14 +440,14 @@ public class TestLocalXMLInflate
             final RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             final RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:gravity (getGravity() es Level 16):
-            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.BOTTOM|Gravity.RIGHT);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.BOTTOM|Gravity.RIGHT);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
                 }
             });
 
@@ -452,8 +466,8 @@ public class TestLocalXMLInflate
             RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             // Tests android:ignoreGravity (no hay get):
-            assertPositive((Integer) getField(compLayout, "mIgnoreGravity"));
-            assertEquals((Integer) getField(compLayout, "mIgnoreGravity"), (Integer) getField(parsedLayout, "mIgnoreGravity"));
+            assertPositive((Integer)TestUtil.getField(compLayout, "mIgnoreGravity"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mIgnoreGravity"), (Integer)TestUtil.getField(parsedLayout, "mIgnoreGravity"));
 
             {
                 TextView compTextView = (TextView) compLayout.getChildAt(0);
@@ -526,37 +540,37 @@ public class TestLocalXMLInflate
             final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
 
             // Tests android:columnWidth (getColumnWidth es Level 16):
-            assertPositive((Integer)getField(compLayout,"mColumnWidth"));
+            assertPositive((Integer)TestUtil.getField(compLayout, "mColumnWidth"));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mColumnWidth"),(Integer)getField(parsedLayout,"mColumnWidth"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mColumnWidth"),(Integer)TestUtil.getField(parsedLayout, "mColumnWidth"));
                 }
             });
             // Tests android:gravity (getGravity es Level 16)
-            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
                 }
             });
 
             // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
-            assertPositive((Integer) getField(compLayout, "mHorizontalSpacing"));
+            assertPositive((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mHorizontalSpacing"),(Integer)getField(parsedLayout,"mHorizontalSpacing"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mHorizontalSpacing"));
                 }
             });
             assertEquals(compLayout.getNumColumns(), 3);
@@ -573,14 +587,14 @@ public class TestLocalXMLInflate
             assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
             assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
             // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
-            assertPositive((Integer)getField(compLayout,"mVerticalSpacing"));
+            assertPositive((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mVerticalSpacing"),(Integer)getField(parsedLayout,"mVerticalSpacing"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mVerticalSpacing"));
                 }
             });
         }
@@ -600,11 +614,11 @@ public class TestLocalXMLInflate
             assertPositive(compLayout.getDividerHeight());
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
             // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
-            assertFalse((Boolean) getField(compLayout, "mFooterDividersEnabled"));
-            assertEquals((Boolean) getField(compLayout, "mFooterDividersEnabled"), (Boolean) getField(parsedLayout, "mFooterDividersEnabled"));
+            assertFalse((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"));
+            assertEquals((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"), (Boolean)TestUtil.getField(parsedLayout, "mFooterDividersEnabled"));
             // Test android:headerDividersEnabled (areHeaderDividersEnabled es Level 19)
-            assertFalse((Boolean)getField(compLayout,"mHeaderDividersEnabled"));
-            assertEquals((Boolean)getField(compLayout,"mHeaderDividersEnabled"),(Boolean)getField(parsedLayout,"mHeaderDividersEnabled"));
+            assertFalse((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"));
+            assertEquals((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"),(Boolean)TestUtil.getField(parsedLayout, "mHeaderDividersEnabled"));
 
         }
 
@@ -618,24 +632,24 @@ public class TestLocalXMLInflate
             // Test android:childDivider, no hay método get
             // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
             // Test visual: líneas rojas separadoras de items
-            assertNotNull((GradientDrawable) getField(compLayout, "mChildDivider"));
-            assertNotNull((GradientDrawable)getField(parsedLayout,"mChildDivider"));
+            assertNotNull((GradientDrawable)TestUtil.getField(compLayout, "mChildDivider"));
+            assertNotNull((GradientDrawable)TestUtil.getField(parsedLayout, "mChildDivider"));
 
             // Test android:childIndicator, no hay método get, si no se define devuelve null
             // No se como testear la igualdad de dos GradientDrawable
-            assertNotNull((GradientDrawable)getField(compLayout,"mChildIndicator"));
-            assertNotNull((GradientDrawable)getField(parsedLayout,"mChildIndicator"));
+            assertNotNull((GradientDrawable)TestUtil.getField(compLayout, "mChildIndicator"));
+            assertNotNull((GradientDrawable)TestUtil.getField(parsedLayout, "mChildIndicator"));
 
             // Test android:childIndicatorLeft, no hay método get
             // No entiendo porqué mChildIndicatorLeft es cero incluso con el layout realizado
             //assertPositive((Integer)getField(compLayout,"mChildIndicatorLeft"));
             //assertEquals((Integer)getField(compLayout,"mChildIndicatorLeft"),(Integer)getField(parsedLayout,"mChildIndicatorLeft"));
-            // No testeamos android:childIndicatorRight pues idéntico a childIndicatorLeft
+            // No testeamos android:childIndicatorRight pues tenemos idéntico problema que childIndicatorLeft
 
             // Test android:groupIndicator, no hay método get
             // No se como testear la igualdad de dos StateListDrawable
-            assertNotNull((StateListDrawable)getField(compLayout,"mGroupIndicator"));
-            assertNotNull((StateListDrawable)getField(parsedLayout,"mGroupIndicator"));
+            assertNotNull((StateListDrawable)TestUtil.getField(compLayout, "mGroupIndicator"));
+            assertNotNull((StateListDrawable)TestUtil.getField(parsedLayout, "mGroupIndicator"));
 
             // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft
             //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));
@@ -655,22 +669,22 @@ public class TestLocalXMLInflate
         {
             final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
             final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
-            assertEquals((Integer)getField(compLayout, "mAnimationDuration"), 100);
-            assertEquals((Integer)getField(compLayout,"mAnimationDuration"),(Integer)getField(parsedLayout,"mAnimationDuration"));
-            assertEquals((Integer)getField(compLayout,"mGravity"), Gravity.CENTER_VERTICAL);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"),(Integer)TestUtil.getField(parsedLayout, "mAnimationDuration"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL);
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
                     // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)getField(compLayout,"mGravity"),(Integer)getField(parsedLayout,"mGravity"));
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
                 }
             });
-            assertPositive((Integer) getField(compLayout, "mSpacing"));
-            assertEquals((Integer)getField(compLayout,"mSpacing"),(Integer)getField(parsedLayout,"mSpacing"));
-            assertEquals((Float) getField(compLayout, "mUnselectedAlpha"), 0.6f);
-            assertEquals((Float)getField(compLayout,"mUnselectedAlpha"),(Float)getField(parsedLayout,"mUnselectedAlpha"));
+            assertPositive((Integer)TestUtil.getField(compLayout, "mSpacing"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),(Integer)TestUtil.getField(parsedLayout, "mSpacing"));
+            assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"), 0.6f);
+            assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"),(Float)TestUtil.getField(parsedLayout, "mUnselectedAlpha"));
         }
 
         childCount++;
@@ -679,6 +693,48 @@ public class TestLocalXMLInflate
         {
             final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
+
+            // Tests android:dropDownHorizontalOffset
+            int compDropDownHorizontalOffset =   (Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"});
+            int parsedDropDownHorizontalOffset = (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"});
+            assertPositive(compDropDownHorizontalOffset);
+            if (compDropDownHorizontalOffset != parsedDropDownHorizontalOffset)
+                TestUtil.alertDialog(compLayout.getContext(),"Test failed in dropDownHorizontalOffset (" + compDropDownHorizontalOffset + " - " + parsedDropDownHorizontalOffset + "), don't worry it seems dropDownHorizontalOffset is reset after showing items, anyway this value seems not to have visual influence in this example");
+
+
+            // Tests android:dropDownVerticalOffset
+            assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                // No se consolida hasta que se hace el Layout
+                assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
+                }
+            });
+
+            // Tests android:dropDownWidth ( getDropDownWidth() es Level 16)
+            assertPositive((Integer)TestUtil.getField(compLayout, "mDropDownWidth"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),(Integer)TestUtil.getField(parsedLayout, "mDropDownWidth"));
+
+            // Tests android:gravity (no get en Level 15)
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
+                }
+            });
+
+            // Tests android:popupBackground
+            assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);
+            assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
+System.out.println("HOLA");
+
         }
 
 
@@ -686,20 +742,5 @@ public class TestLocalXMLInflate
         //System.out.println("\n\n\n");
     }
 
-    protected static <T> T getField(View view,String fieldName)
-    {
-        return getField(view,view.getClass(),fieldName);
-    }
 
-    protected static <T> T getField(View view,Class clasz,String fieldName)
-    {
-        try
-        {
-            Field field = clasz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return (T)field.get(view);
-        }
-        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
-        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
-    }
 }

@@ -11,5 +11,6 @@
     <string name="title_tab2">Tab 2</string>
     <string name="title_tab3">Tab 3</string>
     <string name="hello_world">Hello world!</string>
+    <string name="sport_list">Sport List</string>
 
 </resources>
