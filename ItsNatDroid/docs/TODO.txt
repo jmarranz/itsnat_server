@@ -1,4 +1,7 @@
 
+* Eliminar AttrDesc_widget_Spinner_spinnerMode???
+
+* Numero de items  en el constructor de los HashMap de opciones (optimización)
 
 * Añadir método con el número de versión del framework
 

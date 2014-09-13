@@ -1,5 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.Spinner;
+
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescGravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
@@ -16,6 +22,28 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
     {
         super("android.widget.Spinner",parentClass);
     }
+
+    public View createAndAddSpinnerObject(View viewParent,int index,int idStyle,String spinnerMode,Context ctx)
+    {
+        AttributeSet attributes = null; // createEmptyAttributeSet(ctx);
+
+        if (idStyle == 0)
+            idStyle = android.R.attr.spinnerStyle; // Inspirado en el código fuente de Spinner
+
+        int mode;
+        if (spinnerMode != null)
+        {
+            if ("dialog".equals(spinnerMode)) mode = Spinner.MODE_DIALOG;
+            else if ("dropdown".equals(spinnerMode)) mode = Spinner.MODE_DROPDOWN;
+            else throw new ItsNatDroidException("Unrecognized value name " + spinnerMode + " for attribute");
+        }
+        else mode = -1; // MODE_THEME = -1  es decir se delega en el atributo spinnerMode y si no está definido (que es el caso de layouts dinámico) en lo que diga el theme que suele ser dropdown
+
+        View view = new Spinner(ctx, attributes, idStyle,mode);
+        addViewObject(viewParent,view,index);
+        return view;
+    }
+
 
     protected void init()
     {

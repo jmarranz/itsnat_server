@@ -11,7 +11,7 @@
     <item name="testRelLayoutId" type="id">testRelLayoutId</item>
     <item name="gridViewTestId" type="id">gridTestId</item>
     <item name="expanListViewTestId" type="id">expanListViewTestId</item>
-    <item name="spinnerTestId" type="id">spinnerTestId</item>
-
+    <item name="spinnerDialogTestId" type="id">spinnerDialogTestId</item>
+    <item name="spinnerDropdownTestId" type="id">spinnerDropdownTestId</item>
 
 </resources>

@@ -689,7 +689,7 @@ public class TestLocalXMLInflate
 
         childCount++;
 
-        // Test Spinner
+        // Test Spinner (dropdown)
         {
             final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
@@ -709,8 +709,8 @@ public class TestLocalXMLInflate
                 @Override
                 public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
-                // No se consolida hasta que se hace el Layout
-                assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
                 }
             });
 
@@ -733,8 +733,18 @@ public class TestLocalXMLInflate
             // Tests android:popupBackground
             assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);
             assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
-System.out.println("HOLA");
 
+        }
+
+        childCount++;
+
+        // Test Spinner (dialog)
+        {
+            final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
+            final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getPrompt(), "Sport List");
+            assertEquals(compLayout.getPrompt(), parsedLayout.getPrompt());
         }
 
 

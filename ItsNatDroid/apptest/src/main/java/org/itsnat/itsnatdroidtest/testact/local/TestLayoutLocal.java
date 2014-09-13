@@ -111,7 +111,8 @@ public class TestLayoutLocal
 
                 defineGridView(act,dynamicRootView);
                 defineExpandableListView(act,dynamicRootView);
-                defineSpinner(act,dynamicRootView);
+                defineSpinnerDialog(act,dynamicRootView);
+                defineSpinnerDropdown(act,dynamicRootView);
 
 //System.out.println("DEFAULT VALUE: " + dynamicRootView.getDrawingCacheQuality());
 
@@ -121,7 +122,8 @@ public class TestLayoutLocal
 
         defineGridView(act,compiledRootView);
         defineExpandableListView(act,compiledRootView);
-        defineSpinner(act,compiledRootView);
+        defineSpinnerDialog(act,compiledRootView);
+        defineSpinnerDropdown(act,compiledRootView);
     }
 
     private static void defineGridView(TestActivity act,View rootView)
@@ -132,10 +134,20 @@ public class TestLayoutLocal
         ((GridView)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
     }
 
-    private static void defineSpinner(TestActivity act,View rootView)
+    private static void defineSpinnerDialog(TestActivity act,View rootView)
     {
         Resources res = act.getResources();
-        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerTestId);
+        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDialogTestId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Aunque parece que es para dropdown sirve para dialog también y queda mejor que sin definir
+        ((Spinner)gridView).setAdapter(adapter);
+    }
+
+    private static void defineSpinnerDropdown(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDropdownTestId);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
                 R.array.sports_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

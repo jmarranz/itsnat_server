@@ -7,6 +7,7 @@ import android.util.Xml;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -78,6 +79,11 @@ public class ClassDescViewBased
         return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
+    protected static boolean isSpinnerModeAttribute(View view,String namespaceURI,String name)
+    {
+        return (view instanceof Spinner) && XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
+    }
+
     protected void addAttrDesc(AttrDesc attrDesc)
     {
         attrDescMap.put(attrDesc.getName(),attrDesc);
@@ -92,7 +98,8 @@ public class ClassDescViewBased
     {
         if (!isInit()) init();
 
-        if (isStyleAttribute(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
+        if (isStyleAttribute(namespaceURI,name) ||
+            isSpinnerModeAttribute(view,namespaceURI,name)) return false; // Se tratan de forma especial en otro lugar
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -183,13 +190,18 @@ public class ClassDescViewBased
     public View createAndAddViewObject(View viewParent,int index,int idStyle, Context ctx)
     {
         View view = createViewObject(ctx, idStyle);
+        addViewObject(viewParent,view,index);
+        return view;
+    }
+
+    protected void addViewObject(View viewParent,View view,int index)
+    {
         if (viewParent != null)
         {
             if (index < 0) ((ViewGroup)viewParent).addView(view);
             else ((ViewGroup)viewParent).addView(view, index);
         }
         else fixViewRootLayoutParams(view); // currentTarget es la vista root
-        return view;
     }
 
     private View createViewObject(Context ctx,int idStyle)
@@ -236,7 +248,7 @@ public class ClassDescViewBased
         view.setLayoutParams(params);
     }
 
-    private static AttributeSet createEmptyAttributeSet_NO_SE_USA(Context ctx)
+    protected static AttributeSet createEmptyAttributeSet_NOT_USED(Context ctx)
     {
         // Este método experimental es para create un AttributeSet vacío a partir de un XML compilado, se trataria
         // de crear un archivo XML tal y como "<tag />" ir al apk generado y copiar el archivo compilado, abrirlo

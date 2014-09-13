@@ -474,9 +474,9 @@
             android:unselectedAlpha="0.6">
         </Gallery>
 
-        <!-- Test Spinner -->
+        <!-- Test Spinner (dropdown) -->
         <Spinner
-            android:id="@id/spinnerTestId"
+            android:id="@id/spinnerDropdownTestId"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:dropDownHorizontalOffset="50dp"
@@ -484,10 +484,21 @@
             android:dropDownWidth="200dp"
             android:gravity="center_vertical|center_horizontal"
             android:popupBackground="#eeee55"
-            android:prompt="@string/sport_list"
-
+            android:spinnerMode="dropdown"
             >
         </Spinner> <!-- android:spinnerMode="dropdown" -->
+
+        <!-- Test Spinner (dialog) -->
+        <Spinner
+            android:id="@id/spinnerDialogTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:prompt="@string/sport_list"
+            android:spinnerMode="dialog"
+            >
+        </Spinner> <!-- android:spinnerMode="dialog" -->
+
+
 
     </LinearLayout>
 

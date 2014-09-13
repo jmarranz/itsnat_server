@@ -45,6 +45,7 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -201,9 +202,17 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private View createAndAddViewObjectAndFillAttributes(ClassDescViewBased classDesc, View viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
     {
         Context ctx = inflated.getContext();
+        View view;
         int idStyle = findStyleAttribute(newChildToIn, ctx);
-        View view = classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
-
+        if (classDesc instanceof ClassDesc_widget_Spinner)
+        {
+            String spinnerMode = findSpinnerModeAttribute(newChildToIn, ctx);
+            view = ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, index, idStyle,spinnerMode, ctx);
+        }
+        else
+        {
+            view = classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+        }
         newChildToIn.setView(view);
 
         if (newChildToIn.hasAttributes())
@@ -214,10 +223,21 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
     {
-        AttrImpl styleAttr = newChildToIn.getAttribute(null,"style");
-        if (styleAttr == null) return 0;
-        String value = styleAttr.getValue();
+        String value = findAttribute(null,"style",newChildToIn,ctx);
+        if (value == null) return 0;
         return AttrDesc.getIdentifier(value, ctx);
+    }
+
+    private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    {
+        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",newChildToIn,ctx);
+    }
+
+    private static String findAttribute(String namespaceURI,String attrName,NodeToInsertImpl newChildToIn,Context ctx)
+    {
+        AttrImpl attr = newChildToIn.getAttribute(namespaceURI,attrName);
+        if (attr == null) return null;
+        return attr.getValue();
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)

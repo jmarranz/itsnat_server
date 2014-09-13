@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -252,7 +253,15 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     {
         Context ctx = getContext();
         int idStyle = findStyleAttribute(parser, ctx);
-        return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
+        if (classDesc instanceof ClassDesc_widget_Spinner)
+        {
+            String spinnerMode = findSpinnerModeAttribute(parser, ctx);
+            return ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, -1, idStyle,spinnerMode, ctx);
+        }
+        else
+        {
+            return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
+        }
     }
 
     public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
@@ -277,16 +286,28 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     private int findStyleAttribute(XmlPullParser parser,Context ctx)
     {
+        String value = findAttribute(null,"style",parser,ctx);
+        if (value == null) return 0;
+        return AttrDesc.getIdentifier(value, ctx);
+    }
+
+    private String findSpinnerModeAttribute(XmlPullParser parser,Context ctx)
+    {
+        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",parser,ctx);
+    }
+
+    private String findAttribute(String namespaceURI,String name,XmlPullParser parser,Context ctx)
+    {
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
-            String namespaceURI = parser.getAttributeNamespace(i);
-            if (!ValueUtil.isEmpty(namespaceURI)) continue; // style no tiene namespace
-            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            if (!"style".equals(name)) continue;
+            String currNamespaceURI = parser.getAttributeNamespace(i);
+            if (!ValueUtil.equalsNullAllowed(currNamespaceURI,namespaceURI)) continue;
+            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
+            if (!name.equals(currName)) continue;
             String value = parser.getAttributeValue(i);
-            return AttrDesc.getIdentifier(value, ctx);
+            return value;
         }
-        return 0;
+        return null;
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
