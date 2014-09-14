@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecDimensionInt extends AttrDescReflection
+public class AttrDescReflecDimensionInt extends AttrDescMethodReflection
 {
     protected Float defaultValue;
 

@@ -1,7 +1,8 @@
 
-* Eliminar AttrDesc_widget_Spinner_spinnerMode???
-
 * Numero de items  en el constructor de los HashMap de opciones (optimización)
+
+* Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
+
 
 * Añadir método con el número de versión del framework
 

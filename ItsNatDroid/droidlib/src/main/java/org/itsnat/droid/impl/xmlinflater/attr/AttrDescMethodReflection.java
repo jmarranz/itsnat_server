@@ -11,18 +11,18 @@ import java.lang.reflect.Method;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescReflection extends AttrDesc
+public abstract class AttrDescMethodReflection extends AttrDesc
 {
     protected String methodName;
     protected Method method;
 
-    public AttrDescReflection(ClassDescViewBased parent, String name, String methodName)
+    public AttrDescMethodReflection(ClassDescViewBased parent, String name, String methodName)
     {
         super(parent,name);
         this.methodName = methodName;
     }
 
-    public AttrDescReflection(ClassDescViewBased parent, String name)
+    public AttrDescMethodReflection(ClassDescViewBased parent, String name)
     {
         this(parent,name,genMethodName(name));
     }

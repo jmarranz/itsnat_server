@@ -98,7 +98,7 @@ public class ClassDescViewMgr
         classes.put(viewDesc.getClassName(), viewDesc);
     }
 
-    private static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException
+    public static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException
     {
         if (viewName.indexOf('.') == -1)
         {

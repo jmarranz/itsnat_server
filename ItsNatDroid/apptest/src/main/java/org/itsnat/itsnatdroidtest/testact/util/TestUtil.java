@@ -63,4 +63,10 @@ public class TestUtil
 
         return obj;
     }
+
+    public static Class resolveClass(String viewName)
+    {
+        try { return Class.forName(viewName); }
+        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+    }
 }

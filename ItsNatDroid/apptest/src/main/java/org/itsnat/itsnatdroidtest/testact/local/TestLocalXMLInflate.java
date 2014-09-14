@@ -122,6 +122,9 @@ public class TestLocalXMLInflate
                 assertEquals(compTextView.getContentDescription(), parsedTextView.getContentDescription());
                 assertEquals(compTextView.getDrawingCacheQuality(), View.DRAWING_CACHE_QUALITY_HIGH);
                 assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
+                assertTrue(compTextView.isDuplicateParentStateEnabled());
+                assertEquals(compTextView.isDuplicateParentStateEnabled(), parsedTextView.isDuplicateParentStateEnabled());
+
 
                 ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
                 ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
@@ -131,6 +134,24 @@ public class TestLocalXMLInflate
                 assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
                 assertPositive(compScrollView.getHorizontalFadingEdgeLength());
                 assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
+
+                // Test android:scrollbarAlwaysDrawHorizontalTrack
+                assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                        new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}));
+                assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}),
+                             (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"})
+                        );
+
+                // Test android:scrollbarAlwaysDrawVerticalTrack
+                assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                        new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}));
+                assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}),
+                        (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"})
+                );
 
 
                 TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);

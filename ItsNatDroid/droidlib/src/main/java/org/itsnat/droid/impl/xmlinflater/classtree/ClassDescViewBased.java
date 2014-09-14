@@ -201,7 +201,7 @@ public class ClassDescViewBased
             if (index < 0) ((ViewGroup)viewParent).addView(view);
             else ((ViewGroup)viewParent).addView(view, index);
         }
-        else fixViewRootLayoutParams(view); // currentTarget es la vista root
+        else fixViewRootLayoutParams(view); // view es la vista root
     }
 
     private View createViewObject(Context ctx,int idStyle)

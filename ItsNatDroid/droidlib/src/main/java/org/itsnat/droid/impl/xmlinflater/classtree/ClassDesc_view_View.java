@@ -31,6 +31,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_onClick;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_padding;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingEdge;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarStyle;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
@@ -56,7 +58,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
         addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
-        // android:duplicateParentState no tiene método set nativo asociado
+        addAttrDesc(new AttrDescReflecBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
         addAttrDesc(new AttrDescReflecBoolean(this,"fadeScrollbars","setScrollbarFadingEnabled",true));
         addAttrDesc(new AttrDescReflecDimensionInt(this,"fadingEdgeLength",null));
         addAttrDesc(new AttrDescReflecBoolean(this,"filterTouchesWhenObscured",false));
@@ -95,8 +97,9 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
         addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollX",0f));
         addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollY",0f));
+        addAttrDesc(new AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack(this));
+        addAttrDesc(new AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack(this));
 
-        // android:scrollbarAlwaysDrawHorizontalTrack y android:scrollbarAlwaysDrawVerticalTrack no parecen tener métodos nativos asociados
         // android:scrollbarDefaultDelayBeforeFade es Level 16
         // android:scrollbarFadeDuration es Level 16
         // android:scrollbarSize es Level 16
