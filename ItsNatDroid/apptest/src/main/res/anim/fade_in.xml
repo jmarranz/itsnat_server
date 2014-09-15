@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android"
      android:fillAfter="true" >
-    <!-- http://www.androidhive.info/2013/06/android-working-with-xml-animations/#fade_in -->
+    <!-- http://www.androidhive.info/2013/06/android-working-with-xml-animations/#object_animator_test -->
     <alpha
         android:duration="1000"
         android:fromAlpha="0.0"

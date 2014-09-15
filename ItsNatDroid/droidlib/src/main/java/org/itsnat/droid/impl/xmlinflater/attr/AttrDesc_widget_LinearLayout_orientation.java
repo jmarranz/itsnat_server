@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_widget_LinearLayout_orientation extends AttrDescReflecSingleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 2 );
     static
     {
         valueMap.put("horizontal", LinearLayout.HORIZONTAL);

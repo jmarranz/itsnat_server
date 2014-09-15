@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_view_View_visibility extends AttrDescReflecSingleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 3 );
     static
     {
         valueMap.put("visible", View.VISIBLE);

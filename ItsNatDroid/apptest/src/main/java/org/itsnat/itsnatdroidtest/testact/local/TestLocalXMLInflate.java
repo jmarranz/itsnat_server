@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterViewAnimator;
+import android.widget.AdapterViewFlipper;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
@@ -161,7 +163,7 @@ public class TestLocalXMLInflate
 
                 // Test android:scrollbarThumbHorizontal
                 assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}),
-                                        ValueUtil.dpToPixelInt(0.9f,res));
+                                        ValueUtil.dpToPixelInt(0.9f, res));
                 assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
                                 new String[]{"mScrollCache", "scrollBar","mHorizontalThumb"}),
                              (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
@@ -169,8 +171,7 @@ public class TestLocalXMLInflate
                 );
 
                 // Test android:scrollbarThumbVertical
-                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}),
-                                        ValueUtil.dpToPixelInt(0.9f,res));
+                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
                 assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
                                 new String[]{"mScrollCache", "scrollBar","mVerticalThumb"}),
                              (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
@@ -448,8 +449,7 @@ public class TestLocalXMLInflate
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
-            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLinLayout, "mDivider"),
-                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLinLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLinLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLinLayout, "mDivider"));
 
             assertEquals(compLinLayout.getShowDividers(), 3);
@@ -675,8 +675,7 @@ public class TestLocalXMLInflate
 
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth(((GradientDrawable) compLayout.getDivider()),
-                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEqualsStrokeWidth(((GradientDrawable) compLayout.getDivider()), ValueUtil.dpToPixelInt(0.9f, res));
             assertEquals(((GradientDrawable) compLayout.getDivider()), ((GradientDrawable) parsedLayout.getDivider()));
 
             assertPositive(compLayout.getDividerHeight());
@@ -699,13 +698,11 @@ public class TestLocalXMLInflate
 
             // Test android:childDivider, no hay método get
             // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLayout, "mChildDivider"),
-                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), ValueUtil.dpToPixelInt(0.9f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
 
             // Test android:childIndicator, no hay método get, si no se define devuelve null
-            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLayout, "mChildIndicator"),
-                                    ValueUtil.dpToPixelInt(2f,res));
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelInt(2f, res));
             assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
 
             // Test android:childIndicatorLeft, no hay método get
@@ -813,6 +810,35 @@ public class TestLocalXMLInflate
 
             assertEquals(compLayout.getPrompt(), "Sport List");
             assertEquals(compLayout.getPrompt(), parsedLayout.getPrompt());
+        }
+
+        childCount++;
+
+        // Test AdapterViewAnimator y AdapterViewFlipper
+        {
+            final AdapterViewFlipper compLayout = (AdapterViewFlipper) comp.getChildAt(childCount);
+            final AdapterViewFlipper parsedLayout = (AdapterViewFlipper) parsed.getChildAt(childCount);
+
+            // AdapterViewAnimator
+
+            assertTrue((Boolean)TestUtil.getField(compLayout,AdapterViewAnimator.class,"mAnimateFirstTime"));
+            assertEquals((Boolean) TestUtil.getField(compLayout,AdapterViewAnimator.class,"mAnimateFirstTime"), (Boolean) TestUtil.getField(parsedLayout,AdapterViewAnimator.class,"mAnimateFirstTime"));
+
+            assertNotNull(compLayout.getInAnimation());
+            assertEquals(compLayout.getInAnimation(),parsedLayout.getInAnimation());
+
+            assertTrue((Boolean)TestUtil.getField(compLayout,AdapterViewAnimator.class,"mLoopViews"));
+            assertEquals((Boolean)TestUtil.getField(compLayout,AdapterViewAnimator.class,"mLoopViews"),(Boolean)TestUtil.getField(parsedLayout,AdapterViewAnimator.class,"mLoopViews"));
+
+            assertNotNull(compLayout.getOutAnimation());
+            assertEquals(compLayout.getOutAnimation(),parsedLayout.getOutAnimation());
+
+            // AdapterViewFlipper
+            assertTrue(compLayout.isAutoStart());
+            assertEquals(compLayout.isAutoStart(),parsedLayout.isAutoStart());
+
+            assertEquals(compLayout.getFlipInterval(),2000);
+            assertEquals(compLayout.getFlipInterval(),parsedLayout.getFlipInterval());
         }
 
 

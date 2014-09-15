@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class AttrDescGravityUtil
 {
-    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>();
+    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 14 );
 
     static
     {

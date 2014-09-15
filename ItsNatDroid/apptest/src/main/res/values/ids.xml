@@ -13,5 +13,7 @@
     <item name="expanListViewTestId" type="id">expanListViewTestId</item>
     <item name="spinnerDialogTestId" type="id">spinnerDialogTestId</item>
     <item name="spinnerDropdownTestId" type="id">spinnerDropdownTestId</item>
+    <item name="adapterViewAnimatorTestId" type="id">adapterViewAnimatorTestId</item>
+
 
 </resources>

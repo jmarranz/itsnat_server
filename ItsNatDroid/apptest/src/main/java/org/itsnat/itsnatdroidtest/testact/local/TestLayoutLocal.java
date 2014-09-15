@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
@@ -109,21 +110,22 @@ public class TestLayoutLocal
                 if (layout.findViewByXMLId("textViewTest1") != textViewTest1)
                     throw new RuntimeException("FAIL");
 
-                defineGridView(act,dynamicRootView);
-                defineExpandableListView(act,dynamicRootView);
-                defineSpinnerDialog(act,dynamicRootView);
-                defineSpinnerDropdown(act,dynamicRootView);
-
-//System.out.println("DEFAULT VALUE: " + dynamicRootView.getDrawingCacheQuality());
+                defineInitalData(act,dynamicRootView);
 
                 TestLocalXMLInflate.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
             }
         });
 
-        defineGridView(act,compiledRootView);
-        defineExpandableListView(act,compiledRootView);
-        defineSpinnerDialog(act,compiledRootView);
-        defineSpinnerDropdown(act,compiledRootView);
+        defineInitalData(act,compiledRootView);
+    }
+
+    private static void defineInitalData(TestActivity act,View rootView)
+    {
+        defineGridView(act, rootView);
+        defineExpandableListView(act, rootView);
+        defineSpinnerDialog(act, rootView);
+        defineSpinnerDropdown(act, rootView);
+        defineAdapterViewAnimator(act, rootView);
     }
 
     private static void defineGridView(TestActivity act,View rootView)
@@ -132,26 +134,6 @@ public class TestLayoutLocal
         GridView gridView = (GridView)rootView.findViewById(R.id.gridViewTestId);
         CharSequence[] entries = res.getTextArray(R.array.sports_array);
         ((GridView)gridView).setAdapter(new ArrayAdapter<CharSequence>(act, android.R.layout.simple_list_item_1, entries));
-    }
-
-    private static void defineSpinnerDialog(TestActivity act,View rootView)
-    {
-        Resources res = act.getResources();
-        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDialogTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
-                R.array.sports_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Aunque parece que es para dropdown sirve para dialog también y queda mejor que sin definir
-        ((Spinner)gridView).setAdapter(adapter);
-    }
-
-    private static void defineSpinnerDropdown(TestActivity act,View rootView)
-    {
-        Resources res = act.getResources();
-        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDropdownTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
-                R.array.sports_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ((Spinner)gridView).setAdapter(adapter);
     }
 
     private static void defineExpandableListView(TestActivity act,View rootView)
@@ -203,8 +185,40 @@ public class TestLayoutLocal
                 new int[] { android.R.id.text1, android.R.id.text2 }
         );
 
-        ((ExpandableListView)listView).setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
     }
+
+    private static void defineSpinnerDialog(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDialogTestId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Aunque parece que es para dropdown sirve para dialog también y queda mejor que sin definir
+        gridView.setAdapter(adapter);
+    }
+
+    private static void defineSpinnerDropdown(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDropdownTestId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gridView.setAdapter(adapter);
+    }
+
+    private static void defineAdapterViewAnimator(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        AdapterViewFlipper viewFlipper = (AdapterViewFlipper)rootView.findViewById(R.id.adapterViewAnimatorTestId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_list_item_1);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        viewFlipper.setAdapter(adapter);
+    }
+
+
 
     private static void changeLayout(TestActivityTabFragment fragment,View rootView)
     {

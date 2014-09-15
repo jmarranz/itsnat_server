@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_widget_GridView_stretchMode extends AttrDescReflecSingleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
     static
     {
         valueMap.put("none", GridView.NO_STRETCH);

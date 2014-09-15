@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_view_View_scrollbarStyle extends AttrDescReflecSingleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
     static
     {
         valueMap.put("insideOverlay", View.SCROLLBARS_INSIDE_OVERLAY);

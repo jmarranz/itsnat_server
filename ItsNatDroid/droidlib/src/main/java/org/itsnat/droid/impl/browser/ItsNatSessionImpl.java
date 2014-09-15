@@ -20,7 +20,7 @@ public class ItsNatSessionImpl implements ItsNatSession
     protected String stdSessionId;
     protected String id;
     protected String token;
-    protected Map<String,PageImpl> pageMap = new HashMap<String, PageImpl>();
+    protected Map<String,PageImpl> pageMap = new HashMap<String, PageImpl>( 5 );
     protected List<Page> pageList = new LinkedList<Page>();
 
     public ItsNatSessionImpl(ItsNatDroidBrowserImpl browser,String stdSessionId,String token,String id)

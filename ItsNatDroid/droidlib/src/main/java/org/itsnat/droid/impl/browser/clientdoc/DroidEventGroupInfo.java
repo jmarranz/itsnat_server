@@ -30,7 +30,7 @@ public class DroidEventGroupInfo
     public static final int TEXT_CHANGE_EVENT = 4;
     public static final int OTHER_EVENT = 5;
 
-    protected static final Map<String,DroidEventGroupInfo> eventGroups = new HashMap<String,DroidEventGroupInfo>(); // no sincronizamos porque es sólo lectura
+    protected static final Map<String,DroidEventGroupInfo> eventGroups = new HashMap<String,DroidEventGroupInfo>( 16 ); // no sincronizamos porque es sólo lectura
     protected static final DroidEventGroupInfo eventGroupUnknownDefault = new DroidEventGroupInfo(UNKNOWN_EVENT);
 
     static

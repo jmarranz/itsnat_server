@@ -502,7 +502,7 @@
             android:popupBackground="#eeee55"
             android:spinnerMode="dropdown"
             >
-        </Spinner> <!-- android:spinnerMode="dropdown" -->
+        </Spinner>
 
         <!-- Test Spinner (dialog) -->
         <Spinner
@@ -512,9 +512,22 @@
             android:prompt="@string/sport_list"
             android:spinnerMode="dialog"
             >
-        </Spinner> <!-- android:spinnerMode="dialog" -->
+        </Spinner>
 
+        <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
+        <AdapterViewFlipper
+            android:id="@id/adapterViewAnimatorTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/object_animator_test"
+            android:loopViews="true"
+            android:outAnimation="@animator/object_animator_test"
+            android:autoStart="true"
+            android:flipInterval="2000"
+            >
 
+        </AdapterViewFlipper>
 
     </LinearLayout>
 

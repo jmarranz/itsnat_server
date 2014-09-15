@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_view_ViewGroup_persistentDrawingCache extends AttrDescReflecMultipleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
     static
     {
         valueMap.put("none",ViewGroup.PERSISTENT_NO_CACHE);

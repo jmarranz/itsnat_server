@@ -1,8 +1,4 @@
 
-* Evitar los errores de los atributos dropDown
-
-* MapLight evitar el iterator
-
 * Numero de items  en el constructor de los HashMap de opciones (optimización)
 
 * Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams

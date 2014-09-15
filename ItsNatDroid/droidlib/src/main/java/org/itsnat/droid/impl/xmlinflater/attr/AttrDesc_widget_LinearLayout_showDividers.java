@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class AttrDesc_widget_LinearLayout_showDividers extends AttrDescReflecMultipleName
 {
-    static Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
     static
     {
         valueMap.put("none", LinearLayout.SHOW_DIVIDER_NONE);

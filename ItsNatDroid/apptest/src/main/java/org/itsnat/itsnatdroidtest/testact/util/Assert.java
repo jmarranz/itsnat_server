@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.util;
 
+import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -98,5 +99,12 @@ public class Assert
         if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
-
+    public static void assertEquals(ObjectAnimator a,ObjectAnimator b)
+    {
+        // Comparamos unas cuantas propiedades
+        assertEquals(a.getPropertyName(),b.getPropertyName());
+        assertEquals(a.getTarget().getClass().getName(),a.getTarget().getClass().getName());
+        assertEquals(a.getDuration(),b.getDuration());
+        assertEquals(a.getRepeatMode(),b.getRepeatMode());
+    }
 }
