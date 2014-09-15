@@ -44,62 +44,73 @@ public class ClassDescViewMgr
         ClassDesc_view_View view_View = new ClassDesc_view_View();
         addClassDescViewBase(view_View);
 
-          ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
-          addClassDescViewBase(view_ViewGroup);
+            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
+            addClassDescViewBase(view_ViewGroup);
+            init_view_ViewGroup(view_ViewGroup);
 
-            // AbsoluteLayout y su derivada (WebView) no tienen atributos
+            ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
+            addClassDescViewBase(widget_TextView);
 
-            ClassDescViewBased widget_AdapterView = new ClassDescViewBased("android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
-            addClassDescViewBase(widget_AdapterView);
+                ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
+                addClassDescViewBase(widget_Button);
 
-                ClassDesc_widget_AbsListView widget_AbsListView = new ClassDesc_widget_AbsListView(widget_AdapterView);
-                addClassDescViewBase(widget_AbsListView);
+                    ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
+                    addClassDescViewBase(widget_CompoundButton);
 
-                    ClassDesc_widget_GridView widget_GridView = new ClassDesc_widget_GridView(widget_AbsListView);
-                    addClassDescViewBase(widget_GridView);
 
-                    ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(widget_AbsListView);
-                    addClassDescViewBase(widget_ListView);
-
-                        ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(widget_ListView);
-                        addClassDescViewBase(widget_ExListView);
-
-                ClassDesc_widget_AbsSpinner widget_AbsSpinner = new ClassDesc_widget_AbsSpinner(widget_AdapterView);
-                addClassDescViewBase(widget_AbsSpinner);
-
-                    ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(widget_AbsSpinner);
-                    addClassDescViewBase(widget_Gallery);
-
-                    ClassDesc_widget_Spinner widget_Spinner = new ClassDesc_widget_Spinner(widget_AbsSpinner);
-                    addClassDescViewBase(widget_Spinner);
-
-                ClassDesc_widget_AdapterViewAnimator widget_AdapterViewAnimator = new ClassDesc_widget_AdapterViewAnimator(widget_AdapterView);
-                addClassDescViewBase(widget_AdapterViewAnimator);
-
-                    ClassDesc_widget_AdapterViewFlipper widget_AdapterViewFlipper = new ClassDesc_widget_AdapterViewFlipper(widget_AdapterViewAnimator);
-                    addClassDescViewBase(widget_AdapterViewFlipper);
-
-            ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
-            addClassDescViewBase(widget_FrameLayout);
-
-            ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(view_ViewGroup);
-            addClassDescViewBase(widget_GridLayout);
-
-            ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
-            addClassDescViewBase(widget_LinearLayout);
-
-            ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(view_ViewGroup);
-            addClassDescViewBase(widget_RelativeLayout);
-
-          ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
-          addClassDescViewBase(widget_TextView);
-
-            ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
-            addClassDescViewBase(widget_Button);
-
-              ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
-              addClassDescViewBase(widget_CompoundButton);
     }
+
+    private void init_view_ViewGroup(ClassDesc_widget_ViewGroup view_ViewGroup)
+    {
+        // AbsoluteLayout y su derivada (WebView) no tienen atributos
+
+        ClassDescViewBased widget_AdapterView = new ClassDescViewBased("android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
+        addClassDescViewBase(widget_AdapterView);
+
+            ClassDesc_widget_AbsListView widget_AbsListView = new ClassDesc_widget_AbsListView(widget_AdapterView);
+            addClassDescViewBase(widget_AbsListView);
+
+                ClassDesc_widget_GridView widget_GridView = new ClassDesc_widget_GridView(widget_AbsListView);
+                addClassDescViewBase(widget_GridView);
+
+                ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(widget_AbsListView);
+                addClassDescViewBase(widget_ListView);
+
+                ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(widget_ListView);
+                addClassDescViewBase(widget_ExListView);
+
+            ClassDesc_widget_AbsSpinner widget_AbsSpinner = new ClassDesc_widget_AbsSpinner(widget_AdapterView);
+            addClassDescViewBase(widget_AbsSpinner);
+
+                ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(widget_AbsSpinner);
+                addClassDescViewBase(widget_Gallery);
+
+                ClassDesc_widget_Spinner widget_Spinner = new ClassDesc_widget_Spinner(widget_AbsSpinner);
+                addClassDescViewBase(widget_Spinner);
+
+            ClassDesc_widget_AdapterViewAnimator widget_AdapterViewAnimator = new ClassDesc_widget_AdapterViewAnimator(widget_AdapterView);
+            addClassDescViewBase(widget_AdapterViewAnimator);
+
+                ClassDesc_widget_AdapterViewFlipper widget_AdapterViewFlipper = new ClassDesc_widget_AdapterViewFlipper(widget_AdapterViewAnimator);
+                addClassDescViewBase(widget_AdapterViewFlipper);
+
+                // StackView no tiene atributos
+
+        ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
+        addClassDescViewBase(widget_FrameLayout);
+
+        ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(view_ViewGroup);
+        addClassDescViewBase(widget_GridLayout);
+
+        ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
+        addClassDescViewBase(widget_LinearLayout);
+
+        ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(view_ViewGroup);
+        addClassDescViewBase(widget_RelativeLayout);
+
+        // android.support.v4.widget.DrawerLayout no tiene atributos y es clase final
+    }
+
 
     private void addClassDescViewBase(ClassDescViewBased viewDesc)
     {

@@ -837,8 +837,9 @@ public class TestLocalXMLInflate
             assertTrue(compLayout.isAutoStart());
             assertEquals(compLayout.isAutoStart(),parsedLayout.isAutoStart());
 
-            assertEquals(compLayout.getFlipInterval(),2000);
-            assertEquals(compLayout.getFlipInterval(),parsedLayout.getFlipInterval());
+            // android:flipInterval  (getFlipInterval es Level 16)
+            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
+            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 
 
