@@ -86,7 +86,11 @@
                         android:requiresFadingEdge="vertical|horizontal"
                         android:fadingEdgeLength="10dp"
                         android:scrollbarAlwaysDrawHorizontalTrack="true"
-                        android:scrollbarAlwaysDrawVerticalTrack="true">
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:scrollbarThumbHorizontal="@drawable/scrollbar_thumb_test"
+                        android:scrollbarThumbVertical="@drawable/scrollbar_thumb_test"
+                        android:scrollbarTrackHorizontal="@drawable/scrollbar_track_test"
+                        android:scrollbarTrackVertical="@drawable/scrollbar_track_test">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -390,7 +394,8 @@
                 android:layout_height="wrap_content"
                 android:text="Test RelativeLayout.LayoutParams"
                 android:background="#aaaaaa"
-                android:layout_alignParentBottom="true"/>
+                android:layout_alignParentBottom="true"
+                android:layout_alignWithParentIfMissing="true" />
 
             <TextView
                 android:layout_width="wrap_content"

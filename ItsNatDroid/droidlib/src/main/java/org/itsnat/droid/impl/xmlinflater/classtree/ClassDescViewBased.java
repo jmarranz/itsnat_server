@@ -14,6 +14,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
@@ -57,9 +58,8 @@ public class ClassDescViewBased
 
     private Class<View> initClass()
     {
-        if (clasz != null) return clasz;
-        try { return this.clasz = (Class<View>)Class.forName(className); }
-        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+        if (clasz == null) this.clasz = (Class<View>)MiscUtil.resolveClass(className);
+        return clasz;
     }
 
     protected boolean isInit()

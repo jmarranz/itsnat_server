@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescReflecColor extends AttrDescMethodReflection
+public class AttrDescReflecColor extends AttrDescReflecMethod
 {
     protected String defaultValue;
 

@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecId extends AttrDescMethodReflection
+public class AttrDescReflecId extends AttrDescReflecMethod
 {
     public AttrDescReflecId(ClassDescViewBased parent, String name, String methodName)
     {

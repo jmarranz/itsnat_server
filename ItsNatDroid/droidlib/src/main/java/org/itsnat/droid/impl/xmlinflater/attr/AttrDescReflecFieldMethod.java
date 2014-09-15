@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescFieldMethodReflection extends AttrDesc
+public abstract class AttrDescReflecFieldMethod extends AttrDesc
 {
     protected String fieldName;
     protected String methodName;
@@ -21,8 +21,7 @@ public abstract class AttrDescFieldMethodReflection extends AttrDesc
     protected Field field;
     protected Method method;
 
-    public AttrDescFieldMethodReflection(ClassDescViewBased parent, String name,String fieldName,String methodName,
-                                         Class methodClass,Class paramClass)
+    public AttrDescReflecFieldMethod(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
     {
         super(parent,name);
         this.fieldName = fieldName;

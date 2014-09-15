@@ -194,7 +194,8 @@ public abstract class AttrDesc
 
     public static int getDimensionInt(String attrValue, Context ctx)
     {
-        return (int)getDimensionFloat(attrValue,ctx);
+        //return (int)getDimensionFloat(attrValue,ctx);
+        return Math.round(getDimensionFloat(attrValue,ctx));
     }
 
     public static float getDimensionFloat(String attrValue, Context ctx)

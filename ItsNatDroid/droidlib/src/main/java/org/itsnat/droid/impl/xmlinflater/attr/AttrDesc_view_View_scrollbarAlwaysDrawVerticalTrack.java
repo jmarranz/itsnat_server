@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
@@ -11,12 +11,12 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack extends AttrDescFieldFieldMethodReflection
+public class AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack extends AttrDescReflecFieldFieldMethod
 {
     public AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack(ClassDescViewBased parent)
     {
         super(parent,"scrollbarAlwaysDrawVerticalTrack","mScrollCache","scrollBar","setAlwaysDrawVerticalTrack",
-                resolveClass("android.view.View$ScrollabilityCache"),resolveClass("android.widget.ScrollBarDrawable"),
+                MiscUtil.resolveClass("android.view.View$ScrollabilityCache"),MiscUtil.resolveClass("android.widget.ScrollBarDrawable"),
                 boolean.class);
     }
 
@@ -41,9 +41,4 @@ public class AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack extends AttrDes
     }
 
 
-    public static Class resolveClass(String viewName)
-    {
-        try { return Class.forName(viewName); }
-        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-    }
 }

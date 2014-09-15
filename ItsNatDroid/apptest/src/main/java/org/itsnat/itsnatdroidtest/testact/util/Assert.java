@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -76,11 +77,20 @@ public class Assert
         {
             assertEquals(((ColorDrawable) a).getColor(), ((ColorDrawable) b).getColor());
         }
-        /*else if (a instanceof GradientDrawable)
+        else if (a instanceof GradientDrawable)
         {
+            Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
+            Drawable.ConstantState sb = ((GradientDrawable) b).getConstantState();
 
-        }*/
+            assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),(Integer)TestUtil.getField(sb,"mStrokeWidth"));
+        }
         else throw new ItsNatDroidException("Cannot test");
+    }
+
+    public static void assertEqualsStrokeWidth(Drawable a,int b)
+    {
+        Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
+        assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),b);
     }
 
     public static void assertEquals(ColorStateList a,ColorStateList b)

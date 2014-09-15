@@ -9,4 +9,6 @@
     <size
         android:width="20dp"
         android:height="20dp" />
+
+    <stroke android:width="2dp" /> <!-- para el equals entre GradientDrawable -->
 </shape>

@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -22,9 +23,11 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertPositive;
@@ -38,7 +41,10 @@ public class TestLocalXMLInflate
 {
     public static void test(ScrollView compRoot,ScrollView parsedRoot)
     {
+        Resources res = compRoot.getContext().getResources();
+
         // comp = "Layout compiled"
+        // parsed = "Layout dynamically parsed"
         // No podemos testear layout_width/height en el ScrollView root porque un View está desconectado y al desconectar el width y el height se ponen a 0
         // assertEquals(comp.getWidth(),parsed.getWidth());
         // assertEquals(comp.getHeight(),parsed.getHeight());
@@ -137,7 +143,7 @@ public class TestLocalXMLInflate
 
                 // Test android:scrollbarAlwaysDrawHorizontalTrack
                 assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                        new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}));
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}));
                 assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
                                 new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}),
                              (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
@@ -146,12 +152,49 @@ public class TestLocalXMLInflate
 
                 // Test android:scrollbarAlwaysDrawVerticalTrack
                 assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                        new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}));
+                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}));
                 assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
                                 new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}),
                         (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
                                 new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"})
                 );
+
+                // Test android:scrollbarThumbHorizontal
+                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}),
+                                        ValueUtil.dpToPixelInt(0.9f,res));
+                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mHorizontalThumb"}),
+                             (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mHorizontalThumb"})
+                );
+
+                // Test android:scrollbarThumbVertical
+                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}),
+                                        ValueUtil.dpToPixelInt(0.9f,res));
+                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mVerticalThumb"}),
+                             (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mVerticalThumb"})
+                );
+
+                // Test android:scrollbarTrackHorizontal
+                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}),
+                                        ValueUtil.dpToPixelInt(0.9f,res));
+                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mHorizontalTrack"}),
+                        (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mHorizontalTrack"})
+                );
+
+                // Test android:scrollbarTrackVertical
+                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}),
+                                        ValueUtil.dpToPixelInt(0.9f,res));
+                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mVerticalTrack"}),
+                        (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
+                                new String[]{"mScrollCache", "scrollBar","mVerticalTrack"})
+                );
+
 
 
                 TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
@@ -405,9 +448,9 @@ public class TestLocalXMLInflate
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
             assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
-            // No se como testear dos GradientDrawable, si no se define devuelve otro tipo de Drawable
-            assertNotNull( (GradientDrawable)TestUtil.getField(compLinLayout, "mDivider") );
-            assertNotNull( (GradientDrawable)TestUtil.getField(parsedLinLayout, "mDivider") );
+            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLinLayout, "mDivider"),
+                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLinLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLinLayout, "mDivider"));
 
             assertEquals(compLinLayout.getShowDividers(), 3);
             assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
@@ -521,6 +564,9 @@ public class TestLocalXMLInflate
                 {
                     assertEquals(compTextRules[j],parsedTextRules[j]);
                 }
+
+//                if (i == 0)
+//                    assertEquals(compTextParams.alignWithParent,parsedTextParams.alignWithParent);
             }
         }
 
@@ -628,10 +674,11 @@ public class TestLocalXMLInflate
             final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
 
             // Test android:divider
-            // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
             // Test visual: líneas rojas separadoras de items
-            assertNotNull(((GradientDrawable) compLayout.getDivider()));
-            assertNotNull(((GradientDrawable) parsedLayout.getDivider()));
+            assertEqualsStrokeWidth(((GradientDrawable) compLayout.getDivider()),
+                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEquals(((GradientDrawable) compLayout.getDivider()), ((GradientDrawable) parsedLayout.getDivider()));
+
             assertPositive(compLayout.getDividerHeight());
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
             // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
@@ -651,15 +698,15 @@ public class TestLocalXMLInflate
             final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
 
             // Test android:childDivider, no hay método get
-            // No se como testear la igualdad de dos GradientDrawable, si no se define por defecto devuelve un NinePatchDrawable
             // Test visual: líneas rojas separadoras de items
-            assertNotNull((GradientDrawable)TestUtil.getField(compLayout, "mChildDivider"));
-            assertNotNull((GradientDrawable)TestUtil.getField(parsedLayout, "mChildDivider"));
+            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLayout, "mChildDivider"),
+                                    ValueUtil.dpToPixelInt(0.9f,res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
 
             // Test android:childIndicator, no hay método get, si no se define devuelve null
-            // No se como testear la igualdad de dos GradientDrawable
-            assertNotNull((GradientDrawable)TestUtil.getField(compLayout, "mChildIndicator"));
-            assertNotNull((GradientDrawable)TestUtil.getField(parsedLayout, "mChildIndicator"));
+            assertEqualsStrokeWidth((GradientDrawable)TestUtil.getField(compLayout, "mChildIndicator"),
+                                    ValueUtil.dpToPixelInt(2f,res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
 
             // Test android:childIndicatorLeft, no hay método get
             // No entiendo porqué mChildIndicatorLeft es cero incluso con el layout realizado

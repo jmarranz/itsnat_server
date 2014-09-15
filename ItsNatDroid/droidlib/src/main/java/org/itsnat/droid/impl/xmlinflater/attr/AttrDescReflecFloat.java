@@ -9,7 +9,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecFloat extends AttrDescMethodReflection
+public class AttrDescReflecFloat extends AttrDescReflecMethod
 {
     protected Float defaultValue;
 

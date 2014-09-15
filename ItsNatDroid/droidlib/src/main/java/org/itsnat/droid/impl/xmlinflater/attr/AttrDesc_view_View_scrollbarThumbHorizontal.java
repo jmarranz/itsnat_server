@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.util.MiscUtil;
@@ -11,18 +12,18 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack extends AttrDescReflecFieldFieldMethod
+public class AttrDesc_view_View_scrollbarThumbHorizontal extends AttrDescReflecFieldFieldMethod
 {
-    public AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack(ClassDescViewBased parent)
+    public AttrDesc_view_View_scrollbarThumbHorizontal(ClassDescViewBased parent)
     {
-        super(parent,"scrollbarAlwaysDrawHorizontalTrack","mScrollCache","scrollBar","setAlwaysDrawHorizontalTrack",
+        super(parent,"scrollbarThumbHorizontal","mScrollCache","scrollBar","setHorizontalThumbDrawable",
                 MiscUtil.resolveClass("android.view.View$ScrollabilityCache"), MiscUtil.resolveClass("android.widget.ScrollBarDrawable"),
-                boolean.class);
+                Drawable.class);
     }
 
     public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final boolean convertedValue = getBoolean(value, view.getContext());
+        final Drawable convertedValue = getDrawable(value, view.getContext());
 
         // Delegamos al final para que esté totalmente claro si hay o no scrollbars
         pending.addTask(new Runnable()
@@ -37,7 +38,7 @@ public class AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack extends AttrD
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"false",null,null);
+        // No se que hacer, el null no es el valor por defecto
     }
 
 }

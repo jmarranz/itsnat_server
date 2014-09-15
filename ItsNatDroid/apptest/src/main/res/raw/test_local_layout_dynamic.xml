@@ -1,9 +1,9 @@
 <org.itsnat.itsnatdroidtest.testact.util.CustomScrollView
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.itsnat.itsnatdroidtest.MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/button_reload" />
 
-        <!-- Testing misc attribs (for instance access resources by res id) -->
+        <!-- Testing misc attribs (for instance access resources by res id or literal) -->
         <RelativeLayout android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
@@ -32,7 +32,10 @@
                       android:layout_height="wrap_content"
                       android:text="@string/hello_world1"
                       android:textSize="15dp"
-                      android:padding="@dimen/activity_horizontal_margin"
+                      android:paddingLeft="@dimen/activity_horizontal_margin"
+                      android:paddingRight="@dimen/activity_horizontal_margin"
+                      android:paddingTop="@dimen/activity_vertical_margin"
+                      android:paddingBottom="@dimen/activity_vertical_margin"
                       android:textColor="#0000ff"
                       android:background="@android:color/holo_green_light"
                       android:layout_alignParentTop="true"
@@ -54,7 +57,7 @@
             android:text="Test Custom View"
             android:background="#ffdddd"/>
 
-        <!-- Test View Attribs -->
+        <!-- Test View Attribs (level 15)-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,11 +72,12 @@
                 android:clickable="false"
                 android:contentDescription="For Testing View Attribs"
                 android:drawingCacheQuality="high"
-                android:duplicateParentState="true"
-                />
+                android:duplicateParentState="true"/>
 
             <!-- Necesario un ScrollView o similar para poder testear fadeScrollbars, en TextView es ignorado
                 requiresFadingEdge es necesario para que no se ignore fadingEdgeLength
+                Por otra parte scrollbarAlwaysDrawHorizontalTrack y scrollbarAlwaysDrawVerticalTrack necesita un componente
+                que soporte scrollbars
              -->
             <ScrollView android:layout_width="match_parent"
                         android:layout_height="15dp"
@@ -82,7 +86,11 @@
                         android:requiresFadingEdge="vertical|horizontal"
                         android:fadingEdgeLength="10dp"
                         android:scrollbarAlwaysDrawHorizontalTrack="true"
-                        android:scrollbarAlwaysDrawVerticalTrack="true">
+                        android:scrollbarAlwaysDrawVerticalTrack="true"
+                        android:scrollbarThumbHorizontal="@drawable/scrollbar_thumb_test"
+                        android:scrollbarThumbVertical="@drawable/scrollbar_thumb_test"
+                        android:scrollbarTrackHorizontal="@drawable/scrollbar_track_test"
+                        android:scrollbarTrackVertical="@drawable/scrollbar_track_test">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -133,7 +141,6 @@
                 android:translationX="10dp"
                 android:translationY="10dp"
                 />
-
         </LinearLayout>
 
         <!-- Test ViewGroup Attribs -->
@@ -387,7 +394,8 @@
                       android:layout_height="wrap_content"
                       android:text="Test RelativeLayout.LayoutParams"
                       android:background="#aaaaaa"
-                      android:layout_alignParentBottom="true"/>
+                      android:layout_alignParentBottom="true"
+                      android:layout_alignWithParentIfMissing="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -440,6 +448,7 @@
             android:entries="@array/sports_array"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
+
             > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
         </ListView>
 
@@ -472,14 +481,13 @@
         Gallery está deprecated pero desde el level 16 -->
         <Gallery
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="60dp"
             android:background="#dddddd"
             android:entries="@array/sports_array"
             android:animationDuration="100"
             android:gravity="center_vertical"
             android:spacing="50dp"
-            android:unselectedAlpha="0.6"
-            >
+            android:unselectedAlpha="0.6">
         </Gallery>
 
         <!-- Test Spinner (dropdown) -->
@@ -505,6 +513,8 @@
             android:spinnerMode="dialog"
             >
         </Spinner> <!-- android:spinnerMode="dialog" -->
+
+
 
     </LinearLayout>
 

@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  *
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_view_View_id extends AttrDescMethodReflection
+public class AttrDesc_view_View_id extends AttrDescReflecMethod
 {
     public AttrDesc_view_View_id(ClassDescViewBased parent)
     {

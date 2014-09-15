@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecObject;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_drawingCacheQuality;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_id;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layerType;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_alignWithParentIfMissing;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_column;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_columnSpan;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_layout_gravity;
@@ -34,6 +35,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_requiresFadingE
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarStyle;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarThumbHorizontal;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarThumbVertical;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarTrackHorizontal;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_scrollbarTrackVertical;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_View_visibility;
 
 /**
@@ -104,9 +109,13 @@ public class ClassDesc_view_View extends ClassDescViewBased
         // android:scrollbarFadeDuration es Level 16
         // android:scrollbarSize es Level 16
         addAttrDesc(new AttrDesc_view_View_scrollbarStyle(this)); // scrollbarStyle
-        // android:scrollbarThumbHorizontal y android:scrollbarThumbVertical no parecen tener métodos nativos asociados
-        // android:scrollbarTrackHorizontal y android:scrollbarTrackVertical no parecen tener métodos nativos asociados
-        // android:scrollbars no parece tener métodos nativos asociados
+
+        addAttrDesc(new AttrDesc_view_View_scrollbarThumbHorizontal(this));
+        addAttrDesc(new AttrDesc_view_View_scrollbarThumbVertical(this));
+        addAttrDesc(new AttrDesc_view_View_scrollbarTrackHorizontal(this));
+        addAttrDesc(new AttrDesc_view_View_scrollbarTrackVertical(this));
+
+        // android:scrollbars está basado en flags, es difícil de implementar
         addAttrDesc(new AttrDescReflecBoolean(this,"soundEffectsEnabled",true));
         addAttrDesc(new AttrDescReflecObject(this,"tag"));
         // android:textAlignment es Level 17
@@ -157,7 +166,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignRight",RelativeLayout.ALIGN_RIGHT));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignStart",RelativeLayout.ALIGN_START));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_alignTop",RelativeLayout.ALIGN_TOP));
-        // android:layout_alignWithParentIfMissing sólo funciona como atributo, no existe una rule ALIGN_PARENT_IF_MISSING o similar (ver código fuente)
+        addAttrDesc(new AttrDesc_view_View_layout_alignWithParentIfMissing(this));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_below",RelativeLayout.BELOW));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_centerHorizontal",RelativeLayout.CENTER_HORIZONTAL));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byBoolean(this,"layout_centerInParent",RelativeLayout.CENTER_IN_PARENT));

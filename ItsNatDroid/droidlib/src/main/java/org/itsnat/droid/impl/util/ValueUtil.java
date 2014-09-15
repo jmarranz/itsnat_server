@@ -20,6 +20,12 @@ public class ValueUtil
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, res.getDisplayMetrics());
     }
 
+    public static int dpToPixelInt(float value,Resources res)
+    {
+        float valuePx = dpToPixel(value,res);
+        return Math.round(valuePx);
+    }
+
     public static float spToPixel(float value,Resources res)
     {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, value, res.getDisplayMetrics());
@@ -55,4 +61,6 @@ public class ValueUtil
         else
             return true; // Los dos son null
     }
+
+
 }
