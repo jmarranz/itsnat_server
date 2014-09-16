@@ -3,6 +3,7 @@ package org.itsnat.itsnatdroidtest.testact.util;
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -85,7 +86,16 @@ public class Assert
 
             assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),(Integer)TestUtil.getField(sb,"mStrokeWidth"));
         }
-        else throw new ItsNatDroidException("Cannot test");
+        else if (a instanceof BitmapDrawable)
+        {
+            BitmapDrawable a_bitmap = (BitmapDrawable)a;
+            BitmapDrawable b_bitmap = (BitmapDrawable)b;
+            assertEquals(a_bitmap.getBitmap().getByteCount(),b_bitmap.getBitmap().getByteCount());
+            assertEquals(a_bitmap.getBitmap().getWidth(),b_bitmap.getBitmap().getWidth());
+            assertEquals(a_bitmap.getBitmap().getHeight(),b_bitmap.getBitmap().getHeight());
+        }
+        else
+            throw new ItsNatDroidException("Cannot test");
     }
 
     public static void assertEqualsStrokeWidth(Drawable a,int b)
@@ -103,8 +113,10 @@ public class Assert
     {
         // Comparamos unas cuantas propiedades
         assertEquals(a.getPropertyName(),b.getPropertyName());
-        assertEquals(a.getTarget().getClass().getName(),a.getTarget().getClass().getName());
-        assertEquals(a.getDuration(),b.getDuration());
+//        assertEquals(a.getTarget().getClass().getName(),a.getTarget().getClass().getName());
+        assertTrue(a.getInterpolator().equals(b.getInterpolator()));
+
+        assertEquals(a.getDuration(), b.getDuration());
         assertEquals(a.getRepeatMode(),b.getRepeatMode());
     }
 }

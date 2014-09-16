@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.view.Gravity;
@@ -10,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterViewAnimator;
 import android.widget.AdapterViewFlipper;
+import android.widget.AnalogClock;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.ListView;
@@ -797,7 +800,7 @@ public class TestLocalXMLInflate
 
             // Tests android:popupBackground
             assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);
-            assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
+            assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
 
         }
 
@@ -841,6 +844,36 @@ public class TestLocalXMLInflate
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
+
+        childCount++;
+
+        // Test AnalogClock
+        {
+            final AnalogClock compLayout = (AnalogClock) comp.getChildAt(childCount);
+            final AnalogClock parsedLayout = (AnalogClock) parsed.getChildAt(childCount);
+
+            // android:dial
+            assertNotNull((Drawable)TestUtil.getField(compLayout, "mDial"));
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
+
+            // android:hand_hour
+            assertNotNull((Drawable) TestUtil.getField(compLayout, "mHourHand"));
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
+
+            // android:hand_minute
+            assertNotNull((Drawable) TestUtil.getField(compLayout, "mMinuteHand"));
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
+
+        }
+
+        childCount++;
+
+        // Test ImageView
+        {
+            final ImageView compLayout = (ImageView) comp.getChildAt(childCount);
+            final ImageView parsedLayout = (ImageView) parsed.getChildAt(childCount);
+        }
+
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

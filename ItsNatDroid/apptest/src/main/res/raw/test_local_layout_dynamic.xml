@@ -529,6 +529,25 @@
 
         </AdapterViewFlipper>
 
+        <!-- Test AnalogClock  -->
+        <AnalogClock
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:dial="@drawable/clock_dial"
+            android:hand_hour="@drawable/clock_hand_hour"
+            android:hand_minute="@drawable/clock_hand_minute"
+            > <!-- los drawables están copiados del SDK de Android retocados -->
+        </AnalogClock>
+
+        <!-- Test ImageView  -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+
+
+            android:src="@drawable/child_indicator_test"
+            />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

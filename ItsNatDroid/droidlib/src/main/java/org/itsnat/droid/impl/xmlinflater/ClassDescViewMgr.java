@@ -10,12 +10,14 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewFlipper;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Gallery;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ImageView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
@@ -46,7 +48,16 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
             addClassDescViewBase(view_ViewGroup);
-            init_view_ViewGroup(view_ViewGroup);
+            init_view_ViewGroup_subClasses(view_ViewGroup);
+
+            ClassDesc_widget_AnalogClock widget_AnalogClock = new ClassDesc_widget_AnalogClock(view_View);
+            addClassDescViewBase(widget_AnalogClock);
+
+            ClassDesc_widget_ImageView widget_ImageView = new ClassDesc_widget_ImageView(view_View);
+            addClassDescViewBase(widget_ImageView);
+
+
+
 
             ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
             addClassDescViewBase(widget_TextView);
@@ -60,7 +71,7 @@ public class ClassDescViewMgr
 
     }
 
-    private void init_view_ViewGroup(ClassDesc_widget_ViewGroup view_ViewGroup)
+    private void init_view_ViewGroup_subClasses(ClassDesc_widget_ViewGroup view_ViewGroup)
     {
         // AbsoluteLayout y su derivada (WebView) no tienen atributos
 
