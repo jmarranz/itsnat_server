@@ -246,9 +246,9 @@ public class TestLocalXMLInflate1
                 assertTrue(compTextView2.isLongClickable());
                 assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
                 assertPositive((Integer)TestUtil.getField(compTextView2, View.class, "mMinHeight"));
-                assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (int) ((Integer)TestUtil.getField(parsedTextView2, View.class, "mMinHeight")));
+                assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (Integer)TestUtil.getField(parsedTextView2, View.class, "mMinHeight"));
                 assertPositive((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth"));
-                assertEquals( (int)((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth")),(int)((Integer)TestUtil.getField(parsedTextView2, View.class, "mMinWidth")) );
+                assertEquals((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth"),(Integer)TestUtil.getField(parsedTextView2, View.class, "mMinWidth") );
                 assertPositive(compTextView2.getNextFocusDownId());
                 assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
                 assertPositive(compTextView2.getNextFocusForwardId());
@@ -606,6 +606,7 @@ public class TestLocalXMLInflate1
             // No podemos testear android:drawSelectorOnTop porque no hay un isDrawSelectorOnTop
             assertFalse(compLayout.isFastScrollEnabled()); // Preferiría testear el true pero no se porqué razón se ignora el true
             assertEquals(compLayout.isFastScrollEnabled(), parsedLayout.isFastScrollEnabled());
+            // android:listSelector
             assertEquals(((ColorDrawable)compLayout.getSelector()).getColor(), 0x6600ff00);
             assertEquals(compLayout.getSelector(), parsedLayout.getSelector());
             assertFalse(compLayout.isScrollingCacheEnabled());
@@ -697,8 +698,8 @@ public class TestLocalXMLInflate1
 
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth(((GradientDrawable) compLayout.getDivider()), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals(((GradientDrawable) compLayout.getDivider()), ((GradientDrawable) parsedLayout.getDivider()));
+            assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelInt(0.9f, res));
+            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
 
             assertPositive(compLayout.getDividerHeight());
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
@@ -880,7 +881,7 @@ public class TestLocalXMLInflate1
             assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
 
             // android:hand_minute
-            assertNotNull((Drawable) TestUtil.getField(compLayout, "mMinuteHand"));
+            assertNotNull((Drawable)TestUtil.getField(compLayout,"mMinuteHand"));
             assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
 
         }

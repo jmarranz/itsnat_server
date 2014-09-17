@@ -19,7 +19,7 @@ public class ClassDesc_widget_FrameLayout extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecDrawable(this,"foreground"));
+        addAttrDesc(new AttrDescReflecDrawable(this,"foreground","@null"));
         addAttrDesc(new AttrDescReflecMultipleName(this,"foregroundGravity", GravityUtil.valueMap,"fill"));
         addAttrDesc(new AttrDescReflecBoolean(this,"measureAllChildren",false));
 

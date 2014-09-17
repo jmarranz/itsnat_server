@@ -59,7 +59,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
 
         // android:accessibilityLiveRegion es Level 19
         addAttrDesc(new AttrDescReflecFloat(this,"alpha",1f));
-        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable"));  // setBackground() es desde Android 4.1
+        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable","@null"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
         addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality

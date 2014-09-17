@@ -20,7 +20,7 @@ public class TestUtil
 
     public static void alertDialog(Context ctx,String title,String content)
     {
-        new AlertDialog.Builder(ctx).setTitle("XML").setMessage(content)
+        new AlertDialog.Builder(ctx).setTitle(title).setMessage(content)
         .setCancelable(false)
         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener()
         {
@@ -30,18 +30,18 @@ public class TestUtil
         }).setIcon(android.R.drawable.ic_dialog_alert).show();
     }
 
-    public static <T> T getField(Object obj,String fieldName)
+    public static Object getField(Object obj,String fieldName)
     {
         return getField(obj,obj.getClass(),fieldName);
     }
 
-    public static <T> T getField(Object obj,Class clasz,String fieldName)
+    public static Object getField(Object obj,Class clasz,String fieldName)
     {
         try
         {
             Field field = clasz.getDeclaredField(fieldName);
             field.setAccessible(true);
-            return (T)field.get(obj);
+            return field.get(obj);
         }
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }

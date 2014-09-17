@@ -12,14 +12,18 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  */
 public class AttrDescReflecDrawable extends AttrDescReflecMethod
 {
-    public AttrDescReflecDrawable(ClassDescViewBased parent, String name, String methodName)
+    protected String defaultValue;
+
+    public AttrDescReflecDrawable(ClassDescViewBased parent, String name, String methodName,String defaultValue)
     {
         super(parent,name,methodName);
+        this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecDrawable(ClassDescViewBased parent, String name)
+    public AttrDescReflecDrawable(ClassDescViewBased parent, String name,String defaultValue)
     {
         super(parent, name);
+        this.defaultValue = defaultValue;
     }
 
     protected Class<?> getClassParam()
@@ -35,6 +39,7 @@ public class AttrDescReflecDrawable extends AttrDescReflecMethod
 
     public void removeAttribute(View view)
     {
-        callMethod(view, null); // El null equivaldría a un "@null" en el atributo
+        if (defaultValue != null) // Para especificar null se ha de usar "@null"
+            setAttribute(view,defaultValue,null,null); // defaultValue puede ser null (ej attr background), también valdría "@null" en el atributo
     }
 }

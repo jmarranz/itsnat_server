@@ -3,10 +3,13 @@ package org.itsnat.itsnatdroidtest.testact.local;
 import android.content.res.Resources;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -98,14 +101,48 @@ public class TestLocalXMLInflate2
             assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
             // android:hint (no tiene método get)
-
-
-
+            // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
             assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
-            //assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
+            assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+
+        }
+
+        childCount++;
+
+        // Test ProgressBar (indeterminate)
+        {
+            final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
+            final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
+
+            assertTrue(compLayout.isIndeterminate());
+            assertEquals(compLayout.isIndeterminate(), parsedLayout.isIndeterminate());
+
+            // android:indeterminateBehavior
+            assertEquals((Integer) TestUtil.getField(compLayout, "mBehavior"), 2);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mBehavior"), (Integer) TestUtil.getField(parsedLayout, "mBehavior"));
+
+            assertNotNull((LayerDrawable) compLayout.getIndeterminateDrawable());
+            assertEquals((LayerDrawable)compLayout.getIndeterminateDrawable(),(LayerDrawable)parsedLayout.getIndeterminateDrawable());
+
+            // android:indeterminateDuration
+            assertEquals((Integer) TestUtil.getField(compLayout, "mDuration"), 6000);
+            assertEquals((Integer) TestUtil.getField(compLayout, "mDuration"), (Integer) TestUtil.getField(parsedLayout, "mDuration"));
+
+            // android:indeterminateOnly
+            assertTrue((Boolean) TestUtil.getField(compLayout, "mOnlyIndeterminate"));
+            assertEquals((Boolean) TestUtil.getField(compLayout,"mOnlyIndeterminate"), (Boolean) TestUtil.getField(parsedLayout, "mOnlyIndeterminate"));
+
+            // android:interpolator
+            // LinearInterpolator no tiene atributos, simplemente el valor suministrado es devuelto como tal por lo que
+            // todos los objetos LinearInterpolator son iguales funcionalmente aunque no sean iguales como instancia
+            // testear la no nulidad y el tipo es suficiente
+            // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/view/animation/LinearInterpolator.java?av=f
+            assertNotNull((LinearInterpolator)compLayout.getInterpolator());
+            assertNotNull((LinearInterpolator)parsedLayout.getInterpolator());
 
 
         }
+
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");

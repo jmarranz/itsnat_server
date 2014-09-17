@@ -28,7 +28,7 @@ public class ClassDesc_widget_ImageView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecDimensionInt(this,"maxHeight",(float)Integer.MAX_VALUE));
         addAttrDesc(new AttrDescReflecDimensionInt(this,"maxWidth",(float)Integer.MAX_VALUE));
         addAttrDesc(new AttrDesc_widget_ImageView_scaleType(this));
-        addAttrDesc(new AttrDescReflecDrawable(this,"src","setImageDrawable"));
+        addAttrDesc(new AttrDescReflecDrawable(this,"src","setImageDrawable","@null"));
         addAttrDesc(new AttrDescReflecColor(this,"tint","setColorFilter","#000000"));
 
 

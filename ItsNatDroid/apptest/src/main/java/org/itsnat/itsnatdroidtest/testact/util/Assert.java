@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RotateDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -94,8 +96,34 @@ public class Assert
             assertEquals(a_bitmap.getBitmap().getWidth(),b_bitmap.getBitmap().getWidth());
             assertEquals(a_bitmap.getBitmap().getHeight(),b_bitmap.getBitmap().getHeight());
         }
+        else if (a instanceof LayerDrawable)
+        {
+            LayerDrawable a_layer = (LayerDrawable)a;
+            LayerDrawable b_layer = (LayerDrawable)b;
+
+            assertEquals(a_layer.getNumberOfLayers(),a_layer.getNumberOfLayers());
+            for(int i = 0; i < a_layer.getNumberOfLayers(); i++)
+            {
+                assertEquals(a_layer.getDrawable(i), b_layer.getDrawable(i));
+            }
+        }
+        else if (a instanceof RotateDrawable)
+        {
+            RotateDrawable a_rot = (RotateDrawable)a;
+            RotateDrawable b_rot = (RotateDrawable)b;
+
+            assertEquals(a_rot.getDrawable(), b_rot.getDrawable());
+
+            /*
+            Drawable.ConstantState sa = a_rot.getConstantState();
+            Drawable.ConstantState sb = b_rot.getConstantState();
+
+            Class clasz = TestUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
+            assertEquals((Integer)TestUtil.getField(sa,clasz,"mStrokeWidth"),(Integer)TestUtil.getField(sb,clasz,"mStrokeWidth"));
+            */
+        }
         else
-            throw new ItsNatDroidException("Cannot test");
+            throw new ItsNatDroidException("Cannot test " + a);
     }
 
     public static void assertEqualsStrokeWidth(Drawable a,int b)

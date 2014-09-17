@@ -24,7 +24,7 @@ public class ClassDesc_widget_AbsListView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_AbsListView_choiceMode(this));
         addAttrDesc(new AttrDescReflecBoolean(this,"drawSelectorOnTop",false));
         addAttrDesc(new AttrDescReflecBoolean(this,"fastScrollEnabled",false));
-        addAttrDesc(new AttrDescReflecDrawable(this,"listSelector","setSelector"));
+        addAttrDesc(new AttrDescReflecDrawable(this,"listSelector","setSelector",null)); // Hay un drawable por defecto de Android
         addAttrDesc(new AttrDescReflecBoolean(this,"scrollingCache","setScrollingCacheEnabled",false));
         addAttrDesc(new AttrDescReflecBoolean(this,"smoothScrollbar","setSmoothScrollbarEnabled",true));
         addAttrDesc(new AttrDescReflecBoolean(this,"stackFromBottom",false));

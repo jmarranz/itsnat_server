@@ -21,15 +21,15 @@ public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends Attr
     {
         if (pending != null)
         {
-            Runnable task = new Runnable()
+            // Necesitamos añadir los children para poder indicarlo por su índice
+            pending.addTask(new Runnable()
             {
                 @Override
                 public void run()
                 {
                     AttrDesc_widget_LinearLayout_baselineAlignedChildIndex.super.setAttribute(view,value,oneTimeAttrProcess,pending);
                 }
-            };
-            pending.addTask(task);
+            });
         }
         else super.setAttribute(view,value,oneTimeAttrProcess,pending);
     }

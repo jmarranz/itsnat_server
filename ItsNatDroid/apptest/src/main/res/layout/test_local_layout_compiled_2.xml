@@ -35,8 +35,23 @@
             android:maxWidth="1000dp"
             android:scaleType="centerInside"
             android:src="@drawable/child_indicator_test"
-            android:tint="#55eeee55"
-            /> <!--  -->
+            android:tint="#55eeee55"/>
+
+        <!-- Test ProgressBar (indeterminate) -->
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#ffdddd"
+            android:animationResolution="100"
+            android:indeterminate="true"
+            android:indeterminateBehavior="cycle"
+            android:indeterminateDrawable="@drawable/progress_medium_holo"
+            android:indeterminateDuration="6000"
+            android:indeterminateOnly="true"
+            android:interpolator="@android:anim/linear_interpolator"
+            />
+
+
 
     </LinearLayout>
 

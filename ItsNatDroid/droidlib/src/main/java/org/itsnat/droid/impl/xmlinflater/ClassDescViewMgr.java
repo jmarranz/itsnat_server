@@ -20,6 +20,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ImageView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
@@ -55,6 +56,13 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_ImageView widget_ImageView = new ClassDesc_widget_ImageView(view_View);
             addClassDescViewBase(widget_ImageView);
+                // ImageButton no tiene atributos
+                    // ZoomButton no tiene atributos
+
+            // android.support.v7.app.MediaRouteButton no tiene atributos
+
+            ClassDesc_widget_ProgressBar widget_ProgressBar = new ClassDesc_widget_ProgressBar(view_View);
+            addClassDescViewBase(widget_ProgressBar);
 
 
 

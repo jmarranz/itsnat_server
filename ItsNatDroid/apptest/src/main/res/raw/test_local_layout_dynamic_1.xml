@@ -265,8 +265,7 @@
             android:layout_height="wrap_content"
             android:foreground="#55ddffdd"
             android:foregroundGravity="top|left"
-            android:measureAllChildren="true"
-            >
+            android:measureAllChildren="true">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -447,9 +446,7 @@
             android:dividerHeight="2dp"
             android:entries="@array/sports_array"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-
-            > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
+            android:headerDividersEnabled="false"> <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
         </ListView>
 
         <!-- Test ExpandableListView -->
@@ -538,6 +535,7 @@
             android:hand_minute="@drawable/clock_hand_minute"
             > <!-- los drawables están copiados del SDK de Android retocados -->
         </AnalogClock>
+
 
     </LinearLayout>
 

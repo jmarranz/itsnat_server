@@ -26,7 +26,7 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
 
         addAttrDesc(new AttrDescReflecBoolean(this,"baselineAligned",true));
         addAttrDesc(new AttrDesc_widget_LinearLayout_baselineAlignedChildIndex(this));
-        addAttrDesc(new AttrDescReflecDrawable(this,"divider","setDividerDrawable"));
+        addAttrDesc(new AttrDescReflecDrawable(this,"divider","setDividerDrawable",null)); // Hay un drawable por defecto de Android
         // showDividers y dividerPadding atributos los he descubierto por casualidad en StackOverflow y resulta que son atributos NO documentados de LinearLayout (se ven en el código fuente)
         addAttrDesc(new AttrDesc_widget_LinearLayout_showDividers(this));  // showDividers
         addAttrDesc(new AttrDescReflecDimensionInt(this,"dividerPadding",0f));

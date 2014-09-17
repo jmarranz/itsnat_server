@@ -3,13 +3,18 @@
 
 * Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
 
-
-* Añadir método con el número de versión del framework
-
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas
 
- Utilizar el <a> por ejemplo en el ejemplo de control remoto
+    Utilizar el <a> por ejemplo en el ejemplo de control remoto
+
+* Testear en un layout aparte KeyboardView
+
+    http://developer.android.com/reference/android/inputmethodservice/Keyboard.html
+    http://developer.android.com/reference/android/inputmethodservice/KeyboardView.html
+    http://www.fampennings.nl/maarten/android/09keyboard/index.htm
+    http://alvinalexander.com/java/jwarehouse/android/core/java/android/inputmethodservice/KeyboardView.java.shtml
+
 
 * Ver como conseguir que un ListView obtenga sus entries y el layout de cada item desde el servidor
 

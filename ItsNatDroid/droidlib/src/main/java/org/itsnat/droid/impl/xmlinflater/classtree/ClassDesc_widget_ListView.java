@@ -19,7 +19,7 @@ public class ClassDesc_widget_ListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecDrawable(this,"divider"));
+        addAttrDesc(new AttrDescReflecDrawable(this,"divider",null)); // Android tiene un drawable por defecto
         addAttrDesc(new AttrDescReflecDimensionInt(this,"dividerHeight",0f));
         addAttrDesc(new AttrDesc_widget_ListViewAndAbsSpinner_entries(this));
         addAttrDesc(new AttrDescReflecBoolean(this,"footerDividersEnabled",true));

@@ -25,15 +25,22 @@ public class AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack extends AttrD
     {
         final boolean convertedValue = getBoolean(value, view.getContext());
 
-        // Delegamos al final para que esté totalmente claro si hay o no scrollbars
-        pending.addTask(new Runnable()
+        if (oneTimeAttrProcess != null)
         {
-            @Override
-            public void run()
+            // Delegamos al final para que esté totalmente claro si hay o no scrollbars
+            oneTimeAttrProcess.addLastTask(new Runnable()
             {
-                callFieldFieldMethod(view, convertedValue);
-            }
-        });
+                @Override
+                public void run()
+                {
+                    callFieldFieldMethod(view, convertedValue);
+                }
+            });
+        }
+        else
+        {
+            callFieldFieldMethod(view, convertedValue);
+        }
     }
 
     public void removeAttribute(View view)
