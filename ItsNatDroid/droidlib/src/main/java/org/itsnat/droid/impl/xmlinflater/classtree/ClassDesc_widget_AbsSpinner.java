@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_ListViewAndAbsSpinner_entries;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ListViewAndAbsSpinner_entries;
 
 /**
  * Created by jmarranz on 30/04/14.

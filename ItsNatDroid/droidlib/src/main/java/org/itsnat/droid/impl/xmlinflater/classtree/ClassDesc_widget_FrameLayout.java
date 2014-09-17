@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescGravityUtil;
+import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
@@ -20,7 +20,7 @@ public class ClassDesc_widget_FrameLayout extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDescReflecDrawable(this,"foreground"));
-        addAttrDesc(new AttrDescReflecMultipleName(this,"foregroundGravity",AttrDescGravityUtil.valueMap,"fill"));
+        addAttrDesc(new AttrDescReflecMultipleName(this,"foregroundGravity", GravityUtil.valueMap,"fill"));
         addAttrDesc(new AttrDescReflecBoolean(this,"measureAllChildren",false));
 
     }

@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_animateLayoutChanges;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_descendantFocusability;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_layoutAnimation;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_view_ViewGroup_persistentDrawingCache;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_animateLayoutChanges;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_descendantFocusability;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_layoutAnimation;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_persistentDrawingCache;
 
 /**
  * Created by jmarranz on 30/04/14.

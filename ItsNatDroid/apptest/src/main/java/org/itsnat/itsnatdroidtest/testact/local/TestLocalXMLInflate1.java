@@ -61,7 +61,17 @@ public class TestLocalXMLInflate1
 
         assertEquals(comp.getOrientation(),parsed.getOrientation());
 
-        int childCount = 1;
+        int childCount = 0;
+
+        // buttonBack
+        {
+            Button compButton = (Button) comp.getChildAt(childCount);
+            Button parsedButton = (Button) parsed.getChildAt(childCount);
+            assertEquals(compButton.getId(), parsedButton.getId());
+            assertEquals(compButton.getText(), parsedButton.getText());
+        }
+
+        childCount++;
 
         // buttonReload
         {

@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_AdapterViewAnimator_inAnimation;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_AdapterViewAnimator_loopViews;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_AdapterViewAnimator_outAnimation;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AdapterViewAnimator_inAnimation;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AdapterViewAnimator_loopViews;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AdapterViewAnimator_outAnimation;
 
 /**
  * Created by jmarranz on 30/04/14.

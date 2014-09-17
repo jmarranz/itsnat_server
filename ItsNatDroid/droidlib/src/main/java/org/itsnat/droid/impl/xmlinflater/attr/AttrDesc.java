@@ -300,24 +300,4 @@ public abstract class AttrDesc
     public abstract void removeAttribute(View view);
 }
 
-class Dimension
-{
-    private int complexUnit;
-    private float value;
 
-    public Dimension(int complexUnit,float value)
-    {
-        this.complexUnit = complexUnit;
-        this.value = value;
-    }
-
-    public int getComplexUnit()
-    {
-        return complexUnit;
-    }
-
-    public float getValue()
-    {
-        return value;
-    }
-}

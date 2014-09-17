@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_ExpandableListView_childIndicatorLeft;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_ExpandableListView_childIndicatorRight;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_ExpandableListView_indicatorLeft;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_ExpandableListView_indicatorRight;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_childIndicatorLeft;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_childIndicatorRight;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_indicatorLeft;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_indicatorRight;
 
 /**
  * Created by jmarranz on 30/04/14.

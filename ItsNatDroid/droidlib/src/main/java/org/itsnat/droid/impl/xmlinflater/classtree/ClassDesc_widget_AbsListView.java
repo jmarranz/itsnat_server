@@ -3,8 +3,8 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_AbsListView_choiceMode;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_AbsListView_transcriptMode;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AbsListView_choiceMode;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AbsListView_transcriptMode;
 
 /**
  * Created by jmarranz on 30/04/14.

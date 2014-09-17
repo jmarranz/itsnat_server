@@ -2,8 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_GridLayout_orientation;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc_widget_GridLayout_alignmentMode;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_GridLayout_orientation;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_GridLayout_alignmentMode;
 
 /**
  * Created by jmarranz on 30/04/14.
