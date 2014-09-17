@@ -24,7 +24,7 @@ public class AttrDesc_widget_GridView_stretchMode extends AttrDescReflecSingleNa
 
     public AttrDesc_widget_GridView_stretchMode(ClassDescViewBased parent)
     {
-        super(parent,"stretchMode",valueMap,"columnWidth");
+        super(parent,"stretchMode",int.class,valueMap,"columnWidth");
     }
 
 }

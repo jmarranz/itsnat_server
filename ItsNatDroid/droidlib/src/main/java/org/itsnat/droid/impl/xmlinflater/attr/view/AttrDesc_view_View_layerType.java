@@ -23,7 +23,7 @@ public class AttrDesc_view_View_layerType extends AttrDescReflecSingleName
 
     public AttrDesc_view_View_layerType(ClassDescViewBased parent)
     {
-        super(parent,"layerType",valueMap,"none");
+        super(parent,"layerType",int.class,valueMap,"none");
     }
 
     @Override

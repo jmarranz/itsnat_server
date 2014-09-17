@@ -23,7 +23,7 @@ public class AttrDesc_view_View_drawingCacheQuality extends AttrDescReflecSingle
 
     public AttrDesc_view_View_drawingCacheQuality(ClassDescViewBased parent)
     {
-        super(parent,"drawingCacheQuality",valueMap,"auto");
+        super(parent,"drawingCacheQuality",int.class,valueMap,"auto");
     }
 
 }

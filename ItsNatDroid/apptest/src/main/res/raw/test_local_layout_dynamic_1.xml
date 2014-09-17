@@ -539,15 +539,6 @@
             > <!-- los drawables están copiados del SDK de Android retocados -->
         </AnalogClock>
 
-        <!-- Test ImageView  -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-
-
-            android:src="@drawable/child_indicator_test"
-            />
-
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

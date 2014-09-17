@@ -22,7 +22,7 @@ public class AttrDesc_widget_GridLayout_orientation extends AttrDescReflecSingle
 
     public AttrDesc_widget_GridLayout_orientation(ClassDescViewBased parent)
     {
-        super(parent,"orientation",valueMap,"horizontal");
+        super(parent,"orientation",int.class,valueMap,"horizontal");
     }
 
 }

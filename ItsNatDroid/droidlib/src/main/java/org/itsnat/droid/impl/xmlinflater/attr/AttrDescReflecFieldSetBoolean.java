@@ -1,21 +1,22 @@
-package org.itsnat.droid.impl.xmlinflater.attr.widget;
+package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSet;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_AdapterViewAnimator_loopViews extends AttrDescReflecFieldSet
+public class AttrDescReflecFieldSetBoolean extends AttrDescReflecFieldSet
 {
-    public AttrDesc_widget_AdapterViewAnimator_loopViews(ClassDescViewBased parent)
+    protected boolean defaultValue;
+
+    public AttrDescReflecFieldSetBoolean(ClassDescViewBased parent,String name,String fieldName,boolean defaultValue)
     {
-        super(parent,"loopViews","mLoopViews");
+        super(parent,name,fieldName);
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -27,7 +28,7 @@ public class AttrDesc_widget_AdapterViewAnimator_loopViews extends AttrDescRefle
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"false",null,null);
+        setField(view,defaultValue);
     }
 
 }

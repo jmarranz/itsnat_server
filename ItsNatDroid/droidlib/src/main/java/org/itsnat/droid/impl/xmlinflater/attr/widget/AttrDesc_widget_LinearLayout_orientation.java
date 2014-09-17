@@ -22,7 +22,7 @@ public class AttrDesc_widget_LinearLayout_orientation extends AttrDescReflecSing
 
     public AttrDesc_widget_LinearLayout_orientation(ClassDescViewBased parent)
     {
-        super(parent,"orientation",valueMap,"horizontal");
+        super(parent,"orientation",int.class,valueMap,"horizontal");
     }
 
 }

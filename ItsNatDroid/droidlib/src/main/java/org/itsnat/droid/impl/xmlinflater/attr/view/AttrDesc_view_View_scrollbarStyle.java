@@ -24,7 +24,7 @@ public class AttrDesc_view_View_scrollbarStyle extends AttrDescReflecSingleName
 
     public AttrDesc_view_View_scrollbarStyle(ClassDescViewBased parent)
     {
-        super(parent,"scrollbarStyle","setScrollBarStyle",valueMap,"insideOverlay");
+        super(parent,"scrollbarStyle","setScrollBarStyle",int.class,valueMap,"insideOverlay");
     }
 
 }

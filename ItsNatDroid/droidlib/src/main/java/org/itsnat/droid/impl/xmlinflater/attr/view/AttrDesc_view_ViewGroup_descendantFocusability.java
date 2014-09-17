@@ -23,7 +23,7 @@ public class AttrDesc_view_ViewGroup_descendantFocusability extends AttrDescRefl
 
     public AttrDesc_view_ViewGroup_descendantFocusability(ClassDescViewBased parent)
     {
-        super(parent,"descendantFocusability",valueMap,"beforeDescendants");
+        super(parent,"descendantFocusability",int.class,valueMap,"beforeDescendants");
     }
 
 }

@@ -23,7 +23,7 @@ public class AttrDesc_widget_AbsListView_transcriptMode extends AttrDescReflecSi
 
     public AttrDesc_widget_AbsListView_transcriptMode(ClassDescViewBased parent)
     {
-        super(parent,"transcriptMode",valueMap,"disabled");
+        super(parent,"transcriptMode",int.class,valueMap,"disabled");
     }
 
 

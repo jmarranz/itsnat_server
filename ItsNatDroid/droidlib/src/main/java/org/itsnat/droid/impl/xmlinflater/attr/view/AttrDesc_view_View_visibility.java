@@ -23,6 +23,6 @@ public class AttrDesc_view_View_visibility extends AttrDescReflecSingleName
 
     public AttrDesc_view_View_visibility(ClassDescViewBased parent)
     {
-        super(parent,"visibility",valueMap,"visible");
+        super(parent,"visibility",int.class,valueMap,"visible");
     }
 }

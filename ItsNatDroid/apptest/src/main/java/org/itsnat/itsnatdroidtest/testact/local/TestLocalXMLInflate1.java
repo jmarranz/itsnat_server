@@ -18,7 +18,6 @@ import android.widget.FrameLayout;
 import android.widget.Gallery;
 import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
 import android.widget.ListView;
@@ -379,7 +378,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                compLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                 {
                     @Override
                     public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
@@ -421,7 +420,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                compLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                 {
                     @Override
                     public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
@@ -885,15 +884,6 @@ public class TestLocalXMLInflate1
             assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
 
         }
-
-        childCount++;
-
-        // Test ImageView
-        {
-            final ImageView compLayout = (ImageView) comp.getChildAt(childCount);
-            final ImageView parsedLayout = (ImageView) parsed.getChildAt(childCount);
-        }
-
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

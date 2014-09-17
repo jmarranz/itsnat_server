@@ -11,34 +11,37 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public abstract class AttrDescReflecNameBased extends AttrDescReflecMethod
+public abstract class AttrDescReflecNameBased<T> extends AttrDescReflecMethod
 {
-    protected Map<String, Integer> valueMap;
+    protected Map<String, T> valueMap;
     protected String defaultName;
+    protected Class classParam;
 
-    public AttrDescReflecNameBased(ClassDescViewBased parent, String name, String methodName, Map<String, Integer> valueMap, String defaultName)
+    public AttrDescReflecNameBased(ClassDescViewBased parent, String name, String methodName,Class classParam, Map<String, T> valueMap, String defaultName)
     {
         super(parent,name,methodName);
+        this.classParam = classParam;
         this.valueMap = valueMap;
         this.defaultName = defaultName;
     }
 
-    public AttrDescReflecNameBased(ClassDescViewBased parent, String name, Map<String, Integer> valueMap, String defaultName)
+    public AttrDescReflecNameBased(ClassDescViewBased parent, String name,Class classParam, Map<String, T> valueMap, String defaultName)
     {
         super(parent, name);
+        this.classParam = classParam;
         this.valueMap = valueMap;
         this.defaultName = defaultName;
     }
 
     protected Class<?> getClassParam()
     {
-        return int.class;
+        return classParam;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int valueInt = parseNameBasedValue(value);
-        callMethod(view, valueInt);
+        T valueRes = parseNameBasedValue(value);
+        callMethod(view, valueRes);
     }
 
     public void removeAttribute(View view)
@@ -50,5 +53,5 @@ public abstract class AttrDescReflecNameBased extends AttrDescReflecMethod
         }
     }
 
-    protected abstract int parseNameBasedValue(String value);
+    protected abstract <T> T parseNameBasedValue(String value);
 }

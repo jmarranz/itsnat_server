@@ -269,12 +269,12 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    protected static int parseSingleName(String value, Map<String, Integer> valueMap)
+    protected static <T> T parseSingleName(String value, Map<String, T> valueMap)
     {
-        Integer valueInt = valueMap.get(value);
-        if (valueInt == null)
+        T valueRes = valueMap.get(value);
+        if (valueRes == null)
             throw new ItsNatDroidException("Unrecognized value name " + value + " for attribute");
-        return valueInt;
+        return valueRes;
     }
 
     protected static int parseMultipleName(String value, Map<String, Integer> valueMap)

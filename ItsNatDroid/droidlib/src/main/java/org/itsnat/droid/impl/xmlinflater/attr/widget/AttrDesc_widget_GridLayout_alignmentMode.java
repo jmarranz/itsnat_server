@@ -22,7 +22,7 @@ public class AttrDesc_widget_GridLayout_alignmentMode extends AttrDescReflecSing
 
     public AttrDesc_widget_GridLayout_alignmentMode(ClassDescViewBased parent)
     {
-        super(parent,"alignmentMode",valueMap,"alignMargins");
+        super(parent,"alignmentMode",int.class,valueMap,"alignMargins");
     }
 
 }

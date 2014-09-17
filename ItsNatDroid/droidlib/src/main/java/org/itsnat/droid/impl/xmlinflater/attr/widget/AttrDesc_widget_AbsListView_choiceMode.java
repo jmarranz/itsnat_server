@@ -24,7 +24,7 @@ public class AttrDesc_widget_AbsListView_choiceMode extends AttrDescReflecSingle
 
     public AttrDesc_widget_AbsListView_choiceMode(ClassDescViewBased parent)
     {
-        super(parent,"choiceMode",valueMap,"none");
+        super(parent,"choiceMode",int.class,valueMap,"none");
     }
 
 
