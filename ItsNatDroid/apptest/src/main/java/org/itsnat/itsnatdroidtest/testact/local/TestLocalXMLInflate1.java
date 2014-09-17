@@ -28,7 +28,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
@@ -42,9 +44,9 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalXMLInflate
+public class TestLocalXMLInflate1
 {
-    public static void test(ScrollView compRoot,ScrollView parsedRoot)
+    public static void test(ScrollView compRoot,ScrollView parsedRoot,InflatedLayout layout)
     {
         Resources res = compRoot.getContext().getResources();
 
@@ -73,13 +75,21 @@ public class TestLocalXMLInflate
 
         // Testing misc attribs
         {
+            // Test findViewByXMLId
+
+
             RelativeLayout compRelLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedRelLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
 
                 TextView compTextView1 = (TextView) compRelLayout.getChildAt(0);
                 TextView parsedTextView1 = (TextView) parsedRelLayout.getChildAt(0);
+
+                assertEquals(compTextView1.getId(),R.id.textViewTest1);
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
+                if (compTextView1 != compRelLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
+                if (parsedTextView1 != layout.findViewByXMLId("textViewTest1")) throw new RuntimeException("FAIL");
+
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
                 assertPositive(compTextView1.getPaddingLeft());

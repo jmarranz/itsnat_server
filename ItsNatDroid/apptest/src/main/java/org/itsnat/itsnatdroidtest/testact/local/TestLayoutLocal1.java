@@ -6,22 +6,17 @@ import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
-import android.widget.ScrollView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
-import org.itsnat.droid.ItsNatDroidRoot;
-import org.itsnat.droid.Page;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
+import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,25 +25,22 @@ import java.util.Map;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class TestLayoutLocal
+public class TestLayoutLocal1 extends TestLayoutLocalBase
 {
-    public static void test(final TestActivityTabFragment fragment)
+    public TestLayoutLocal1(TestActivityTabFragment fragment)
+    {
+        super(fragment);
+    }
+
+    public void test()
     {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = act.getLayoutInflater().inflate(R.layout.test_local_layout_compiled, null);
+        final View compiledRootView = act.getLayoutInflater().inflate(R.layout.test_local_layout_compiled_1, null);
         changeLayout(fragment,compiledRootView);
 
         Toast.makeText(act, "OK COMPILED", Toast.LENGTH_SHORT).show();
 
-        View backButton = compiledRootView.findViewById(R.id.back);
-        backButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                fragment.gotoLayoutIndex();
-            }
-        });
+        bindBackButton(compiledRootView);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener()
@@ -57,62 +49,15 @@ public class TestLayoutLocal
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InputStream input = act.getResources().openRawResource(R.raw.test_local_layout_dynamic);
-                // XmlResourceParser input = act.getResources().getXml(R.xml.test_local_layout_dynamic); devuelve un XMLBlock parser que no funciona igual que un parser normal y falla
+                InputStream input = act.getResources().openRawResource(R.raw.test_local_layout_dynamic_1);
+                // XmlResourceParser input = act.getResources().getXml(R.xml.test_local_layout_dynamic_1); devuelve un XMLBlock parser que no funciona igual que un parser normal y falla
 
-                // Sólo para testear carga local
-                InflateRequest inflateRequest = ItsNatDroidRoot.get().createInflateRequest();
-                InflatedLayout layout = inflateRequest.setAttrCustomInflaterListener(new AttrCustomInflaterListener()
-                {
-                    @Override
-                    public void setAttribute(Page page, View view, String namespace, String name, String value)
-                    {
-                        System.out.println("NOT FOUND ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
-                    }
-
-                    @Override
-                    public void removeAttribute(Page page, View view, String namespace, String name)
-                    {
-                        System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-                    }
-                }).setContext(act).inflate(new InputStreamReader(input));
-
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons(input);
                 View dynamicRootView = layout.getRootView();
-                changeLayout(fragment,dynamicRootView);
-
-                Toast.makeText(act, "OK XML DYNAMIC", Toast.LENGTH_SHORT).show();
-
-                View backButton = dynamicRootView.findViewById(R.id.back);
-                backButton.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        fragment.gotoLayoutIndex();
-                    }
-                });
-
-                View buttonReload = dynamicRootView.findViewById(R.id.buttonReload);
-                if (buttonReload == null) throw new RuntimeException("FAIL");
-
-                buttonReload.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View view)
-                    {
-                        test(fragment);
-                    }
-                });
-
-                // Test findViewByXMLId
-                View textViewTest1 = dynamicRootView.findViewById(R.id.textViewTest1);
-                if (textViewTest1 == null) throw new RuntimeException("FAIL");
-                if (layout.findViewByXMLId("textViewTest1") != textViewTest1)
-                    throw new RuntimeException("FAIL");
 
                 defineInitalData(act,dynamicRootView);
 
-                TestLocalXMLInflate.test((ScrollView) compiledRootView, (ScrollView) dynamicRootView);
+                TestLocalXMLInflate1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView,layout);
             }
         });
 
@@ -218,11 +163,4 @@ public class TestLayoutLocal
         viewFlipper.setAdapter(adapter);
     }
 
-
-
-    private static void changeLayout(TestActivityTabFragment fragment,View rootView)
-    {
-        fragment.setRootView(rootView);
-        fragment.updateFragmentLayout();
-    }
 }

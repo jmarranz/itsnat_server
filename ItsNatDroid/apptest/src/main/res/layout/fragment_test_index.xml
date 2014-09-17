@@ -8,19 +8,26 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="org.itsnat.itsnatdroidtest.MainActivity">
 
-    <Button android:id="@+id/testLocal"
+    <Button android:id="@+id/testLocal1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="TEST LOCAL"
+              android:text="TEST LOCAL 1"
               android:textSize="20dp"
               android:layout_alignParentTop="true"/>
+
+    <Button android:id="@+id/testLocal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEST LOCAL 2"
+            android:textSize="20dp"
+            android:layout_below="@+id/testLocal1"/>
 
     <Button android:id="@+id/testRemoteCore"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="TEST REMOTE CORE"
               android:textSize="20dp"
-              android:layout_below="@id/testLocal"/>
+              android:layout_below="@id/testLocal2"/>
 
 
     <Button android:id="@+id/testRemoteControl"
