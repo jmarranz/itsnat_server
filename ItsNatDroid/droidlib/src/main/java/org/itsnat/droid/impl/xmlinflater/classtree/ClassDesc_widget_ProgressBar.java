@@ -2,7 +2,9 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_indeterminate;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_indeterminateBehavior;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_interpolator;
@@ -29,9 +31,11 @@ public class ClassDesc_widget_ProgressBar extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecFieldSetInt(this,"indeterminateDuration","mDuration",4000));
         addAttrDesc(new AttrDescReflecFieldSetBoolean(this,"indeterminateOnly","mOnlyIndeterminate",false));
         addAttrDesc(new AttrDesc_widget_ProgressBar_interpolator(this));
-
-
-// Hacer más adelante android:max
+        addAttrDesc(new AttrDescReflecInt(this,"max",100));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionInt(this,"maxHeight","mMaxHeight",48));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionInt(this,"maxWidth","mMaxWidth",48));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionInt(this,"minHeight","mMinHeight",24));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionInt(this,"minWidth","mMinWidth",24));
 
     }
 }

@@ -61,6 +61,21 @@
             android:interpolator="@android:anim/linear_interpolator"
             />
 
+        <!-- Test ProgressBar (determinate) -->
+        <ProgressBar
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#dddddd"
+            android:max="90"
+            android:maxHeight="30dp"
+            android:maxWidth="30dp"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+
+            android:progress="30"
+            />
+
     </LinearLayout>
 
 

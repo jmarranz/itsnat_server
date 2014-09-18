@@ -5,9 +5,9 @@
             android:layout_height="match_parent"
             tools:context="org.itsnat.itsnatdroidtest.MainActivity">
 <!--
-    "#dddddd" gris oscuro
+    "#dddddd" gris claro
     "#ffdddd" rosa
-    "#aaaaaa" gris claro
+    "#aaaaaa" gris oscuro
     "#55ddffdd" verde claro
     "#eeee55" amarillo
 -->
@@ -58,6 +58,20 @@
             android:interpolator="@android:anim/linear_interpolator"
             />
 
+        <!-- Test ProgressBar (determinate) -->
+        <ProgressBar
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#dddddd"
+            android:max="90"
+            android:maxHeight="30dp"
+            android:maxWidth="30dp"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+
+            android:progress="30"
+            />
 
 
     </LinearLayout>

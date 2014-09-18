@@ -7,12 +7,16 @@ import android.content.DialogInterface;
 import org.itsnat.droid.ItsNatDroidException;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 3/07/14.
  */
 public class TestUtil
 {
+    private final static Map<String,Field> fieldCache = new HashMap<String,Field>();
+
     public static void alertDialog(Context ctx,String content)
     {
         alertDialog(ctx,"Alert",content);
@@ -39,11 +43,9 @@ public class TestUtil
     {
         try
         {
-            Field field = clasz.getDeclaredField(fieldName);
-            field.setAccessible(true);
+            Field field = getField(clasz,fieldName);
             return field.get(obj);
         }
-        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
     }
 
@@ -53,15 +55,31 @@ public class TestUtil
         {
             for (int i = 0; i < classes.length; i++)
             {
-                Field field = classes[i].getDeclaredField(fieldName[i]);
-                field.setAccessible(true);
+                Field field = getField(classes[i], fieldName[i]);
                 obj = field.get(obj);
             }
         }
-        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
 
         return obj;
+    }
+
+    public static Field getField(Class clasz,String fieldName)
+    {
+        try
+        {
+            String key = clasz.getName() + ":" + fieldName;
+            Field field = fieldCache.get(key);
+            if (field == null)
+            {
+                field = clasz.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                fieldCache.put(key,field);
+            }
+
+            return field;
+        }
+        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
     }
 
     public static Class resolveClass(String viewName)

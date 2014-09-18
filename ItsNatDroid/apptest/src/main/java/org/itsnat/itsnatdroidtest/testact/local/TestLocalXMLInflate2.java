@@ -139,7 +139,29 @@ public class TestLocalXMLInflate2
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/view/animation/LinearInterpolator.java?av=f
             assertNotNull((LinearInterpolator)compLayout.getInterpolator());
             assertNotNull((LinearInterpolator)parsedLayout.getInterpolator());
+        }
 
+        childCount++;
+
+        // Test ProgressBar (determinate)
+        {
+            final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
+            final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getMax(),90);
+            assertEquals(compLayout.getMax(),parsedLayout.getMax());
+
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"),ValueUtil.dpToPixelInt(30, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxHeight"), (Integer) TestUtil.getField(parsedLayout, "mMaxHeight"));
+
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"),ValueUtil.dpToPixelInt(30, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMaxWidth"), (Integer) TestUtil.getField(parsedLayout, "mMaxWidth"));
+
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"),ValueUtil.dpToPixelInt(20, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinHeight"), (Integer) TestUtil.getField(parsedLayout, "mMinHeight"));
+
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelInt(20, res));
+            assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"), (Integer) TestUtil.getField(parsedLayout, "mMinWidth"));
 
         }
 

@@ -151,164 +151,141 @@ public class TestLocalXMLInflate1
             LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
-                assertEquals(compTextView.getAlpha(),0.7f);
-                assertEquals(compTextView.getAlpha(), parsedTextView.getAlpha());
-                assertEquals(((ColorDrawable)compTextView.getBackground()).getColor(), 0xffdddddd);
-                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
-                assertFalse(compTextView.isClickable());
-                assertEquals(compTextView.isClickable(), parsedTextView.isClickable());
-                assertEquals(compTextView.getContentDescription(), "For Testing View Attribs");
-                assertEquals(compTextView.getContentDescription(), parsedTextView.getContentDescription());
-                assertEquals(compTextView.getDrawingCacheQuality(), View.DRAWING_CACHE_QUALITY_HIGH);
-                assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
-                assertTrue(compTextView.isDuplicateParentStateEnabled());
-                assertEquals(compTextView.isDuplicateParentStateEnabled(), parsedTextView.isDuplicateParentStateEnabled());
+                {
+                    TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                    TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                    assertEquals(compTextView.getAlpha(), 0.7f);
+                    assertEquals(compTextView.getAlpha(), parsedTextView.getAlpha());
+                    assertEquals(((ColorDrawable) compTextView.getBackground()).getColor(), 0xffdddddd);
+                    assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+                    assertFalse(compTextView.isClickable());
+                    assertEquals(compTextView.isClickable(), parsedTextView.isClickable());
+                    assertEquals(compTextView.getContentDescription(), "For Testing View Attribs");
+                    assertEquals(compTextView.getContentDescription(), parsedTextView.getContentDescription());
+                    assertEquals(compTextView.getDrawingCacheQuality(), View.DRAWING_CACHE_QUALITY_HIGH);
+                    assertEquals(compTextView.getDrawingCacheQuality(), parsedTextView.getDrawingCacheQuality());
+                    assertTrue(compTextView.isDuplicateParentStateEnabled());
+                    assertEquals(compTextView.isDuplicateParentStateEnabled(), parsedTextView.isDuplicateParentStateEnabled());
+                }
 
+                {
+                    ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
+                    ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
+                    assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
+                    assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
+                    // Test android:fadingEdgeLength
+                    assertEquals(compScrollView.getVerticalFadingEdgeLength(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
+                    assertEquals(compScrollView.getHorizontalFadingEdgeLength(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
 
-                ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
-                ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
-                assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
-                assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
-                // Test android:fadingEdgeLength
-                assertEquals(compScrollView.getVerticalFadingEdgeLength(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compScrollView.getVerticalFadingEdgeLength(), parsedScrollView.getVerticalFadingEdgeLength());
-                assertEquals(compScrollView.getHorizontalFadingEdgeLength(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compScrollView.getHorizontalFadingEdgeLength(), parsedScrollView.getHorizontalFadingEdgeLength());
+                    // Test android:scrollbarAlwaysDrawHorizontalTrack
 
-                // Test android:scrollbarAlwaysDrawHorizontalTrack
-                assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}));
-                assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"}),
-                             (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawHorizontalTrack"})
-                        );
+                    Class[] scrollCacheClasses = new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")};
 
-                // Test android:scrollbarAlwaysDrawVerticalTrack
-                assertTrue((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}));
-                assertEquals((Boolean)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"}),
-                        (Boolean)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mAlwaysDrawVerticalTrack"})
-                );
+                    assertTrue((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}));
+                    assertEquals((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}), (Boolean) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}));
 
-                // Test android:scrollbarThumbHorizontal
-                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}),
-                                        ValueUtil.dpToPixelInt(0.9f, res));
-                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mHorizontalThumb"}),
-                             (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mHorizontalThumb"})
-                );
+                    // Test android:scrollbarAlwaysDrawVerticalTrack
+                    assertTrue((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawVerticalTrack"}));
+                    assertEquals((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawVerticalTrack"}), (Boolean) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawVerticalTrack"}));
 
-                // Test android:scrollbarThumbVertical
-                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
-                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mVerticalThumb"}),
-                             (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mVerticalThumb"})
-                );
+                    // Test android:scrollbarThumbHorizontal
+                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalThumb"}));
 
-                // Test android:scrollbarTrackHorizontal
-                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}),
-                                        ValueUtil.dpToPixelInt(0.9f,res));
-                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mHorizontalTrack"}),
-                        (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mHorizontalTrack"})
-                );
+                    // Test android:scrollbarThumbVertical
+                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
 
-                // Test android:scrollbarTrackVertical
-                assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")}, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}),
-                                        ValueUtil.dpToPixelInt(0.9f,res));
-                assertEquals((GradientDrawable)TestUtil.getField(compScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mVerticalTrack"}),
-                        (GradientDrawable)TestUtil.getField(parsedScrollView, new Class[]{View.class,TestUtil.resolveClass("android.view.View$ScrollabilityCache"),TestUtil.resolveClass("android.widget.ScrollBarDrawable")},
-                                new String[]{"mScrollCache", "scrollBar","mVerticalTrack"})
-                );
+                    // Test android:scrollbarTrackHorizontal
+                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}));
 
+                    // Test android:scrollbarTrackVertical
+                    assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
+                }
 
+                {
+                    TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
+                    TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
+                    assertEquals(compTextView2.getText(), parsedTextView2.getText());
+                    // Test android:filterTouchesWhenObscured
+                    assertTrue(compTextView2.getFilterTouchesWhenObscured());
+                    // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
+                    // por ello mostramos un alertDialog no lanzamos una excepción
+                    if (compTextView2.getFilterTouchesWhenObscured() != parsedTextView2.getFilterTouchesWhenObscured())
+                        TestUtil.alertDialog(compTextView2.getContext(), "Test failed in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
+                    assertTrue(compTextView2.isFocusable());
+                    assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
+                    assertTrue(compTextView2.isFocusableInTouchMode());
+                    assertEquals(compTextView2.isFocusableInTouchMode(), parsedTextView2.isFocusableInTouchMode());
+                    assertFalse(compTextView2.isHapticFeedbackEnabled());
+                    assertEquals(compTextView2.isHapticFeedbackEnabled(), parsedTextView2.isHapticFeedbackEnabled());
+                    assertPositive(compTextView2.getId());
+                    assertEquals(compTextView2.getId(), parsedTextView2.getId());
+                    // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
+                    //assertTrue( (((int)((Integer)getField(compTextView2,View.class,"mPrivateFlags"))) & 0x00100000) != 0); // PFLAG_SCROLL_CONTAINER_ADDED 0x00100000
 
-                TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
-                TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
-                assertEquals(compTextView2.getText(), parsedTextView2.getText());
-                // Test android:filterTouchesWhenObscured
-                assertTrue(compTextView2.getFilterTouchesWhenObscured());
-                // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
-                // por ello mostramos un alertDialog no lanzamos una excepción
-                if (compTextView2.getFilterTouchesWhenObscured() != parsedTextView2.getFilterTouchesWhenObscured())
-                    TestUtil.alertDialog(compTextView2.getContext(),"Test failed in filterTouchesWhenObscured, don't worry it seems an Android emulator bug (running on 4.0.4 emulator?)");
-                assertTrue(compTextView2.isFocusable());
-                assertEquals(compTextView2.isFocusable(), parsedTextView2.isFocusable());
-                assertTrue(compTextView2.isFocusableInTouchMode());
-                assertEquals(compTextView2.isFocusableInTouchMode(), parsedTextView2.isFocusableInTouchMode());
-                assertFalse(compTextView2.isHapticFeedbackEnabled());
-                assertEquals(compTextView2.isHapticFeedbackEnabled(), parsedTextView2.isHapticFeedbackEnabled());
-                assertPositive(compTextView2.getId());
-                assertEquals(compTextView2.getId(), parsedTextView2.getId());
-                // No puedo testear android:isScrollContainer porque  isScrollContainer() se define en un Level superior
-                //assertTrue( (((int)((Integer)getField(compTextView2,View.class,"mPrivateFlags"))) & 0x00100000) != 0); // PFLAG_SCROLL_CONTAINER_ADDED 0x00100000
-
-                assertTrue(compTextView2.getKeepScreenOn());
-                assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
-                assertEquals(compTextView2.getLayerType(), View.LAYER_TYPE_HARDWARE);
-                assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
-                assertTrue(compTextView2.isLongClickable());
-                assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
-                assertEquals((Integer)TestUtil.getField(compTextView2, View.class, "mMinHeight"),ValueUtil.dpToPixelInt(30, res));
-                assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (Integer)TestUtil.getField(parsedTextView2, View.class, "mMinHeight"));
-                assertEquals((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth"),ValueUtil.dpToPixelInt(30, res));
-                assertEquals((Integer)TestUtil.getField(compTextView2, View.class, "mMinWidth"),(Integer)TestUtil.getField(parsedTextView2, View.class, "mMinWidth") );
-                assertPositive(compTextView2.getNextFocusDownId());
-                assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
-                assertPositive(compTextView2.getNextFocusForwardId());
-                assertEquals(compTextView2.getNextFocusForwardId(), parsedTextView2.getNextFocusForwardId());
-                assertPositive(compTextView2.getNextFocusLeftId());
-                assertEquals(compTextView2.getNextFocusLeftId(), parsedTextView2.getNextFocusLeftId());
-                assertPositive(compTextView2.getNextFocusRightId());
-                assertEquals(compTextView2.getNextFocusRightId(), parsedTextView2.getNextFocusRightId());
-                assertPositive(compTextView2.getNextFocusUpId());
-                assertEquals(compTextView2.getNextFocusUpId(), parsedTextView2.getNextFocusUpId());
-                // No puedo testear android:onClick porque no hay get nativo asociado
-                assertEquals(compTextView2.getPaddingLeft(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compTextView2.getPaddingLeft(),parsedTextView2.getPaddingLeft());
-                assertEquals(compTextView2.getPaddingRight(),ValueUtil.dpToPixelInt(11, res));
-                assertEquals(compTextView2.getPaddingRight(),parsedTextView2.getPaddingRight());
-                assertEquals(compTextView2.getPaddingTop(),ValueUtil.dpToPixelInt(12, res));
-                assertEquals(compTextView2.getPaddingTop(),parsedTextView2.getPaddingTop());
-                assertEquals(compTextView2.getPaddingBottom(),ValueUtil.dpToPixelInt(13, res));
-                assertEquals(compTextView2.getPaddingBottom(),parsedTextView2.getPaddingBottom());
-                assertEquals(compTextView2.getRotation(),10.5f);
-                assertEquals(compTextView2.getRotation(),parsedTextView2.getRotation());
-                assertEquals(compTextView2.getRotationX(),45.5f);
-                assertEquals(compTextView2.getRotationX(),parsedTextView2.getRotationX());
-                assertEquals(compTextView2.getRotationY(),10.5f);
-                assertEquals(compTextView2.getRotationY(),parsedTextView2.getRotationY());
-                assertFalse(compTextView2.isSaveEnabled());
-                assertEquals(compTextView2.isSaveEnabled(),parsedTextView2.isSaveEnabled());
-                assertEquals(compTextView2.getScaleX(),1.2f);
-                assertEquals(compTextView2.getScaleX(),parsedTextView2.getScaleX());
-                assertEquals(compTextView2.getScaleY(),1.2f);
-                assertEquals(compTextView2.getScaleY(),parsedTextView2.getScaleY());
-                // No testeamos android:scrollX y android:scrollY (con getScrollX() y getScrollY()) porque después de definirse correctamente
-                // algo hace poner a cero los valores, quizás al insertar la View
-                assertPositive(compTextView2.getScrollBarStyle());
-                assertEquals(compTextView2.getScrollBarStyle(),parsedTextView2.getScrollBarStyle());
-                assertFalse(compTextView2.isSoundEffectsEnabled());
-                assertEquals(compTextView2.isSoundEffectsEnabled(),parsedTextView2.isSoundEffectsEnabled());
-                assertEquals((String)compTextView2.getTag(),"theTag");
-                assertEquals((String)compTextView2.getTag(),(String)parsedTextView2.getTag());
-                assertEquals(compTextView2.getPivotX(),ValueUtil.dpToPixelInt(70, res));
-                assertEquals(compTextView2.getPivotX(),parsedTextView2.getPivotX());
-                assertEquals(compTextView2.getPivotY(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compTextView2.getPivotY(),parsedTextView2.getPivotY());
-                assertEquals(compTextView2.getTranslationX(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compTextView2.getTranslationX(),parsedTextView2.getTranslationX());
-                assertEquals(compTextView2.getTranslationY(),ValueUtil.dpToPixelInt(10, res));
-                assertEquals(compTextView2.getTranslationY(),parsedTextView2.getTranslationY());
+                    assertTrue(compTextView2.getKeepScreenOn());
+                    assertEquals(compTextView2.getKeepScreenOn(), parsedTextView2.getKeepScreenOn());
+                    assertEquals(compTextView2.getLayerType(), View.LAYER_TYPE_HARDWARE);
+                    assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
+                    assertTrue(compTextView2.isLongClickable());
+                    assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), ValueUtil.dpToPixelInt(30, res));
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (Integer) TestUtil.getField(parsedTextView2, View.class, "mMinHeight"));
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), ValueUtil.dpToPixelInt(30, res));
+                    assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), (Integer) TestUtil.getField(parsedTextView2, View.class, "mMinWidth"));
+                    assertPositive(compTextView2.getNextFocusDownId());
+                    assertEquals(compTextView2.getNextFocusDownId(), parsedTextView2.getNextFocusDownId());
+                    assertPositive(compTextView2.getNextFocusForwardId());
+                    assertEquals(compTextView2.getNextFocusForwardId(), parsedTextView2.getNextFocusForwardId());
+                    assertPositive(compTextView2.getNextFocusLeftId());
+                    assertEquals(compTextView2.getNextFocusLeftId(), parsedTextView2.getNextFocusLeftId());
+                    assertPositive(compTextView2.getNextFocusRightId());
+                    assertEquals(compTextView2.getNextFocusRightId(), parsedTextView2.getNextFocusRightId());
+                    assertPositive(compTextView2.getNextFocusUpId());
+                    assertEquals(compTextView2.getNextFocusUpId(), parsedTextView2.getNextFocusUpId());
+                    // No puedo testear android:onClick porque no hay get nativo asociado
+                    assertEquals(compTextView2.getPaddingLeft(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compTextView2.getPaddingLeft(), parsedTextView2.getPaddingLeft());
+                    assertEquals(compTextView2.getPaddingRight(), ValueUtil.dpToPixelInt(11, res));
+                    assertEquals(compTextView2.getPaddingRight(), parsedTextView2.getPaddingRight());
+                    assertEquals(compTextView2.getPaddingTop(), ValueUtil.dpToPixelInt(12, res));
+                    assertEquals(compTextView2.getPaddingTop(), parsedTextView2.getPaddingTop());
+                    assertEquals(compTextView2.getPaddingBottom(), ValueUtil.dpToPixelInt(13, res));
+                    assertEquals(compTextView2.getPaddingBottom(), parsedTextView2.getPaddingBottom());
+                    assertEquals(compTextView2.getRotation(), 10.5f);
+                    assertEquals(compTextView2.getRotation(), parsedTextView2.getRotation());
+                    assertEquals(compTextView2.getRotationX(), 45.5f);
+                    assertEquals(compTextView2.getRotationX(), parsedTextView2.getRotationX());
+                    assertEquals(compTextView2.getRotationY(), 10.5f);
+                    assertEquals(compTextView2.getRotationY(), parsedTextView2.getRotationY());
+                    assertFalse(compTextView2.isSaveEnabled());
+                    assertEquals(compTextView2.isSaveEnabled(), parsedTextView2.isSaveEnabled());
+                    assertEquals(compTextView2.getScaleX(), 1.2f);
+                    assertEquals(compTextView2.getScaleX(), parsedTextView2.getScaleX());
+                    assertEquals(compTextView2.getScaleY(), 1.2f);
+                    assertEquals(compTextView2.getScaleY(), parsedTextView2.getScaleY());
+                    // No testeamos android:scrollX y android:scrollY (con getScrollX() y getScrollY()) porque después de definirse correctamente
+                    // algo hace poner a cero los valores, quizás al insertar la View
+                    assertPositive(compTextView2.getScrollBarStyle());
+                    assertEquals(compTextView2.getScrollBarStyle(), parsedTextView2.getScrollBarStyle());
+                    assertFalse(compTextView2.isSoundEffectsEnabled());
+                    assertEquals(compTextView2.isSoundEffectsEnabled(), parsedTextView2.isSoundEffectsEnabled());
+                    assertEquals((String) compTextView2.getTag(), "theTag");
+                    assertEquals((String) compTextView2.getTag(), (String) parsedTextView2.getTag());
+                    assertEquals(compTextView2.getPivotX(), ValueUtil.dpToPixelInt(70, res));
+                    assertEquals(compTextView2.getPivotX(), parsedTextView2.getPivotX());
+                    assertEquals(compTextView2.getPivotY(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compTextView2.getPivotY(), parsedTextView2.getPivotY());
+                    assertEquals(compTextView2.getTranslationX(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compTextView2.getTranslationX(), parsedTextView2.getTranslationX());
+                    assertEquals(compTextView2.getTranslationY(), ValueUtil.dpToPixelInt(10, res));
+                    assertEquals(compTextView2.getTranslationY(), parsedTextView2.getTranslationY());
+                }
             }
 
         }
