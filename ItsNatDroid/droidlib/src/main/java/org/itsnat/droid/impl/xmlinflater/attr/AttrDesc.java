@@ -69,12 +69,9 @@ public abstract class AttrDesc
         int pos = attrValue.indexOf(':');
         String packageName;
         if (pos != -1) // Tiene package, ej android:
-        {
-            packageName = attrValue.substring(0, pos);
-            attrValue = attrValue.substring(pos + 1);
-        }
+            packageName = null;
         else
-            packageName = ctx.getPackageName();
+            packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
 
         int id = res.getIdentifier(attrValue, null, packageName);
         if (id == 0) throw new ItsNatDroidException("Not found resource with id \"" + attrValue + "\" Package: \"" + packageName );

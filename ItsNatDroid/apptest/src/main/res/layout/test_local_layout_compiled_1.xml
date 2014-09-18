@@ -50,7 +50,7 @@
                       android:layout_below="@id/textViewTest1" />
         </RelativeLayout>
 
-        <!-- Testing custom currentTarget class -->
+        <!-- Testing custom class derivada de TextView -->
         <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginRight="1dp"
                 android:text="Test Margins 1"
                 android:background="#aaaaaa"/>
 
@@ -308,7 +308,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#dddddd"
-            android:gravity="right"
+            android:gravity="top|right"
             android:orientation="vertical">
 
             <TextView
@@ -430,7 +430,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="#ffdddd"
-            android:columnWidth="20dp"
+            android:columnWidth="30dp"
             android:gravity="center_vertical|center_horizontal"
             android:horizontalSpacing="5dp"
             android:numColumns="3"

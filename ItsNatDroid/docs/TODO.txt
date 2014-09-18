@@ -1,4 +1,10 @@
 
+
+
+* Hacer comparaciones con valores reales en atributos de dimensiones por ej. ValueUtil.dpToPixelInt(50, res)
+
+* Revisar en qué atributos influye el orden de declaración
+
 * Hacer android:scrollbars????
 
 * Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
