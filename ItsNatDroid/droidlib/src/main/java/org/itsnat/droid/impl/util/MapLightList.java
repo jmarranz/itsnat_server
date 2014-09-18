@@ -47,7 +47,7 @@ public class MapLightList<Key,Value> implements MapList<Key,Value>
         for(Iterator<Value> it = valueList.iterator(); it.hasNext(); )
         {
             Value currValue = it.next();
-            if (ValueUtil.equalsNullAllowed(value,currValue))
+            if (ValueUtil.equalsNullAllowed(value, currValue))
             {
                 it.remove(); // Comprobado que el size() de la lista cambia tras la llamada
                 if (valueList.isEmpty()) remove(key);

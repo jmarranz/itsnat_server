@@ -147,7 +147,8 @@ public class TestLocalXMLInflate2
         {
             final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
             final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
-
+System.out.println("PARAR");
+/*
             assertEquals(compLayout.getMax(),90);
             assertEquals(compLayout.getMax(),parsedLayout.getMax());
 
@@ -162,7 +163,7 @@ public class TestLocalXMLInflate2
 
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelInt(20, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"), (Integer) TestUtil.getField(parsedLayout, "mMinWidth"));
-
+*/
         }
 
 

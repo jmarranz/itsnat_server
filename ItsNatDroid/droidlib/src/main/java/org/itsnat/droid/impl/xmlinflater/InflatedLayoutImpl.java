@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -258,6 +259,10 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             String spinnerMode = findSpinnerModeAttribute(parser, ctx);
             return ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, -1, idStyle,spinnerMode, ctx);
         }
+        else if (classDesc instanceof ClassDesc_widget_ProgressBar)
+        {
+            return ((ClassDesc_widget_ProgressBar)classDesc).createAndAddProgressBarObject(viewParent, -1, idStyle, ctx);
+        }
         else
         {
             return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
@@ -301,7 +306,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
             String currNamespaceURI = parser.getAttributeNamespace(i);
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI,namespaceURI)) continue;
+            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
+            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             if (!name.equals(currName)) continue;
             String value = parser.getAttributeValue(i);
@@ -317,6 +323,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
             String namespaceURI = parser.getAttributeNamespace(i);
+            if ("".equals(namespaceURI)) namespaceURI = null; // Por estandarizar
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
             setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
