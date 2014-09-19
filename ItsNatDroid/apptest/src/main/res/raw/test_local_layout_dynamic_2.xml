@@ -66,23 +66,16 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#dddddd"
-
             style="?android:attr/progressBarStyleHorizontal"
+            android:max="90"
+            android:maxHeight="30dp"
+            android:maxWidth="30dp"
+            android:minHeight="20dp"
+            android:minWidth="20dp"
+            android:progress="30"
+            android:progressDrawable="@drawable/progressbar_drawable_test"
+            android:secondaryProgress="50"
             />
-        <!--
-            style="?android:attr/progressBarStyleHorizontal"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-        -->
-
-        <!--
-        android:max="90"
-        android:maxHeight="30dp"
-        android:maxWidth="30dp"
-        android:minHeight="20dp"
-        android:minWidth="20dp"
-        android:progress="30"
-        -->
 
     </LinearLayout>
 

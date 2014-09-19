@@ -84,17 +84,17 @@ public class TestLocalXMLInflate1
 
         // Testing misc attribs
         {
-            RelativeLayout compRelLayout = (RelativeLayout) comp.getChildAt(childCount);
-            RelativeLayout parsedRelLayout = (RelativeLayout) parsed.getChildAt(childCount);
+            RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
+            RelativeLayout parsedLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
 
-                TextView compTextView1 = (TextView) compRelLayout.getChildAt(0);
-                TextView parsedTextView1 = (TextView) parsedRelLayout.getChildAt(0);
+                final TextView compTextView1 = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(0);
 
                 assertEquals(compTextView1.getId(),R.id.textViewTest1);
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
                 // Test findViewByXMLId
-                if (compTextView1 != compRelLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
+                if (compTextView1 != compLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
                 if (parsedTextView1 != layout.findViewByXMLId("textViewTest1")) throw new RuntimeException("FAIL");
 
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
@@ -121,11 +121,12 @@ public class TestLocalXMLInflate1
                 assertEquals(((ColorDrawable)compTextView1.getBackground()).getColor(), res.getColor(res.getIdentifier("@android:color/holo_green_light",null,null)));
                 assertEquals(compTextView1.getBackground(), parsedTextView1.getBackground());
 
-                TextView compTextView2 = (TextView) compRelLayout.getChildAt(1);
-                TextView parsedTextView2 = (TextView) parsedRelLayout.getChildAt(1);
+                final TextView compTextView2 = (TextView) compLayout.getChildAt(1);
+                final TextView parsedTextView2 = (TextView) parsedLayout.getChildAt(1);
                 assertEquals(compTextView2.getId(), parsedTextView2.getId());
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
+
                 // Test atributo style
                 // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
                 assertEquals(compTextView2.getTextSize(), parsedTextView2.getTextSize());
@@ -136,8 +137,8 @@ public class TestLocalXMLInflate1
 
         // Testing custom class
         {
-            TextView compCustomTextView = (TextView) comp.getChildAt(childCount);
-            TextView parsedCustomTextView = (TextView) parsed.getChildAt(childCount);
+            final TextView compCustomTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedCustomTextView = (TextView) parsed.getChildAt(childCount);
             assertEquals(compCustomTextView.getText(), parsedCustomTextView.getText());
             assertEquals(compCustomTextView.getBackground(), parsedCustomTextView.getBackground());
         }
@@ -151,12 +152,13 @@ public class TestLocalXMLInflate1
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             {
                 {
-                    TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                    TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                    final TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                    final TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
                     assertEquals(compTextView.getAlpha(), 0.7f);
                     assertEquals(compTextView.getAlpha(), parsedTextView.getAlpha());
                     assertEquals(((ColorDrawable) compTextView.getBackground()).getColor(), 0xffdddddd);
                     assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+
                     assertFalse(compTextView.isClickable());
                     assertEquals(compTextView.isClickable(), parsedTextView.isClickable());
                     assertEquals(compTextView.getContentDescription(), "For Testing View Attribs");
@@ -168,8 +170,9 @@ public class TestLocalXMLInflate1
                 }
 
                 {
-                    ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
-                    ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
+                    final ScrollView compScrollView = (ScrollView) compLinLayout.getChildAt(1);
+                    final ScrollView parsedScrollView = (ScrollView) parsedLinLayout.getChildAt(1);
+
                     assertTrue(compScrollView.isScrollbarFadingEnabled()); // Correspondiente a requiresFadingEdge
                     assertEquals(compScrollView.isScrollbarFadingEnabled(), parsedScrollView.isScrollbarFadingEnabled());
                     // Test android:fadingEdgeLength
@@ -180,7 +183,7 @@ public class TestLocalXMLInflate1
 
                     // Test android:scrollbarAlwaysDrawHorizontalTrack
 
-                    Class[] scrollCacheClasses = new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")};
+                    final Class[] scrollCacheClasses = new Class[]{View.class, TestUtil.resolveClass("android.view.View$ScrollabilityCache"), TestUtil.resolveClass("android.widget.ScrollBarDrawable")};
 
                     assertTrue((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}));
                     assertEquals((Boolean) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}), (Boolean) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mAlwaysDrawHorizontalTrack"}));
@@ -195,7 +198,14 @@ public class TestLocalXMLInflate1
 
                     // Test android:scrollbarThumbVertical
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
-                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
+                    parsedScrollView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    {
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                        {
+                            assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
+                        }
+                    });
 
                     // Test android:scrollbarTrackHorizontal
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
@@ -203,7 +213,15 @@ public class TestLocalXMLInflate1
 
                     // Test android:scrollbarTrackVertical
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
-                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
+                    parsedScrollView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    {
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                        {
+                            assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
+                        }
+                    });
+
                 }
 
                 {
@@ -333,8 +351,9 @@ public class TestLocalXMLInflate1
             LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
             for(int i = 0; i < 2; i++)
             {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                final TextView compTextView = (TextView) compLinLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
 
@@ -379,16 +398,16 @@ public class TestLocalXMLInflate1
                     @Override
                     public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                     {
-                    for(i = 0; i < 5; i++)
-                    {
-                        TextView compTextView = (TextView) compLayout.getChildAt(i);
-                        TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
-                        // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
-                        GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
-                        GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
-                        assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
-                        assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
-                    }
+                        for(i = 0; i < 5; i++)
+                        {
+                            TextView compTextView = (TextView) compLayout.getChildAt(i);
+                            TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                            // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+                            GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
+                            GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
                     }
                 });
 
@@ -443,54 +462,70 @@ public class TestLocalXMLInflate1
 
         // Test FrameLayout Attribs
         {
-            FrameLayout compFrameLayout = (FrameLayout) comp.getChildAt(childCount);
-            FrameLayout parsedFrameLayout = (FrameLayout) parsed.getChildAt(childCount);
+            final FrameLayout compLayout = (FrameLayout) comp.getChildAt(childCount);
+            final FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
 
-            assertEquals(((ColorDrawable)compFrameLayout.getForeground()).getColor(), 0x55ddffdd);
-            assertEquals(compFrameLayout.getForeground(), parsedFrameLayout.getForeground());
+            assertEquals(((ColorDrawable)compLayout.getForeground()).getColor(), 0x55ddffdd);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals(compLayout.getForeground(), parsedLayout.getForeground());
+                }
+            });
+
             // Test android:foregroundGravity (getForegroundGravity() es Level 16):
-            assertEquals((Integer)TestUtil.getField(compFrameLayout, "mForegroundGravity"),Gravity.TOP | Gravity.LEFT );
-            assertEquals((Integer)TestUtil.getField(compFrameLayout, "mForegroundGravity"), (Integer)TestUtil.getField(parsedFrameLayout, "mForegroundGravity"));
-            assertTrue(compFrameLayout.getMeasureAllChildren());
-            assertEquals(compFrameLayout.getMeasureAllChildren(), parsedFrameLayout.getMeasureAllChildren());
+            assertEquals((Integer) TestUtil.getField(compLayout, "mForegroundGravity"), Gravity.TOP | Gravity.LEFT);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mForegroundGravity"), (Integer)TestUtil.getField(parsedLayout, "mForegroundGravity"));
+            assertTrue(compLayout.getMeasureAllChildren());
+            assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
         }
 
         childCount++;
 
         // Test LinearLayout Attribs
         {
-            final LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            final LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
+            final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
 
-            assertFalse(compLinLayout.isBaselineAligned());
-            assertEquals(compLinLayout.isBaselineAligned(), parsedLinLayout.isBaselineAligned());
-            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), 1);
-            assertEquals(compLinLayout.getBaselineAlignedChildIndex(), parsedLinLayout.getBaselineAlignedChildIndex());
+            assertFalse(compLayout.isBaselineAligned());
+            assertEquals(compLayout.isBaselineAligned(), parsedLayout.isBaselineAligned());
+            assertEquals(compLayout.getBaselineAlignedChildIndex(), 1);
+            assertEquals(compLayout.getBaselineAlignedChildIndex(), parsedLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLinLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals((GradientDrawable) TestUtil.getField(compLinLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLinLayout, "mDivider"));
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
+                }
+            });
 
-            assertEquals(compLinLayout.getShowDividers(), 3);
-            assertEquals(compLinLayout.getShowDividers(),parsedLinLayout.getShowDividers());
-            assertEquals(compLinLayout.getDividerPadding(),ValueUtil.dpToPixelInt(10, res));
-            assertEquals(compLinLayout.getDividerPadding(),parsedLinLayout.getDividerPadding());
-            assertTrue(compLinLayout.isMeasureWithLargestChildEnabled());
-            assertEquals(compLinLayout.isMeasureWithLargestChildEnabled(),parsedLinLayout.isMeasureWithLargestChildEnabled());
-            assertEquals(compLinLayout.getWeightSum(),1.0f);
-            assertEquals(compLinLayout.getWeightSum(),parsedLinLayout.getWeightSum());
+            assertEquals(compLayout.getShowDividers(), 3);
+            assertEquals(compLayout.getShowDividers(), parsedLayout.getShowDividers());
+            assertEquals(compLayout.getDividerPadding(), ValueUtil.dpToPixelInt(10, res));
+            assertEquals(compLayout.getDividerPadding(),parsedLayout.getDividerPadding());
+            assertTrue(compLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLayout.isMeasureWithLargestChildEnabled(), parsedLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLayout.getWeightSum(),1.0f);
+            assertEquals(compLayout.getWeightSum(), parsedLayout.getWeightSum());
         }
 
         childCount++;
 
         // Test LinearLayout gravity
         {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            assertEquals((Integer)TestUtil.getField(compLinLayout, "mGravity"), Gravity.TOP |Gravity.RIGHT);
-            assertEquals((Integer)TestUtil.getField(compLinLayout, "mGravity"),(Integer)TestUtil.getField(parsedLinLayout, "mGravity"));
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.TOP |Gravity.RIGHT);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
             {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
             }
@@ -541,8 +576,8 @@ public class TestLocalXMLInflate1
             });
 
             {
-                TextView compTextView = (TextView) compLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
             }
@@ -559,8 +594,8 @@ public class TestLocalXMLInflate1
             assertEquals((Integer)TestUtil.getField(compLayout, "mIgnoreGravity"), (Integer)TestUtil.getField(parsedLayout, "mIgnoreGravity"));
 
             {
-                TextView compTextView = (TextView) compLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
             }
@@ -575,8 +610,8 @@ public class TestLocalXMLInflate1
 
             for(int i = 0; i < 2; i++)
             {
-                TextView compTextView = (TextView) compLayout.getChildAt(i);
-                TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                final TextView compTextView = (TextView) compLayout.getChildAt(i);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
 
@@ -709,7 +744,14 @@ public class TestLocalXMLInflate1
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
             assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
+                }
+            });
 
             assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelInt(2, res));
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
@@ -889,16 +931,36 @@ public class TestLocalXMLInflate1
 
             // android:dial
             assertNotNull((Drawable)TestUtil.getField(compLayout, "mDial"));
-            assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
+                }
+            });
 
             // android:hand_hour
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mHourHand"));
-            assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
+                }
+            });
 
             // android:hand_minute
             assertNotNull((Drawable)TestUtil.getField(compLayout,"mMinuteHand"));
-            assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
-
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
+                }
+            });
         }
 
 

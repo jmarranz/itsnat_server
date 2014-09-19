@@ -39,7 +39,7 @@ public abstract class AttrDescReflecMethod extends AttrDesc
         try
         {
             if (method == null)
-                this.method = parent.getViewClass().getMethod(methodName,getClassParam());
+                this.method = parent.getViewClass().getDeclaredMethod(methodName,getClassParam());
 
             method.invoke(view,convertedValue);
         }

@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -77,6 +78,9 @@ public class Assert
     public static void assertEquals(Drawable a,Drawable b)
     {
         if (!a.getClass().equals(b.getClass())) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+
+        //assertEquals(a.getBounds(),b.getBounds());
+
         if (a instanceof ColorDrawable)
         {
             assertEquals(((ColorDrawable) a).getColor(), ((ColorDrawable) b).getColor());
@@ -101,6 +105,8 @@ public class Assert
             LayerDrawable a_layer = (LayerDrawable)a;
             LayerDrawable b_layer = (LayerDrawable)b;
 
+            assertEquals(a_layer.getIntrinsicWidth(), b_layer.getIntrinsicWidth());
+            assertEquals(a_layer.getIntrinsicHeight(),b_layer.getIntrinsicHeight());
             assertEquals(a_layer.getNumberOfLayers(),a_layer.getNumberOfLayers());
             for(int i = 0; i < a_layer.getNumberOfLayers(); i++)
             {
@@ -112,15 +118,26 @@ public class Assert
             RotateDrawable a_rot = (RotateDrawable)a;
             RotateDrawable b_rot = (RotateDrawable)b;
 
+            assertEquals(a_rot.getIntrinsicWidth(), b_rot.getIntrinsicWidth());
+            assertEquals(a_rot.getIntrinsicHeight(),b_rot.getIntrinsicHeight());
+
             assertEquals(a_rot.getDrawable(), b_rot.getDrawable());
+        }
+        else if (a instanceof ClipDrawable)
+        {
+            ClipDrawable a_clip = (ClipDrawable)a;
+            ClipDrawable b_clip = (ClipDrawable)b;
 
-            /*
-            Drawable.ConstantState sa = a_rot.getConstantState();
-            Drawable.ConstantState sb = b_rot.getConstantState();
+            assertEquals(a_clip.getOpacity(), b_clip.getOpacity());
+            assertEquals(a_clip.isStateful(), b_clip.isStateful());
+            assertEquals(a_clip.getIntrinsicWidth(), b_clip.getIntrinsicWidth());
+            assertEquals(a_clip.getIntrinsicHeight(), b_clip.getIntrinsicHeight());
 
-            Class clasz = TestUtil.resolveClass(RotateDrawable.class.getName() + "$RotateState");
-            assertEquals((Integer)TestUtil.getField(sa,clasz,"mStrokeWidth"),(Integer)TestUtil.getField(sb,clasz,"mStrokeWidth"));
-            */
+            Drawable.ConstantState sa = a_clip.getConstantState();
+            Drawable.ConstantState sb = b_clip.getConstantState();
+
+            Class clasz = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
+            assertEquals((Drawable)TestUtil.getField(sa,clasz,"mDrawable"),(Drawable)TestUtil.getField(sb,clasz,"mDrawable"));
         }
         else
             throw new ItsNatDroidException("Cannot test " + a);

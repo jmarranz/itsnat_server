@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_indeterminate;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_indeterminateBehavior;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_interpolator;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar_progressDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -38,6 +39,8 @@ public class ClassDesc_widget_ProgressBar extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecFieldSetDimensionInt(this,"minWidth","mMinWidth",24));
         // android:mirrorForRtl es de un Level superior a 15
         addAttrDesc(new AttrDescReflecInt(this,"progress",0));
+        addAttrDesc(new AttrDesc_widget_ProgressBar_progressDrawable(this));
+        addAttrDesc(new AttrDescReflecInt(this,"secondaryProgress",0));
     }
 
 }

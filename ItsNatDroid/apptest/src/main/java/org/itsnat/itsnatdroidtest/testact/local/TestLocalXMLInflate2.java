@@ -98,7 +98,14 @@ public class TestLocalXMLInflate2
 
             // android:src (no tiene método get)
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mDrawable"));
-            assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+               @Override
+               public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+               {
+                   assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
+               }
+            });
 
             // android:hint (no tiene método get)
             // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
@@ -122,7 +129,14 @@ public class TestLocalXMLInflate2
             assertEquals((Integer) TestUtil.getField(compLayout, "mBehavior"), (Integer) TestUtil.getField(parsedLayout, "mBehavior"));
 
             assertNotNull((LayerDrawable) compLayout.getIndeterminateDrawable());
-            assertEquals((LayerDrawable)compLayout.getIndeterminateDrawable(),(LayerDrawable)parsedLayout.getIndeterminateDrawable());
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((LayerDrawable)compLayout.getIndeterminateDrawable(),(LayerDrawable)parsedLayout.getIndeterminateDrawable());
+                }
+            });
 
             // android:indeterminateDuration
             assertEquals((Integer) TestUtil.getField(compLayout, "mDuration"), 6000);
@@ -147,8 +161,7 @@ public class TestLocalXMLInflate2
         {
             final ProgressBar compLayout = (ProgressBar) comp.getChildAt(childCount);
             final ProgressBar parsedLayout = (ProgressBar) parsed.getChildAt(childCount);
-System.out.println("PARAR");
-/*
+
             assertEquals(compLayout.getMax(),90);
             assertEquals(compLayout.getMax(),parsedLayout.getMax());
 
@@ -163,7 +176,22 @@ System.out.println("PARAR");
 
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"),ValueUtil.dpToPixelInt(20, res));
             assertEquals((Integer) TestUtil.getField(compLayout,"mMinWidth"), (Integer) TestUtil.getField(parsedLayout, "mMinWidth"));
-*/
+
+            assertEquals(compLayout.getProgress(),30);
+            assertEquals(compLayout.getProgress(),parsedLayout.getProgress());
+
+            assertNotNull((LayerDrawable)compLayout.getProgressDrawable());
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((LayerDrawable)compLayout.getProgressDrawable(),(LayerDrawable)parsedLayout.getProgressDrawable());
+                }
+            });
+
+            assertEquals(compLayout.getSecondaryProgress(),50);
+            assertEquals(compLayout.getSecondaryProgress(),parsedLayout.getSecondaryProgress());
         }
 
 
