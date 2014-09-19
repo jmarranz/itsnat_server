@@ -13,7 +13,6 @@ import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -258,10 +257,6 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         {
             String spinnerMode = findSpinnerModeAttribute(parser, ctx);
             return ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, -1, idStyle,spinnerMode, ctx);
-        }
-        else if (classDesc instanceof ClassDesc_widget_ProgressBar)
-        {
-            return ((ClassDesc_widget_ProgressBar)classDesc).createAndAddProgressBarObject(viewParent, -1, idStyle, ctx);
         }
         else
         {

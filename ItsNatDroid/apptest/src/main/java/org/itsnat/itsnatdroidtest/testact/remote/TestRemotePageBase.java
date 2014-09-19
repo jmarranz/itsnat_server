@@ -164,7 +164,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         TestUtil.alertDialog(act,msg.toString());
         if (ex instanceof ItsNatDroidServerResponseException)
-            TestUtil.alertDialog(act, "User Msg: Server loadedContent returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
+            TestUtil.alertDialog(act, "User Msg: Server loaded content returned error: " + ((ItsNatDroidServerResponseException) ex).getContent());
         else if (ex instanceof ItsNatDroidScriptException)
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;

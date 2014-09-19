@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
 import android.util.Xml;
@@ -21,7 +22,10 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -35,7 +39,8 @@ public class ClassDescViewBased
 {
     protected String className;
     protected Class<View> clasz;
-    protected Constructor<View> constructor;
+    protected Constructor<View> constructor1P;
+    protected Constructor<View> constructor3P;
     protected HashMap<String,AttrDesc> attrDescMap;
     protected ClassDescViewBased parentClass;
     protected boolean initiated;
@@ -210,22 +215,22 @@ public class ClassDescViewBased
 
         try
         {
-            if (constructor == null) constructor = clasz.getConstructor(Context.class);
-
             if (idStyle != 0)
             {
-                /* NO FUNCIONA
-                Constructor<View> constructor = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
-                AttributeSet attributes = createEmptyAttributeSet(ctx);
-                return constructor.newInstance(ctx, attributes, idStyle);
-                */
-
                 // http://stackoverflow.com/questions/3142067/android-set-style-in-code
-                return constructor.newInstance(new ContextThemeWrapper(ctx,idStyle));
+                // En teoría un parámetro es suficiente (con ContextThemeWrapper) pero curiosamente por ej en ProgressBar son necesarios los tres parámetros
+                // de otra manera el idStyle es ignorado, por tanto aunque parece redundate el paso del idStyle, ambos params son necesarios en algún caso
+                if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
+                return constructor3P.newInstance(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
+
+                // ALTERNATIVA QUE NO FUNCIONA (idStyle es ignorado):
+                //if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
+                //return constructor3P.newInstance(ctx, null, idStyle);
             }
             else
             {
-                return constructor.newInstance(ctx);
+                if (constructor1P == null) constructor1P = clasz.getConstructor(Context.class);
+                return constructor1P.newInstance(ctx);
             }
         }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
@@ -248,28 +253,51 @@ public class ClassDescViewBased
         view.setLayoutParams(params);
     }
 
-    protected static AttributeSet createEmptyAttributeSet_NOT_USED(Context ctx)
+    protected static AttributeSet readAttributeSetLayout(Context ctx,int layoutId)
     {
-        // Este método experimental es para create un AttributeSet vacío a partir de un XML compilado, se trataria
+        // Método para crear un AttributeSet del elemento root a partir de un XML compilado
+
+        XmlResourceParser parser = ctx.getResources().getLayout(layoutId);
+
+        try { while (parser.next() != XmlPullParser.START_TAG) {}  }
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+        AttributeSet attributes = Xml.asAttributeSet(parser);
+        return attributes;
+    }
+
+    protected static AttributeSet readAttributeSet_ANTIGUO(Context ctx)
+    {
+        // NO SE USA, el método Resources.getLayout() ya devuelve un XmlResourceParser compilado
+        // Y antes funcionaba pero ya NO (Android 4.4).
+
+
+        // Este método experimental es para create un AttributeSet a partir de un XML compilado, se trataria
         // de crear un archivo XML tal y como "<tag />" ir al apk generado y copiar el archivo compilado, abrirlo
         // y copiar el contenido compilado y guardarlo finalmente como un byte[] constante
         // El problema es que no he conseguido usar AttributeSet vacío para lo que lo quería.
         // El método lo dejo inutilizado por si en el futuro se necesita un AttributeSet
 
-        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.4.2_r1/android/loadedContent/res/XmlBlock.java?av=f
+        // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.4.2_r1/android/content/res/XmlBlock.java?av=f
 
-        InputStream input = null; // ctx.getResources().openRawResource(R.raw.prueba_compilado);
+        Resources res = ctx.getResources();
+        InputStream input = null; // res.openRawResource(R.raw.prueba_compilado_raw);
         byte[] content = IOUtil.read(input);
 
         try
         {
-            Class<?> xmlBlockClass = Class.forName("android.loadedContent.res.XmlBlock");
+            Class<?> xmlBlockClass = Class.forName("android.content.res.XmlBlock");
 
-            Constructor xmlBlockClassConstr = xmlBlockClass.getConstructor(byte[].class);
+            Constructor xmlBlockClassConstr = xmlBlockClass.getDeclaredConstructor(byte[].class);
+            xmlBlockClassConstr.setAccessible(true);
             Object xmlBlock = xmlBlockClassConstr.newInstance(content);
 
-            Method newParserMethod = xmlBlock.getClass().getMethod("newParser");
-            XmlResourceParser parser = (XmlResourceParser)newParserMethod.invoke(xmlBlock);
+            Method xmlBlockNewParserMethod = xmlBlockClass.getDeclaredMethod("newParser");
+            xmlBlockNewParserMethod.setAccessible(true);
+            XmlResourceParser parser = (XmlResourceParser)xmlBlockNewParserMethod.invoke(xmlBlock);
+
+            while (parser.next() != XmlPullParser.START_TAG) {}
 
             AttributeSet attributes = Xml.asAttributeSet(parser);
             return attributes;
@@ -279,6 +307,8 @@ public class ClassDescViewBased
         catch (InstantiationException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
     }
 
 

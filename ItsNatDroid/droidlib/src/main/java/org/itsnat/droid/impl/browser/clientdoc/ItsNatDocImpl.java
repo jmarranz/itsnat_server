@@ -45,7 +45,6 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 
 import java.util.HashMap;
@@ -209,10 +208,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         {
             String spinnerMode = findSpinnerModeAttribute(newChildToIn, ctx);
             view = ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, index, idStyle, spinnerMode, ctx);
-        }
-        else if (classDesc instanceof ClassDesc_widget_ProgressBar)
-        {
-            view = ((ClassDesc_widget_ProgressBar)classDesc).createAndAddProgressBarObject(viewParent, index, idStyle, ctx);
         }
         else
         {

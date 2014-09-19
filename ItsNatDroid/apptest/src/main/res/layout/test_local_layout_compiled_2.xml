@@ -59,16 +59,18 @@
             />
 
         <!-- Test ProgressBar (determinate) -->
-        <ProgressBar
+        <org.itsnat.itsnatdroidtest.testact.util.CustomProgressBar
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="#dddddd"
 
-
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            /> <!--
             style="?android:attr/progressBarStyleHorizontal"
-            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal" -->
+             />
+        <!--
+            style="?android:attr/progressBarStyleHorizontal"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Horizontal"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+        -->
 
         <!--
         android:max="90"

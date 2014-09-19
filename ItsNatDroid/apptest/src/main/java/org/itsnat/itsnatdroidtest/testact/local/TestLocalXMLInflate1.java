@@ -84,9 +84,6 @@ public class TestLocalXMLInflate1
 
         // Testing misc attribs
         {
-            // Test findViewByXMLId
-
-
             RelativeLayout compRelLayout = (RelativeLayout) comp.getChildAt(childCount);
             RelativeLayout parsedRelLayout = (RelativeLayout) parsed.getChildAt(childCount);
             {
@@ -96,6 +93,7 @@ public class TestLocalXMLInflate1
 
                 assertEquals(compTextView1.getId(),R.id.textViewTest1);
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
+                // Test findViewByXMLId
                 if (compTextView1 != compRelLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
                 if (parsedTextView1 != layout.findViewByXMLId("textViewTest1")) throw new RuntimeException("FAIL");
 
@@ -104,12 +102,13 @@ public class TestLocalXMLInflate1
                 assertEquals(compTextView1.getTextSize(),ValueUtil.dpToPixelInt(15, res));
                 assertEquals(compTextView1.getTextSize(), parsedTextView1.getTextSize());
 
-                assertEquals(compTextView1.getPaddingLeft(),ValueUtil.dpToPixelInt(10, res));
+                // Test style
+                assertEquals(compTextView1.getPaddingLeft(),ValueUtil.dpToPixelInt(21, res));
                 assertEquals(compTextView1.getPaddingLeft(),parsedTextView1.getPaddingLeft());
-
-                assertEquals(compTextView1.getPaddingRight(),ValueUtil.dpToPixelInt(10, res));
+                assertEquals(compTextView1.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
                 assertEquals(compTextView1.getPaddingRight(),parsedTextView1.getPaddingRight());
 
+                // Test resolución de id
                 assertEquals(compTextView1.getPaddingTop(),ValueUtil.dpToPixelInt(10, res));
                 assertEquals(compTextView1.getPaddingTop(),parsedTextView1.getPaddingTop());
 
@@ -832,6 +831,12 @@ public class TestLocalXMLInflate1
             // Tests android:popupBackground
             assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);
             assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
+
+            // Test style (necesario testear porque se construye de forma especial)
+            assertEquals(compLayout.getPaddingLeft(),ValueUtil.dpToPixelInt(21, res));
+            assertEquals(compLayout.getPaddingLeft(),parsedLayout.getPaddingLeft());
+            assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
+            assertEquals(compLayout.getPaddingRight(),parsedLayout.getPaddingRight());
         }
 
         childCount++;

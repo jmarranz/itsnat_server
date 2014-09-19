@@ -2,14 +2,15 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_dropDownWidth;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_popupBackground;
 
@@ -25,11 +26,6 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
 
     public View createAndAddSpinnerObject(View viewParent,int index,int idStyle,String spinnerMode,Context ctx)
     {
-        AttributeSet attributes = null; // createEmptyAttributeSet(ctx);
-
-        if (idStyle == 0)
-            idStyle = android.R.attr.spinnerStyle; // Inspirado en el código fuente de Spinner
-
         int mode;
         if (spinnerMode != null)
         {
@@ -39,7 +35,25 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         }
         else mode = -1; // MODE_THEME = -1  es decir se delega en el atributo spinnerMode y si no está definido (que es el caso de layouts dinámico) en lo que diga el theme que suele ser dropdown
 
-        View view = new Spinner(ctx, attributes, idStyle,mode);
+        View view;
+        if (idStyle != 0)
+        {
+            // Pasamos new ContextThemeWrapper(ctx,idStyle) porque como parámetro el idStyle es ignorado
+            AttributeSet attributes = null;
+            if (mode != -1)
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle), attributes, idStyle,mode);
+            else
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle), attributes, idStyle);
+        }
+        else
+        {
+            // Es importante llamar a estos constructores y no pasar un idStyle con 0 pues Spinner define un style por defecto en el constructor que es "mandatory" si no especificamos uno explícitamente
+            if (mode != -1)
+                view = new Spinner(ctx, mode);
+            else
+                view = new Spinner(ctx);
+        }
+
         addViewObject(viewParent,view,index);
         return view;
     }

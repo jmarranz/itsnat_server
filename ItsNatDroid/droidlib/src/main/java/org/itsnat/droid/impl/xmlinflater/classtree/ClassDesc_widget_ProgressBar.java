@@ -1,10 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.ProgressBar;
-
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionInt;
@@ -45,16 +40,5 @@ public class ClassDesc_widget_ProgressBar extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecInt(this,"progress",0));
     }
 
-    public View createAndAddProgressBarObject(View viewParent,int index,int idStyle,Context ctx)
-    {
-        AttributeSet attributes = null; // createEmptyAttributeSet(ctx);
-
-        if (idStyle == 0)
-            idStyle = android.R.attr.progressBarStyle; // Inspirado en el código fuente de ProgressBar
-
-        View view = new ProgressBar(ctx, attributes, idStyle);
-        addViewObject(viewParent,view,index);
-        return view;
-    }
 }
 
