@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewFlipper;
@@ -23,6 +24,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RatingBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
@@ -64,11 +66,19 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_ProgressBar widget_ProgressBar = new ClassDesc_widget_ProgressBar(view_View);
             addClassDescViewBase(widget_ProgressBar);
-                ClassDescViewBased widget_AbsSeekBar = new ClassDescViewBased("android.widget.AbsSeekBar",widget_ProgressBar); // AbsSeekBar no tiene atributos
+                ClassDesc_widget_AbsSeekBar widget_AbsSeekBar = new ClassDesc_widget_AbsSeekBar(widget_ProgressBar);
                 addClassDescViewBase(widget_AbsSeekBar);
                     ClassDesc_widget_RatingBar widget_RatingBar = new ClassDesc_widget_RatingBar(widget_AbsSeekBar);
                     addClassDescViewBase(widget_RatingBar);
+                    ClassDesc_widget_SeekBar widget_SeekBar = new ClassDesc_widget_SeekBar(widget_AbsSeekBar);
+                    addClassDescViewBase(widget_SeekBar);
 
+                // android.support.v4.widget.ContentLoadingProgressBar no tiene atributos
+
+            // android.support.v7.widget.Space no tiene atributos
+            // android.view.SurfaceView no tiene atributos
+                // android.opengl.GLSurfaceView no tiene atributos
+                // android.widget.VideoView no tiene atributos
 
             ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
             addClassDescViewBase(widget_TextView);

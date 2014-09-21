@@ -4,14 +4,18 @@ import android.content.res.Resources;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.AbsSeekBar;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
@@ -194,6 +198,30 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getStepSize(),0.75f);
             assertEquals(compLayout.getStepSize(),parsedLayout.getStepSize());
         }
+
+        childCount++;
+
+        // Test SeekBar
+        {
+            final SeekBar compLayout = (SeekBar) comp.getChildAt(childCount);
+            final SeekBar parsedLayout = (SeekBar) parsed.getChildAt(childCount);
+
+            // Test android:thumb
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout, AbsSeekBar.class, "mThumb"));
+            assertNotNull((StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"));
+        }
+
+        childCount++;
+
+        // Test TextView
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+
+        }
+
+
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

@@ -82,13 +82,32 @@
         -->
         <RatingBar
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="#ffdddd"
             android:isIndicator="false"
             android:numStars="6"
             android:rating="5.25"
             android:stepSize="0.75"
             /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido -->
+
+        <!-- Test SeekBar -->
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#dddddd"
+            android:thumb="@drawable/seek_thumb"
+            android:progress="30"
+            />
+
+        <!-- TextView -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+
+
+            android:text="TextView Test"
+            />
 
     </LinearLayout>
 

@@ -21,6 +21,10 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
     {
         super.init();
 
+
+
+
+
         addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text"));
         addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000")); // textColor

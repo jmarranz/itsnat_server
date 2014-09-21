@@ -139,6 +139,21 @@ public class Assert
             Class clasz = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
             assertEquals((Drawable)TestUtil.getField(sa,clasz,"mDrawable"),(Drawable)TestUtil.getField(sb,clasz,"mDrawable"));
         }
+        /*
+        else if (a instanceof StateListDrawable)
+        {
+            StateListDrawable a_state = (StateListDrawable) a;
+            StateListDrawable b_state = (StateListDrawable) b;
+
+            int[] a_stateArr = a_state.getState();
+            int[] b_stateArr = b_state.getState();
+            assertEquals(a_stateArr.length,b_stateArr.length);
+            for(int i = 0; i < a_stateArr.length; i++)
+            {
+                assertEquals(a_stateArr[i],b_stateArr[i]);
+            }
+        }
+        */
         else
             throw new ItsNatDroidException("Cannot test " + a);
     }
