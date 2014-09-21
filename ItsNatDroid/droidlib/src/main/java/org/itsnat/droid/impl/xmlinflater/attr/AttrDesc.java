@@ -220,7 +220,7 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
     }
 
-    protected int getDimensionWithName(View view, String value)
+    protected int getDimensionWithNameInt(View view, String value)
     {
         int dimension;
 

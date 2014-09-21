@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
 
 /**
@@ -20,10 +20,10 @@ public class ClassDesc_widget_Gallery extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecInt(this,"animationDuration",400));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"animationDuration",400));
         addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", GravityUtil.valueMap,"left")); // No está claro que left sea el valor por defecto
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"spacing",0f));
-        addAttrDesc(new AttrDescReflecFloat(this,"unselectedAlpha",0.5f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"spacing",0f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"unselectedAlpha",0.5f));
 
 
     }

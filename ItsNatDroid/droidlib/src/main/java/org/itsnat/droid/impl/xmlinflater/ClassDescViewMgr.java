@@ -21,6 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ImageView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RatingBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
@@ -63,8 +64,10 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_ProgressBar widget_ProgressBar = new ClassDesc_widget_ProgressBar(view_View);
             addClassDescViewBase(widget_ProgressBar);
-
-
+                ClassDescViewBased widget_AbsSeekBar = new ClassDescViewBased("android.widget.AbsSeekBar",widget_ProgressBar); // AbsSeekBar no tiene atributos
+                addClassDescViewBase(widget_AbsSeekBar);
+                    ClassDesc_widget_RatingBar widget_RatingBar = new ClassDesc_widget_RatingBar(widget_AbsSeekBar);
+                    addClassDescViewBase(widget_RatingBar);
 
 
             ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);

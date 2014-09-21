@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public class AttrDescReflecMultipleName extends AttrDescReflecNameBased<Integer>
+public class AttrDescReflecMultipleName extends AttrDescReflecMethodNameBased<Integer>
 {
     public AttrDescReflecMultipleName(ClassDescViewBased parent, String name, String methodName,Map<String, Integer> valueMap,String defaultName)
     {

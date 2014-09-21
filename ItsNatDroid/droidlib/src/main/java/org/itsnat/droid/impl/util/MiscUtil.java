@@ -7,9 +7,9 @@ import org.itsnat.droid.ItsNatDroidException;
  */
 public class MiscUtil
 {
-    public static Class resolveClass(String viewName)
+    public static Class resolveClass(String className)
     {
-        try { return Class.forName(viewName); }
+        try { return Class.forName(className); } // Es absurdo hacer una caché, el Class ya tiene una caché
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
     }
 }

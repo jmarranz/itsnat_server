@@ -7,11 +7,11 @@ import android.view.View;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_dropDownWidth;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_popupBackground;
 
 /**
@@ -63,14 +63,14 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"dropDownHorizontalOffset",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownHorizontalOffset",0f));
         // Es de traca pero android:dropDownSelector NO tiene implementación alguna en el código fuente
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"dropDownVerticalOffset",0f));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"dropDownVerticalOffset",0f));
-        addAttrDesc(new AttrDesc_widget_Spinner_dropDownWidth(this));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
+        addAttrDesc(new AttrDescReflecFieldSetDimensionWithNameInt(this,"dropDownWidth","mDropDownWidth","wrap_content"));
         addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDesc_widget_Spinner_popupBackground(this));
-        addAttrDesc(new AttrDescReflecCharSequence(this,"prompt")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
 
     }
 }

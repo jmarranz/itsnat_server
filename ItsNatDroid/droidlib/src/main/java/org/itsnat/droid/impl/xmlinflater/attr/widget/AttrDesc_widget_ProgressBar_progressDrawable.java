@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 /**
  * Created by jmarranz on 17/09/14.
  */
-public class AttrDesc_widget_ProgressBar_progressDrawable extends AttrDescReflecDrawable
+public class AttrDesc_widget_ProgressBar_progressDrawable extends AttrDescReflecMethodDrawable
 {
     protected Method methodTileify;
 

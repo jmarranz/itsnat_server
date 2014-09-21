@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public abstract class AttrDescReflecSingleName<T> extends AttrDescReflecNameBased<T>
+public abstract class AttrDescReflecSingleName<T> extends AttrDescReflecMethodNameBased<T>
 {
     public AttrDescReflecSingleName(ClassDescViewBased parent, String name, String methodName,Class classParam,Map<String, T> valueMap,String defaultName)
     {

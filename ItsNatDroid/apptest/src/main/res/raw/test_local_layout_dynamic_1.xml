@@ -78,7 +78,7 @@
                 que soporte scrollbars
              -->
             <ScrollView android:layout_width="match_parent"
-                        android:layout_height="15dp"
+                        android:layout_height="30dp"
                         android:background="#ffdddd"
                         android:fadeScrollbars="true"
                         android:requiresFadingEdge="vertical|horizontal"
@@ -88,11 +88,13 @@
                         android:scrollbarThumbHorizontal="@drawable/scrollbar_thumb_test"
                         android:scrollbarThumbVertical="@drawable/scrollbar_thumb_test"
                         android:scrollbarTrackHorizontal="@drawable/scrollbar_track_test"
-                        android:scrollbarTrackVertical="@drawable/scrollbar_track_test">
+                        android:scrollbarTrackVertical="@drawable/scrollbar_track_test"
+                        android:scrollbars="vertical|horizontal"
+                > <!-- ponemos scrollbars el último para ver si las demás se ejecutan después -->
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Test View Attribs 2"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Test View Attribs 2, the text continue to show the scroll"
                     > <!--  -->
                 </TextView>
             </ScrollView>
@@ -100,6 +102,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Test View Attribs 3"
                 android:background="#dddddd"
                 android:filterTouchesWhenObscured="true"
@@ -497,7 +500,7 @@
             android:gravity="center_vertical|center_horizontal"
             android:popupBackground="#eeee55"
             android:spinnerMode="dropdown"
-            style="@style/test"
+            style="@style/spinner_style_test"
             >
         </Spinner>
 

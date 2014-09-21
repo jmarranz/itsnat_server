@@ -7,22 +7,21 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
- * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
- * Created by jmarranz on 30/04/14.
+ * Created by jmarranz on 1/05/14.
  */
-public class AttrDescReflecDimensionInt extends AttrDescReflecMethod
+public class AttrDescReflecMethodColor extends AttrDescReflecMethod
 {
-    protected Float defaultValue;
+    protected String defaultValue;
 
-    public AttrDescReflecDimensionInt(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecMethodColor(ClassDescViewBased parent, String name, String methodName, String defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecDimensionInt(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescReflecMethodColor(ClassDescViewBased parent, String name, String defaultValue)
     {
-        super(parent,name);
+        super(parent, name);
         this.defaultValue = defaultValue;
     }
 
@@ -33,15 +32,13 @@ public class AttrDescReflecDimensionInt extends AttrDescReflecMethod
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionInt(value, view.getContext());
+        int convValue = getColor(value,view.getContext());
         callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        // En el caso de defaultValue nulo es que no sabemos qué poner, es el caso por ejemplo de poner a cero el tamaño texto, no tiene sentido, se tendría que extraer el tamaño por defecto del Theme actual, un follón y total será muy raro
         if (defaultValue != null)
             callMethod(view, defaultValue);
     }
-
 }

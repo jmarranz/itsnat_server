@@ -9,17 +9,17 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecInt extends AttrDescReflecMethod
+public class AttrDescReflecMethodInt extends AttrDescReflecMethod
 {
     protected Integer defaultValue;
 
-    public AttrDescReflecInt(ClassDescViewBased parent, String name, String methodName, Integer defaultValue)
+    public AttrDescReflecMethodInt(ClassDescViewBased parent, String name, String methodName, Integer defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecInt(ClassDescViewBased parent, String name, Integer defaultValue)
+    public AttrDescReflecMethodInt(ClassDescViewBased parent, String name, Integer defaultValue)
     {
         super(parent,name);
         this.defaultValue = defaultValue;

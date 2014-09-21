@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_GridView_stretchMode;
 
@@ -20,12 +20,12 @@ public class ClassDesc_widget_GridView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"columnWidth",null));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"columnWidth",null));
         addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", GravityUtil.valueMap,"left"));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"horizontalSpacing",0f));
-        addAttrDesc(new AttrDescReflecInt(this,"numColumns",1));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"horizontalSpacing",0f));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"numColumns",1));
         addAttrDesc(new AttrDesc_widget_GridView_stretchMode(this));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"verticalSpacing",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"verticalSpacing",0f));
     }
 }
 

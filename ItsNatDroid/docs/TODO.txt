@@ -1,24 +1,5 @@
 
-400     private void More ...initProgressBar() {
-401         mMax = 100;
-402         mProgress = 0;
-403         mSecondaryProgress = 0;
-404         mIndeterminate = false;
-405         mOnlyIndeterminate = false;
-406         mDuration = 4000;
-407         mBehavior = AlphaAnimation.RESTART;
-408         mMinWidth = 24;
-409         mMaxWidth = 48;
-410         mMinHeight = 24;
-411         mMaxHeight = 48;
-412     }
 
-
-* Hacer comparaciones con valores reales en atributos de dimensiones por ej. ValueUtil.dpToPixelInt(50, res)
-
-* Revisar en qué atributos influye el orden de declaración
-
-* Hacer android:scrollbars????
 
 * Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
 

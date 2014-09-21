@@ -10,12 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertFalse;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
 
@@ -98,14 +100,7 @@ public class TestLocalXMLInflate2
 
             // android:src (no tiene método get)
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mDrawable"));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-               @Override
-               public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-               {
-                   assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
-               }
-            });
+            assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
             // android:hint (no tiene método get)
             // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
@@ -129,14 +124,7 @@ public class TestLocalXMLInflate2
             assertEquals((Integer) TestUtil.getField(compLayout, "mBehavior"), (Integer) TestUtil.getField(parsedLayout, "mBehavior"));
 
             assertNotNull((LayerDrawable) compLayout.getIndeterminateDrawable());
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((LayerDrawable)compLayout.getIndeterminateDrawable(),(LayerDrawable)parsedLayout.getIndeterminateDrawable());
-                }
-            });
+            assertEquals((LayerDrawable)compLayout.getIndeterminateDrawable(),(LayerDrawable)parsedLayout.getIndeterminateDrawable());
 
             // android:indeterminateDuration
             assertEquals((Integer) TestUtil.getField(compLayout, "mDuration"), 6000);
@@ -181,17 +169,30 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getProgress(),parsedLayout.getProgress());
 
             assertNotNull((LayerDrawable)compLayout.getProgressDrawable());
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((LayerDrawable)compLayout.getProgressDrawable(),(LayerDrawable)parsedLayout.getProgressDrawable());
-                }
-            });
+            assertEquals((LayerDrawable)compLayout.getProgressDrawable(),(LayerDrawable)parsedLayout.getProgressDrawable());
 
             assertEquals(compLayout.getSecondaryProgress(),50);
             assertEquals(compLayout.getSecondaryProgress(),parsedLayout.getSecondaryProgress());
+        }
+
+        childCount++;
+
+        // Test RatingBar
+        {
+            final RatingBar compLayout = (RatingBar) comp.getChildAt(childCount);
+            final RatingBar parsedLayout = (RatingBar) parsed.getChildAt(childCount);
+
+            assertFalse(compLayout.isIndicator());
+            assertEquals(compLayout.isIndicator(),parsedLayout.isIndicator());
+
+            assertEquals(compLayout.getNumStars(),6);
+            assertEquals(compLayout.getNumStars(),parsedLayout.getNumStars());
+
+            assertEquals(compLayout.getRating(),5.25f);
+            assertEquals(compLayout.getRating(),parsedLayout.getRating());
+
+            assertEquals(compLayout.getStepSize(),0.75f);
+            assertEquals(compLayout.getStepSize(),parsedLayout.getStepSize());
         }
 
 

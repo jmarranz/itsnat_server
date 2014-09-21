@@ -1,8 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ListViewAndAbsSpinner_entries;
 
 /**
@@ -19,11 +19,11 @@ public class ClassDesc_widget_ListView extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecDrawable(this,"divider",null)); // Android tiene un drawable por defecto
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"dividerHeight",0f));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"divider",null)); // Android tiene un drawable por defecto
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dividerHeight",0f));
         addAttrDesc(new AttrDesc_widget_ListViewAndAbsSpinner_entries(this));
-        addAttrDesc(new AttrDescReflecBoolean(this,"footerDividersEnabled",true));
-        addAttrDesc(new AttrDescReflecBoolean(this,"headerDividersEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"footerDividersEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"headerDividersEnabled",true));
     }
 }
 

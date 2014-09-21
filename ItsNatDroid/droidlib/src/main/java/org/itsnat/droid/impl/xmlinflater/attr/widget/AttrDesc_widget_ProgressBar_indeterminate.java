@@ -4,13 +4,13 @@ import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 17/09/14.
  */
-public class AttrDesc_widget_ProgressBar_indeterminate extends AttrDescReflecBoolean
+public class AttrDesc_widget_ProgressBar_indeterminate extends AttrDescReflecMethodBoolean
 {
     public AttrDesc_widget_ProgressBar_indeterminate(ClassDescViewBased parent, String name,boolean defaultValue)
     {

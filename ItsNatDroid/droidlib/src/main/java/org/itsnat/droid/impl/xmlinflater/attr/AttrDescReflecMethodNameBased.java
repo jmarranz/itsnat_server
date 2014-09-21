@@ -11,13 +11,13 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public abstract class AttrDescReflecNameBased<T> extends AttrDescReflecMethod
+public abstract class AttrDescReflecMethodNameBased<T> extends AttrDescReflecMethod
 {
     protected Map<String, T> valueMap;
     protected String defaultName;
     protected Class classParam;
 
-    public AttrDescReflecNameBased(ClassDescViewBased parent, String name, String methodName,Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, T> valueMap, String defaultName)
     {
         super(parent,name,methodName);
         this.classParam = classParam;
@@ -25,7 +25,7 @@ public abstract class AttrDescReflecNameBased<T> extends AttrDescReflecMethod
         this.defaultName = defaultName;
     }
 
-    public AttrDescReflecNameBased(ClassDescViewBased parent, String name,Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, Map<String, T> valueMap, String defaultName)
     {
         super(parent, name);
         this.classParam = classParam;

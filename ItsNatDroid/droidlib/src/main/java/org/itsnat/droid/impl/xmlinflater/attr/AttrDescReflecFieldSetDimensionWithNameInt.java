@@ -6,35 +6,31 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
+
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecCharSequence extends AttrDescReflecMethod
+public class AttrDescReflecFieldSetDimensionWithNameInt extends AttrDescReflecFieldSet
 {
-    public AttrDescReflecCharSequence(ClassDescViewBased parent, String name, String methodName)
-    {
-        super(parent,name,methodName);
-    }
+    protected String defaultValue;
 
-    public AttrDescReflecCharSequence(ClassDescViewBased parent, String name)
+    public AttrDescReflecFieldSetDimensionWithNameInt(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
     {
-        super(parent,name);
-    }
-
-    protected Class<?> getClassParam()
-    {
-        return CharSequence.class;
+        super(parent,name,fieldName);
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        String convValue = getString(value, view.getContext());
-        callMethod(view, convValue);
+        int convertedValue = getDimensionWithNameInt(view, value);
+
+        setField(view,convertedValue);
     }
 
     public void removeAttribute(View view)
     {
-        callMethod(view, "");
+        if (defaultValue != null)
+            setAttribute(view,defaultValue,null,null);
     }
+
 
 }

@@ -198,14 +198,7 @@ public class TestLocalXMLInflate1
 
                     // Test android:scrollbarThumbVertical
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), ValueUtil.dpToPixelInt(0.9f, res));
-                    parsedScrollView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-                    {
-                        @Override
-                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                        {
-                            assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
-                        }
-                    });
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalThumb"}));
 
                     // Test android:scrollbarTrackHorizontal
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mHorizontalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
@@ -213,15 +206,14 @@ public class TestLocalXMLInflate1
 
                     // Test android:scrollbarTrackVertical
                     assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), ValueUtil.dpToPixelInt(0.9f, res));
-                    parsedScrollView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-                    {
-                        @Override
-                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                        {
-                            assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
-                        }
-                    });
+                    assertEquals((GradientDrawable) TestUtil.getField(compScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}), (GradientDrawable) TestUtil.getField(parsedScrollView, scrollCacheClasses, new String[]{"mScrollCache", "scrollBar", "mVerticalTrack"}));
 
+                    // Test android:scrollbars
+                    int scrollbars = (Integer)TestUtil.getField(compScrollView,View.class,"mViewFlags");
+                    int SCROLLBARS_MASK = 0x00000300;
+                    scrollbars = scrollbars & SCROLLBARS_MASK;
+                    assertEquals(scrollbars & 0x00000100,0x00000100); // Horizontal
+                    assertEquals(scrollbars & 0x00000200,0x00000200); // Vertical
                 }
 
                 {
@@ -290,6 +282,7 @@ public class TestLocalXMLInflate1
                     // algo hace poner a cero los valores, quizás al insertar la View
                     assertPositive(compTextView2.getScrollBarStyle());
                     assertEquals(compTextView2.getScrollBarStyle(), parsedTextView2.getScrollBarStyle());
+
                     assertFalse(compTextView2.isSoundEffectsEnabled());
                     assertEquals(compTextView2.isSoundEffectsEnabled(), parsedTextView2.isSoundEffectsEnabled());
                     assertEquals((String) compTextView2.getTag(), "theTag");
@@ -466,14 +459,7 @@ public class TestLocalXMLInflate1
             final FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
 
             assertEquals(((ColorDrawable)compLayout.getForeground()).getColor(), 0x55ddffdd);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals(compLayout.getForeground(), parsedLayout.getForeground());
-                }
-            });
+            assertEquals(compLayout.getForeground(), parsedLayout.getForeground());
 
             // Test android:foregroundGravity (getForegroundGravity() es Level 16):
             assertEquals((Integer) TestUtil.getField(compLayout, "mForegroundGravity"), Gravity.TOP | Gravity.LEFT);
@@ -495,14 +481,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getBaselineAlignedChildIndex(), parsedLayout.getBaselineAlignedChildIndex());
             // Tests android:divider (getDividerDrawable() es Level 16):
             assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
-                }
-            });
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
 
             assertEquals(compLayout.getShowDividers(), 3);
             assertEquals(compLayout.getShowDividers(), parsedLayout.getShowDividers());
@@ -744,14 +723,7 @@ public class TestLocalXMLInflate1
             // Test android:divider
             // Test visual: líneas rojas separadoras de items
             assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelInt(0.9f, res));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
-                }
-            });
+            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
 
             assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelInt(2, res));
             assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
@@ -875,6 +847,7 @@ public class TestLocalXMLInflate1
             assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
 
             // Test style (necesario testear porque se construye de forma especial)
+
             assertEquals(compLayout.getPaddingLeft(),ValueUtil.dpToPixelInt(21, res));
             assertEquals(compLayout.getPaddingLeft(),parsedLayout.getPaddingLeft());
             assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
@@ -931,36 +904,15 @@ public class TestLocalXMLInflate1
 
             // android:dial
             assertNotNull((Drawable)TestUtil.getField(compLayout, "mDial"));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
-                }
-            });
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mDial"),(Drawable)TestUtil.getField(parsedLayout,"mDial"));
 
             // android:hand_hour
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mHourHand"));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
-                }
-            });
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mHourHand"),(Drawable)TestUtil.getField(parsedLayout,"mHourHand"));
 
             // android:hand_minute
             assertNotNull((Drawable)TestUtil.getField(compLayout,"mMinuteHand"));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
-                }
-            });
+            assertEquals((Drawable)TestUtil.getField(compLayout,"mMinuteHand"),(Drawable)TestUtil.getField(parsedLayout,"mMinuteHand"));
         }
 
 

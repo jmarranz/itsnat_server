@@ -20,7 +20,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int height = getDimensionWithName(view, value);
+        int height = getDimensionWithNameInt(view, value);
 
         ViewGroup.LayoutParams params = view.getLayoutParams();
 

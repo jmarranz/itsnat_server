@@ -2,16 +2,16 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.widget.RelativeLayout;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecCharSequence;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionFloat;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDimensionInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecDrawable;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFloat;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecId;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecObject;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionFloat;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodId;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodObject;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_drawingCacheQuality;
-import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_id;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_fadeScrollbars;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layerType;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_alignWithParentIfMissing;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_column;
@@ -39,6 +39,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_scrollbarT
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_scrollbarThumbVertical;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_scrollbarTrackHorizontal;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_scrollbarTrackVertical;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_scrollbars;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_visibility;
 
 /**
@@ -58,33 +59,34 @@ public class ClassDesc_view_View extends ClassDescViewBased
         // Atributos analizados para Android 4.4 (API Level: 19) pero teniendo en cuenta que sólo soportamos Level 15 (Android 4.0.3)
 
         // android:accessibilityLiveRegion es Level 19
-        addAttrDesc(new AttrDescReflecFloat(this,"alpha",1f));
-        addAttrDesc(new AttrDescReflecDrawable(this,"background","setBackgroundDrawable","@null"));  // setBackground() es desde Android 4.1
-        addAttrDesc(new AttrDescReflecBoolean(this,"clickable",true));
-        addAttrDesc(new AttrDescReflecCharSequence(this,"contentDescription"));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"alpha",1f));
+        addAttrDesc(new AttrDescReflecMethodDrawable(this,"background","setBackgroundDrawable","@null"));  // setBackground() es desde Android 4.1
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"clickable",true));
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"contentDescription"));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
-        addAttrDesc(new AttrDescReflecBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
-        addAttrDesc(new AttrDescReflecBoolean(this,"fadeScrollbars","setScrollbarFadingEnabled",true));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"fadingEdgeLength",null));
-        addAttrDesc(new AttrDescReflecBoolean(this,"filterTouchesWhenObscured",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
+        addAttrDesc(new AttrDesc_view_View_fadeScrollbars(this));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"fadingEdgeLength",null));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"filterTouchesWhenObscured",false));
         // android:fitsSystemWindows es Level 16
-        addAttrDesc(new AttrDescReflecBoolean(this,"focusable",false));
-        addAttrDesc(new AttrDescReflecBoolean(this,"focusableInTouchMode",false));
-        addAttrDesc(new AttrDescReflecBoolean(this,"hapticFeedbackEnabled",true));
-        addAttrDesc(new AttrDesc_view_View_id(this)); // "id"
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusable",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusableInTouchMode",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodId(this,"id"));
+
         // android:importantForAccessibility es Level 16
-        addAttrDesc(new AttrDescReflecBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
-        addAttrDesc(new AttrDescReflecBoolean(this,"keepScreenOn",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"keepScreenOn",false));
         addAttrDesc(new AttrDesc_view_View_layerType(this)); // layerType
         // android:layoutDirection es Level 17
-        addAttrDesc(new AttrDescReflecBoolean(this,"longClickable",false));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"minHeight","setMinimumHeight",null));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"minWidth","setMinimumWidth",null));
-        addAttrDesc(new AttrDescReflecId(this,"nextFocusDown","setNextFocusDownId"));
-        addAttrDesc(new AttrDescReflecId(this,"nextFocusForward","setNextFocusForwardId"));
-        addAttrDesc(new AttrDescReflecId(this,"nextFocusLeft","setNextFocusLeftId"));
-        addAttrDesc(new AttrDescReflecId(this,"nextFocusRight","setNextFocusRightId"));
-        addAttrDesc(new AttrDescReflecId(this,"nextFocusUp","setNextFocusUpId"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"longClickable",false));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minHeight","setMinimumHeight",null));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minWidth","setMinimumWidth",null));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusDown","setNextFocusDownId"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusForward","setNextFocusForwardId"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusLeft","setNextFocusLeftId"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusRight","setNextFocusRightId"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusUp","setNextFocusUpId"));
         addAttrDesc(new AttrDesc_view_View_onClick(this));
         addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));
@@ -94,14 +96,14 @@ public class ClassDesc_view_View extends ClassDescViewBased
         // android:paddingStart es Level 17
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingTop"));
         addAttrDesc(new AttrDesc_view_View_requiresFadingEdge(this)); // requiresFadingEdge
-        addAttrDesc(new AttrDescReflecFloat(this,"rotation",0f));
-        addAttrDesc(new AttrDescReflecFloat(this,"rotationX",0f));
-        addAttrDesc(new AttrDescReflecFloat(this,"rotationY",0f));
-        addAttrDesc(new AttrDescReflecBoolean(this,"saveEnabled",true));
-        addAttrDesc(new AttrDescReflecFloat(this,"scaleX",1f));
-        addAttrDesc(new AttrDescReflecFloat(this,"scaleY",1f));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollX",0f));
-        addAttrDesc(new AttrDescReflecDimensionInt(this,"scrollY",0f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"rotation",0f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"rotationX",0f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"rotationY",0f));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"saveEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"scaleX",1f));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"scaleY",1f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"scrollX",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"scrollY",0f));
         addAttrDesc(new AttrDesc_view_View_scrollbarAlwaysDrawHorizontalTrack(this));
         addAttrDesc(new AttrDesc_view_View_scrollbarAlwaysDrawVerticalTrack(this));
 
@@ -115,15 +117,17 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_scrollbarTrackHorizontal(this));
         addAttrDesc(new AttrDesc_view_View_scrollbarTrackVertical(this));
 
+        addAttrDesc(new AttrDesc_view_View_scrollbars(this));
+
         // android:scrollbars está basado en flags, es difícil de implementar
-        addAttrDesc(new AttrDescReflecBoolean(this,"soundEffectsEnabled",true));
-        addAttrDesc(new AttrDescReflecObject(this,"tag"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"soundEffectsEnabled",true));
+        addAttrDesc(new AttrDescReflecMethodObject(this,"tag"));
         // android:textAlignment es Level 17
         // android:textDirection es Level 17
-        addAttrDesc(new AttrDescReflecDimensionFloat(this,"transformPivotX","setPivotX",0f));
-        addAttrDesc(new AttrDescReflecDimensionFloat(this,"transformPivotY","setPivotY",0f));
-        addAttrDesc(new AttrDescReflecDimensionFloat(this,"translationX",0f));
-        addAttrDesc(new AttrDescReflecDimensionFloat(this,"translationY",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this,"transformPivotX","setPivotX",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this,"transformPivotY","setPivotY",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this,"translationX",0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionFloat(this,"translationY",0f));
         addAttrDesc(new AttrDesc_view_View_visibility(this)); // "visibility"
 
         // Debidos a ViewGroup

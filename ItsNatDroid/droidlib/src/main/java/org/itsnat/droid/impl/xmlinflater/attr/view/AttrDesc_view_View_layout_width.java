@@ -21,7 +21,7 @@ public class AttrDesc_view_View_layout_width extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int width = getDimensionWithName(view, value);
+        int width = getDimensionWithNameInt(view, value);
 
         ViewGroup.LayoutParams params = view.getLayoutParams();
 

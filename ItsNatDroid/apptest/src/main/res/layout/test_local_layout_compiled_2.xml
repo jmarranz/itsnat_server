@@ -74,6 +74,20 @@
             android:secondaryProgress="50"
              />
 
+        <!-- Test RatingBar
+         Leer en el javadoc la necesidad de layout_width="wrap_content"
+        -->
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="#ffdddd"
+            android:isIndicator="false"
+            android:numStars="6"
+            android:rating="5.25"
+            android:stepSize="0.75"
+            /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido
+                idem stepSize -->
+
 
 
     </LinearLayout>

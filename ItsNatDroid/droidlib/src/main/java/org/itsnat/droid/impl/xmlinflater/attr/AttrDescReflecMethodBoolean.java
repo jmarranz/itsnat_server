@@ -9,17 +9,17 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecFloat extends AttrDescReflecMethod
+public class AttrDescReflecMethodBoolean extends AttrDescReflecMethod
 {
-    protected Float defaultValue;
+    protected boolean defaultValue;
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name, String methodName, boolean defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecFloat(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name, boolean defaultValue)
     {
         super(parent,name);
         this.defaultValue = defaultValue;
@@ -27,19 +27,17 @@ public class AttrDescReflecFloat extends AttrDescReflecMethod
 
     protected Class<?> getClassParam()
     {
-        return float.class;
+        return boolean.class;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        float convValue = getFloat(value, view.getContext());
+        boolean convValue = getBoolean(value, view.getContext());
         callMethod(view, convValue);
     }
 
     public void removeAttribute(View view)
     {
-        // En el caso de defaultValue nulo es que no sabemos qué poner, es el caso por ejemplo de poner a cero el tamaño texto, no tiene sentido, se tendría que extraer el tamaño por defecto del Theme actual, un follón y total será muy raro
-        if (defaultValue != null)
-            callMethod(view, defaultValue);
+        callMethod(view, defaultValue);
     }
 }

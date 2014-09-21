@@ -4,13 +4,13 @@ import android.view.View;
 
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends AttrDescReflecInt
+public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends AttrDescReflecMethodInt
 {
     public AttrDesc_widget_LinearLayout_baselineAlignedChildIndex(ClassDescViewBased parent)
     {

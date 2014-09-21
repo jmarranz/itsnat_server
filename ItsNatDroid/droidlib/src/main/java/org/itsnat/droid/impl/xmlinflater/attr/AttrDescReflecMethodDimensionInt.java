@@ -7,19 +7,20 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 /**
+ * Aunque la entrada de datos sea una dimensión float con sufijo y todo, el método que define el valor sólo admite un entero
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescReflecDimensionFloat extends AttrDescReflecMethod
+public class AttrDescReflecMethodDimensionInt extends AttrDescReflecMethod
 {
     protected Float defaultValue;
 
-    public AttrDescReflecDimensionFloat(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
+    public AttrDescReflecMethodDimensionInt(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
     {
         super(parent,name,methodName);
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecDimensionFloat(ClassDescViewBased parent, String name, Float defaultValue)
+    public AttrDescReflecMethodDimensionInt(ClassDescViewBased parent, String name, Float defaultValue)
     {
         super(parent,name);
         this.defaultValue = defaultValue;
@@ -27,12 +28,12 @@ public class AttrDescReflecDimensionFloat extends AttrDescReflecMethod
 
     protected Class<?> getClassParam()
     {
-        return float.class;
+        return int.class;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        float convValue = getDimensionFloat(value, view.getContext());
+        int convValue = getDimensionInt(value, view.getContext());
         callMethod(view, convValue);
     }
 

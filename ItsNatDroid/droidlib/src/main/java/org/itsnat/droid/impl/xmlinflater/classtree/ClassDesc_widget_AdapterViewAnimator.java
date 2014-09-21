@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecBoolean;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AdapterViewAnimator_inAnimation;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AdapterViewAnimator_outAnimation;
@@ -19,7 +19,7 @@ public class ClassDesc_widget_AdapterViewAnimator extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecBoolean(this,"animateFirstView",true));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"animateFirstView",true));
         addAttrDesc(new AttrDesc_widget_AdapterViewAnimator_inAnimation(this));
         addAttrDesc(new AttrDescReflecFieldSetBoolean(this,"loopViews","mLoopViews",false));
         addAttrDesc(new AttrDesc_widget_AdapterViewAnimator_outAnimation(this));
