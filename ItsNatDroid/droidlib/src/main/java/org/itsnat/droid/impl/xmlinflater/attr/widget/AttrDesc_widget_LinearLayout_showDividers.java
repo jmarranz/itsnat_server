@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr.widget;
 
 import android.widget.LinearLayout;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_LinearLayout_showDividers extends AttrDescReflecMultipleName
+public class AttrDesc_widget_LinearLayout_showDividers extends AttrDescReflecMethodMultipleName
 {
     static Map<String, Integer> valueMap = new HashMap<String, Integer>( 4 );
     static

@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import org.itsnat.droid.ItsNatDroidException;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import java.util.Map;
 public class TestUtil
 {
     private final static Map<String,Field> fieldCache = new HashMap<String,Field>();
+    private final static Map<String,Method> methodCache = new HashMap<String,Method>();
 
     public static void alertDialog(Context ctx,String content)
     {
@@ -80,6 +83,48 @@ public class TestUtil
             return field;
         }
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
+    }
+
+    public static Object callMethod(Object obj,Object[] params,String methodName,Class[] paramClasses)
+    {
+        return callMethod(obj,params,obj.getClass(),methodName,paramClasses);
+    }
+
+    public static Object callMethod(Object obj,Object[] params,Class clasz,String methodName,Class[] paramClasses)
+    {
+        try
+        {
+            Method method = getMethod(clasz,methodName,paramClasses);
+            return method.invoke(obj,params);
+        }
+        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
+    }
+
+    public static Method getMethod(Class clasz,String methodName,Class[] paramClasses)
+    {
+        try
+        {
+            StringBuilder paramsKey = new StringBuilder();
+            if (paramClasses != null)
+            {
+                for(int i = 0; i < paramClasses.length; i++)
+                {
+                    paramsKey.append(":" + paramClasses[i].getName());
+                }
+            }
+            String key = clasz.getName() + ":" + methodName + paramsKey.toString();
+            Method method = methodCache.get(key);
+            if (method == null)
+            {
+                method = clasz.getDeclaredMethod(methodName, paramClasses);
+                method.setAccessible(true);
+                methodCache.put(key,method);
+            }
+
+            return method;
+        }
+        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
     }
 
     public static Class resolveClass(String viewName)

@@ -10,7 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionWithNameInt;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_popupBackground;
 
@@ -68,7 +68,7 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
         addAttrDesc(new AttrDescReflecFieldSetDimensionWithNameInt(this,"dropDownWidth","mDropDownWidth","wrap_content"));
-        addAttrDesc(new AttrDescReflecMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
+        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDesc_widget_Spinner_popupBackground(this));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
 

@@ -102,7 +102,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffdddd"
-
+            android:autoLink="web|email"
+            android:bufferType="editable"
+            android:cursorVisible="true"
+            android:drawableBottom="@drawable/drawable_bottom_top_test"
+            android:drawableLeft="@drawable/drawable_left_right_test"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/drawable_left_right_test"
+            android:drawableTop="@drawable/drawable_bottom_top_test"
 
             android:text="TextView Test"
             />

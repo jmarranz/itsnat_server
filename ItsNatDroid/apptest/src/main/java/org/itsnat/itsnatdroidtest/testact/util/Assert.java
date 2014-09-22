@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
+import android.widget.TextView;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -65,6 +66,11 @@ public class Assert
     }
 
     public static void assertEquals(Rect a,Rect b)
+    {
+        assertEqualsInternal(a,b);
+    }
+
+    public final static void assertEquals(TextView.BufferType a,TextView.BufferType b)
     {
         assertEqualsInternal(a,b);
     }

@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr.widget;
 
 import android.widget.ImageView;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecSingleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_ImageView_scaleType extends AttrDescReflecSingleName<ImageView.ScaleType>
+public class AttrDesc_widget_ImageView_scaleType extends AttrDescReflecMethodSingleName<ImageView.ScaleType>
 {
     static Map<String, ImageView.ScaleType> valueMap = new HashMap<String, ImageView.ScaleType>( 8 );
     static

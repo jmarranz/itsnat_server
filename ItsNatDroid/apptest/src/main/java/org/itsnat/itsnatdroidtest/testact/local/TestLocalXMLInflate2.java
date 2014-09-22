@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 
@@ -218,7 +219,35 @@ public class TestLocalXMLInflate2
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
+            // Test android:autoLink
+            assertEquals(compLayout.getAutoLinkMask() & 0x01,0x01); // web
+            assertEquals(compLayout.getAutoLinkMask() & 0x02,0x02); // email
+            assertEquals(compLayout.getAutoLinkMask(),0x03); // web|email
+            assertEquals(compLayout.getAutoLinkMask(),parsedLayout.getAutoLinkMask());
 
+            // Test android:bufferType
+            assertEquals((TextView.BufferType)TestUtil.getField(compLayout,"mBufferType"),TextView.BufferType.EDITABLE);
+            assertEquals((TextView.BufferType)TestUtil.getField(compLayout,"mBufferType"),(TextView.BufferType)TestUtil.getField(parsedLayout,"mBufferType"));
+
+            // Test android:cursorVisible
+            // Android 4.0.3 (Level 15) tiene un atributo llamado mCursorVisible, dicho atributo cambia en una versión superior pero no se cual
+            // pero ya a partir de Level 16 existe el método isCursorVisible
+
+            //Object callMethod(Object obj,Object[] params,Class clasz,String methodName,Class[] paramClasses)
+
+            try
+            {
+                assertTrue((Boolean) TestUtil.getField(compLayout, "mCursorVisible"));
+                assertEquals((Boolean) TestUtil.getField(compLayout, "mCursorVisible"), (Boolean) TestUtil.getField(parsedLayout, "mCursorVisible"));
+            }
+            catch(ItsNatDroidException ex)
+            {
+                if (!(ex.getCause() instanceof NoSuchFieldException))
+                    throw ex;
+
+                assertTrue((Boolean) TestUtil.callMethod(compLayout,null,"isCursorVisible",null));
+                assertEquals((Boolean)TestUtil.callMethod(compLayout,null,"isCursorVisible",null),(Boolean)TestUtil.callMethod(parsedLayout,null,"isCursorVisible",null));
+            }
         }
 
 

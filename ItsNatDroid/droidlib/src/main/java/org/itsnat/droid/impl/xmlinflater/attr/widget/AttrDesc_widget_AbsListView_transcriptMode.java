@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.attr.widget;
 
 import android.widget.AbsListView;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecSingleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_AbsListView_transcriptMode extends AttrDescReflecSingleName
+public class AttrDesc_widget_AbsListView_transcriptMode extends AttrDescReflecMethodSingleName
 {
     static Map<String, Integer> valueMap = new HashMap<String, Integer>( 3 );
     static
