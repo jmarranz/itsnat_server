@@ -34,7 +34,7 @@ public class AttrDesc_widget_TextView_ellipsize extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        TextUtils.TruncateAt convValue = this.<TextUtils.TruncateAt>parseSingleName(value,valueMap);
+        TextUtils.TruncateAt convValue = AttrDesc.<TextUtils.TruncateAt>parseSingleName(value,valueMap);
 
         ((TextView)view).setEllipsize(convValue);
     }

@@ -115,13 +115,22 @@
             android:freezesText="true"
             android:gravity="center_vertical|center_horizontal"
             android:hint="Hint Text Test"
-
+            android:imeActionId="0x00000002"
+            android:imeActionLabel="Gojm"
+            android:imeOptions="actionGo|actionSearch"
+            android:includeFontPadding="false"
+            android:inputType="text|number"
 
             android:text="TextView Tests (this text is cut on the right with ellipsis points)"
             android:textSize="15dp"
             android:singleLine="true"
             />
-    </LinearLayout> <!-- No ponemos android:height porque se pisa con ems -->
+            <!-- No ponemos android:height porque se pisa con ems
+                 imeActionId="0x00000002" es la acción Go
+            -->
 
+
+
+    </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

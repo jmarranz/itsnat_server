@@ -11,6 +11,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_au
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_bufferType;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_compoundDrawables;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_ellipsize;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeActionId;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeActionLabel;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeOptions;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_inputType;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textSize;
 
@@ -50,6 +54,13 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"height",-1f));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint"));
+        addAttrDesc(new AttrDesc_widget_TextView_imeActionId(this));
+        addAttrDesc(new AttrDesc_widget_TextView_imeActionLabel(this));
+        addAttrDesc(new AttrDesc_widget_TextView_imeOptions(this));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"includeFontPadding",true));
+        // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
+        //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
+        addAttrDesc(new AttrDesc_widget_TextView_inputType(this));
 
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));

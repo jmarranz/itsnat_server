@@ -5,10 +5,12 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AbsSeekBar;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -287,6 +289,23 @@ public class TestLocalXMLInflate2
 
             assertEquals(compLayout.getHint(),"Hint Text Test");
             assertEquals(compLayout.getHint(),parsedLayout.getHint());
+
+            assertEquals(compLayout.getImeActionId(),0x00000002);
+            assertEquals(compLayout.getImeActionId(),parsedLayout.getImeActionId());
+
+            assertEquals(compLayout.getImeActionLabel(),"Gojm");
+            assertEquals(compLayout.getImeActionLabel(),parsedLayout.getImeActionLabel());
+
+            assertEquals(compLayout.getImeOptions(),EditorInfo.IME_ACTION_GO|EditorInfo.IME_ACTION_SEARCH);
+            assertEquals(compLayout.getImeOptions(),parsedLayout.getImeOptions());
+
+            // Test android:includeFontPadding
+            assertFalse((Boolean) TestUtil.getField(compLayout, "mIncludePad"));
+            assertEquals((Boolean)TestUtil.getField(compLayout, "mIncludePad"),(Boolean)TestUtil.getField(parsedLayout, "mIncludePad"));
+
+            assertEquals(compLayout.getInputType(), InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+            assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
+
 
         }
 

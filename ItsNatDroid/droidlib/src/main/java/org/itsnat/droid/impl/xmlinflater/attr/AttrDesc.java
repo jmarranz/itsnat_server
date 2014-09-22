@@ -85,8 +85,17 @@ public abstract class AttrDesc
             int resId = getIdentifier(attrValue, ctx);
             return ctx.getResources().getInteger(resId);
         }
-        else return Integer.parseInt(attrValue);
+        else
+        {
+            if (attrValue.startsWith("0x"))
+            {
+                attrValue = attrValue.substring(2);
+                return Integer.parseInt(attrValue, 16);
+            }
+            return Integer.parseInt(attrValue);
+        }
     }
+
 
     public static float getFloat(String attrValue, Context ctx)
     {

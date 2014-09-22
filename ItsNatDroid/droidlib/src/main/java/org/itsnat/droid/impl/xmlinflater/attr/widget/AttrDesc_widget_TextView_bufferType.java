@@ -3,7 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.attr.widget;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -12,7 +14,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_TextView_bufferType extends AttrDescReflecMethodSingleName<TextView.BufferType>
+public class AttrDesc_widget_TextView_bufferType extends AttrDesc
 {
     static Map<String,TextView.BufferType> valueMap = new HashMap<String,TextView.BufferType>( 3 );
     static
@@ -24,13 +26,20 @@ public class AttrDesc_widget_TextView_bufferType extends AttrDescReflecMethodSin
 
     public AttrDesc_widget_TextView_bufferType(ClassDescViewBased parent)
     {
-        super(parent,"bufferType",TextView.BufferType.class,valueMap,"normal");
+        super(parent,"bufferType");
     }
 
-    protected void callMethod(View view, Object convertedValue)
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        // Redefinimos porque el método tiene dos parámetros y no vale el reflection por defecto
+        TextView.BufferType convertedValue = AttrDesc.<TextView.BufferType>parseSingleName(value, valueMap);
+
         TextView textView = (TextView)view;
         textView.setText(textView.getText(),(TextView.BufferType)convertedValue);
     }
+
+    public void removeAttribute(View view)
+    {
+        setAttribute(view, "normal", null,null);
+    }
+
 }
