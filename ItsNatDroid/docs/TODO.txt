@@ -1,5 +1,5 @@
 
-
+* Probar con el emulador
 
 * Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
 

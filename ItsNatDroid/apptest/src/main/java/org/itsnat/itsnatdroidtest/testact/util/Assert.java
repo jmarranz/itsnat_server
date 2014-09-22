@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
-import android.widget.TextView;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -70,7 +69,7 @@ public class Assert
         assertEqualsInternal(a,b);
     }
 
-    public final static void assertEquals(TextView.BufferType a,TextView.BufferType b)
+    public final static void assertEquals(Object a,Object b)
     {
         assertEqualsInternal(a,b);
     }
@@ -79,6 +78,26 @@ public class Assert
     {
         if (a == b) return;
         if (a != null && !a.equals(b) || b != null && !b.equals(a)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+    }
+
+    public final static void assertEquals(Integer a,int b)
+    {
+        assertEquals((int)a,b);
+    }
+
+    public final static void assertEquals(Integer a,Integer b)
+    {
+        assertEquals((int)a,(int)b);
+    }
+
+    public final static void assertEquals(Float a,float b)
+    {
+        assertEquals((float)a,b);
+    }
+
+    public final static void assertEquals(Float a,Float b)
+    {
+        assertEquals((float)a,(float)b);
     }
 
     public static void assertEquals(Drawable a,Drawable b)
@@ -96,7 +115,8 @@ public class Assert
             Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
             Drawable.ConstantState sb = ((GradientDrawable) b).getConstantState();
 
-            assertEquals((Integer)TestUtil.getField(sa,"mStrokeWidth"),(Integer)TestUtil.getField(sb,"mStrokeWidth"));
+            assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
+            assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
         }
         else if (a instanceof BitmapDrawable)
         {

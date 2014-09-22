@@ -5,6 +5,8 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.AbsSeekBar;
@@ -248,6 +250,44 @@ public class TestLocalXMLInflate2
                 assertTrue((Boolean) TestUtil.callMethod(compLayout,null,"isCursorVisible",null));
                 assertEquals((Boolean)TestUtil.callMethod(compLayout,null,"isCursorVisible",null),(Boolean)TestUtil.callMethod(parsedLayout,null,"isCursorVisible",null));
             }
+
+            // Test android:drawableBottom,android:drawableLeft,android:drawableRight,android:drawableTop
+            assertEquals(compLayout.getCompoundDrawables().length, 4);
+            Drawable[] compDrawArr = compLayout.getCompoundDrawables();
+            Drawable[] parsedDrawArr = parsedLayout.getCompoundDrawables();
+            for(int i = 0; i < 4; i++)
+            {
+                assertEquals(compDrawArr[i],parsedDrawArr[i]);
+            }
+
+            // Test android:drawablePadding
+            assertEquals(compLayout.getCompoundDrawablePadding(),ValueUtil.dpToPixelInt(10,res));
+            assertEquals(compLayout.getCompoundDrawablePadding(),parsedLayout.getCompoundDrawablePadding());
+
+            assertEquals(compLayout.getEllipsize(), TextUtils.TruncateAt.MARQUEE);
+            assertEquals(compLayout.getEllipsize(),parsedLayout.getEllipsize());
+
+            // Test android:ems  Cuando se define llamando setEms(int) se definen también con el mismo valor minEms y maxEms
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"), 50);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"),(Integer)TestUtil.getField(parsedLayout, "mMinWidth"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), 50);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+
+            assertTrue(compLayout.getFreezesText());
+            assertEquals(compLayout.getFreezesText(),parsedLayout.getFreezesText());
+
+            // Tests android:gravity (no get en Level 15)
+            assertEquals(compLayout.getGravity(),Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+            assertEquals(compLayout.getGravity(),parsedLayout.getGravity());
+
+            /* No testeamos android:height porque se pisa con android:ems
+            assertEquals(compLayout.getHeight(),ValueUtil.dpToPixelInt(45,res));
+            assertEquals(compLayout.getHeight(),parsedLayout.getHeight());
+            */
+
+            assertEquals(compLayout.getHint(),"Hint Text Test");
+            assertEquals(compLayout.getHint(),parsedLayout.getHint());
+
         }
 
 
