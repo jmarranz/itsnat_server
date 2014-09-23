@@ -16,17 +16,17 @@ public class AttrDescReflecMethodDimensionInt extends AttrDescReflecMethod
 
     public AttrDescReflecMethodDimensionInt(ClassDescViewBased parent, String name, String methodName, Float defaultValue)
     {
-        super(parent,name,methodName);
+        super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
     public AttrDescReflecMethodDimensionInt(ClassDescViewBased parent, String name, Float defaultValue)
     {
-        super(parent,name);
+        super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    protected Class<?> getClassParam()
+    protected static Class<?> getClassParam()
     {
         return int.class;
     }

@@ -97,7 +97,7 @@
             android:progress="30"
             />
 
-        <!-- TextView -->
+        <!-- TextView (single line) -->
         <TextView
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -120,13 +120,18 @@
             android:imeOptions="actionGo|actionSearch"
             android:includeFontPadding="false"
             android:inputType="text|number"
+            android:lineSpacingExtra="5dp"
+            android:lineSpacingMultiplier="1.2"
+            android:lines="1"
+
 
             android:text="TextView Tests (this text is cut on the right with ellipsis points)"
             android:textSize="15dp"
             android:singleLine="true"
             />
-            <!-- No ponemos android:height porque se pisa con ems
+            <!-- No ponemos android:height porque se pisa con android:lines y android:singleLine
                  imeActionId="0x00000002" es la acción Go
+
             -->
 
 

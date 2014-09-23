@@ -16,7 +16,7 @@ public class AttrDesc_widget_GridLayout_orientation extends AttrDescReflecMethod
     static Map<String, Integer> valueMap = new HashMap<String, Integer>( 2 );
     static
     {
-        valueMap.put("horizontal", GridLayout.HORIZONTAL);
+        valueMap.put("horizontal",GridLayout.HORIZONTAL);
         valueMap.put("vertical",GridLayout.VERTICAL);
     }
 

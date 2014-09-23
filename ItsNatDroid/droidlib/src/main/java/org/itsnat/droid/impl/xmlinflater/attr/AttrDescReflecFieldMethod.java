@@ -5,7 +5,6 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -14,17 +13,16 @@ import java.lang.reflect.Method;
  */
 public abstract class AttrDescReflecFieldMethod extends AttrDesc
 {
-    protected String fieldName;
     protected String methodName;
     protected Class methodClass;
     protected Class paramClass;
-    protected Field field;
+    protected FieldContainer field;
     protected Method method;
 
     public AttrDescReflecFieldMethod(ClassDescViewBased parent, String name, String fieldName, String methodName, Class methodClass, Class paramClass)
     {
         super(parent,name);
-        this.fieldName = fieldName;
+        this.field = new FieldContainer(parent,fieldName);
         this.methodName = methodName;
         this.methodClass = methodClass;
         this.paramClass = paramClass;
@@ -34,12 +32,7 @@ public abstract class AttrDescReflecFieldMethod extends AttrDesc
     {
         try
         {
-            if (field == null)
-            {
-                this.field = parent.getViewClass().getDeclaredField(fieldName);
-                field.setAccessible(true); // Pues normalmente serán atributos ocultos
-            }
-            Object fieldValue = field.get(view);
+            Object fieldValue = field.getValue(view);
 
             if (method == null)
             {
@@ -48,7 +41,6 @@ public abstract class AttrDescReflecFieldMethod extends AttrDesc
             }
             method.invoke(fieldValue,convertedValue);
         }
-        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
         catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }

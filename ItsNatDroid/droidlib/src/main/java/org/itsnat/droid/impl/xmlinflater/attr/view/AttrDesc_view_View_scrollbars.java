@@ -2,14 +2,12 @@ package org.itsnat.droid.impl.xmlinflater.attr.view;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.attr.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,11 +27,12 @@ public class AttrDesc_view_View_scrollbars extends AttrDesc
 
     protected static final int SCROLLBARS_MASK = 0x00000300;
 
-    protected Method methodSetFlags;
+    protected MethodContainer methodSetFlags;
 
     public AttrDesc_view_View_scrollbars(ClassDescViewBased parent)
     {
         super(parent,"scrollbars");
+        this.methodSetFlags = new MethodContainer(parent,"setFlags",new Class[]{int.class, int.class});
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -51,18 +50,6 @@ public class AttrDesc_view_View_scrollbars extends AttrDesc
 
     protected void setFlags(View view,int scrollbars,int scrollbarsMask)
     {
-        try
-        {
-            if (methodSetFlags == null)
-            {
-                this.methodSetFlags = parent.getViewClass().getDeclaredMethod("setFlags", new Class[]{int.class, int.class});
-                methodSetFlags.setAccessible(true);
-            }
-
-            methodSetFlags.invoke(view, scrollbars, scrollbarsMask);
-        }
-        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
-        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
-        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+        methodSetFlags.call(view,scrollbars, scrollbarsMask);
     }
 }

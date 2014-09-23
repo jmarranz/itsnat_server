@@ -15,27 +15,19 @@ public abstract class AttrDescReflecMethodNameBased<T> extends AttrDescReflecMet
 {
     protected Map<String, T> valueMap;
     protected String defaultName;
-    protected Class classParam;
 
     public AttrDescReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, T> valueMap, String defaultName)
     {
-        super(parent,name,methodName);
-        this.classParam = classParam;
+        super(parent,name,methodName,classParam);
         this.valueMap = valueMap;
         this.defaultName = defaultName;
     }
 
     public AttrDescReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, Map<String, T> valueMap, String defaultName)
     {
-        super(parent, name);
-        this.classParam = classParam;
+        super(parent, name,classParam);
         this.valueMap = valueMap;
         this.defaultName = defaultName;
-    }
-
-    protected Class<?> getClassParam()
-    {
-        return classParam;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

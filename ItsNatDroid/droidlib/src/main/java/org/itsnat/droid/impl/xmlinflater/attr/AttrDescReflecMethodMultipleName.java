@@ -11,12 +11,17 @@ public class AttrDescReflecMethodMultipleName extends AttrDescReflecMethodNameBa
 {
     public AttrDescReflecMethodMultipleName(ClassDescViewBased parent, String name, String methodName, Map<String, Integer> valueMap, String defaultName)
     {
-        super(parent,name,methodName,int.class,valueMap,defaultName);
+        super(parent,name,methodName,getClassParam(),valueMap,defaultName);
     }
 
     public AttrDescReflecMethodMultipleName(ClassDescViewBased parent, String name, Map<String, Integer> valueMap, String defaultName)
     {
-        super(parent, name,int.class,valueMap,defaultName);
+        super(parent, name,getClassParam(),valueMap,defaultName);
+    }
+
+    protected static Class<?> getClassParam()
+    {
+        return int.class;
     }
 
     @Override
@@ -24,6 +29,4 @@ public class AttrDescReflecMethodMultipleName extends AttrDescReflecMethodNameBa
     {
         return parseMultipleName(value, valueMap);
     }
-
-
 }

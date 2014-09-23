@@ -2,29 +2,24 @@ package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.view.View;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
 public abstract class AttrDescReflecMethod extends AttrDesc
 {
-    protected String methodName;
-    protected Method method;
+    protected MethodContainer method;
 
-    public AttrDescReflecMethod(ClassDescViewBased parent, String name, String methodName)
+    public AttrDescReflecMethod(ClassDescViewBased parent, String name, String methodName,Class classParam)
     {
         super(parent,name);
-        this.methodName = methodName;
+        this.method = new MethodContainer(parent,methodName,classParam != null ? new Class[]{classParam} : null);
     }
 
-    public AttrDescReflecMethod(ClassDescViewBased parent, String name)
+    public AttrDescReflecMethod(ClassDescViewBased parent, String name,Class classParam)
     {
-        this(parent,name,genMethodName(name));
+        this(parent,name,genMethodName(name),classParam);
     }
 
     public static String genMethodName(String name)
@@ -32,20 +27,9 @@ public abstract class AttrDescReflecMethod extends AttrDesc
         return "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
     }
 
-    protected abstract Class<?> getClassParam();
-
     protected void callMethod(View view, Object convertedValue)
     {
-        try
-        {
-            if (method == null)
-                this.method = parent.getViewClass().getDeclaredMethod(methodName,getClassParam());
-
-            method.invoke(view,convertedValue);
-        }
-        catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
-        catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
-        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+        method.call(view,convertedValue);
     }
 
 }

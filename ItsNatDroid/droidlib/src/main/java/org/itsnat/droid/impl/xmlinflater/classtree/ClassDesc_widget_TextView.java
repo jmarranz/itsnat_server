@@ -15,6 +15,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_im
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeActionLabel;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeOptions;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_inputType;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingExtra;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingMultiplier;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textSize;
 
@@ -61,6 +63,9 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
         //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
         addAttrDesc(new AttrDesc_widget_TextView_inputType(this));
+        addAttrDesc(new AttrDesc_widget_TextView_lineSpacingExtra(this));
+        addAttrDesc(new AttrDesc_widget_TextView_lineSpacingMultiplier(this));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"lines",-1));
 
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));

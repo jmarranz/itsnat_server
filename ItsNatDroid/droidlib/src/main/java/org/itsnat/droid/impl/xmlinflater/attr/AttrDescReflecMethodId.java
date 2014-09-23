@@ -17,15 +17,15 @@ public class AttrDescReflecMethodId extends AttrDescReflecMethod
 {
     public AttrDescReflecMethodId(ClassDescViewBased parent, String name, String methodName)
     {
-        super(parent,name,methodName);
+        super(parent,name,methodName,getClassParam());
     }
 
     public AttrDescReflecMethodId(ClassDescViewBased parent, String name)
     {
-        super(parent,name);
+        super(parent,name,getClassParam());
     }
 
-    protected Class<?> getClassParam()
+    protected static Class<?> getClassParam()
     {
         return int.class;
     }

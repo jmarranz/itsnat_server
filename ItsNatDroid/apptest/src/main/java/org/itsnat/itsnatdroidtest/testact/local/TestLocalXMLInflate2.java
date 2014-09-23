@@ -218,7 +218,7 @@ public class TestLocalXMLInflate2
 
         childCount++;
 
-        // Test TextView
+        // Test TextView (single line)
         {
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
@@ -305,6 +305,22 @@ public class TestLocalXMLInflate2
 
             assertEquals(compLayout.getInputType(), InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
+
+            // Test android:lineSpacingExtra
+            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"),ValueUtil.dpToPixel(5,res));
+            assertEquals((Float)TestUtil.getField(compLayout, "mSpacingAdd"),(Float)TestUtil.getField(parsedLayout, "mSpacingAdd"));
+
+            // Test android:lineSpacingMultiplier
+            assertEquals((Float)TestUtil.getField(compLayout, "mSpacingMult"),1.2f);
+            assertEquals((Float)TestUtil.getField(compLayout, "mSpacingMult"),(Float)TestUtil.getField(parsedLayout, "mSpacingMult"));
+
+            // Test android:lines
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),1); // modo LINES = 1
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),(Integer)TestUtil.getField(parsedLayout, "mMaximum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),(Integer)TestUtil.getField(parsedLayout, "mMinimum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxMode"));
 
 
         }

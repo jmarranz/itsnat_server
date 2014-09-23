@@ -13,19 +13,19 @@ public class AttrDescReflecMethodBoolean extends AttrDescReflecMethod
 {
     protected boolean defaultValue;
 
-    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name, String methodName, boolean defaultValue)
+    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name, String methodName,boolean defaultValue)
     {
-        super(parent,name,methodName);
+        super(parent,name,methodName,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name, boolean defaultValue)
+    public AttrDescReflecMethodBoolean(ClassDescViewBased parent, String name,boolean defaultValue)
     {
-        super(parent,name);
+        super(parent,name,getClassParam());
         this.defaultValue = defaultValue;
     }
 
-    protected Class<?> getClassParam()
+    protected static Class<?> getClassParam()
     {
         return boolean.class;
     }
