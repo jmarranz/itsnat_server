@@ -123,15 +123,23 @@
             android:lineSpacingExtra="5dp"
             android:lineSpacingMultiplier="1.2"
             android:lines="1"
+            android:linksClickable="false"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxEms="50"
+            android:maxLength="1000"
+            android:maxLines="1"
+            android:minEms="50"
+            android:minLines="1"
 
 
             android:text="TextView Tests (this text is cut on the right with ellipsis points)"
             android:textSize="15dp"
             android:singleLine="true"
             />
-            <!-- No ponemos android:height porque se pisa con android:lines y android:singleLine
-                 imeActionId="0x00000002" es la acción Go
+            <!-- No ponemos android:height, android:maxHeight y android:minHeight porque se pisa con android:lines y android:singleLine
+                 No ponemos android:width, android:maxWidth y android:minWidth  porque se pisa con android:ems
 
+                 imeActionId="0x00000002" es la acción Go
             -->
 
 

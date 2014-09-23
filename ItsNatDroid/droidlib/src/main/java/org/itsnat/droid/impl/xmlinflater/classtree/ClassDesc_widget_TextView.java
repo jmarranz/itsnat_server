@@ -17,6 +17,8 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_im
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_inputType;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingExtra;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingMultiplier;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_marqueeRepeatLimit;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_maxLength;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textSize;
 
@@ -66,6 +68,16 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_TextView_lineSpacingExtra(this));
         addAttrDesc(new AttrDesc_widget_TextView_lineSpacingMultiplier(this));
         addAttrDesc(new AttrDescReflecMethodInt(this,"lines",-1));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"linksClickable",true));
+        addAttrDesc(new AttrDesc_widget_TextView_marqueeRepeatLimit(this));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"maxEms", -1));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"maxHeight",-1f));
+        addAttrDesc(new AttrDesc_widget_TextView_maxLength(this));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"maxLines",-1));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"maxWidth",-1f));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"minEms", -1));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minHeight",-1f));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"minLines",-1));
 
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));

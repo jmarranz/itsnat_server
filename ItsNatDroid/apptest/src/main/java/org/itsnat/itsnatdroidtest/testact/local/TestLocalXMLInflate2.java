@@ -5,6 +5,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -307,7 +308,7 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
             // Test android:lineSpacingExtra
-            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"),ValueUtil.dpToPixel(5,res));
+            assertEquals((Float) TestUtil.getField(compLayout, "mSpacingAdd"), ValueUtil.dpToPixel(5, res));
             assertEquals((Float)TestUtil.getField(compLayout, "mSpacingAdd"),(Float)TestUtil.getField(parsedLayout, "mSpacingAdd"));
 
             // Test android:lineSpacingMultiplier
@@ -316,11 +317,50 @@ public class TestLocalXMLInflate2
 
             // Test android:lines
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),1);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),1);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),1); // modo LINES = 1
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),(Integer)TestUtil.getField(parsedLayout, "mMaximum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),1);
             assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),(Integer)TestUtil.getField(parsedLayout, "mMinimum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),1); // modo LINES = 1
             assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxMode"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),(Integer)TestUtil.getField(parsedLayout, "mMinMode"));
+
+            assertFalse(compLayout.getLinksClickable());
+            assertEquals(compLayout.getLinksClickable(), parsedLayout.getLinksClickable());
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMarqueeRepeatLimit"),-1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMarqueeRepeatLimit"),(Integer)TestUtil.getField(parsedLayout, "mMarqueeRepeatLimit"));
+
+            // Test android:maxEms
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"), 50);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidthMode"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidthMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidthMode"));
+
+            // Test android:maxLength
+            assertEquals((InputFilter.LengthFilter)compLayout.getFilters()[0],new InputFilter.LengthFilter(1000));
+            assertEquals((InputFilter.LengthFilter)compLayout.getFilters()[0],(InputFilter.LengthFilter)parsedLayout.getFilters()[0]);
+
+            // Test android:maxLines
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),(Integer)TestUtil.getField(parsedLayout, "mMaximum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),1); // modo LINES = 1
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxMode"));
+
+            // Test android:minEms
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"), 50);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidth"),(Integer)TestUtil.getField(parsedLayout, "mMinWidth"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidthMode"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinWidthMode"),(Integer)TestUtil.getField(parsedLayout, "mMinWidthMode"));
+
+            // Test android:minLines
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinimum"),(Integer)TestUtil.getField(parsedLayout, "mMinimum"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),1);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),(Integer)TestUtil.getField(parsedLayout, "mMinMode"));
+
+
+
 
 
         }

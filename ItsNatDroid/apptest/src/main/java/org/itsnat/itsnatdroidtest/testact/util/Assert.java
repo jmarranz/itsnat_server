@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
+import android.text.InputFilter;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -68,6 +69,14 @@ public class Assert
     {
         assertEqualsInternal(a,b);
     }
+
+    public static void assertEquals(InputFilter.LengthFilter a,InputFilter.LengthFilter b)
+    {
+        int a_int = (Integer)TestUtil.getField(a,"mMax");
+        int b_int = (Integer)TestUtil.getField(b,"mMax");
+        assertEquals(a_int,b_int);
+    }
+
 
     public final static void assertEquals(Object a,Object b)
     {
