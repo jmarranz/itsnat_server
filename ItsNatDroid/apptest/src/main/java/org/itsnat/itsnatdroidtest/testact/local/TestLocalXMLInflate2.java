@@ -359,7 +359,33 @@ public class TestLocalXMLInflate2
             assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),1);
             assertEquals((Integer)TestUtil.getField(compLayout, "mMinMode"),(Integer)TestUtil.getField(parsedLayout, "mMinMode"));
 
+            assertEquals(compLayout.getPrivateImeOptions(), "com.example.myapp.JustToWriteSomething=3");
+            assertEquals(compLayout.getPrivateImeOptions(), parsedLayout.getPrivateImeOptions());
 
+            // android:scrollHorizontally
+            assertTrue((Boolean) TestUtil.getField(compLayout, "mHorizontallyScrolling"));
+            assertEquals((Boolean)TestUtil.getField(compLayout,"mHorizontallyScrolling"),(Boolean)TestUtil.getField(parsedLayout, "mHorizontallyScrolling"));
+
+            // Test android:selectAllOnFocus
+            // Android 4.0.3 (Level 15) tiene un atributo llamado mSelectAllOnFocus, dicho atributo cambia en una versión superior
+            // estando dentro ahora del atributo mEditor (android.widget.Editor)
+
+            try
+            {
+                assertTrue((Boolean) TestUtil.getField(compLayout, "mSelectAllOnFocus"));
+                assertEquals((Boolean) TestUtil.getField(compLayout, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedLayout, "mSelectAllOnFocus"));
+            }
+            catch(ItsNatDroidException ex)
+            {
+                if (!(ex.getCause() instanceof NoSuchFieldException))
+                    throw ex;
+
+                Object compEditor = TestUtil.getField(compLayout,"mEditor");
+                Object parsedEditor = TestUtil.getField(parsedLayout,"mEditor");
+
+                assertTrue((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"));
+                assertEquals((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedEditor, "mSelectAllOnFocus"));
+            }
 
 
 

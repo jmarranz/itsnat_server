@@ -115,6 +115,8 @@ public class ClassDescViewBased
             }
             else
             {
+                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+                // y tiene prioridad la clase más derivada
                 if (parentClass != null)
                 {
                     parentClass.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess,pending,inflated);

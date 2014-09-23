@@ -73,7 +73,8 @@
                 android:duplicateParentState="true"/>
 
             <!-- Necesario un ScrollView o similar para poder testear fadeScrollbars, en TextView es ignorado
-                requiresFadingEdge es necesario para que no se ignore fadingEdgeLength
+                requiresFadingEdge es necesario para que no se ignore fadingEdgeLength, aunque no es necesario que se procese
+                antes requiresFadingEdge como atributo, es después al interpretarlos.
                 Por otra parte scrollbarAlwaysDrawHorizontalTrack y scrollbarAlwaysDrawVerticalTrack necesita un componente
                 que soporte scrollbars
              -->
@@ -81,8 +82,8 @@
                         android:layout_height="30dp"
                         android:background="#ffdddd"
                         android:fadeScrollbars="true"
-                        android:requiresFadingEdge="vertical|horizontal"
                         android:fadingEdgeLength="10dp"
+                        android:requiresFadingEdge="vertical|horizontal"
                         android:scrollbarAlwaysDrawHorizontalTrack="true"
                         android:scrollbarAlwaysDrawVerticalTrack="true"
                         android:scrollbarThumbHorizontal="@drawable/scrollbar_thumb_test"
@@ -99,11 +100,12 @@
                 </TextView>
             </ScrollView>
 
-            <TextView
+            <!-- No usamos aquí un TextView porque minHeight/minWidth se definen también en TextView -->
+            <View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Test View Attribs 3"
+
                 android:background="#dddddd"
                 android:filterTouchesWhenObscured="true"
                 android:focusable="true"

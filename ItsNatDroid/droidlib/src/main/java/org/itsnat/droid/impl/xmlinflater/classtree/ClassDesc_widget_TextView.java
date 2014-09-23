@@ -6,6 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodString;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_autoLink;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_bufferType;
@@ -37,9 +38,9 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDesc_widget_TextView_autoLink(this));
-        // android:autoText no se implementarlo  (siempre existe la opción de introducirlo via style)
+        // android:autoText está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         addAttrDesc(new AttrDesc_widget_TextView_bufferType(this));
-        // android:capitalize no se implementarlo  (relacionado con autoText)
+        // android:capitalize está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"cursorVisible",true));
         // android:digits no se implementarlo
 
@@ -49,7 +50,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_TextView_compoundDrawables(this,"drawableBottom"));
         // android:drawableStart y android:drawableEnd en teoría existen pero su acceso via métodos es desde Level 17 y no los veo relevantes
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"drawablePadding","setCompoundDrawablePadding",0f));
-        // android:editable no se implementarlo
+        // android:editable está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:editorExtras tiene un bug y no funciona ni con un layout compilado: https://code.google.com/p/android/issues/detail?id=38122
         addAttrDesc(new AttrDesc_widget_TextView_ellipsize(this));
         addAttrDesc(new AttrDescReflecMethodInt(this, "ems", -1));
@@ -78,6 +79,13 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodInt(this,"minEms", -1));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minHeight",-1f));
         addAttrDesc(new AttrDescReflecMethodInt(this,"minLines",-1));
+        // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
+        // android:password está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
+        // android:phoneNumber está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
+        addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollHorizontally","setHorizontallyScrolling",false));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"selectAllOnFocus",false));
+
 
 
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));

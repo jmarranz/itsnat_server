@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionWithNameInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_dropDownHorizontalOffset;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_dropDownVerticalOffset;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_popupBackground;
 
 /**
@@ -63,15 +64,14 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownHorizontalOffset",0f));
+        addAttrDesc(new AttrDesc_widget_Spinner_dropDownHorizontalOffset(this));
         // Es de traca pero android:dropDownSelector NO tiene implementación alguna en el código fuente
-        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
-        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0f));
+        addAttrDesc(new AttrDesc_widget_Spinner_dropDownVerticalOffset(this));
         addAttrDesc(new AttrDescReflecFieldSetDimensionWithNameInt(this,"dropDownWidth","mDropDownWidth","wrap_content"));
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDesc_widget_Spinner_popupBackground(this));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
-
+        // android:spinnerMode no es un atributo normal, se pasa por el constructor del objeto Spinner
     }
 }
 

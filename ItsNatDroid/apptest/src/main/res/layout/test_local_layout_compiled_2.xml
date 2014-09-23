@@ -130,6 +130,9 @@
             android:maxLines="1"
             android:minEms="50"
             android:minLines="1"
+            android:privateImeOptions="com.example.myapp.JustToWriteSomething=3"
+            android:scrollHorizontally="true"
+            android:selectAllOnFocus="true"
 
 
             android:text="TextView Tests (this text is cut on the right with ellipsis points)"

@@ -217,9 +217,11 @@ public class TestLocalXMLInflate1
                 }
 
                 {
-                    TextView compTextView2 = (TextView) compLinLayout.getChildAt(2);
-                    TextView parsedTextView2 = (TextView) parsedLinLayout.getChildAt(2);
-                    assertEquals(compTextView2.getText(), parsedTextView2.getText());
+                    // No usamos aquí TextView porque minHeight/minWidth se definen también en TextView y no podríamos testear para View (testearíamos los de TextView)
+                    final View compTextView2 = compLinLayout.getChildAt(2);
+                    final View parsedTextView2 = parsedLinLayout.getChildAt(2);
+
+                    //assertEquals(compTextView2.getText(), parsedTextView2.getText());
                     // Test android:filterTouchesWhenObscured
                     assertTrue(compTextView2.getFilterTouchesWhenObscured());
                     // En el emulador 4.0.4 el setFilterTouchesWhenObscured() parece como si hiciera un NOT al parámetro, sin embargo en el Nexus 4 perfecto
@@ -243,6 +245,7 @@ public class TestLocalXMLInflate1
                     assertEquals(compTextView2.getLayerType(), parsedTextView2.getLayerType());
                     assertTrue(compTextView2.isLongClickable());
                     assertEquals(compTextView2.isLongClickable(), parsedTextView2.isLongClickable());
+                    // Test android:minHeight
                     assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), ValueUtil.dpToPixelInt(30, res));
                     assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinHeight"), (Integer) TestUtil.getField(parsedTextView2, View.class, "mMinHeight"));
                     assertEquals((Integer) TestUtil.getField(compTextView2, View.class, "mMinWidth"), ValueUtil.dpToPixelInt(30, res));
@@ -808,11 +811,16 @@ public class TestLocalXMLInflate1
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
 
             // Tests android:dropDownHorizontalOffset
-            int compDropDownHorizontalOffset =   (Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"});
-            int parsedDropDownHorizontalOffset = (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"});
-            assertPositive(compDropDownHorizontalOffset);
-            if (compDropDownHorizontalOffset != parsedDropDownHorizontalOffset)
-                TestUtil.alertDialog(compLayout.getContext(),"Test failed in dropDownHorizontalOffset (" + compDropDownHorizontalOffset + " - " + parsedDropDownHorizontalOffset + "), don't worry it seems dropDownHorizontalOffset is reset after showing items, anyway this value seems not to have visual influence in this example");
+            assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
+                }
+            });
 
             // Tests android:dropDownVerticalOffset
             assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
