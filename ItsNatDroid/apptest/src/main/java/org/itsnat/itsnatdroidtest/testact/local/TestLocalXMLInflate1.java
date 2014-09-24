@@ -811,7 +811,9 @@ public class TestLocalXMLInflate1
             final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
 
             // Tests android:dropDownHorizontalOffset
-            assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
+            // Este atributo es difícil de testear pues se solapa con paddingLeft (definido en el style en este ejemplo) el cual suele imponer su valor
+            // http://stackoverflow.com/questions/21503142/android-spinner-dropdownhorizontaloffset-not-functioning-but-dropdownverticleoff
+            assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), ValueUtil.dpToPixelInt(21,res));
             parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -860,6 +862,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getPaddingLeft(),parsedLayout.getPaddingLeft());
             assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
             assertEquals(compLayout.getPaddingRight(),parsedLayout.getPaddingRight());
+
         }
 
         childCount++;

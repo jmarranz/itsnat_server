@@ -1,13 +1,17 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.TransformationMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -237,9 +241,6 @@ public class TestLocalXMLInflate2
             // Test android:cursorVisible
             // Android 4.0.3 (Level 15) tiene un atributo llamado mCursorVisible, dicho atributo cambia en una versión superior pero no se cual
             // pero ya a partir de Level 16 existe el método isCursorVisible
-
-            //Object callMethod(Object obj,Object[] params,Class clasz,String methodName,Class[] paramClasses)
-
             try
             {
                 assertTrue((Boolean) TestUtil.getField(compLayout, "mCursorVisible"));
@@ -369,7 +370,6 @@ public class TestLocalXMLInflate2
             // Test android:selectAllOnFocus
             // Android 4.0.3 (Level 15) tiene un atributo llamado mSelectAllOnFocus, dicho atributo cambia en una versión superior
             // estando dentro ahora del atributo mEditor (android.widget.Editor)
-
             try
             {
                 assertTrue((Boolean) TestUtil.getField(compLayout, "mSelectAllOnFocus"));
@@ -387,8 +387,67 @@ public class TestLocalXMLInflate2
                 assertEquals((Boolean) TestUtil.getField(compEditor, "mSelectAllOnFocus"), (Boolean) TestUtil.getField(parsedEditor, "mSelectAllOnFocus"));
             }
 
+            // Test android:shadowColor
+            assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),0xffff0000);
+            assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),(Integer) TestUtil.getField(parsedLayout.getPaint(), Paint.class, "shadowColor"));
+
+            // Test android:shadowDx
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowDx"),1.1f);
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowDx"),(Float)TestUtil.getField(parsedLayout,"mShadowDx"));
+
+            // Test android:shadowDy
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowDy"),1.2f);
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowDy"),(Float)TestUtil.getField(parsedLayout,"mShadowDy"));
+
+            // Test android:shadowRadius
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowRadius"),1.3f);
+            assertEquals((Float)TestUtil.getField(compLayout,"mShadowRadius"),(Float)TestUtil.getField(parsedLayout,"mShadowRadius"));
+
+            // Test android:text
+            // El inputType influye en el tipo de objeto de texto
+            assertEquals((SpannableStringBuilder)compLayout.getText(),new SpannableStringBuilder("TextView Tests (this text is cut on the right with ellipsis points)"));
+            assertEquals(compLayout.getText(),parsedLayout.getText());
+
+            // Test: android:textAllCaps no puedo testear porque no he conseguido que funcione ni en modo compilado
+            // por otra parte los TransformationMethod resultantes son diferentes :(
+            TransformationMethod a_trans = compLayout.getTransformationMethod();
+            TransformationMethod b_trans = parsedLayout.getTransformationMethod();
+
+            // Test: android:textColor
+            assertEquals(compLayout.getTextColors().getDefaultColor(),0xff00ff00);
+            assertEquals(compLayout.getTextColors(), parsedLayout.getTextColors());
+
+            // Test android:textColorHighlight
+            assertEquals((Integer)TestUtil.getField(compLayout,"mHighlightColor"),0xff0000ff);
+            assertEquals((Integer)TestUtil.getField(compLayout,"mHighlightColor"),(Integer)TestUtil.getField(parsedLayout,"mHighlightColor"));
+
+            // Test android:textColorHint
+            assertEquals(compLayout.getHintTextColors().getDefaultColor(),0xff00ff00);
+            assertEquals(compLayout.getHintTextColors(), parsedLayout.getHintTextColors());
+
+            assertFalse(compLayout.isTextSelectable());
+            assertEquals(compLayout.isTextSelectable(), parsedLayout.isTextSelectable());
+
+            assertEquals(compLayout.getTextScaleX(),1.2f);
+            assertEquals(compLayout.getTextScaleX(), parsedLayout.getTextScaleX());
+
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelInt(15,res));
+            assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
+
+            // Test android:textStyle y typeface
+            int NORMAL = 0;
+            int BOLD = 1;
+            int ITALIC = 2;
+
+            Typeface compTf = compLayout.getTypeface();
+            Typeface parsedTf = parsedLayout.getTypeface();
+
+            assertEquals(compTf.getStyle(),BOLD | ITALIC);
+            assertEquals(compTf.getStyle(),parsedTf.getStyle());
 
 
+
+//            System.out.println("PARAR");
         }
 
 

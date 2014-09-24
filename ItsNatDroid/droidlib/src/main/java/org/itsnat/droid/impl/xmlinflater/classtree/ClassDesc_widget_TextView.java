@@ -4,6 +4,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodString;
@@ -20,8 +21,11 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_li
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingMultiplier;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_marqueeRepeatLimit;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_maxLength;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_shadowLayer_base;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textSize;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textStyle;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_typeface;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -85,14 +89,25 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollHorizontally","setHorizontallyScrolling",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"selectAllOnFocus",false));
-
-
-
+        addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowColor"));
+        addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowDx"));
+        addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowDy"));
+        addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowRadius"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text"));
-        addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000"));
-        addAttrDesc(new AttrDesc_widget_TextView_textSize(this)); // textSize
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textAllCaps","setAllCaps",false));
         addAttrDesc(new AttrDesc_widget_TextView_textAppearance(this)); // "textAppearance"
+        addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorHighlight","setHighlightColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorHint","setHintTextColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"textColorLink","setLinkTextColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textIsSelectable",false));
+        addAttrDesc(new AttrDescReflecMethodFloat(this,"textScaleX",1.0f));
+        // No, no es un error, no hay textScaleY (en Level 15 ni en superiores)
+        addAttrDesc(new AttrDesc_widget_TextView_textSize(this)); // textSize
+        addAttrDesc(new AttrDesc_widget_TextView_textStyle(this));
+        addAttrDesc(new AttrDesc_widget_TextView_typeface(this));
+        addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"width",-1f));
     }
 }
 

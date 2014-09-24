@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 
 import org.itsnat.droid.ItsNatDroidException;
 
@@ -59,10 +60,28 @@ public class Assert
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
+    public static void assertEquals(String a,String b)
+    {
+        assertEqualsInternal(a,b);
+    }
+
+    public static void assertEquals(CharSequence a,String b)
+    {
+        // El CharSequence puede ser por ejemplo Spannable pero en este caso queremos comparar "el valor textual"
+        assertEqualsInternal(a.toString(), b);
+    }
+
+    public static void assertEquals(SpannableStringBuilder a,SpannableStringBuilder b)
+    {
+        // En teoría se puede hacer un test más completo
+        assertEqualsInternal(a.toString(),b.toString());
+    }
 
     public static void assertEquals(CharSequence a,CharSequence b)
     {
-        assertEqualsInternal(a,b);
+        // El CharSequence puede ser por ejemplo Spannable
+        assertEqualsInternal(a.getClass(),b.getClass());
+        assertEqualsInternal(a.toString(),b.toString());
     }
 
     public static void assertEquals(Rect a,Rect b)

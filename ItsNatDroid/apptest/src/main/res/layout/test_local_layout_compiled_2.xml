@@ -133,19 +133,33 @@
             android:privateImeOptions="com.example.myapp.JustToWriteSomething=3"
             android:scrollHorizontally="true"
             android:selectAllOnFocus="true"
-
-
+            android:shadowColor="#ff0000"
+            android:shadowDx="1.1"
+            android:shadowDy="1.2"
+            android:shadowRadius="1.3"
             android:text="TextView Tests (this text is cut on the right with ellipsis points)"
+            android:textAllCaps="true"
+            android:textColor="#00ff00"
+            android:textColorHighlight="#0000ff"
+            android:textColorHint="#00ff00"
+            android:textColorLink="#0000ff"
+            android:textIsSelectable="false"
+            android:textScaleX="1.2"
             android:textSize="15dp"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+
             android:singleLine="true"
             />
             <!-- No ponemos android:height, android:maxHeight y android:minHeight porque se pisa con android:lines y android:singleLine
                  No ponemos android:width, android:maxWidth y android:minWidth  porque se pisa con android:ems
-
                  imeActionId="0x00000002" es la acción Go
+                 textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico
             -->
 
-
+<!-- Testear aparte
+        android:textAppearance="?android:attr/textAppearanceMedium"
+-->
 
     </LinearLayout>
 

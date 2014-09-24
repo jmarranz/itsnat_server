@@ -28,7 +28,8 @@ public class AttrDescReflecMethodObject extends AttrDescReflecMethod
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        String convValue = getString(value, view.getContext());
+        // El único caso que usa AttrDescReflecMethodObject es el atributo android:tag y sólo veo el caso de uso de ser una cadena
+        CharSequence convValue = getText(value, view.getContext());
         callMethod(view, convValue);
     }
 

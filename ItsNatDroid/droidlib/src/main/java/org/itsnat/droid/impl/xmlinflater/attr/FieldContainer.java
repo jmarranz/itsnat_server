@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.view.View;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
@@ -12,13 +10,18 @@ import java.lang.reflect.Field;
  */
 public class FieldContainer<T>
 {
-    protected final ClassDescViewBased parent;
+    protected final Class<?> clasz;
     protected final String fieldName;
     protected Field field;
 
     public FieldContainer(ClassDescViewBased parent,String fieldName)
     {
-        this.parent = parent;
+        this(parent.getViewClass(),fieldName);
+    }
+
+    public FieldContainer(Class<?> clasz,String fieldName)
+    {
+        this.clasz = clasz;
         this.fieldName = fieldName;
     }
 
@@ -28,7 +31,7 @@ public class FieldContainer<T>
         {
             if (field == null)
             {
-                this.field = parent.getViewClass().getDeclaredField(fieldName);
+                this.field = clasz.getDeclaredField(fieldName);
                 field.setAccessible(true); // Pues normalmente serán atributos ocultos
             }
             return field;
@@ -36,22 +39,22 @@ public class FieldContainer<T>
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    public T getValue(View view)
+    public T getValue(Object obj)
     {
         try
         {
             Field field = getField();
-            return (T)field.get(view);
+            return (T)field.get(obj);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    public void setValue(View view,T value)
+    public void setValue(Object obj,T value)
     {
         try
         {
             Field field = getField();
-            field.set(view, value);
+            field.set(obj, value);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
     }

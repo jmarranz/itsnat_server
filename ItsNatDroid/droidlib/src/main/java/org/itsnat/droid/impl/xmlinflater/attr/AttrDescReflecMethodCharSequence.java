@@ -28,7 +28,7 @@ public class AttrDescReflecMethodCharSequence extends AttrDescReflecMethod
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        String convValue = getString(value, view.getContext());
+        CharSequence convValue = getText(value, view.getContext());
         callMethod(view, convValue);
     }
 

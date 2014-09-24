@@ -496,7 +496,7 @@
             android:id="@id/spinnerDropdownTestId"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:dropDownHorizontalOffset="50dp"
+            android:dropDownHorizontalOffset="21dp"
             android:dropDownVerticalOffset="10dp"
             android:dropDownWidth="200dp"
             android:gravity="center_vertical|center_horizontal"
@@ -504,7 +504,7 @@
             android:spinnerMode="dropdown"
             style="@style/spinner_style_test"
             >
-        </Spinner>
+        </Spinner> <!-- dropDownHorizontalOffset lo ponemos igual al paddingLeft del style porque realmente se solapan -->
 
         <!-- Test Spinner (dialog) -->
         <Spinner
