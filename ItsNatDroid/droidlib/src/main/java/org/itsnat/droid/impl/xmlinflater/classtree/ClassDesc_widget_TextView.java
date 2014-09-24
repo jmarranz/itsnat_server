@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_li
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_marqueeRepeatLimit;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_maxLength;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_shadowLayer_base;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAllCaps;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textSize;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_textStyle;
@@ -95,7 +96,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowRadius"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));
         addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
-        addAttrDesc(new AttrDescReflecMethodBoolean(this,"textAllCaps","setAllCaps",false));
+        addAttrDesc(new AttrDesc_widget_TextView_textAllCaps(this));
         addAttrDesc(new AttrDesc_widget_TextView_textAppearance(this)); // "textAppearance"
         addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000"));
         addAttrDesc(new AttrDescReflecMethodColor(this,"textColorHighlight","setHighlightColor","#000000"));

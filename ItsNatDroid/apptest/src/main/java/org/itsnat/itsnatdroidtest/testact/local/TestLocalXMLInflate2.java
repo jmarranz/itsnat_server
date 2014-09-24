@@ -9,6 +9,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.TransformationMethod;
@@ -43,7 +44,7 @@ public class TestLocalXMLInflate2
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {
-        Resources res = compRoot.getContext().getResources();
+        final Resources res = compRoot.getContext().getResources();
 
         // comp = "Layout compiled"
         // parsed = "Layout dynamically parsed"
@@ -223,7 +224,7 @@ public class TestLocalXMLInflate2
 
         childCount++;
 
-        // Test TextView (single line)
+        // Test TextView 1
         {
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
@@ -403,15 +404,23 @@ public class TestLocalXMLInflate2
             assertEquals((Float)TestUtil.getField(compLayout,"mShadowRadius"),1.3f);
             assertEquals((Float)TestUtil.getField(compLayout,"mShadowRadius"),(Float)TestUtil.getField(parsedLayout,"mShadowRadius"));
 
+            // Test android:singleLine
+            assertTrue((Boolean)TestUtil.getField(compLayout,"mSingleLine"));
+            assertEquals((Boolean)TestUtil.getField(compLayout,"mSingleLine"),(Boolean)TestUtil.getField(parsedLayout,"mSingleLine"));
+
+
             // Test android:text
             // El inputType influye en el tipo de objeto de texto
-            assertEquals((SpannableStringBuilder)compLayout.getText(),new SpannableStringBuilder("TextView Tests (this text is cut on the right with ellipsis points)"));
+            assertEquals((SpannableStringBuilder)compLayout.getText(),new SpannableStringBuilder("TextView Tests 1 (this text is cut on the right)"));
             assertEquals(compLayout.getText(),parsedLayout.getText());
 
-            // Test: android:textAllCaps no puedo testear porque no he conseguido que funcione ni en modo compilado
-            // por otra parte los TransformationMethod resultantes son diferentes :(
-            TransformationMethod a_trans = compLayout.getTransformationMethod();
-            TransformationMethod b_trans = parsedLayout.getTransformationMethod();
+            // Test: android:textAllCaps no he conseguido que funcione ni en modo compilado en este test
+            // pero los TransformationMethod parecen correctos
+            TransformationMethod comp_trans = compLayout.getTransformationMethod();
+            TransformationMethod parsed_trans = parsedLayout.getTransformationMethod();
+            assertEquals(comp_trans.getClass().getName(),"android.text.method.AllCapsTransformationMethod");
+            assertEquals(comp_trans.getClass().getName(),parsed_trans.getClass().getName());
+
 
             // Test: android:textColor
             assertEquals(compLayout.getTextColors().getDefaultColor(),0xff00ff00);
@@ -444,13 +453,61 @@ public class TestLocalXMLInflate2
 
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
             assertEquals(compTf.getStyle(),parsedTf.getStyle());
-
-
-
-//            System.out.println("PARAR");
         }
 
+        childCount++;
 
+        // Test TextView 2
+        // Se testean de nuevo algunos atributos y otros que no podían testearse antes
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals((SpannableString)compLayout.getText(),new SpannableString("TextView Tests 2 (this text is much more longer and is cut on the right with ellipsis points)"));
+            assertEquals(compLayout.getText(),parsedLayout.getText());
+
+            // Test android:bufferType
+            // Repetimos este test con SPANNABLE porque en el anterior por alguna razón se cambiaba a EDITABLE
+            assertEquals((TextView.BufferType)TestUtil.getField(compLayout,"mBufferType"),TextView.BufferType.SPANNABLE);
+            assertEquals((TextView.BufferType)TestUtil.getField(compLayout,"mBufferType"),(TextView.BufferType)TestUtil.getField(parsedLayout,"mBufferType"));
+
+            assertEquals(compLayout.getEllipsize(), TextUtils.TruncateAt.END);
+            assertEquals(compLayout.getEllipsize(),parsedLayout.getEllipsize());
+
+            // Test android:height, android:maxHeight
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // getHeight() no se corresponde exactamente con setHeight(int) pero el resultado es coherente
+                    assertEquals(compLayout.getHeight(),ValueUtil.dpToPixelInt(30,res));
+                    assertEquals(compLayout.getHeight(),parsedLayout.getHeight());
+
+                    // Estos tests no funcionan porque mi impresión es que layout_height="30dp" define la altura por su cuenta pero
+                    // no como PIXELS sino como LINES en el layout compilado
+                    //assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),2); // modo PIXELS = 2
+                    //assertEquals((Integer)TestUtil.getField(compLayout, "mMaxMode"),(Integer)TestUtil.getField(parsedLayout, "mMaxMode"));
+                    //assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),ValueUtil.dpToPixelInt(30,res));
+                    //assertEquals((Integer)TestUtil.getField(compLayout, "mMaximum"),(Integer)TestUtil.getField(parsedLayout, "mMaximum"));
+                }
+            });
+
+            // Test: android:textAllCaps en este test si conseguimos que funcione porque isTextSelectable="false"
+            // y no es "editable"
+            TransformationMethod comp_trans = compLayout.getTransformationMethod();
+            TransformationMethod parsed_trans = parsedLayout.getTransformationMethod();
+            assertEquals(comp_trans.getClass().getName(),"android.text.method.AllCapsTransformationMethod");
+            assertEquals(comp_trans.getClass().getName(),parsed_trans.getClass().getName());
+
+            assertFalse(compLayout.isTextSelectable());
+            assertEquals(compLayout.isTextSelectable(),parsedLayout.isTextSelectable());
+
+
+            // Test android:singleLine
+            assertTrue((Boolean)TestUtil.getField(compLayout,"mSingleLine"));
+            assertEquals((Boolean)TestUtil.getField(compLayout,"mSingleLine"),(Boolean)TestUtil.getField(parsedLayout,"mSingleLine"));
+        }
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

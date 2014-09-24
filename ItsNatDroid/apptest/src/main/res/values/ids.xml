@@ -15,5 +15,4 @@
     <item name="spinnerDropdownTestId" type="id">spinnerDropdownTestId</item>
     <item name="adapterViewAnimatorTestId" type="id">adapterViewAnimatorTestId</item>
 
-
 </resources>
