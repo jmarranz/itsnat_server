@@ -4,13 +4,12 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.attr.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,13 +32,21 @@ public class AttrDesc_widget_TextView_compoundDrawables extends AttrDesc
         drawableMap.put("drawableBottom",BOTTOM);
     }
 
-    protected Field fieldDrawables;
-    protected Field[] fieldMemberDrawables = new Field[4];
-    protected String[] fieldMemberNames = new String[] { "mDrawableLeft","mDrawableTop","mDrawableRight","mDrawableBottom" };
+    protected FieldContainer fieldDrawables;
+    protected FieldContainer<Drawable>[] fieldMemberDrawables = new FieldContainer[4];
 
     public AttrDesc_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
     {
         super(parent,name);
+        this.fieldDrawables = new FieldContainer(parent,"mDrawables");
+
+        String[] fieldMemberNames = new String[] { "mDrawableLeft","mDrawableTop","mDrawableRight","mDrawableBottom" };
+        this.fieldMemberDrawables = new FieldContainer[fieldMemberNames.length];
+        Class clasz = fieldDrawables.getField().getType();
+        for(int i = 0; i < fieldMemberNames.length; i++)
+        {
+            fieldMemberDrawables[i] = new FieldContainer(clasz,fieldMemberNames[i]);
+        }
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -63,27 +70,10 @@ public class AttrDesc_widget_TextView_compoundDrawables extends AttrDesc
 
     protected Drawable getDrawable(View view,int index)
     {
-        try
-        {
-            if (fieldDrawables == null)
-            {
-                this.fieldDrawables = parent.getViewClass().getDeclaredField("mDrawables");
-                fieldDrawables.setAccessible(true); // Pues normalmente serán atributos ocultos
-            }
-            Object fieldValue = fieldDrawables.get(view);
-            if (fieldValue == null)
-                return null; // Esto es normal, y es cuando todavía no se ha definido ningún Drawable, setCompoundDrawablesWithIntrinsicBounds lo creará en la primera llamada
+        Object fieldValue = fieldDrawables.get(view);
+        if (fieldValue == null)
+            return null; // Esto es normal, y es cuando todavía no se ha definido ningún Drawable, setCompoundDrawablesWithIntrinsicBounds lo creará en la primera llamada
 
-            Field fieldMember = fieldMemberDrawables[index];
-            if (fieldMember == null)
-            {
-                fieldMember = fieldDrawables.getType().getDeclaredField(fieldMemberNames[index]);
-                fieldMember.setAccessible(true); // Pues normalmente serán atributos ocultos
-                fieldMemberDrawables[index] = fieldMember;
-            }
-            return (Drawable)fieldMember.get(fieldValue);
-        }
-        catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
-        catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+        return fieldMemberDrawables[index].get(fieldValue);
     }
 }

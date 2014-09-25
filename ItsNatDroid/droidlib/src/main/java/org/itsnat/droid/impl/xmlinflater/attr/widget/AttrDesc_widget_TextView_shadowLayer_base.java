@@ -43,37 +43,37 @@ public class AttrDesc_widget_TextView_shadowLayer_base extends AttrDesc
         {
             int convValue = getColor(value, textView.getContext());
 
-            radius = fieldShadowRadius.getValue(textView);
-            dx = fieldShadowDx.getValue(textView);
-            dy = fieldShadowDy.getValue(textView);
+            radius = fieldShadowRadius.get(textView);
+            dx = fieldShadowDx.get(textView);
+            dy = fieldShadowDy.get(textView);
             color = convValue;
         }
         else if (name.equals("shadowDx"))
         {
             float convValue = getFloat(value, textView.getContext());
 
-            radius = fieldShadowRadius.getValue(textView);
+            radius = fieldShadowRadius.get(textView);
             dx = convValue;
-            dy = fieldShadowDy.getValue(textView);
-            color = fieldShadowColor.getValue(textView.getPaint());
+            dy = fieldShadowDy.get(textView);
+            color = fieldShadowColor.get(textView.getPaint());
         }
         else if (name.equals("shadowDy"))
         {
             float convValue = getFloat(value, textView.getContext());
 
-            radius = fieldShadowRadius.getValue(textView);
-            dx = fieldShadowDx.getValue(textView);
+            radius = fieldShadowRadius.get(textView);
+            dx = fieldShadowDx.get(textView);
             dy = convValue;
-            color = fieldShadowColor.getValue(textView.getPaint());
+            color = fieldShadowColor.get(textView.getPaint());
         }
         else if (name.equals("shadowRadius"))
         {
             float convValue = getFloat(value, view.getContext());
 
             radius = convValue;
-            dx = fieldShadowDx.getValue(textView);
-            dy = fieldShadowDy.getValue(textView);
-            color = fieldShadowColor.getValue(textView.getPaint());
+            dx = fieldShadowDx.get(textView);
+            dy = fieldShadowDy.get(textView);
+            color = fieldShadowColor.get(textView.getPaint());
         }
 
         textView.setShadowLayer(radius,dx,dy,color);

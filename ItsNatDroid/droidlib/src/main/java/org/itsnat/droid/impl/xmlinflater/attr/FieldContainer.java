@@ -39,7 +39,7 @@ public class FieldContainer<T>
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    public T getValue(Object obj)
+    public T get(Object obj)
     {
         try
         {
@@ -49,7 +49,7 @@ public class FieldContainer<T>
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    public void setValue(Object obj,T value)
+    public void set(Object obj, T value)
     {
         try
         {

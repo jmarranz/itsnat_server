@@ -26,35 +26,48 @@ public class AttrDesc_view_View_layout_gravity extends AttrDesc
         super(parent,"layout_gravity");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int valueInt = parseMultipleName(value, GravityUtil.valueMap);
+        final int valueInt = parseMultipleName(value, GravityUtil.valueMap);
 
-        // Objetos LayoutParams diferentes pero mismos valores: http://developer.android.com/reference/android/R.attr.html#layout_gravity
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        if (params instanceof LinearLayout.LayoutParams)
-            ((LinearLayout.LayoutParams)params).gravity = valueInt;
-        else if (params instanceof FrameLayout.LayoutParams)
-            ((FrameLayout.LayoutParams)params).gravity = valueInt;
-        else if (params instanceof GridLayout.LayoutParams)
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                // Objetos LayoutParams diferentes pero mismos valores: http://developer.android.com/reference/android/R.attr.html#layout_gravity
+                ViewGroup.LayoutParams params = view.getLayoutParams();
+                if (params instanceof LinearLayout.LayoutParams)
+                    ((LinearLayout.LayoutParams)params).gravity = valueInt;
+                else if (params instanceof FrameLayout.LayoutParams)
+                    ((FrameLayout.LayoutParams)params).gravity = valueInt;
+                else if (params instanceof GridLayout.LayoutParams)
+                {
+                    if (oneTimeAttrProcess != null)
+                    {
+                        OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
+                        if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null) oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+                        if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
+
+                        oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
+                        oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
+                    }
+                    else
+                    {
+                        ((GridLayout.LayoutParams)params).setGravity(valueInt);
+                    }
+                }
+            }};
+
+        if (oneTimeAttrProcess != null)
         {
-            if (oneTimeAttrProcess != null)
-            {
-                OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
-                if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null) oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
-                if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
-
-                oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_gravity = valueInt;
-                oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_gravity = valueInt;
-            }
-            else
-            {
-                ((GridLayout.LayoutParams)params).setGravity(valueInt);
-            }
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        }
+        else
+        {
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
         }
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
     }
 
     public void removeAttribute(View view)

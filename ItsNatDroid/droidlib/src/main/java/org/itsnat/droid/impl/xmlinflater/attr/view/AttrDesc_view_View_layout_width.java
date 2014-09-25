@@ -19,16 +19,27 @@ public class AttrDesc_view_View_layout_width extends AttrDesc
         super(parent,"layout_width");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int width = getDimensionWithNameInt(view, value);
+        final int width = getDimensionWithNameInt(view, value);
 
-        ViewGroup.LayoutParams params = view.getLayoutParams();
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                ViewGroup.LayoutParams params = view.getLayoutParams();
+                params.width = width;
+            }};
 
-        params.width = width;
-
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
+        if (oneTimeAttrProcess != null)
+        {
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        }
+        else
+        {
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
+        }
     }
 
     public void removeAttribute(View view)

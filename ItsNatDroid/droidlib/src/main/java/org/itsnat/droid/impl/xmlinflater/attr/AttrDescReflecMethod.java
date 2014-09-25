@@ -29,7 +29,7 @@ public abstract class AttrDescReflecMethod extends AttrDesc
 
     protected void callMethod(View view, Object convertedValue)
     {
-        method.call(view,convertedValue);
+        method.invoke(view, convertedValue);
     }
 
 }

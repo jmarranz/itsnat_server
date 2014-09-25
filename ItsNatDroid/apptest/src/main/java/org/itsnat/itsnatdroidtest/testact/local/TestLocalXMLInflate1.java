@@ -389,24 +389,24 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                for(int i = 0; i < 5; i++)
                 {
-                    @Override
-                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                    final TextView compTextView = (TextView) compLayout.getChildAt(i);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                    // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+
+                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
+                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                     {
-                        for(i = 0; i < 5; i++)
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                         {
-                            TextView compTextView = (TextView) compLayout.getChildAt(i);
-                            TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
-                            // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
-                            GridLayout.LayoutParams compParams = (GridLayout.LayoutParams)compTextView.getLayoutParams();
-                            GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams)parsedTextView.getLayoutParams();
                             assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
                             assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
                         }
-                    }
-                });
-
+                    });
+                }
             }
         }
 
@@ -431,23 +431,25 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
 
             {
-                parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+
+                for (int i = 0; i < 5; i++)
                 {
-                    @Override
-                    public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                    TextView compTextView = (TextView) compLayout.getChildAt(i);
+                    TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                    // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
+                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
+                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
                     {
-                    for (i = 0; i < 5; i++)
-                    {
-                        TextView compTextView = (TextView) compLayout.getChildAt(i);
-                        TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
-                        // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
-                        GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
-                        GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
-                        assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
-                        assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
-                    }
-                    }
-                });
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                        {
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
+                    });
+                }
+
             }
 
         }

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.GridLayout;
 
 import java.util.LinkedList;
@@ -11,22 +12,19 @@ import java.util.LinkedList;
 public abstract class OneTimeAttrProcess
 {
     protected View view;
-    protected boolean neededSetLayoutParams;
     protected LinkedList<Runnable> taskLastList;
+    protected LinkedList<Runnable> layoutParamsTasks;
 
     public OneTimeAttrProcess(View view)
     {
         this.view = view;
     }
 
-    public static OneTimeAttrProcess createOneTimeAttrProcess(View view)
+    public static OneTimeAttrProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
     {
-        return (view.getParent() instanceof GridLayout) ? new OneTimeAttrProcessChildGridLayout(view) : new OneTimeAttrProcessDefault(view);
-    }
-
-    public void setNeededSetLayoutParams()
-    {
-        this.neededSetLayoutParams = true;
+        return (viewParent instanceof GridLayout)
+                ? new OneTimeAttrProcessChildGridLayout(view)
+                : new OneTimeAttrProcessDefault(view);
     }
 
     public void addLastTask(Runnable task)
@@ -35,14 +33,27 @@ public abstract class OneTimeAttrProcess
         taskLastList.add(task);
     }
 
-    public void finish()
+    public void executeLastTasks()
     {
-        if (neededSetLayoutParams)
-            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
-
         if (taskLastList != null)
         {
             for (Runnable task : taskLastList) task.run();
+        }
+    }
+
+    public void addLayoutParamsTask(Runnable task)
+    {
+        if (layoutParamsTasks == null) this.layoutParamsTasks = new LinkedList<Runnable>();
+        layoutParamsTasks.add(task);
+    }
+
+    public void executeLayoutParamsTasks()
+    {
+        if (layoutParamsTasks != null)
+        {
+            for (Runnable task : layoutParamsTasks) task.run();
+
+            view.setLayoutParams(view.getLayoutParams()); // Para que los cambios que se han hecho en los objetos "stand-alone" *.LayoutParams se entere el View asociado (esa llamada hace requestLayout creo recordar), al hacerlo al final evitamos múltiples llamadas por cada cambio en LayoutParams
         }
     }
 }

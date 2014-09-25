@@ -21,23 +21,35 @@ public class AttrDesc_view_View_layout_rellayout_byId extends AttrDesc
         this.selector = selector;
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view,final String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        if (!value.isEmpty())
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+                if (!value.isEmpty())
+                {
+                    int viewId = getIdentifier(value, view.getContext());
+                    params.addRule(selector, viewId);
+                }
+                else
+                {
+                    // El valor vacío del atributo es un caso específico de ItsNatDroid, útil en actualización del Layout via DOM para
+                    // indicar que quitamos la regla. removeRule es el método adecuado pero es posterior a 4.0.3
+                    params.addRule(selector, 0);
+                }
+            }};
+
+        if (oneTimeAttrProcess != null)
         {
-            int viewId = getIdentifier(value, view.getContext());
-            params.addRule(selector, viewId);
+            oneTimeAttrProcess.addLayoutParamsTask(task);
         }
         else
         {
-            // El valor vacío del atributo es un caso específico de ItsNatDroid, útil en actualización del Layout via DOM para
-            // indicar que quitamos la regla. removeRule es el método adecuado pero es posterior a 4.0.3
-            params.addRule(selector, 0);
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
         }
-
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
     }
 
     public void removeAttribute(View view)

@@ -21,15 +21,27 @@ public class AttrDesc_view_View_layout_rellayout_byBoolean extends AttrDesc
         this.selector = selector;
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        boolean convValue = getBoolean(value, view.getContext());
+        final boolean convValue = getBoolean(value, view.getContext());
 
-        params.addRule(selector, convValue ? RelativeLayout.TRUE : 0);
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+                params.addRule(selector, convValue ? RelativeLayout.TRUE : 0);
+            }};
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
+        if (oneTimeAttrProcess != null)
+        {
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        }
+        else
+        {
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
+        }
     }
 
     public void removeAttribute(View view)

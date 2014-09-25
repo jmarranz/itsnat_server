@@ -1,7 +1,5 @@
 package org.itsnat.droid.impl.xmlinflater.attr;
 
-import android.view.View;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
@@ -13,20 +11,21 @@ import java.lang.reflect.Method;
  */
 public class MethodContainer<T>
 {
-    protected final ClassDescViewBased parent;
+    protected final Class<?> clasz;
     protected final String methodName;
     protected final Class[] paramClasses;
     protected Method method;
 
-    public MethodContainer(ClassDescViewBased parent, String methodName,Class[] paramClasses)
+    public MethodContainer(ClassDescViewBased parent,String methodName,Class[] paramClasses)
     {
-        this.parent = parent;
+        this(parent.getViewClass(),methodName,paramClasses);
+    }
+
+    public MethodContainer(Class<?> clasz, String methodName,Class[] paramClasses)
+    {
+        this.clasz = clasz;
         this.methodName = methodName;
         this.paramClasses = paramClasses;
-if (paramClasses == null)
-{
-    System.out.println("PARAR");
-}
     }
 
     public Method getMethod()
@@ -35,7 +34,7 @@ if (paramClasses == null)
         {
             if (method == null)
             {
-                this.method = parent.getViewClass().getDeclaredMethod(methodName, paramClasses);
+                this.method = clasz.getDeclaredMethod(methodName, paramClasses);
                 method.setAccessible(true); // Pues normalmente serán atributos ocultos
             }
             return method;
@@ -43,12 +42,12 @@ if (paramClasses == null)
         catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    public T call(View view,Object...params)
+    public T invoke(Object obj, Object... params)
     {
         try
         {
             Method method = getMethod();
-            return (T)method.invoke(view, params);
+            return (T)method.invoke(obj, params);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }

@@ -26,7 +26,7 @@ public class AttrDesc_widget_ProgressBar_progressDrawable extends AttrDescReflec
 
         // En el código fuente del constructor se ve que hay un proceso previo (tileify) antes de llamar a setProgressDrawable()
 
-        methodTileify.call(view,drawable,false);
+        methodTileify.invoke(view, drawable, false);
 
         super.callMethod(view,drawable);
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -25,7 +26,7 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         super("android.widget.Spinner",parentClass);
     }
 
-    public View createAndAddSpinnerObject(View viewParent,int index,int idStyle,String spinnerMode,Context ctx)
+    public View createSpinnerObject(ViewGroup viewParent,int idStyle, String spinnerMode, Context ctx)
     {
         int mode;
         if (spinnerMode != null)
@@ -55,7 +56,6 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
                 view = new Spinner(ctx);
         }
 
-        addViewObject(viewParent,view,index);
         return view;
     }
 

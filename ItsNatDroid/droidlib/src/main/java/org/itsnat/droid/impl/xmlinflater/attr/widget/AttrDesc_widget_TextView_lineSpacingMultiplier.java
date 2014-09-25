@@ -37,6 +37,6 @@ public class AttrDesc_widget_TextView_lineSpacingMultiplier extends AttrDesc
 
     protected float getLineSpacingExtra(TextView view)
     {
-        return field.getValue(view);
+        return field.get(view);
     }
 }

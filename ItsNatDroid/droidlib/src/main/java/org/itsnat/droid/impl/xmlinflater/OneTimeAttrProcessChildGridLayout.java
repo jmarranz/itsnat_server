@@ -18,11 +18,11 @@ public class OneTimeAttrProcessChildGridLayout extends OneTimeAttrProcess
         super(view);
     }
 
-    public void finish()
+    public void executeLayoutParamsTasks()
     {
+        super.executeLayoutParamsTasks();
+
         if (gridLayout_columnSpec != null) gridLayout_columnSpec.setAttributes(view);
         if (gridLayout_rowSpec != null) gridLayout_rowSpec.setAttributes(view);
-
-        super.finish();
     }
 }

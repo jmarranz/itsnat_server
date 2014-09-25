@@ -22,6 +22,7 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.attr.MethodContainer;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -37,12 +38,17 @@ import java.util.HashMap;
  */
 public class ClassDescViewBased
 {
+    protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
+                    new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
+
     protected String className;
     protected Class<View> clasz;
     protected Constructor<View> constructor1P;
     protected Constructor<View> constructor3P;
     protected HashMap<String,AttrDesc> attrDescMap;
     protected ClassDescViewBased parentClass;
+
+
     protected boolean initiated;
 
     public ClassDescViewBased(String className,ClassDescViewBased parentClass)
@@ -194,25 +200,39 @@ public class ClassDescViewBased
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
     }
 
-    public View createAndAddViewObject(View viewParent,int index,int idStyle, Context ctx)
+    public void addViewObject(ViewGroup viewParent,View view,int index,OneTimeAttrProcess oneTimeAttrProcess, Context ctx)
     {
-        View view = createViewObject(ctx, idStyle);
-        addViewObject(viewParent,view,index);
-        return view;
-    }
+        if (view.getLayoutParams() != null) throw new ItsNatDroidException("Unexpected");
 
-    protected void addViewObject(View viewParent,View view,int index)
-    {
         if (viewParent != null)
         {
-            if (index < 0) ((ViewGroup)viewParent).addView(view);
-            else ((ViewGroup)viewParent).addView(view, index);
+ //           AttributeSet layoutAttrDefault = readAttributeSetLayout(ctx, R.layout.layout_params); // No se puede cachear el AttributeSet, ya lo he intentado
+//            ViewGroup.LayoutParams params = viewParent.generateLayoutParams(layoutAttrDefault);
+
+            ViewGroup.LayoutParams params = methodGenerateLP.invoke(viewParent);
+            view.setLayoutParams(params);
+
+            oneTimeAttrProcess.executeLayoutParamsTasks(); // Así ya definimos los LayoutParams inmediatamente antes de añadir al padre que es más o menos lo que se hace en addView
+
+            if (index < 0) viewParent.addView(view);
+            else viewParent.addView(view, index);
         }
-        else fixViewRootLayoutParams(view); // view es la vista root
+        else // view es el ROOT
+        {
+            // Esto ocurre con el View root del layout porque hasta el final no podemos insertarlo en el ViewGroup contenedor que nos ofrece Android por ej en la Actividad, no creo que sea necesario algo diferente a un ViewGroup.LayoutParams
+            // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para
+            // un View root que se inserta.
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(params);
+
+            oneTimeAttrProcess.executeLayoutParamsTasks();
+        }
     }
 
-    private View createViewObject(Context ctx,int idStyle)
+    public View createViewObject(Context ctx,int idStyle)
     {
+        View view;
+
         Class<View> clasz = initClass();
 
         try
@@ -223,37 +243,26 @@ public class ClassDescViewBased
                 // En teoría un parámetro es suficiente (con ContextThemeWrapper) pero curiosamente por ej en ProgressBar son necesarios los tres parámetros
                 // de otra manera el idStyle es ignorado, por tanto aunque parece redundate el paso del idStyle, ambos params son necesarios en algún caso
                 if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
-                return constructor3P.newInstance(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
+                view = constructor3P.newInstance(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
 
                 // ALTERNATIVA QUE NO FUNCIONA (idStyle es ignorado):
                 //if (constructor3P == null) constructor3P = clasz.getConstructor(Context.class, AttributeSet.class, int.class);
-                //return constructor3P.newInstance(ctx, null, idStyle);
+                //view = constructor3P.newInstance(ctx, null, idStyle);
             }
             else
             {
                 if (constructor1P == null) constructor1P = clasz.getConstructor(Context.class);
-                return constructor1P.newInstance(ctx);
+                view = constructor1P.newInstance(ctx);
             }
         }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }
         catch (NoSuchMethodException ex) { throw new ItsNatDroidException(ex); }
         catch (InstantiationException ex) { throw new ItsNatDroidException(ex); }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
+
+        return view;
     }
 
-
-
-    private void fixViewRootLayoutParams(View view)
-    {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        if (params != null) throw new ItsNatDroidException("Unexpected");
-
-        // Esto ocurre con el View root del layout porque hasta el final no podemos insertarlo en el ViewGroup contenedor que nos ofrece Android por ej en la Actividad, no creo que sea necesario algo diferente a un ViewGroup.LayoutParams
-        // aunque creo que no funciona el poner valores concretos salvo el match_parent que afortunadamente es el único que interesa para
-        // un View root que se inserta.
-        params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        view.setLayoutParams(params);
-    }
 
     protected static AttributeSet readAttributeSetLayout(Context ctx,int layoutId)
     {
@@ -261,11 +270,14 @@ public class ClassDescViewBased
 
         XmlResourceParser parser = ctx.getResources().getLayout(layoutId);
 
-        try { while (parser.next() != XmlPullParser.START_TAG) {}  }
+        try
+        {
+            while (parser.next() != XmlPullParser.START_TAG) {}
+        }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
 
-        AttributeSet attributes = Xml.asAttributeSet(parser);
+        AttributeSet attributes = Xml.asAttributeSet(parser); // En XML compilados es un simple cast
         return attributes;
     }
 

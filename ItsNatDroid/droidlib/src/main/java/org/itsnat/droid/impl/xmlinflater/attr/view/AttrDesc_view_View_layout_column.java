@@ -20,23 +20,27 @@ public class AttrDesc_view_View_layout_column extends AttrDesc
         super(parent,"layout_column");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         // Default: Integer.MIN_VALUE
 
-        int column = getInteger(value,view.getContext());
+        final int column = getInteger(value,view.getContext());
+
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
+                if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null)
+                    oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
+
+                oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_column = column;
+            }};
 
         if (oneTimeAttrProcess != null)
-        {
-            OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
-            if (oneTimeAttrProcessGrid.gridLayout_columnSpec == null)
-                oneTimeAttrProcessGrid.gridLayout_columnSpec = new GridLayout_columnSpec();
-
-            oneTimeAttrProcessGrid.gridLayout_columnSpec.layout_column = column;
-
-            oneTimeAttrProcess.setNeededSetLayoutParams();
-        }
-        else throw new ItsNatDroidException("Attribute " + getName() + " cannot be changed post creation");
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        else
+            throw new ItsNatDroidException("Attribute " + getName() + " cannot be changed post creation");
     }
 
     public void removeAttribute(View view)

@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater;
 import android.content.Context;
 import android.util.Xml;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
@@ -193,7 +194,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
             PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-            View rootView = createRootViewObjectAndFillAttributes(viewName,parser,pending);
+            View rootView = createRootViewObjectAndFillAttributes(viewName,parser,pending,ctx);
 
             processChildViews(parser,rootView,loadScript,scriptList);
 
@@ -224,7 +225,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             {
                 PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-                View view = createAndAddViewObjectAndFillAttributes(viewName, viewParent, parser,pending);
+                View view = createViewObjectAndFillAttributesAndAdd(viewName, (ViewGroup) viewParent, parser, pending);
 
                 // No funciona, sólo funciona con XML compilados:
                 //AttributeSet attributes = Xml.asAttributeSet(parser);
@@ -249,42 +250,53 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         }
     }
 
-    private View createAndAddViewObject(ClassDescViewBased classDesc,View viewParent,XmlPullParser parser)
+    private View createViewObject(ClassDescViewBased classDesc, ViewGroup viewParent, XmlPullParser parser)
     {
         Context ctx = getContext();
-        int idStyle = findStyleAttribute(parser, ctx);
+        int idStyle = findStyleAttribute(parser);
         if (classDesc instanceof ClassDesc_widget_Spinner)
         {
             String spinnerMode = findSpinnerModeAttribute(parser, ctx);
-            return ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, -1, idStyle,spinnerMode, ctx);
+            return ((ClassDesc_widget_Spinner)classDesc).createSpinnerObject(viewParent,idStyle, spinnerMode, ctx);
         }
         else
         {
-            return classDesc.createAndAddViewObject(viewParent, -1, idStyle, ctx);
+            return classDesc.createViewObject(ctx, idStyle);
         }
     }
 
-    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending,Context ctx)
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View view = createAndAddViewObject(classDesc,null,parser);
+        View view = createViewObject(classDesc, null, parser);
+
         setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
-        fillViewAttributes(classDesc,view, parser,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+
+        fillAttributesAndAddView(view,classDesc,null,parser,pending);
         return view;
     }
 
-    public View createAndAddViewObjectAndFillAttributes(String viewName,View viewParent,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectAndFillAttributesAndAdd(String viewName, ViewGroup viewParent, XmlPullParser parser, PendingPostInsertChildrenTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View view = createAndAddViewObject(classDesc,viewParent,parser);
-        fillViewAttributes(classDesc,view, parser,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        View view = createViewObject(classDesc, viewParent, parser);
+
+        fillAttributesAndAddView(view,classDesc,viewParent,parser,pending);
+
         return view;
     }
 
-    private int findStyleAttribute(XmlPullParser parser,Context ctx)
+    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    {
+        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
+        fillViewAttributes(classDesc,view, parser,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,ctx);
+    }
+
+    private int findStyleAttribute(XmlPullParser parser)
     {
         String value = findAttribute(null,"style",parser,ctx);
         if (value == null) return 0;
@@ -311,10 +323,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return null;
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view);
-
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
             String namespaceURI = parser.getAttributeNamespace(i);
@@ -324,7 +334,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
         }
 
-        oneTimeAttrProcess.finish();
+        oneTimeAttrProcess.executeLastTasks();
     }
 
     public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,

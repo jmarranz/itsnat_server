@@ -19,6 +19,6 @@ public abstract class AttrDescReflecFieldGet extends AttrDesc
 
     protected Object getField(View view)
     {
-        return field.getValue(view);
+        return field.get(view);
     }
 }

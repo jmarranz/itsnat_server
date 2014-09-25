@@ -2,8 +2,6 @@
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 
-* Pensar si hacer addViewObject después de definir los attribs, el problema son los LayoutParams
-
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas
 

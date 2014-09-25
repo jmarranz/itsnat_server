@@ -50,6 +50,6 @@ public class AttrDesc_view_View_scrollbars extends AttrDesc
 
     protected void setFlags(View view,int scrollbars,int scrollbarsMask)
     {
-        methodSetFlags.call(view,scrollbars, scrollbarsMask);
+        methodSetFlags.invoke(view, scrollbars, scrollbarsMask);
     }
 }

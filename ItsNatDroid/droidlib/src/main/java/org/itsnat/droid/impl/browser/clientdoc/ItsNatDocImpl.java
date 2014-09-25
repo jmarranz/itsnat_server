@@ -199,7 +199,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return handler;
     }
 
-    private View createAndAddViewObjectAndFillAttributes(ClassDescViewBased classDesc, View viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
+    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
     {
         Context ctx = inflated.getContext();
         View view;
@@ -207,16 +207,18 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (classDesc instanceof ClassDesc_widget_Spinner)
         {
             String spinnerMode = findSpinnerModeAttribute(newChildToIn, ctx);
-            view = ((ClassDesc_widget_Spinner)classDesc).createAndAddSpinnerObject(viewParent, index, idStyle, spinnerMode, ctx);
+            view = ((ClassDesc_widget_Spinner)classDesc).createSpinnerObject(viewParent,idStyle, spinnerMode, ctx);
         }
         else
         {
-            view = classDesc.createAndAddViewObject(viewParent, index, idStyle, ctx);
+            view = classDesc.createViewObject(ctx, idStyle);
         }
         newChildToIn.setView(view);
 
-        if (newChildToIn.hasAttributes())
-            fillViewAttributes(classDesc,newChildToIn,inflated);
+
+        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
+        fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
+        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,ctx);
 
         return view;
     }
@@ -240,22 +242,24 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return attr.getValue();
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated)
+    private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,OneTimeAttrProcess oneTimeAttrProcess)
     {
         View view = newChildToIn.getView();
-        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view);
         PendingPostInsertChildrenTasks pending = null;
 
-        for(Map.Entry<String,AttrImpl> entry : newChildToIn.getAttributes().entrySet())
+        if (newChildToIn.hasAttributes())
         {
-            AttrImpl attr = entry.getValue();
-            String namespaceURI = attr.getNamespaceURI();
-            String name = attr.getName();
-            String value = attr.getValue();
-            inflated.setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
+            for (Map.Entry<String, AttrImpl> entry : newChildToIn.getAttributes().entrySet())
+            {
+                AttrImpl attr = entry.getValue();
+                String namespaceURI = attr.getNamespaceURI();
+                String name = attr.getName();
+                String value = attr.getValue();
+                inflated.setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess, pending);
+            }
         }
 
-        oneTimeAttrProcess.finish();
+        oneTimeAttrProcess.executeLastTasks();
     }
 
     private Context getContext()
@@ -601,7 +605,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = createAndAddViewObjectAndFillAttributes(classDesc, parentNode.getView(), newChildToIn, index, inflated);
+        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, inflated);
 
         newChildToIn.setInserted();
     }

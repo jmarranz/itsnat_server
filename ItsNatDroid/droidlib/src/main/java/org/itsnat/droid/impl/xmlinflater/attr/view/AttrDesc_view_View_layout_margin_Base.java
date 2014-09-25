@@ -18,15 +18,27 @@ public abstract class AttrDesc_view_View_layout_margin_Base extends AttrDesc
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int valueInt = getDimensionInt(value, view.getContext());
+        final int valueInt = getDimensionInt(value, view.getContext());
 
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-        setAttribute(params, valueInt);
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+                setAttribute(params, valueInt);
+            }};
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
+        if (oneTimeAttrProcess != null)
+        {
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        }
+        else
+        {
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
+        }
     }
 
     protected abstract void setAttribute(ViewGroup.MarginLayoutParams params,int value);

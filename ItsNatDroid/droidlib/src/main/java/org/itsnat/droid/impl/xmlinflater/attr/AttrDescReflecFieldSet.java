@@ -19,6 +19,6 @@ public abstract class AttrDescReflecFieldSet extends AttrDesc
 
     protected void setField(View view,Object convertedValue)
     {
-        field.setValue(view,convertedValue);
+        field.set(view, convertedValue);
     }
 }

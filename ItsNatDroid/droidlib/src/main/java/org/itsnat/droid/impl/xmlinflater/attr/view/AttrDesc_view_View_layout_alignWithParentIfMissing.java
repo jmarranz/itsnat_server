@@ -18,15 +18,27 @@ public class AttrDesc_view_View_layout_alignWithParentIfMissing extends AttrDesc
         super(parent,"layout_alignWithParentIfMissing");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
-        boolean convValue = getBoolean(value, view.getContext());
+        final boolean convValue = getBoolean(value, view.getContext());
 
-        params.alignWithParent = convValue;
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+                params.alignWithParent = convValue;
+            }};
 
-        if (oneTimeAttrProcess != null) oneTimeAttrProcess.setNeededSetLayoutParams();
-        else view.setLayoutParams(view.getLayoutParams());
+        if (oneTimeAttrProcess != null)
+        {
+            oneTimeAttrProcess.addLayoutParamsTask(task);
+        }
+        else
+        {
+            task.run();
+            view.setLayoutParams(view.getLayoutParams());
+        }
     }
 
     public void removeAttribute(View view)

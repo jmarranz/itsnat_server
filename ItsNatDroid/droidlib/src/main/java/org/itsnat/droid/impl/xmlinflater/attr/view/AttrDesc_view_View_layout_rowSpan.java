@@ -20,23 +20,31 @@ public class AttrDesc_view_View_layout_rowSpan extends AttrDesc
         super(parent,"layout_rowSpan");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         // Default: 1
 
-        int rowSpan = getInteger(value,view.getContext());
+        final int rowSpan = getInteger(value,view.getContext());
+
+        Runnable task = new Runnable(){
+            @Override
+            public void run()
+            {
+                OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
+                if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)
+                    oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
+
+                oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_rowSpan = rowSpan;
+            }};
 
         if (oneTimeAttrProcess != null)
         {
-            OneTimeAttrProcessChildGridLayout oneTimeAttrProcessGrid = (OneTimeAttrProcessChildGridLayout) oneTimeAttrProcess;
-            if (oneTimeAttrProcessGrid.gridLayout_rowSpec == null)
-                oneTimeAttrProcessGrid.gridLayout_rowSpec = new GridLayout_rowSpec();
-
-            oneTimeAttrProcessGrid.gridLayout_rowSpec.layout_rowSpan = rowSpan;
-
-            oneTimeAttrProcess.setNeededSetLayoutParams();
+            oneTimeAttrProcess.addLayoutParamsTask(task);
         }
-        else throw new ItsNatDroidException("Attribute " + getName() + " cannot be changed post creation");
+        else
+        {
+            throw new ItsNatDroidException("Attribute " + getName() + " cannot be changed post creation");
+        }
     }
 
     public void removeAttribute(View view)
