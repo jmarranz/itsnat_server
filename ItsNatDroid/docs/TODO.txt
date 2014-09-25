@@ -1,5 +1,4 @@
 
-* Probar con el emulador
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 

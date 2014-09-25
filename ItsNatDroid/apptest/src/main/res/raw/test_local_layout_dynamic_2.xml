@@ -155,9 +155,9 @@
         <!-- No ponemos android:height, android:maxHeight y android:minHeight porque se pisa con android:lines y android:singleLine
              No ponemos android:width, android:maxWidth y android:minWidth  porque se pisa con android:ems
              imeActionId="0x00000002" es la acción Go
-             textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico
-             No he conseguido hacer funcionar el android:ellipsize="marquee" ni siquiera con setSelected(true), es una chorrada que no merece la pena
-             No he conseguido hacer funcionar textAllCaps
+             textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico pero no en el compilado
+             No he conseguido aquí hacer funcionar el android:ellipsize="marquee" ni siquiera con setSelected(true), es una chorrada que no merece la pena
+             No he conseguido aquí hacer funcionar textAllCaps (ha de ser no editable y textIsSelectable="false")
         -->
 
         <!-- TextView 2 -->
@@ -179,10 +179,14 @@
             android:width="200dp"
             /> <!-- textIsSelectable="false" necesario para que funcione textAllCaps -->
 
-
-        <!-- Testear aparte
-                android:textAppearance="?android:attr/textAppearanceMedium"
-        -->
+        <!-- TextView 3 (textAppearance y hint) -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="#ffdddd"
+            android:hint="Hint Text (TextView Tests 3)"
+            android:textAppearance="@style/text_appearance_test"
+            />
 
     </LinearLayout>
 

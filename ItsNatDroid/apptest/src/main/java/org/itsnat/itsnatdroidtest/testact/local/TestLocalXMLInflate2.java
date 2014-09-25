@@ -509,7 +509,19 @@ public class TestLocalXMLInflate2
             assertEquals((Boolean)TestUtil.getField(compLayout,"mSingleLine"),(Boolean)TestUtil.getField(parsedLayout,"mSingleLine"));
         }
 
+        childCount++;
 
+        // Test TextView 3 (textAppearance y hint)
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getHint(),"Hint Text (TextView Tests 3)");
+            assertEquals(compLayout.getHint(),parsedLayout.getHint());
+
+            assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelInt(21,res));
+            assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
+        }
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");
 
