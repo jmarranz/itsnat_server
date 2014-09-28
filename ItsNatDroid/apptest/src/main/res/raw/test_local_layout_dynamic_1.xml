@@ -491,7 +491,8 @@
             android:unselectedAlpha="0.6">
         </Gallery>
 
-        <!-- Test Spinner (dropdown) -->
+        <!-- Test Spinner (dropdown)
+        Las diferencias visuales entre compilado y dinámico se deben inexplicablemente al uso de style -->
         <Spinner
             android:id="@id/spinnerDropdownTestId"
             android:layout_width="match_parent"

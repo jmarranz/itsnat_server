@@ -274,6 +274,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
 
         fillAttributesAndAddView(view,classDesc,null,parser,pending);
+
         return view;
     }
 

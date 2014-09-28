@@ -51,9 +51,6 @@ public class TestLocalXMLInflate1
 
         // comp = "Layout compiled"
         // parsed = "Layout dynamically parsed"
-        // No podemos testear layout_width/height en el ScrollView root porque un View está desconectado y al desconectar el width y el height se ponen a 0
-        // assertEquals(comp.getWidth(),parsed.getWidth());
-        // assertEquals(comp.getHeight(),parsed.getHeight());
 
         LinearLayout comp = (LinearLayout)compRoot.getChildAt(0);
         LinearLayout parsed = (LinearLayout)parsedRoot.getChildAt(0);
@@ -307,36 +304,61 @@ public class TestLocalXMLInflate1
 
         // Test ViewGroup Attribs
         {
-            LinearLayout compLinLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLinLayout = (LinearLayout) parsed.getChildAt(childCount);
-            assertTrue(compLinLayout.addStatesFromChildren());
-            assertEquals(compLinLayout.addStatesFromChildren(), parsedLinLayout.addStatesFromChildren());
-            assertFalse(compLinLayout.isAlwaysDrawnWithCacheEnabled());
-            assertEquals(compLinLayout.isAlwaysDrawnWithCacheEnabled(), parsedLinLayout.isAlwaysDrawnWithCacheEnabled());
+            final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+
+            assertTrue(compLayout.addStatesFromChildren());
+            assertEquals(compLayout.addStatesFromChildren(), parsedLayout.addStatesFromChildren());
+            assertFalse(compLayout.isAlwaysDrawnWithCacheEnabled());
+            assertEquals(compLayout.isAlwaysDrawnWithCacheEnabled(), parsedLayout.isAlwaysDrawnWithCacheEnabled());
             // Test de android:animateLayoutChanges
             // Si animateLayoutChanges="false" getLayoutTransition() devuelve null por lo que el chequear a null es suficiente test
-            assertNotNull(compLinLayout.getLayoutTransition());
-            assertNotNull(parsedLinLayout.getLayoutTransition());
+            assertNotNull(compLayout.getLayoutTransition());
+            assertNotNull(parsedLayout.getLayoutTransition());
 
-            assertFalse(compLinLayout.isAnimationCacheEnabled());
-            assertEquals(compLinLayout.isAnimationCacheEnabled(), parsedLinLayout.isAnimationCacheEnabled());
+            assertFalse(compLayout.isAnimationCacheEnabled());
+            assertEquals(compLayout.isAnimationCacheEnabled(), parsedLayout.isAnimationCacheEnabled());
             // Tests de android:clipChildren (el método get es Level 18)
-            assertFalse( ((int)(Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 ); // FLAG_CLIP_CHILDREN = 0x1
-            assertEquals( ((int)(Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1, ((int)(Integer)TestUtil.getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 );
+            assertFalse(((int) (Integer) TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1); // FLAG_CLIP_CHILDREN = 0x1
+            assertEquals( ((int)(Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1, ((int)(Integer)TestUtil.getField(parsedLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 );
             // Tests de android:clipToPadding
-            assertFalse(((int) (Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
-            assertEquals(((int) (Integer)TestUtil.getField(compLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer)TestUtil.getField(parsedLinLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
-            assertEquals(compLinLayout.getDescendantFocusability(), ViewGroup.FOCUS_AFTER_DESCENDANTS);
-            assertEquals(compLinLayout.getDescendantFocusability(), parsedLinLayout.getDescendantFocusability());
-            assertTrue((compLinLayout.getLayoutAnimation().getDelay() - 1.0f*10/100) < 0.00001); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
-            assertEquals(compLinLayout.getLayoutAnimation().getDelay(), parsedLinLayout.getLayoutAnimation().getDelay());
-            assertEquals(compLinLayout.getPersistentDrawingCache(),parsedLinLayout.getPersistentDrawingCache());
-            assertTrue(compLinLayout.isMotionEventSplittingEnabled());
-            assertEquals(compLinLayout.isMotionEventSplittingEnabled(),parsedLinLayout.isMotionEventSplittingEnabled());
+            assertFalse(((int) (Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
+            assertEquals(((int) (Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer)TestUtil.getField(parsedLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
+            assertEquals(compLayout.getDescendantFocusability(), ViewGroup.FOCUS_AFTER_DESCENDANTS);
+            assertEquals(compLayout.getDescendantFocusability(), parsedLayout.getDescendantFocusability());
+            assertTrue((compLayout.getLayoutAnimation().getDelay() - 1.0f * 10 / 100) < 0.00001); // Testeamos el delay porque testear la igualdad del LayoutAnimationController es un rollo
+            assertEquals(compLayout.getLayoutAnimation().getDelay(), parsedLayout.getLayoutAnimation().getDelay());
+            assertEquals(compLayout.getPersistentDrawingCache(), parsedLayout.getPersistentDrawingCache());
+            assertTrue(compLayout.isMotionEventSplittingEnabled());
+            assertEquals(compLayout.isMotionEventSplittingEnabled(), parsedLayout.isMotionEventSplittingEnabled());
+
             {
-                TextView compTextView = (TextView) compLinLayout.getChildAt(0);
-                TextView parsedTextView = (TextView) parsedLinLayout.getChildAt(0);
+                TextView compTextView = (TextView) compLayout.getChildAt(0);
+                TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
+                assertEquals(compTextView.getText(),"Test ViewGroup Attribs");
+                assertEquals(compTextView.getText(),parsedTextView.getText());
             }
+
+            // Testing ViewGroup.LayoutParams
+            ViewGroup.LayoutParams a_params = compLayout.getLayoutParams();
+            ViewGroup.LayoutParams b_params = parsedLayout.getLayoutParams();
+
+            assertEquals(a_params.height, ViewGroup.LayoutParams.WRAP_CONTENT);
+            assertEquals(a_params.height, b_params.height);
+            assertEquals(a_params.width, ViewGroup.LayoutParams.MATCH_PARENT);
+            assertEquals(a_params.width, b_params.width);
+
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals(compLayout.getWidth(), parsedLayout.getWidth());
+                    assertEquals(compLayout.getHeight(), parsedLayout.getHeight());
+                }
+            });
+
         }
 
         childCount++;
@@ -765,9 +787,8 @@ public class TestLocalXMLInflate1
             // No testeamos android:childIndicatorRight pues tenemos idéntico problema que childIndicatorLeft
 
             // Test android:groupIndicator, no hay método get
-            // No se como testear la igualdad de dos StateListDrawable
             assertNotNull((StateListDrawable)TestUtil.getField(compLayout, "mGroupIndicator"));
-            assertNotNull((StateListDrawable)TestUtil.getField(parsedLayout, "mGroupIndicator"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"), (StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"));
 
             // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft
             //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));

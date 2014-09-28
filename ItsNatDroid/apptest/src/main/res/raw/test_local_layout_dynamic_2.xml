@@ -188,6 +188,16 @@
             android:textAppearance="@style/text_appearance_test"
             />
 
+        <!-- CompoundButton Tests via CheckBox -->
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="#dddddd"
+            android:text="CompoundButton Tests"
+            android:button="@drawable/btn_check_holo_light"
+            android:checked="true"
+            />
+
     </LinearLayout>
 
 

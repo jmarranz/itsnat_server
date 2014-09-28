@@ -19,6 +19,8 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AbsSeekBar;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -219,7 +221,7 @@ public class TestLocalXMLInflate2
 
             // Test android:thumb
             assertNotNull((StateListDrawable) TestUtil.getField(compLayout, AbsSeekBar.class, "mThumb"));
-            assertNotNull((StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"),(StateListDrawable) TestUtil.getField(parsedLayout, AbsSeekBar.class, "mThumb"));
         }
 
         childCount++;
@@ -522,6 +524,26 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.getTextSize(),ValueUtil.dpToPixelInt(21,res));
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
         }
+
+        childCount++;
+
+        // CompoundButton Tests (a través de CheckBox)
+        {
+            final CheckBox compLayout = (CheckBox) comp.getChildAt(childCount);
+            final CheckBox parsedLayout = (CheckBox) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(),"CompoundButton Tests");
+            assertEquals(compLayout.getText(),parsedLayout.getText());
+
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout, CompoundButton.class, "mButtonDrawable"));
+            assertEquals((StateListDrawable)TestUtil.getField(compLayout,CompoundButton.class,"mButtonDrawable"),(StateListDrawable)TestUtil.getField(parsedLayout,CompoundButton.class,"mButtonDrawable"));
+
+            assertTrue(compLayout.isChecked());
+            assertEquals(compLayout.isChecked(),parsedLayout.isChecked());
+
+        }
+
+
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());
         //System.out.println("\n\n\n");
 

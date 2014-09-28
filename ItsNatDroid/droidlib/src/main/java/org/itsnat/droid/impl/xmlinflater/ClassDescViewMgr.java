@@ -83,12 +83,12 @@ public class ClassDescViewMgr
             ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
             addClassDescViewBase(widget_TextView);
 
-                ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView);
+                ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView); // no tiene atributos
                 addClassDescViewBase(widget_Button);
 
                     ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
                     addClassDescViewBase(widget_CompoundButton);
-
+                        // CheckBox no tiene atributos
 
     }
 

@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RotateDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
 
@@ -193,7 +194,6 @@ public class Assert
             Class clasz = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
             assertEquals((Drawable)TestUtil.getField(sa,clasz,"mDrawable"),(Drawable)TestUtil.getField(sb,clasz,"mDrawable"));
         }
-        /*
         else if (a instanceof StateListDrawable)
         {
             StateListDrawable a_state = (StateListDrawable) a;
@@ -207,7 +207,6 @@ public class Assert
                 assertEquals(a_stateArr[i],b_stateArr[i]);
             }
         }
-        */
         else
             throw new ItsNatDroidException("Cannot test " + a);
     }
