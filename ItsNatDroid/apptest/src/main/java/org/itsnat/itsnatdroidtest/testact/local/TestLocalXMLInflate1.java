@@ -13,6 +13,7 @@ import android.widget.AdapterViewAnimator;
 import android.widget.AdapterViewFlipper;
 import android.widget.AnalogClock;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.Gallery;
@@ -494,6 +495,42 @@ public class TestLocalXMLInflate1
             assertTrue(compLayout.getMeasureAllChildren());
             assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
         }
+
+
+        childCount++;
+
+        // Test CalendarView Attribs
+        {
+            final CalendarView compLayout = (CalendarView) comp.getChildAt(childCount);
+            final CalendarView parsedLayout = (CalendarView) parsed.getChildAt(childCount);
+
+            // Test android:dateTextAppearance
+            assertPositive((Integer) TestUtil.getField(compLayout, "mDateTextSize"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mDateTextSize"), (Integer)TestUtil.getField(parsedLayout, "mDateTextSize"));
+
+            assertEquals(compLayout.getFirstDayOfWeek(),3);
+            assertEquals(compLayout.getFirstDayOfWeek(),parsedLayout.getFirstDayOfWeek());
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mFocusedMonthDateColor"),0xffff0000);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mFocusedMonthDateColor"), (Integer)TestUtil.getField(parsedLayout, "mFocusedMonthDateColor"));
+
+            assertEquals(compLayout.getMaxDate(),4133977200000L);
+            assertEquals(compLayout.getMaxDate(),parsedLayout.getMaxDate());
+
+            assertEquals(compLayout.getMinDate(),-2177456400000L);
+            assertEquals(compLayout.getMinDate(),parsedLayout.getMinDate());
+
+            assertNotNull((Drawable)TestUtil.getField(compLayout, "mSelectedDateVerticalBar"));
+            assertEquals((Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"), (Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"));
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"),0xff0000ff);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), (Integer)TestUtil.getField(parsedLayout, "mSelectedWeekBackgroundColor"));
+
+
+        }
+
+
+
 
         childCount++;
 

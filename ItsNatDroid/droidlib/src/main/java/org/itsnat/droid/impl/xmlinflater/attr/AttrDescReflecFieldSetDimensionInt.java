@@ -12,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  */
 public class AttrDescReflecFieldSetDimensionInt extends AttrDescReflecFieldSet
 {
-    protected int defaultValue;
+    protected Integer defaultValue;
 
-    public AttrDescReflecFieldSetDimensionInt(ClassDescViewBased parent, String name, String fieldName, int defaultValue)
+    public AttrDescReflecFieldSetDimensionInt(ClassDescViewBased parent, String name, String fieldName, Integer defaultValue)
     {
         super(parent,name,fieldName);
     }
@@ -28,7 +28,8 @@ public class AttrDescReflecFieldSetDimensionInt extends AttrDescReflecFieldSet
 
     public void removeAttribute(View view)
     {
-        setField(view,defaultValue);
+        if (defaultValue != null)
+            setField(view,defaultValue);
     }
 
 }

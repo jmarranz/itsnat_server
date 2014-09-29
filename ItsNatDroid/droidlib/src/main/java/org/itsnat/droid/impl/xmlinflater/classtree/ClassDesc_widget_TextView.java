@@ -47,7 +47,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_TextView_bufferType(this));
         // android:capitalize está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"cursorVisible",true));
-        // android:digits no se implementarlo
+        // android:digits no se implementarlo y mi impresión es que es similar a autoText, capitalize etc
 
         addAttrDesc(new AttrDesc_widget_TextView_compoundDrawables(this,"drawableLeft"));
         addAttrDesc(new AttrDesc_widget_TextView_compoundDrawables(this,"drawableTop"));

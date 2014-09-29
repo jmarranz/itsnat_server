@@ -276,6 +276,21 @@
                 android:background="#dddddd" />
         </FrameLayout>
 
+        <!-- Test CalendarView Attribs -->
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:dateTextAppearance="?android:attr/textAppearanceLarge"
+            android:firstDayOfWeek="3"
+            android:focusedMonthDateColor="#ff0000"
+            android:maxDate="01/01/2101"
+            android:minDate="01/01/1901"
+            android:selectedDateVerticalBar="@drawable/seek_thumb_normal"
+            android:selectedWeekBackgroundColor="#0000ff"
+            >
+        </CalendarView>
+        <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal -->
+
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
             android:layout_width="match_parent"

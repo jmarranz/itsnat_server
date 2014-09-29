@@ -56,6 +56,11 @@ public class Assert
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
+    public static void assertEquals(long a,long b)
+    {
+        if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+    }
+
     public static void assertEquals(float a,float b)
     {
         if (a != b) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");

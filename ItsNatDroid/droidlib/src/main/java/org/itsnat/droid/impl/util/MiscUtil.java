@@ -12,4 +12,10 @@ public class MiscUtil
         try { return Class.forName(className); } // Es absurdo hacer una caché, el Class ya tiene una caché
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
     }
+
+    public static Class resolveClass(String className,ClassLoader classLoader)
+    {
+        try { return Class.forName(className,true,classLoader); } // Es absurdo hacer una caché, el Class ya tiene una caché
+        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+    }
 }

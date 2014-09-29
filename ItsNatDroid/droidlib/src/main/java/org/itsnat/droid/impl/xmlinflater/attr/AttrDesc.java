@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
@@ -22,6 +23,8 @@ import java.util.Map;
  */
 public abstract class AttrDesc
 {
+    private static Class class_R_styleable;
+
     protected String name;
     protected ClassDescViewBased parent;
 
@@ -34,6 +37,13 @@ public abstract class AttrDesc
     public String getName()
     {
         return name;
+    }
+
+    protected Class getClass_R_styleable()
+    {
+        if (class_R_styleable == null)
+            this.class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
+        return class_R_styleable;
     }
 
     private static boolean isResource(String attrValue)

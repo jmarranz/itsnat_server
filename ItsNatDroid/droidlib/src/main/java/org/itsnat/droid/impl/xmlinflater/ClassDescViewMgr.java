@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewFlipper;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CalendarView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
@@ -128,8 +129,19 @@ public class ClassDescViewMgr
 
                 // StackView no tiene atributos
 
+        // android.support.v4.widget.DrawerLayout no tiene atributos
+
+        // 	android.app.FragmentBreadCrumbs no tiene atributos
+
         ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
         addClassDescViewBase(widget_FrameLayout);
+            // android.appwidget.AppWidgetHostView no tiene atributos
+
+            ClassDesc_widget_CalendarView widget_CalendarView = new ClassDesc_widget_CalendarView(widget_FrameLayout);
+            addClassDescViewBase(widget_CalendarView);
+
+
+
 
         ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(view_ViewGroup);
         addClassDescViewBase(widget_GridLayout);
