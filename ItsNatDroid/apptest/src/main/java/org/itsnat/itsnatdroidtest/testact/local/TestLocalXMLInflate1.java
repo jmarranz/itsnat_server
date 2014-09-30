@@ -630,6 +630,20 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getGestureStrokeLengthThreshold(),35.1f);
             assertEquals(compLayout.getGestureStrokeLengthThreshold(), parsedLayout.getGestureStrokeLengthThreshold());
 
+            assertEquals(compLayout.getGestureStrokeSquarenessTreshold(),0.21f);
+            assertEquals(compLayout.getGestureStrokeSquarenessTreshold(), parsedLayout.getGestureStrokeSquarenessTreshold());
+
+            assertEquals(compLayout.getGestureStrokeType(),GestureOverlayView.GESTURE_STROKE_TYPE_MULTIPLE);
+            assertEquals(compLayout.getGestureStrokeType(), parsedLayout.getGestureStrokeType());
+
+            assertEquals(compLayout.getGestureStrokeWidth(),20f);
+            assertEquals(compLayout.getGestureStrokeWidth(), parsedLayout.getGestureStrokeWidth());
+
+            assertEquals(compLayout.getOrientation(),GestureOverlayView.ORIENTATION_HORIZONTAL);
+            assertEquals(compLayout.getOrientation(), parsedLayout.getOrientation());
+
+            assertEquals(compLayout.getUncertainGestureColor(),0xff00ff00);
+            assertEquals(compLayout.getUncertainGestureColor(), parsedLayout.getUncertainGestureColor());
 
             {
                 final TextView compTextView = (TextView) compLayout.getChildAt(0);

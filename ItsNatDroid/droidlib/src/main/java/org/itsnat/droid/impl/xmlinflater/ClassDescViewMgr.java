@@ -21,6 +21,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Gallery;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_GridView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_HorizontalScrollView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ImageView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
@@ -148,6 +149,8 @@ public class ClassDescViewMgr
             ClassDesc_gesture_GestureOverlayView widget_GestureOverlayView = new ClassDesc_gesture_GestureOverlayView(widget_FrameLayout);
             addClassDescViewBase(widget_GestureOverlayView);
 
+            ClassDesc_widget_HorizontalScrollView widget_HorizontalScrollView = new ClassDesc_widget_HorizontalScrollView(widget_FrameLayout);
+            addClassDescViewBase(widget_HorizontalScrollView);
 
 
 

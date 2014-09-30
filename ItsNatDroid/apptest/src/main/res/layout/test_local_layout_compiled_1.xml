@@ -324,12 +324,25 @@
             android:gestureColor="#ff0000"
             android:gestureStrokeAngleThreshold="30.1"
             android:gestureStrokeLengthThreshold="35.1"
+            android:gestureStrokeSquarenessThreshold="0.21"
+            android:gestureStrokeType="multiple"
+            android:gestureStrokeWidth="20"
+            android:orientation="horizontal"
+            android:uncertainGestureColor="#00ff00"
             >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="GestureOverlayView Test"/>
-        </android.gesture.GestureOverlayView>
+
+        </android.gesture.GestureOverlayView> <!-- no consigo que se vea uncertainGestureColor -->
+
+        <!-- Test HorizontalScrollView -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+        </HorizontalScrollView>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
