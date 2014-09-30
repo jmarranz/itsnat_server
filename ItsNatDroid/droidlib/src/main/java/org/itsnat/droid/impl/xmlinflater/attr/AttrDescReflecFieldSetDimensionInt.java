@@ -17,6 +17,7 @@ public class AttrDescReflecFieldSetDimensionInt extends AttrDescReflecFieldSet
     public AttrDescReflecFieldSetDimensionInt(ClassDescViewBased parent, String name, String fieldName, Integer defaultValue)
     {
         super(parent,name,fieldName);
+        this.defaultValue = defaultValue;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

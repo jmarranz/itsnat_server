@@ -17,6 +17,7 @@ public class AttrDescReflecFieldSetBoolean extends AttrDescReflecFieldSet
     public AttrDescReflecFieldSetBoolean(ClassDescViewBased parent,String name,String fieldName,boolean defaultValue)
     {
         super(parent,name,fieldName);
+        this.defaultValue = defaultValue;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

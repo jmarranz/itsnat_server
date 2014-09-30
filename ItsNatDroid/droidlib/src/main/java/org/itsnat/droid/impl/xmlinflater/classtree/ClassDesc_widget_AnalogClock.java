@@ -16,9 +16,9 @@ public class ClassDesc_widget_AnalogClock extends ClassDescViewBased
     {
         super.init();
 
-        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"dial","mDial"));
-        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"hand_hour","mHourHand"));
-        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"hand_minute","mMinuteHand"));
+        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"dial","mDial",null));
+        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"hand_hour","mHourHand",null));
+        addAttrDesc(new AttrDescReflecFieldSetDrawable(this,"hand_minute","mMinuteHand",null));
 
     }
 }

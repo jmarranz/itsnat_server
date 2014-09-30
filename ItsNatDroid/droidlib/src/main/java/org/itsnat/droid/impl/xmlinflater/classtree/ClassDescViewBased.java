@@ -97,7 +97,8 @@ public class ClassDescViewBased
 
     protected void addAttrDesc(AttrDesc attrDesc)
     {
-        attrDescMap.put(attrDesc.getName(),attrDesc);
+        AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
+        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated: " + attrDesc.getName());
     }
 
     protected AttrDesc getAttrDesc(String name)

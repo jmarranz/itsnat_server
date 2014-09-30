@@ -13,9 +13,12 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  */
 public class AttrDescReflecFieldSetDrawable extends AttrDescReflecFieldSet
 {
-    public AttrDescReflecFieldSetDrawable(ClassDescViewBased parent,String name,String fieldName)
+    protected String defaultValue;
+
+    public AttrDescReflecFieldSetDrawable(ClassDescViewBased parent,String name,String fieldName,String defaultValue)
     {
         super(parent,name,fieldName);
+        this.defaultValue = defaultValue;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -27,6 +30,7 @@ public class AttrDescReflecFieldSetDrawable extends AttrDescReflecFieldSet
 
     public void removeAttribute(View view)
     {
-        // No tengo claro de poner a null
+        if (defaultValue != null)
+            setAttribute(view,defaultValue,null,null);
     }
 }

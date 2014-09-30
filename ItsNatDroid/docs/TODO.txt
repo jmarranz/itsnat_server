@@ -1,7 +1,4 @@
 
-* Revisar los métodos/field static si admiten una instancia SIEMPRE
-
-* Crear un ClassContainer con los MiscUtil.resolveClass ???
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 

@@ -31,6 +31,71 @@
             android:layout_height="wrap_content"
             android:text="@string/button_reload" />
 
+        <!-- Test AbsSpinner (entries sólo) y Gallery
+        Gallery está deprecated pero desde el level 16 -->
+        <Gallery
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#dddddd"
+            android:entries="@array/sports_array"
+            android:animationDuration="100"
+            android:gravity="center_vertical"
+            android:spacing="50dp"
+            android:unselectedAlpha="0.6">
+        </Gallery>
+
+        <!-- Test Spinner (dropdown)
+        Las diferencias visuales entre compilado y dinámico se deben inexplicablemente al uso de style -->
+        <Spinner
+            android:id="@id/spinnerDropdownTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:dropDownHorizontalOffset="21dp"
+            android:dropDownVerticalOffset="10dp"
+            android:dropDownWidth="200dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:popupBackground="#eeee55"
+            android:spinnerMode="dropdown"
+            style="@style/spinner_style_test"
+            >
+        </Spinner> <!-- dropDownHorizontalOffset lo ponemos igual al paddingLeft del style porque realmente se solapan -->
+
+        <!-- Test Spinner (dialog) -->
+        <Spinner
+            android:id="@id/spinnerDialogTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:prompt="@string/sport_list"
+            android:spinnerMode="dialog"
+            >
+        </Spinner>
+
+        <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
+        <AdapterViewFlipper
+            android:id="@id/adapterViewAnimatorTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/object_animator_test"
+            android:loopViews="true"
+            android:outAnimation="@animator/object_animator_test"
+            android:autoStart="true"
+            android:flipInterval="2000"
+            >
+
+        </AdapterViewFlipper>
+
+        <!-- Test AnalogClock  -->
+        <AnalogClock
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:dial="@drawable/clock_dial"
+            android:hand_hour="@drawable/clock_hand_hour"
+            android:hand_minute="@drawable/clock_hand_minute"
+            > <!-- los drawables están copiados del SDK de Android retocados -->
+        </AnalogClock>
+
+
         <!-- Test ImageView  -->
         <ImageView
             android:layout_width="match_parent"

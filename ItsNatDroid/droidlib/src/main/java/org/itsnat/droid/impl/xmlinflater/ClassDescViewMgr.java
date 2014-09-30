@@ -14,6 +14,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewF
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CalendarView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_DatePicker;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_FrameLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Gallery;
@@ -140,6 +141,9 @@ public class ClassDescViewMgr
             ClassDesc_widget_CalendarView widget_CalendarView = new ClassDesc_widget_CalendarView(widget_FrameLayout);
             addClassDescViewBase(widget_CalendarView);
 
+            ClassDesc_widget_DatePicker widget_DatePicker = new ClassDesc_widget_DatePicker(widget_FrameLayout);
+            addClassDescViewBase(widget_DatePicker);
+
 
 
 
@@ -158,7 +162,8 @@ public class ClassDescViewMgr
 
     private void addClassDescViewBase(ClassDescViewBased viewDesc)
     {
-        classes.put(viewDesc.getClassName(), viewDesc);
+        ClassDescViewBased old = classes.put(viewDesc.getClassName(), viewDesc);
+        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated: " + viewDesc.getClassName());
     }
 
     public static Class<View> resolveViewClass(String viewName) throws ClassNotFoundException

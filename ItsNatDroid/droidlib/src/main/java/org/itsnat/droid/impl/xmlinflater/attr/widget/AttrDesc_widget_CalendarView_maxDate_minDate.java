@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.attr.widget;
 import android.text.TextUtils;
 import android.view.View;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -16,7 +17,7 @@ import java.util.Locale;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDesc_widget_CalendarView_max_minDate extends AttrDesc
+public class AttrDesc_widget_CalendarView_maxDate_minDate extends AttrDesc
 {
     private static final String DEFAULT_MIN_DATE = "01/01/1900";
     private static final String DEFAULT_MAX_DATE = "01/01/2100";
@@ -25,7 +26,7 @@ public class AttrDesc_widget_CalendarView_max_minDate extends AttrDesc
     protected FieldContainer<Locale> fieldCurrentLocale;
     protected FieldContainer<Calendar> fieldMaxMinDate;
 
-    public AttrDesc_widget_CalendarView_max_minDate(ClassDescViewBased parent, String name)
+    public AttrDesc_widget_CalendarView_maxDate_minDate(ClassDescViewBased parent, String name)
     {
         super(parent,name);
         this.methodParseDate = new MethodContainer<Boolean>(parent,"parseDate",new Class[]{String.class,Calendar.class});
@@ -45,7 +46,14 @@ public class AttrDesc_widget_CalendarView_max_minDate extends AttrDesc
 
         Locale currentLocale = fieldCurrentLocale.get(view);
         Calendar outDate = Calendar.getInstance(currentLocale);
-        if (TextUtils.isEmpty(date) || !parseDate(view,date, outDate))
+        // No es necesario: outDate.clear();
+
+        if (!TextUtils.isEmpty(date))
+        {
+            if (!parseDate(view,date, outDate)) // El código fuente de Android tolera un mal formato, nosotros no pues no hace más que complicarlo todo
+                throw new ItsNatDroidException("Date: " + date + " not in format: " + "MM/dd/yyyy");
+        }
+        else // Caso de eliminación de atributo, interpretamos el "" como el deseo de poner los valores por defecto (más o menos es así en el código fuente)
         {
             String defaultMaxMin = null;
             if ("maxDate".equals(name))

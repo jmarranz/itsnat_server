@@ -6,15 +6,14 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
-
 /**
- * Created by jmarranz on 30/04/14.
+ * Created by jmarranz on 1/05/14.
  */
-public class AttrDescReflecFieldSetDimensionWithNameInt extends AttrDescReflecFieldSet
+public class AttrDescReflecFieldSetColor extends AttrDescReflecFieldSet
 {
     protected String defaultValue;
 
-    public AttrDescReflecFieldSetDimensionWithNameInt(ClassDescViewBased parent, String name, String fieldName,String defaultValue)
+    public AttrDescReflecFieldSetColor(ClassDescViewBased parent,String name,String fieldName,String defaultValue)
     {
         super(parent,name,fieldName);
         this.defaultValue = defaultValue;
@@ -22,7 +21,7 @@ public class AttrDescReflecFieldSetDimensionWithNameInt extends AttrDescReflecFi
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionWithNameInt(view, value);
+        int convertedValue = getColor(value,view.getContext());
 
         setField(view,convertedValue);
     }
@@ -32,6 +31,4 @@ public class AttrDescReflecFieldSetDimensionWithNameInt extends AttrDescReflecFi
         if (defaultValue != null)
             setAttribute(view,defaultValue,null,null);
     }
-
-
 }

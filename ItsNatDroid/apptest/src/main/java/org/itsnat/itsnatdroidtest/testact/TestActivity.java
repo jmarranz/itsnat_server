@@ -93,7 +93,6 @@ public class TestActivity extends Activity implements ActionBar.TabListener
 
 
         //org.itsnat.droid.impl.util.MapLightAndRealPerformTest.test();
-
     }
 
     public ViewPager getViewPager()
