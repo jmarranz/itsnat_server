@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -320,10 +321,10 @@ public class TestLocalXMLInflate1
             assertFalse(compLayout.isAnimationCacheEnabled());
             assertEquals(compLayout.isAnimationCacheEnabled(), parsedLayout.isAnimationCacheEnabled());
             // Tests de android:clipChildren (el método get es Level 18)
-            assertFalse(((int) (Integer) TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1); // FLAG_CLIP_CHILDREN = 0x1
+            assertFalse(((Integer) TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1); // FLAG_CLIP_CHILDREN = 0x1
             assertEquals( ((int)(Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1, ((int)(Integer)TestUtil.getField(parsedLayout, ViewGroup.class, "mGroupFlags") & 0x1) == 0x1 );
             // Tests de android:clipToPadding
-            assertFalse(((int) (Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
+            assertFalse(((Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2); // FLAG_CLIP_TO_PADDING = 0x2
             assertEquals(((int) (Integer)TestUtil.getField(compLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2, ((int) (Integer)TestUtil.getField(parsedLayout, ViewGroup.class, "mGroupFlags") & 0x2) == 0x2);
             assertEquals(compLayout.getDescendantFocusability(), ViewGroup.FOCUS_AFTER_DESCENDANTS);
             assertEquals(compLayout.getDescendantFocusability(), parsedLayout.getDescendantFocusability());
@@ -525,6 +526,31 @@ public class TestLocalXMLInflate1
 
             assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"),0xff0000ff);
             assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), (Integer)TestUtil.getField(parsedLayout, "mSelectedWeekBackgroundColor"));
+
+            assertTrue(compLayout.getShowWeekNumber());
+            assertEquals(compLayout.getShowWeekNumber(),parsedLayout.getShowWeekNumber());
+
+            // Test shownWeekCount
+            assertEquals((Integer)TestUtil.getField(compLayout, "mShownWeekCount"),5);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mShownWeekCount"), (Integer)TestUtil.getField(parsedLayout, "mShownWeekCount"));
+
+            // Test unfocusedMonthDateColor
+            assertEquals((Integer)TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"),0xff00cc00);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), (Integer)TestUtil.getField(parsedLayout, "mUnfocusedMonthDateColor"));
+
+            // Test android:weekDayTextAppearance
+            // en Level 15 (4.0.3) es complicadísimo testear. Se ve a simple vista que las letras de los días de la semama (L,M,X...) son grandes
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // A partir de Level 16
+            {
+                assertPositive((Integer)TestUtil.callMethod(compLayout,null,CalendarView.class,"getWeekDayTextAppearance",null));
+                assertEquals((Integer)TestUtil.callMethod(compLayout,null,CalendarView.class,"getWeekDayTextAppearance",null),(Integer)TestUtil.callMethod(parsedLayout,null,CalendarView.class,"getWeekDayTextAppearance",null));
+            }
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekNumberColor"),0xffaaaa77);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekNumberColor"), (Integer)TestUtil.getField(parsedLayout, "mWeekNumberColor"));
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekSeparatorLineColor"),0xffaa8888);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), (Integer)TestUtil.getField(parsedLayout, "mWeekSeparatorLineColor"));
 
 
         }

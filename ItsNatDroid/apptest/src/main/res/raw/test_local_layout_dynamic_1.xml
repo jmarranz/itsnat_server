@@ -287,6 +287,12 @@
             android:minDate="01/01/1901"
             android:selectedDateVerticalBar="@drawable/seek_thumb_normal"
             android:selectedWeekBackgroundColor="#0000ff"
+            android:showWeekNumber="true"
+            android:shownWeekCount="5"
+            android:unfocusedMonthDateColor="#00cc00"
+            android:weekDayTextAppearance="?android:attr/textAppearanceLarge"
+            android:weekNumberColor="#aaaa77"
+            android:weekSeparatorLineColor="#aa8888"
             >
         </CalendarView>
         <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal -->

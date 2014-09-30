@@ -24,7 +24,7 @@ public class AttrDesc_widget_CalendarView_dateTextAppearance extends AttrDesc
     {
         super(parent,"dateTextAppearance");
 
-        Class class_R_styleable = getClass_R_styleable();
+        Class class_R_styleable = getClass_R_styleable(); // com.android.internal.R$styleable
         this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable,"TextAppearance");
         this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable,"TextAppearance_textSize");
         this.fieldTextAppearance_Small = new FieldContainer<Integer>(class_R_styleable,"TextAppearance_Small");

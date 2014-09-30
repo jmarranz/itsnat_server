@@ -1,10 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_CalendarView_dateTextAppearance;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_CalendarView_max_minDate;
+import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_CalendarView_weekDayTextAppearance;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -30,6 +32,12 @@ public class ClassDesc_widget_CalendarView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_CalendarView_max_minDate(this,"minDate"));
         addAttrDesc(new AttrDescReflecMethodDrawable(this,"selectedDateVerticalBar",null)); // Hay un Drawable por defecto
         addAttrDesc(new AttrDescReflecMethodColor(this,"selectedWeekBackgroundColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodBoolean(this,"showWeekNumber",true));
+        addAttrDesc(new AttrDescReflecMethodInt(this,"shownWeekCount",6));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"unfocusedMonthDateColor","#000000"));
+        addAttrDesc(new AttrDesc_widget_CalendarView_weekDayTextAppearance(this));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"weekNumberColor","#000000"));
+        addAttrDesc(new AttrDescReflecMethodColor(this,"weekSeparatorLineColor","#000000"));
 
     }
 }
