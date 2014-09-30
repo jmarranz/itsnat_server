@@ -45,6 +45,19 @@ public abstract class TestLayoutLocalBase implements AttrCustomInflaterListener
         System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
     }
 
+    protected View loadCompiledAndBindBackReloadButtons(int layoutId)
+    {
+        TestActivity act = getTestActivity();
+        View compiledRootView = act.getLayoutInflater().inflate(layoutId, null);
+        changeLayout(fragment, compiledRootView);
+
+        Toast.makeText(act, "OK COMPILED", Toast.LENGTH_SHORT).show();
+
+        bindBackButton(compiledRootView);
+
+        return compiledRootView;
+    }
+
     protected InflatedLayout loadDynamicAndBindBackReloadButtons(InputStream input)
     {
         // Sólo para testear carga local

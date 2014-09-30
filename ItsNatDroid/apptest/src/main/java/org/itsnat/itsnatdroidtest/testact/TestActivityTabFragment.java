@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal1;
 import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal2;
+import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal3;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePage;
@@ -83,6 +84,16 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 new TestLayoutLocal2(TestActivityTabFragment.this).test();
+            }
+        });
+
+        View testLocal3 = rootView.findViewById(R.id.testLocal3);
+        testLocal3.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                new TestLayoutLocal3(TestActivityTabFragment.this).test();
             }
         });
 

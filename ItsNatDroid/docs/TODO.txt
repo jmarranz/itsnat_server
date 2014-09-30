@@ -1,5 +1,9 @@
 
 
+* Testear aparte GestureOverlayView
+
+  http://www.vogella.com/tutorials/AndroidGestures/article.html
+
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos

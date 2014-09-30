@@ -17,6 +17,7 @@ public class AttrDescReflecFieldSetInt extends AttrDescReflecFieldSet
     public AttrDescReflecFieldSetInt(ClassDescViewBased parent, String name, String fieldName, int defaultValue)
     {
         super(parent,name,fieldName);
+        this.defaultValue = defaultValue;
     }
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

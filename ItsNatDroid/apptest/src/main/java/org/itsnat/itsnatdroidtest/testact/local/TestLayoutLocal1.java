@@ -6,7 +6,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.SimpleExpandableListAdapter;
-import android.widget.Toast;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -33,12 +32,7 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
     public void test()
     {
         final TestActivity act = fragment.getTestActivity();
-        final View compiledRootView = act.getLayoutInflater().inflate(R.layout.test_local_layout_compiled_1, null);
-        changeLayout(fragment,compiledRootView);
-
-        Toast.makeText(act, "OK COMPILED", Toast.LENGTH_SHORT).show();
-
-        bindBackButton(compiledRootView);
+        final View compiledRootView = loadCompiledAndBindBackReloadButtons(R.layout.test_local_layout_compiled_1);
 
         final View buttonReload = compiledRootView.findViewById(R.id.buttonReload);
         buttonReload.setOnClickListener(new View.OnClickListener()

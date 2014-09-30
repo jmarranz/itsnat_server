@@ -114,6 +114,11 @@ public class Assert
         if (a != null && !a.equals(b) || b != null && !b.equals(a)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
+    public final static void assertEquals(Boolean a,Boolean b)
+    {
+        assertEquals((boolean)a,(boolean)b);
+    }
+
     public final static void assertEquals(Integer a,int b)
     {
         assertEquals((int)a,b);
@@ -122,6 +127,11 @@ public class Assert
     public final static void assertEquals(Integer a,Integer b)
     {
         assertEquals((int)a,(int)b);
+    }
+
+    public final static void assertEquals(Long a,Long b)
+    {
+        assertEquals((long)a,(long)b);
     }
 
     public final static void assertEquals(Float a,float b)

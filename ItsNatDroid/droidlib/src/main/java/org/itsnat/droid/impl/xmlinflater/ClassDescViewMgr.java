@@ -5,6 +5,7 @@ import android.view.View;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_gesture_GestureOverlayView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSeekBar;
@@ -143,6 +144,9 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_DatePicker widget_DatePicker = new ClassDesc_widget_DatePicker(widget_FrameLayout);
             addClassDescViewBase(widget_DatePicker);
+
+            ClassDesc_gesture_GestureOverlayView widget_GestureOverlayView = new ClassDesc_gesture_GestureOverlayView(widget_FrameLayout);
+            addClassDescViewBase(widget_GestureOverlayView);
 
 
 

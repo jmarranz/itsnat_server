@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
+import android.gesture.GestureOverlayView;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -601,6 +602,44 @@ public class TestLocalXMLInflate1
             assertTrue(parsedLayout.getSpinnersShown());
         }
 
+        childCount++;
+
+        // Test android.gesture.GestureOverlayView Attribs
+        {
+            final GestureOverlayView compLayout = (GestureOverlayView) comp.getChildAt(childCount);
+            final GestureOverlayView parsedLayout = (GestureOverlayView) parsed.getChildAt(childCount);
+
+            assertTrue(compLayout.isEventsInterceptionEnabled());
+            assertEquals(compLayout.isEventsInterceptionEnabled(), parsedLayout.isEventsInterceptionEnabled());
+
+            assertEquals((long)(Long)TestUtil.getField(compLayout, "mFadeDuration"),1000L);
+            assertEquals((Long)TestUtil.getField(compLayout, "mFadeDuration"), (Long)TestUtil.getField(parsedLayout, "mFadeDuration"));
+
+            assertTrue(compLayout.isFadeEnabled());
+            assertEquals(compLayout.isFadeEnabled(), parsedLayout.isFadeEnabled());
+
+            assertEquals(compLayout.getFadeOffset(),200L);
+            assertEquals(compLayout.getFadeOffset(), parsedLayout.getFadeOffset());
+
+            assertEquals(compLayout.getGestureColor(),0xffff0000);
+            assertEquals(compLayout.getGestureColor(), parsedLayout.getGestureColor());
+
+            assertEquals(compLayout.getGestureStrokeAngleThreshold(),30.1f);
+            assertEquals(compLayout.getGestureStrokeAngleThreshold(), parsedLayout.getGestureStrokeAngleThreshold());
+
+            assertEquals(compLayout.getGestureStrokeLengthThreshold(),35.1f);
+            assertEquals(compLayout.getGestureStrokeLengthThreshold(), parsedLayout.getGestureStrokeLengthThreshold());
+
+
+            {
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
+                assertEquals(compTextView.getText(), "GestureOverlayView Test");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+            }
+        }
+
 
         childCount++;
 
@@ -639,6 +678,7 @@ public class TestLocalXMLInflate1
                 final TextView compTextView = (TextView) compLayout.getChildAt(0);
                 final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
 
+                assertEquals(compTextView.getText(),"Test LinearLayout gravity 1");
                 assertEquals(compTextView.getText(), parsedTextView.getText());
                 assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
             }

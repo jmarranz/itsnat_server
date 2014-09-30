@@ -22,12 +22,19 @@
             android:textSize="20dp"
             android:layout_below="@+id/testLocal1"/>
 
+    <Button android:id="@+id/testLocal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEST LOCAL 3"
+            android:textSize="20dp"
+            android:layout_below="@+id/testLocal2"/>
+
     <Button android:id="@+id/testRemoteCore"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="TEST REMOTE CORE"
               android:textSize="20dp"
-              android:layout_below="@id/testLocal2"/>
+              android:layout_below="@id/testLocal3"/>
 
 
     <Button android:id="@+id/testRemoteControl"

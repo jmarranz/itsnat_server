@@ -308,7 +308,26 @@
             android:endYear="2102"
             android:spinnersShown="true"
             >
-        </DatePicker> <!-- minDate y maxDate acaban ganando -->
+        </DatePicker> <!-- minDate y maxDate acaban ganando sobre startYear y endYear  -->
+
+        <!-- Test GestureOverlayView Attribs -->
+        <android.gesture.GestureOverlayView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#dddddd"
+            android:eventsInterceptionEnabled="true"
+            android:fadeDuration="1000"
+            android:fadeEnabled="true"
+            android:fadeOffset="200"
+            android:gestureColor="#ff0000"
+            android:gestureStrokeAngleThreshold="30.1"
+            android:gestureStrokeLengthThreshold="35.1"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="GestureOverlayView Test"/>
+        </android.gesture.GestureOverlayView>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
