@@ -16,5 +16,6 @@
     <item name="adapterViewAnimatorTestId" type="id">adapterViewAnimatorTestId</item>
     <item name="radioFemale" type="id">radioFemale</item>
     <item name="radioMale" type="id">radioMale</item>
-
+    <item name="calendarViewTestId" type="id">calendarViewTestId</item>
+    <item name="datePickerTestId" type="id">datePickerTestId</item>
 </resources>

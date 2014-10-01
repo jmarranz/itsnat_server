@@ -279,6 +279,7 @@
 
         <!-- Test CalendarView Attribs -->
         <CalendarView
+            android:id="@id/calendarViewTestId"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:dateTextAppearance="?android:attr/textAppearanceLarge"
@@ -308,6 +309,7 @@
 
         <!-- Test DatePicker Attribs -->
         <DatePicker
+            android:id="@id/datePickerTestId"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:calendarViewShown="true"
