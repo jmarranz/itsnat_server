@@ -13,8 +13,13 @@ import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 
 import org.itsnat.droid.ItsNatDroidException;
+
+import java.util.Iterator;
 
 /**
  * Created by jmarranz on 19/06/14.
@@ -247,4 +252,48 @@ public class Assert
         assertEquals(a.getDuration(), b.getDuration());
         assertEquals(a.getRepeatMode(),b.getRepeatMode());
     }
+
+    public static void assertEquals(AnimationSet a,AnimationSet b)
+    {
+        // Comparamos unas cuantas propiedades
+
+        assertEquals(a.getDuration(),b.getDuration());
+        assertEquals(a.getStartTime(),b.getStartTime());
+        assertEquals(a.getStartOffset(),b.getStartOffset());
+
+        assertEquals(a.getAnimations().size(),b.getAnimations().size());
+
+        Iterator<Animation> a_it = a.getAnimations().iterator();
+        Iterator<Animation> b_it = b.getAnimations().iterator();
+        while(a_it.hasNext())
+        {
+            Animation a_anim = a_it.next();
+            Animation b_anim = b_it.next();
+            assertEquals(a_anim,b_anim);
+        }
+    }
+
+    public static void assertEquals(Animation a,Animation b)
+    {
+        if (a instanceof TranslateAnimation)
+        {
+            TranslateAnimation a_trans = (TranslateAnimation)a;
+            TranslateAnimation b_trans = (TranslateAnimation)b;
+
+            // Comparamos unas cuantas propiedades
+            assertEquals(a_trans.getDuration(),b_trans.getDuration());
+            assertEquals(a_trans.getStartOffset(),b_trans.getStartOffset());
+            assertEquals(a_trans.getStartTime(),b_trans.getStartTime());
+            assertEquals(a_trans.getInterpolator(),b_trans.getInterpolator());
+        }
+        else
+            throw new ItsNatDroidException("Cannot test " + a);
+    }
+
+    public static void assertEquals(android.view.animation.Interpolator a,android.view.animation.Interpolator b)
+    {
+        assertEquals(a.getClass(),b.getClass());
+        assertEquals(a.getInterpolation(5),a.getInterpolation(5));
+    }
+
 }

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationSet;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -18,11 +19,14 @@ import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
+import android.widget.ViewFlipper;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -654,6 +658,70 @@ public class TestLocalXMLInflate1
             }
         }
 
+        childCount++;
+
+        // Test HorizontalScrollView Attribs
+        {
+            final HorizontalScrollView compLayout = (HorizontalScrollView) comp.getChildAt(childCount);
+            final HorizontalScrollView parsedLayout = (HorizontalScrollView) parsed.getChildAt(childCount);
+
+            assertTrue(compLayout.isFillViewport());
+            assertEquals(compLayout.isFillViewport(), parsedLayout.isFillViewport());
+
+            {
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
+                assertEquals(compTextView.getText(), "HorizontalScrollView Test");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+            }
+        }
+
+        childCount++;
+
+        // Test ScrollView Attribs
+        {
+            final ScrollView compLayout = (ScrollView) comp.getChildAt(childCount);
+            final ScrollView parsedLayout = (ScrollView) parsed.getChildAt(childCount);
+
+            assertTrue(compLayout.isFillViewport());
+            assertEquals(compLayout.isFillViewport(), parsedLayout.isFillViewport());
+
+            {
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
+                assertEquals(compTextView.getText(), "ScrollView Test");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+            }
+        }
+
+        childCount++;
+
+        // Test ViewAnimator y ViewFlipper
+        {
+            final ViewFlipper compLayout = (ViewFlipper) comp.getChildAt(childCount);
+            final ViewFlipper parsedLayout = (ViewFlipper) parsed.getChildAt(childCount);
+
+            // ViewAnimator
+
+            assertTrue((Boolean)TestUtil.getField(compLayout,ViewAnimator.class,"mAnimateFirstTime"));
+            assertEquals((Boolean) TestUtil.getField(compLayout,ViewAnimator.class,"mAnimateFirstTime"), (Boolean) TestUtil.getField(parsedLayout,ViewAnimator.class,"mAnimateFirstTime"));
+
+            assertNotNull((AnimationSet)compLayout.getInAnimation());
+            assertEquals((AnimationSet)compLayout.getInAnimation(),(AnimationSet)parsedLayout.getInAnimation());
+
+            assertNotNull((AnimationSet)compLayout.getOutAnimation());
+            assertEquals((AnimationSet)compLayout.getOutAnimation(),(AnimationSet)parsedLayout.getOutAnimation());
+
+            // ViewFlipper
+            assertTrue(compLayout.isAutoStart());
+            assertEquals(compLayout.isAutoStart(),parsedLayout.isAutoStart());
+
+            // android:flipInterval  (getFlipInterval es Level 16)
+            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
+            assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
+        }
 
         childCount++;
 

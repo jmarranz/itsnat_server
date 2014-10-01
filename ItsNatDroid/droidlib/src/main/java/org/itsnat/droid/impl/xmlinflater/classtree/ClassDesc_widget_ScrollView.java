@@ -5,11 +5,11 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDesc_widget_HorizontalScrollView extends ClassDescViewBased
+public class ClassDesc_widget_ScrollView extends ClassDescViewBased
 {
-    public ClassDesc_widget_HorizontalScrollView(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_widget_ScrollView(ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.widget.HorizontalScrollView",parentClass);
+        super("android.widget.ScrollView",parentClass);
     }
 
     protected void init()

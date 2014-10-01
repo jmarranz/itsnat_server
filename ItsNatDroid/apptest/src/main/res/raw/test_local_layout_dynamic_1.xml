@@ -268,7 +268,8 @@
             android:layout_height="wrap_content"
             android:foreground="#55ddffdd"
             android:foregroundGravity="top|left"
-            android:measureAllChildren="true">
+            android:measureAllChildren="true"
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -295,7 +296,8 @@
             android:weekSeparatorLineColor="#aa8888"
             >
         </CalendarView>
-        <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal -->
+        <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal
+            @android:style/Widget.CalendarView -->
 
         <!-- Test DatePicker Attribs -->
         <DatePicker
@@ -314,7 +316,7 @@
         <android.gesture.GestureOverlayView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#dddddd"
+            android:background="#ffdddd"
             android:eventsInterceptionEnabled="true"
             android:fadeDuration="1000"
             android:fadeEnabled="true"
@@ -338,9 +340,60 @@
         <!-- Test HorizontalScrollView -->
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="70dp"
+            android:background="#dddddd"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="2000dp"
+                android:layout_height="match_parent"
+                android:text="HorizontalScrollView Test"
+                android:textSize="40dp"/>
 
         </HorizontalScrollView>
+
+        <!-- Test ScrollView -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#dddddd"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="2000dp"
+                android:layout_height="match_parent"
+                android:text="ScrollView Test"
+                android:textSize="40dp"/>
+
+        </ScrollView>
+
+        <!-- Test ViewAnimator y ViewFlipper  -->
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:animateFirstView="true"
+            android:inAnimation="@anim/in_from_right"
+            android:outAnimation="@anim/out_to_right"
+            android:autoStart="true"
+            android:flipInterval="2000"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#55ff0000"
+                android:text="ViewFlipper Test 1"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#5500ff00"
+                android:text="ViewFlipper Test 2"
+                android:textSize="20dp"/>
+
+        </ViewFlipper>
+
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
@@ -457,14 +510,13 @@
             android:layout_height="wrap_content"
             android:background="#ffdddd">
 
-            <TextView
-                android:id="@id/testRelLayoutId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test RelativeLayout.LayoutParams"
-                android:background="#aaaaaa"
-                android:layout_alignParentBottom="true"
-                android:layout_alignWithParentIfMissing="true" />
+            <TextView android:id="@id/testRelLayoutId"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Test RelativeLayout.LayoutParams"
+                      android:background="#aaaaaa"
+                      android:layout_alignParentBottom="true"
+                      android:layout_alignWithParentIfMissing="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -516,7 +568,9 @@
             android:dividerHeight="2dp"
             android:entries="@array/sports_array"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"> <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
+            android:headerDividersEnabled="false"
+
+            > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
         </ListView>
 
         <!-- Test ExpandableListView -->
@@ -545,7 +599,7 @@
             android:gravity="center"/>
 
 
-
     </LinearLayout>
+
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

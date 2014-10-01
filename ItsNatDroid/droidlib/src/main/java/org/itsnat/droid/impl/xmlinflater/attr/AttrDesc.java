@@ -54,6 +54,8 @@ public abstract class AttrDesc
 
     public static int getIdentifier(String attrValue, Context ctx)
     {
+        if ("0".equals(attrValue)) return 0;
+
         if (attrValue.startsWith("?"))
             return getIdentifierTheme(attrValue, ctx);
         else if (attrValue.startsWith("@"))

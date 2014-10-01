@@ -28,9 +28,12 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RatingBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ScrollView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewAnimator;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewFlipper;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
 
 import java.util.HashMap;
@@ -151,6 +154,21 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_HorizontalScrollView widget_HorizontalScrollView = new ClassDesc_widget_HorizontalScrollView(widget_FrameLayout);
             addClassDescViewBase(widget_HorizontalScrollView);
+
+            // android.widget.MediaController no tiene atributos
+
+            ClassDesc_widget_ScrollView widget_ScrollView = new ClassDesc_widget_ScrollView(widget_FrameLayout);
+            addClassDescViewBase(widget_ScrollView);
+
+            // android.widget.TabHost no tiene atributos
+                // android.support.v13.app.FragmentTabHost no tiene atributos
+            // android.widget.TimePicker no tiene atributos
+
+            ClassDesc_widget_ViewAnimator widget_ViewAnimator = new ClassDesc_widget_ViewAnimator(widget_FrameLayout);
+            addClassDescViewBase(widget_ViewAnimator);
+
+                ClassDesc_widget_ViewFlipper widget_ViewFlipper = new ClassDesc_widget_ViewFlipper(widget_ViewAnimator);
+                addClassDescViewBase(widget_ViewFlipper);
 
 
 
