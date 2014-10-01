@@ -25,4 +25,8 @@ public class AttrDesc_widget_LinearLayout_orientation extends AttrDescReflecMeth
         super(parent,"orientation",int.class,valueMap,"horizontal");
     }
 
+    protected AttrDesc_widget_LinearLayout_orientation(ClassDescViewBased parent,String defaultValue)
+    {
+        super(parent,"orientation",int.class,valueMap,defaultValue); // Este constructor se llama desde una clase derivada
+    }
 }

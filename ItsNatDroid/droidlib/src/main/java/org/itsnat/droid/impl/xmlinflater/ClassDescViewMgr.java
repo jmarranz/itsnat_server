@@ -26,6 +26,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ImageView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_LinearLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ProgressBar;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RadioGroup;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RatingBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ScrollView;
@@ -170,13 +171,21 @@ public class ClassDescViewMgr
                 ClassDesc_widget_ViewFlipper widget_ViewFlipper = new ClassDesc_widget_ViewFlipper(widget_ViewAnimator);
                 addClassDescViewBase(widget_ViewFlipper);
 
-
+                // android.widget.ViewSwitcher no tiene atributos
+                    // android.widget.ImageSwitcher no tiene atributos
+                    // android.widget.TextSwitcher no tiene atributos
 
         ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(view_ViewGroup);
         addClassDescViewBase(widget_GridLayout);
 
         ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
         addClassDescViewBase(widget_LinearLayout);
+
+            // android.widget.NumberPicker no tiene atributos
+            ClassDesc_widget_RadioGroup widget_RadioGroup = new ClassDesc_widget_RadioGroup(widget_LinearLayout);
+            addClassDescViewBase(widget_RadioGroup);
+
+
 
         ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(view_ViewGroup);
         addClassDescViewBase(widget_RelativeLayout);

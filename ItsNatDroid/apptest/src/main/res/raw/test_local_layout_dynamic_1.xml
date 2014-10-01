@@ -299,6 +299,13 @@
         <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal
             @android:style/Widget.CalendarView -->
 
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
+
         <!-- Test DatePicker Attribs -->
         <DatePicker
             android:layout_width="match_parent"
@@ -316,7 +323,7 @@
         <android.gesture.GestureOverlayView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#ffdddd"
+            android:background="#dddddd"
             android:eventsInterceptionEnabled="true"
             android:fadeDuration="1000"
             android:fadeEnabled="true"
@@ -341,7 +348,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:background="#dddddd"
+            android:background="#ffdddd"
             android:fillViewport="true">
 
             <TextView
@@ -394,6 +401,26 @@
 
         </ViewFlipper>
 
+        <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/radioFemale"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+        </RadioGroup>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
@@ -595,7 +622,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="(space for page scrolling between lists)"
+            android:text="(space for page scrolling)"
             android:gravity="center"/>
 
 

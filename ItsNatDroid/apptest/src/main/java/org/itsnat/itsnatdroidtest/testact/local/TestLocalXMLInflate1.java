@@ -22,6 +22,7 @@ import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -569,6 +570,17 @@ public class TestLocalXMLInflate1
 
         childCount++;
 
+        // Space for page scrolling
+        {
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "(space for page scrolling)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        childCount++;
+
         // Test DatePicker Attribs
         {
             final DatePicker compLayout = (DatePicker) comp.getChildAt(childCount);
@@ -722,6 +734,23 @@ public class TestLocalXMLInflate1
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),2000);
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
+
+        childCount++;
+
+        // Test Test RadioGroup (y RadioButton que no tiene atribs)
+        {
+            final RadioGroup compLayout = (RadioGroup) comp.getChildAt(childCount);
+            final RadioGroup parsedLayout = (RadioGroup) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getCheckedRadioButtonId(),R.id.radioFemale);
+            assertEquals(compLayout.getCheckedRadioButtonId(),parsedLayout.getCheckedRadioButtonId());
+            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)).getText(),"Female");
+            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)).getText(),((TextView)parsedLayout.findViewById(R.id.radioFemale)).getText());
+
+            assertEquals(compLayout.getOrientation(),LinearLayout.HORIZONTAL);
+            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+        }
+
 
         childCount++;
 
@@ -1025,10 +1054,12 @@ public class TestLocalXMLInflate1
 
         childCount++;
 
-        // Space for page scrolling between lists
+        // Space for page scrolling
         {
             final TextView compTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "(space for page scrolling)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
 

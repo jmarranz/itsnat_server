@@ -57,6 +57,11 @@ public class ClassDescViewBased
         this.parentClass = parentClass;
     }
 
+    public ClassDescViewBased getParentClassDescViewBased()
+    {
+        return parentClass;
+    }
+
     public String getClassName()
     {
         return className;

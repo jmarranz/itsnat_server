@@ -299,6 +299,13 @@
         <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal
             @android:style/Widget.CalendarView -->
 
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
+
         <!-- Test DatePicker Attribs -->
         <DatePicker
             android:layout_width="match_parent"
@@ -394,6 +401,26 @@
 
         </ViewFlipper>
 
+        <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@id/radioFemale"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+        </RadioGroup>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
@@ -591,11 +618,11 @@
                 android:indicatorRight="40dp">
         </ExpandableListView>
 
-        <!-- space for page scrolling between lists -->
+        <!-- space for page scrolling -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="(space for page scrolling between lists)"
+            android:text="(space for page scrolling)"
             android:gravity="center"/>
 
 

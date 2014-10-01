@@ -1,8 +1,23 @@
 
 
-* Testear aparte GestureOverlayView
 
-  http://www.vogella.com/tutorials/AndroidGestures/article.html
+* Revisar que estamos procesando todos los atributos:
+
+    http://developer.android.com/reference/android/R.styleable.html
+
+* Ver como poder procesar los android:id="@+id/myid" haciendo View.setId(id)
+
+  http://stackoverflow.com/questions/1714297/android-view-setidint-id-programmatically-how-to-avoid-id-conflicts?lq=1
+
+  Al parecer el View.findViewById via findViewTraversal(int id) recorre el árbol a pelo (en ViewGroup).
+  Activity.findViewById acaba accediendo al método View.findViewById
+
+  El problema es generar un id que no se pise con los generados por Android, en StackOverflow (link arriba) se menciona
+  el método Level 17 generateViewId() http://developer.android.com/reference/android/view/View.html#generateViewId%28%29
+  El código fuente de ese método podría copiarse para Level 18 aunque su implementación da pistas:
+  http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.4.1_r1/android/view/View.java#View.generateViewId%28%29
+
+  Probar en RadioButton o RelativeLayout
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 
