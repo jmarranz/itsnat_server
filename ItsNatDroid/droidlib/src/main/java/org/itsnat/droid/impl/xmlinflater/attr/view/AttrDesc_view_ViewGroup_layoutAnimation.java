@@ -31,6 +31,6 @@ public class AttrDesc_view_ViewGroup_layoutAnimation extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        setAttribute(view,"0",null,null);
+        setAttribute(view,"-1",null,null);
     }
 }

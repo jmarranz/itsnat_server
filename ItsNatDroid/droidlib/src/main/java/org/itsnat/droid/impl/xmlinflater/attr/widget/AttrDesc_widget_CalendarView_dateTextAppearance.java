@@ -35,7 +35,7 @@ public class AttrDesc_widget_CalendarView_dateTextAppearance extends AttrDesc
     {
         int dateTextAppearanceResId = AttrDesc.getIdentifier(value,view.getContext());
 
-        if (dateTextAppearanceResId == 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
+        if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 
         Context context = view.getContext();
 
@@ -59,6 +59,8 @@ public class AttrDesc_widget_CalendarView_dateTextAppearance extends AttrDesc
 
     public void removeAttribute(View view)
     {
-        // Android tiene un valor por defecto
+        // Se usa el valor por defecto de Android
+        setAttribute(view,"0",null,null);
+
     }
 }

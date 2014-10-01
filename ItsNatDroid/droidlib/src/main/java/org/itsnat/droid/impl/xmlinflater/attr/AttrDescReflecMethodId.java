@@ -38,7 +38,7 @@ public class AttrDescReflecMethodId extends AttrDescReflecMethod
 
     public void removeAttribute(View view)
     {
-        callMethod(view, 0);
+        callMethod(view, -1);
     }
 
 }

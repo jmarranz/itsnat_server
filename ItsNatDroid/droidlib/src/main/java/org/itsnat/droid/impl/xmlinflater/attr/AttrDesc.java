@@ -54,7 +54,7 @@ public abstract class AttrDesc
 
     public static int getIdentifier(String attrValue, Context ctx)
     {
-        if ("0".equals(attrValue)) return 0;
+        if ("0".equals(attrValue) || "-1".equals(attrValue)) return 0;
 
         if (attrValue.startsWith("?"))
             return getIdentifierTheme(attrValue, ctx);
