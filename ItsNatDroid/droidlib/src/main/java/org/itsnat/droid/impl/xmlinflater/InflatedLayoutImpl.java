@@ -301,7 +301,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     {
         String value = findAttribute(null,"style",parser,ctx);
         if (value == null) return 0;
-        return AttrDesc.getIdentifier(value, ctx);
+        return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService(),true);
     }
 
     private String findSpinnerModeAttribute(XmlPullParser parser,Context ctx)

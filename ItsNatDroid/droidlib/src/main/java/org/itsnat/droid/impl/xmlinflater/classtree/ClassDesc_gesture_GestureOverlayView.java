@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
@@ -14,9 +15,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.gesture.AttrDesc_gesture_GestureOv
  */
 public class ClassDesc_gesture_GestureOverlayView extends ClassDescViewBased
 {
-    public ClassDesc_gesture_GestureOverlayView(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_gesture_GestureOverlayView(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.gesture.GestureOverlayView",parentClass);
+        super(classMgr,"android.gesture.GestureOverlayView",parentClass);
     }
 
     protected void init()

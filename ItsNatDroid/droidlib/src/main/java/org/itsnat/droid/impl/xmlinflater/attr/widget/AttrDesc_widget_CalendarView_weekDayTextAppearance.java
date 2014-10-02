@@ -28,7 +28,7 @@ public class AttrDesc_widget_CalendarView_weekDayTextAppearance extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int id = AttrDesc.getIdentifier(value,view.getContext());
+        int id = getIdentifier(value,view.getContext());
 
         method.invoke(view, id);
     }

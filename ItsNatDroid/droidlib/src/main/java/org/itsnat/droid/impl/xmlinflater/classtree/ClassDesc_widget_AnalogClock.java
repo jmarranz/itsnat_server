@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDrawable;
 
 /**
@@ -7,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDrawable;
  */
 public class ClassDesc_widget_AnalogClock extends ClassDescViewBased
 {
-    public ClassDesc_widget_AnalogClock(ClassDesc_view_View parentClass)
+    public ClassDesc_widget_AnalogClock(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
     {
-        super("android.widget.AnalogClock",parentClass);
+        super(classMgr,"android.widget.AnalogClock",parentClass);
     }
 
     protected void init()

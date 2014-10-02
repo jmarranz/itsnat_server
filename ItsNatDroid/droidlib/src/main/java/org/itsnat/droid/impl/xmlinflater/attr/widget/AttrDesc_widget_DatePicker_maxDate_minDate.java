@@ -43,7 +43,7 @@ public class AttrDesc_widget_DatePicker_maxDate_minDate extends AttrDesc
 
     public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final String date = AttrDesc.getString(value,view.getContext());
+        final String date = getString(value,view.getContext());
 
         Runnable task = new Runnable()
         {

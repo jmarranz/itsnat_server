@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
@@ -10,9 +11,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
  */
 public class ClassDesc_widget_FrameLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_FrameLayout(ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_FrameLayout(ClassDescViewMgr classMgr,ClassDesc_widget_ViewGroup parentClass)
     {
-        super("android.widget.FrameLayout",parentClass);
+        super(classMgr,"android.widget.FrameLayout",parentClass);
     }
 
     protected void init()

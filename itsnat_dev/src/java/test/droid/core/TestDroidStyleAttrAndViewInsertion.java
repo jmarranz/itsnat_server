@@ -20,17 +20,21 @@ import org.w3c.dom.events.EventTarget;
  */
 public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements EventListener
 {
-   
+    protected Element testStyleAttr;
+    
     public TestDroidStyleAttrAndViewInsertion(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
         Document doc = itsNatDoc.getDocument();
-        Element testStyleAttr = doc.getElementById("testStyleAttrId");
+        this.testStyleAttr = doc.getElementById("testStyleAttrId");
         ((EventTarget)testStyleAttr).addEventListener("click", this, false);
     }
     
     public void handleEvent(Event evt)
     {
+        ((EventTarget)testStyleAttr).removeEventListener("click", this, false); // Evitamos ejecutar varias veces para evitar que falle textView.setAttributeNS(ANDROID_NS,"android:id","@+id/testStyleAttrTextId"); pues al reutilizarse el id varios elementos tendrán el mismo id (lo cual es correcto) y se devuelve el primero en el test y por tanto fallará
+        
+        
         Document doc = itsNatDoc.getDocument();        
         Element testStyleAttrHidden = doc.getElementById("testStyleAttrHiddenId");  
         
@@ -47,7 +51,8 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         textView.setAttributeNS(ANDROID_NS,"android:background", "#ffdddd");         
         textView.removeAttributeNS(ANDROID_NS,"background");   
         String nodeRef = itsNatDoc.getScriptUtil().getNodeReference(textView);
-        itsNatDoc.addCodeToSend("if (" + nodeRef + ".getBackground() != null) alert(\"FAIL removeAttribute\");");
+        itsNatDoc.addCodeToSend("var view = " + nodeRef + ";");        
+        itsNatDoc.addCodeToSend("if (view.getBackground() != null) alert(\"FAIL removeAttribute\");");
         textView.setAttributeNS(ANDROID_NS,"android:background", "#ffdddd");  // Rosa   
         
         // Test uso del atributo DOM id
@@ -56,8 +61,10 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         itsNatDoc.addCodeToSend("if (itsNatDoc.findViewByXMLId(\"BAD_ID\") != null) alert(\"FAIL removeAttribute XML Id\");");        
         
         textView.setAttribute("id", "testStyleAttrTextId");
-        itsNatDoc.addCodeToSend("if (" + nodeRef + "!= itsNatDoc.findViewByXMLId(\"testStyleAttrTextId\")) alert(\"FAIL setAttribute XML Id\");");        
+        itsNatDoc.addCodeToSend("if (view != itsNatDoc.findViewByXMLId(\"testStyleAttrTextId\")) alert(\"FAIL setAttribute XML Id\");");        
         
+        textView.setAttributeNS(ANDROID_NS,"android:id","@+id/testStyleAttrTextId");
+        itsNatDoc.addCodeToSend("if (view != view.getParent().findViewById(view.getId())) alert(\"FAIL setAttribute XML Id native \");");         
     }
     
 }

@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
@@ -41,20 +42,25 @@ public class ClassDescViewBased
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
                     new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
 
+    protected ClassDescViewMgr classMgr;
     protected String className;
     protected Class<View> clasz;
     protected Constructor<View> constructor1P;
     protected Constructor<View> constructor3P;
     protected HashMap<String,AttrDesc> attrDescMap;
     protected ClassDescViewBased parentClass;
-
-
     protected boolean initiated;
 
-    public ClassDescViewBased(String className,ClassDescViewBased parentClass)
+    public ClassDescViewBased(ClassDescViewMgr classMgr,String className,ClassDescViewBased parentClass)
     {
+        this.classMgr = classMgr;
         this.className = className;
         this.parentClass = parentClass;
+    }
+
+    public ClassDescViewMgr getClassDescViewMgr()
+    {
+        return classMgr;
     }
 
     public ClassDescViewBased getParentClassDescViewBased()

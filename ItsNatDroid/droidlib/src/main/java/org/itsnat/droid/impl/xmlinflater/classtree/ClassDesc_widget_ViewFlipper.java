@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 
@@ -8,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
  */
 public class ClassDesc_widget_ViewFlipper extends ClassDescViewBased
 {
-    public ClassDesc_widget_ViewFlipper(ClassDesc_widget_ViewAnimator parentClass)
+    public ClassDesc_widget_ViewFlipper(ClassDescViewMgr classMgr,ClassDesc_widget_ViewAnimator parentClass)
     {
-        super("android.widget.ViewFlipper",parentClass);
+        super(classMgr,"android.widget.ViewFlipper",parentClass);
     }
 
     protected void init()

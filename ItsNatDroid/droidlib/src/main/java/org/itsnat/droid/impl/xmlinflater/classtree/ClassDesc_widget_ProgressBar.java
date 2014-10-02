@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionInt;
@@ -15,9 +16,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ProgressBar
  */
 public class ClassDesc_widget_ProgressBar extends ClassDescViewBased
 {
-    public ClassDesc_widget_ProgressBar(ClassDesc_view_View parentClass)
+    public ClassDesc_widget_ProgressBar(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
     {
-        super("android.widget.ProgressBar",parentClass);
+        super(classMgr,"android.widget.ProgressBar",parentClass);
     }
 
     protected void init()

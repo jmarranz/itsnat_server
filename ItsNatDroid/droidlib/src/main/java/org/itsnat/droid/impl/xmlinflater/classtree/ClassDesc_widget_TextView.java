@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
@@ -33,9 +34,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_ty
  */
 public class ClassDesc_widget_TextView extends ClassDescViewBased
 {
-    public ClassDesc_widget_TextView(ClassDesc_view_View parentClass)
+    public ClassDesc_widget_TextView(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
     {
-        super("android.widget.TextView",parentClass);
+        super(classMgr,"android.widget.TextView",parentClass);
     }
 
     protected void init()

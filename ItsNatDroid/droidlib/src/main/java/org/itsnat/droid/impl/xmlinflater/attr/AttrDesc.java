@@ -14,6 +14,7 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -39,10 +40,10 @@ public abstract class AttrDesc
         return name;
     }
 
-    protected Class getClass_R_styleable()
+    protected static Class getClass_R_styleable()
     {
         if (class_R_styleable == null)
-            this.class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
+            class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
         return class_R_styleable;
     }
 
@@ -52,16 +53,39 @@ public abstract class AttrDesc
         return attrValue.startsWith("@") || attrValue.startsWith("?");
     }
 
-    public static int getIdentifier(String attrValue, Context ctx)
+    public int getIdentifier(String attrValue, Context ctx)
     {
-        if ("0".equals(attrValue) || "-1".equals(attrValue)) return 0;
+        return getIdentifier(attrValue,ctx,true);
+    }
 
-        if (attrValue.startsWith("?"))
-            return getIdentifierTheme(attrValue, ctx);
-        else if (attrValue.startsWith("@"))
-            return getIdentifierResource(attrValue, ctx);
+    public int getIdentifier(String attrValue, Context ctx,boolean throwErr)
+    {
+        return getIdentifier(attrValue,ctx,parent.getClassDescViewMgr().getXMLLayoutInflateService(),throwErr);
+    }
+
+    public static int getIdentifier(String attrValue, Context ctx,XMLLayoutInflateService layoutService,boolean throwErr)
+    {
+        if ("0".equals(attrValue) || "-1".equals(attrValue) || "@null".equals(attrValue)) return 0;
+
+        int id;
+        char first = attrValue.charAt(0);
+        if (first == '?')
+        {
+            id = getIdentifierTheme(attrValue, ctx);
+        }
+        else if (first == '@')
+        {
+            // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..." Tiene prioridad el registro de Android que el de ItsNat, para qué generar un id si ya existe como recurso
+            id = getIdentifierResource(attrValue, ctx);
+            if (id > 0)
+                return id;
+            id = getIdentifierDynamicallyAdded(attrValue,ctx,layoutService);
+        }
         else
             throw new ItsNatDroidException("INTERNAL ERROR");
+
+        if (throwErr && id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + attrValue + "\"");
+        return id;
     }
 
     private static int getIdentifierTheme(String attrValue, Context ctx)
@@ -73,24 +97,41 @@ public abstract class AttrDesc
         return outValue.resourceId;
     }
 
+    private static int getIdentifierDynamicallyAdded(String attrValue, Context ctx,XMLLayoutInflateService layoutService)
+    {
+        Resources res = ctx.getResources();
+
+        if (attrValue.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
+            return 0; // No encontrado
+
+        attrValue = attrValue.substring(1); // Quitamos el @ o #
+        int pos = attrValue.indexOf('/');
+        String idName = attrValue.substring(pos + 1);
+
+        return layoutService.findViewId(idName);
+    }
+
     private static int getIdentifierResource(String attrValue, Context ctx)
     {
         Resources res = ctx.getResources();
 
-        attrValue = attrValue.substring(1); // Quitamos el @ o la ?
-        int pos = attrValue.indexOf(':');
+        attrValue = attrValue.substring(1); // Quitamos el @ o #
+        if (attrValue.startsWith("+id/"))
+            attrValue = attrValue.substring(1); // Quitamos el +
         String packageName;
-        if (pos != -1) // Tiene package, ej android:
+        if (attrValue.indexOf(':') != -1) // Tiene package, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
+        {
             packageName = null;
+        }
         else
+        {
             packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
+        }
 
-        int id = res.getIdentifier(attrValue, null, packageName);
-        if (id == 0) throw new ItsNatDroidException("Not found resource with id \"" + attrValue + "\" Package: \"" + packageName );
-        return id;
+        return res.getIdentifier(attrValue, null, packageName);
     }
 
-    public static int getInteger(String attrValue, Context ctx)
+    public int getInteger(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -108,7 +149,7 @@ public abstract class AttrDesc
         }
     }
 
-    public static float getFloat(String attrValue, Context ctx)
+    public float getFloat(String attrValue, Context ctx)
     {
         // Ojo, para valores sin sufijo de dimensión (por ej layout_weight o alpha)
         if (isResource(attrValue))
@@ -119,7 +160,7 @@ public abstract class AttrDesc
         else return Float.parseFloat(attrValue);
     }
 
-    public static String getString(String attrValue, Context ctx)
+    public String getString(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -129,7 +170,7 @@ public abstract class AttrDesc
         else return attrValue;
     }
 
-    public static CharSequence getText(String attrValue, Context ctx)
+    public CharSequence getText(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -139,7 +180,7 @@ public abstract class AttrDesc
         else return attrValue;
     }
 
-    public static CharSequence[] getTextArray(String attrValue, Context ctx)
+    public CharSequence[] getTextArray(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -149,7 +190,7 @@ public abstract class AttrDesc
         else return null;
     }
 
-    public static boolean getBoolean(String attrValue, Context ctx)
+    public boolean getBoolean(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
@@ -199,7 +240,7 @@ public abstract class AttrDesc
         return Float.parseFloat(value);
     }
 
-    public static Dimension getDimensionObject(String attrValue, Context ctx)
+    public Dimension getDimensionObject(String attrValue, Context ctx)
     {
         // El retorno es en px
         Resources res = ctx.getResources();
@@ -219,13 +260,13 @@ public abstract class AttrDesc
         }
     }
 
-    public static int getDimensionInt(String attrValue, Context ctx)
+    public int getDimensionInt(String attrValue, Context ctx)
     {
         //return (int)getDimensionFloat(attrValue,ctx);
         return Math.round(getDimensionFloat(attrValue,ctx));
     }
 
-    public static float getDimensionFloat(String attrValue, Context ctx)
+    public float getDimensionFloat(String attrValue, Context ctx)
     {
         // El retorno es en px
         Resources res = ctx.getResources();
@@ -265,11 +306,12 @@ public abstract class AttrDesc
         return dimension;
     }
 
-    public static Drawable getDrawable(String attrValue, Context ctx)
+    public Drawable getDrawable(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {
             int resId = getIdentifier(attrValue,ctx);
+            if (resId <= 0) return null;
             return ctx.getResources().getDrawable(resId);
         }
         else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
@@ -281,7 +323,7 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue);
     }
 
-    public static int getColor(String attrValue, Context ctx)
+    public int getColor(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {

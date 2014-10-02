@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
@@ -11,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
  */
 public class ClassDesc_widget_Gallery extends ClassDescViewBased
 {
-    public ClassDesc_widget_Gallery(ClassDesc_widget_AbsSpinner parentClass)
+    public ClassDesc_widget_Gallery(ClassDescViewMgr classMgr,ClassDesc_widget_AbsSpinner parentClass)
     {
-        super("android.widget.Gallery",parentClass);
+        super(classMgr,"android.widget.Gallery",parentClass);
     }
 
     protected void init()

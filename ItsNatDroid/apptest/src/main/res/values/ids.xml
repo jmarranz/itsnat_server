@@ -4,18 +4,12 @@
     <item name="back" type="id">back</item>
     <item name="buttonReload" type="id">buttonReload</item>
     <item name="textViewTest1" type="id">textViewTest1</item>
-    <item name="textViewTest2" type="id">textViewTest2</item>
-    <item name="textViewTest3" type="id">textViewTest3</item>
-    <item name="textViewTest4" type="id">textViewTest4</item>
-    <item name="testId" type="id">testId</item>
-    <item name="testRelLayoutId" type="id">testRelLayoutId</item>
+
     <item name="gridViewTestId" type="id">gridTestId</item>
     <item name="expanListViewTestId" type="id">expanListViewTestId</item>
     <item name="spinnerDialogTestId" type="id">spinnerDialogTestId</item>
     <item name="spinnerDropdownTestId" type="id">spinnerDropdownTestId</item>
     <item name="adapterViewAnimatorTestId" type="id">adapterViewAnimatorTestId</item>
-    <item name="radioFemale" type="id">radioFemale</item>
-    <item name="radioMale" type="id">radioMale</item>
     <item name="calendarViewTestId" type="id">calendarViewTestId</item>
     <item name="datePickerTestId" type="id">datePickerTestId</item>
 </resources>

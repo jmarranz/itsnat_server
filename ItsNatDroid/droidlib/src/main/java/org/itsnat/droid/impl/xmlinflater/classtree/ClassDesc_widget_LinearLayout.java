@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
@@ -15,9 +16,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_LinearLayou
  */
 public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_LinearLayout(ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_LinearLayout(ClassDescViewMgr classMgr,ClassDesc_widget_ViewGroup parentClass)
     {
-        super("android.widget.LinearLayout",parentClass);
+        super(classMgr,"android.widget.LinearLayout",parentClass);
     }
 
     protected void init()

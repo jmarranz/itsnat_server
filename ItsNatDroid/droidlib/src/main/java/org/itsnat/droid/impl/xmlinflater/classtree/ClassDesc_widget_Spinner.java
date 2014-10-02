@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
@@ -21,9 +22,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_Spinner_pop
  */
 public class ClassDesc_widget_Spinner extends ClassDescViewBased
 {
-    public ClassDesc_widget_Spinner(ClassDesc_widget_AbsSpinner parentClass)
+    public ClassDesc_widget_Spinner(ClassDescViewMgr classMgr,ClassDesc_widget_AbsSpinner parentClass)
     {
-        super("android.widget.Spinner",parentClass);
+        super(classMgr,"android.widget.Spinner",parentClass);
     }
 
     public View createSpinnerObject(ViewGroup viewParent,int idStyle, String spinnerMode, Context ctx)

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
@@ -11,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_AbsListView
  */
 public class ClassDesc_widget_AbsListView extends ClassDescViewBased
 {
-    public ClassDesc_widget_AbsListView(ClassDescViewBased parentClass)
+    public ClassDesc_widget_AbsListView(ClassDescViewMgr classMgr,ClassDescViewBased parentClass)
     {
-        super("android.widget.AbsListView",parentClass);
+        super(classMgr,"android.widget.AbsListView",parentClass);
     }
 
     protected void init()

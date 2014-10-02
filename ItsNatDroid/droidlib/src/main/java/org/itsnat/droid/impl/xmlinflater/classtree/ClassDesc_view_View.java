@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.classtree;
 
 import android.widget.RelativeLayout;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionFloat;
@@ -47,9 +48,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_visibility
  */
 public class ClassDesc_view_View extends ClassDescViewBased
 {
-    public ClassDesc_view_View()
+    public ClassDesc_view_View(ClassDescViewMgr classMgr)
     {
-        super("android.view.View",null);
+        super(classMgr,"android.view.View",null);
     }
 
     protected void init()
@@ -73,6 +74,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusableInTouchMode",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
         addAttrDesc(new AttrDescReflecMethodId(this,"id"));
+
 
         // android:importantForAccessibility es Level 16
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"isScrollContainer","setScrollContainer",false)); // No estoy seguro de si el valor por defecto es false, dependerá seguramente del componente, isScrollContainer() se define en un Level > 15

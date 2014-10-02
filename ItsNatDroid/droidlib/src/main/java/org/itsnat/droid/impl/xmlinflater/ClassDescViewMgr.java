@@ -53,32 +53,37 @@ public class ClassDescViewMgr
         initClassDesc();
     }
 
+    public XMLLayoutInflateService getXMLLayoutInflateService()
+    {
+        return parent;
+    }
+
     private void initClassDesc()
     {
-        ClassDesc_view_View view_View = new ClassDesc_view_View();
+        ClassDesc_view_View view_View = new ClassDesc_view_View(this);
         addClassDescViewBase(view_View);
 
-            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(view_View);
+            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(this,view_View);
             addClassDescViewBase(view_ViewGroup);
             init_view_ViewGroup_subClasses(view_ViewGroup);
 
-            ClassDesc_widget_AnalogClock widget_AnalogClock = new ClassDesc_widget_AnalogClock(view_View);
+            ClassDesc_widget_AnalogClock widget_AnalogClock = new ClassDesc_widget_AnalogClock(this,view_View);
             addClassDescViewBase(widget_AnalogClock);
 
-            ClassDesc_widget_ImageView widget_ImageView = new ClassDesc_widget_ImageView(view_View);
+            ClassDesc_widget_ImageView widget_ImageView = new ClassDesc_widget_ImageView(this,view_View);
             addClassDescViewBase(widget_ImageView);
                 // ImageButton no tiene atributos
                     // ZoomButton no tiene atributos
 
             // android.support.v7.app.MediaRouteButton no tiene atributos
 
-            ClassDesc_widget_ProgressBar widget_ProgressBar = new ClassDesc_widget_ProgressBar(view_View);
+            ClassDesc_widget_ProgressBar widget_ProgressBar = new ClassDesc_widget_ProgressBar(this,view_View);
             addClassDescViewBase(widget_ProgressBar);
-                ClassDesc_widget_AbsSeekBar widget_AbsSeekBar = new ClassDesc_widget_AbsSeekBar(widget_ProgressBar);
+                ClassDesc_widget_AbsSeekBar widget_AbsSeekBar = new ClassDesc_widget_AbsSeekBar(this,widget_ProgressBar);
                 addClassDescViewBase(widget_AbsSeekBar);
-                    ClassDesc_widget_RatingBar widget_RatingBar = new ClassDesc_widget_RatingBar(widget_AbsSeekBar);
+                    ClassDesc_widget_RatingBar widget_RatingBar = new ClassDesc_widget_RatingBar(this,widget_AbsSeekBar);
                     addClassDescViewBase(widget_RatingBar);
-                    ClassDesc_widget_SeekBar widget_SeekBar = new ClassDesc_widget_SeekBar(widget_AbsSeekBar);
+                    ClassDesc_widget_SeekBar widget_SeekBar = new ClassDesc_widget_SeekBar(this,widget_AbsSeekBar);
                     addClassDescViewBase(widget_SeekBar);
 
                 // android.support.v4.widget.ContentLoadingProgressBar no tiene atributos
@@ -88,13 +93,13 @@ public class ClassDescViewMgr
                 // android.opengl.GLSurfaceView no tiene atributos
                 // android.widget.VideoView no tiene atributos
 
-            ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(view_View);
+            ClassDesc_widget_TextView widget_TextView = new ClassDesc_widget_TextView(this,view_View);
             addClassDescViewBase(widget_TextView);
 
-                ClassDescViewBased widget_Button = new ClassDescViewBased("android.widget.Button",widget_TextView); // no tiene atributos
+                ClassDescViewBased widget_Button = new ClassDescViewBased(this,"android.widget.Button",widget_TextView); // no tiene atributos
                 addClassDescViewBase(widget_Button);
 
-                    ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(widget_Button);
+                    ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(this,widget_Button);
                     addClassDescViewBase(widget_CompoundButton);
                         // CheckBox no tiene atributos
 
@@ -104,34 +109,34 @@ public class ClassDescViewMgr
     {
         // AbsoluteLayout y su derivada (WebView) no tienen atributos
 
-        ClassDescViewBased widget_AdapterView = new ClassDescViewBased("android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
+        ClassDescViewBased widget_AdapterView = new ClassDescViewBased(this,"android.widget.AdapterView",view_ViewGroup); // AdapterView no tiene atributos
         addClassDescViewBase(widget_AdapterView);
 
-            ClassDesc_widget_AbsListView widget_AbsListView = new ClassDesc_widget_AbsListView(widget_AdapterView);
+            ClassDesc_widget_AbsListView widget_AbsListView = new ClassDesc_widget_AbsListView(this,widget_AdapterView);
             addClassDescViewBase(widget_AbsListView);
 
-                ClassDesc_widget_GridView widget_GridView = new ClassDesc_widget_GridView(widget_AbsListView);
+                ClassDesc_widget_GridView widget_GridView = new ClassDesc_widget_GridView(this,widget_AbsListView);
                 addClassDescViewBase(widget_GridView);
 
-                ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(widget_AbsListView);
+                ClassDesc_widget_ListView widget_ListView = new ClassDesc_widget_ListView(this,widget_AbsListView);
                 addClassDescViewBase(widget_ListView);
 
-                ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(widget_ListView);
+                ClassDesc_widget_ExpandableListView widget_ExListView = new ClassDesc_widget_ExpandableListView(this,widget_ListView);
                 addClassDescViewBase(widget_ExListView);
 
-            ClassDesc_widget_AbsSpinner widget_AbsSpinner = new ClassDesc_widget_AbsSpinner(widget_AdapterView);
+            ClassDesc_widget_AbsSpinner widget_AbsSpinner = new ClassDesc_widget_AbsSpinner(this,widget_AdapterView);
             addClassDescViewBase(widget_AbsSpinner);
 
-                ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(widget_AbsSpinner);
+                ClassDesc_widget_Gallery widget_Gallery = new ClassDesc_widget_Gallery(this,widget_AbsSpinner);
                 addClassDescViewBase(widget_Gallery);
 
-                ClassDesc_widget_Spinner widget_Spinner = new ClassDesc_widget_Spinner(widget_AbsSpinner);
+                ClassDesc_widget_Spinner widget_Spinner = new ClassDesc_widget_Spinner(this,widget_AbsSpinner);
                 addClassDescViewBase(widget_Spinner);
 
-            ClassDesc_widget_AdapterViewAnimator widget_AdapterViewAnimator = new ClassDesc_widget_AdapterViewAnimator(widget_AdapterView);
+            ClassDesc_widget_AdapterViewAnimator widget_AdapterViewAnimator = new ClassDesc_widget_AdapterViewAnimator(this,widget_AdapterView);
             addClassDescViewBase(widget_AdapterViewAnimator);
 
-                ClassDesc_widget_AdapterViewFlipper widget_AdapterViewFlipper = new ClassDesc_widget_AdapterViewFlipper(widget_AdapterViewAnimator);
+                ClassDesc_widget_AdapterViewFlipper widget_AdapterViewFlipper = new ClassDesc_widget_AdapterViewFlipper(this,widget_AdapterViewAnimator);
                 addClassDescViewBase(widget_AdapterViewFlipper);
 
                 // StackView no tiene atributos
@@ -140,54 +145,54 @@ public class ClassDescViewMgr
 
         // 	android.app.FragmentBreadCrumbs no tiene atributos
 
-        ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(view_ViewGroup);
+        ClassDesc_widget_FrameLayout widget_FrameLayout = new ClassDesc_widget_FrameLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_FrameLayout);
             // android.appwidget.AppWidgetHostView no tiene atributos
 
-            ClassDesc_widget_CalendarView widget_CalendarView = new ClassDesc_widget_CalendarView(widget_FrameLayout);
+            ClassDesc_widget_CalendarView widget_CalendarView = new ClassDesc_widget_CalendarView(this,widget_FrameLayout);
             addClassDescViewBase(widget_CalendarView);
 
-            ClassDesc_widget_DatePicker widget_DatePicker = new ClassDesc_widget_DatePicker(widget_FrameLayout);
+            ClassDesc_widget_DatePicker widget_DatePicker = new ClassDesc_widget_DatePicker(this,widget_FrameLayout);
             addClassDescViewBase(widget_DatePicker);
 
-            ClassDesc_gesture_GestureOverlayView widget_GestureOverlayView = new ClassDesc_gesture_GestureOverlayView(widget_FrameLayout);
+            ClassDesc_gesture_GestureOverlayView widget_GestureOverlayView = new ClassDesc_gesture_GestureOverlayView(this,widget_FrameLayout);
             addClassDescViewBase(widget_GestureOverlayView);
 
-            ClassDesc_widget_HorizontalScrollView widget_HorizontalScrollView = new ClassDesc_widget_HorizontalScrollView(widget_FrameLayout);
+            ClassDesc_widget_HorizontalScrollView widget_HorizontalScrollView = new ClassDesc_widget_HorizontalScrollView(this,widget_FrameLayout);
             addClassDescViewBase(widget_HorizontalScrollView);
 
             // android.widget.MediaController no tiene atributos
 
-            ClassDesc_widget_ScrollView widget_ScrollView = new ClassDesc_widget_ScrollView(widget_FrameLayout);
+            ClassDesc_widget_ScrollView widget_ScrollView = new ClassDesc_widget_ScrollView(this,widget_FrameLayout);
             addClassDescViewBase(widget_ScrollView);
 
             // android.widget.TabHost no tiene atributos
                 // android.support.v13.app.FragmentTabHost no tiene atributos
             // android.widget.TimePicker no tiene atributos
 
-            ClassDesc_widget_ViewAnimator widget_ViewAnimator = new ClassDesc_widget_ViewAnimator(widget_FrameLayout);
+            ClassDesc_widget_ViewAnimator widget_ViewAnimator = new ClassDesc_widget_ViewAnimator(this,widget_FrameLayout);
             addClassDescViewBase(widget_ViewAnimator);
 
-                ClassDesc_widget_ViewFlipper widget_ViewFlipper = new ClassDesc_widget_ViewFlipper(widget_ViewAnimator);
+                ClassDesc_widget_ViewFlipper widget_ViewFlipper = new ClassDesc_widget_ViewFlipper(this,widget_ViewAnimator);
                 addClassDescViewBase(widget_ViewFlipper);
 
                 // android.widget.ViewSwitcher no tiene atributos
                     // android.widget.ImageSwitcher no tiene atributos
                     // android.widget.TextSwitcher no tiene atributos
 
-        ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(view_ViewGroup);
+        ClassDesc_widget_GridLayout widget_GridLayout = new ClassDesc_widget_GridLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_GridLayout);
 
-        ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(view_ViewGroup);
+        ClassDesc_widget_LinearLayout widget_LinearLayout = new ClassDesc_widget_LinearLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_LinearLayout);
 
             // android.widget.NumberPicker no tiene atributos
-            ClassDesc_widget_RadioGroup widget_RadioGroup = new ClassDesc_widget_RadioGroup(widget_LinearLayout);
+            ClassDesc_widget_RadioGroup widget_RadioGroup = new ClassDesc_widget_RadioGroup(this,widget_LinearLayout);
             addClassDescViewBase(widget_RadioGroup);
 
 
 
-        ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(view_ViewGroup);
+        ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_RelativeLayout);
 
         // android.support.v4.widget.DrawerLayout no tiene atributos y es clase final
@@ -247,7 +252,7 @@ public class ClassDescViewMgr
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
         Class<?> superClass = (Class<?>)viewClass.getSuperclass();
         ClassDescViewBased parent = get((Class<View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
-        ClassDescUnknown classDesc = new ClassDescUnknown(className,parent);
+        ClassDescUnknown classDesc = new ClassDescUnknown(this,className,parent);
 
         classes.put(viewClass.getName(), classDesc);
 

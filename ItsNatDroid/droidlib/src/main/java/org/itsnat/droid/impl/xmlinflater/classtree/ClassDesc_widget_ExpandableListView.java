@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_childIndicatorLeft;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableListView_childIndicatorRight;
@@ -11,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ExpandableL
  */
 public class ClassDesc_widget_ExpandableListView extends ClassDescViewBased
 {
-    public ClassDesc_widget_ExpandableListView(ClassDesc_widget_ListView parentClass)
+    public ClassDesc_widget_ExpandableListView(ClassDescViewMgr classMgr,ClassDesc_widget_ListView parentClass)
     {
-        super("android.widget.ExpandableListView",parentClass);
+        super(classMgr,"android.widget.ExpandableListView",parentClass);
     }
 
     protected void init()

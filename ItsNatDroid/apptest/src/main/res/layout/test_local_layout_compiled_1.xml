@@ -39,13 +39,20 @@
                       android:layout_alignParentTop="true"
                       style="@style/test"/>
 
-            <TextView android:id="@id/textViewTest2"
+            <TextView android:id="@+id/textViewTest2"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="@string/hello_world2"
                       android:background="#dddddd"
                       android:textAppearance="?android:attr/textAppearanceMedium"
                       android:layout_below="@id/textViewTest1" />
+
+            <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Hello world 3"
+                      android:background="#dddddd"
+                      android:layout_below="@id/textViewTest2" />
         </RelativeLayout>
 
         <!-- Testing custom class derivada de TextView -->
@@ -111,7 +118,7 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hapticFeedbackEnabled="false"
-                android:id="@id/testId"
+                android:id="@+id/testId"
                 android:isScrollContainer="true"
                 android:keepScreenOn="true"
                 android:layerType="hardware"
@@ -407,17 +414,17 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checkedButton="@id/radioFemale"
+            android:checkedButton="@+id/radioFemale"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@id/radioMale"
+                android:id="@+id/radioMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Male" />
 
             <RadioButton
-                android:id="@id/radioFemale"
+                android:id="@+id/radioFemale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Female" />
@@ -521,10 +528,10 @@
             android:layout_height="25dp"
             android:background="#dddddd"
             android:gravity="bottom|right"
-            android:ignoreGravity="@id/textViewTest2">
+            android:ignoreGravity="@+id/textViewChildOfRL">
 
             <TextView
-                android:id="@id/textViewTest2"
+                android:id="@+id/textViewChildOfRL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test RelativeLayout ignoreGravity"
@@ -539,7 +546,7 @@
             android:layout_height="wrap_content"
             android:background="#ffdddd">
 
-            <TextView android:id="@id/testRelLayoutId"
+            <TextView android:id="@+id/testRelLayoutId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Test RelativeLayout.LayoutParams"

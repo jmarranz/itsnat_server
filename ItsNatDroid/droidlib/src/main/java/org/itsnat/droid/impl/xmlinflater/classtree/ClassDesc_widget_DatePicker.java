@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_DatePicker_endYear_startYear;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_DatePicker_maxDate_minDate;
@@ -9,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_DatePicker_
  */
 public class ClassDesc_widget_DatePicker extends ClassDescViewBased
 {
-    public ClassDesc_widget_DatePicker(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_widget_DatePicker(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.widget.DatePicker",parentClass);
+        super(classMgr,"android.widget.DatePicker",parentClass);
     }
 
     protected void init()

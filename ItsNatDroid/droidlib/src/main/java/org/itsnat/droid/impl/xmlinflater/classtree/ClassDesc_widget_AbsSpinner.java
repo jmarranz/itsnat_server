@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ListViewAndAbsSpinner_entries;
 
 /**
@@ -7,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ListViewAnd
  */
 public class ClassDesc_widget_AbsSpinner extends ClassDescViewBased
 {
-    public ClassDesc_widget_AbsSpinner(ClassDescViewBased parentClass)
+    public ClassDesc_widget_AbsSpinner(ClassDescViewMgr classMgr,ClassDescViewBased parentClass)
     {
-        super("android.widget.AbsSpinner",parentClass);
+        super(classMgr,"android.widget.AbsSpinner",parentClass);
     }
 
     protected void init()

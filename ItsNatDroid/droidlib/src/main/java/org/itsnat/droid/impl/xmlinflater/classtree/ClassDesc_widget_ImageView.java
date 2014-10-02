@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
@@ -12,9 +13,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ImageView_s
  */
 public class ClassDesc_widget_ImageView extends ClassDescViewBased
 {
-    public ClassDesc_widget_ImageView(ClassDesc_view_View parentClass)
+    public ClassDesc_widget_ImageView(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
     {
-        super("android.widget.ImageView",parentClass);
+        super(classMgr,"android.widget.ImageView",parentClass);
     }
 
     protected void init()

@@ -1,13 +1,15 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class ClassDescUnknown extends ClassDescViewBased
 {
-    public ClassDescUnknown(String className,ClassDescViewBased parentClass)
+    public ClassDescUnknown(ClassDescViewMgr classMgr,String className,ClassDescViewBased parentClass)
     {
-        super(className,parentClass);
+        super(classMgr,className,parentClass);
     }
 
 }

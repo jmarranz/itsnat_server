@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_RadioGroup_checkedButton;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_RadioGroup_orientation;
 
@@ -8,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_RadioGroup_
  */
 public class ClassDesc_widget_RadioGroup extends ClassDescViewBased
 {
-    public ClassDesc_widget_RadioGroup(ClassDesc_widget_LinearLayout parentClass)
+    public ClassDesc_widget_RadioGroup(ClassDescViewMgr classMgr,ClassDesc_widget_LinearLayout parentClass)
     {
-        super("android.widget.RadioGroup",parentClass);
+        super(classMgr,"android.widget.RadioGroup",parentClass);
     }
 
     protected void init()

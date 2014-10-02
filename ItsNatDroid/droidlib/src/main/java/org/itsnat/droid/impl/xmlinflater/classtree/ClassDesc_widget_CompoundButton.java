@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 
@@ -8,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
  */
 public class ClassDesc_widget_CompoundButton extends ClassDescViewBased
 {
-    public ClassDesc_widget_CompoundButton(ClassDescViewBased parentClass)
+    public ClassDesc_widget_CompoundButton(ClassDescViewMgr classMgr,ClassDescViewBased parentClass)
     {
-        super("android.widget.CompoundButton",parentClass);
+        super(classMgr,"android.widget.CompoundButton",parentClass);
     }
 
     protected void init()

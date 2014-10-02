@@ -98,11 +98,14 @@ public class TestLocalXMLInflate1
                 final TextView compTextView1 = (TextView) compLayout.getChildAt(0);
                 final TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(0);
 
+                // Test id ya definido como recurso compilado
                 assertEquals(compTextView1.getId(),R.id.textViewTest1);
                 assertEquals(compTextView1.getId(), parsedTextView1.getId());
+
                 // Test findViewByXMLId
                 if (compTextView1 != compLayout.findViewById(R.id.textViewTest1)) throw new RuntimeException("FAIL");
                 if (parsedTextView1 != layout.findViewByXMLId("textViewTest1")) throw new RuntimeException("FAIL");
+
 
                 assertEquals(compTextView1.getText(), parsedTextView1.getText());
 
@@ -115,7 +118,6 @@ public class TestLocalXMLInflate1
                 assertEquals(compTextView1.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
                 assertEquals(compTextView1.getPaddingRight(),parsedTextView1.getPaddingRight());
 
-                // Test resolución de id
                 assertEquals(compTextView1.getPaddingTop(),ValueUtil.dpToPixelInt(10, res));
                 assertEquals(compTextView1.getPaddingTop(),parsedTextView1.getPaddingTop());
 
@@ -130,13 +132,33 @@ public class TestLocalXMLInflate1
 
                 final TextView compTextView2 = (TextView) compLayout.getChildAt(1);
                 final TextView parsedTextView2 = (TextView) parsedLayout.getChildAt(1);
-                assertEquals(compTextView2.getId(), parsedTextView2.getId());
+
+                // Test id añadido dinámicamente "@+id/..."
+                // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
+                assertEquals(((TextView)compLayout.findViewById(R.id.textViewTest2)),compTextView2);
+                assertEquals(((TextView)parsedLayout.findViewById(parsedTextView2.getId())),parsedTextView2);
+
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
 
                 // Test atributo style
                 // No tenemos una forma de testear "textAppearanceMedium" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
                 assertEquals(compTextView2.getTextSize(), parsedTextView2.getTextSize());
+
+                final TextView compTextView3 = (TextView) compLayout.getChildAt(2);
+                final TextView parsedTextView3 = (TextView) parsedLayout.getChildAt(2);
+
+
+                RelativeLayout.LayoutParams compTextParams3 = (RelativeLayout.LayoutParams)compTextView3.getLayoutParams();
+                RelativeLayout.LayoutParams parsedTextParams3 = (RelativeLayout.LayoutParams)parsedTextView3.getLayoutParams();
+                int[] compTextRules3 = compTextParams3.getRules();
+                int[] parsedTextRules3 = parsedTextParams3.getRules();
+                assertEquals(compTextRules3.length, parsedTextRules3.length); // Por si acaso pero son todas las posibles rules
+                assertPositive(compTextRules3[RelativeLayout.BELOW]);
+                assertEquals(compTextRules3[RelativeLayout.BELOW],compTextView2.getId());
+                assertPositive(parsedTextRules3[RelativeLayout.BELOW]);
+                assertEquals(parsedTextRules3[RelativeLayout.BELOW],parsedTextView2.getId());
+
             }
         }
 
@@ -742,10 +764,17 @@ public class TestLocalXMLInflate1
             final RadioGroup compLayout = (RadioGroup) comp.getChildAt(childCount);
             final RadioGroup parsedLayout = (RadioGroup) parsed.getChildAt(childCount);
 
+            final TextView compMaleView = (TextView) compLayout.getChildAt(0);
+            final TextView parsedMaleView = (TextView) parsedLayout.getChildAt(0);
+
+            final TextView compFemaleView = (TextView) compLayout.getChildAt(1);
+            final TextView parsedFemaleView = (TextView) parsedLayout.getChildAt(1);
+
             assertEquals(compLayout.getCheckedRadioButtonId(),R.id.radioFemale);
-            assertEquals(compLayout.getCheckedRadioButtonId(),parsedLayout.getCheckedRadioButtonId());
-            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)).getText(),"Female");
-            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)).getText(),((TextView)parsedLayout.findViewById(R.id.radioFemale)).getText());
+            assertEquals(parsedLayout.getCheckedRadioButtonId(),parsedFemaleView.getId());
+
+            assertEquals(((TextView)compLayout.findViewById(R.id.radioFemale)),compFemaleView);
+            assertEquals(((TextView)parsedLayout.findViewById(parsedFemaleView.getId())),parsedFemaleView);
 
             assertEquals(compLayout.getOrientation(),LinearLayout.HORIZONTAL);
             assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());

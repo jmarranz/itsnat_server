@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
@@ -11,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_GridView_st
  */
 public class ClassDesc_widget_GridView extends ClassDescViewBased
 {
-    public ClassDesc_widget_GridView(ClassDesc_widget_AbsListView parentClass)
+    public ClassDesc_widget_GridView(ClassDescViewMgr classMgr,ClassDesc_widget_AbsListView parentClass)
     {
-        super("android.widget.GridView",parentClass);
+        super(classMgr,"android.widget.GridView",parentClass);
     }
 
     protected void init()

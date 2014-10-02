@@ -43,7 +43,7 @@ public class AttrDesc_widget_DatePicker_endYear_startYear extends AttrDesc
 
     public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final String year = AttrDesc.getString(value,view.getContext());
+        final String year = getString(value,view.getContext());
 
         // Delegamos al final porque los atributos maxDate y minDate tienen prioridad (ganan si están definidos)
         // sobre startYear y endYear

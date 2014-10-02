@@ -223,11 +223,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return view;
     }
 
-    private static int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
+    private int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
     {
         String value = findAttribute(null,"style",newChildToIn,ctx);
         if (value == null) return 0;
-        return AttrDesc.getIdentifier(value, ctx);
+        return AttrDesc.getIdentifier(value,ctx,getPageImpl().getInflatedLayoutPageImpl().getXMLLayoutInflateService(),true);
     }
 
     private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn,Context ctx)

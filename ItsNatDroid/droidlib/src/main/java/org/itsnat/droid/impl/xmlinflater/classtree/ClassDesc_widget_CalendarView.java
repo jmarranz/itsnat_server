@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetInt;
@@ -17,9 +18,9 @@ import java.util.Locale;
  */
 public class ClassDesc_widget_CalendarView extends ClassDescViewBased
 {
-    public ClassDesc_widget_CalendarView(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_widget_CalendarView(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.widget.CalendarView",parentClass);
+        super(classMgr,"android.widget.CalendarView",parentClass);
     }
 
     protected void init()

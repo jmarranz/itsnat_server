@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_animateLayoutChanges;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_descendantFocusability;
@@ -11,9 +12,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_persi
  */
 public class ClassDesc_widget_ViewGroup extends ClassDescViewBased
 {
-    public ClassDesc_widget_ViewGroup(ClassDesc_view_View parentClass)
+    public ClassDesc_widget_ViewGroup(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
     {
-        super("android.view.ViewGroup",parentClass);
+        super(classMgr,"android.view.ViewGroup",parentClass);
     }
 
     protected void init()

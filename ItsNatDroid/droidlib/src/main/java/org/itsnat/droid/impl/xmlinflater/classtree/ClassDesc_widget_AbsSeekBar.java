@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 
 /**
@@ -7,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
  */
 public class ClassDesc_widget_AbsSeekBar extends ClassDescViewBased
 {
-    public ClassDesc_widget_AbsSeekBar(ClassDescViewBased parentClass)
+    public ClassDesc_widget_AbsSeekBar(ClassDescViewMgr classMgr,ClassDescViewBased parentClass)
     {
-        super("android.widget.AbsSeekBar",parentClass);
+        super(classMgr,"android.widget.AbsSeekBar",parentClass);
     }
 
     protected void init()

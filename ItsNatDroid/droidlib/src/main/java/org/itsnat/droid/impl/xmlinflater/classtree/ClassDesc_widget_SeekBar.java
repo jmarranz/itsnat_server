@@ -1,13 +1,15 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+
 /**
  * Created by jmarranz on 30/04/14.
  */
 public class ClassDesc_widget_SeekBar extends ClassDescViewBased
 {
-    public ClassDesc_widget_SeekBar(ClassDesc_widget_AbsSeekBar parentClass)
+    public ClassDesc_widget_SeekBar(ClassDescViewMgr classMgr,ClassDesc_widget_AbsSeekBar parentClass)
     {
-        super("android.widget.SeekBar",parentClass);
+        super(classMgr,"android.widget.SeekBar",parentClass);
     }
 
     protected void init()

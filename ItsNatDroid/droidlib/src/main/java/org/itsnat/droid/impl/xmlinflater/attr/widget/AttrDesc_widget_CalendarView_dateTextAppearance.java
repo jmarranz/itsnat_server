@@ -33,7 +33,7 @@ public class AttrDesc_widget_CalendarView_dateTextAppearance extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int dateTextAppearanceResId = AttrDesc.getIdentifier(value,view.getContext());
+        int dateTextAppearanceResId = getIdentifier(value,view.getContext());
 
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
 

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ViewAnimator_inoutAnimation;
 
@@ -8,9 +9,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_ViewAnimato
  */
 public class ClassDesc_widget_ViewAnimator extends ClassDescViewBased
 {
-    public ClassDesc_widget_ViewAnimator(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_widget_ViewAnimator(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.widget.ViewAnimator",parentClass);
+        super(classMgr,"android.widget.ViewAnimator",parentClass);
     }
 
     protected void init()

@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 
 /**
@@ -7,9 +8,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
  */
 public class ClassDesc_widget_ScrollView extends ClassDescViewBased
 {
-    public ClassDesc_widget_ScrollView(ClassDesc_widget_FrameLayout parentClass)
+    public ClassDesc_widget_ScrollView(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
-        super("android.widget.ScrollView",parentClass);
+        super(classMgr,"android.widget.ScrollView",parentClass);
     }
 
     protected void init()

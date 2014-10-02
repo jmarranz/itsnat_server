@@ -42,7 +42,7 @@ public class AttrDesc_widget_CalendarView_maxDate_minDate extends AttrDesc
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        String date = AttrDesc.getString(value,view.getContext());
+        String date = getString(value,view.getContext());
 
         Locale currentLocale = fieldCurrentLocale.get(view);
         Calendar outDate = Calendar.getInstance(currentLocale);
