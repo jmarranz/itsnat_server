@@ -7,10 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -25,6 +27,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
@@ -137,6 +140,7 @@ public class TestLocalXMLInflate1
                 // En este caso el valor del id compilado (que existe) no es igual al añadido dinámicamente
                 assertEquals(((TextView)compLayout.findViewById(R.id.textViewTest2)),compTextView2);
                 assertEquals(((TextView)parsedLayout.findViewById(parsedTextView2.getId())),parsedTextView2);
+                assertEquals(compTextView2.getId(),parsedTextView2.getId()); // Porque existe el id compilado y tiene prioridad en el caso dinámico
 
                 assertEquals(compTextView2.getText(), parsedTextView2.getText());
                 assertEquals(compTextView2.getBackground(), parsedTextView2.getBackground());
@@ -780,6 +784,32 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
         }
 
+        childCount++;
+
+        // Test SearchView
+        {
+            final SearchView compLayout = (SearchView) comp.getChildAt(childCount);
+            final SearchView parsedLayout = (SearchView) parsed.getChildAt(childCount);
+
+            assertFalse(compLayout.isIconfiedByDefault());
+            assertEquals(compLayout.isIconfiedByDefault(),parsedLayout.isIconfiedByDefault());
+
+            // Test android:imeOptions
+            TextView compQueryTextView = (TextView)TestUtil.getField(compLayout,"mQueryTextView");
+            TextView parsedQueryTextView = (TextView)TestUtil.getField(parsedLayout,"mQueryTextView");
+            assertEquals(compQueryTextView.getImeOptions(), EditorInfo.IME_ACTION_GO|EditorInfo.IME_ACTION_SEARCH);
+            assertEquals(compQueryTextView.getImeOptions(),parsedQueryTextView.getImeOptions());
+
+            // Test android:inputType
+            assertEquals(compQueryTextView.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL | InputType.TYPE_CLASS_DATETIME | InputType.TYPE_DATETIME_VARIATION_DATE);
+            assertEquals(compQueryTextView.getInputType(), parsedQueryTextView.getInputType());
+
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),ValueUtil.dpToPixelInt(250,res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mMaxWidth"),(Integer)TestUtil.getField(parsedLayout, "mMaxWidth"));
+
+            assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),"The hint (SearchView)");
+            assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),(CharSequence)TestUtil.getField(parsedLayout, "mQueryHint"));
+        }
 
         childCount++;
 

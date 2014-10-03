@@ -10,14 +10,14 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodString;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.attr.ImeOptionsUtil;
+import org.itsnat.droid.impl.xmlinflater.attr.InputTypeUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_autoLink;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_bufferType;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_compoundDrawables;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_ellipsize;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeActionId;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeActionLabel;
-import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_imeOptions;
-import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_inputType;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingExtra;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_lineSpacingMultiplier;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_TextView_marqueeRepeatLimit;
@@ -67,11 +67,11 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint"));
         addAttrDesc(new AttrDesc_widget_TextView_imeActionId(this));
         addAttrDesc(new AttrDesc_widget_TextView_imeActionLabel(this));
-        addAttrDesc(new AttrDesc_widget_TextView_imeOptions(this));
+        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"includeFontPadding",true));
         // android:inputMethod lleva deprecated desde Level 3, mal documentado, es difícil de implementar y tiene substituto en inputType
         //    una clase de ejemplo podría ser android.text.method.DateTimeInputMethod
-        addAttrDesc(new AttrDesc_widget_TextView_inputType(this));
+        addAttrDesc(new AttrDescReflecMethodMultipleName(this,"inputType", InputTypeUtil.valueMap,"text")); // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
         addAttrDesc(new AttrDesc_widget_TextView_lineSpacingExtra(this));
         addAttrDesc(new AttrDesc_widget_TextView_lineSpacingMultiplier(this));
         addAttrDesc(new AttrDescReflecMethodInt(this,"lines",-1));

@@ -19,6 +19,7 @@ import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
+import java.util.Map;
 
 import bsh.EvalError;
 import bsh.Interpreter;
@@ -60,6 +61,7 @@ public class EventSender
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         StatusLine[] status = new StatusLine[1];
@@ -67,7 +69,7 @@ public class EventSender
         String result = null;
         try
         {
-            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status,encoding);
+            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params, status,encoding);
             result = ValueUtil.toString(resultArr,encoding[0]);
         }
         catch (Exception ex)
@@ -90,9 +92,10 @@ public class EventSender
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params);
+        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

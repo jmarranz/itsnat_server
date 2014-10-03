@@ -21,7 +21,7 @@ public class AttrDesc_widget_LinearLayout_baselineAlignedChildIndex extends Attr
     {
         if (pending != null)
         {
-            // Necesitamos añadir los children para poder indicarlo por su índice
+            // Necesitamos añadir los children antes para poder referenciarlo por su índice de posición
             pending.addTask(new Runnable()
             {
                 @Override

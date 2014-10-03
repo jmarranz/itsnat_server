@@ -6,6 +6,7 @@
 package test.droid.core;
 
 import java.io.Serializable;
+import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.w3c.dom.Element;
@@ -17,7 +18,15 @@ public class TestDroidCoreDocument implements Serializable
 
 
     public TestDroidCoreDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
-    {
+    {      
+        HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();
+              
+        String model = httpReq.getHeader("ItsNat-model");        
+        String sdk_int = httpReq.getHeader("ItsNat-sdk-int");        
+        String widthPixels = httpReq.getHeader("ItsNat-display-width");
+        String heightPixels = httpReq.getHeader("ItsNat-display-height");        
+        String density = httpReq.getHeader("ItsNat-display-density");            
+        
         this.itsNatDoc = itsNatDoc;
 
         new TestDroidMiscAutomatic(itsNatDoc);

@@ -25,7 +25,9 @@ public class AttrDesc_widget_RadioGroup_checkedButton extends AttrDescReflecMeth
                 @Override
                 public void run()
                 {
-                    // Como referenciamos un View hijo con el id, es necesario que haya sido antes insertado
+                    // El addTask es porque referenciamos un View hijo antes de insertarse
+                    // Pero NO es porque el id se referencia antes de insertar el hijo pues ese problema se resuelve con @+id
+                    // en el propio checkedButton
                     AttrDesc_widget_RadioGroup_checkedButton.super.setAttribute(view,value,oneTimeAttrProcess,pending);
                 }
             });

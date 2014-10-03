@@ -1,7 +1,11 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.util.DisplayMetrics;
 
 import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
@@ -13,6 +17,9 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.util.ValueUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 5/06/14.
@@ -112,6 +119,25 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public Map<String,String> getHttpHeaders()
+    {
+        // http://stackoverflow.com/questions/17481341/how-to-get-android-screen-size-programmatically-once-and-for-all
+        // Recuerda que cambia con la orientación por eso hay que enviarlos "frescos"
+        Resources resources = ctx.getResources();
+        Configuration config = resources.getConfiguration();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+
+        Map<String, String> httpHeaders = new HashMap<String, String>();
+
+        httpHeaders.put("ItsNat-model", "" + Build.MODEL);
+        httpHeaders.put("ItsNat-sdk-int", "" + Build.VERSION.SDK_INT);
+        httpHeaders.put("ItsNat-display-width", "" + dm.widthPixels);
+        httpHeaders.put("ItsNat-display-height", "" + dm.heightPixels);
+        httpHeaders.put("ItsNat-display-density", "" + dm.density);
+
+        return httpHeaders;
+    }
+
     @Override
     public void execute()
     {
@@ -126,6 +152,7 @@ public class PageRequestImpl implements PageRequest
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
         HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         String result;
@@ -133,7 +160,7 @@ public class PageRequestImpl implements PageRequest
         {
             StatusLine[] status = new StatusLine[1];
             String[] encoding = new String[1];
-            byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, status, encoding);
+            byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, status, encoding);
             result = ValueUtil.toString(resultArr, encoding[0]);
             if (status[0].getStatusCode() != 200)
                 throw new ItsNatDroidServerResponseException(status[0].getStatusCode(), status[0].getReasonPhrase(), result);
@@ -163,9 +190,10 @@ public class PageRequestImpl implements PageRequest
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
         HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpContext, httpParamsRequest, httpParamsDefault,sslSelfSignedAllowed);
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

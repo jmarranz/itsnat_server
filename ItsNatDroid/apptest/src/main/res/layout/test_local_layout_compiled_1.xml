@@ -431,6 +431,19 @@
 
         </RadioGroup>
 
+        <!-- Test SearchView attribs -->
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:imeOptions="actionGo|actionSearch"
+            android:inputType="number|date"
+            android:maxWidth="250dp"
+            android:queryHint="The hint (SearchView)"
+            >
+
+        </SearchView>
+
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
             android:layout_width="match_parent"

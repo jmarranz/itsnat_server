@@ -43,6 +43,7 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
+import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -65,7 +66,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,StatusLine[] status,String[] encoding) throws SocketTimeoutException
+    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -78,10 +79,10 @@ public class HttpUtil
                 // Prepare a request object
         HttpGet httpGet = new HttpGet(uri);
 
-        return execute(httpClient,httpGet,httpContext,status,encoding);
+        return execute(httpClient,httpGet,httpContext,httpHeaders,status,encoding);
     }
 
-    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status,String[] encoding) throws SocketTimeoutException
+    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -95,16 +96,17 @@ public class HttpUtil
 
         //httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
+
         try
         {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
         }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-        return execute(httpClient,httpPost,httpContext,status,encoding);
+        return execute(httpClient,httpPost,httpContext,httpHeaders,status,encoding);
     }
 
-    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,StatusLine[] status,String[] encoding) throws SocketTimeoutException
+    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
         try
         {
@@ -114,6 +116,13 @@ public class HttpUtil
             httpUriRequest.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
             httpUriRequest.setHeader("Pragma", "no-cache"); // HTTP 1.0.
             httpUriRequest.setHeader("Expires","0"); // Proxies.
+
+            for(Map.Entry<String,String> header : httpHeaders.entrySet())
+            {
+                String name = header.getKey();
+                String value = header.getValue();
+                httpUriRequest.setHeader(name,value);
+            }
 
             HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
 

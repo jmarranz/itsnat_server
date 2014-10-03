@@ -30,6 +30,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RadioGroup;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RatingBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ScrollView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SearchView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
@@ -189,6 +190,10 @@ public class ClassDescViewMgr
             // android.widget.NumberPicker no tiene atributos
             ClassDesc_widget_RadioGroup widget_RadioGroup = new ClassDesc_widget_RadioGroup(this,widget_LinearLayout);
             addClassDescViewBase(widget_RadioGroup);
+
+            ClassDesc_widget_SearchView widget_SearchView = new ClassDesc_widget_SearchView(this,widget_LinearLayout);
+            addClassDescViewBase(widget_SearchView);
+
 
 
 

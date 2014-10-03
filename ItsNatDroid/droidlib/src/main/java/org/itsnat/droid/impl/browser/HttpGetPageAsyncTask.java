@@ -8,6 +8,8 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.util.ValueUtil;
 
+import java.util.Map;
+
 /**
  * Created by jmarranz on 4/06/14.
  */
@@ -18,15 +20,18 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
+    protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, boolean sslSelfSignedAllowed)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url, HttpContext httpContext,
+                    HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders, boolean sslSelfSignedAllowed)
     {
         this.pageRequest = pageRequest;
         this.url = url;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
         this.httpParamsDefault = httpParamsDefault;
+        this.httpHeaders = httpHeaders;
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 
@@ -34,7 +39,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
     {
         StatusLine[] status = new StatusLine[1];
         String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault,sslSelfSignedAllowed,status,encoding);
+        byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,status,encoding);
         String result = ValueUtil.toString(resultArr,encoding[0]);
         if (status[0].getStatusCode() != 200)
             throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(), result);

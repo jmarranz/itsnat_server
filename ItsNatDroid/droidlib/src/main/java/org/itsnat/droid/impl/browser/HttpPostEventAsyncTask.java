@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by jmarranz on 4/06/14.
@@ -23,10 +24,12 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
+    protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
 
-    public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, boolean sslSelfSignedAllowed, List<NameValuePair> params)
+    public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
+            HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders, boolean sslSelfSignedAllowed, List<NameValuePair> params)
     {
         this.eventSender = eventSender;
         this.evt = evt;
@@ -34,6 +37,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
         this.httpParamsDefault = httpParamsDefault;
+        this.httpHeaders = httpHeaders;
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = params;
     }
@@ -42,7 +46,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
     {
         StatusLine[] status = new StatusLine[1];
         String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, sslSelfSignedAllowed, params, status,encoding);
+        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status,encoding);
         String result = ValueUtil.toString(resultArr,encoding[0]);
 
         return new HttpPostResult(result,status[0]);

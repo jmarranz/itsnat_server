@@ -1,23 +1,16 @@
-package org.itsnat.droid.impl.xmlinflater.attr.widget;
+package org.itsnat.droid.impl.xmlinflater.attr;
 
 import android.text.InputType;
-import android.view.View;
-import android.widget.TextView;
-
-import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by jmarranz on 30/04/14.
+ * Created by jmarranz on 28/07/14.
  */
-public class AttrDesc_widget_TextView_inputType extends AttrDesc
+public class InputTypeUtil
 {
-    static Map<String,Integer> valueMap = new HashMap<String,Integer>( 32 );
+    public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 32 );
     static
     {
         valueMap.put("none", 0x00000000);
@@ -53,23 +46,4 @@ public class AttrDesc_widget_TextView_inputType extends AttrDesc
         valueMap.put("date",InputType.TYPE_CLASS_DATETIME | InputType.TYPE_DATETIME_VARIATION_DATE);
         valueMap.put("time",InputType.TYPE_CLASS_DATETIME | InputType.TYPE_DATETIME_VARIATION_TIME);
     }
-
-    public AttrDesc_widget_TextView_inputType(ClassDescViewBased parent)
-    {
-        super(parent,"inputType");
-    }
-
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
-    {
-        int convertedValue = parseMultipleName(value, valueMap);
-
-        TextView textView = (TextView)view;
-        textView.setInputType(convertedValue);
-    }
-
-    public void removeAttribute(View view)
-    {
-        setAttribute(view, "text", null,null);
-    } // No estoy seguro que el valor por defecto sea "text" pero parece el más razonable
-
 }

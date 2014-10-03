@@ -112,6 +112,11 @@ public class PageImpl implements Page
         return pageRequest.getItsNatDroidBrowserImpl();
     }
 
+    public PageRequestImpl getPageRequestImpl()
+    {
+        return pageRequest;
+    }
+
     @Override
     public ItsNatDroidBrowser getItsNatDroidBrowser()
     {
