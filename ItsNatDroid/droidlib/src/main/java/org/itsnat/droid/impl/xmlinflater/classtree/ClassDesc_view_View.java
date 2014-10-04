@@ -63,7 +63,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodFloat(this,"alpha",1f));
         addAttrDesc(new AttrDescReflecMethodDrawable(this,"background","setBackgroundDrawable","@null"));  // setBackground() es desde Android 4.1
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"clickable",true));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"contentDescription"));
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"contentDescription",""));
         addAttrDesc(new AttrDesc_view_View_drawingCacheQuality(this)); // drawingCacheQuality
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"duplicateParentState","setDuplicateParentStateEnabled",false)); // Según dice la doc no hace nada este flag a true si el atributo no se define antes de insertar en un ViewGroup
         addAttrDesc(new AttrDesc_view_View_fadeScrollbars(this));

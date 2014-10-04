@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.TabHost;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -71,6 +73,7 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
 
         defineGridView(act, rootView);
         defineExpandableListView(act, rootView);
+        defineTabHost(act,rootView);
     }
 
     private static void defineGridView(TestActivity act,View rootView)
@@ -133,5 +136,24 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
         listView.setAdapter(mAdapter);
     }
 
+    private static void defineTabHost(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        TabHost tabHost = (TabHost)rootView.findViewById(R.id.tabHostTest);
+        tabHost.setup();
 
+        setNewTab(act, tabHost, "tab1", "Tab 1", android.R.drawable.star_on, R.id.tab1);
+        setNewTab(act, tabHost, "tab2", "Tab 2", android.R.drawable.star_on, R.id.tab2);
+        setNewTab(act, tabHost, "tab3", "Tab 3", android.R.drawable.star_on, R.id.tab3);
+
+        //tabHost.setCurrentTabByTag("tab2"); //-- optional to set a tab programmatically.
+    }
+
+    private static void setNewTab(Context context,final TabHost tabHost, String tag, String title, int icon,final int contentID)
+    {
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setIndicator(title, context.getResources().getDrawable(icon));
+        tabSpec.setContent(contentID);
+        tabHost.addTab(tabSpec);
+    }
 }

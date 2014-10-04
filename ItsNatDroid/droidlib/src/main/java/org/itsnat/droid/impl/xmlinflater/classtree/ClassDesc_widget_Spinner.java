@@ -43,11 +43,10 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         {
             // Pasamos new ContextThemeWrapper(ctx,idStyle) porque como parámetro el idStyle es ignorado
             // La aplicación de un style de todas formas hace alguna cosa rara, si se puede evitar usar style en un Spinner
-            AttributeSet attributes = null;
             if (mode != -1)
-                view = new Spinner(new ContextThemeWrapper(ctx,idStyle), attributes,idStyle,mode);
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle,mode);
             else
-                view = new Spinner(new ContextThemeWrapper(ctx,idStyle), attributes,idStyle);
+                view = new Spinner(new ContextThemeWrapper(ctx,idStyle),(AttributeSet)null,idStyle);
         }
         else
         {
@@ -55,7 +54,7 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
             if (mode != -1)
                 view = new Spinner(ctx, mode);
             else
-                view = new Spinner(ctx);
+                view = new Spinner(ctx,(AttributeSet)null); // El constructor de un sólo param también vale
         }
 
         return view;
@@ -72,7 +71,7 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecFieldSetDimensionWithNameInt(this,"dropDownWidth","mDropDownWidth","wrap_content"));
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"center"));
         addAttrDesc(new AttrDesc_widget_Spinner_popupBackground(this));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"prompt","")); // En un layout compilado no se admiten literales, aquí sí, no es importante y es más flexible aún
         // android:spinnerMode no es un atributo normal, se pasa por el constructor del objeto Spinner
     }
 }

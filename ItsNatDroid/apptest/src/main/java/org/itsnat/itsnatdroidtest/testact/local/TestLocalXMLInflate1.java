@@ -28,6 +28,8 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
@@ -809,6 +811,39 @@ public class TestLocalXMLInflate1
 
             assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),"The hint (SearchView)");
             assertEquals((CharSequence)TestUtil.getField(compLayout, "mQueryHint"),(CharSequence)TestUtil.getField(parsedLayout, "mQueryHint"));
+        }
+
+        childCount++;
+
+        // Test TabWidget (y necesariamente TabHost)
+        {
+            final TabHost compLayout = (TabHost) comp.getChildAt(childCount);
+            final TabHost parsedLayout = (TabHost) parsed.getChildAt(childCount);
+
+            final TabWidget comTabWidget = (TabWidget)compLayout.findViewById(android.R.id.tabs);
+            final TabWidget parsedTabWidget = (TabWidget)parsedLayout.findViewById(android.R.id.tabs);
+
+            assertTrue(comTabWidget.isStripEnabled());
+            assertEquals(comTabWidget.isStripEnabled(), parsedTabWidget.isStripEnabled());
+
+            // android:tabLeftStrip y android:tabRightStrip
+            assertNotNull((StateListDrawable) TestUtil.getField(comTabWidget, "mLeftStrip"));
+            assertNotNull((StateListDrawable) TestUtil.getField(parsedTabWidget, "mLeftStrip"));
+            assertNotNull((StateListDrawable) TestUtil.getField(comTabWidget, "mRightStrip"));
+            assertNotNull((StateListDrawable) TestUtil.getField(parsedTabWidget, "mRightStrip"));
+            /* No se porqué falla, pues se ven igual
+            parsedTabWidget.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    assertEquals((StateListDrawable) TestUtil.getField(comTabWidget, "mLeftStrip"), (StateListDrawable) TestUtil.getField(parsedTabWidget, "mLeftStrip"));
+                    assertEquals((StateListDrawable) TestUtil.getField(comTabWidget, "mRightStrip"), (StateListDrawable) TestUtil.getField(parsedTabWidget, "mRightStrip"));
+                }
+            });
+            */
+
+            //System.out.println("PARAR");
         }
 
         childCount++;

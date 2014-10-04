@@ -444,6 +444,70 @@
 
         </SearchView>
 
+        <!-- Test TabWidget (y necesariamente TabHost) -->
+        <TabHost
+            android:id="@id/tabHostTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_vertical_holo_dark"
+                    android:tabStripEnabled="true"
+                    android:tabStripLeft="@drawable/tab_bottom_left"
+                    android:tabStripRight="@drawable/tab_bottom_right"
+                    >
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" >
+
+                    <LinearLayout
+                        android:id="@id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 1 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView1" -->
+
+                    <LinearLayout
+                        android:id="@id/tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 2 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView2" -->
+
+                    <LinearLayout
+                        android:id="@id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 3 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView3" -->
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -451,7 +515,7 @@
             android:background="#ffdddd"
             android:baselineAligned="false"
             android:baselineAlignedChildIndex="1"
-            android:divider="@drawable/divider_test"
+            android:divider="@drawable/divider_horizontal_test"
             android:showDividers="beginning|middle"
             android:dividerPadding="10dp"
             android:measureWithLargestChild="true"
@@ -613,7 +677,7 @@
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:background="#dddddd"
-            android:divider="@drawable/divider_test"
+            android:divider="@drawable/divider_horizontal_test"
             android:dividerHeight="2dp"
             android:entries="@array/sports_array"
             android:footerDividersEnabled="false"
@@ -631,7 +695,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="#ffdddd"
-            android:childDivider="@drawable/divider_test"
+            android:childDivider="@drawable/divider_horizontal_test"
             android:childIndicator="@drawable/child_indicator_test"
             android:childIndicatorLeft="10dp"
             android:childIndicatorRight="40dp"

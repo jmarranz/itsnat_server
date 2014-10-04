@@ -11,14 +11,18 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  */
 public class AttrDescReflecMethodCharSequence extends AttrDescReflecMethod
 {
-    public AttrDescReflecMethodCharSequence(ClassDescViewBased parent, String name, String methodName)
+    protected String defaultValue;
+
+    public AttrDescReflecMethodCharSequence(ClassDescViewBased parent, String name, String methodName,String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
+        this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodCharSequence(ClassDescViewBased parent, String name)
+    public AttrDescReflecMethodCharSequence(ClassDescViewBased parent, String name,String defaultValue)
     {
         super(parent,name,getClassParam());
+        this.defaultValue = defaultValue;
     }
 
     protected static Class<?> getClassParam()
@@ -34,7 +38,8 @@ public class AttrDescReflecMethodCharSequence extends AttrDescReflecMethod
 
     public void removeAttribute(View view)
     {
-        callMethod(view, "");
+        if (defaultValue != null)
+            callMethod(view,defaultValue);
     }
 
 }

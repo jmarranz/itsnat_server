@@ -263,8 +263,12 @@ public class ClassDescViewBased
             }
             else
             {
-                if (constructor1P == null) constructor1P = clasz.getConstructor(Context.class);
-                view = constructor1P.newInstance(ctx);
+                // Notas: Android suele llamar al constructor de dos params (Context,AttributeSet) supongo al menos que cuando
+                // no hay atributo style.
+                // En teoría da igual pues el constructor de 1 param (Context) llama al de dos con null, sin embargo
+                // nos encontramos por ej con TabHost en donde no es así y el constructor de 1 param inicializa mal el componente.
+                if (constructor1P == null) constructor1P = clasz.getConstructor(Context.class,AttributeSet.class);
+                view = constructor1P.newInstance(ctx,(AttributeSet)null);
             }
         }
         catch (InvocationTargetException ex) { throw new ItsNatDroidException(ex); }

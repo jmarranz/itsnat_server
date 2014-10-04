@@ -271,7 +271,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View view = createViewObject(classDesc, null, parser);
 
-        setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan
+        setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         fillAttributesAndAddView(view,classDesc,null,parser,pending);
 

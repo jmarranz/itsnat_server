@@ -64,7 +64,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"freezesText",false));
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"top|start"));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"height",-1f));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint"));
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this,"hint",""));
         addAttrDesc(new AttrDesc_widget_TextView_imeActionId(this));
         addAttrDesc(new AttrDesc_widget_TextView_imeActionLabel(this));
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"imeOptions", ImeOptionsUtil.valueMap,"actionUnspecified"));
@@ -96,7 +96,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowDy"));
         addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowRadius"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"singleLine",false));
-        addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
+        addAttrDesc(new AttrDescReflecMethodCharSequence(this, "text","")); // El tipo de CharSequence resultante (Spannable etc) depende del bufferType definido pero el orden no importa pues al definir el bufferType exige dar el texto como param para "retransformarlo"
         addAttrDesc(new AttrDesc_widget_TextView_textAllCaps(this));
         addAttrDesc(new AttrDesc_widget_TextView_textAppearance(this)); // "textAppearance"
         addAttrDesc(new AttrDescReflecMethodColor(this,"textColor","#000000"));

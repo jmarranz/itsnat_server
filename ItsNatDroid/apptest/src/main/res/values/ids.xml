@@ -5,6 +5,12 @@
     <item name="buttonReload" type="id">buttonReload</item>
     <item name="textViewTest1" type="id">textViewTest1</item>
 
+
+    <item name="tabHostTest" type="id">tabHostTest</item>
+    <item name="tab1" type="id">tab1</item>
+    <item name="tab2" type="id">tab2</item>
+    <item name="tab3" type="id">tab3</item>
+
     <item name="gridViewTestId" type="id">gridTestId</item>
     <item name="expanListViewTestId" type="id">expanListViewTestId</item>
     <item name="spinnerDialogTestId" type="id">spinnerDialogTestId</item>

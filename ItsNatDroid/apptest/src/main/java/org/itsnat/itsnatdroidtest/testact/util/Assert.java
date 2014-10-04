@@ -219,6 +219,10 @@ public class Assert
             StateListDrawable a_state = (StateListDrawable) a;
             StateListDrawable b_state = (StateListDrawable) b;
 
+/*
+            mStateListState/mStateSets
+            StateListState a_stList = a_state.getStateListState();
+*/
             int[] a_stateArr = a_state.getState();
             int[] b_stateArr = b_state.getState();
             assertEquals(a_stateArr.length,b_stateArr.length);

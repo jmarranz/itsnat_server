@@ -33,6 +33,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ScrollView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SearchView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TabWidget;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewFlipper;
@@ -193,6 +194,9 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_SearchView widget_SearchView = new ClassDesc_widget_SearchView(this,widget_LinearLayout);
             addClassDescViewBase(widget_SearchView);
+
+            ClassDesc_widget_TabWidget widget_TabWidget = new ClassDesc_widget_TabWidget(this,widget_LinearLayout);
+            addClassDescViewBase(widget_TabWidget);
 
 
 
