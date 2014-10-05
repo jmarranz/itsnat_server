@@ -32,6 +32,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_RelativeLayo
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ScrollView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SearchView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SlidingDrawer;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TabWidget;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TableLayout;
@@ -213,7 +214,9 @@ public class ClassDescViewMgr
             // android.widget.DialerFilter no tiene atributos
             // android.widget.TwoLineListItem no tiene atributos
 
-        // HACER android.widget.SlidingDrawer
+        ClassDesc_widget_SlidingDrawer widget_SlidingDrawer = new ClassDesc_widget_SlidingDrawer(this,view_ViewGroup);
+        addClassDescViewBase(widget_SlidingDrawer);
+
 
 
 

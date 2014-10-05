@@ -1,6 +1,5 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.ExpandableListView;
 import android.widget.GridView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Spinner;
-import android.widget.TabHost;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;

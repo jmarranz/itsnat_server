@@ -523,14 +523,35 @@
 
         </RelativeLayout>
 
-        <!-- space for page scrolling -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:text="(space for page scrolling)"
-            android:gravity="center"/>
+        <!-- SlidingDrawer
+         Es necesario un FrameLayout o similar contenedor con dimensiones concretas
+        -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
 
+            <SlidingDrawer
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:handle="@+id/handle"
+                android:content="@+id/content">
 
+                <TextView
+                    android:id="@id/handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="DRAG TO UP/DOWN"
+                    android:background="#aaaaaa"/>
+
+                <TextView
+                    android:id="@id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONTENT"
+                    android:background="#ffdddd"/>
+
+            </SlidingDrawer>
+        </FrameLayout>
 
 
 

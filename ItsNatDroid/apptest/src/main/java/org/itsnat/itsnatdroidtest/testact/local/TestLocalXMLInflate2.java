@@ -23,6 +23,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.SlidingDrawer;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TableLayout;
@@ -708,15 +709,17 @@ public class TestLocalXMLInflate2
             }
         }
 
-
         childCount++;
 
-        // Space for page scrolling
+        // Test SlidingDrawer (necesita un FrameLayout o similar como padre)
         {
-            final TextView compTextView = (TextView) comp.getChildAt(childCount);
-            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
-            assertEquals(compTextView.getText(), "(space for page scrolling)");
-            assertEquals(compTextView.getText(), parsedTextView.getText());
+            FrameLayout compLayout = (FrameLayout) comp.getChildAt(childCount);
+            FrameLayout parsedLayout = (FrameLayout) parsed.getChildAt(childCount);
+
+            SlidingDrawer compDrawer = (SlidingDrawer) compLayout.getChildAt(0);
+            SlidingDrawer parsedDrawer = (SlidingDrawer) parsedLayout.getChildAt(0);
+
+
         }
 
 
