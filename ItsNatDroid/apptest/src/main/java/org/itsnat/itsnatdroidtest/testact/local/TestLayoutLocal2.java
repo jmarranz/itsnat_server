@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -52,30 +51,10 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
 
     private static void defineInitalData(TestActivity act,View rootView)
     {
-        defineSpinnerDialog(act, rootView);
-        defineSpinnerDropdown(act, rootView);
         defineAdapterViewAnimator(act, rootView);
     }
 
-    private static void defineSpinnerDialog(TestActivity act,View rootView)
-    {
-        Resources res = act.getResources();
-        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDialogTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
-                R.array.sports_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // Aunque parece que es para dropdown sirve para dialog también y queda mejor que sin definir
-        gridView.setAdapter(adapter);
-    }
 
-    private static void defineSpinnerDropdown(TestActivity act,View rootView)
-    {
-        Resources res = act.getResources();
-        Spinner gridView = (Spinner)rootView.findViewById(R.id.spinnerDropdownTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
-                R.array.sports_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gridView.setAdapter(adapter);
-    }
 
     private static void defineAdapterViewAnimator(TestActivity act,View rootView)
     {

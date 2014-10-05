@@ -205,9 +205,16 @@ public class ClassDescViewMgr
             // android.widget.ZoomControls no tiene atributos
 
         // android.support.v4.view.PagerTitleStrip no tiene atributos
+            // 	android.support.v4.view.PagerTabStrip no tiene atributos
 
         ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_RelativeLayout);
+            // android.widget.DialerFilter no tiene atributos
+            // android.widget.TwoLineListItem no tiene atributos
+
+        // HACER android.widget.SlidingDrawer
+
+
 
         // android.support.v4.widget.DrawerLayout no tiene atributos y es clase final
     }

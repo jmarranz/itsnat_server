@@ -19,15 +19,19 @@ import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
+import android.widget.Gallery;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ListPopupWindow;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TableLayout;
@@ -429,93 +433,260 @@ public class TestLocalXMLInflate1
             }
         }
 
-
         childCount++;
 
-        // Test GridLayout Attribs Horizontal
+        // Test AbsListView
         {
-            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
-            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
-            assertEquals(compLayout.getColumnCount(),3);
-            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
-            assertFalse(compLayout.isColumnOrderPreserved());
-            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
-            assertEquals(compLayout.getOrientation(),GridLayout.HORIZONTAL);
-            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
-            assertEquals(compLayout.getRowCount(), 3);
-            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
-            assertFalse(compLayout.isRowOrderPreserved());
-            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
-            assertTrue(compLayout.getUseDefaultMargins());
-            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
+            ListView compLayout = (ListView) comp.getChildAt(childCount);
+            ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
 
-            {
-                for(int i = 0; i < 5; i++)
-                {
-                    final TextView compTextView = (TextView) compLayout.getChildAt(i);
-                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
-                    // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+            assertEquals(compLayout.getCacheColorHint(),0xffff0000);
+            assertEquals(compLayout.getCacheColorHint(), parsedLayout.getCacheColorHint());
+            assertEquals(compLayout.getChoiceMode(), AbsListView.CHOICE_MODE_MULTIPLE);
+            assertEquals(compLayout.getChoiceMode(), parsedLayout.getChoiceMode());
+            // No podemos testear android:drawSelectorOnTop porque no hay un isDrawSelectorOnTop
+            assertFalse(compLayout.isFastScrollEnabled()); // Preferiría testear el true pero no se porqué razón se ignora el true
+            assertEquals(compLayout.isFastScrollEnabled(), parsedLayout.isFastScrollEnabled());
+            // android:listSelector
+            assertEquals(((ColorDrawable)compLayout.getSelector()).getColor(), 0x6600ff00);
+            assertEquals(compLayout.getSelector(), parsedLayout.getSelector());
+            assertFalse(compLayout.isScrollingCacheEnabled());
+            assertEquals(compLayout.isScrollingCacheEnabled(), parsedLayout.isScrollingCacheEnabled());
+            assertFalse(compLayout.isSmoothScrollbarEnabled());
+            assertEquals(compLayout.isSmoothScrollbarEnabled(), parsedLayout.isSmoothScrollbarEnabled());
+            assertTrue(compLayout.isStackFromBottom());
+            assertEquals(compLayout.isStackFromBottom(), parsedLayout.isStackFromBottom());
+            assertTrue(compLayout.isTextFilterEnabled());
+            assertEquals(compLayout.isTextFilterEnabled(), parsedLayout.isTextFilterEnabled());
+            assertEquals(compLayout.getTranscriptMode(), AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            assertEquals(compLayout.getTranscriptMode(), parsedLayout.getTranscriptMode());
 
-                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
-                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-                    {
-                        @Override
-                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                        {
-                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
-                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
-                        }
-                    });
-                }
-            }
         }
 
         childCount++;
 
-        // Test GridLayout Attribs Vertical
+        // Test GridView
         {
-            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
-            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
-            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
-            assertEquals(compLayout.getColumnCount(),3);
-            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
-            assertFalse(compLayout.isColumnOrderPreserved());
-            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
-            assertEquals(compLayout.getOrientation(),GridLayout.VERTICAL);
-            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
-            assertEquals(compLayout.getRowCount(), 3);
-            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
-            assertFalse(compLayout.isRowOrderPreserved());
-            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
-            assertTrue(compLayout.getUseDefaultMargins());
-            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
+            final GridView compLayout = (GridView) comp.getChildAt(childCount);
+            final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
 
+            // Tests android:columnWidth (getColumnWidth es Level 16):
+            // En teoría existe el atributo mColumnWidth pero el valor final puede no coincidir con el columnWidth especificado
+            // porque es corregido dinámicamente
+            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),ValueUtil.dpToPixelInt(30, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),(Integer)TestUtil.getField(parsedLayout, "mRequestedColumnWidth"));
+
+            // Tests android:gravity (getGravity es Level 16)
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
-
-                for (int i = 0; i < 5; i++)
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
                 {
-                    TextView compTextView = (TextView) compLayout.getChildAt(i);
-                    TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
-                    // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
-                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
-                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
-                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-                    {
-                        @Override
-                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                        {
-                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
-                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
-                        }
-                    });
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
                 }
+            });
 
-            }
+            // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
+            assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),ValueUtil.dpToPixelInt(5, res));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mHorizontalSpacing"));
+                }
+            });
+            assertEquals(compLayout.getNumColumns(), 3);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // Usamos un OnLayoutChangeListener porque el setNumColumns define un atributo "request" que no es el atributo
+                    // donde va el numColumns definitivo el cual se calcula al hacer el layout
+                    assertEquals(compLayout.getNumColumns(),parsedLayout.getNumColumns());
+                }
+            });
+            assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
+            assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
+
+            // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
+            assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),ValueUtil.dpToPixelInt(5, res));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mVerticalSpacing"));
+                }
+            });
+        }
+
+        childCount++;
+
+        // Space for page scrolling
+        {
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "(space for page scrolling)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
+        }
+
+
+        childCount++;
+
+        // Test ListView
+        {
+            final ListView compLayout = (ListView) comp.getChildAt(childCount);
+            final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
+
+            // Test android:divider
+            // Test visual: líneas rojas separadoras de items
+            assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelInt(0.9f, res));
+            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
+
+            assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelInt(2, res));
+            assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
+            // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
+            assertFalse((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"));
+            assertEquals((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"), (Boolean)TestUtil.getField(parsedLayout, "mFooterDividersEnabled"));
+            // Test android:headerDividersEnabled (areHeaderDividersEnabled es Level 19)
+            assertFalse((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"));
+            assertEquals((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"),(Boolean)TestUtil.getField(parsedLayout, "mHeaderDividersEnabled"));
 
         }
 
+        childCount++;
+
+        // Test ExpandableListView
+        {
+            final ExpandableListView compLayout = (ExpandableListView) comp.getChildAt(childCount);
+            final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
+
+            // Test android:childDivider, no hay método get
+            // Test visual: líneas rojas separadoras de items
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), ValueUtil.dpToPixelInt(0.9f, res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
+
+            // Test android:childIndicator, no hay método get, si no se define devuelve null
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelInt(2f, res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
+
+            // Test android:childIndicatorLeft, no hay método get
+            // No podemos testearlo porque por ej en 4.4.1 tras definir mChildIndicatorLeft y mChildIndicatorright
+            // se llama a un método que los cambia de nuevo de una forma inexplicable, en 4.0.3 no hay tal llamada
+            //assertPositive((Integer)TestUtil.getField(compLayout,"mChildIndicatorLeft"));
+            //assertEquals((Integer)getField(compLayout,"mChildIndicatorLeft"),(Integer)getField(parsedLayout,"mChildIndicatorLeft"));
+            // No testeamos android:childIndicatorRight pues tenemos idéntico problema que childIndicatorLeft
+
+            // Test android:groupIndicator, no hay método get
+            assertNotNull((StateListDrawable)TestUtil.getField(compLayout, "mGroupIndicator"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"), (StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"));
+
+            // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft
+            //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));
+        }
+
+        childCount++;
+
+        // Test AbsSpinner (entries sólo) y Gallery
+        {
+            final Gallery compLayout = (Gallery) comp.getChildAt(childCount);
+            final Gallery parsedLayout = (Gallery) parsed.getChildAt(childCount);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"), 100);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mAnimationDuration"),(Integer)TestUtil.getField(parsedLayout, "mAnimationDuration"));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
+                }
+            });
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),ValueUtil.dpToPixelInt(50, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mSpacing"),(Integer)TestUtil.getField(parsedLayout, "mSpacing"));
+            assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"), 0.6f);
+            assertEquals((Float)TestUtil.getField(compLayout, "mUnselectedAlpha"),(Float)TestUtil.getField(parsedLayout, "mUnselectedAlpha"));
+        }
+
+        childCount++;
+
+        // Test Spinner (dropdown)
+        {
+            final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
+            final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
+
+            // Tests android:dropDownHorizontalOffset
+            // Este atributo es difícil de testear pues se solapa con paddingLeft (definido en el style en este ejemplo) el cual suele imponer su valor
+            // http://stackoverflow.com/questions/21503142/android-spinner-dropdownhorizontaloffset-not-functioning-but-dropdownverticleoff
+            assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), ValueUtil.dpToPixelInt(21,res));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownHorizontalOffset"}));
+                }
+            });
+
+            // Tests android:dropDownVerticalOffset
+            assertPositive((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}), (Integer)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownVerticalOffset"}));
+                }
+            });
+
+            // Tests android:dropDownWidth ( getDropDownWidth() es Level 16)
+            assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),ValueUtil.dpToPixelInt(200, res));
+            assertEquals((Integer)TestUtil.getField(compLayout, "mDropDownWidth"),(Integer)TestUtil.getField(parsedLayout, "mDropDownWidth"));
+
+            // Tests android:gravity (no get en Level 15)
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+            {
+                @Override
+                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                {
+                    // No se consolida hasta que se hace el Layout
+                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
+                }
+            });
+
+            // Tests android:popupBackground
+            assertEquals(((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"})).getColor(), 0xffeeee55);
+            assertEquals((ColorDrawable)TestUtil.getField(compLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}),(ColorDrawable)TestUtil.getField(parsedLayout, new Class[]{Spinner.class, ListPopupWindow.class, PopupWindow.class}, new String[]{"mPopup", "mPopup", "mBackground"}));
+
+            // Test style (necesario testear porque se construye de forma especial)
+
+            assertEquals(compLayout.getPaddingLeft(),ValueUtil.dpToPixelInt(21, res));
+            assertEquals(compLayout.getPaddingLeft(),parsedLayout.getPaddingLeft());
+            assertEquals(compLayout.getPaddingRight(),ValueUtil.dpToPixelInt(21, res));
+            assertEquals(compLayout.getPaddingRight(),parsedLayout.getPaddingRight());
+
+        }
+
+        childCount++;
+
+        // Test Spinner (dialog)
+        {
+            final Spinner compLayout = (Spinner) comp.getChildAt(childCount);
+            final Spinner parsedLayout = (Spinner) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getPrompt(), "Sport List");
+            assertEquals(compLayout.getPrompt(), parsedLayout.getPrompt());
+        }
 
 
         childCount++;
@@ -533,6 +704,16 @@ public class TestLocalXMLInflate1
             assertEquals((Integer)TestUtil.getField(compLayout, "mForegroundGravity"), (Integer)TestUtil.getField(parsedLayout, "mForegroundGravity"));
             assertTrue(compLayout.getMeasureAllChildren());
             assertEquals(compLayout.getMeasureAllChildren(), parsedLayout.getMeasureAllChildren());
+        }
+
+        childCount++;
+
+        // Space for page scrolling
+        {
+            final TextView compTextView = (TextView) comp.getChildAt(childCount);
+            final TextView parsedTextView = (TextView) parsed.getChildAt(childCount);
+            assertEquals(compTextView.getText(), "(space for page scrolling)");
+            assertEquals(compTextView.getText(), parsedTextView.getText());
         }
 
 
@@ -765,6 +946,165 @@ public class TestLocalXMLInflate1
             assertEquals((Integer)TestUtil.getField(compLayout,"mFlipInterval"),(Integer)TestUtil.getField(parsedLayout,"mFlipInterval"));
         }
 
+
+        childCount++;
+
+        // Test GridLayout Attribs Horizontal
+        {
+            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
+            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getColumnCount(),3);
+            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
+            assertFalse(compLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.getOrientation(),GridLayout.HORIZONTAL);
+            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+            assertEquals(compLayout.getRowCount(), 3);
+            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
+            assertFalse(compLayout.isRowOrderPreserved());
+            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
+            assertTrue(compLayout.getUseDefaultMargins());
+            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
+
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    final TextView compTextView = (TextView) compLayout.getChildAt(i);
+                    final TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                    // Testeamos via Spec los atributos: android:layout_column, android:layout_columnSpan y android:layout_gravity
+
+                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
+                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    {
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                        {
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
+                    });
+                }
+            }
+        }
+
+        childCount++;
+
+        // Test GridLayout Attribs Vertical
+        {
+            final GridLayout compLayout = (GridLayout) comp.getChildAt(childCount);
+            final GridLayout parsedLayout = (GridLayout) parsed.getChildAt(childCount);
+            assertEquals(compLayout.getAlignmentMode(),GridLayout.ALIGN_BOUNDS);
+            assertEquals(compLayout.getColumnCount(),3);
+            assertEquals(compLayout.getColumnCount(), parsedLayout.getColumnCount());
+            assertFalse(compLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.isColumnOrderPreserved(), parsedLayout.isColumnOrderPreserved());
+            assertEquals(compLayout.getOrientation(),GridLayout.VERTICAL);
+            assertEquals(compLayout.getOrientation(),parsedLayout.getOrientation());
+            assertEquals(compLayout.getRowCount(), 3);
+            assertEquals(compLayout.getRowCount(),parsedLayout.getRowCount());
+            assertFalse(compLayout.isRowOrderPreserved());
+            assertEquals(compLayout.isRowOrderPreserved(), parsedLayout.isRowOrderPreserved());
+            assertTrue(compLayout.getUseDefaultMargins());
+            assertEquals(compLayout.getUseDefaultMargins(), parsedLayout.getUseDefaultMargins());
+
+            {
+
+                for (int i = 0; i < 5; i++)
+                {
+                    TextView compTextView = (TextView) compLayout.getChildAt(i);
+                    TextView parsedTextView = (TextView) parsedLayout.getChildAt(i);
+                    // Testeamos via Specs los atributos: android:layout_row, android:layout_rowSpan y android:layout_gravity
+                    final GridLayout.LayoutParams compParams = (GridLayout.LayoutParams) compTextView.getLayoutParams();
+                    final GridLayout.LayoutParams parsedParams = (GridLayout.LayoutParams) parsedTextView.getLayoutParams();
+                    parsedTextView.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+                    {
+                        @Override
+                        public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
+                        {
+                            assertTrue(compParams.columnSpec.equals(parsedParams.columnSpec));
+                            assertTrue(compParams.rowSpec.equals(parsedParams.rowSpec));
+                        }
+                    });
+                }
+
+            }
+
+        }
+
+
+
+
+        childCount++;
+
+        // Test LinearLayout Attribs
+        {
+            final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+
+            assertFalse(compLayout.isBaselineAligned());
+            assertEquals(compLayout.isBaselineAligned(), parsedLayout.isBaselineAligned());
+            assertEquals(compLayout.getBaselineAlignedChildIndex(), 1);
+            assertEquals(compLayout.getBaselineAlignedChildIndex(), parsedLayout.getBaselineAlignedChildIndex());
+            // Tests android:divider (getDividerDrawable() es Level 16):
+            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
+            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
+
+            assertEquals(compLayout.getShowDividers(), 3);
+            assertEquals(compLayout.getShowDividers(), parsedLayout.getShowDividers());
+            assertEquals(compLayout.getDividerPadding(), ValueUtil.dpToPixelInt(10, res));
+            assertEquals(compLayout.getDividerPadding(),parsedLayout.getDividerPadding());
+            assertTrue(compLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLayout.isMeasureWithLargestChildEnabled(), parsedLayout.isMeasureWithLargestChildEnabled());
+            assertEquals(compLayout.getWeightSum(),1.0f);
+            assertEquals(compLayout.getWeightSum(), parsedLayout.getWeightSum());
+        }
+
+        childCount++;
+
+        // Test LinearLayout gravity
+        {
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.TOP |Gravity.RIGHT);
+            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
+            {
+                final TextView compTextView = (TextView) compLayout.getChildAt(0);
+                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
+
+                assertEquals(compTextView.getText(),"Test LinearLayout gravity 1");
+                assertEquals(compTextView.getText(), parsedTextView.getText());
+                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
+            }
+        }
+
+        childCount++;
+
+        // Testing LinearLayout.LayoutParams
+        {
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+            for(int i = 0; i < 2; i++)
+            {
+                TextView compTextView1 = (TextView) compLayout.getChildAt(i);
+                TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(i);
+                assertEquals(compTextView1.getText(), parsedTextView1.getText());
+                assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
+
+                LinearLayout.LayoutParams compParams = (LinearLayout.LayoutParams)compTextView1.getLayoutParams();
+                LinearLayout.LayoutParams parsedParams = (LinearLayout.LayoutParams)parsedTextView1.getLayoutParams();
+
+                if (i == 0) assertEquals(compParams.gravity,Gravity.TOP|Gravity.LEFT);
+                else assertEquals(compParams.gravity,Gravity.BOTTOM|Gravity.RIGHT);
+                assertEquals(compParams.gravity,parsedParams.gravity);
+
+                if (i == 0) assertEquals(compParams.weight,70);
+                else assertEquals(compParams.weight,30);
+                assertEquals(compParams.weight,parsedParams.weight);
+            }
+        }
+
         childCount++;
 
         // Test Test RadioGroup (y RadioButton que no tiene atribs)
@@ -891,75 +1231,6 @@ public class TestLocalXMLInflate1
 
         childCount++;
 
-        // Test LinearLayout Attribs
-        {
-            final LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
-            final LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
-
-            assertFalse(compLayout.isBaselineAligned());
-            assertEquals(compLayout.isBaselineAligned(), parsedLayout.isBaselineAligned());
-            assertEquals(compLayout.getBaselineAlignedChildIndex(), 1);
-            assertEquals(compLayout.getBaselineAlignedChildIndex(), parsedLayout.getBaselineAlignedChildIndex());
-            // Tests android:divider (getDividerDrawable() es Level 16):
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mDivider"));
-
-            assertEquals(compLayout.getShowDividers(), 3);
-            assertEquals(compLayout.getShowDividers(), parsedLayout.getShowDividers());
-            assertEquals(compLayout.getDividerPadding(), ValueUtil.dpToPixelInt(10, res));
-            assertEquals(compLayout.getDividerPadding(),parsedLayout.getDividerPadding());
-            assertTrue(compLayout.isMeasureWithLargestChildEnabled());
-            assertEquals(compLayout.isMeasureWithLargestChildEnabled(), parsedLayout.isMeasureWithLargestChildEnabled());
-            assertEquals(compLayout.getWeightSum(),1.0f);
-            assertEquals(compLayout.getWeightSum(), parsedLayout.getWeightSum());
-        }
-
-        childCount++;
-
-        // Test LinearLayout gravity
-        {
-            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.TOP |Gravity.RIGHT);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
-            {
-                final TextView compTextView = (TextView) compLayout.getChildAt(0);
-                final TextView parsedTextView = (TextView) parsedLayout.getChildAt(0);
-
-                assertEquals(compTextView.getText(),"Test LinearLayout gravity 1");
-                assertEquals(compTextView.getText(), parsedTextView.getText());
-                assertEquals(compTextView.getBackground(), parsedTextView.getBackground());
-            }
-        }
-
-        childCount++;
-
-        // Testing LinearLayout.LayoutParams
-        {
-            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
-            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
-            for(int i = 0; i < 2; i++)
-            {
-                TextView compTextView1 = (TextView) compLayout.getChildAt(i);
-                TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(i);
-                assertEquals(compTextView1.getText(), parsedTextView1.getText());
-                assertEquals(compTextView1.getBackground(), compTextView1.getBackground());
-
-                LinearLayout.LayoutParams compParams = (LinearLayout.LayoutParams)compTextView1.getLayoutParams();
-                LinearLayout.LayoutParams parsedParams = (LinearLayout.LayoutParams)parsedTextView1.getLayoutParams();
-
-                if (i == 0) assertEquals(compParams.gravity,Gravity.TOP|Gravity.LEFT);
-                else assertEquals(compParams.gravity,Gravity.BOTTOM|Gravity.RIGHT);
-                assertEquals(compParams.gravity,parsedParams.gravity);
-
-                if (i == 0) assertEquals(compParams.weight,70);
-                else assertEquals(compParams.weight,30);
-                assertEquals(compParams.weight,parsedParams.weight);
-            }
-        }
-
-        childCount++;
-
         // Test RelativeLayout (gravity)
         {
             final RelativeLayout compLayout = (RelativeLayout) comp.getChildAt(childCount);
@@ -1042,152 +1313,6 @@ public class TestLocalXMLInflate1
             }
         }
 
-        childCount++;
-
-        // Test AbsListView
-        {
-            ListView compLayout = (ListView) comp.getChildAt(childCount);
-            ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
-
-            assertEquals(compLayout.getCacheColorHint(),0xffff0000);
-            assertEquals(compLayout.getCacheColorHint(), parsedLayout.getCacheColorHint());
-            assertEquals(compLayout.getChoiceMode(), AbsListView.CHOICE_MODE_MULTIPLE);
-            assertEquals(compLayout.getChoiceMode(), parsedLayout.getChoiceMode());
-            // No podemos testear android:drawSelectorOnTop porque no hay un isDrawSelectorOnTop
-            assertFalse(compLayout.isFastScrollEnabled()); // Preferiría testear el true pero no se porqué razón se ignora el true
-            assertEquals(compLayout.isFastScrollEnabled(), parsedLayout.isFastScrollEnabled());
-            // android:listSelector
-            assertEquals(((ColorDrawable)compLayout.getSelector()).getColor(), 0x6600ff00);
-            assertEquals(compLayout.getSelector(), parsedLayout.getSelector());
-            assertFalse(compLayout.isScrollingCacheEnabled());
-            assertEquals(compLayout.isScrollingCacheEnabled(), parsedLayout.isScrollingCacheEnabled());
-            assertFalse(compLayout.isSmoothScrollbarEnabled());
-            assertEquals(compLayout.isSmoothScrollbarEnabled(), parsedLayout.isSmoothScrollbarEnabled());
-            assertTrue(compLayout.isStackFromBottom());
-            assertEquals(compLayout.isStackFromBottom(), parsedLayout.isStackFromBottom());
-            assertTrue(compLayout.isTextFilterEnabled());
-            assertEquals(compLayout.isTextFilterEnabled(), parsedLayout.isTextFilterEnabled());
-            assertEquals(compLayout.getTranscriptMode(), AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
-            assertEquals(compLayout.getTranscriptMode(), parsedLayout.getTranscriptMode());
-
-         }
-
-        childCount++;
-
-        // Test GridView
-        {
-            final GridView compLayout = (GridView) comp.getChildAt(childCount);
-            final GridView parsedLayout = (GridView) parsed.getChildAt(childCount);
-
-            // Tests android:columnWidth (getColumnWidth es Level 16):
-            // En teoría existe el atributo mColumnWidth pero el valor final puede no coincidir con el columnWidth especificado
-            // porque es corregido dinámicamente
-            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),ValueUtil.dpToPixelInt(30, res));
-            assertEquals((Integer)TestUtil.getField(compLayout, "mRequestedColumnWidth"),(Integer)TestUtil.getField(parsedLayout, "mRequestedColumnWidth"));
-
-            // Tests android:gravity (getGravity es Level 16)
-            assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"), Gravity.CENTER_VERTICAL|Gravity.CENTER_HORIZONTAL);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mGravity"),(Integer)TestUtil.getField(parsedLayout, "mGravity"));
-                }
-            });
-
-            // Tests android:horizontalSpacing (getHorizontalSpacing es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),ValueUtil.dpToPixelInt(5, res));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mHorizontalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mHorizontalSpacing"));
-                }
-            });
-            assertEquals(compLayout.getNumColumns(), 3);
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // Usamos un OnLayoutChangeListener porque el setNumColumns define un atributo "request" que no es el atributo
-                    // donde va el numColumns definitivo el cual se calcula al hacer el layout
-                    assertEquals(compLayout.getNumColumns(),parsedLayout.getNumColumns());
-                }
-            });
-            assertEquals(compLayout.getStretchMode(),GridView.STRETCH_COLUMN_WIDTH); // Es el modo por defecto pero los demás modos en nuestro test se ven muy mal
-            assertEquals(compLayout.getStretchMode(), parsedLayout.getStretchMode());
-
-            // Tests android:verticalSpacing (getVerticalSpacing es Level 16):
-            assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),ValueUtil.dpToPixelInt(5, res));
-            parsedLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
-            {
-                @Override
-                public void onLayoutChange(View view, int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8)
-                {
-                    // No se consolida hasta que se hace el Layout
-                    assertEquals((Integer)TestUtil.getField(compLayout, "mVerticalSpacing"),(Integer)TestUtil.getField(parsedLayout, "mVerticalSpacing"));
-                }
-            });
-        }
-
-        childCount++;
-
-        // Test ListView
-        {
-            final ListView compLayout = (ListView) comp.getChildAt(childCount);
-            final ListView parsedLayout = (ListView) parsed.getChildAt(childCount);
-
-            // Test android:divider
-            // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth((GradientDrawable) compLayout.getDivider(), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals((GradientDrawable) compLayout.getDivider(),(GradientDrawable) parsedLayout.getDivider());
-
-            assertEquals(compLayout.getDividerHeight(),ValueUtil.dpToPixelInt(2, res));
-            assertEquals(compLayout.getDividerHeight(),parsedLayout.getDividerHeight());
-            // Test android:footerDividersEnabled (areFooterDividersEnabled es Level 19)
-            assertFalse((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"));
-            assertEquals((Boolean)TestUtil.getField(compLayout, "mFooterDividersEnabled"), (Boolean)TestUtil.getField(parsedLayout, "mFooterDividersEnabled"));
-            // Test android:headerDividersEnabled (areHeaderDividersEnabled es Level 19)
-            assertFalse((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"));
-            assertEquals((Boolean)TestUtil.getField(compLayout, "mHeaderDividersEnabled"),(Boolean)TestUtil.getField(parsedLayout, "mHeaderDividersEnabled"));
-
-        }
-
-        childCount++;
-
-        // Test ExpandableListView
-        {
-            final ExpandableListView compLayout = (ExpandableListView) comp.getChildAt(childCount);
-            final ExpandableListView parsedLayout = (ExpandableListView) parsed.getChildAt(childCount);
-
-            // Test android:childDivider, no hay método get
-            // Test visual: líneas rojas separadoras de items
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), ValueUtil.dpToPixelInt(0.9f, res));
-            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildDivider"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildDivider"));
-
-            // Test android:childIndicator, no hay método get, si no se define devuelve null
-            assertEqualsStrokeWidth((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), ValueUtil.dpToPixelInt(2f, res));
-            assertEquals((GradientDrawable) TestUtil.getField(compLayout, "mChildIndicator"), (GradientDrawable) TestUtil.getField(parsedLayout, "mChildIndicator"));
-
-            // Test android:childIndicatorLeft, no hay método get
-            // No podemos testearlo porque por ej en 4.4.1 tras definir mChildIndicatorLeft y mChildIndicatorright
-            // se llama a un método que los cambia de nuevo de una forma inexplicable, en 4.0.3 no hay tal llamada
-            //assertPositive((Integer)TestUtil.getField(compLayout,"mChildIndicatorLeft"));
-            //assertEquals((Integer)getField(compLayout,"mChildIndicatorLeft"),(Integer)getField(parsedLayout,"mChildIndicatorLeft"));
-            // No testeamos android:childIndicatorRight pues tenemos idéntico problema que childIndicatorLeft
-
-            // Test android:groupIndicator, no hay método get
-            assertNotNull((StateListDrawable)TestUtil.getField(compLayout, "mGroupIndicator"));
-            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"), (StateListDrawable) TestUtil.getField(parsedLayout, "mGroupIndicator"));
-
-            // No testeamos android:indicatorLeft ni indicatorRight porque les pasa igual que a childIndicatorLeft
-            //assertPositive((Integer)getField(compLayout,"mIndicatorLeft"));
-        }
 
         childCount++;
 

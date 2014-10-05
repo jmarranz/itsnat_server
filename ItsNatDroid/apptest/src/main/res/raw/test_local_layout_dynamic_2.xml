@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.itsnat.itsnatdroidtest.MainActivity">
-
     <!--
-        "#dddddd" gris oscuro
+        "#dddddd" gris claro
         "#ffdddd" rosa
-        "#aaaaaa" gris claro
+        "#aaaaaa" gris oscuro
         "#55ddffdd" verde claro
         "#eeee55" amarillo
     -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,44 +29,6 @@
             android:layout_height="wrap_content"
             android:text="@string/button_reload" />
 
-        <!-- Test AbsSpinner (entries sólo) y Gallery
-        Gallery está deprecated pero desde el level 16 -->
-        <Gallery
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#dddddd"
-            android:entries="@array/sports_array"
-            android:animationDuration="100"
-            android:gravity="center_vertical"
-            android:spacing="50dp"
-            android:unselectedAlpha="0.6">
-        </Gallery>
-
-        <!-- Test Spinner (dropdown)
-        Las diferencias visuales entre compilado y dinámico se deben inexplicablemente al uso de style -->
-        <Spinner
-            android:id="@id/spinnerDropdownTestId"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:dropDownHorizontalOffset="21dp"
-            android:dropDownVerticalOffset="10dp"
-            android:dropDownWidth="200dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:popupBackground="#eeee55"
-            android:spinnerMode="dropdown"
-            style="@style/spinner_style_test"
-            >
-        </Spinner> <!-- dropDownHorizontalOffset lo ponemos igual al paddingLeft del style porque realmente se solapan -->
-
-        <!-- Test Spinner (dialog) -->
-        <Spinner
-            android:id="@id/spinnerDialogTestId"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:prompt="@string/sport_list"
-            android:spinnerMode="dialog"
-            >
-        </Spinner>
 
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper
@@ -93,6 +53,7 @@
             android:hand_hour="@drawable/clock_hand_hour"
             android:hand_minute="@drawable/clock_hand_minute"
             > <!-- los drawables están copiados del SDK de Android retocados -->
+
         </AnalogClock>
 
 
@@ -109,8 +70,7 @@
             android:maxWidth="1000dp"
             android:scaleType="centerInside"
             android:src="@drawable/child_indicator_test"
-            android:tint="#55eeee55"
-            />
+            android:tint="#55eeee55"/>
 
         <!-- Test ProgressBar (indeterminate) -->
         <ProgressBar
@@ -153,7 +113,8 @@
             android:numStars="6"
             android:rating="5.25"
             android:stepSize="0.75"
-            /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido -->
+            /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido
+                idem stepSize -->
 
         <!-- Test SeekBar -->
         <SeekBar
@@ -220,9 +181,9 @@
         <!-- No ponemos android:height, android:maxHeight y android:minHeight porque se pisa con android:lines y android:singleLine
              No ponemos android:width, android:maxWidth y android:minWidth  porque se pisa con android:ems
              imeActionId="0x00000002" es la acción Go
-             textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico pero no en el compilado
-             No he conseguido aquí hacer funcionar el android:ellipsize="marquee" ni siquiera con setSelected(true), es una chorrada que no merece la pena
-             No he conseguido aquí hacer funcionar textAllCaps (ha de ser no editable y textIsSelectable="false")
+             textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico
+             No he conseguido hacer funcionar el android:ellipsize="marquee" ni siquiera con setSelected(true), es una chorrada que no merece la pena
+             No he conseguido hacer funcionar textAllCaps
         -->
 
         <!-- TextView 2 -->
@@ -264,6 +225,5 @@
             />
 
     </LinearLayout>
-
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

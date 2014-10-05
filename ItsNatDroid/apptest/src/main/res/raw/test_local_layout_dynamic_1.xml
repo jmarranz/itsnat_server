@@ -205,69 +205,115 @@
 
         </LinearLayout>
 
-        <!-- Test GridLayout Attribs Horizontal -->
-        <GridLayout
+        <!-- Test AbsListView (y AdapterView) -->
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alignmentMode="alignBounds"
-            android:columnCount="3"
-            android:columnOrderPreserved="false"
-            android:orientation="horizontal"
-            android:rowCount="3"
-            android:rowOrderPreserved="false"
-            android:useDefaultMargins="true"
-            >
-            <TextView
-                android:text="Cell 0"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 1"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 2"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 3"
-                android:layout_column="1"
-                android:layout_columnSpan="2"
-                android:layout_gravity="fill|right"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 4"
-                android:background="#dddddd" />
-        </GridLayout>
+            android:layout_height="75dp"
+            android:background="#dddddd"
+            android:entries="@array/sports_array"
+            android:cacheColorHint="#ff0000"
+            android:choiceMode="multipleChoice"
+            android:drawSelectorOnTop="true"
+            android:fastScrollEnabled="false"
+            android:listSelector="#6600ff00"
+            android:scrollingCache="false"
+            android:smoothScrollbar="false"
+            android:stackFromBottom="true"
+            android:textFilterEnabled="true"
+            android:transcriptMode="alwaysScroll">
+        </ListView>
 
-        <!-- Test GridLayout Attribs Vertical -->
-        <GridLayout
+        <!-- Test GridView -->
+        <GridView android:id="@id/gridViewTestId"
+                  android:layout_width="match_parent"
+                  android:layout_height="75dp"
+                  android:background="#ffdddd"
+                  android:columnWidth="30dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:horizontalSpacing="5dp"
+                  android:numColumns="3"
+                  android:stretchMode="columnWidth"
+                  android:verticalSpacing="5dp">
+        </GridView>
+
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
+
+        <!-- Test ListView -->
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alignmentMode="alignBounds"
-            android:columnCount="3"
-            android:columnOrderPreserved="false"
-            android:orientation="vertical"
-            android:rowCount="3"
-            android:rowOrderPreserved="false"
-            android:useDefaultMargins="true"
+            android:layout_height="75dp"
+            android:background="#dddddd"
+            android:divider="@drawable/divider_horizontal_test"
+            android:dividerHeight="2dp"
+            android:entries="@array/sports_array"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+
+            > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
+        </ListView>
+
+        <!-- Test ExpandableListView -->
+        <!-- childIndicator* e indicator* están un poco al tontún porque no consigo
+         que funcionen como se espera en un Nexus 4, usar el emulador mejor para
+         verificar indicatorLeft/Right (childIndicator* ni idea) -->
+        <ExpandableListView
+            android:id="@id/expanListViewTestId"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#ffdddd"
+            android:childDivider="@drawable/divider_horizontal_test"
+            android:childIndicator="@drawable/child_indicator_test"
+            android:childIndicatorLeft="10dp"
+            android:childIndicatorRight="40dp"
+            android:groupIndicator="@drawable/group_indicator_test"
+            android:indicatorLeft="10dp"
+            android:indicatorRight="40dp">
+        </ExpandableListView>
+
+        <!-- Test AbsSpinner (entries sólo) y Gallery
+        Gallery está deprecated pero desde el level 16 -->
+        <Gallery
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#dddddd"
+            android:entries="@array/sports_array"
+            android:animationDuration="100"
+            android:gravity="center_vertical"
+            android:spacing="50dp"
+            android:unselectedAlpha="0.6">
+        </Gallery>
+
+        <!-- Test Spinner (dropdown)
+        Las diferencias visuales entre compilado y dinámico se deben inexplicablemente al uso de style -->
+        <Spinner
+            android:id="@id/spinnerDropdownTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:dropDownHorizontalOffset="21dp"
+            android:dropDownVerticalOffset="10dp"
+            android:dropDownWidth="200dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:popupBackground="#eeee55"
+            android:spinnerMode="dropdown"
+            style="@style/spinner_style_test"
             >
-            <TextView
-                android:text="Cell 0"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 1"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 2"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 3"
-                android:layout_row="1"
-                android:layout_rowSpan="2"
-                android:layout_gravity="fill|right"
-                android:background="#dddddd" />
-            <TextView
-                android:text="Cell 4"
-                android:background="#dddddd" />
-        </GridLayout>
+        </Spinner> <!-- dropDownHorizontalOffset lo ponemos igual al paddingLeft del style porque realmente se solapan -->
+
+        <!-- Test Spinner (dialog) -->
+        <Spinner
+            android:id="@id/spinnerDialogTestId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:prompt="@string/sport_list"
+            android:spinnerMode="dialog"
+            >
+        </Spinner>
+
 
         <!-- Test FrameLayout Attribs -->
         <FrameLayout
@@ -283,6 +329,13 @@
                 android:text="Test FrameLayout Attribs"
                 android:background="#dddddd" />
         </FrameLayout>
+
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
 
         <!-- Test CalendarView Attribs -->
         <CalendarView
@@ -410,162 +463,70 @@
 
         </ViewFlipper>
 
-        <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checkedButton="@+id/radioFemale"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radioMale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Male" />
-
-            <RadioButton
-                android:id="@+id/radioFemale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Female" />
-
-        </RadioGroup>
-
-        <!-- Test SearchView attribs -->
-        <SearchView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:iconifiedByDefault="false"
-            android:imeOptions="actionGo|actionSearch"
-            android:inputType="number|date"
-            android:maxWidth="250dp"
-            android:queryHint="The hint (SearchView)"
-            >
-
-        </SearchView>
-
-        <!-- Test TabWidget (y necesariamente TabHost) -->
-        <TabHost
-            android:id="@id/tabHostTest"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:divider="@drawable/divider_vertical_holo_dark"
-                    android:tabStripEnabled="true"
-                    android:tabStripLeft="@drawable/tab_bottom_left"
-                    android:tabStripRight="@drawable/tab_bottom_right"
-                    >
-                </TabWidget>
-
-                <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp" >
-
-                    <LinearLayout
-                        android:id="@id/tab1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tab 1 Content" />
-                    </LinearLayout> <!-- android:id="@+id/textView1" -->
-
-                    <LinearLayout
-                        android:id="@id/tab2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tab 2 Content" />
-                    </LinearLayout> <!-- android:id="@+id/textView2" -->
-
-                    <LinearLayout
-                        android:id="@id/tab3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-                        <TextView
-
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tab 3 Content" />
-                    </LinearLayout> <!-- android:id="@+id/textView3" -->
-
-                </FrameLayout>
-            </LinearLayout>
-        </TabHost>
-
-        <!-- Test TableLayout (y TableRow y TableLayout.LayoutParams)
-         http://www.mkyong.com/android/android-tablelayout-example/
-        -->
-        <TableLayout
+        <!-- Test GridLayout Attribs Horizontal -->
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:collapseColumns="3,4"
-            android:shrinkColumns="0,1"
-            android:stretchColumns="0,1"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            android:orientation="horizontal"
+            android:rowCount="3"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
             >
+            <TextView
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
+                android:background="#dddddd" />
+        </GridLayout>
 
-            <!-- 2 columns -->
-            <TableRow
-                android:padding="5dip" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:text="Col 0" />
-                <Button
-                    android:layout_height="wrap_content"
-                    android:text="Col 1" />
-            </TableRow>
+        <!-- Test GridLayout Attribs Vertical -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            android:orientation="vertical"
+            android:rowCount="3"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
+            >
+            <TextView
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_row="1"
+                android:layout_rowSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
+                android:background="#dddddd" />
+        </GridLayout>
 
-            <!-- span 2 column -->
-            <TableRow
-                android:padding="5dip" >
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:layout_span="2"
-                    android:text="Col 1 &amp; 2" />
-            </TableRow>
-
-            <!-- just draw a red line -->
-            <View
-                android:layout_height="2dip"
-                android:background="#FF0000" />
-
-            <!-- 5 columns -->
-            <TableRow
-                android:padding="5dip" >
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:text="Col 0" />
-                <Button
-                    android:layout_height="wrap_content"
-                    android:text="Col 1" />
-                <Button
-                    android:layout_height="wrap_content"
-                    android:text="Col 2" />
-                <Button
-                    android:layout_height="wrap_content"
-                    android:text="Col 3" /> <!-- will be collapsed -->
-                <Button
-                    android:layout_height="wrap_content"
-                    android:text="Col 4" /> <!-- will be collapsed -->
-            </TableRow>
-
-        </TableLayout>
 
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
@@ -643,6 +604,159 @@
 
         </LinearLayout>
 
+        <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/radioFemale"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+        </RadioGroup>
+
+        <!-- Test SearchView attribs -->
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
+            android:imeOptions="actionGo|actionSearch"
+            android:inputType="number|date"
+            android:maxWidth="250dp"
+            android:queryHint="The hint (SearchView)"
+            >
+        </SearchView>
+
+        <!-- Test TabWidget (y necesariamente TabHost) -->
+        <TabHost
+            android:id="@id/tabHostTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_vertical_holo_dark"
+                    android:tabStripEnabled="true"
+                    android:tabStripLeft="@drawable/tab_bottom_left"
+                    android:tabStripRight="@drawable/tab_bottom_right">
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" >
+
+                    <LinearLayout
+                        android:id="@id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 1 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView1" -->
+
+                    <LinearLayout
+                        android:id="@id/tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 2 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView2" -->
+
+                    <LinearLayout
+                        android:id="@id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 3 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView3" -->
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+        <!-- Test TableLayout (y TableRow y TableLayout.LayoutParams)
+         http://www.mkyong.com/android/android-tablelayout-example/
+        -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:collapseColumns="3,4"
+            android:shrinkColumns="0,1"
+            android:stretchColumns="0,1"
+            >
+
+            <!-- 2 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+            </TableRow>
+
+            <!-- span 2 column -->
+            <TableRow
+                android:padding="5dip" >
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_span="2"
+                    android:text="Col 1 &amp; 2" />
+            </TableRow>
+
+            <!-- just draw a red line -->
+            <View
+                android:layout_height="2dip"
+                android:background="#FF0000" />
+
+            <!-- 5 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 2" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 3" /> <!-- will be collapsed -->
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 4" /> <!-- will be collapsed -->
+            </TableRow>
+
+        </TableLayout>
+
+
         <!-- Test RelativeLayout (gravity) -->
         <RelativeLayout
             android:layout_width="match_parent"
@@ -699,69 +813,6 @@
                 android:layout_toRightOf="@id/testRelLayoutId"/>
 
         </RelativeLayout>
-
-        <!-- Test AbsListView -->
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="#dddddd"
-            android:entries="@array/sports_array"
-            android:cacheColorHint="#ff0000"
-            android:choiceMode="multipleChoice"
-            android:drawSelectorOnTop="true"
-            android:fastScrollEnabled="false"
-            android:listSelector="#6600ff00"
-            android:scrollingCache="false"
-            android:smoothScrollbar="false"
-            android:stackFromBottom="true"
-            android:textFilterEnabled="true"
-            android:transcriptMode="alwaysScroll">
-        </ListView>
-
-        <!-- Test GridView -->
-        <GridView android:id="@id/gridViewTestId"
-                  android:layout_width="match_parent"
-                  android:layout_height="75dp"
-                  android:background="#ffdddd"
-                  android:columnWidth="30dp"
-                  android:gravity="center_vertical|center_horizontal"
-                  android:horizontalSpacing="5dp"
-                  android:numColumns="3"
-                  android:stretchMode="columnWidth"
-                  android:verticalSpacing="5dp">
-        </GridView>
-
-        <!-- Test ListView -->
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:background="#dddddd"
-            android:divider="@drawable/divider_horizontal_test"
-            android:dividerHeight="2dp"
-            android:entries="@array/sports_array"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-
-            > <!-- nota: dividerHeight sobreescribe el <size> del drawable del android:divider -->
-        </ListView>
-
-        <!-- Test ExpandableListView -->
-        <!-- childIndicator* e indicator* están un poco al tontún porque no consigo
-         que funcionen como se espera en un Nexus 4, usar el emulador mejor para
-         verificar indicatorLeft/Right (childIndicator* ni idea) -->
-        <ExpandableListView
-            android:id="@id/expanListViewTestId"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#ffdddd"
-            android:childDivider="@drawable/divider_horizontal_test"
-            android:childIndicator="@drawable/child_indicator_test"
-            android:childIndicatorLeft="10dp"
-            android:childIndicatorRight="40dp"
-            android:groupIndicator="@drawable/group_indicator_test"
-            android:indicatorLeft="10dp"
-            android:indicatorRight="40dp">
-        </ExpandableListView>
 
         <!-- space for page scrolling -->
         <TextView
