@@ -30,6 +30,8 @@ import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
@@ -831,7 +833,7 @@ public class TestLocalXMLInflate1
             assertNotNull((StateListDrawable) TestUtil.getField(parsedTabWidget, "mLeftStrip"));
             assertNotNull((StateListDrawable) TestUtil.getField(comTabWidget, "mRightStrip"));
             assertNotNull((StateListDrawable) TestUtil.getField(parsedTabWidget, "mRightStrip"));
-            /* No se porqué falla, pues se ven igual
+            /* No se porqué falla, pues se ven igual los dos layouts
             parsedTabWidget.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
             {
                 @Override
@@ -843,8 +845,49 @@ public class TestLocalXMLInflate1
             });
             */
 
-            //System.out.println("PARAR");
         }
+
+        childCount++;
+
+        // Test TableLayout (y TableRow y TableLayout.LayoutParams)
+        {
+            final TableLayout compLayout = (TableLayout) comp.getChildAt(childCount);
+            final TableLayout parsedLayout = (TableLayout) parsed.getChildAt(childCount);
+
+            int maxColumnsRow = 5;
+            // Test android:collapseColumns
+            for(int i = 0; i < maxColumnsRow; i++)
+            {
+                if ((i == 3) || (i == 4)) assertTrue(compLayout.isColumnCollapsed(i));
+                else assertFalse(compLayout.isColumnCollapsed(i));
+                assertEquals(compLayout.isColumnCollapsed(i), parsedLayout.isColumnCollapsed(i));
+            }
+            // Test android:shrinkColumns
+            for(int i = 0; i < maxColumnsRow; i++)
+            {
+                if ((i == 0) || (i == 1)) assertTrue(compLayout.isColumnShrinkable(i));
+                else assertFalse(compLayout.isColumnShrinkable(i));
+                assertEquals(compLayout.isColumnShrinkable(i), parsedLayout.isColumnShrinkable(i));
+            }
+            // Test android:stretchColumns
+            for(int i = 0; i < maxColumnsRow; i++)
+            {
+                if ((i == 0) || (i == 1)) assertTrue(compLayout.isColumnStretchable(i));
+                else assertFalse(compLayout.isColumnStretchable(i));
+                assertEquals(compLayout.isColumnStretchable(i), parsedLayout.isColumnStretchable(i));
+            }
+
+            // Test TableRow.LayoutParams (android:layout_column y android:layout_span)
+            TableRow compRow = (TableRow)compLayout.getChildAt(1);
+            TableRow parsedRow = (TableRow)parsedLayout.getChildAt(1);
+            TableRow.LayoutParams compParams = (TableRow.LayoutParams)compRow.getChildAt(0).getLayoutParams();
+            TableRow.LayoutParams parsedParams = (TableRow.LayoutParams)parsedRow.getChildAt(0).getLayoutParams();
+            assertEquals(compParams.column, 1);
+            assertEquals(compParams.column, parsedParams.column);
+            assertEquals(compParams.span, 2);
+            assertEquals(compParams.span, parsedParams.span);
+        }
+
 
         childCount++;
 

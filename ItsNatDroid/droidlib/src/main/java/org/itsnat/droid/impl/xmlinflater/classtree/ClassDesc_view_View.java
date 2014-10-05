@@ -28,6 +28,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_rel
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_rellayout_byId;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_row;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_rowSpan;
+import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_span;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_weight;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_layout_width;
 import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_View_onClick;
@@ -132,7 +133,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodDimensionFloat(this,"translationY",0f));
         addAttrDesc(new AttrDesc_view_View_visibility(this)); // "visibility"
 
-        // Debidos a ViewGroup
+        // Debidos a ViewGroup.LayoutParams
         addAttrDesc(new AttrDesc_view_View_layout_width(this));
         addAttrDesc(new AttrDesc_view_View_layout_height(this));
 
@@ -181,5 +182,9 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toLeftOf",RelativeLayout.LEFT_OF));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toRightOf",RelativeLayout.RIGHT_OF));
         addAttrDesc(new AttrDesc_view_View_layout_rellayout_byId(this,"layout_toStartOf",RelativeLayout.START_OF));
+
+        // Debidos a TableRow.LayoutParams
+        addAttrDesc(new AttrDesc_view_View_layout_span(this));
+
     }
 }

@@ -508,6 +508,65 @@
             </LinearLayout>
         </TabHost>
 
+        <!-- Test TableLayout (y TableRow y TableLayout.LayoutParams)
+         http://www.mkyong.com/android/android-tablelayout-example/
+        -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:collapseColumns="3,4"
+            android:shrinkColumns="0,1"
+            android:stretchColumns="0,1"
+            >
+
+            <!-- 2 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+            </TableRow>
+
+            <!-- span 2 column -->
+            <TableRow
+                android:padding="5dip" >
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_span="2"
+                    android:text="Col 1 &amp; 2" />
+            </TableRow>
+
+            <!-- just draw a red line -->
+            <View
+                android:layout_height="2dip"
+                android:background="#FF0000" />
+
+            <!-- 5 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 2" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 3" /> <!-- will be collapsed -->
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 4" /> <!-- will be collapsed -->
+            </TableRow>
+
+        </TableLayout>
+
         <!-- Test LinearLayout Attribs -->
         <LinearLayout
             android:layout_width="match_parent"

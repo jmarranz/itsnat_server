@@ -34,6 +34,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SearchView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TabWidget;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TableLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewFlipper;
@@ -198,8 +199,12 @@ public class ClassDescViewMgr
             ClassDesc_widget_TabWidget widget_TabWidget = new ClassDesc_widget_TabWidget(this,widget_LinearLayout);
             addClassDescViewBase(widget_TabWidget);
 
+            ClassDesc_widget_TableLayout widget_TableLayout = new ClassDesc_widget_TableLayout(this,widget_LinearLayout);
+            addClassDescViewBase(widget_TableLayout);
 
+            // android.widget.ZoomControls no tiene atributos
 
+        // android.support.v4.view.PagerTitleStrip no tiene atributos
 
         ClassDesc_widget_RelativeLayout widget_RelativeLayout = new ClassDesc_widget_RelativeLayout(this,view_ViewGroup);
         addClassDescViewBase(widget_RelativeLayout);

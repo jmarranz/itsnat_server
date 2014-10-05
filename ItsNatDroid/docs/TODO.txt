@@ -1,4 +1,5 @@
 
+* No olvidar TableLayout.LayoutParams
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 

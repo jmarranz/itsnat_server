@@ -33,6 +33,15 @@ public abstract class AttrDesc
     {
         this.parent = parent;
         this.name = name;
+
+        /* Para ver si nos hemos equivocado y name no se corresponde con el nombre de la clase específica
+        String className = getClass().getName();
+        if (!className.contains(name) &&
+            !className.contains("AttrDescReflec") &&
+            !className.contains("AttrDesc_view_View_layout_rellayout_byId") &&
+            !className.contains("AttrDesc_view_View_layout_rellayout_byBoolean")  )
+            System.out.println("ERROR: " + className);
+        */
     }
 
     public String getName()
@@ -202,7 +211,7 @@ public abstract class AttrDesc
 
     private static int getDimensionSuffixAsInt(String suffix)
     {
-        if (suffix.equals("dp"))
+        if (suffix.equals("dp") || suffix.equals("dip"))
             return TypedValue.COMPLEX_UNIT_DIP;
         else if (suffix.equals("px"))
             return TypedValue.COMPLEX_UNIT_PX;
@@ -222,6 +231,8 @@ public abstract class AttrDesc
 
         if (valueTrim.endsWith("dp"))
             return "dp";
+        if (valueTrim.endsWith("dip")) // Concesión al pasado
+            return "dip";
         else if (valueTrim.endsWith("px"))
             return "px";
         else if (valueTrim.endsWith("sp"))
