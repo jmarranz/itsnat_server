@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Build;
 import android.view.View;
+import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
@@ -72,11 +73,21 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
             datePicker.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+        defineAdapterViewAnimator(act, rootView);
         defineGridView(act, rootView);
         defineExpandableListView(act, rootView);
         defineSpinnerDialog(act, rootView);
         defineSpinnerDropdown(act, rootView);
-        defineTabHost(act,rootView);
+    }
+
+    private static void defineAdapterViewAnimator(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        AdapterViewFlipper viewFlipper = (AdapterViewFlipper)rootView.findViewById(R.id.adapterViewAnimatorTestId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
+                R.array.sports_array, android.R.layout.simple_list_item_1);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        viewFlipper.setAdapter(adapter);
     }
 
     private static void defineGridView(TestActivity act,View rootView)
@@ -159,24 +170,5 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
         gridView.setAdapter(adapter);
     }
 
-    private static void defineTabHost(TestActivity act,View rootView)
-    {
-        Resources res = act.getResources();
-        TabHost tabHost = (TabHost)rootView.findViewById(R.id.tabHostTest);
-        tabHost.setup();
 
-        setNewTab(act, tabHost, "tab1", "Tab 1", android.R.drawable.star_on, R.id.tab1);
-        setNewTab(act, tabHost, "tab2", "Tab 2", android.R.drawable.star_on, R.id.tab2);
-        setNewTab(act, tabHost, "tab3", "Tab 3", android.R.drawable.star_on, R.id.tab3);
-
-        //tabHost.setCurrentTabByTag("tab2"); //-- optional to set a tab programmatically.
-    }
-
-    private static void setNewTab(Context context,final TabHost tabHost, String tag, String title, int icon,final int contentID)
-    {
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
-        tabSpec.setIndicator(title, context.getResources().getDrawable(icon));
-        tabSpec.setContent(contentID);
-        tabHost.addTab(tabSpec);
-    }
 }

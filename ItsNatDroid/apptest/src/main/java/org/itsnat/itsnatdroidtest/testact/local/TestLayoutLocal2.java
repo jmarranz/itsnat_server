@@ -1,9 +1,9 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
-import android.widget.AdapterViewFlipper;
-import android.widget.ArrayAdapter;
+import android.widget.TabHost;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -51,19 +51,30 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
 
     private static void defineInitalData(TestActivity act,View rootView)
     {
-        defineAdapterViewAnimator(act, rootView);
+        defineTabHost(act,rootView);
     }
 
-
-
-    private static void defineAdapterViewAnimator(TestActivity act,View rootView)
+    private static void defineTabHost(TestActivity act,View rootView)
     {
         Resources res = act.getResources();
-        AdapterViewFlipper viewFlipper = (AdapterViewFlipper)rootView.findViewById(R.id.adapterViewAnimatorTestId);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(act,
-                R.array.sports_array, android.R.layout.simple_list_item_1);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        viewFlipper.setAdapter(adapter);
+        TabHost tabHost = (TabHost)rootView.findViewById(R.id.tabHostTest);
+        tabHost.setup();
+
+        setNewTab(act, tabHost, "tab1", "Tab 1", android.R.drawable.star_on, R.id.tab1);
+        setNewTab(act, tabHost, "tab2", "Tab 2", android.R.drawable.star_on, R.id.tab2);
+        setNewTab(act, tabHost, "tab3", "Tab 3", android.R.drawable.star_on, R.id.tab3);
+
+        //tabHost.setCurrentTabByTag("tab2"); //-- optional to set a tab programmatically.
     }
+
+    private static void setNewTab(Context context,final TabHost tabHost, String tag, String title, int icon,final int contentID)
+    {
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setIndicator(title, context.getResources().getDrawable(icon));
+        tabSpec.setContent(contentID);
+        tabHost.addTab(tabSpec);
+    }
+
+
 
 }

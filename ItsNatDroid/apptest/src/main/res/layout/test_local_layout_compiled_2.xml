@@ -29,200 +29,510 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_reload" />
 
-
-        <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
-        <AdapterViewFlipper
-            android:id="@id/adapterViewAnimatorTestId"
+        <!-- Test FrameLayout Attribs -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:foreground="#55ddffdd"
+            android:foregroundGravity="top|left"
+            android:measureAllChildren="true"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test FrameLayout Attribs"
+                android:background="#dddddd" />
+        </FrameLayout>
+
+
+
+        <!-- Test CalendarView Attribs -->
+        <CalendarView
+            android:id="@id/calendarViewTestId"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:dateTextAppearance="?android:attr/textAppearanceLarge"
+            android:firstDayOfWeek="3"
+            android:focusedMonthDateColor="#ff0000"
+            android:maxDate="01/01/2101"
+            android:minDate="01/01/1901"
+            android:selectedDateVerticalBar="@drawable/seek_thumb_normal"
+            android:selectedWeekBackgroundColor="#0000ff"
+            android:showWeekNumber="true"
+            android:shownWeekCount="5"
+            android:unfocusedMonthDateColor="#00cc00"
+            android:weekDayTextAppearance="?android:attr/textAppearanceLarge"
+            android:weekNumberColor="#aaaa77"
+            android:weekSeparatorLineColor="#aa8888"
+            >
+        </CalendarView>
+        <!-- Es necesario un layout_height concreto de otra forma tarda infinito y se ve mal
+            @android:style/Widget.CalendarView -->
+
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
+
+        <!-- Test DatePicker Attribs -->
+        <DatePicker
+            android:id="@id/datePickerTestId"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:calendarViewShown="true"
+            android:minDate="1/1/1901"
+            android:startYear="1902"
+            android:maxDate="12/31/2101"
+            android:endYear="2102"
+            android:spinnersShown="true"
+            >
+        </DatePicker> <!-- minDate y maxDate acaban ganando sobre startYear y endYear  -->
+
+        <!-- Test GestureOverlayView Attribs -->
+        <android.gesture.GestureOverlayView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="#dddddd"
+            android:eventsInterceptionEnabled="true"
+            android:fadeDuration="1000"
+            android:fadeEnabled="true"
+            android:fadeOffset="200"
+            android:gestureColor="#ff0000"
+            android:gestureStrokeAngleThreshold="30.1"
+            android:gestureStrokeLengthThreshold="35.1"
+            android:gestureStrokeSquarenessThreshold="0.21"
+            android:gestureStrokeType="multiple"
+            android:gestureStrokeWidth="20"
+            android:orientation="horizontal"
+            android:uncertainGestureColor="#00ff00"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="GestureOverlayView Test"/>
+
+        </android.gesture.GestureOverlayView> <!-- no consigo que se vea uncertainGestureColor -->
+
+        <!-- Test HorizontalScrollView -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="#ffdddd"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="2000dp"
+                android:layout_height="match_parent"
+                android:text="HorizontalScrollView Test"
+                android:textSize="40dp"/>
+
+        </HorizontalScrollView>
+
+        <!-- Test ScrollView -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#dddddd"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="2000dp"
+                android:layout_height="match_parent"
+                android:text="ScrollView Test"
+                android:textSize="50dp"/>
+
+        </ScrollView>
+
+        <!-- Test ViewAnimator y ViewFlipper  -->
+        <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:animateFirstView="true"
-            android:inAnimation="@animator/object_animator_test"
-            android:loopViews="true"
-            android:outAnimation="@animator/object_animator_test"
+            android:inAnimation="@anim/in_from_right"
+            android:outAnimation="@anim/out_to_right"
             android:autoStart="true"
             android:flipInterval="2000"
             >
 
-        </AdapterViewFlipper>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#55ff0000"
+                android:text="ViewFlipper Test 1"
+                android:textSize="20dp"/>
 
-        <!-- Test AnalogClock  -->
-        <AnalogClock
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#5500ff00"
+                android:text="ViewFlipper Test 2"
+                android:textSize="20dp"/>
+
+        </ViewFlipper>
+
+        <!-- Test GridLayout Attribs Horizontal -->
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:dial="@drawable/clock_dial"
-            android:hand_hour="@drawable/clock_hand_hour"
-            android:hand_minute="@drawable/clock_hand_minute"
-            > <!-- los drawables están copiados del SDK de Android retocados -->
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            android:orientation="horizontal"
+            android:rowCount="3"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
+            >
+            <TextView
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
+                android:background="#dddddd" />
+        </GridLayout>
 
-        </AnalogClock>
-
-
-        <!-- Test ImageView  -->
-        <ImageView
+        <!-- Test GridLayout Attribs Vertical -->
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#dddddd"
-            android:adjustViewBounds="true"
-            android:baseline="40dp"
-            android:baselineAlignBottom="true"
-            android:cropToPadding="true"
-            android:maxHeight="1000dp"
-            android:maxWidth="1000dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/child_indicator_test"
-            android:tint="#55eeee55"/>
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="3"
+            android:columnOrderPreserved="false"
+            android:orientation="vertical"
+            android:rowCount="3"
+            android:rowOrderPreserved="false"
+            android:useDefaultMargins="true"
+            >
+            <TextView
+                android:text="Cell 0"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 1"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 2"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 3"
+                android:layout_row="1"
+                android:layout_rowSpan="2"
+                android:layout_gravity="fill|right"
+                android:background="#dddddd" />
+            <TextView
+                android:text="Cell 4"
+                android:background="#dddddd" />
+        </GridLayout>
 
-        <!-- Test ProgressBar (indeterminate) -->
-        <ProgressBar
+
+        <!-- Test LinearLayout Attribs -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#ffdddd"
-            android:animationResolution="100"
-            android:indeterminate="true"
-            android:indeterminateBehavior="cycle"
-            android:indeterminateDrawable="@drawable/progress_medium_holo"
-            android:indeterminateDuration="6000"
-            android:indeterminateOnly="true"
-            android:interpolator="@android:anim/linear_interpolator"
-            />
-
-        <!-- Test ProgressBar (determinate) -->
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="#dddddd"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="90"
-            android:maxHeight="30dp"
-            android:maxWidth="30dp"
-            android:minHeight="20dp"
-            android:minWidth="20dp"
-            android:progress="30"
-            android:progressDrawable="@drawable/progressbar_drawable_test"
-            android:secondaryProgress="50"
-             />
-
-        <!-- Test RatingBar
-         Leer en el javadoc la necesidad de layout_width="wrap_content"
-        -->
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="#ffdddd"
-            android:isIndicator="false"
-            android:numStars="6"
-            android:rating="5.25"
-            android:stepSize="0.75"
-            /> <!-- android:rating sufre de alguna corrección por eso ponemos un valor ya corregido
-                idem stepSize -->
-
-        <!-- Test SeekBar -->
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#dddddd"
-            android:thumb="@drawable/seek_thumb"
-            android:progress="30"
-            />
-
-        <!-- TextView 1 -->
-        <TextView
-            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:background="#ffdddd"
-            android:autoLink="web|email"
-            android:bufferType="editable"
-            android:cursorVisible="true"
-            android:drawableBottom="@drawable/drawable_bottom_top_test"
-            android:drawableLeft="@drawable/drawable_left_right_test"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/drawable_left_right_test"
-            android:drawableTop="@drawable/drawable_bottom_top_test"
-            android:ellipsize="marquee"
-            android:ems="50"
-            android:freezesText="true"
-            android:gravity="center_vertical|center_horizontal"
-            android:hint="Hint Text Test"
-            android:imeActionId="0x00000002"
-            android:imeActionLabel="Gojm"
+            android:baselineAligned="false"
+            android:baselineAlignedChildIndex="1"
+            android:divider="@drawable/divider_horizontal_test"
+            android:showDividers="beginning|middle"
+            android:dividerPadding="10dp"
+            android:measureWithLargestChild="true"
+            android:orientation="vertical"
+            android:weightSum="1.0"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout Attribs"
+                android:background="#dddddd"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Some text"
+                android:background="#dddddd"/>
+
+        </LinearLayout>
+
+        <!-- Test LinearLayout gravity -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#dddddd"
+            android:gravity="top|right"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout gravity 1"
+                android:background="#aaaaaa"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinearLayout gravity 2"
+                android:background="#aaaaaa"/>
+
+        </LinearLayout>
+
+        <!-- Testing LinearLayout.LayoutParams -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#dddddd"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinLay.LayoutParams 1"
+                android:background="#aaaaaa"
+                android:layout_gravity="top|left"
+                android:layout_weight="70"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test LinLay.LayoutParams 2"
+                android:background="#aaaaaa"
+                android:layout_gravity="bottom|right"
+                android:layout_weight="30"/>
+
+        </LinearLayout>
+
+        <!-- Test RadioGroup (y RadioButton que no tiene atribs) -->
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/radioFemale"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+        </RadioGroup>
+
+        <!-- Test SearchView attribs -->
+        <SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:iconifiedByDefault="false"
             android:imeOptions="actionGo|actionSearch"
-            android:includeFontPadding="false"
-            android:inputType="text|number"
-            android:lineSpacingExtra="5dp"
-            android:lineSpacingMultiplier="1.2"
-            android:lines="1"
-            android:linksClickable="false"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxEms="50"
-            android:maxLength="1000"
-            android:maxLines="1"
-            android:minEms="50"
-            android:minLines="1"
-            android:privateImeOptions="com.example.myapp.JustToWriteSomething=3"
-            android:scrollHorizontally="true"
-            android:selectAllOnFocus="true"
-            android:shadowColor="#ff0000"
-            android:shadowDx="1.1"
-            android:shadowDy="1.2"
-            android:shadowRadius="1.3"
-            android:singleLine="true"
-            android:text="TextView Tests 1 (this text is cut on the right)"
-            android:textAllCaps="true"
-            android:textColor="#00ff00"
-            android:textColorHighlight="#0000ff"
-            android:textColorHint="#00ff00"
-            android:textColorLink="#0000ff"
-            android:textIsSelectable="false"
-            android:textScaleX="1.2"
-            android:textSize="15dp"
-            android:textStyle="bold|italic"
-            android:typeface="serif"
-            />
-            <!-- No ponemos android:height, android:maxHeight y android:minHeight porque se pisa con android:lines y android:singleLine
-                 No ponemos android:width, android:maxWidth y android:minWidth  porque se pisa con android:ems
-                 imeActionId="0x00000002" es la acción Go
-                 textIsSelectable es false porque si es true convierte en bufferType="spannable" en el layout dinámico
-                 No he conseguido hacer funcionar el android:ellipsize="marquee" ni siquiera con setSelected(true), es una chorrada que no merece la pena
-                 No he conseguido hacer funcionar textAllCaps
-            -->
+            android:inputType="number|date"
+            android:maxWidth="250dp"
+            android:queryHint="The hint (SearchView)"
+            >
+        </SearchView>
 
-        <!-- TextView 2 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="#dddddd"
-            android:singleLine="true"
-            android:text="TextView Tests 2 (this text is much more longer and is cut on the right with ellipsis points)"
-            android:textAllCaps="true"
-            android:textIsSelectable="false"
-            android:bufferType="spannable"
-            android:ellipsize="end"
-            android:height="30dp"
-            android:maxHeight="30dp"
-            android:maxWidth="200dp"
-            android:minHeight="30dp"
-            android:minWidth="200dp"
-            android:width="200dp"
-            /> <!-- textIsSelectable="false" necesario para que funcione textAllCaps -->
+        <!-- Test TabWidget (y necesariamente TabHost) -->
+        <TabHost
+            android:id="@id/tabHostTest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <!-- TextView 3 (textAppearance y hint) -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/divider_vertical_holo_dark"
+                    android:tabStripEnabled="true"
+                    android:tabStripLeft="@drawable/tab_bottom_left"
+                    android:tabStripRight="@drawable/tab_bottom_right">
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" >
+
+                    <LinearLayout
+                        android:id="@id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 1 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView1" -->
+
+                    <LinearLayout
+                        android:id="@id/tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 2 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView2" -->
+
+                    <LinearLayout
+                        android:id="@id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tab 3 Content" />
+                    </LinearLayout> <!-- android:id="@+id/textView3" -->
+
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+
+        <!-- Test TableLayout (y TableRow y TableLayout.LayoutParams)
+         http://www.mkyong.com/android/android-tablelayout-example/
+        -->
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:collapseColumns="3,4"
+            android:shrinkColumns="0,1"
+            android:stretchColumns="0,1"
+            >
+
+            <!-- 2 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+            </TableRow>
+
+            <!-- span 2 column -->
+            <TableRow
+                android:padding="5dip" >
+                <Button
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_span="2"
+                    android:text="Col 1 &amp; 2" />
+            </TableRow>
+
+            <!-- just draw a red line -->
+            <View
+                android:layout_height="2dip"
+                android:background="#FF0000" />
+
+            <!-- 5 columns -->
+            <TableRow
+                android:padding="5dip" >
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Col 0" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 1" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 2" />
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 3" /> <!-- will be collapsed -->
+                <Button
+                    android:layout_height="wrap_content"
+                    android:text="Col 4" /> <!-- will be collapsed -->
+            </TableRow>
+
+        </TableLayout>
+
+
+        <!-- Test RelativeLayout (gravity) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
             android:background="#ffdddd"
-            android:hint="Hint Text (TextView Tests 3)"
-            android:textAppearance="@style/text_appearance_test"
-            />
+            android:gravity="bottom|right">
 
-        <!-- CompoundButton Tests via CheckBox -->
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test RelativeLayout gravity"
+                android:background="#aaaaaa"/>
+
+        </RelativeLayout>
+
+        <!-- Test RelativeLayout (ignoreGravity) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
             android:background="#dddddd"
-            android:text="CompoundButton Tests"
-            android:button="@drawable/btn_check_holo_light"
-            android:checked="true"
-            />
+            android:gravity="bottom|right"
+            android:ignoreGravity="@+id/textViewChildOfRL">
+
+            <TextView
+                android:id="@+id/textViewChildOfRL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test RelativeLayout ignoreGravity"
+                android:background="#aaaaaa"/>
+
+        </RelativeLayout>
+
+        <!-- Test RelativeLayout.LayoutParams
+        Son muchos attribs pero al final todos basados en id o boolean -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd">
+
+            <TextView android:id="@+id/testRelLayoutId"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Test RelativeLayout.LayoutParams"
+                      android:background="#aaaaaa"
+                      android:layout_alignParentBottom="true"
+                      android:layout_alignWithParentIfMissing="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="To Right Of"
+                android:background="#aaaaaa"
+                android:layout_toRightOf="@id/testRelLayoutId"/>
+
+        </RelativeLayout>
+
+        <!-- space for page scrolling -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="(space for page scrolling)"
+            android:gravity="center"/>
+
+
+
+
 
     </LinearLayout>
 

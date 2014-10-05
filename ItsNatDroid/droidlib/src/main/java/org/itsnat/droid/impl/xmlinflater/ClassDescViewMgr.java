@@ -66,10 +66,6 @@ public class ClassDescViewMgr
         ClassDesc_view_View view_View = new ClassDesc_view_View(this);
         addClassDescViewBase(view_View);
 
-            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(this,view_View);
-            addClassDescViewBase(view_ViewGroup);
-            init_view_ViewGroup_subClasses(view_ViewGroup);
-
             ClassDesc_widget_AnalogClock widget_AnalogClock = new ClassDesc_widget_AnalogClock(this,view_View);
             addClassDescViewBase(widget_AnalogClock);
 
@@ -106,6 +102,11 @@ public class ClassDescViewMgr
                     addClassDescViewBase(widget_CompoundButton);
                         // CheckBox no tiene atributos
 
+            // 	android.view.TextureView no tiene atributos
+
+            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(this,view_View);
+            addClassDescViewBase(view_ViewGroup);
+            init_view_ViewGroup_subClasses(view_ViewGroup);
     }
 
     private void init_view_ViewGroup_subClasses(ClassDesc_widget_ViewGroup view_ViewGroup)
