@@ -533,24 +533,30 @@
             <SlidingDrawer
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:handle="@+id/handle"
-                android:content="@+id/content">
+                android:allowSingleTap="false"
+                android:animateOnClick="true"
+                android:bottomOffset="10dp"
+                android:handle="@+id/slidingHandle"
+                android:content="@+id/slidingContent"
+                android:orientation="horizontal"
+                android:topOffset="10dp">
 
                 <TextView
-                    android:id="@id/handle"
+                    android:id="@id/slidingHandle"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="DRAG TO UP/DOWN"
+                    android:text="DRAG TO LEFT/RIGHT"
                     android:background="#aaaaaa"/>
 
                 <TextView
-                    android:id="@id/content"
+                    android:id="@id/slidingContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CONTENT"
                     android:background="#ffdddd"/>
 
             </SlidingDrawer>
+
         </FrameLayout>
 
 

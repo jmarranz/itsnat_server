@@ -217,10 +217,11 @@ public class ClassDescViewMgr
         ClassDesc_widget_SlidingDrawer widget_SlidingDrawer = new ClassDesc_widget_SlidingDrawer(this,view_ViewGroup);
         addClassDescViewBase(widget_SlidingDrawer);
 
+        // android.support.v4.widget.SlidingPaneLayout no tiene atributos
 
 
 
-        // android.support.v4.widget.DrawerLayout no tiene atributos y es clase final
+
     }
 
 

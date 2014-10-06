@@ -14,7 +14,7 @@ public class AttrDesc_widget_RadioGroup_checkedButton extends AttrDescReflecMeth
 {
     public AttrDesc_widget_RadioGroup_checkedButton(ClassDescViewBased parent)
     {
-        super(parent, "checkedButton", "check");
+        super(parent, "checkedButton", "check",-1);
     }
 
     public void setAttribute(final View view, final String value, final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)

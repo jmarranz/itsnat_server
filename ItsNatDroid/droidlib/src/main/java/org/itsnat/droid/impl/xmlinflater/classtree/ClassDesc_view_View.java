@@ -74,7 +74,7 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusable",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"focusableInTouchMode",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"hapticFeedbackEnabled",true));
-        addAttrDesc(new AttrDescReflecMethodId(this,"id"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"id",-1));
 
 
         // android:importantForAccessibility es Level 16
@@ -85,11 +85,11 @@ public class ClassDesc_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"longClickable",false));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minHeight","setMinimumHeight",null));
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"minWidth","setMinimumWidth",null));
-        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusDown","setNextFocusDownId"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusForward","setNextFocusForwardId"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusLeft","setNextFocusLeftId"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusRight","setNextFocusRightId"));
-        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusUp","setNextFocusUpId"));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusDown","setNextFocusDownId",-1));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusForward","setNextFocusForwardId",-1));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusLeft","setNextFocusLeftId",-1));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusRight","setNextFocusRightId",-1));
+        addAttrDesc(new AttrDescReflecMethodId(this,"nextFocusUp","setNextFocusUpId",-1));
         addAttrDesc(new AttrDesc_view_View_onClick(this));
         addAttrDesc(new AttrDesc_view_View_padding(this,"padding"));
         addAttrDesc(new AttrDesc_view_View_padding(this,"paddingBottom"));

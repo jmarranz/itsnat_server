@@ -65,6 +65,11 @@ public class ClassDescViewBased
         return classMgr;
     }
 
+    public XMLLayoutInflateService getXMLLayoutInflateService()
+    {
+        return classMgr.getXMLLayoutInflateService();
+    }
+
     public ClassDescViewBased getParentClassDescViewBased()
     {
         return parentClass;
@@ -242,35 +247,35 @@ public class ClassDescViewBased
         }
     }
 
-    protected static String findAttribute(String namespaceURI,String attrName,NodeToInsertImpl newChildToIn)
+    protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
     {
         AttrImpl attr = newChildToIn.getAttribute(namespaceURI,attrName);
         if (attr == null) return null;
         return attr.getValue();
     }
 
-    private int findStyleAttribute(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn)
+    private int findStyleAttributeFromRemote(ItsNatDocImpl itsNatDoc, NodeToInsertImpl newChildToIn)
     {
-        String value = findAttribute(null,"style",newChildToIn);
+        String value = findAttributeFromRemote(null, "style", newChildToIn);
         if (value == null) return 0;
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        return AttrDesc.getIdentifier(value,ctx,itsNatDoc.getPageImpl().getInflatedLayoutPageImpl().getXMLLayoutInflateService(),true);
+        return AttrDesc.getIdentifier(value,ctx,getXMLLayoutInflateService());
     }
 
-    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,ViewGroup viewParent, NodeToInsertImpl newChildToIn)
+    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending)
     {
-        int idStyle = findStyleAttribute(itsNatDoc,newChildToIn);
-        return createViewObjectFromRemote(itsNatDoc,viewParent,newChildToIn,idStyle);
+        int idStyle = findStyleAttributeFromRemote(itsNatDoc, newChildToIn);
+        return createViewObjectFromRemote(itsNatDoc,newChildToIn,idStyle,pending);
     }
 
-    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,ViewGroup viewParent,NodeToInsertImpl newChildToIn,int idStyle)
+    protected View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending)
     {
-        // Se redefine en el caso de Spinner
+        // Se redefine completamente en el caso de Spinner
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        return createViewObject(ctx,idStyle);
+        return createViewObject(ctx,idStyle,pending);
     }
 
-    protected String findAttribute(String namespaceURI,String name,XmlPullParser parser)
+    protected String findAttributeFromParser(String namespaceURI, String name, XmlPullParser parser)
     {
         for(int i = 0; i < parser.getAttributeCount(); i++)
         {
@@ -285,28 +290,28 @@ public class ClassDescViewBased
         return null;
     }
 
-    private int findStyleAttribute(InflatedLayoutImpl inflated,XmlPullParser parser)
+    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated, XmlPullParser parser)
     {
-        Context ctx = inflated.getContext();
-        String value = findAttribute(null,"style",parser);
+        String value = findAttributeFromParser(null, "style", parser);
         if (value == null) return 0;
-        return AttrDesc.getIdentifier(value, ctx,inflated.getXMLLayoutInflateService(),true);
-    }
-
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewGroup viewParent, XmlPullParser parser)
-    {
-        int idStyle = findStyleAttribute(inflated,parser);
-        return createViewObjectFromParser(inflated,viewParent,parser,idStyle);
-    }
-
-    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewGroup viewParent, XmlPullParser parser,int idStyle)
-    {
-        // Se redefine en el caso de Spinner
         Context ctx = inflated.getContext();
-        return createViewObject(ctx, idStyle);
+        return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService());
     }
 
-    public View createViewObject(Context ctx,int idStyle)
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    {
+        int idStyle = findStyleAttributeFromParser(inflated, parser);
+        return createViewObjectFromParser(inflated,parser,idStyle,pending);
+    }
+
+    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,XmlPullParser parser,int idStyle,PendingPostInsertChildrenTasks pending)
+    {
+        // Se redefine completamente en el caso de Spinner
+        Context ctx = inflated.getContext();
+        return createViewObject(ctx, idStyle,pending);
+    }
+
+    protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         View view;
 

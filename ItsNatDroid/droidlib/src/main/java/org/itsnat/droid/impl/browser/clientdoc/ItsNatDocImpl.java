@@ -197,9 +197,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return handler;
     }
 
-    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
+    private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated,PendingPostInsertChildrenTasks pending)
     {
-        View view = classDesc.createViewObjectFromRemote(this,viewParent,newChildToIn);
+        View view = classDesc.createViewObjectFromRemote(this,newChildToIn,pending);
 
         newChildToIn.setView(view);
 
@@ -573,7 +573,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 
-        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, inflated);
+        View view = createViewObjectAndFillAttributesAndAdd(classDesc, (ViewGroup) parentNode.getView(), newChildToIn, index, inflated,null);
 
         newChildToIn.setInserted();
     }

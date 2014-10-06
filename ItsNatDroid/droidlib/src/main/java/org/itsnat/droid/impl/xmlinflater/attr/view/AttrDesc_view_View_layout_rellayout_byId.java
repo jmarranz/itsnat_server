@@ -30,7 +30,7 @@ public class AttrDesc_view_View_layout_rellayout_byId extends AttrDesc
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
                 if (!value.isEmpty())
                 {
-                    int viewId = getIdentifier(value, view.getContext());
+                    int viewId = getIdentifierAddIfNecessary(value, view.getContext());
                     params.addRule(selector, viewId);
                 }
                 else

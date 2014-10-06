@@ -6,9 +6,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodSingleName;
 import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_LinearLayout_baselineAlignedChildIndex;
-import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_LinearLayout_orientation;
 import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_LinearLayout_showDividers;
 
 /**
@@ -33,7 +34,7 @@ public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dividerPadding",0f));
         addAttrDesc(new AttrDescReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap,"start|top"));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"measureWithLargestChild","setMeasureWithLargestChildEnabled",false));
-        addAttrDesc(new AttrDesc_widget_LinearLayout_orientation(this)); // "orientation"
+        addAttrDesc(new AttrDescReflecMethodSingleName(this,"orientation",int.class, OrientationUtil.valueMap,"horizontal"));
         addAttrDesc(new AttrDescReflecMethodFloat(this,"weightSum",-1.0f));
     }
 }

@@ -19,8 +19,7 @@ public class ClassDesc_widget_RadioGroup extends ClassDescViewBased
         super.init();
 
         addAttrDesc(new AttrDesc_widget_RadioGroup_checkedButton(this));
-        addAttrDesc(new AttrDesc_widget_RadioGroup_orientation(this)); // Se redefine el valor por defecto respecto al orientation de LinearLayout
-
+        addAttrDesc(new AttrDesc_widget_RadioGroup_orientation(this));
     }
 }
 

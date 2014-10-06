@@ -9,6 +9,9 @@ public class PendingPostInsertChildrenTasks
 {
     protected LinkedList<Runnable> taskList;
 
+    public PendingPostInsertChildrenTasks()
+    {
+    }
 
     public void addTask(Runnable task)
     {

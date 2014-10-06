@@ -22,8 +22,9 @@ public class AttrDesc_widget_TextView_textAppearance extends AttrDesc
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         Context ctx = view.getContext();
+        int resId = getIdentifier(value,ctx);
 
-        ((TextView)view).setTextAppearance(ctx,getIdentifier(value,ctx));
+        ((TextView)view).setTextAppearance(ctx,resId);
     }
 
     public void removeAttribute(View view)

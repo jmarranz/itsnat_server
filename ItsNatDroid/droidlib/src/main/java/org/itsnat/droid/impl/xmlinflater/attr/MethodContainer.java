@@ -28,6 +28,16 @@ public class MethodContainer<T>
         this.paramClasses = paramClasses;
     }
 
+    public String getMethodName()
+    {
+        return methodName;
+    }
+
+    public Class[] getParamClasses()
+    {
+        return paramClasses;
+    }
+
     public Method getMethod()
     {
         try

@@ -6,9 +6,10 @@ import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodFloat;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodLong;
+import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodSingleName;
+import org.itsnat.droid.impl.xmlinflater.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.attr.gesture.AttrDesc_gesture_GestureOverlayView_gestureColor;
 import org.itsnat.droid.impl.xmlinflater.attr.gesture.AttrDesc_gesture_GestureOverlayView_gestureStrokeType;
-import org.itsnat.droid.impl.xmlinflater.attr.gesture.AttrDesc_gesture_GestureOverlayView_orientation;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -34,8 +35,8 @@ public class ClassDesc_gesture_GestureOverlayView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeSquarenessThreshold","setGestureStrokeSquarenessTreshold",0.275f));  // Es necesario el nombre del método por un gazapo, falta la h de Threshold
         addAttrDesc(new AttrDesc_gesture_GestureOverlayView_gestureStrokeType(this));
         addAttrDesc(new AttrDescReflecMethodFloat(this,"gestureStrokeWidth",12.0f)); // Sorprendetemente NO se admite dimensión (dp etc)
-        addAttrDesc(new AttrDesc_gesture_GestureOverlayView_orientation(this));
-        addAttrDesc(new AttrDescReflecMethodColor(this,"uncertainGestureColor","#48FFFF00"));
+        addAttrDesc(new AttrDescReflecMethodSingleName(this,"orientation",int.class, OrientationUtil.valueMap,"vertical"));
+        addAttrDesc(new AttrDescReflecMethodColor(this, "uncertainGestureColor", "#48FFFF00"));
 
 
     }

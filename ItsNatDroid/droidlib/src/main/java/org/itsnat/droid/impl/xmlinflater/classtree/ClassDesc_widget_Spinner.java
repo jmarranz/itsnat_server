@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -12,6 +11,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.NodeToInsertImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecMethodCharSequence;
@@ -45,34 +45,33 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
         return XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
     }
 
-    private static String findSpinnerModeAttribute(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn)
+    private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn)
     {
-        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",newChildToIn);
+        return findAttributeFromRemote(XMLLayoutInflateService.XMLNS_ANDROID, "spinnerMode", newChildToIn);
     }
 
     @Override
-    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,ViewGroup viewParent,NodeToInsertImpl newChildToIn,int idStyle)
+    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        String spinnerMode = findSpinnerModeAttribute(itsNatDoc,newChildToIn);
-        return createSpinnerObject(viewParent, idStyle, spinnerMode, ctx);
+        String spinnerMode = findSpinnerModeAttribute(newChildToIn);
+        return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
     private String findSpinnerModeAttribute(XmlPullParser parser)
     {
-        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",parser);
+        return findAttributeFromParser(XMLLayoutInflateService.XMLNS_ANDROID, "spinnerMode", parser);
     }
 
     @Override
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewGroup viewParent, XmlPullParser parser,int idStyle)
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,XmlPullParser parser,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         Context ctx = inflated.getContext();
-
         String spinnerMode = findSpinnerModeAttribute(parser);
-        return createSpinnerObject(viewParent,idStyle, spinnerMode, ctx);
+        return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
-    private View createSpinnerObject(ViewGroup viewParent,int idStyle, String spinnerMode, Context ctx)
+    private View createSpinnerObject(int idStyle, String spinnerMode, Context ctx)
     {
         int mode;
         if (spinnerMode != null)

@@ -1,5 +1,8 @@
 
-* Seguir poniendo en orden los tests
+* Hacer <script src>
+
+* Enviar versión de la app en headers
+
 
 * Hacer un EditText probando de nuevo atributos definidos en TextView
 

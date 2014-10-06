@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Necesarios para usar en SlidingDrawer pues deben existir en Resources, los tenemos definidos ya
+     para que el programador no tenga que inventar ids en su app -->
+    <item name="content" type="id">content</item>
+    <item name="handle" type="id">handle</item>
+
+</resources>

@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.gesture.GestureOverlayView;
 import android.graphics.drawable.ColorDrawable;
@@ -60,7 +61,8 @@ public class TestLocalXMLInflate2
 
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {
-        final Resources res = compRoot.getContext().getResources();
+        Context ctx = compRoot.getContext();
+        final Resources res = ctx.getResources();
 
         // comp = "Layout compiled"
         // parsed = "Layout dynamically parsed"
@@ -719,7 +721,33 @@ public class TestLocalXMLInflate2
             SlidingDrawer compDrawer = (SlidingDrawer) compLayout.getChildAt(0);
             SlidingDrawer parsedDrawer = (SlidingDrawer) parsedLayout.getChildAt(0);
 
+            // android:allowSingleTap
+            assertFalse((Boolean)TestUtil.getField(compDrawer, "mAllowSingleTap"));
+            assertEquals((Boolean)TestUtil.getField(compDrawer,"mAllowSingleTap"), (Boolean)TestUtil.getField(parsedDrawer, "mAllowSingleTap"));
 
+            // android:animateOnClick
+            assertTrue((Boolean) TestUtil.getField(compDrawer, "mAnimateOnClick"));
+            assertEquals((Boolean)TestUtil.getField(compDrawer,"mAnimateOnClick"), (Boolean)TestUtil.getField(parsedDrawer, "mAnimateOnClick"));
+
+            // android:bottomOffset
+            assertEquals((Integer) TestUtil.getField(compDrawer,"mBottomOffset"), ValueUtil.dpToPixelInt(10, res));
+            assertEquals((Integer)TestUtil.getField(compDrawer,"mBottomOffset"), (Integer)TestUtil.getField(parsedDrawer, "mBottomOffset"));
+
+            // android:handle
+            assertEquals((Integer) TestUtil.getField(compDrawer,"mHandleId"), res.getIdentifier("@id/slidingHandle", null, ctx.getPackageName()));
+            assertEquals((Integer)TestUtil.getField(compDrawer,"mHandleId"), (Integer)TestUtil.getField(parsedDrawer, "mHandleId"));
+
+            // android:content
+            assertEquals((Integer)TestUtil.getField(compDrawer,"mContentId"), res.getIdentifier("@id/slidingContent", null, ctx.getPackageName()));
+            assertEquals((Integer)TestUtil.getField(compDrawer,"mContentId"), (Integer)TestUtil.getField(parsedDrawer, "mContentId"));
+
+            // android:orientation
+            assertFalse((Boolean)TestUtil.getField(compDrawer,"mVertical"));
+            assertEquals((Boolean)TestUtil.getField(compDrawer,"mVertical"), (Boolean)TestUtil.getField(parsedDrawer, "mVertical"));
+
+            // android:topOffset
+            assertEquals((Integer) TestUtil.getField(compDrawer,"mTopOffset"), ValueUtil.dpToPixelInt(10, res));
+            assertEquals((Integer)TestUtil.getField(compDrawer,"mTopOffset"), (Integer)TestUtil.getField(parsedDrawer, "mTopOffset"));
         }
 
 
