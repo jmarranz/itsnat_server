@@ -8,12 +8,14 @@ import android.util.Xml;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.clientdoc.AttrImpl;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.clientdoc.NodeToInsertImpl;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -101,11 +103,6 @@ public class ClassDescViewBased
         return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
     }
 
-    protected static boolean isSpinnerModeAttribute(View view,String namespaceURI,String name)
-    {
-        return (view instanceof Spinner) && XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
-    }
-
     protected void addAttrDesc(AttrDesc attrDesc)
     {
         AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
@@ -117,12 +114,16 @@ public class ClassDescViewBased
         return attrDescMap.get(name);
     }
 
+    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    {
+        return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
+    }
+
     public boolean setAttribute(View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
-        if (isStyleAttribute(namespaceURI,name) ||
-            isSpinnerModeAttribute(view,namespaceURI,name)) return false; // Se tratan de forma especial en otro lugar
+        if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
         if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -239,6 +240,70 @@ public class ClassDescViewBased
 
             oneTimeAttrProcess.executeLayoutParamsTasks();
         }
+    }
+
+    protected static String findAttribute(String namespaceURI,String attrName,NodeToInsertImpl newChildToIn)
+    {
+        AttrImpl attr = newChildToIn.getAttribute(namespaceURI,attrName);
+        if (attr == null) return null;
+        return attr.getValue();
+    }
+
+    private int findStyleAttribute(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn)
+    {
+        String value = findAttribute(null,"style",newChildToIn);
+        if (value == null) return 0;
+        Context ctx = itsNatDoc.getPageImpl().getContext();
+        return AttrDesc.getIdentifier(value,ctx,itsNatDoc.getPageImpl().getInflatedLayoutPageImpl().getXMLLayoutInflateService(),true);
+    }
+
+    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,ViewGroup viewParent, NodeToInsertImpl newChildToIn)
+    {
+        int idStyle = findStyleAttribute(itsNatDoc,newChildToIn);
+        return createViewObjectFromRemote(itsNatDoc,viewParent,newChildToIn,idStyle);
+    }
+
+    public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,ViewGroup viewParent,NodeToInsertImpl newChildToIn,int idStyle)
+    {
+        // Se redefine en el caso de Spinner
+        Context ctx = itsNatDoc.getPageImpl().getContext();
+        return createViewObject(ctx,idStyle);
+    }
+
+    protected String findAttribute(String namespaceURI,String name,XmlPullParser parser)
+    {
+        for(int i = 0; i < parser.getAttributeCount(); i++)
+        {
+            String currNamespaceURI = parser.getAttributeNamespace(i);
+            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
+            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
+            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
+            if (!name.equals(currName)) continue;
+            String value = parser.getAttributeValue(i);
+            return value;
+        }
+        return null;
+    }
+
+    private int findStyleAttribute(InflatedLayoutImpl inflated,XmlPullParser parser)
+    {
+        Context ctx = inflated.getContext();
+        String value = findAttribute(null,"style",parser);
+        if (value == null) return 0;
+        return AttrDesc.getIdentifier(value, ctx,inflated.getXMLLayoutInflateService(),true);
+    }
+
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewGroup viewParent, XmlPullParser parser)
+    {
+        int idStyle = findStyleAttribute(inflated,parser);
+        return createViewObjectFromParser(inflated,viewParent,parser,idStyle);
+    }
+
+    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewGroup viewParent, XmlPullParser parser,int idStyle)
+    {
+        // Se redefine en el caso de Spinner
+        Context ctx = inflated.getContext();
+        return createViewObject(ctx, idStyle);
     }
 
     public View createViewObject(Context ctx,int idStyle)

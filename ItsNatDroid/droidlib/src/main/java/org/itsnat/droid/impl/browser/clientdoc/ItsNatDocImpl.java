@@ -43,9 +43,7 @@ import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -201,51 +199,21 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated)
     {
-        Context ctx = inflated.getContext();
-        View view;
-        int idStyle = findStyleAttribute(newChildToIn, ctx);
-        if (classDesc instanceof ClassDesc_widget_Spinner)
-        {
-            String spinnerMode = findSpinnerModeAttribute(newChildToIn, ctx);
-            view = ((ClassDesc_widget_Spinner)classDesc).createSpinnerObject(viewParent,idStyle, spinnerMode, ctx);
-        }
-        else
-        {
-            view = classDesc.createViewObject(ctx, idStyle);
-        }
-        newChildToIn.setView(view);
+        View view = classDesc.createViewObjectFromRemote(this,viewParent,newChildToIn);
 
+        newChildToIn.setView(view);
 
         OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
-        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,ctx);
+        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,inflated.getContext());
 
         return view;
     }
 
-    private int findStyleAttribute(NodeToInsertImpl newChildToIn,Context ctx)
-    {
-        String value = findAttribute(null,"style",newChildToIn,ctx);
-        if (value == null) return 0;
-        return AttrDesc.getIdentifier(value,ctx,getPageImpl().getInflatedLayoutPageImpl().getXMLLayoutInflateService(),true);
-    }
-
-    private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn,Context ctx)
-    {
-        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",newChildToIn,ctx);
-    }
-
-    private static String findAttribute(String namespaceURI,String attrName,NodeToInsertImpl newChildToIn,Context ctx)
-    {
-        AttrImpl attr = newChildToIn.getAttribute(namespaceURI,attrName);
-        if (attr == null) return null;
-        return attr.getValue();
-    }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,NodeToInsertImpl newChildToIn,InflatedLayoutImpl inflated,OneTimeAttrProcess oneTimeAttrProcess)
     {
         View view = newChildToIn.getView();
-        PendingPostInsertChildrenTasks pending = null;
 
         if (newChildToIn.hasAttributes())
         {
@@ -255,7 +223,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 String namespaceURI = attr.getNamespaceURI();
                 String name = attr.getName();
                 String value = attr.getValue();
-                inflated.setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess, pending);
+                inflated.setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess,(PendingPostInsertChildrenTasks)null);
             }
         }
 

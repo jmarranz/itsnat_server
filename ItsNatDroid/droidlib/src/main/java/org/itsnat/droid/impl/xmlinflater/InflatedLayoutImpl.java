@@ -11,10 +11,7 @@ import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -252,17 +249,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     private View createViewObject(ClassDescViewBased classDesc, ViewGroup viewParent, XmlPullParser parser)
     {
-        Context ctx = getContext();
-        int idStyle = findStyleAttribute(parser);
-        if (classDesc instanceof ClassDesc_widget_Spinner)
-        {
-            String spinnerMode = findSpinnerModeAttribute(parser, ctx);
-            return ((ClassDesc_widget_Spinner)classDesc).createSpinnerObject(viewParent,idStyle, spinnerMode, ctx);
-        }
-        else
-        {
-            return classDesc.createViewObject(ctx, idStyle);
-        }
+        return classDesc.createViewObjectFromParser(this,viewParent,parser);
     }
 
     public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending,Context ctx)
@@ -295,33 +282,6 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,view, parser,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,ctx);
-    }
-
-    private int findStyleAttribute(XmlPullParser parser)
-    {
-        String value = findAttribute(null,"style",parser,ctx);
-        if (value == null) return 0;
-        return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService(),true);
-    }
-
-    private String findSpinnerModeAttribute(XmlPullParser parser,Context ctx)
-    {
-        return findAttribute(XMLLayoutInflateService.XMLNS_ANDROID,"spinnerMode",parser,ctx);
-    }
-
-    private String findAttribute(String namespaceURI,String name,XmlPullParser parser,Context ctx)
-    {
-        for(int i = 0; i < parser.getAttributeCount(); i++)
-        {
-            String currNamespaceURI = parser.getAttributeNamespace(i);
-            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
-            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            if (!name.equals(currName)) continue;
-            String value = parser.getAttributeValue(i);
-            return value;
-        }
-        return null;
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
