@@ -17,7 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_LinearLayou
  */
 public class ClassDesc_widget_LinearLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_LinearLayout(ClassDescViewMgr classMgr,ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_LinearLayout(ClassDescViewMgr classMgr,ClassDesc_view_ViewGroup parentClass)
     {
         super(classMgr,"android.widget.LinearLayout",parentClass);
     }

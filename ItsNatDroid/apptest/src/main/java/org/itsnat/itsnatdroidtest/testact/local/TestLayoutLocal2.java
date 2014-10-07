@@ -3,6 +3,8 @@ package org.itsnat.itsnatdroidtest.testact.local;
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 
 import org.itsnat.droid.InflatedLayout;
@@ -40,18 +42,19 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
                 InflatedLayout layout = loadDynamicAndBindBackReloadButtons(input);
                 View dynamicRootView = layout.getRootView();
 
-                defineInitalData(act,dynamicRootView);
+                initialConfiguration(act, dynamicRootView);
 
                 TestLocalXMLInflate2.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView);
             }
         });
 
-        defineInitalData(act,compiledRootView);
+        initialConfiguration(act, compiledRootView);
     }
 
-    private static void defineInitalData(TestActivity act,View rootView)
+    private static void initialConfiguration(TestActivity act, View rootView)
     {
         defineTabHost(act,rootView);
+        inflateViewStub(act,rootView);
     }
 
     private static void defineTabHost(TestActivity act,View rootView)
@@ -75,6 +78,12 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
         tabHost.addTab(tabSpec);
     }
 
+    private static void inflateViewStub(TestActivity act,View rootView)
+    {
+        Resources res = act.getResources();
+        ViewStub stub = (ViewStub)rootView.findViewById(R.id.viewStubTestId);
+        LinearLayout inflated = (LinearLayout)stub.inflate();
+    }
 
 
 }

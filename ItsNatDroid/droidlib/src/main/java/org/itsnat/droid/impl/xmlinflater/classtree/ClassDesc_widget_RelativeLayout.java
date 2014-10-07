@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.GravityUtil;
  */
 public class ClassDesc_widget_RelativeLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_RelativeLayout(ClassDescViewMgr classMgr,ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_RelativeLayout(ClassDescViewMgr classMgr,ClassDesc_view_ViewGroup parentClass)
     {
         super(classMgr,"android.widget.RelativeLayout",parentClass);
     }

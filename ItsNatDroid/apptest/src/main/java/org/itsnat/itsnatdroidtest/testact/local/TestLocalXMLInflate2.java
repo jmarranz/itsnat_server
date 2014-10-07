@@ -11,6 +11,7 @@ import android.os.Build;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationSet;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -750,7 +751,31 @@ public class TestLocalXMLInflate2
             assertEquals((Integer)TestUtil.getField(compDrawer,"mTopOffset"), (Integer)TestUtil.getField(parsedDrawer, "mTopOffset"));
         }
 
+        childCount++;
 
+        // Test ViewStub
+        // se reemplaza por el android:layout especificado, indirectamente testeamos los ViewStub
+        {
+            LinearLayout compLayout = (LinearLayout) comp.getChildAt(childCount);
+            LinearLayout parsedLayout = (LinearLayout) parsed.getChildAt(childCount);
+
+            // Test indirecto de android:inflatedId
+            assertEquals(compLayout.getId(), res.getIdentifier("@id/viewStubInsertedId", null, ctx.getPackageName()));
+            assertEquals(compLayout.getId(), parsedLayout.getId());
+
+            ViewGroup.LayoutParams compParams = compLayout.getLayoutParams();
+            ViewGroup.LayoutParams parsedParams = parsedLayout.getLayoutParams();
+            assertEquals(compParams.height,ValueUtil.dpToPixelInt(40,res));
+            assertEquals(compParams.height,parsedParams.height);
+
+            {
+                TextView compTextView0 = (TextView) compLayout.getChildAt(0);
+                TextView parsedTextView0 = (TextView) parsedLayout.getChildAt(0);
+
+                TextView compTextView1 = (TextView) compLayout.getChildAt(1);
+                TextView parsedTextView1 = (TextView) parsedLayout.getChildAt(1);
+            }
+        }
 
 
 

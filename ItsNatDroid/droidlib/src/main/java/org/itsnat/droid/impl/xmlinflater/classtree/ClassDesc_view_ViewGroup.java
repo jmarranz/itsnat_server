@@ -10,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.attr.view.AttrDesc_view_ViewGroup_persi
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDesc_widget_ViewGroup extends ClassDescViewBased
+public class ClassDesc_view_ViewGroup extends ClassDescViewBased
 {
-    public ClassDesc_widget_ViewGroup(ClassDescViewMgr classMgr,ClassDesc_view_View parentClass)
+    public ClassDesc_view_ViewGroup(ClassDescViewMgr classMgr, ClassDesc_view_View parentClass)
     {
         super(classMgr,"android.view.ViewGroup",parentClass);
     }

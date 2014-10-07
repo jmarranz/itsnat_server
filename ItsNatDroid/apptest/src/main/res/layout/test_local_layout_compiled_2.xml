@@ -553,12 +553,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="CONTENT"
-                    android:background="#ffdddd"/>
+                    android:background="#ffff00"/>
 
             </SlidingDrawer>
 
         </FrameLayout>
 
+        <ViewStub android:id="@+id/viewStubTestId"
+                  android:inflatedId="@+id/viewStubInsertedId"
+                  android:layout="@layout/test_viewstub"
+                  android:layout_width="match_parent"
+                  android:layout_height="40dp"
+                  />
 
 
     </LinearLayout>

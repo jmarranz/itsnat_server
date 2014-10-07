@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.xmlinflater.attr.widget.AttrDesc_widget_GridLayout_
  */
 public class ClassDesc_widget_GridLayout extends ClassDescViewBased
 {
-    public ClassDesc_widget_GridLayout(ClassDescViewMgr classMgr,ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_GridLayout(ClassDescViewMgr classMgr,ClassDesc_view_ViewGroup parentClass)
     {
         super(classMgr,"android.widget.GridLayout",parentClass);
     }

@@ -7,6 +7,8 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescUnknown;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_gesture_GestureOverlayView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_View;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_ViewGroup;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_view_ViewStub;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsListView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
@@ -39,7 +41,6 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TableLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewFlipper;
-import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewGroup;
 
 import java.util.HashMap;
 
@@ -72,8 +73,8 @@ public class ClassDescViewMgr
 
             ClassDesc_widget_ImageView widget_ImageView = new ClassDesc_widget_ImageView(this,view_View);
             addClassDescViewBase(widget_ImageView);
-                // ImageButton no tiene atributos
-                    // ZoomButton no tiene atributos
+                // android.widget.ImageButton no tiene atributos
+                    // android.widget.ZoomButton no tiene atributos
 
             // android.support.v7.app.MediaRouteButton no tiene atributos
 
@@ -105,12 +106,15 @@ public class ClassDescViewMgr
 
             // 	android.view.TextureView no tiene atributos
 
-            ClassDesc_widget_ViewGroup view_ViewGroup = new ClassDesc_widget_ViewGroup(this,view_View);
+            ClassDesc_view_ViewGroup view_ViewGroup = new ClassDesc_view_ViewGroup(this,view_View);
             addClassDescViewBase(view_ViewGroup);
             init_view_ViewGroup_subClasses(view_ViewGroup);
+
+            ClassDesc_view_ViewStub view_ViewStub = new ClassDesc_view_ViewStub(this,view_View);
+            addClassDescViewBase(view_ViewStub);
     }
 
-    private void init_view_ViewGroup_subClasses(ClassDesc_widget_ViewGroup view_ViewGroup)
+    private void init_view_ViewGroup_subClasses(ClassDesc_view_ViewGroup view_ViewGroup)
     {
         // AbsoluteLayout y su derivada (WebView) no tienen atributos
 
@@ -218,9 +222,8 @@ public class ClassDescViewMgr
         addClassDescViewBase(widget_SlidingDrawer);
 
         // android.support.v4.widget.SlidingPaneLayout no tiene atributos
-
-
-
+        // android.support.v4.widget.SwipeRefreshLayout no tiene atributos
+        // android.support.v4.view.ViewPager no tiene atributos
 
     }
 

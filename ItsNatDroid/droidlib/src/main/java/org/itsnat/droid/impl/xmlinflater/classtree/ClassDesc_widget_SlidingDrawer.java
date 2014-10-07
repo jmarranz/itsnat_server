@@ -22,7 +22,7 @@ public class ClassDesc_widget_SlidingDrawer extends ClassDescViewBased
 {
     protected MethodContainer<Void> methodOnFinishInflate;
 
-    public ClassDesc_widget_SlidingDrawer(ClassDescViewMgr classMgr, ClassDesc_widget_ViewGroup parentClass)
+    public ClassDesc_widget_SlidingDrawer(ClassDescViewMgr classMgr, ClassDesc_view_ViewGroup parentClass)
     {
         super(classMgr,"android.widget.SlidingDrawer",parentClass);
         this.methodOnFinishInflate = new MethodContainer<Void>(View.class,"onFinishInflate",null); // Existe el método onFinishInflate en SlidingDrawer class
