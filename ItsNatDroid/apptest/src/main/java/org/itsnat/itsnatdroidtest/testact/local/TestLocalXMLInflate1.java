@@ -26,7 +26,6 @@ import android.widget.AdapterViewAnimator;
 import android.widget.AdapterViewFlipper;
 import android.widget.AnalogClock;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
@@ -43,18 +42,14 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.attr.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.attr.MethodContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
-
-import java.util.Calendar;
-import java.util.Locale;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEqualsStrokeWidth;
@@ -831,6 +826,32 @@ public class TestLocalXMLInflate1
 
             assertTrue(compLayout.isChecked());
             assertEquals(compLayout.isChecked(),parsedLayout.isChecked());
+
+        }
+
+        childCount++;
+
+        // Switch Tests
+        {
+            final Switch compLayout = (Switch) comp.getChildAt(childCount);
+            final Switch parsedLayout = (Switch) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(),"Switch Tests");
+            assertEquals(compLayout.getText(),parsedLayout.getText());
+
+            // android:switchMinWidth
+            assertEquals((Integer) TestUtil.getField(compLayout, "mSwitchMinWidth"), ValueUtil.dpToPixelInt(120, res));
+            assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchMinWidth"),(Integer)TestUtil.getField(parsedLayout,"mSwitchMinWidth"));
+
+            // android:switchPadding
+            assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchPadding"),ValueUtil.dpToPixelInt(30,res));
+            assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchPadding"),(Integer)TestUtil.getField(parsedLayout,"mSwitchPadding"));
+
+            // android:switchTextAppearance
+            // No tenemos una forma de testear "switchTextAppearanceLarge" de forma directa, una forma es testear una de las propiedades que impone, ej el tamaño del texto
+            Paint compTextPaint = (Paint)TestUtil.getField(compLayout,"mTextPaint");
+            Paint parsedTextPaint = (Paint)TestUtil.getField(parsedLayout,"mTextPaint");
+            assertEquals((Float)TestUtil.callMethod(compTextPaint,null,Paint.class,"getTextSize",null),(Float)TestUtil.callMethod(parsedTextPaint,null,Paint.class,"getTextSize",null));
 
         }
 

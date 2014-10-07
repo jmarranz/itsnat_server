@@ -564,7 +564,7 @@
                   android:layout="@layout/test_viewstub"
                   android:layout_width="match_parent"
                   android:layout_height="40dp"
-            />
+            /> <!-- layout_width/layout_height se imponen en el layout inflado -->
 
 
     </LinearLayout>

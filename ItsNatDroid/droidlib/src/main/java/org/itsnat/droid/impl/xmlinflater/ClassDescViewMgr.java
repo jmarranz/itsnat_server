@@ -36,6 +36,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SearchView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SeekBar;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_SlidingDrawer;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Spinner;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Switch;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TabWidget;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TableLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
@@ -102,7 +103,13 @@ public class ClassDescViewMgr
 
                     ClassDesc_widget_CompoundButton widget_CompoundButton = new ClassDesc_widget_CompoundButton(this,widget_Button);
                     addClassDescViewBase(widget_CompoundButton);
+
                         // CheckBox no tiene atributos
+                        // RadioButton no tiene atributos y se testea indirectamente con RadioGroup
+
+                        ClassDesc_widget_Switch widget_Switch = new ClassDesc_widget_Switch(this,widget_CompoundButton);
+                        addClassDescViewBase(widget_Switch);
+
 
             // 	android.view.TextureView no tiene atributos
 

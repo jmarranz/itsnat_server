@@ -332,6 +332,16 @@
             android:checked="true"
             />
 
+        <!-- Switch Tests -->
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Switch Tests"
+            android:switchMinWidth="120dp"
+            android:switchPadding="30dp"
+            android:switchTextAppearance="?android:attr/textAppearanceLarge"
+            />
+
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper
             android:id="@id/adapterViewAnimatorTestId"
