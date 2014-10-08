@@ -57,3 +57,6 @@ en tiempo de parseo del View padre en el que será finalmente insertado (el Deco
   http://developer.android.com/reference/android/R.styleable.html
 
 * Drag and drop events (hay métodos nativos para drag & drop)
+
+* A largo plazo substituir los casos de valor por defecto null (no imponer valor por defecto en el removeAttribute) por valores
+concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTextOff = a.getText(com.android.internal.R.styleable.Switch_textOff);

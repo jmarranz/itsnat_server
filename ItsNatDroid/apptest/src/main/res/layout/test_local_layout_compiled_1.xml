@@ -337,9 +337,16 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:text="Switch Tests"
-            android:switchMinWidth="120dp"
+            android:switchMinWidth="150dp"
             android:switchPadding="30dp"
             android:switchTextAppearance="?android:attr/textAppearanceLarge"
+            android:textOff="NORL"
+            android:textOn="YESRL"
+            android:textStyle="bold|italic"
+            android:thumb="@drawable/switch_inner_holo_light"
+            android:thumbTextPadding="20dp"
+            android:track="@drawable/switch_track_holo_light"
+            android:typeface="serif"
             />
 
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->

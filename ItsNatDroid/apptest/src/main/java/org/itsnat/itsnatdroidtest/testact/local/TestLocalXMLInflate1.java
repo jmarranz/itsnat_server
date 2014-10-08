@@ -738,9 +738,8 @@ public class TestLocalXMLInflate1
 
             Typeface compTf = compLayout.getTypeface();
             Typeface parsedTf = parsedLayout.getTypeface();
-
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
-            assertEquals(compTf.getStyle(),parsedTf.getStyle());
+            assertEquals(compTf,parsedTf); // He visto en el código fuente que tiene un equals() que compara el style y el tipo de letra
         }
 
         childCount++;
@@ -840,7 +839,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getText(),parsedLayout.getText());
 
             // android:switchMinWidth
-            assertEquals((Integer) TestUtil.getField(compLayout, "mSwitchMinWidth"), ValueUtil.dpToPixelInt(120, res));
+            assertEquals((Integer) TestUtil.getField(compLayout, "mSwitchMinWidth"), ValueUtil.dpToPixelInt(150, res));
             assertEquals((Integer)TestUtil.getField(compLayout,"mSwitchMinWidth"),(Integer)TestUtil.getField(parsedLayout,"mSwitchMinWidth"));
 
             // android:switchPadding
@@ -852,6 +851,35 @@ public class TestLocalXMLInflate1
             Paint compTextPaint = (Paint)TestUtil.getField(compLayout,"mTextPaint");
             Paint parsedTextPaint = (Paint)TestUtil.getField(parsedLayout,"mTextPaint");
             assertEquals((Float)TestUtil.callMethod(compTextPaint,null,Paint.class,"getTextSize",null),(Float)TestUtil.callMethod(parsedTextPaint,null,Paint.class,"getTextSize",null));
+
+            assertEquals(compLayout.getTextOff(),"NORL");
+            assertEquals(compLayout.getTextOff(),parsedLayout.getTextOff());
+
+            assertEquals(compLayout.getTextOn(),"YESRL");
+            assertEquals(compLayout.getTextOn(),parsedLayout.getTextOn());
+
+            // Test android:textStyle y android:typeface
+
+            int NORMAL = 0;
+            int BOLD = 1;
+            int ITALIC = 2;
+
+            Typeface compTf = compLayout.getTypeface();
+            Typeface parsedTf = parsedLayout.getTypeface();
+            assertEquals(compTf.getStyle(),BOLD | ITALIC);
+            assertEquals(compTf,parsedTf); // He visto en el código fuente que tiene un equals() que compara el style y el tipo de letra
+
+            // Test android:thumb
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mThumbDrawable"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mThumbDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mThumbDrawable"));
+
+            // Test android:mThumbTextPadding
+            assertEquals((Integer) TestUtil.getField(compLayout, "mThumbTextPadding"), ValueUtil.dpToPixelInt(20, res));
+            assertEquals((Integer)TestUtil.getField(compLayout,"mThumbTextPadding"),(Integer)TestUtil.getField(parsedLayout,"mThumbTextPadding"));
+
+            // Test android:track
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mTrackDrawable"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mTrackDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mTrackDrawable"));
 
         }
 

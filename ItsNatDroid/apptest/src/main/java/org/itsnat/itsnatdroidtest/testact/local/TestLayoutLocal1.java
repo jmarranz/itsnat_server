@@ -1,7 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
-import android.os.Build;
 import android.view.View;
 import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
@@ -50,27 +49,17 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
                 InflatedLayout layout = loadDynamicAndBindBackReloadButtons(input);
                 View dynamicRootView = layout.getRootView();
 
-                defineInitalData(act,dynamicRootView);
+                initialConfiguration(act, dynamicRootView);
 
                 TestLocalXMLInflate1.test((CustomScrollView) compiledRootView, (CustomScrollView) dynamicRootView,layout);
             }
         });
 
-        defineInitalData(act,compiledRootView);
+        initialConfiguration(act, compiledRootView);
     }
 
-    private static void defineInitalData(TestActivity act,View rootView)
+    private static void initialConfiguration(TestActivity act, View rootView)
     {
-        if ("sdk".equals( Build.PRODUCT ) || "sdk_x86".equals( Build.PRODUCT ))
-        {
-            // La aceleración hardware hace caer el emulador 4.0.3 en estos componentes
-            // http://kevsaidwhat.blogspot.com.es/2012/09/intel-atom-emulator-crashes-with.html
-            View calendarView = rootView.findViewById(R.id.calendarViewTestId);
-            calendarView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            View datePicker = rootView.findViewById(R.id.datePickerTestId);
-            datePicker.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
         defineAdapterViewAnimator(act, rootView);
         defineGridView(act, rootView);
         defineExpandableListView(act, rootView);

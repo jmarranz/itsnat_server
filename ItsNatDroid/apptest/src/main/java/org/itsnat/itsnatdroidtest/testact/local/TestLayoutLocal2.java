@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
@@ -53,6 +54,22 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
+        View calendarView = rootView.findViewById(R.id.calendarViewTestId);
+        View datePicker = rootView.findViewById(R.id.datePickerTestId);
+        if ("sdk".equals( Build.PRODUCT ) || "sdk_x86".equals( Build.PRODUCT ))
+        {
+            // La aceleración hardware hace caer el emulador 4.0.3 en estos componentes
+            // http://kevsaidwhat.blogspot.com.es/2012/09/intel-atom-emulator-crashes-with.html
+            calendarView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            datePicker.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
+        else
+        {
+            // Esto es sólo por jugar para asegurar que hay un calendarView y un datePicker en estos tests
+            calendarView.getLayerType();
+            datePicker.getLayerType();
+        }
+
         defineTabHost(act,rootView);
         inflateViewStub(act,rootView);
     }
