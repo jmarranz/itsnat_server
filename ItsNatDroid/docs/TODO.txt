@@ -1,4 +1,6 @@
 
+* En CalendarView en dynamic no se selecciona la semana, revisar
+
 * Enviar versión de la app en headers
 
 * Hacer <script src> en el servidor, pensar en cachés de código enviado

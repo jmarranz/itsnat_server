@@ -34,6 +34,7 @@ public class ClassDesc_widget_AutoCompleteTextView extends ClassDescViewBased
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownHorizontalOffset",0.0f));
         addAttrDesc(new AttrDescReflecFieldMethodDrawable(this,"dropDownSelector","mPopup","setListSelector",ListPopupWindow.class,null)); // Hay un background por defecto de Android en ListPopupWindow aunque parece que por defecto se pone un null si no hay atributo
         addAttrDesc(new AttrDescReflecMethodDimensionInt(this,"dropDownVerticalOffset",0.0f));
+        addAttrDesc(new AttrDescReflecMethodDimensionWithNameInt(this,"dropDownWidth",(float)ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 }
 

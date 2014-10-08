@@ -951,7 +951,7 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
 
-            assertTrue(compLayout.isTextSelectable());
+            assertFalse(compLayout.isTextSelectable());
             assertEquals(compLayout.isTextSelectable(), parsedLayout.isTextSelectable());
         }
 
@@ -985,6 +985,9 @@ public class TestLocalXMLInflate1
 
             assertEquals(compLayout.getDropDownVerticalOffset(),ValueUtil.dpToPixelInt(5,res));
             assertEquals(compLayout.getDropDownVerticalOffset(),parsedLayout.getDropDownVerticalOffset());
+
+            assertEquals(compLayout.getDropDownWidth(),ValueUtil.dpToPixelInt(300,res));
+            assertEquals(compLayout.getDropDownWidth(),parsedLayout.getDropDownWidth());
         }
 
         childCount++;

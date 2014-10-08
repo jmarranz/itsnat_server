@@ -131,8 +131,11 @@ public class ClassDescViewMgr
                     ClassDesc_widget_AutoCompleteTextView widget_AutoCompleteTextView = new ClassDesc_widget_AutoCompleteTextView(this,widget_EditText);
                     addClassDescViewBase(widget_AutoCompleteTextView);
 
+                        // android.widget.MultiAutoCompleteTextView no tiene atributos
 
+                    // 	android.inputmethodservice.ExtractEditText no tiene atributos
 
+                // android.widget.TextClock es Level 17
 
 
             // 	android.view.TextureView no tiene atributos

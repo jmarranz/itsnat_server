@@ -392,7 +392,7 @@
             android:textIsSelectable="false"
         /> <!-- textIsSelectable parece que es ignorado -->
 
-        <!-- AutoCompleteTextView tests (indirectamente testeamos EditText) -->
+        <!-- AutoCompleteTextView tests  -->
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewTestId"
             android:layout_width="match_parent"
@@ -407,6 +407,7 @@
             android:dropDownHorizontalOffset="10dp"
             android:dropDownSelector="@drawable/list_selector_background_light"
             android:dropDownVerticalOffset="5dp"
+            android:dropDownWidth="300dp"
             /><!-- Notar que via dropDownAnchor el suggestion dropdown surge del anchorOfAutoCompleteTextViewDropDownId de abajo, no es lo normal pero esto es un test -->
 
         <TextView
@@ -415,6 +416,7 @@
             android:layout_height="50dp"
             android:text="Anchor of AutoCompleteTextView Suggest Drop Down"
             />
+
 
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper
