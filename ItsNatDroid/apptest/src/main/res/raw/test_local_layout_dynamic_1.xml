@@ -363,7 +363,7 @@
         <!-- http://www.wingnity.com/blog/use-checkedtextview-android/ -->
         <CheckedTextView
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:background="#dddddd"
             android:checkMark="?android:attr/listChoiceIndicatorMultiple"
             android:checked="true"
@@ -373,9 +373,49 @@
         <!-- Chronometer tests -->
         <Chronometer
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="30dp"
+            android:background="#ffdddd"
             android:format="Time: %s"
             />
+
+        <!-- EditText tests
+             No tiene atributos propios pero nos interesa probar si funciona visualmente inputType -->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Only accepts signed decimal numbers"
+            android:imeActionId="0x00000002"
+            android:imeActionLabel="Go Next"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal|numberSigned"
+            android:textIsSelectable="false"
+            /> <!-- textIsSelectable parece que es ignorado -->
+
+        <!-- AutoCompleteTextView tests (indirectamente testeamos EditText) -->
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewTestId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="10dp"
+            android:hint="Write Tennis to test dropdown autocomp"
+            android:completionHint="Sports suggested"
+            android:completionHintView="@layout/auto_complete_text_view_hint_view"
+            android:completionThreshold="3"
+            android:dropDownAnchor="@+id/anchorOfAutoCompleteTextViewDropDownId"
+            android:dropDownHeight="150dp"
+            android:dropDownHorizontalOffset="10dp"
+            android:dropDownSelector="@drawable/list_selector_background_light"
+            android:dropDownVerticalOffset="5dp"
+            /><!-- Notar que via dropDownAnchor el suggestion dropdown surge del anchorOfAutoCompleteTextViewDropDownId de abajo, no es lo normal pero esto es un test -->
+
+        <TextView
+            android:id="@+id/anchorOfAutoCompleteTextViewDropDownId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Anchor of AutoCompleteTextView Suggest Drop Down"
+            />
+
 
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper

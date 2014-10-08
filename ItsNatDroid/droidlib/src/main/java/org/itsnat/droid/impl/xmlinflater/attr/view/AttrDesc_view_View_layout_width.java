@@ -21,7 +21,7 @@ public class AttrDesc_view_View_layout_width extends AttrDesc
 
     public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final int width = getDimensionWithNameInt(view, value);
+        final int width = getDimensionWithNameInt(value,view.getContext());
 
         Runnable task = new Runnable(){
             @Override

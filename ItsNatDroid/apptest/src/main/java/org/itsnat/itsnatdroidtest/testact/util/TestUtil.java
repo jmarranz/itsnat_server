@@ -46,7 +46,7 @@ public class TestUtil
     {
         try
         {
-            Field field = getField(clasz,fieldName);
+            Field field = getFieldReflection(clasz, fieldName);
             return field.get(obj);
         }
         catch (IllegalAccessException ex) { throw new ItsNatDroidException(ex); }
@@ -58,7 +58,7 @@ public class TestUtil
         {
             for (int i = 0; i < classes.length; i++)
             {
-                Field field = getField(classes[i], fieldName[i]);
+                Field field = getFieldReflection(classes[i], fieldName[i]);
                 obj = field.get(obj);
             }
         }
@@ -67,7 +67,7 @@ public class TestUtil
         return obj;
     }
 
-    public static Field getField(Class clasz,String fieldName)
+    public static Field getFieldReflection(Class clasz, String fieldName)
     {
         try
         {

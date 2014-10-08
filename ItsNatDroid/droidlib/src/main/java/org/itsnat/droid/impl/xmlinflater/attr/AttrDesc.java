@@ -331,7 +331,7 @@ public abstract class AttrDesc
         throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
     }
 
-    protected int getDimensionWithNameInt(View view, String value)
+    protected int getDimensionWithNameInt(String value,Context ctx)
     {
         int dimension;
 
@@ -341,7 +341,7 @@ public abstract class AttrDesc
         else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
         {
-            dimension = getDimensionInt(value, view.getContext());
+            dimension = getDimensionInt(value, ctx);
         }
         return dimension;
     }

@@ -22,7 +22,7 @@ public class AttrDescReflecFieldSetDimensionWithNameInt extends AttrDescReflecFi
 
     public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convertedValue = getDimensionWithNameInt(view, value);
+        int convertedValue = getDimensionWithNameInt(value,view.getContext());
 
         setField(view,convertedValue);
     }

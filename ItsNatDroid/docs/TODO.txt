@@ -1,10 +1,7 @@
 
-* Hacer <script src>
-
 * Enviar versión de la app en headers
 
-
-* Hacer un EditText probando de nuevo atributos definidos en TextView
+* Hacer <script src> en el servidor, pensar en cachés de código enviado
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas

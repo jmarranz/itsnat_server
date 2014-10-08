@@ -15,6 +15,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AbsSpinner;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewFlipper;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AutoCompleteTextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CalendarView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CheckedTextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Chronometer;
@@ -121,6 +122,16 @@ public class ClassDescViewMgr
 
                 ClassDesc_widget_Chronometer widget_Chronometer = new ClassDesc_widget_Chronometer(this,widget_TextView);
                 addClassDescViewBase(widget_Chronometer);
+
+                // android.widget.DigitalClock no tiene atributos
+
+                ClassDescViewBased widget_EditText = new ClassDescViewBased(this,"android.widget.EditText",widget_TextView); // no tiene atributos
+                addClassDescViewBase(widget_EditText);
+
+                    ClassDesc_widget_AutoCompleteTextView widget_AutoCompleteTextView = new ClassDesc_widget_AutoCompleteTextView(this,widget_EditText);
+                    addClassDescViewBase(widget_AutoCompleteTextView);
+
+
 
 
 

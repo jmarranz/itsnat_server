@@ -20,7 +20,7 @@ public class AttrDesc_view_View_layout_height extends AttrDesc
 
     public void setAttribute(final View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final int height = getDimensionWithNameInt(view, value);
+        final int height = getDimensionWithNameInt(value,view.getContext());
 
         Runnable task = new Runnable(){
             @Override

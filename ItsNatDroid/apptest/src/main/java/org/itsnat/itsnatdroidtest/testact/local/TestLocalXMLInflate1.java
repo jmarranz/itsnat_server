@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
@@ -25,11 +26,13 @@ import android.widget.AbsSeekBar;
 import android.widget.AdapterViewAnimator;
 import android.widget.AdapterViewFlipper;
 import android.widget.AnalogClock;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Gallery;
 import android.widget.GridView;
@@ -70,7 +73,8 @@ public class TestLocalXMLInflate1
 
     public static void test(ScrollView compRoot,ScrollView parsedRoot,InflatedLayout layout)
     {
-        final Resources res = compRoot.getContext().getResources();
+        Context ctx = compRoot.getContext();
+        final Resources res = ctx.getResources();
 
         // comp = "Layout compiled"
         // parsed = "Layout dynamically parsed"
@@ -925,6 +929,73 @@ public class TestLocalXMLInflate1
 
             assertEquals(compLayout.getFormat(),"Time: %s");
             assertEquals(compLayout.getFormat(),parsedLayout.getFormat());
+        }
+
+        childCount++;
+
+        // EditText Tests
+        // No tiene atributos propios pero nos interesa probar si funciona visualmente inputType
+        {
+            final EditText compLayout = (EditText) comp.getChildAt(childCount);
+            final EditText parsedLayout = (EditText) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getImeActionId(),0x00000002);
+            assertEquals(compLayout.getImeActionId(),parsedLayout.getImeActionId());
+
+            assertEquals(compLayout.getImeActionLabel(),"Go Next");
+            assertEquals(compLayout.getImeActionLabel(),parsedLayout.getImeActionLabel());
+
+            assertEquals(compLayout.getImeOptions(),EditorInfo.IME_ACTION_NEXT);
+            assertEquals(compLayout.getImeOptions(),parsedLayout.getImeOptions());
+
+            assertEquals(compLayout.getInputType(), InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            assertEquals(compLayout.getInputType(), parsedLayout.getInputType());
+
+            assertTrue(compLayout.isTextSelectable());
+            assertEquals(compLayout.isTextSelectable(), parsedLayout.isTextSelectable());
+        }
+
+
+        childCount++;
+
+        // AutoCompleteTextView Tests
+        {
+            final AutoCompleteTextView compLayout = (AutoCompleteTextView) comp.getChildAt(childCount);
+            final AutoCompleteTextView parsedLayout = (AutoCompleteTextView) parsed.getChildAt(childCount);
+
+            // android:completionHint
+            assertEquals((CharSequence)TestUtil.getField(compLayout,"mHintText"),"Sports suggested");
+            assertEquals((CharSequence) TestUtil.getField(parsedLayout,"mHintText"),(CharSequence) TestUtil.getField(parsedLayout,"mHintText"));
+
+            // android:completionHintView
+            assertPositive((Integer) TestUtil.getField(compLayout,"mHintResource"));
+            assertEquals((Integer) TestUtil.getField(parsedLayout,"mHintResource"),(Integer) TestUtil.getField(parsedLayout,"mHintResource"));
+
+            assertEquals(compLayout.getDropDownAnchor(), res.getIdentifier("id/anchorOfAutoCompleteTextViewDropDownId",null,ctx.getPackageName()));
+            assertEquals(compLayout.getDropDownAnchor(),parsedLayout.getDropDownAnchor());
+
+            assertEquals(compLayout.getDropDownHeight(),ValueUtil.dpToPixelInt(150,res));
+            assertEquals(compLayout.getDropDownHeight(),parsedLayout.getDropDownHeight());
+
+            assertEquals(compLayout.getDropDownHorizontalOffset(),ValueUtil.dpToPixelInt(10,res));
+            assertEquals(compLayout.getDropDownHorizontalOffset(),parsedLayout.getDropDownHorizontalOffset());
+
+            assertNotNull((StateListDrawable)TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
+            assertEquals((StateListDrawable)TestUtil.getField(compLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}), (StateListDrawable)TestUtil.getField(parsedLayout, new Class[]{AutoCompleteTextView.class, ListPopupWindow.class}, new String[]{"mPopup", "mDropDownListHighlight"}));
+
+            assertEquals(compLayout.getDropDownVerticalOffset(),ValueUtil.dpToPixelInt(5,res));
+            assertEquals(compLayout.getDropDownVerticalOffset(),parsedLayout.getDropDownVerticalOffset());
+        }
+
+        childCount++;
+
+        // TextView used as anchor of AutoCompleteTextView Suggest Drop Down (upper View)
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(),"Anchor of AutoCompleteTextView Suggest Drop Down");
+            assertEquals(compLayout.getText(),parsedLayout.getText());
         }
 
 
