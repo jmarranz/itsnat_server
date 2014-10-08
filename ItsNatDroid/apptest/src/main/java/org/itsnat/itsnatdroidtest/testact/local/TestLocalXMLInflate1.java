@@ -28,6 +28,7 @@ import android.widget.AnalogClock;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.Gallery;
@@ -913,6 +914,17 @@ public class TestLocalXMLInflate1
 
             assertTrue(compLayout.isChecked());
             assertEquals(compLayout.isChecked(),parsedLayout.isChecked());
+        }
+
+        childCount++;
+
+        // Chronometer Tests
+        {
+            final Chronometer compLayout = (Chronometer) comp.getChildAt(childCount);
+            final Chronometer parsedLayout = (Chronometer) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getFormat(),"Time: %s");
+            assertEquals(compLayout.getFormat(),parsedLayout.getFormat());
         }
 
 

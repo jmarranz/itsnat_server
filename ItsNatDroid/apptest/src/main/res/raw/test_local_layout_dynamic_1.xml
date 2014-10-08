@@ -370,6 +370,12 @@
             android:text="CheckedTextView Tests"
             /> <!-- Alternativa: btn_check_holo_light del del ejemplo de CheckBox -->
 
+        <!-- Chronometer tests -->
+        <Chronometer
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:format="Time: %s"
+            />
 
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper

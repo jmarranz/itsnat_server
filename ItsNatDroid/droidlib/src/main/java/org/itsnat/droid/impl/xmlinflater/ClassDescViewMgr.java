@@ -17,6 +17,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewF
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CalendarView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CheckedTextView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Chronometer;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_DatePicker;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
@@ -117,6 +118,10 @@ public class ClassDescViewMgr
 
                 ClassDesc_widget_CheckedTextView widget_CheckedTextView = new ClassDesc_widget_CheckedTextView(this,widget_TextView);
                 addClassDescViewBase(widget_CheckedTextView);
+
+                ClassDesc_widget_Chronometer widget_Chronometer = new ClassDesc_widget_Chronometer(this,widget_TextView);
+                addClassDescViewBase(widget_Chronometer);
+
 
 
             // 	android.view.TextureView no tiene atributos

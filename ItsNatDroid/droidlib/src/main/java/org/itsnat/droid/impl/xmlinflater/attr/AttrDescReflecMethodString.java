@@ -11,14 +11,18 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
  */
 public class AttrDescReflecMethodString extends AttrDescReflecMethod
 {
-    public AttrDescReflecMethodString(ClassDescViewBased parent, String name, String methodName)
+    protected String defaultValue;
+
+    public AttrDescReflecMethodString(ClassDescViewBased parent, String name, String methodName,String defaultValue)
     {
         super(parent,name,methodName,getClassParam());
+        this.defaultValue = defaultValue;
     }
 
-    public AttrDescReflecMethodString(ClassDescViewBased parent, String name)
+    public AttrDescReflecMethodString(ClassDescViewBased parent, String name,String defaultValue)
     {
         super(parent,name,getClassParam());
+        this.defaultValue = defaultValue;
     }
 
     protected static Class<?> getClassParam()

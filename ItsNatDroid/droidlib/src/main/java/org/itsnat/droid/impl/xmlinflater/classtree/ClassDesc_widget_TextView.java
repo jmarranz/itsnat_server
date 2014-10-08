@@ -88,7 +88,7 @@ public class ClassDesc_widget_TextView extends ClassDescViewBased
         // android:numeric está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:password está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
         // android:phoneNumber está deprecated desde Level 3, no se implementarlo y tiene alternativa (inputType)
-        addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions"));
+        addAttrDesc(new AttrDescReflecMethodString(this,"privateImeOptions",""));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"scrollHorizontally","setHorizontallyScrolling",false));
         addAttrDesc(new AttrDescReflecMethodBoolean(this,"selectAllOnFocus",false));
         addAttrDesc(new AttrDesc_widget_TextView_shadowLayer_base(this,"shadowColor"));
