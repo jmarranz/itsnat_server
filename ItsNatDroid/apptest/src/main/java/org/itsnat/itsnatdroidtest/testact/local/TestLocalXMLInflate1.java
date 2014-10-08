@@ -27,6 +27,7 @@ import android.widget.AdapterViewFlipper;
 import android.widget.AnalogClock;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.Gallery;
@@ -44,6 +45,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidException;
@@ -860,9 +862,7 @@ public class TestLocalXMLInflate1
 
             // Test android:textStyle y android:typeface
 
-            int NORMAL = 0;
-            int BOLD = 1;
-            int ITALIC = 2;
+            int NORMAL = 0, BOLD = 1, ITALIC = 2;
 
             Typeface compTf = compLayout.getTypeface();
             Typeface parsedTf = parsedLayout.getTypeface();
@@ -882,6 +882,39 @@ public class TestLocalXMLInflate1
             assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mTrackDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mTrackDrawable"));
 
         }
+
+        childCount++;
+
+        // ToggleButton Tests
+        // Nota: ToggleButton ha sido reemplazado totalmente por Switch, lo implementamos para los despistados
+        {
+            final ToggleButton compLayout = (ToggleButton) comp.getChildAt(childCount);
+            final ToggleButton parsedLayout = (ToggleButton) parsed.getChildAt(childCount);
+
+            assertEquals((Float)TestUtil.getField(compLayout,"mDisabledAlpha"),0.6f);
+            assertEquals((Float)TestUtil.getField(compLayout,"mDisabledAlpha"),(Float)TestUtil.getField(parsedLayout,"mDisabledAlpha"));
+
+            assertEquals(compLayout.getTextOff(),"NORL");
+            assertEquals(compLayout.getTextOff(),parsedLayout.getTextOff());
+
+            assertEquals(compLayout.getTextOn(),"YESRL");
+            assertEquals(compLayout.getTextOn(),parsedLayout.getTextOn());
+        }
+
+        childCount++;
+
+        // CheckedTextView Tests
+        {
+            final CheckedTextView compLayout = (CheckedTextView) comp.getChildAt(childCount);
+            final CheckedTextView parsedLayout = (CheckedTextView) parsed.getChildAt(childCount);
+
+            assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mCheckMarkDrawable"));
+            assertEquals((StateListDrawable) TestUtil.getField(parsedLayout,"mCheckMarkDrawable"),(StateListDrawable) TestUtil.getField(parsedLayout,"mCheckMarkDrawable"));
+
+            assertTrue(compLayout.isChecked());
+            assertEquals(compLayout.isChecked(),parsedLayout.isChecked());
+        }
+
 
         childCount++;
 

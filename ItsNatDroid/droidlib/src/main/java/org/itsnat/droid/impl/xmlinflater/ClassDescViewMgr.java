@@ -16,6 +16,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewA
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AdapterViewFlipper;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_AnalogClock;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CalendarView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CheckedTextView;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_CompoundButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_DatePicker;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ExpandableListView;
@@ -40,6 +41,7 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_Switch;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TabWidget;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TableLayout;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_TextView;
+import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ToggleButton;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewAnimator;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDesc_widget_ViewFlipper;
 
@@ -83,6 +85,7 @@ public class ClassDescViewMgr
             addClassDescViewBase(widget_ProgressBar);
                 ClassDesc_widget_AbsSeekBar widget_AbsSeekBar = new ClassDesc_widget_AbsSeekBar(this,widget_ProgressBar);
                 addClassDescViewBase(widget_AbsSeekBar);
+
                     ClassDesc_widget_RatingBar widget_RatingBar = new ClassDesc_widget_RatingBar(this,widget_AbsSeekBar);
                     addClassDescViewBase(widget_RatingBar);
                     ClassDesc_widget_SeekBar widget_SeekBar = new ClassDesc_widget_SeekBar(this,widget_AbsSeekBar);
@@ -105,10 +108,15 @@ public class ClassDescViewMgr
                     addClassDescViewBase(widget_CompoundButton);
 
                         // CheckBox no tiene atributos
-                        // RadioButton no tiene atributos y se testea indirectamente con RadioGroup
+                        // RadioButton no tiene atributos y se testea indirectamente en RadioGroup
 
                         ClassDesc_widget_Switch widget_Switch = new ClassDesc_widget_Switch(this,widget_CompoundButton);
                         addClassDescViewBase(widget_Switch);
+                        ClassDesc_widget_ToggleButton widget_ToggleButton = new ClassDesc_widget_ToggleButton(this,widget_CompoundButton);
+                        addClassDescViewBase(widget_ToggleButton);
+
+                ClassDesc_widget_CheckedTextView widget_CheckedTextView = new ClassDesc_widget_CheckedTextView(this,widget_TextView);
+                addClassDescViewBase(widget_CheckedTextView);
 
 
             // 	android.view.TextureView no tiene atributos

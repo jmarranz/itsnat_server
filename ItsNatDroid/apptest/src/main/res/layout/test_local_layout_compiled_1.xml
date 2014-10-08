@@ -349,6 +349,27 @@
             android:typeface="serif"
             />
 
+        <!-- ToggleButton Tests -->
+        <!-- Nota: ha sido reemplazado por Switch, lo implementamos para los despistados -->
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:disabledAlpha="0.6"
+            android:textOff="NORL"
+            android:textOn="YESRL"
+            />
+
+        <!-- CheckedTextView tests -->
+        <!-- http://www.wingnity.com/blog/use-checkedtextview-android/ -->
+        <CheckedTextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="#dddddd"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:checked="true"
+            android:text="CheckedTextView Tests"
+            /> <!-- Alternativa: btn_check_holo_light del del ejemplo de CheckBox -->
+
         <!-- Test AdapterViewAnimator y AdapterViewFlipper  -->
         <AdapterViewFlipper
             android:id="@id/adapterViewAnimatorTestId"
