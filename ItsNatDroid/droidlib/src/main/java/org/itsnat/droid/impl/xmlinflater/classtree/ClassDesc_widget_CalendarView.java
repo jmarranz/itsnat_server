@@ -1,6 +1,11 @@
 package org.itsnat.droid.impl.xmlinflater.classtree;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CalendarView;
+
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetColor;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetDrawable;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDescReflecFieldSetInt;
@@ -21,6 +26,28 @@ public class ClassDesc_widget_CalendarView extends ClassDescViewBased
     public ClassDesc_widget_CalendarView(ClassDescViewMgr classMgr,ClassDesc_widget_FrameLayout parentClass)
     {
         super(classMgr,"android.widget.CalendarView",parentClass);
+    }
+
+    @Override
+    public OneTimeAttrProcess createOneTimeAttrProcess(final View view, ViewGroup viewParent)
+    {
+        OneTimeAttrProcess oneTimeAttrProcess = super.createOneTimeAttrProcess(view, viewParent);
+
+        oneTimeAttrProcess.addLastTask(new Runnable(){
+            @Override
+            public void run()
+            {
+                // Esto es raro de narices pero es un workaround de un buggy de CalendarView al crearse programáticamente
+                // o bien es por nuestra "culpa" al aplicar los atributos en un orden incorrecto, el caso es que la semana
+                // actual no se selecciona, llamando a calendarView.setDate(System.currentTimeMillis()) no reacciona
+                // pero sí lo hace si cambiamos mucho la fecha
+                CalendarView calView = (CalendarView)view;
+                calView.setDate(calView.getDate() + 7*24*60*60*1000);
+                calView.setDate(System.currentTimeMillis());
+            }
+        });
+
+        return oneTimeAttrProcess;
     }
 
     protected void init()

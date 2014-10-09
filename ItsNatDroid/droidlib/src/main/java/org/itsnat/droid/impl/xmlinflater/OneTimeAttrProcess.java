@@ -1,8 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.GridLayout;
 
 import java.util.LinkedList;
 
@@ -18,13 +16,6 @@ public abstract class OneTimeAttrProcess
     public OneTimeAttrProcess(View view)
     {
         this.view = view;
-    }
-
-    public static OneTimeAttrProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
-    {
-        return (viewParent instanceof GridLayout)
-                ? new OneTimeAttrProcessChildGridLayout(view)
-                : new OneTimeAttrProcessDefault(view);
     }
 
     public void addLastTask(Runnable task)

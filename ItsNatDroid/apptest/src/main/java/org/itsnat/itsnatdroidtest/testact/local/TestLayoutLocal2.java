@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 
@@ -54,8 +56,8 @@ public class TestLayoutLocal2 extends TestLayoutLocalBase
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
-        View calendarView = rootView.findViewById(R.id.calendarViewTestId);
-        View datePicker = rootView.findViewById(R.id.datePickerTestId);
+        CalendarView calendarView = (CalendarView)rootView.findViewById(R.id.calendarViewTestId);
+        DatePicker datePicker = (DatePicker)rootView.findViewById(R.id.datePickerTestId);
         if ("sdk".equals( Build.PRODUCT ) || "sdk_x86".equals( Build.PRODUCT ))
         {
             // La aceleración hardware hace caer el emulador 4.0.3 en estos componentes

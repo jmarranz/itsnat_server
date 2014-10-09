@@ -280,7 +280,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
     {
-        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
+        OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,view, parser,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,ctx);
     }

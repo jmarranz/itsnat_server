@@ -739,14 +739,13 @@ public class TestLocalXMLInflate1
             assertEquals(compLayout.getTextSize(), parsedLayout.getTextSize());
 
             // Test android:textStyle y typeface
-            int NORMAL = 0;
-            int BOLD = 1;
-            int ITALIC = 2;
+            int NORMAL = 0, BOLD = 1, ITALIC = 2;
 
             Typeface compTf = compLayout.getTypeface();
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
-            assertEquals(compTf,parsedTf); // He visto en el código fuente que tiene un equals() que compara el style y el tipo de letra
+            assertEquals(compTf.getStyle(),parsedTf.getStyle());
+            assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
         }
 
         childCount++;
@@ -872,7 +871,8 @@ public class TestLocalXMLInflate1
             Typeface compTf = compLayout.getTypeface();
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
-            assertEquals(compTf,parsedTf); // He visto en el código fuente que tiene un equals() que compara el style y el tipo de letra
+            assertEquals(compTf.getStyle(),parsedTf.getStyle());
+            assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
 
             // Test android:thumb
             assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mThumbDrawable"));

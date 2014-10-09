@@ -53,6 +53,7 @@ public class ClassDesc_widget_SlidingDrawer extends ClassDescViewBased
                 {
                     // Se nota que SlidingDrawer está abandonado porque no funciona creado programáticamente, necesita ser ejecutado el método
                     // OnFinishInflate manualmente (por tanto parseado desde XML nativo compilado) para que se definan el content y el handle
+                    // Los View hijos content y handle deben estar ya añadidos por eso usamos PendingPostInsertChildrenTasks
                     methodOnFinishInflate.invoke(view);
                 }
             });

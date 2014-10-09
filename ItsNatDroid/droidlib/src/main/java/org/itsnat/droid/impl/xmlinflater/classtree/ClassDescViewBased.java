@@ -8,6 +8,7 @@ import android.util.Xml;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -22,6 +23,8 @@ import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcessChildGridLayout;
+import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
@@ -216,6 +219,13 @@ public class ClassDescViewBased
     public static boolean isXMLIdAttrAsDOM(String namespaceURI, String name)
     {
         return (namespaceURI == null || "".equals(namespaceURI)) && "id".equals(name);
+    }
+
+    public OneTimeAttrProcess createOneTimeAttrProcess(View view,ViewGroup viewParent)
+    {
+        return (viewParent instanceof GridLayout)
+                ? new OneTimeAttrProcessChildGridLayout(view)
+                : new OneTimeAttrProcessDefault(view);
     }
 
     public void addViewObject(ViewGroup viewParent,View view,int index,OneTimeAttrProcess oneTimeAttrProcess, Context ctx)

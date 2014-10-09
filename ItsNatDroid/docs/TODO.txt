@@ -1,6 +1,9 @@
 
 * En CalendarView en dynamic no se selecciona la semana, revisar
 
+* Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro
+del parseo el View padre insertado
+
 * Enviar versión de la app en headers
 
 * Hacer <script src> en el servidor, pensar en cachés de código enviado

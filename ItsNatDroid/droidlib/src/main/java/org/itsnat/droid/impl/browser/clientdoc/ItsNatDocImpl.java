@@ -203,7 +203,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         newChildToIn.setView(view);
 
-        OneTimeAttrProcess oneTimeAttrProcess = OneTimeAttrProcess.createOneTimeAttrProcess(view,viewParent);
+        OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
         classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,inflated.getContext());
 
