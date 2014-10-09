@@ -68,6 +68,13 @@ public class HttpUtil
 
     public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,StatusLine[] status,String[] encoding) throws SocketTimeoutException
     {
+        HttpResponse response = httpGet(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed);
+
+        return processResponse(response,status,encoding);
+    }
+
+    public static HttpResponse httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
+    {
         URI uri;
         try { uri = new URI(url); }
         catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
@@ -79,10 +86,17 @@ public class HttpUtil
                 // Prepare a request object
         HttpGet httpGet = new HttpGet(uri);
 
-        return execute(httpClient,httpGet,httpContext,httpHeaders,status,encoding);
+        return execute(httpClient,httpGet,httpContext,httpHeaders);
     }
 
     public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status,String[] encoding) throws SocketTimeoutException
+    {
+        HttpResponse response = httpPost(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,nameValuePairs);
+
+        return processResponse(response,status,encoding);
+    }
+
+    public static HttpResponse httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -103,10 +117,10 @@ public class HttpUtil
         }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-        return execute(httpClient,httpPost,httpContext,httpHeaders,status,encoding);
+        return execute(httpClient,httpPost,httpContext,httpHeaders);
     }
 
-    private static byte[] execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders,StatusLine[] status,String[] encoding) throws SocketTimeoutException
+    private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException
     {
         try
         {
@@ -125,20 +139,7 @@ public class HttpUtil
             }
 
             HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
-
-            // Get hold of the response entity
-            HttpEntity entity = response.getEntity();
-            // If the response does not enclose an entity, there is no need
-            // to worry about connection release
-
-            status[0] = response.getStatusLine();
-
-            if (entity == null) return null; // raro incluso con error
-
-            encoding[0] = getEncoding(response);
-
-            InputStream input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
-            return read(input);
+            return response;
         }
         catch(SocketTimeoutException ex)
         {
@@ -152,6 +153,33 @@ public class HttpUtil
         {
             throw new ItsNatDroidException(ex);
         }
+    }
+
+    private static byte[] processResponse(HttpResponse response,StatusLine[] status,String[] encoding)
+    {
+        // Get hold of the response entity
+        HttpEntity entity = response.getEntity();
+        // If the response does not enclose an entity, there is no need
+        // to worry about connection release
+
+        status[0] = response.getStatusLine();
+
+        encoding[0] = getEncoding(response);
+
+        if (entity == null) return null; // raro incluso con error
+
+        InputStream input = null;
+
+        try
+        {
+            input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
+        }
+        catch (IOException ex)
+        {
+            throw new ItsNatDroidException(ex);
+        }
+
+        return read(input);
     }
 
     private static String getEncoding(HttpResponse response)

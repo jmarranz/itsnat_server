@@ -1,11 +1,11 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.StatusLine;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
-class HttpPostResult
+public class HttpPostResult
 {
     public HttpPostResult(String result, StatusLine status)
     {

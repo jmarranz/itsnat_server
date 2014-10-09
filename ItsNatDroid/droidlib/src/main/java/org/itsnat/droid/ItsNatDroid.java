@@ -7,4 +7,6 @@ public interface ItsNatDroid
 {
     public ItsNatDroidBrowser createItsNatDroidBrowser();
     public InflateRequest createInflateRequest();
+    public String getVersionName();
+    public int getVersionCode();
 }

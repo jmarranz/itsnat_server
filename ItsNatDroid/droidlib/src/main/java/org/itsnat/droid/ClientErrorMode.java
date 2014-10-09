@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.clientdoc;
+package org.itsnat.droid;
 
 /**
  * Created by jmarranz on 14/07/14.

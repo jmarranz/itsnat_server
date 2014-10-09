@@ -1,6 +1,8 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -16,6 +18,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.HashMap;
@@ -126,11 +129,21 @@ public class PageRequestImpl implements PageRequest
         Resources resources = ctx.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
+        ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
+        int libVersionCode = itsNatDroid.getVersionCode();
+        String libVersionName = itsNatDroid.getVersionName();
+        PackageInfo pInfo = null;
+        try { pInfo = ctx.getPackageManager().getPackageInfo( ctx.getPackageName(), 0); }
+        catch(PackageManager.NameNotFoundException ex) { throw new ItsNatDroidException(ex); }
 
         Map<String, String> httpHeaders = new HashMap<String, String>();
 
         httpHeaders.put("ItsNat-model", "" + Build.MODEL);
         httpHeaders.put("ItsNat-sdk-int", "" + Build.VERSION.SDK_INT);
+        httpHeaders.put("ItsNat-lib-version-name", "" + libVersionName);
+        httpHeaders.put("ItsNat-lib-version-code", "" + libVersionCode);
+        httpHeaders.put("ItsNat-app-version-name", "" + pInfo.versionName);
+        httpHeaders.put("ItsNat-app-version-code", "" + pInfo.versionCode);
         httpHeaders.put("ItsNat-display-width", "" + dm.widthPixels);
         httpHeaders.put("ItsNat-display-height", "" + dm.heightPixels);
         httpHeaders.put("ItsNat-display-density", "" + dm.density);

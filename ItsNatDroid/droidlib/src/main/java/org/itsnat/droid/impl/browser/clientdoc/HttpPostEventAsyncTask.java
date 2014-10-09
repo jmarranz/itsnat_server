@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
@@ -6,7 +6,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.impl.browser.clientdoc.EventSender;
+import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
@@ -46,7 +47,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
     {
         StatusLine[] status = new StatusLine[1];
         String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status,encoding);
+        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status, encoding);
         String result = ValueUtil.toString(resultArr,encoding[0]);
 
         return new HttpPostResult(result,status[0]);

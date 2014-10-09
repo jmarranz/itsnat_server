@@ -1,10 +1,8 @@
 
-* En CalendarView en dynamic no se selecciona la semana, revisar
+* Reutilizar código entre GenericHttpClient y HttpPostGenericAsyncTask y las clases correspondientes para ItsNat
 
 * Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro
 del parseo el View padre insertado
-
-* Enviar versión de la app en headers
 
 * Hacer <script src> en el servidor, pensar en cachés de código enviado
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="libVersionName">0.9</string>
+    <integer name="libVersionCode">1</integer>
+
+</resources>

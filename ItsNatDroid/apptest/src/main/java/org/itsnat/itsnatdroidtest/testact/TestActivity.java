@@ -41,6 +41,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ItsNatDroidRoot.init(getApplication());
         this.droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
 
         Intent intent = getIntent();

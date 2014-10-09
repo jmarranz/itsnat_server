@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.clientdoc;
+package org.itsnat.droid.impl.browser.clientgeneric;
 
 import android.os.AsyncTask;
 
@@ -14,7 +14,7 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
+import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.net.SocketTimeoutException;
@@ -25,42 +25,32 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 /**
- * Created by jmarranz on 10/07/14.
+ * Created by jmarranz on 9/10/14.
  */
-public class EventSender
+public class GenericHttpClient
 {
-    protected EventManager evtManager;
+    protected PageImpl page;
+    protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
-    public EventSender(EventManager evtManager)
+    public GenericHttpClient(PageImpl page)
     {
-        this.evtManager = evtManager;
+        this.page = page;
     }
 
-    public EventManager getEventManager()
+    public PageImpl getPageImpl()
     {
-        return evtManager;
+        return page;
     }
 
-    public ItsNatDocImpl getItsNatDocImpl()
+    public void setErrorMode(int errorMode)
     {
-        return evtManager.getItsNatDocImpl();
+        if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS) throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
+        this.errorMode = errorMode;
     }
 
-    private HttpParams buildHttpParamsRequest(long timeout)
+    public void requestSync(String servletPath, List<NameValuePair> params, long timeout)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest.copy();
-        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
-        HttpConnectionParams.setSoTimeout(httpParamsRequest, soTimeout);
-        return httpParamsRequest;
-    }
-
-    public void requestSync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
-    {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
+        PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
         HttpContext httpContext = browser.getHttpContext();
@@ -74,24 +64,23 @@ public class EventSender
         String result = null;
         try
         {
-            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params, status,encoding);
-            result = ValueUtil.toString(resultArr,encoding[0]);
+            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status, encoding);
+            result = ValueUtil.toString(resultArr, encoding[0]);
         }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = processException(evt, ex);
+            ItsNatDroidException exFinal = processException(ex);
             throw exFinal;
 
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(evt,status[0],result,false);
+        processResult(status[0],result,false);
     }
 
-    public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
+    public void requestAsync(String servletPath, List<NameValuePair> params, long timeout)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
+        PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
         HttpContext httpContext = browser.getHttpContext();
@@ -100,15 +89,37 @@ public class EventSender
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
+        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
+
     }
 
-    public void processResult(EventGenericImpl evt,StatusLine status,String result,boolean async)
+    private HttpParams buildHttpParamsRequest(long timeout)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-        page.fireEventMonitors(false,false,evt);
+        PageImpl page = getPageImpl();
+        HttpParams httpParamsRequest = page.getHttpParams();
+        httpParamsRequest = httpParamsRequest.copy();
+        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
+        HttpConnectionParams.setSoTimeout(httpParamsRequest, soTimeout);
+        return httpParamsRequest;
+    }
+
+    public ItsNatDroidException processException(Exception ex)
+    {
+        if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
+        {
+            return new ItsNatDroidException(ex);
+        }
+        else if (ex instanceof ItsNatDroidException)
+        {
+            return (ItsNatDroidException)ex;
+        }
+        else return new ItsNatDroidException(ex);
+    }
+
+    public void processResult(StatusLine status,String result,boolean async)
+    {
+        PageImpl page = getPageImpl();
 
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
@@ -133,9 +144,6 @@ public class EventSender
                 showErrorMessage(false, ex.getMessage());
                 throw new ItsNatDroidScriptException(ex, result);
             }
-
-            if (async) evtManager.returnedEvent(evt);
-
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
@@ -144,48 +152,26 @@ public class EventSender
         }
     }
 
-    public ItsNatDroidException processException(EventGenericImpl evt,Exception ex)
-    {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-
-        if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
-        {
-            page.fireEventMonitors(false, true, evt);
-
-            return new ItsNatDroidException(ex);
-        }
-        else
-        {
-            page.fireEventMonitors(false, false, evt);
-
-            if (ex instanceof ItsNatDroidException)
-                return (ItsNatDroidException)ex;
-            else
-                return new ItsNatDroidException(ex);
-        }
-    }
-
     public void showErrorMessage(boolean serverErr, String msg)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        int errorMode = itsNatDoc.getErrorMode();
         if (errorMode == ClientErrorMode.NOT_SHOW_ERRORS) return;
 
+        ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
         if (serverErr) // Pagina HTML con la excepcion del servidor
         {
             if ((errorMode == ClientErrorMode.SHOW_SERVER_ERRORS) ||
-                (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 2 = ClientErrorMode.SHOW_SERVER_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
+                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 2 = ClientErrorMode.SHOW_SERVER_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
                 itsNatDoc.alert("SERVER ERROR: " + msg);
         }
         else
         {
             if ((errorMode == ClientErrorMode.SHOW_CLIENT_ERRORS) ||
-                (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 3 = ClientErrorMode.SHOW_CLIENT_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
+                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 3 = ClientErrorMode.SHOW_CLIENT_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
             {
                 // Ha sido un error Beanshell
                 itsNatDoc.alert(msg);
             }
         }
     }
+
 }
