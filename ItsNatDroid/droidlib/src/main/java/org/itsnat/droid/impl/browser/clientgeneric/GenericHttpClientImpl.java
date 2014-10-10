@@ -8,9 +8,11 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.browser.HttpResult;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -27,12 +29,12 @@ import bsh.Interpreter;
 /**
  * Created by jmarranz on 9/10/14.
  */
-public class GenericHttpClient
+public class GenericHttpClientImpl implements GenericHttpClient
 {
     protected PageImpl page;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
-    public GenericHttpClient(PageImpl page)
+    public GenericHttpClientImpl(PageImpl page)
     {
         this.page = page;
     }
@@ -42,6 +44,13 @@ public class GenericHttpClient
         return page;
     }
 
+    @Override
+    public int getErrorMode()
+    {
+        return errorMode;
+    }
+
+    @Override
     public void setErrorMode(int errorMode)
     {
         if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS) throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
@@ -59,13 +68,11 @@ public class GenericHttpClient
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        StatusLine[] status = new StatusLine[1];
-        String[] encoding = new String[1];
-        String result = null;
+        HttpResult result = null;
         try
         {
-            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status, encoding);
-            result = ValueUtil.toString(resultArr, encoding[0]);
+            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
         }
         catch (Exception ex)
         {
@@ -75,7 +82,7 @@ public class GenericHttpClient
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(status[0],result,false);
+        processResult(result.status,result.contentStr,false);
     }
 
     public void requestAsync(String servletPath, List<NameValuePair> params, long timeout)

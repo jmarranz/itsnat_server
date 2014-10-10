@@ -11,6 +11,7 @@ import java.util.Map;
 public class XMLLayoutInflateService
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
+    public static final String MIME_ANDROID_LAYOUT = "android/layout";
 
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();

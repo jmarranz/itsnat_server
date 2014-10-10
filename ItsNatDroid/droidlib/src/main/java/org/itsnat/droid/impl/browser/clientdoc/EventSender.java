@@ -11,6 +11,7 @@ import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.browser.HttpResult;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -69,13 +70,11 @@ public class EventSender
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        StatusLine[] status = new StatusLine[1];
-        String[] encoding = new String[1];
-        String result = null;
+        HttpResult result = null;
         try
         {
-            byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params, status,encoding);
-            result = ValueUtil.toString(resultArr,encoding[0]);
+            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params);
+            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
         }
         catch (Exception ex)
         {
@@ -85,7 +84,7 @@ public class EventSender
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(evt,status[0],result,false);
+        processResult(evt,result.status,result.contentStr,false);
     }
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)

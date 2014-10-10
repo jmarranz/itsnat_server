@@ -66,14 +66,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static byte[] httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,StatusLine[] status,String[] encoding) throws SocketTimeoutException
-    {
-        HttpResponse response = httpGet(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed);
-
-        return processResponse(response,status,encoding);
-    }
-
-    public static HttpResponse httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
+    public static HttpResult httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -86,17 +79,11 @@ public class HttpUtil
                 // Prepare a request object
         HttpGet httpGet = new HttpGet(uri);
 
-        return execute(httpClient,httpGet,httpContext,httpHeaders);
+        HttpResponse response = execute(httpClient,httpGet,httpContext,httpHeaders);
+        return processResponse(response);
     }
 
-    public static byte[] httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,StatusLine[] status,String[] encoding) throws SocketTimeoutException
-    {
-        HttpResponse response = httpPost(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,nameValuePairs);
-
-        return processResponse(response,status,encoding);
-    }
-
-    public static HttpResponse httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
+    public static HttpResult httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -117,7 +104,8 @@ public class HttpUtil
         }
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
-        return execute(httpClient,httpPost,httpContext,httpHeaders);
+        HttpResponse response = execute(httpClient,httpPost,httpContext,httpHeaders);
+        return processResponse(response);
     }
 
     private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException
@@ -155,36 +143,35 @@ public class HttpUtil
         }
     }
 
-    private static byte[] processResponse(HttpResponse response,StatusLine[] status,String[] encoding)
+    private static HttpResult processResponse(HttpResponse response)
     {
         // Get hold of the response entity
         HttpEntity entity = response.getEntity();
         // If the response does not enclose an entity, there is no need
         // to worry about connection release
 
-        status[0] = response.getStatusLine();
+        StatusLine status = response.getStatusLine();
 
-        encoding[0] = getEncoding(response);
+        String[] contentType = new String[1];
+        String[] encoding = new String[1];
 
-        if (entity == null) return null; // raro incluso con error
+        getContentTypeEncoding(response,contentType,encoding);
 
-        InputStream input = null;
+        byte[] contentArr = null;
 
-        try
+        if (entity != null) // null es muy raro incluso con error
         {
-            input = entity.getContent(); // Interesa incluso cuando hay error (statusCode != 200)
-        }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
+            InputStream input = null;
+            try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200)
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
+            contentArr = read(input);
         }
 
-        return read(input);
+        return new HttpResult(contentArr,null,status,contentType[0],encoding[0]);
     }
 
-    private static String getEncoding(HttpResponse response)
+    private static void getContentTypeEncoding(HttpResponse response,String[] contentType,String[] encoding)
     {
-        String encoding = null;
         Header[] contentTypes = response.getHeaders("Content-Type"); // Internamente ignora mayúsculas y minúsculas, no hay que preocuparse
         if (contentTypes != null && contentTypes.length > 0)
         {
@@ -192,13 +179,14 @@ public class HttpUtil
             HeaderElement[] elems = contentTypes[0].getElements(); // https://hc.apache.org/httpclient-3.x/apidocs/org/apache/commons/httpclient/HeaderElement.html
             for (HeaderElement elem : elems)
             {
+                contentType[0] = elem.getName();
                 NameValuePair[] params = elem.getParameters();
                 for (NameValuePair param : params)
                 {
                     String name = param.getName();
                     if (name.equalsIgnoreCase("charset"))
                     {
-                        encoding = param.getValue();
+                        encoding[0] = param.getValue();
                         break;
                     }
                 }
@@ -206,8 +194,8 @@ public class HttpUtil
             }
         }
 
-        if (encoding == null) encoding = "UTF-8"; // Por si acaso
-        return encoding;
+        //if (contentType[0] == null) contentType[0] = "android/layout"; // Por si acaso
+        //if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
     }
 
     public static byte[] read(InputStream input)

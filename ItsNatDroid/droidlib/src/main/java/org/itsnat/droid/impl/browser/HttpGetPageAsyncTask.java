@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.browser;
 
-import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
@@ -37,14 +36,12 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
 
     protected String executeInBackground() throws Exception
     {
-        StatusLine[] status = new StatusLine[1];
-        String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,status,encoding);
-        String result = ValueUtil.toString(resultArr,encoding[0]);
-        if (status[0].getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(status[0].getStatusCode(),status[0].getReasonPhrase(), result);
+        HttpResult result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
+        result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
+        if (result.status.getStatusCode() != 200)
+            throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.contentStr);
 
-        return result;
+        return result.contentStr;
     }
 
     @Override

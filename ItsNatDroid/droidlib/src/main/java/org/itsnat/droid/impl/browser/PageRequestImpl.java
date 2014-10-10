@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 
-import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrCustomInflaterListener;
@@ -168,15 +167,13 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        String result;
+        HttpResult result;
         try
         {
-            StatusLine[] status = new StatusLine[1];
-            String[] encoding = new String[1];
-            byte[] resultArr = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, status, encoding);
-            result = ValueUtil.toString(resultArr, encoding[0]);
-            if (status[0].getStatusCode() != 200)
-                throw new ItsNatDroidServerResponseException(status[0].getStatusCode(), status[0].getReasonPhrase(), result);
+            result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed);
+            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
+            if (result.status.getStatusCode() != 200)
+                throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.contentStr);
         }
         catch(Exception ex)
         {
@@ -195,7 +192,7 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-        processResponse(url,result);
+        processResponse(url,result.contentStr);
     }
 
     private void executeAsync(String url)

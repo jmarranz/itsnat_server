@@ -6,6 +6,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.impl.browser.HttpResult;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
+public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpResult>
 {
     protected EventSender eventSender;
     protected EventGenericImpl evt;
@@ -43,23 +44,20 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpPostResult>
         this.params = params;
     }
 
-    protected HttpPostResult executeInBackground() throws Exception
+    protected HttpResult executeInBackground() throws Exception
     {
-        StatusLine[] status = new StatusLine[1];
-        String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status, encoding);
-        String result = ValueUtil.toString(resultArr,encoding[0]);
-
-        return new HttpPostResult(result,status[0]);
+        HttpResult result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+        result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
+        return result;
     }
 
     @Override
-    protected void onFinishOk(HttpPostResult postResult)
+    protected void onFinishOk(HttpResult postResult)
     {
         try
         {
             StatusLine status = postResult.status;
-            String result = postResult.result;
+            String result = postResult.contentStr;
 
             eventSender.processResult(evt, status, result, true);
         }

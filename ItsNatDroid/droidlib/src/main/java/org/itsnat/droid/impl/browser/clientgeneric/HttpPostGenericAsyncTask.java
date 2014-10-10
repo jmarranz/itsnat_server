@@ -8,7 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
-import org.itsnat.droid.impl.browser.clientdoc.HttpPostResult;
+import org.itsnat.droid.impl.browser.HttpResult;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpPostResult>
+public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpResult>
 {
-    protected GenericHttpClient parent;
+    protected GenericHttpClientImpl parent;
     protected String servletPath;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
@@ -28,7 +28,7 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpPostResult
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
 
-    public HttpPostGenericAsyncTask(GenericHttpClient parent,String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, List<NameValuePair> params)
+    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, List<NameValuePair> params)
     {
         this.parent = parent;
         this.servletPath = servletPath;
@@ -40,23 +40,20 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpPostResult
         this.params = params;
     }
 
-    protected HttpPostResult executeInBackground() throws Exception
+    protected HttpResult executeInBackground() throws Exception
     {
-        StatusLine[] status = new StatusLine[1];
-        String[] encoding = new String[1];
-        byte[] resultArr = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params, status, encoding);
-        String result = ValueUtil.toString(resultArr,encoding[0]);
-
-        return new HttpPostResult(result,status[0]);
+        HttpResult result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+        result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
+        return result;
     }
 
     @Override
-    protected void onFinishOk(HttpPostResult postResult)
+    protected void onFinishOk(HttpResult postResult)
     {
         try
         {
             StatusLine status = postResult.status;
-            String result = postResult.result;
+            String result = postResult.contentStr;
 
             parent.processResult(status, result, true);
         }
