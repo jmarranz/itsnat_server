@@ -23,6 +23,7 @@ import org.apache.http.params.DefaultedHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -54,6 +55,9 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
+    public static final String MIME_ANDROID_LAYOUT = "android/layout";
+    public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente
+
     private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {
         return httpParamsRequest != null ? new DefaultedHttpParams(httpParamsRequest,httpParamsDefault) : httpParamsDefault;
@@ -66,7 +70,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static HttpResult httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -83,7 +87,7 @@ public class HttpUtil
         return processResponse(response);
     }
 
-    public static HttpResult httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -143,7 +147,7 @@ public class HttpUtil
         }
     }
 
-    private static HttpResult processResponse(HttpResponse response)
+    private static HttpRequestResultImpl processResponse(HttpResponse response)
     {
         // Get hold of the response entity
         HttpEntity entity = response.getEntity();
@@ -167,7 +171,12 @@ public class HttpUtil
             contentArr = read(input);
         }
 
-        return new HttpResult(contentArr,null,status,contentType[0],encoding[0]);
+        HttpRequestResultImpl result = new HttpRequestResultImpl(response,contentArr,status,contentType[0],encoding[0]);
+
+        if (MIME_ANDROID_LAYOUT.equals(result.contentType) || MIME_BEANSHELL.equals(result.contentType))
+            result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+
+        return result;
     }
 
     private static void getContentTypeEncoding(HttpResponse response,String[] contentType,String[] encoding)

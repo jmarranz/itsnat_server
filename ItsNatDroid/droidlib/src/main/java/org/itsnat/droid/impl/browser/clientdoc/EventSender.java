@@ -11,12 +11,11 @@ import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.browser.HttpResult;
+import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -70,11 +69,10 @@ public class EventSender
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpResult result = null;
+        HttpRequestResultImpl result = null;
         try
         {
             result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params);
-            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
         }
         catch (Exception ex)
         {
@@ -84,7 +82,7 @@ public class EventSender
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(evt,result.status,result.contentStr,false);
+        processResult(evt,result,false);
     }
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
@@ -103,12 +101,14 @@ public class EventSender
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public void processResult(EventGenericImpl evt,StatusLine status,String result,boolean async)
+    public void processResult(EventGenericImpl evt,HttpRequestResultImpl result,boolean async)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
         page.fireEventMonitors(false,false,evt);
 
+        String responseText = result.responseText;
+        StatusLine status = result.status;
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
@@ -117,7 +117,7 @@ public class EventSender
             {
 //long start = System.currentTimeMillis();
 
-                interp.eval(result);
+                interp.eval(responseText);
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
@@ -125,12 +125,12 @@ public class EventSender
             catch (EvalError ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, result);
+                throw new ItsNatDroidScriptException(ex, responseText);
             }
             catch (Exception ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, result);
+                throw new ItsNatDroidScriptException(ex, responseText);
             }
 
             if (async) evtManager.returnedEvent(evt);
@@ -138,8 +138,8 @@ public class EventSender
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
-            showErrorMessage(true, result);
-            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), result);
+            showErrorMessage(true, responseText);
+            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), responseText);
         }
     }
 

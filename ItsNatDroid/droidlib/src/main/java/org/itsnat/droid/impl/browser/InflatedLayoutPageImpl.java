@@ -45,13 +45,13 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     }
 
 
-    public void insertFragment(View parentView, String markup, String[] loadScript, List<String> scriptList)
+    public void appendFragment(View parentView, String markup, String[] loadScript, List<String> scriptList)
     {
         if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
 
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
-        // LayoutParams se hagan bien
+        // LayoutParams se hagan bien.
 
         StringBuilder newMarkup = new StringBuilder();
 
@@ -63,6 +63,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             Map.Entry<String, String> entry = it.next();
             newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
         }
+
         newMarkup.append(">");
         newMarkup.append(markup);
         newMarkup.append("</" + parentView.getClass().getName() + ">");

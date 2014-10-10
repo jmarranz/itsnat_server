@@ -706,7 +706,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return getNode(idObj);
     }
 
-    public void setInnerXML(Node parentNode,String markup)
+    public void appendFragment(View parentView, String markup)
     {
         // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
@@ -715,8 +715,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
         List<String> scriptList = new LinkedList<String>();
 
-        getPageImpl().getInflatedLayoutPageImpl().insertFragment(parentNode.getView(), markup, loadScript, scriptList);
+        getPageImpl().getInflatedLayoutPageImpl().appendFragment(parentView, markup, loadScript, scriptList);
         getPageImpl().executeScriptList(scriptList);
+    }
+
+    public void setInnerXML(Node parentNode,String markup)
+    {
+        appendFragment(parentNode.getView(), markup);
     }
 
     public void setInnerXML2(Object[] idObj,String markup)
@@ -724,6 +729,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         Node parentNode = getNode(idObj);
         setInnerXML(parentNode,markup);
     }
+
+
 
     @Override
     public void addDroidEL(Object[] idObj,String type,String listenerId,CustomFunction customFunction,boolean useCapture,int commMode,long timeout,int eventGroupCode)

@@ -86,7 +86,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
 
     public String getJavaScriptMIME()
     {
-        return "text/javascript";
+        return NamespaceUtil.MIME_JAVASCRIPT;
     }
 
     public void setScriptURLAttribute(Element scriptElem,String url)

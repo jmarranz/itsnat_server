@@ -5,7 +5,6 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.Map;
 
@@ -36,12 +35,11 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
 
     protected String executeInBackground() throws Exception
     {
-        HttpResult result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
-        result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
+        HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
         if (result.status.getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.contentStr);
+            throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(),result.responseText);
 
-        return result.contentStr;
+        return result.responseText;
     }
 
     @Override

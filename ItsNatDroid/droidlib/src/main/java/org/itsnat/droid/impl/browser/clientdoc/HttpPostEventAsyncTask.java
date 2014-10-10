@@ -1,16 +1,14 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.impl.browser.HttpResult;
+import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpResult>
+public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
 {
     protected EventSender eventSender;
     protected EventGenericImpl evt;
@@ -44,22 +42,17 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpResult>
         this.params = params;
     }
 
-    protected HttpResult executeInBackground() throws Exception
+    protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        HttpResult result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
-        result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
-        return result;
+        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
     }
 
     @Override
-    protected void onFinishOk(HttpResult postResult)
+    protected void onFinishOk(HttpRequestResultImpl result)
     {
         try
         {
-            StatusLine status = postResult.status;
-            String result = postResult.contentStr;
-
-            eventSender.processResult(evt, status, result, true);
+            eventSender.processResult(evt, result, true);
         }
         catch(Exception ex)
         {

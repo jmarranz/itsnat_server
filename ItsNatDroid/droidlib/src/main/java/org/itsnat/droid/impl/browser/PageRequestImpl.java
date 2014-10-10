@@ -18,7 +18,6 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -167,13 +166,12 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpResult result;
+        HttpRequestResultImpl result;
         try
         {
             result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed);
-            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
             if (result.status.getStatusCode() != 200)
-                throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.contentStr);
+                throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.responseText);
         }
         catch(Exception ex)
         {
@@ -192,7 +190,7 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-        processResponse(url,result.contentStr);
+        processResponse(url,result.responseText);
     }
 
     private void executeAsync(String url)

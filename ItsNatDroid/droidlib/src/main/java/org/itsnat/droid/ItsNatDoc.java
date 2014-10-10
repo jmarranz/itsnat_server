@@ -28,5 +28,6 @@ public interface ItsNatDoc
     public EventStateless createEventStateless();
     public void dispatchEventStateless(EventStateless evt,int commMode,long timeout);
 
+    public void appendFragment(View parentView, String markup);
 }
 

@@ -46,7 +46,9 @@ public class NamespaceUtil
     public static final String MIME_XUL = "application/vnd.mozilla.xul+xml";      
     public static final String MIME_XML = "text/xml";    
     public static final String MIME_ANDROID_LAYOUT = "android/layout";
-   
+    public static final String MIME_JAVASCRIPT = "text/javascript";   
+    public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente  
+    
     
     public static final int XML   = 0;
     public static final int HTML  = 1;

@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ClientErrorMode;
@@ -12,12 +11,11 @@ import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.browser.HttpResult;
+import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.net.SocketTimeoutException;
 import java.util.List;
@@ -32,11 +30,14 @@ import bsh.Interpreter;
 public class GenericHttpClientImpl implements GenericHttpClient
 {
     protected PageImpl page;
+    protected HttpParams httpParamsRequest;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
     public GenericHttpClientImpl(PageImpl page)
     {
         this.page = page;
+        HttpParams httpParamsRequest = page.getHttpParams();
+        this.httpParamsRequest = httpParamsRequest.copy();
     }
 
     public PageImpl getPageImpl()
@@ -57,22 +58,35 @@ public class GenericHttpClientImpl implements GenericHttpClient
         this.errorMode = errorMode;
     }
 
-    public void requestSync(String servletPath, List<NameValuePair> params, long timeout)
+    public void setRequestHeader(String header, Object value)
+    {
+        if (value instanceof Boolean)
+            httpParamsRequest.setBooleanParameter(header,(Boolean)value);
+        else if (value instanceof Integer)
+            httpParamsRequest.setIntParameter(header,(Integer)value);
+        else if (value instanceof Long)
+            httpParamsRequest.setLongParameter(header,(Long)value);
+        else if (value instanceof Double)
+            httpParamsRequest.setDoubleParameter(header,(Double)value);
+        else
+            httpParamsRequest.setParameter(header,value);
+    }
+
+    public void requestSync(String servletPath, List<NameValuePair> params)
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
         HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
+        HttpParams httpParamsRequest = this.httpParamsRequest.copy(); // Hay que tener en cuenta que this.httpParamsRequest puede cambiarse concurrentemente
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpResult result = null;
+        HttpRequestResultImpl result = null;
         try
         {
             result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
-            result.contentStr = ValueUtil.toString(result.contentArr,result.encoding);
         }
         catch (Exception ex)
         {
@@ -82,80 +96,63 @@ public class GenericHttpClientImpl implements GenericHttpClient
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result.status,result.contentStr,false);
+        processResult(result,false);
     }
 
-    public void requestAsync(String servletPath, List<NameValuePair> params, long timeout)
+    public void requestAsync(String servletPath, List<NameValuePair> params)
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
         HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
+        HttpParams httpParamsRequest = this.httpParamsRequest.copy(); // Hay que tener en cuenta que this.httpParamsRequest puede cambiarse concurrentemente
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
-
-    }
-
-    private HttpParams buildHttpParamsRequest(long timeout)
-    {
-        PageImpl page = getPageImpl();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest.copy();
-        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
-        HttpConnectionParams.setSoTimeout(httpParamsRequest, soTimeout);
-        return httpParamsRequest;
     }
 
     public ItsNatDroidException processException(Exception ex)
     {
         if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
-        {
-            return new ItsNatDroidException(ex);
-        }
+             return new ItsNatDroidException(ex);
         else if (ex instanceof ItsNatDroidException)
-        {
             return (ItsNatDroidException)ex;
-        }
-        else return new ItsNatDroidException(ex);
+        else
+            return new ItsNatDroidException(ex);
     }
 
-    public void processResult(StatusLine status,String result,boolean async)
+    public void processResult(HttpRequestResultImpl result,boolean async)
     {
-        PageImpl page = getPageImpl();
+        StatusLine status = result.status;
+        String responseText = result.responseText;
 
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
+            PageImpl page = getPageImpl();
             Interpreter interp = page.getInterpreter();
             try
             {
-//long start = System.currentTimeMillis();
-
-                interp.eval(result);
-
-//long end = System.currentTimeMillis();
-//System.out.println("LAPSE" + (end - start));
+                interp.eval(responseText);
             }
             catch (EvalError ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, result);
+                throw new ItsNatDroidScriptException(ex, responseText);
             }
             catch (Exception ex)
             {
                 showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, result);
+                throw new ItsNatDroidScriptException(ex, responseText);
             }
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
-            showErrorMessage(true, result);
-            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), result);
+            showErrorMessage(true, responseText);
+            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), responseText);
         }
     }
 

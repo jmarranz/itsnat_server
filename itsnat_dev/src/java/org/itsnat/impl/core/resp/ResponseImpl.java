@@ -28,6 +28,7 @@ import org.itsnat.impl.core.browser.droid.BrowserDroid;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
@@ -173,9 +174,9 @@ public abstract class ResponseImpl
         {
             Browser browser = getBrowser();
             if (browser instanceof BrowserDroid)
-                mime = "text/beanshell"; // Inventado obviamente
+                mime = NamespaceUtil.MIME_BEANSHELL; 
             else
-                mime = "text/javascript";
+                mime = NamespaceUtil.MIME_JAVASCRIPT;
         }
         else
         {
@@ -183,7 +184,7 @@ public abstract class ResponseImpl
             if (itsNatDoc != null)
                 mime = itsNatDoc.getMIME();
             else
-                mime = "text/html";
+                mime = NamespaceUtil.MIME_HTML;
         }
 
         String encoding = getEncoding();
