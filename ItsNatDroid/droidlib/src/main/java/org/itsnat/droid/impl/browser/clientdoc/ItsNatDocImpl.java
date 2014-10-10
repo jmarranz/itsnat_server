@@ -13,6 +13,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
@@ -50,6 +51,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import bsh.EvalError;
+import bsh.Interpreter;
 
 /**
  * Esta clase se accede via script beanshell y representa el "ClientDocument" en el lado Android simétrico a los objetos JavaScript en el modo web
@@ -198,6 +202,53 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return handler;
     }
 
+    @Override
+    public void eval(String code)
+    {
+        Interpreter interp = page.getInterpreter();
+        try
+        {
+//long start = System.currentTimeMillis();
+
+            interp.eval(code);
+
+//long end = System.currentTimeMillis();
+//System.out.println("LAPSE" + (end - start));
+        }
+        catch (EvalError ex)
+        {
+            showErrorMessage(false, ex.getMessage());
+            throw new ItsNatDroidScriptException(ex, code);
+        }
+        catch (Exception ex)
+        {
+            showErrorMessage(false, ex.getMessage());
+            throw new ItsNatDroidScriptException(ex, code);
+        }
+    }
+
+    public void showErrorMessage(boolean serverErr, String msg)
+    {
+        int errorMode = getErrorMode();
+        if (errorMode == ClientErrorMode.NOT_SHOW_ERRORS) return;
+
+        if (serverErr) // Pagina HTML con la excepcion del servidor
+        {
+            if ((errorMode == ClientErrorMode.SHOW_SERVER_ERRORS) ||
+                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 2 = ClientErrorMode.SHOW_SERVER_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
+                alert("SERVER ERROR: " + msg);
+        }
+        else
+        {
+            if ((errorMode == ClientErrorMode.SHOW_CLIENT_ERRORS) ||
+                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 3 = ClientErrorMode.SHOW_CLIENT_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
+            {
+                // Ha sido un error Beanshell
+                alert(msg);
+            }
+        }
+    }
+
     private View createViewObjectAndFillAttributesAndAdd(ClassDescViewBased classDesc, ViewGroup viewParent, NodeToInsertImpl newChildToIn, int index, InflatedLayoutImpl inflated,PendingPostInsertChildrenTasks pending)
     {
         View view = classDesc.createViewObjectFromRemote(this,newChildToIn,pending);
@@ -290,6 +341,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         toast(value,Toast.LENGTH_SHORT);
     }
+
+
+
 
     public void postDelayed(Runnable task,long delay)
     {

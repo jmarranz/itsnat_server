@@ -166,7 +166,7 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpRequestResultImpl result;
+        HttpRequestResultImpl result = null;
         try
         {
             result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed);
@@ -180,7 +180,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this); // Para poder recogerla desde fuera
+                errorListener.onError(ex, this, result); // Para poder recogerla desde fuera
                 return;
             }
             else

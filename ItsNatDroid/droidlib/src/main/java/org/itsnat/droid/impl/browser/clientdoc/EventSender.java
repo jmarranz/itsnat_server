@@ -7,9 +7,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
-import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -20,9 +18,6 @@ import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.Map;
-
-import bsh.EvalError;
-import bsh.Interpreter;
 
 /**
  * Created by jmarranz on 10/07/14.
@@ -112,33 +107,13 @@ public class EventSender
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
-            Interpreter interp = page.getInterpreter();
-            try
-            {
-//long start = System.currentTimeMillis();
-
-                interp.eval(responseText);
-
-//long end = System.currentTimeMillis();
-//System.out.println("LAPSE" + (end - start));
-            }
-            catch (EvalError ex)
-            {
-                showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, responseText);
-            }
-            catch (Exception ex)
-            {
-                showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, responseText);
-            }
+            itsNatDoc.eval(responseText);
 
             if (async) evtManager.returnedEvent(evt);
-
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
-            showErrorMessage(true, responseText);
+            itsNatDoc.showErrorMessage(true, responseText);
             throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), responseText);
         }
     }
@@ -165,26 +140,5 @@ public class EventSender
         }
     }
 
-    public void showErrorMessage(boolean serverErr, String msg)
-    {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        int errorMode = itsNatDoc.getErrorMode();
-        if (errorMode == ClientErrorMode.NOT_SHOW_ERRORS) return;
 
-        if (serverErr) // Pagina HTML con la excepcion del servidor
-        {
-            if ((errorMode == ClientErrorMode.SHOW_SERVER_ERRORS) ||
-                (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 2 = ClientErrorMode.SHOW_SERVER_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
-                itsNatDoc.alert("SERVER ERROR: " + msg);
-        }
-        else
-        {
-            if ((errorMode == ClientErrorMode.SHOW_CLIENT_ERRORS) ||
-                (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 3 = ClientErrorMode.SHOW_CLIENT_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
-            {
-                // Ha sido un error Beanshell
-                itsNatDoc.alert(msg);
-            }
-        }
-    }
 }

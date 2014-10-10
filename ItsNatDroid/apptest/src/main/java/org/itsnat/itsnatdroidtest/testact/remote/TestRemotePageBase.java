@@ -7,6 +7,7 @@ import android.widget.Toast;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
@@ -132,7 +133,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     }
 
     @Override
-    public void onError(Exception ex,PageRequest pageRequest)
+    public void onError(Exception ex,PageRequest pageRequest,HttpRequestResult response)
     {
         TestActivity act = getTestActivity();
         Toast.makeText(act, "ERROR:" + ex.getMessage(), Toast.LENGTH_SHORT).show();

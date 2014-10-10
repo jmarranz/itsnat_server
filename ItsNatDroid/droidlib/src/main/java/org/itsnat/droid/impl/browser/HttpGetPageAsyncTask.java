@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
+public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
 {
     protected PageRequestImpl pageRequest;
     protected String url;
@@ -33,28 +33,28 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 
-    protected String executeInBackground() throws Exception
+    protected HttpRequestResultImpl executeInBackground() throws Exception
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
         if (result.status.getStatusCode() != 200)
             throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(),result.responseText);
 
-        return result.responseText;
+        return result;
     }
 
     @Override
-    protected void onFinishOk(String result)
+    protected void onFinishOk(HttpRequestResultImpl result)
     {
         try
         {
-            pageRequest.processResponse(url,result);
+            pageRequest.processResponse(url,result.responseText);
         }
         catch(Exception ex)
         {
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+                errorListener.onError(ex, pageRequest,result); // Para poder recogerla desde fuera
                 return;
             }
             else
@@ -71,7 +71,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<String>
         OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
         if (errorListener != null)
         {
-            errorListener.onError(ex, pageRequest); // Para poder recogerla desde fuera
+            if (errorListener != null) errorListener.onError(ex, pageRequest,null);
             return;
         }
         else

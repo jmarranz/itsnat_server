@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
@@ -35,6 +36,14 @@ public class HttpRequestResultImpl implements HttpRequestResult
     public String getEncoding()
     {
         return encoding;
+    }
+
+    @Override
+    public String getResponseHeader(String header)
+    {
+        Header[] headerList = response.getHeaders(header);
+        if (headerList == null || headerList.length == 0) return null;
+        return headerList[0].getName();
     }
 
     @Override

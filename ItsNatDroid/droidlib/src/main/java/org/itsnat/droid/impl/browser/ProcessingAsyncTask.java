@@ -2,8 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import android.os.AsyncTask;
 
-import org.apache.http.params.HttpParams;
-
 /**
  * Created by jmarranz on 11/07/14.
  */

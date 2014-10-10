@@ -4,7 +4,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnHttpRequestErrorListener;
+import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
@@ -25,8 +26,11 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
+    protected OnHttpRequestListener listener;
 
-    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, List<NameValuePair> params)
+    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath, HttpContext httpContext,
+                HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders,
+                boolean sslSelfSignedAllowed, List<NameValuePair> params,OnHttpRequestListener listener)
     {
         this.parent = parent;
         this.servletPath = servletPath;
@@ -36,6 +40,7 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
         this.httpHeaders = httpHeaders;
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = params;
+        this.listener = listener;
     }
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
@@ -48,14 +53,14 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     {
         try
         {
-            parent.processResult(postResult, true);
+            parent.processResult(postResult,listener);
         }
         catch(Exception ex)
         {
-            OnEventErrorListener errorListener = parent.getPageImpl().getOnEventErrorListener();
+            OnHttpRequestErrorListener errorListener = parent.getOnHttpRequestErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, null);
+                errorListener.onError(ex, postResult);
                 return;
             }
             else
@@ -71,7 +76,7 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     {
         ItsNatDroidException exFinal = parent.processException(ex);
 
-        OnEventErrorListener errorListener = parent.getPageImpl().getOnEventErrorListener();
+        OnHttpRequestErrorListener errorListener = parent.getOnHttpRequestErrorListener();
         if (errorListener != null)
         {
             errorListener.onError(exFinal, null);
@@ -82,7 +87,6 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
             if (exFinal instanceof ItsNatDroidException) throw (ItsNatDroidException)exFinal;
             else throw new ItsNatDroidException(exFinal);
         }
-
     }
 }
 

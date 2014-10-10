@@ -9,8 +9,9 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.OnHttpRequestErrorListener;
+import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
@@ -21,9 +22,6 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 import java.util.Map;
 
-import bsh.EvalError;
-import bsh.Interpreter;
-
 /**
  * Created by jmarranz on 9/10/14.
  */
@@ -31,6 +29,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
 {
     protected PageImpl page;
     protected HttpParams httpParamsRequest;
+    protected OnHttpRequestErrorListener errorListener;
     protected int errorMode = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS;
 
     public GenericHttpClientImpl(PageImpl page)
@@ -58,7 +57,20 @@ public class GenericHttpClientImpl implements GenericHttpClient
         this.errorMode = errorMode;
     }
 
-    public void setRequestHeader(String header, Object value)
+    public OnHttpRequestErrorListener getOnHttpRequestErrorListener()
+    {
+        return errorListener;
+    }
+
+    @Override
+    public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener httpErrorListener)
+    {
+        this.errorListener = httpErrorListener;
+        return this;
+    }
+
+    @Override
+    public GenericHttpClient setRequestHeader(String header, Object value)
     {
         if (value instanceof Boolean)
             httpParamsRequest.setBooleanParameter(header,(Boolean)value);
@@ -70,8 +82,11 @@ public class GenericHttpClientImpl implements GenericHttpClient
             httpParamsRequest.setDoubleParameter(header,(Double)value);
         else
             httpParamsRequest.setParameter(header,value);
+
+        return this;
     }
 
+    @Override
     public void requestSync(String servletPath, List<NameValuePair> params)
     {
         PageImpl page = getPageImpl();
@@ -96,10 +111,11 @@ public class GenericHttpClientImpl implements GenericHttpClient
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result,false);
+        processResult(result,null);
     }
 
-    public void requestAsync(String servletPath, List<NameValuePair> params)
+    @Override
+    public void requestAsync(String servletPath, List<NameValuePair> params,OnHttpRequestListener listener)
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
@@ -110,7 +126,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
+        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params,listener);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
@@ -124,57 +140,23 @@ public class GenericHttpClientImpl implements GenericHttpClient
             return new ItsNatDroidException(ex);
     }
 
-    public void processResult(HttpRequestResultImpl result,boolean async)
+    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener asyncListener)
     {
+        PageImpl page = getPageImpl();
+        ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
+
         StatusLine status = result.status;
         String responseText = result.responseText;
 
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
-            PageImpl page = getPageImpl();
-            Interpreter interp = page.getInterpreter();
-            try
-            {
-                interp.eval(responseText);
-            }
-            catch (EvalError ex)
-            {
-                showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, responseText);
-            }
-            catch (Exception ex)
-            {
-                showErrorMessage(false, ex.getMessage());
-                throw new ItsNatDroidScriptException(ex, responseText);
-            }
+            if (asyncListener != null) asyncListener.onRequest(result);
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
-            showErrorMessage(true, responseText);
+            itsNatDoc.showErrorMessage(true, responseText);
             throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), responseText);
-        }
-    }
-
-    public void showErrorMessage(boolean serverErr, String msg)
-    {
-        if (errorMode == ClientErrorMode.NOT_SHOW_ERRORS) return;
-
-        ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
-        if (serverErr) // Pagina HTML con la excepcion del servidor
-        {
-            if ((errorMode == ClientErrorMode.SHOW_SERVER_ERRORS) ||
-                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 2 = ClientErrorMode.SHOW_SERVER_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
-                itsNatDoc.alert("SERVER ERROR: " + msg);
-        }
-        else
-        {
-            if ((errorMode == ClientErrorMode.SHOW_CLIENT_ERRORS) ||
-                    (errorMode == ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS)) // 3 = ClientErrorMode.SHOW_CLIENT_ERRORS, 4 = ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS
-            {
-                // Ha sido un error Beanshell
-                itsNatDoc.alert(msg);
-            }
         }
     }
 

@@ -82,6 +82,7 @@ public class PageImpl implements Page
             methods.append("alert(data){itsNatDoc.alert(data);}");
             methods.append("toast(value,duration){itsNatDoc.toast(value,duration);}");
             methods.append("toast(value){itsNatDoc.toast(value);}");
+            methods.append("eval(code){itsNatDoc.eval(code);}");
             interp.eval(methods.toString());
 
             if (!scriptList.isEmpty())

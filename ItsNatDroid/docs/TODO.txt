@@ -1,4 +1,8 @@
 
+* Pensar en una alternativa a usar List<NameValuePair> en GenericHttpClient, quizás fluida
+
+* Pensar si hacer copy en los httpParams etc en los constructores de los AsyncTask, si es así revisar los demás copy()
+
 * Reutilizar código entre GenericHttpClient y HttpPostGenericAsyncTask y las clases correspondientes para ItsNat
 
 * Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro

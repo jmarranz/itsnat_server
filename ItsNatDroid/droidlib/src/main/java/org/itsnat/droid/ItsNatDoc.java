@@ -17,6 +17,7 @@ public interface ItsNatDoc
     public void alert(String title,Object value);
     public void toast(Object value,int duration);
     public void toast(Object value);
+    public void eval(String code);
     public void postDelayed(Runnable task,long delay);
 
     public View findViewByXMLId(String id);
