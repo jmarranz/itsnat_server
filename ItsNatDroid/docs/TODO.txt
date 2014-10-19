@@ -1,4 +1,8 @@
 
+* Permitir un setMethod() para get, post, put etc en GenericHttpClientImpl
+
+* Permitir que pueda reutilizarse GenericHttpClientImpl aunque no esté diseñado para ello
+
 * Pensar en una alternativa a usar List<NameValuePair> en GenericHttpClient, quizás fluida
 
 * Pensar si hacer copy en los httpParams etc en los constructores de los AsyncTask, si es así revisar los demás copy()

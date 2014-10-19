@@ -8,6 +8,8 @@ import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 
 import java.util.List;
@@ -28,15 +30,22 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     protected List<NameValuePair> params;
     protected OnHttpRequestListener listener;
 
-    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath, HttpContext httpContext,
-                HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders,
-                boolean sslSelfSignedAllowed, List<NameValuePair> params,OnHttpRequestListener listener)
+    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath,
+                HttpParams httpParamsRequest, List<NameValuePair> params,OnHttpRequestListener listener)
     {
+        PageImpl page = parent.getPageImpl();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
         this.parent = parent;
         this.servletPath = servletPath;
         this.httpContext = httpContext;
-        this.httpParamsRequest = httpParamsRequest;
-        this.httpParamsDefault = httpParamsDefault;
+        this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
+        this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
         this.httpHeaders = httpHeaders;
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = params;

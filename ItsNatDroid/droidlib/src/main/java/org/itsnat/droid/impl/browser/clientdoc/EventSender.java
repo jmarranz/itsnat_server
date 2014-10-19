@@ -41,7 +41,7 @@ public class EventSender
         return evtManager.getItsNatDocImpl();
     }
 
-    private HttpParams buildHttpParamsRequest(long timeout)
+    public HttpParams buildHttpParamsRequest(long timeout)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
@@ -61,7 +61,7 @@ public class EventSender
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
         HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
+        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpRequestResultImpl result = null;
@@ -82,17 +82,7 @@ public class EventSender
 
     public void requestAsync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-
-        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params);
+        HttpPostEventAsyncTask postTask = new HttpPostEventAsyncTask(this, evt, servletPath, params,timeout);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

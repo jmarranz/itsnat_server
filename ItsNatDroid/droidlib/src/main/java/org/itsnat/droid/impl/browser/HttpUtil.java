@@ -24,6 +24,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -57,6 +59,9 @@ public class HttpUtil
 {
     public static final String MIME_ANDROID_LAYOUT = "android/layout";
     public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente
+    public static final String MIME_TEXT_PLAIN = "text/plain";
+    public static final String MIME_JSON = "application/json";
+
 
     private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {
@@ -156,10 +161,10 @@ public class HttpUtil
 
         StatusLine status = response.getStatusLine();
 
-        String[] contentType = new String[1];
+        String[] mimeType = new String[1];
         String[] encoding = new String[1];
 
-        getContentTypeEncoding(response,contentType,encoding);
+        getMimeTypeEncoding(response, mimeType, encoding);
 
         byte[] contentArr = null;
 
@@ -171,15 +176,24 @@ public class HttpUtil
             contentArr = read(input);
         }
 
-        HttpRequestResultImpl result = new HttpRequestResultImpl(response,contentArr,status,contentType[0],encoding[0]);
+        HttpRequestResultImpl result = new HttpRequestResultImpl(response,contentArr,status,mimeType[0],encoding[0]);
 
-        if (MIME_ANDROID_LAYOUT.equals(result.contentType) || MIME_BEANSHELL.equals(result.contentType))
+        if (MIME_ANDROID_LAYOUT.equals(result.mimeType) || MIME_BEANSHELL.equals(result.mimeType) ||
+            MIME_TEXT_PLAIN.equals(result.mimeType) || MIME_JSON.equals(result.mimeType))
+        {
             result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+
+            if (MIME_JSON.equals(result.mimeType))
+            {
+                try { result.responseJSONObject = new JSONObject(result.responseText); }
+                catch (JSONException ex) { throw new ItsNatDroidException(ex); }
+            }
+        }
 
         return result;
     }
 
-    private static void getContentTypeEncoding(HttpResponse response,String[] contentType,String[] encoding)
+    private static void getMimeTypeEncoding(HttpResponse response, String[] mimeType, String[] encoding)
     {
         Header[] contentTypes = response.getHeaders("Content-Type"); // Internamente ignora mayúsculas y minúsculas, no hay que preocuparse
         if (contentTypes != null && contentTypes.length > 0)
@@ -188,7 +202,7 @@ public class HttpUtil
             HeaderElement[] elems = contentTypes[0].getElements(); // https://hc.apache.org/httpclient-3.x/apidocs/org/apache/commons/httpclient/HeaderElement.html
             for (HeaderElement elem : elems)
             {
-                contentType[0] = elem.getName();
+                mimeType[0] = elem.getName();
                 NameValuePair[] params = elem.getParameters();
                 for (NameValuePair param : params)
                 {
@@ -203,8 +217,8 @@ public class HttpUtil
             }
         }
 
-        //if (contentType[0] == null) contentType[0] = "android/layout"; // Por si acaso
-        //if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
+        if (mimeType[0] == null) mimeType[0] = "android/layout"; // Por si acaso
+        if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
     }
 
     public static byte[] read(InputStream input)

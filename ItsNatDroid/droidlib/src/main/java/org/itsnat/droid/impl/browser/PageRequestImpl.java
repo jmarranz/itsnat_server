@@ -120,7 +120,7 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    public Map<String,String> getHttpHeaders()
+    public Map<String,String> createHttpHeaders()
     {
         // http://stackoverflow.com/questions/17481341/how-to-get-android-screen-size-programmatically-once-and-for-all
         // Recuerda que cambia con la orientación por eso hay que enviarlos "frescos"
@@ -163,7 +163,7 @@ public class PageRequestImpl implements PageRequest
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
         HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = getHttpHeaders();
+        Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpRequestResultImpl result = null;
@@ -195,20 +195,16 @@ public class PageRequestImpl implements PageRequest
 
     private void executeAsync(String url)
     {
-        HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = getHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed);
+        HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpParamsRequest);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
     public void processResponse(String url,String result)
     {
-        HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
+        HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
 
         AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
 

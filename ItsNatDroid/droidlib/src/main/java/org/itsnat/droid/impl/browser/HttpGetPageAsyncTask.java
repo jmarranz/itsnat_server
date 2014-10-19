@@ -21,15 +21,22 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
 
-    public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url, HttpContext httpContext,
-                    HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders, boolean sslSelfSignedAllowed)
+    public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
+                    HttpParams httpParamsRequest)
     {
+        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = pageRequest.createHttpHeaders();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.pageRequest = pageRequest;
         this.url = url;
         this.httpContext = httpContext;
-        this.httpParamsRequest = httpParamsRequest;
-        this.httpParamsDefault = httpParamsDefault;
-        this.httpHeaders = httpHeaders;
+        this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
+        this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
+        this.httpHeaders = httpHeaders; // No hace falta clone porque createHttpHeaders() crea un Map
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 

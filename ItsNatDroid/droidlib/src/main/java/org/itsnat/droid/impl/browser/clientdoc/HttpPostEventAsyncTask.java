@@ -5,9 +5,11 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 
 import java.util.List;
@@ -29,15 +31,24 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected List<NameValuePair> params;
 
     public HttpPostEventAsyncTask(EventSender eventSender, EventGenericImpl evt, String servletPath,
-            HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders, boolean sslSelfSignedAllowed, List<NameValuePair> params)
+            List<NameValuePair> params,long timeout)
     {
+        PageImpl page = eventSender.getItsNatDocImpl().getPageImpl();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = eventSender.buildHttpParamsRequest(timeout);
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
         this.evt = evt;
         this.servletPath = servletPath;
         this.httpContext = httpContext;
-        this.httpParamsRequest = httpParamsRequest;
-        this.httpParamsDefault = httpParamsDefault;
-        this.httpHeaders = httpHeaders;
+        this.httpParamsRequest = httpParamsRequest; // No hace falta copy, buildHttpParamsRequest crea uno nuevo
+        this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
+        this.httpHeaders = httpHeaders; // No hace falta clone porque createHttpHeaders() crea un Map
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = params;
     }

@@ -44,6 +44,11 @@ public class GenericHttpClientImpl implements GenericHttpClient
         return page;
     }
 
+    public ItsNatDocImpl getItsNatDocImpl()
+    {
+        return page.getItsNatDocImpl();
+    }
+
     @Override
     public int getErrorMode()
     {
@@ -94,8 +99,8 @@ public class GenericHttpClientImpl implements GenericHttpClient
 
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsDefault = browser.getHttpParams();
-        HttpParams httpParamsRequest = this.httpParamsRequest.copy(); // Hay que tener en cuenta que this.httpParamsRequest puede cambiarse concurrentemente
-        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
+        HttpParams httpParamsRequest = this.httpParamsRequest;
+        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         HttpRequestResultImpl result = null;
@@ -117,16 +122,9 @@ public class GenericHttpClientImpl implements GenericHttpClient
     @Override
     public void requestAsync(String servletPath, List<NameValuePair> params,OnHttpRequestListener listener)
     {
-        PageImpl page = getPageImpl();
-        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        HttpParams httpParamsRequest = this.httpParamsRequest;
 
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        HttpParams httpParamsRequest = this.httpParamsRequest.copy(); // Hay que tener en cuenta que this.httpParamsRequest puede cambiarse concurrentemente
-        Map<String,String> httpHeaders = page.getPageRequestImpl().getHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-
-        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed, params,listener);
+        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this, servletPath, httpParamsRequest, params,listener);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
@@ -142,8 +140,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
 
     public void processResult(HttpRequestResultImpl result,OnHttpRequestListener asyncListener)
     {
-        PageImpl page = getPageImpl();
-        ItsNatDocImpl itsNatDoc = page.getItsNatDocImpl();
+        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
 
         StatusLine status = result.status;
         String responseText = result.responseText;
