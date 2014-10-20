@@ -67,7 +67,7 @@ public class EventSender
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params);
+            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params,null);
         }
         catch (Exception ex)
         {

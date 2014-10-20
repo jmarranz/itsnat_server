@@ -32,9 +32,11 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     protected boolean sslSelfSignedAllowed;
     protected List<NameValuePair> params;
     protected OnHttpRequestListener listener;
+    protected OnHttpRequestErrorListener errorListener;
+    protected String overrideMime;
 
     public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath,
-                HttpParams httpParamsRequest, List<NameValuePair> params,OnHttpRequestListener listener)
+                HttpParams httpParamsRequest, List<NameValuePair> params,OnHttpRequestListener listener,OnHttpRequestErrorListener errorListener,String overrideMime)
     {
         PageImpl page = parent.getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
@@ -53,11 +55,13 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.listener = listener;
+        this.errorListener = errorListener;
+        this.overrideMime = overrideMime;
     }
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
     }
 
     @Override
@@ -69,7 +73,6 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
         }
         catch(Exception ex)
         {
-            OnHttpRequestErrorListener errorListener = parent.getOnHttpRequestErrorListener();
             if (errorListener != null)
             {
                 errorListener.onError(ex, result);
@@ -88,7 +91,6 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     {
         ItsNatDroidException exFinal = parent.processException(ex);
 
-        OnHttpRequestErrorListener errorListener = parent.getOnHttpRequestErrorListener();
         if (errorListener != null)
         {
             HttpRequestResult result = (exFinal instanceof ItsNatDroidServerResponseException) ?

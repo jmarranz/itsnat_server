@@ -76,7 +76,7 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -90,10 +90,10 @@ public class HttpUtil
         HttpGet httpGet = new HttpGet(uri);
 
         HttpResponse response = execute(httpClient,httpGet,httpContext,httpHeaders);
-        return processResponse(response);
+        return processResponse(response,overrideMime);
     }
 
-    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -107,7 +107,6 @@ public class HttpUtil
 
         //httpPost.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
-
         try
         {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -115,7 +114,7 @@ public class HttpUtil
         catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
 
         HttpResponse response = execute(httpClient,httpPost,httpContext,httpHeaders);
-        return processResponse(response);
+        return processResponse(response,overrideMime);
     }
 
     private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException
@@ -147,7 +146,7 @@ public class HttpUtil
         catch(IOException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    private static HttpRequestResultImpl processResponse(HttpResponse response)
+    private static HttpRequestResultImpl processResponse(HttpResponse response,String overrideMime)
     {
         // Get hold of the response entity
         HttpEntity entity = response.getEntity();
@@ -160,6 +159,8 @@ public class HttpUtil
         String[] encoding = new String[1];
 
         getMimeTypeEncoding(response, mimeType, encoding);
+
+        if (!ValueUtil.isEmpty(overrideMime)) mimeType[0] = overrideMime;
 
         byte[] contentArr = null;
 

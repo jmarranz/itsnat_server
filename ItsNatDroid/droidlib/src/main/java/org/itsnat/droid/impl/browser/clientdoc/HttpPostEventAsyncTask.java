@@ -55,7 +55,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,null);
     }
 
     @Override

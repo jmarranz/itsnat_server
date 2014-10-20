@@ -79,13 +79,13 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
             int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
 
-
             ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, loadScript, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
             while (falseParentView.getChildCount() > 0)
             {
                 View child = falseParentView.getChildAt(0);
                 falseParentView.removeViewAt(0);
-                ((ViewGroup) parentView).addView(child);
+                if (indexRef >= 0) parentView.addView(child,indexRef);
+                else parentView.addView(child);
             }
         }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }

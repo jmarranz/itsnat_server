@@ -168,7 +168,7 @@ public class PageRequestImpl implements PageRequest
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed);
+            result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null);
         }
         catch(Exception ex)
         {

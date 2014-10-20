@@ -40,7 +40,8 @@ public class GenericHttpClientImpl implements GenericHttpClient
     protected String pageUrl;
     protected String userUrl;
     protected List<NameValuePair> paramList = new ArrayList<NameValuePair>(10);
-    protected OnHttpRequestListener asyncListener;
+    protected OnHttpRequestListener listener;
+    protected String overrideMime;
 
     public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
     {
@@ -75,21 +76,11 @@ public class GenericHttpClientImpl implements GenericHttpClient
         return this;
     }
 
-    public OnHttpRequestListener getOnHttpRequestListener()
-    {
-        return asyncListener;
-    }
-
     @Override
-    public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener asyncListener)
+    public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener listener)
     {
-        this.asyncListener = asyncListener;
+        this.listener = listener;
         return this;
-    }
-
-    public OnHttpRequestErrorListener getOnHttpRequestErrorListener()
-    {
-        return errorListener;
     }
 
     @Override
@@ -138,6 +129,13 @@ public class GenericHttpClientImpl implements GenericHttpClient
         return this;
     }
 
+    @Override
+    public GenericHttpClient setOverrideMimeType(String mime)
+    {
+        this.overrideMime = mime;
+        return this;
+    }
+
     private String getFinalURL()
     {
         return ValueUtil.isEmpty(userUrl) ? pageUrl : userUrl; // Como se puede ver seguridad de "single server" ninguna
@@ -160,7 +158,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params);
+            result = HttpUtil.httpPost(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
         }
         catch (Exception ex)
         {
@@ -172,6 +170,8 @@ public class GenericHttpClientImpl implements GenericHttpClient
 
         processResult(result,null);
 
+        if (listener != null) listener.onRequest(result);
+
         return result;
     }
 
@@ -181,7 +181,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         String url = getFinalURL();
         HttpParams httpParamsRequest = this.httpParamsRequest;
 
-        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this,url, httpParamsRequest, paramList,asyncListener);
+        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this,url, httpParamsRequest, paramList, listener,errorListener,overrideMime);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
