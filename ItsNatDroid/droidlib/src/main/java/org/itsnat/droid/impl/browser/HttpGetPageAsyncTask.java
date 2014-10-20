@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -42,11 +43,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
-        if (result.status.getStatusCode() != 200)
-            throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(),result.responseText);
-
-        return result;
+        return HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed);
     }
 
     @Override
@@ -78,7 +75,10 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
         OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
         if (errorListener != null)
         {
-            if (errorListener != null) errorListener.onError(ex, pageRequest,null);
+            HttpRequestResult result = (ex instanceof ItsNatDroidServerResponseException) ?
+                    ((ItsNatDroidServerResponseException)ex).getHttpRequestResult() : null;
+
+            if (errorListener != null) errorListener.onError(ex, pageRequest,result);
             return;
         }
         else

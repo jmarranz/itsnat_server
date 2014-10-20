@@ -135,20 +135,14 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
             parser.setInput(input);
             return inflate(parser,loadScript,scriptList);
         }
-        catch (XmlPullParserException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
         finally
         {
             try
             {
                 input.close();
             }
-            catch (IOException ex)
-            {
-                throw new ItsNatDroidException(ex);
-            }
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
         }
     }
 
@@ -158,14 +152,8 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         {
             return parseRootView(parser, loadScript,scriptList);
         }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
-        catch (XmlPullParserException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
     }
 
     private View parseRootView(XmlPullParser parser, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException

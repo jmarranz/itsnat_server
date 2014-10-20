@@ -29,6 +29,12 @@ public class HttpRequestResultImpl implements HttpRequestResult
     }
 
     @Override
+    public StatusLine getStatusLine()
+    {
+        return response.getStatusLine();
+    }
+
+    @Override
     public String getMimeType()
     {
         return mimeType;

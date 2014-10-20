@@ -37,7 +37,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
-        
+
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
         //ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();        
         

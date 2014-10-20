@@ -104,7 +104,7 @@ public class EventSender
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
             itsNatDoc.showErrorMessage(true, responseText);
-            throw new ItsNatDroidServerResponseException(statusCode, status.getReasonPhrase(), responseText);
+            throw new ItsNatDroidServerResponseException(result);
         }
     }
 
@@ -123,10 +123,8 @@ public class EventSender
         {
             page.fireEventMonitors(false, false, evt);
 
-            if (ex instanceof ItsNatDroidException)
-                return (ItsNatDroidException)ex;
-            else
-                return new ItsNatDroidException(ex);
+            if (ex instanceof ItsNatDroidException) return (ItsNatDroidException)ex;
+            else return new ItsNatDroidException(ex);
         }
     }
 

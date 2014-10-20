@@ -5,7 +5,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by jmarranz on 16/05/14.
@@ -26,10 +25,7 @@ public class IOUtil
                 read = input.read(buffer);
             }
         }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
         finally
         {
             try { input.close(); }

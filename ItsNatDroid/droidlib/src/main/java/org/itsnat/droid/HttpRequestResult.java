@@ -1,5 +1,6 @@
 package org.itsnat.droid;
 
+import org.apache.http.StatusLine;
 import org.json.JSONObject;
 
 /**
@@ -7,6 +8,7 @@ import org.json.JSONObject;
  */
 public interface HttpRequestResult
 {
+    public StatusLine getStatusLine();
     public String getMimeType();
     public String getEncoding();
     public String getResponseHeader(String header);

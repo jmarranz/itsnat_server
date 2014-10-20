@@ -11,6 +11,7 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -20,6 +21,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
+import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
@@ -38,6 +40,7 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistener.ContinueEventListener
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.UserEventListener;
+import org.itsnat.droid.impl.browser.clientgeneric.GenericHttpClientImpl;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
@@ -88,6 +91,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         this.nullView = new ItsNatViewNullImpl(page);
     }
 
+    public GenericHttpClient createGenericHttpClient()
+    {
+        return new GenericHttpClientImpl(this);
+    }
 
     public PageImpl getPageImpl()
     {
@@ -603,19 +610,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return new NodeToInsertImpl(name);
     }
 
-    private int getChildIndex(Node parentNode,Node node)
+    private static int getChildIndex(Node parentNode,Node node)
     {
         // Esto es una chapuza pero no hay opción
         ViewGroup parentView = (ViewGroup)parentNode.getView();
         View view = node.getView();
-        int size = parentView.getChildCount();
-        for(int i = 0; i < size; i++)
-        {
-            if (parentView.getChildAt(i) == view)
-                return i;
-        }
-        return -1;
+        return InflatedLayoutPageImpl.getChildIndex(parentView, view);
     }
+
 
 
     @Override
@@ -760,22 +762,27 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return getNode(idObj);
     }
 
-    public void appendFragment(View parentView, String markup)
+    public void appendFragment(ViewGroup parentView, String markup)
     {
-        // Si el fragmento a insertar es suficientemente grande el rendimiento de setInnerXML puede ser varias veces superior
+        insertFragment(parentView,markup,null);
+    }
+
+    public void insertFragment(ViewGroup parentView, String markup,View viewRef)
+    {
+        // Si el fragmento a insertar es suficientemente grande el rendimiento de insertFragment puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
-        // Por ejemplo 78ms con setInnerXML (parseando markup) y 179ms con beanshell puro
+        // Por ejemplo 78ms con insertFragment (parseando markup) y 179ms con beanshell puro
 
         String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
         List<String> scriptList = new LinkedList<String>();
 
-        getPageImpl().getInflatedLayoutPageImpl().appendFragment(parentView, markup, loadScript, scriptList);
+        getPageImpl().getInflatedLayoutPageImpl().insertFragment(parentView, markup, viewRef, loadScript, scriptList);
         getPageImpl().executeScriptList(scriptList);
     }
 
     public void setInnerXML(Node parentNode,String markup)
     {
-        appendFragment(parentNode.getView(), markup);
+        appendFragment((ViewGroup)parentNode.getView(), markup);
     }
 
     public void setInnerXML2(Object[] idObj,String markup)

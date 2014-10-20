@@ -45,7 +45,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     }
 
 
-    public void appendFragment(View parentView, String markup, String[] loadScript, List<String> scriptList)
+    public void insertFragment(ViewGroup parentView, String markup,View viewRef, String[] loadScript, List<String> scriptList)
     {
         if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
 
@@ -77,6 +77,9 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
 
+            int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
+
+
             ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, loadScript, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
             while (falseParentView.getChildCount() > 0)
             {
@@ -85,14 +88,20 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
                 ((ViewGroup) parentView).addView(child);
             }
         }
-        catch (XmlPullParserException ex)
+        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+    }
+
+    public static int getChildIndex(ViewGroup parentView,View view)
+    {
+        // Esto es una chapuza pero no hay opción
+        int size = parentView.getChildCount();
+        for(int i = 0; i < size; i++)
         {
-            throw new ItsNatDroidException(ex);
+            if (parentView.getChildAt(i) == view)
+                return i;
         }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        return -1;
     }
 
     protected void parseScriptElement(XmlPullParser parser, View viewParent, String[] loadScript, List<String> scriptList) throws IOException, XmlPullParserException

@@ -23,6 +23,7 @@ import org.apache.http.params.DefaultedHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -142,14 +143,8 @@ public class HttpUtil
         {
             throw ex; // Nos interesa tratarlo explícitamente y por tanto NO envolverlo en un ItsNatDroidException
         }
-        catch(ClientProtocolException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
-        catch(IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch(ClientProtocolException ex) { throw new ItsNatDroidException(ex); }
+        catch(IOException ex) { throw new ItsNatDroidException(ex); }
     }
 
     private static HttpRequestResultImpl processResponse(HttpResponse response)
@@ -178,16 +173,26 @@ public class HttpUtil
 
         HttpRequestResultImpl result = new HttpRequestResultImpl(response,contentArr,status,mimeType[0],encoding[0]);
 
-        if (MIME_ANDROID_LAYOUT.equals(result.mimeType) || MIME_BEANSHELL.equals(result.mimeType) ||
-            MIME_TEXT_PLAIN.equals(result.mimeType) || MIME_JSON.equals(result.mimeType))
+        if (result.status.getStatusCode() == 200)
         {
-            result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
-
-            if (MIME_JSON.equals(result.mimeType))
+            // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
+            if (MIME_ANDROID_LAYOUT.equals(result.mimeType) || MIME_BEANSHELL.equals(result.mimeType) ||
+                MIME_TEXT_PLAIN.equals(result.mimeType) || MIME_JSON.equals(result.mimeType))
             {
-                try { result.responseJSONObject = new JSONObject(result.responseText); }
-                catch (JSONException ex) { throw new ItsNatDroidException(ex); }
+                result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+
+                if (MIME_JSON.equals(result.mimeType))
+                {
+                    try { result.responseJSONObject = new JSONObject(result.responseText); }
+                    catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, result); }
+                }
             }
+        }
+        else
+        {
+            // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
+            result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+            throw new ItsNatDroidServerResponseException(result);
         }
 
         return result;
@@ -235,10 +240,7 @@ public class HttpUtil
                 read = input.read(buffer);
             }
         }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
         finally
         {
             try { input.close(); }
@@ -325,20 +327,14 @@ public class HttpUtil
                 sb.append(line + "\n");
             }
         }
-        catch (IOException ex)
-        {
-            throw new ItsNatDroidException(ex);
-        }
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
         finally
         {
             try
             {
                 is.close();
             }
-            catch (IOException ex)
-            {
-                throw new ItsNatDroidException(ex);
-            }
+            catch (IOException ex) { throw new ItsNatDroidException(ex); }
         }
         return sb.toString();
     }

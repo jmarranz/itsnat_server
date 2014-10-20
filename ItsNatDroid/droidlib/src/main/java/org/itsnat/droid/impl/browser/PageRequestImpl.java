@@ -13,7 +13,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
@@ -170,8 +169,6 @@ public class PageRequestImpl implements PageRequest
         try
         {
             result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed);
-            if (result.status.getStatusCode() != 200)
-                throw new ItsNatDroidServerResponseException(result.status.getStatusCode(),result.status.getReasonPhrase(), result.responseText);
         }
         catch(Exception ex)
         {

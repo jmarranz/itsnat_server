@@ -5,31 +5,23 @@ package org.itsnat.droid;
  */
 public class ItsNatDroidServerResponseException extends ItsNatDroidException
 {
-    protected int statusCode;
-    protected String reasonPhrase;
-    protected String content;
+    protected HttpRequestResult result;
 
-    public ItsNatDroidServerResponseException(int statusCode, String reasonPhrase, String content)
+    public ItsNatDroidServerResponseException(HttpRequestResult result)
     {
         super("Server response error");
-        this.statusCode = statusCode;
-        this.reasonPhrase = reasonPhrase;
-        this.content = content;
+        this.result = result;
     }
 
-    public int getStatusCode()
+    public ItsNatDroidServerResponseException(Throwable cause,HttpRequestResult result)
     {
-        return statusCode;
+        super("Server response error",cause);
+        this.result = result;
     }
 
-    public String getReasonPhrase()
+    public HttpRequestResult getHttpRequestResult()
     {
-        return reasonPhrase;
-    }
-
-    public String getContent()
-    {
-        return content;
+        return result;
     }
 }
 
