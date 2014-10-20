@@ -148,21 +148,20 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
-
-
-        /*
-        View testCoreAttachServerLauncher = rootView.findViewById(R.id.testCoreAttachServerLauncher);
-        testCoreAttachServerLauncher.setOnClickListener(new View.OnClickListener()
+        View testRemoteNoItsNat = rootView.findViewById(R.id.testRemoteNoItsNat);
+        testRemoteNoItsNat.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                String url = act.getUrlTestStatelessCore();
+                String url = act.getUrlTestRemoteNoItsNat();
                 TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
-        */
+
+
+
 
         return rootView;
     }

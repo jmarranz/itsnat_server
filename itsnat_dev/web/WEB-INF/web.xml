@@ -12,6 +12,10 @@
         <servlet-name>ItsNatDroidServletExample</servlet-name>
         <servlet-class>test.ItsNatDroidServletExample</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ItsNatDroidServletNoItsNat</servlet-name>
+        <servlet-class>test.ItsNatDroidServletNoItsNat</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ItsNatServletExample</servlet-name>
         <url-pattern>/ItsNatServletExample</url-pattern>
@@ -27,6 +31,10 @@
     <servlet-mapping>
         <servlet-name>ItsNatDroidServletExample</servlet-name>
         <url-pattern>/ItsNatDroidServletExample</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItsNatDroidServletNoItsNat</servlet-name>
+        <url-pattern>/ItsNatDroidServletNoItsNat</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

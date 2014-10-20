@@ -57,6 +57,13 @@
             android:text="TEST COMPONENTS"
             android:textSize="20dp"
             android:layout_below="@id/testRemoteStatelessCore"/>
+
+    <Button android:id="@+id/testRemoteNoItsNat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEST REMOTE NO ITSNAT"
+            android:textSize="20dp"
+            android:layout_below="@id/testRemoteComponents"/>
 <!--
     <Button android:id="@+id/testCoreAttachServerLauncher"
             android:layout_width="wrap_content"

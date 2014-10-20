@@ -1,4 +1,8 @@
 
+* Sobre la actual imposibilidad de procesar dinámicamente layouts XML Android
+
+  http://stackoverflow.com/questions/6575965/theoretical-question-load-external-xml-layout-file-in-android
+
 * Carga de código Java bajo demanda
 
     DexClassLoader

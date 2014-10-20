@@ -35,6 +35,8 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     protected String urlTestRemCtrl;
     protected String urlTestStatelessCore;
     protected String urlTestComponents;
+    protected String urlTestRemoteNoItsNat;
+
     //protected String urlTestCoreAttachServerLauncher;
 
     @Override
@@ -48,11 +50,13 @@ public class TestActivity extends Activity implements ActionBar.TabListener
 
         String urlTestBase = intent.getStringExtra("urlTestBase");
 
-        this.urlTestCore =          urlTestBase + "?itsnat_doc_name=test_droid_core";
-        this.urlTestRemCtrl =       urlTestBase + "?itsnat_doc_name=test_droid_remote_ctrl";
-        this.urlTestStatelessCore = urlTestBase + "?itsnat_doc_name=test_droid_stateless_core_initial";
-        this.urlTestComponents =    urlTestBase + "?itsnat_doc_name=test_droid_components";
-        //this.urlTestCoreAttachServerLauncher = urlTestBase + "?itsnat_doc_name=test_droid_core_attached_server_launcher";
+        String itsNatServlet = "ItsNatDroidServletExample";
+
+        this.urlTestCore =           urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_core";
+        this.urlTestRemCtrl =        urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_remote_ctrl";
+        this.urlTestStatelessCore =  urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_stateless_core_initial";
+        this.urlTestComponents =     urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_components";
+        this.urlTestRemoteNoItsNat = urlTestBase + "ItsNatDroidServletNoItsNat";
 
         getActionBar().setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
 
@@ -128,6 +132,9 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     }
 
     public String getUrlTestComponents() { return urlTestComponents; }
+
+    public String getUrlTestRemoteNoItsNat() { return urlTestRemoteNoItsNat; }
+
 
     //public String getUrlTestCoreAttachServerLauncher() { return urlTestCoreAttachServerLauncher; }
 

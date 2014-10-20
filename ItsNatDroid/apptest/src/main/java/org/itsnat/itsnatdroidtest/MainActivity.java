@@ -109,10 +109,9 @@ public class MainActivity extends Activity {
     private String loadURLBase()
     {
         SharedPreferences settings = getSharedPreferences("MyPrefsFile", 0);
-        String url = settings.getString("remoteUrlBase", "http://192.168.0.215:8080/itsnat_dev/ItsNatDroidServletExample");
-        return url;
+        String urlBase = settings.getString("remoteUrlBase", "http://192.168.0.215:8080/itsnat_dev/");
+        return urlBase;
     }
-
 
     private void saveURLBase(String remoteUrlBase)
     {

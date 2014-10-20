@@ -168,9 +168,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result,null);
-
-        if (listener != null) listener.onRequest(result);
+        processResult(result,listener);
 
         return result;
     }
@@ -179,7 +177,6 @@ public class GenericHttpClientImpl implements GenericHttpClient
     public void requestAsync()
     {
         String url = getFinalURL();
-        HttpParams httpParamsRequest = this.httpParamsRequest;
 
         HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this,url, httpParamsRequest, paramList, listener,errorListener,overrideMime);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
@@ -195,21 +192,18 @@ public class GenericHttpClientImpl implements GenericHttpClient
             return new ItsNatDroidException(ex);
     }
 
-    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener asyncListener)
+    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener)
     {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-
         StatusLine status = result.status;
-        String responseText = result.responseText;
-
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
-            if (asyncListener != null) asyncListener.onRequest(result);
+            if (listener != null) listener.onRequest(result);
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
-            itsNatDoc.showErrorMessage(true, responseText);
+            ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
+            itsNatDoc.showErrorMessage(true, result.responseText);
             throw new ItsNatDroidServerResponseException(result);
         }
     }
