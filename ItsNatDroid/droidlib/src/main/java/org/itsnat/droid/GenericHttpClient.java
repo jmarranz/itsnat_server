@@ -5,7 +5,7 @@ package org.itsnat.droid;
  */
 public interface GenericHttpClient
 {
-    public int getErrorMode();
+    //public int getErrorMode();
     public GenericHttpClient setErrorMode(int errorMode);
     public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener listener);
     public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);

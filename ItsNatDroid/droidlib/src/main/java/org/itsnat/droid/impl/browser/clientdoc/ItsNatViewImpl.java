@@ -4,7 +4,6 @@ import android.view.View;
 
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.UserData;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -25,34 +24,41 @@ public abstract class ItsNatViewImpl implements ItsNatView
 {
     public static final int ITSNAT_VIEW_KEY = 1111111111;
 
-    protected PageImpl page;
+    protected ItsNatDocImpl itsNatDoc;
     protected MapList<String,DroidEventListener> eventListeners;
     protected String nodeCacheId;
     protected UserDataImpl userData;
     protected MapLight<String,String> onTypeInlineCodeMap;
 
-    public ItsNatViewImpl(PageImpl page)
+    public ItsNatViewImpl(ItsNatDocImpl itsNatDoc)
     {
-        this.page = page;
+        this.itsNatDoc = itsNatDoc;
     }
 
-    public static ItsNatViewImpl getItsNatView(PageImpl page,View view)
+    public static ItsNatViewImpl getItsNatView(ItsNatDocImpl itsNatDoc,View view)
     {
         if (view == null)
-            return page.getItsNatDocImpl().getItsNatViewNull();
+            return itsNatDoc.getItsNatViewNull();
         ItsNatViewNotNullImpl viewData = (ItsNatViewNotNullImpl)view.getTag(ITSNAT_VIEW_KEY);
         if (viewData == null)
         {
-            viewData = new ItsNatViewNotNullImpl(page,view);
+            viewData = new ItsNatViewNotNullImpl(itsNatDoc,view);
             view.setTag(ITSNAT_VIEW_KEY,viewData);
         }
         return viewData;
     }
 
+    public ItsNatDocImpl getItsNatDocImpl()
+    {
+        return itsNatDoc;
+    }
+
+    /*
     public PageImpl getPageImpl()
     {
-        return page;
+        return itsNatDoc.getPageImpl();
     }
+*/
 
     public abstract View getView();
 

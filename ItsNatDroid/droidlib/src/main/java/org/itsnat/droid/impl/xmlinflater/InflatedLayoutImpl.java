@@ -24,7 +24,7 @@ import java.util.List;
  */
 public abstract class InflatedLayoutImpl implements InflatedLayout
 {
-    protected ItsNatDroidImpl parent;
+    protected ItsNatDroidImpl itsNatDroid;
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
     protected Context ctx;
@@ -32,17 +32,17 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
 
-    public InflatedLayoutImpl(ItsNatDroidImpl parent,AttrCustomInflaterListener inflateListener,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,AttrCustomInflaterListener inflateListener,Context ctx)
     {
         // rootView se define a posteriori
-        this.parent = parent;
+        this.itsNatDroid = itsNatDroid;
         this.inflateListener = inflateListener;
         this.ctx = ctx;
     }
 
     public XMLLayoutInflateService getXMLLayoutInflateService()
     {
-        return parent.getXMLLayoutInflateService();
+        return itsNatDroid.getXMLLayoutInflateService();
     }
 
     public String getAndroidNSPrefix()
@@ -75,7 +75,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public ItsNatDroidImpl getItsNatDroidImpl()
     {
-        return parent;
+        return itsNatDroid;
     }
 
     @Override

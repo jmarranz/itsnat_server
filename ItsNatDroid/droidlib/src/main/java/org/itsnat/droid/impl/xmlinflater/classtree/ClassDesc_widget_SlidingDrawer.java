@@ -29,6 +29,7 @@ public class ClassDesc_widget_SlidingDrawer extends ClassDescViewBased
     }
 
     @Override
+    //@SuppressWarnings("deprecation")
     protected View createViewObject(Context ctx,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         final SlidingDrawer view;

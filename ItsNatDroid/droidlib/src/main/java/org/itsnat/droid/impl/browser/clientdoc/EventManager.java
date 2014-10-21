@@ -14,18 +14,18 @@ import java.util.List;
  */
 public class EventManager
 {
-    protected ItsNatDocImpl parent;
+    protected ItsNatDocImpl itsNatDoc;
     protected EventGenericImpl holdEvt = null;
     protected List<EventGenericImpl> queue = new LinkedList<EventGenericImpl>();
 
-    public EventManager(ItsNatDocImpl parent)
+    public EventManager(ItsNatDocImpl itsNatDoc)
     {
-        this.parent = parent;
+        this.itsNatDoc = itsNatDoc;
     }
 
     public ItsNatDocImpl getItsNatDocImpl()
     {
-        return parent;
+        return itsNatDoc;
     }
 
     public void returnedEvent(EventGenericImpl evt)
@@ -50,7 +50,7 @@ public class EventManager
 
     public void sendEvent(EventGenericImpl evt)
     {
-        if (parent.isDisabledEvents()) return;
+        if (itsNatDoc.isDisabledEvents()) return;
         if (evt.isIgnoreHold())
         {
             processEvents(true); // liberamos la cola, recordar que es monohilo
@@ -66,9 +66,9 @@ public class EventManager
 
     private void sendEventEffective(EventGenericImpl evt)
     {
-        if (parent.isDisabledEvents()) return; // pudo ser definido desde el servidor en el anterior evento
+        if (itsNatDoc.isDisabledEvents()) return; // pudo ser definido desde el servidor en el anterior evento
 
-        List<GlobalEventListener> globalListeners = parent.globalEventListeners;
+        List<GlobalEventListener> globalListeners = itsNatDoc.globalEventListeners;
         if (globalListeners != null && !globalListeners.isEmpty())
         {
             GlobalEventListener[] array = globalListeners.toArray(new GlobalEventListener[0]); // asi permitimos que se añadan mientras se procesan
@@ -81,10 +81,10 @@ public class EventManager
             }
         }
 
-        parent.getPageImpl().fireEventMonitors(true, false, evt);
+        itsNatDoc.fireEventMonitors(true, false, evt);
 
         EventGenericListener evtListener = evt.getEventGenericListener();
-        String servletPath = parent.getServletPath();
+        String servletPath = itsNatDoc.getServletPath();
         int commMode = evtListener.getCommMode();
         long timeout = evtListener.getTimeout();
         List<NameValuePair> params = evt.genParamURL();

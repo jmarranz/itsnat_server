@@ -17,7 +17,7 @@ public abstract class DroidEventListenerViewAdapter
 
     protected void dispatch(String type,Object nativeEvt)
     {
-        DroidEventDispatcher evtDisp = viewData.getPageImpl().getItsNatDocImpl().getDroidEventDispatcher();
+        DroidEventDispatcher evtDisp = viewData.getItsNatDocImpl().getDroidEventDispatcher();
         evtDisp.dispatch(viewData, type, nativeEvt);
     }
 }

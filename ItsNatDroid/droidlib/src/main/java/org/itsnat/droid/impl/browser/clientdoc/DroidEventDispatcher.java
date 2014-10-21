@@ -6,7 +6,6 @@ import android.view.ViewParent;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.OnEventErrorListener;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.DroidInputEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistener.DroidEventListener;
@@ -22,11 +21,11 @@ import bsh.Interpreter;
  */
 public class DroidEventDispatcher
 {
-    protected ItsNatDocImpl parent;
+    protected ItsNatDocImpl itsNatDoc;
 
-    public DroidEventDispatcher(ItsNatDocImpl parent)
+    public DroidEventDispatcher(ItsNatDocImpl itsNatDoc)
     {
-        this.parent = parent;
+        this.itsNatDoc = itsNatDoc;
     }
 
     public void dispatch(ItsNatViewImpl viewDataCurrentTarget,String type,Object nativeEvt)
@@ -65,7 +64,7 @@ public class DroidEventDispatcher
             {
                 // Desde aquí capturamos todos los fallos del proceso de eventos, el código anterior a dispatchEvent(String,InputEvent) nunca debería
                 // fallar, o bien porque es muy simple o porque hay llamadas al código del usuario que él mismo puede controlar sus fallos
-                OnEventErrorListener errorListener = viewDataCurrentTarget.getPageImpl().getOnEventErrorListener();
+                OnEventErrorListener errorListener = itsNatDoc.getPageImpl().getOnEventErrorListener();
                 if (errorListener != null)
                 {
                     errorListener.onError(ex, evtWrapper);
@@ -82,11 +81,10 @@ public class DroidEventDispatcher
 
     private void dispatchCapture(ItsNatViewImpl viewData,View view,String type,Object nativeEvt,View viewTarget)
     {
-        PageImpl page = viewData.getPageImpl();
         List<ViewParent> tree = getViewTreeParent(view);
         for (ViewParent viewParent : tree)
         {
-            ItsNatViewImpl viewParentData = page.getItsNatViewImpl((View) viewParent);
+            ItsNatViewImpl viewParentData = itsNatDoc.getItsNatViewImpl((View) viewParent);
             dispatch(viewParentData, type, nativeEvt, false, DroidInputEventImpl.CAPTURING_PHASE, viewTarget);
         }
     }
@@ -110,12 +108,12 @@ public class DroidEventDispatcher
     {
         View view = viewData.getView();
         int eventGroupCode = DroidEventGroupInfo.getEventGroupCode(type);
-        DroidEventListener listenerFake = new DroidEventListener(viewData.getPageImpl().getItsNatDocImpl(), view, type, null, null, false, -1, -1, eventGroupCode);
+        DroidEventListener listenerFake = new DroidEventListener(itsNatDoc, view, type, null, null, false, -1, -1, eventGroupCode);
         DroidEventImpl event = (DroidEventImpl)listenerFake.createNormalEvent(nativeEvt);
         event.setEventPhase(DroidEventImpl.AT_TARGET);
         event.setTarget(event.getCurrentTarget()); // El inline handler no participa en capture en web
 
-        Interpreter interp = viewData.getPageImpl().getInterpreter();
+        Interpreter interp = itsNatDoc.getPageImpl().getInterpreter();
         try
         {
             interp.set("event", event);

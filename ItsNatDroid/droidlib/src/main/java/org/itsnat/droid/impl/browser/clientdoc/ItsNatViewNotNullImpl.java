@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -22,10 +22,15 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
     protected FocusEventListenerViewAdapter focusEvtListenerViewAdapter;
     protected TextChangeEventListenerViewAdapter textChangeEvtListenerViewAdapter;
 
-    public ItsNatViewNotNullImpl(PageImpl page, View view)
+    public ItsNatViewNotNullImpl(ItsNatDocImpl itsNatDoc, View view)
     {
-        super(page);
+        super(itsNatDoc);
         this.view = view;
+    }
+
+    public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
+    {
+        return itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
     }
 
     public View getView()
@@ -35,12 +40,12 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
 
     public String getXMLId()
     {
-        return page.getInflatedLayoutPageImpl().getXMLId(view);
+        return getInflatedLayoutPageImpl().getXMLId(view);
     }
 
     public void setXMLId(String id)
     {
-        page.getInflatedLayoutPageImpl().setXMLId(id, view);
+        getInflatedLayoutPageImpl().setXMLId(id, view);
     }
 
     public ClickEventListenerViewAdapter getClickEventListenerViewAdapter()

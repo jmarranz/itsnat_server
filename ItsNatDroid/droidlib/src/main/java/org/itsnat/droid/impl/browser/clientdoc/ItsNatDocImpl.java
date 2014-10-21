@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.browser.clientdoc;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ClientErrorMode;
+import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.GenericHttpClient;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
@@ -19,6 +21,7 @@ import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
@@ -70,6 +73,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected String servletPath;
     protected int errorMode;
     protected String attachType;
+    protected boolean enableEvtMonitors = true;
+    protected List<EventMonitor> evtMonitorList;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
     protected DOMPathResolver pathResolver = new DOMPathResolverImpl(this);
     protected Map<String,DroidEventListener> droidEventListeners;
@@ -88,7 +93,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public ItsNatDocImpl(PageImpl page)
     {
         this.page = page;
-        this.nullView = new ItsNatViewNullImpl(page);
+        this.nullView = new ItsNatViewNullImpl(this);
     }
 
     public GenericHttpClient createGenericHttpClient()
@@ -127,10 +132,108 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
+    public View getRootView()
+    {
+        return page.getInflatedLayoutPageImpl().getRootView();
+    }
+
+    @Override
     public View findViewByXMLId(String id)
     {
-        return getPageImpl().findViewByXMLId(id);
+        return page.getInflatedLayoutPageImpl().findViewByXMLId(id);
     }
+
+    @Override
+    public int getResourceIdentifier(String name)
+    {
+        // Formato esperado: package:type/entry  ej my.app:id/someId  o bien simplemente someId
+
+        String packageName;
+        int posPkg = name.indexOf(':');
+        if (posPkg != -1)
+        {
+            packageName = null; // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
+            name = name.substring(posPkg + 1);
+        }
+        else
+        {
+            packageName = getContext().getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
+        }
+
+        String type;
+        int posType = name.indexOf('/');
+        if (posType != -1)
+        {
+            type = null; // Se obtiene del name
+            name = name.substring(posType + 1);
+        }
+        else
+        {
+            type = "id";
+        }
+
+        return getResourceIdentifier(name,type,packageName);
+    }
+
+    @Override
+    public int getResourceIdentifier(String name, String defType, String defPackage)
+    {
+        // http://developer.android.com/reference/android/content/res/Resources.html#getIdentifier(java.lang.String, java.lang.String, java.lang.String)
+        // Formato esperado: package:type/entry  ej my.app:id/someId  o bien type y package vienen dados como parámetros
+
+        Context ctx = getContext();
+        Resources res = ctx.getResources();
+        int id = res.getIdentifier(name, defType, defPackage);
+        if (id > 0)
+            return id;
+
+        XMLLayoutInflateService layoutService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
+        id = layoutService.findViewId(name);
+        return id;
+    }
+
+
+    @Override
+    public void setEnableEventMonitors(boolean value) { this.enableEvtMonitors = value; }
+
+    @Override
+    public void addEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
+        evtMonitorList.add(monitor);
+    }
+
+    @Override
+    public boolean removeEventMonitor(EventMonitor monitor)
+    {
+        if (evtMonitorList == null) return false;
+        return evtMonitorList.remove(monitor);
+    }
+
+    public void fireEventMonitors(boolean before,boolean timeout,Event evt)
+    {
+        if (!this.enableEvtMonitors) return;
+
+        if (evtMonitorList == null) return;
+
+        for(EventMonitor curr : evtMonitorList)
+        {
+            if (before) curr.before(evt);
+            else curr.after(evt,timeout);
+        }
+    }
+
+    @Override
+    public ItsNatView getItsNatView(View view)
+    {
+        return getItsNatViewImpl(view);
+    }
+
+    public ItsNatViewImpl getItsNatViewImpl(View view)
+    {
+        return ItsNatViewImpl.getItsNatView(this,view);
+    }
+
 
     public List<NameValuePair> genParamURL()
     {
@@ -174,6 +277,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return disabledEvents;
     }
 
+    @Override
     public void setDisabledEvents()
     {
         this.disabledEvents = true;
@@ -349,14 +453,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         toast(value,Toast.LENGTH_SHORT);
     }
 
-
-
-
+    @Override
     public void postDelayed(Runnable task,long delay)
     {
         getHandler().postDelayed(task,delay);
     }
 
+    @Override
     public void onServerStateLost()
     {
         OnServerStateLostListener listener = page.getOnServerStateLostListener();
@@ -410,6 +513,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         setAttributeNS(elem, namespaceURI, name, value);
     }
 
+    @Override
     public void setAttrBatch(Node node,String namespaceURI,String[] attrNames,String[] attrValues)
     {
         int len = attrNames.length;
@@ -573,7 +677,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private String getNodeCacheId(Node node)
     {
         View view = node.getView();
-        ItsNatViewImpl itsNatView = page.getItsNatViewImpl(view);
+        ItsNatViewImpl itsNatView = getItsNatViewImpl(view);
         return itsNatView.getNodeCacheId();
     }
 
@@ -588,7 +692,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (id == null) return; // si id es null cache desactivado
         nodeCacheById.put(id,node);
         View view = node.getView();
-        ItsNatViewImpl itsNatView = page.getItsNatViewImpl(view);
+        ItsNatViewImpl itsNatView = getItsNatViewImpl(view);
         itsNatView.setNodeCacheId(id);
     }
 
@@ -714,11 +818,12 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             Node node = nodeCacheById.remove(id);
             if (node == null) continue; // por si acaso, no debería ocurrir
             View view = node.getView();
-            ItsNatViewImpl viewData = page.getItsNatViewImpl(view);
+            ItsNatViewImpl viewData = getItsNatViewImpl(view);
             viewData.setNodeCacheId(null);
         }
     }
 
+    @Override
     public void clearNodeCache()
     {
         nodeCacheById.clear();
@@ -762,12 +867,14 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         return getNode(idObj);
     }
 
-    public void appendFragment(ViewGroup parentView, String markup)
+    @Override
+    public void appendFragment(View parentView, String markup)
     {
         insertFragment(parentView,markup,null);
     }
 
-    public void insertFragment(ViewGroup parentView, String markup,View viewRef)
+    @Override
+    public void insertFragment(View parentView, String markup,View viewRef)
     {
         // Si el fragmento a insertar es suficientemente grande el rendimiento de insertFragment puede ser varias veces superior
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
@@ -776,21 +883,23 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
         List<String> scriptList = new LinkedList<String>();
 
-        getPageImpl().getInflatedLayoutPageImpl().insertFragment(parentView, markup, viewRef, loadScript, scriptList);
-        getPageImpl().executeScriptList(scriptList);
+        PageImpl page = getPageImpl();
+        page.getInflatedLayoutPageImpl().insertFragment((ViewGroup)parentView, markup, viewRef, loadScript, scriptList);
+        page.executeScriptList(scriptList);
     }
 
+    @Override
     public void setInnerXML(Node parentNode,String markup)
     {
-        appendFragment((ViewGroup)parentNode.getView(), markup);
+        appendFragment(parentNode.getView(), markup);
     }
 
+    @Override
     public void setInnerXML2(Object[] idObj,String markup)
     {
         Node parentNode = getNode(idObj);
         setInnerXML(parentNode,markup);
     }
-
 
 
     @Override
@@ -799,7 +908,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         View currentTarget = getView(idObj);
         if (currentTarget == null /*&& (!type.equals("unload") && !type.equals("load")) */) // En el caso "unload" y "load" se permite que sea nulo el target
             throw new ItsNatDroidException("INTERNAL ERROR");
-        ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
+        ItsNatViewImpl viewData = getItsNatViewImpl(currentTarget);
         DroidEventListener listenerWrapper = new DroidEventListener(this,currentTarget,type,customFunction,listenerId,useCapture,commMode,timeout,eventGroupCode);
         getDroidEventListeners().put(listenerId, listenerWrapper);
         viewData.getEventListeners().add(type,listenerWrapper);
@@ -810,14 +919,16 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         ((ItsNatViewNotNullImpl)viewData).registerEventListenerViewAdapter(type);
     }
 
+    @Override
     public void removeDroidEL(String listenerId)
     {
         DroidEventListener listenerWrapper = getDroidEventListeners().remove(listenerId);
         View currentTarget = listenerWrapper.getCurrentTarget(); // En el caso "unload" y "load" puede ser nulo => ¡¡YA NO!!
-        ItsNatViewImpl viewData = page.getItsNatViewImpl(currentTarget);
+        ItsNatViewImpl viewData = getItsNatViewImpl(currentTarget);
         viewData.getEventListeners().remove(listenerWrapper.getType(),listenerWrapper);
     }
 
+    @Override
     public void addGlobalEL(GlobalEventListener listener)
     {
         // Por ahora no se usa pero por imitación del Web...
@@ -825,8 +936,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         globalEventListeners.add(listener);
     }
 
+    @Override
     public void removeGlobalEL(GlobalEventListener listener) { globalEventListeners.remove(listener); }
 
+    @Override
     public void sendContinueEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
         Node currTarget = getNode(idObj); // idObj puede ser nulo
@@ -842,12 +955,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (currTargetView == null) listenersByName = getUserEventListenersByName();
         else
         {
-            ItsNatView itsNatView = getPageImpl().getItsNatView(currTargetView);
+            ItsNatView itsNatView = getItsNatView(currTargetView);
             listenersByName = (MapList<String, UserEventListener>) itsNatView.getUserData().get(key_itsNatUserListenersByName);
         }
         return listenersByName;
     }
 
+    @Override
     public void addUserEL(Object[] idObj,String name,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
         View currTarget = getView(idObj);
@@ -857,7 +971,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (currTarget == null) listenersByName = getUserEventListenersByName();
         else
         {
-            ItsNatView itsNatView = getPageImpl().getItsNatView(currTarget);
+            ItsNatView itsNatView = getItsNatView(currTarget);
             listenersByName = (MapList<String,UserEventListener>)itsNatView.getUserData().get(key_itsNatUserListenersByName);
             if (listenersByName == null)
             {
@@ -869,6 +983,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         listenersByName.add(name,listenerWrapper);
     }
 
+    @Override
     public void removeUserEL(String listenerId)
     {
         UserEventListener listenerWrapper = getUserEventListenersById().remove(listenerId);
@@ -880,11 +995,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         listenersByName.remove(listenerWrapper.getName(),listenerWrapper);
     }
 
+    @Override
     public UserEvent createUserEvent(String name)
     {
         return new UserEventImpl(name);
     }
 
+    @Override
     public void dispatchUserEvent(View currTargetView,UserEvent evt)
     {
         MapList<String,UserEventListener> listenersByName = getUserEventListenersByName(currTargetView);
@@ -899,23 +1016,27 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
+    @Override
     public void fireUserEvent(View currTargetView,String name)
     {
         UserEvent evt = createUserEvent(name);
         dispatchUserEvent(currTargetView, evt);
     }
 
+    @Override
     public EventStateless createEventStateless()
     {
         return new EventStatelessImpl();
     }
 
+    @Override
     public void dispatchEventStateless(EventStateless evt,int commMode,long timeout)
     {
         EventStatelessImpl evt2 = new EventStatelessImpl(this,(EventStatelessImpl)evt,commMode,timeout);
         evt2.sendEvent();
     }
 
+    @Override
     public void sendAsyncTaskEvent(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
         View currTarget = getView(idObj);
@@ -924,6 +1045,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
+    @Override
     public void addTimerEL(Object[] idObj,String listenerId,CustomFunction customFunc,int commMode,long timeout,long delay)
     {
         View currTarget = getView(idObj);
@@ -961,6 +1083,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         getTimerEventListeners().put(listenerId, listenerWrapper);
     }
 
+    @Override
     public void removeTimerEL(String listenerId)
     {
         TimerEventListener listenerWrapper = getTimerEventListeners().remove(listenerId);
@@ -969,6 +1092,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         getHandler().removeCallbacks(callback);
     }
 
+    @Override
     public void updateTimerEL(String listenerId,long delay)
     {
         TimerEventListener listenerWrapper = getTimerEventListeners().get(listenerId);
@@ -977,6 +1101,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         getHandler().postDelayed(callback, delay);
     }
 
+    @Override
     public void sendCometTaskEvent(String listenerId,CustomFunction customFunc,int commMode,long timeout)
     {
         CometTaskEventListener listenerWrapper = new CometTaskEventListener(this,listenerId,customFunc,commMode,timeout);
@@ -984,37 +1109,44 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         listenerWrapper.dispatchEvent(evtWrapper);
     }
 
+    @Override
     public MotionEvent createMotionEvent(String type,float x, float y)
     {
         return DroidMotionEventImpl.createMotionEventNative(type, x, y);
     }
 
+    @Override
     public KeyEvent createKeyEvent(String type,int keyCode)
     {
         return DroidKeyEventImpl.createKeyEventNative(type, keyCode);
     }
 
+    @Override
     public Boolean createFocusEvent(boolean hasFocus)
     {
         return DroidFocusEventImpl.createFocusEventNative(hasFocus);
     }
 
+    @Override
     public CharSequence createTextChangeEvent(CharSequence newText)
     {
         return DroidTextChangeEventImpl.createTextChangeEventNative(newText);
     }
 
+    @Override
     public Object createOtherEvent()
     {
         return DroidOtherEventImpl.createOtherEventNative();
     }
 
+    @Override
     public boolean dispatchEvent(Node node, String type, Object nativeEvt)
     {
         View currTarget = NodeImpl.getView(node);
         return dispatchDroidEvent(currTarget, type, nativeEvt);
     }
 
+    @Override
     public boolean dispatchEvent2(Object[] idObj, String type, Object nativeEvt)
     {
         Node currTarget = getNode(idObj);
@@ -1023,7 +1155,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private boolean dispatchDroidEvent(View target, String type, Object nativeEvt)
     {
-        ItsNatViewImpl targetViewData = getPageImpl().getItsNatViewImpl(target);
+        ItsNatViewImpl targetViewData = getItsNatViewImpl(target);
         eventDispatcher.dispatch(targetViewData, type, nativeEvt);
         return false; // No sabemos qué poner
     }
@@ -1032,7 +1164,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     {
         Object nativeEvt = createOtherEvent();
 
-        dispatchDroidEvent(getPageImpl().getRootView(), "unload", nativeEvt);
+        dispatchDroidEvent(getRootView(), "unload", nativeEvt);
 
         if (attachUnloadCallback != null)
         {
@@ -1043,9 +1175,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public void sendLoadEvent()
     {
         Object nativeEvt = createOtherEvent();
-        dispatchDroidEvent(getPageImpl().getRootView(), "load", nativeEvt);
+        dispatchDroidEvent(getRootView(), "load", nativeEvt);
     }
 
+    @Override
     public boolean dispatchUserEvent2(Object[] idObj,UserEvent evt)
     {
         View currTarget = getView(idObj);
@@ -1087,18 +1220,21 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         getHandler().postDelayed(attachTimerRefreshCallback, interval);
     }
 
+    @Override
     public void stopAttachTimerRefresh()
     {
         getHandler().removeCallbacks(attachTimerRefreshCallback);
         this.attachTimerRefreshCallback = null;
     }
 
+    @Override
     public void sendAttachCometTaskRefresh(String listenerId,int commMode,long timeout)
     {
         AttachedClientCometTaskRefreshEventImpl evt = new AttachedClientCometTaskRefreshEventImpl(this,listenerId,commMode,timeout);
         evt.sendEvent();
     }
 
+    @Override
     public void addAttachUnloadListener(final int commMode)
     {
         final ItsNatDocImpl itsNatDoc = this;

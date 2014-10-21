@@ -111,7 +111,7 @@ public abstract class AttrDesc
         return outValue.resourceId;
     }
 
-    private static int getIdentifierDynamicallyAdded(String value, Context ctx,XMLLayoutInflateService layoutService)
+    public static int getIdentifierDynamicallyAdded(String value, Context ctx,XMLLayoutInflateService layoutService)
     {
         Resources res = ctx.getResources();
 
@@ -133,7 +133,7 @@ public abstract class AttrDesc
         if (value.startsWith("+id/"))
             value = value.substring(1); // Quitamos el +
         String packageName;
-        if (value.indexOf(':') != -1) // Tiene package, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
+        if (value.indexOf(':') != -1) // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
         {
             packageName = null;
         }

@@ -7,13 +7,11 @@ package test;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -33,47 +31,29 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
-    {
-        response.setContentType("android/layout;charset=UTF-8");
+    {       
+        response.setContentType("android/layout;charset=UTF-8");  
+        
+        HttpSession session = (HttpSession)request.getSession();
+        
+        StringBuilder res;        
+        if ("true".equals(request.getParameter("addItem")))   
+        {
+            int counter = (Integer)session.getAttribute("counter");
+            counter++;
+            session.setAttribute("counter",counter);
+            
+            res = loadFragment(counter);                    
+        }
+        else
+        {
+            session.setAttribute("counter",0);
+            res = loadPage();
+        }
+        
         PrintWriter out = response.getWriter();
         try
         {
-            StringBuilder res = new StringBuilder();
-          
-            res.append(" <LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
-            res.append("    android:layout_width=\"match_parent\" ");
-            res.append("    android:layout_height=\"match_parent\" ");
-            res.append("    android:orientation=\"vertical\">  ");
-
-            res.append("    <TextView  ");
-            res.append("        android:layout_width=\"match_parent\" ");
-            res.append("        android:layout_height=\"wrap_content\" ");
-            res.append("        android:text=\"TEST NO ITSNAT SERVER\" ");
-            res.append("        android:textSize=\"20dp\" ");
-            res.append("        android:background=\"#00ff00\"> ");
-            res.append("   </TextView> ");
-            
-            res.append("   <Button ");
-            res.append("        android:id=\"@id/back\" ");
-            res.append("        android:layout_width=\"wrap_content\" ");
-            res.append("        android:layout_height=\"wrap_content\" ");
-            res.append("        android:text=\"BACK\" /> ");
-
-            res.append("   <Button ");
-            res.append("        android:id=\"@id/buttonReload\" ");
-            res.append("        android:layout_width=\"wrap_content\" ");
-            res.append("        android:layout_height=\"wrap_content\" ");
-            res.append("        android:text=\"@string/button_reload\" />  ");          
-            
-            
-            res.append("   <Button ");
-            res.append("        android:layout_width=\"wrap_content\" ");
-            res.append("        android:layout_height=\"wrap_content\" ");
-            res.append("        android:layout_marginTop=\"30dp\" ");            
-            res.append("        android:text=\"ADD\" />  ");             
-            
-            res.append(" </LinearLayout> ");
-            
             out.println(res);
         }
         finally
@@ -82,6 +62,91 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         }
     }
 
+    private StringBuilder loadPage()
+    {
+        StringBuilder res = new StringBuilder();
+
+        res.append(" <LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
+        res.append("    android:layout_width=\"match_parent\" ");
+        res.append("    android:layout_height=\"match_parent\" ");
+        res.append("    android:padding=\"10dp\" ");        
+        res.append("    android:orientation=\"vertical\">  ");
+
+        res.append("    <TextView  ");
+        res.append("        android:layout_width=\"match_parent\" ");
+        res.append("        android:layout_height=\"wrap_content\" ");
+        res.append("        android:text=\"TEST NO ITSNAT SERVER\" ");
+        res.append("        android:textSize=\"20dp\" ");
+        res.append("        android:background=\"#00ff00\" /> ");
+
+        res.append("   <Button ");
+        res.append("        android:id=\"@id/back\" ");
+        res.append("        android:layout_width=\"wrap_content\" ");
+        res.append("        android:layout_height=\"wrap_content\" ");
+        res.append("        android:text=\"BACK\" /> ");
+
+        res.append("   <Button ");
+        res.append("        android:id=\"@id/buttonReload\" ");
+        res.append("        android:layout_width=\"wrap_content\" ");
+        res.append("        android:layout_height=\"wrap_content\" ");
+        res.append("        android:text=\"@string/button_reload\" />  ");          
+
+        res.append("   <script>"
+                        + "void addItem() { "
+                        + "  itsNatDoc.createGenericHttpClient()"
+                        + "  .setOnHttpRequestListener(new OnHttpRequestListener(){"                    
+                        + "     void onRequest(HttpRequestResult response){"  
+                        + "        var viewRoot = itsNatDoc.getRootView();"
+                        + "        int viewRefId = itsNatDoc.getResourceIdentifier(\"limitId\");"                 
+                        + "        var viewRef = viewRoot.findViewById(viewRefId);"
+                        + "        itsNatDoc.insertFragment(viewRoot,response.getResponseText(),viewRef);" 
+                        + "     }"
+                        + "   })"
+                        + "  .addParam(\"addItem\",\"true\") "                    
+                        + "  .requestAsync(); "
+                        + "}"
+                    + "</script> ");
+        res.append("   <Button ");
+        res.append("        android:layout_width=\"wrap_content\" ");
+        res.append("        android:layout_height=\"wrap_content\" ");
+        res.append("        android:layout_marginTop=\"30dp\" ");            
+        res.append("        android:text=\"ADD ITEM\" ");             
+        res.append("        onclick=\"addItem()\" />  ");                 
+
+        
+        res.append("    <View ");
+        res.append("        android:id=\"@+id/limitId\"  ");        
+        res.append("        android:layout_width=\"match_parent\" ");
+        res.append("        android:layout_height=\"2dp\" ");
+        res.append("        android:layout_marginTop=\"10dp\" ");         
+        res.append("        android:background=\"#000000\" /> ");
+        
+        res.append(" </LinearLayout> ");
+
+        return res;
+    }
+    
+    private StringBuilder loadFragment(int counter)
+    {
+        StringBuilder res = new StringBuilder();
+        
+        res.append("    <View ");   
+        res.append("        android:layout_width=\"match_parent\" ");
+        res.append("        android:layout_height=\"2dp\" ");
+        res.append("        android:layout_marginTop=\"10dp\" ");         
+        res.append("        android:background=\"#000000\" /> ");        
+        
+        res.append("    <TextView  ");
+        res.append("        android:layout_width=\"wrap_content\" ");
+        res.append("        android:layout_height=\"wrap_content\" ");
+        res.append("        android:layout_marginTop=\"10dp\" ");
+        res.append("        android:text=\"ITEM " + counter + "\" ");
+        res.append("        android:textSize=\"20dp\" ");
+        res.append("        android:background=\"#ffff00\" /> ");
+
+        return res;
+    }    
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *

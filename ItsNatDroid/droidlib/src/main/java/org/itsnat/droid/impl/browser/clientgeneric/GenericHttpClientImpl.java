@@ -62,7 +62,6 @@ public class GenericHttpClientImpl implements GenericHttpClient
         return itsNatDoc;
     }
 
-    @Override
     public int getErrorMode()
     {
         return errorMode;

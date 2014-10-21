@@ -72,7 +72,7 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
         String name = "myUserAction";
         
         itsNatDoc.addUserEventListener((EventTarget)doc.getDocumentElement(),name,listener,itsNatEvent.getCommMode(),extraParams,null,-1);
-        itsNatDoc.addCodeToSend("itsNatDoc.fireUserEvent(itsNatDoc.getPage().getRootView(),\"" + name + "\");");
+        itsNatDoc.addCodeToSend("itsNatDoc.fireUserEvent(itsNatDoc.getRootView(),\"" + name + "\");");
 
         itsNatDoc.addUserEventListener(null,"myUserAction",listener,itsNatEvent.getCommMode(),extraParams,null,-1);
         itsNatDoc.addCodeToSend("itsNatDoc.fireUserEvent(null,\"" + name + "\");");

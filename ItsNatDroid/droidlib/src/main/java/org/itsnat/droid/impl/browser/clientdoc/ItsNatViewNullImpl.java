@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;
@@ -15,9 +14,9 @@ import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.TouchEventListener
  */
 public class ItsNatViewNullImpl extends ItsNatViewImpl
 {
-    public ItsNatViewNullImpl(PageImpl page)
+    public ItsNatViewNullImpl(ItsNatDocImpl itsNatDoc)
     {
-        super(page);
+        super(itsNatDoc);
     }
 
     public View getView()

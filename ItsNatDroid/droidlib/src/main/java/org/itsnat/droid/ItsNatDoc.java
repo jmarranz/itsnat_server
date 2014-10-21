@@ -1,7 +1,6 @@
 package org.itsnat.droid;
 
 import android.view.View;
-import android.view.ViewGroup;
 
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
@@ -14,6 +13,12 @@ public interface ItsNatDoc
 {
     public Page getPage();
 
+    public View getRootView();
+    public View findViewByXMLId(String id);
+    public int getResourceIdentifier(String name);
+    public int getResourceIdentifier(String name, String defType, String defPackage);
+    public ItsNatView getItsNatView(View view);
+
     public void alert(Object value);
     public void alert(String title,Object value);
     public void toast(Object value,int duration);
@@ -21,9 +26,11 @@ public interface ItsNatDoc
     public void eval(String code);
     public void postDelayed(Runnable task,long delay);
 
-    public View findViewByXMLId(String id);
-
     public GenericHttpClient createGenericHttpClient();
+
+    public void addEventMonitor(EventMonitor monitor);
+    public boolean removeEventMonitor(EventMonitor monitor);
+    public void setEnableEventMonitors(boolean value);
 
     public UserEvent createUserEvent(String name);
     public void dispatchUserEvent(View currTarget,UserEvent evt);
@@ -32,7 +39,7 @@ public interface ItsNatDoc
     public EventStateless createEventStateless();
     public void dispatchEventStateless(EventStateless evt,int commMode,long timeout);
 
-    public void appendFragment(ViewGroup parentView, String markup);
-    public void insertFragment(ViewGroup parentView, String markup,View viewRef);
+    public void appendFragment(View parentView, String markup);
+    public void insertFragment(View parentView, String markup,View viewRef);
 }
 

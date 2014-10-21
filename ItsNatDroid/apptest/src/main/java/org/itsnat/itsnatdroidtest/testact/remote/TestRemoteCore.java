@@ -9,6 +9,7 @@ import android.widget.Toast;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.EventMonitor;
+import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.Page;
@@ -81,8 +82,10 @@ public class TestRemoteCore extends TestRemotePageBase
 
         final TestActivity act = getTestActivity();
 
-        View testNativeListenersButton = page.findViewByXMLId("testNativeListenersId");
-        ItsNatView testNativeListenersButtonItsNat = page.getItsNatView(testNativeListenersButton);
+        ItsNatDoc itsNatDoc = page.getItsNatDoc();
+
+        View testNativeListenersButton = itsNatDoc.findViewByXMLId("testNativeListenersId");
+        ItsNatView testNativeListenersButtonItsNat = itsNatDoc.getItsNatView(testNativeListenersButton);
         testNativeListenersButtonItsNat.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -101,7 +104,7 @@ public class TestRemoteCore extends TestRemotePageBase
             }
         });
 
-        page.addEventMonitor(new EventMonitor()
+        itsNatDoc.addEventMonitor(new EventMonitor()
         {
             @Override
             public void before(Event event)

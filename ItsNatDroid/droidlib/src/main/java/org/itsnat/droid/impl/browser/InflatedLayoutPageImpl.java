@@ -84,7 +84,11 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             {
                 View child = falseParentView.getChildAt(0);
                 falseParentView.removeViewAt(0);
-                if (indexRef >= 0) parentView.addView(child,indexRef);
+                if (indexRef >= 0)
+                {
+                    parentView.addView(child, indexRef);
+                    indexRef++;
+                }
                 else parentView.addView(child);
             }
         }
@@ -94,6 +98,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     public static int getChildIndex(ViewGroup parentView,View view)
     {
+        if (view.getParent() != parentView) throw new ItsNatDroidException("View must be a direct child of parent View");
         // Esto es una chapuza pero no hay opción
         int size = parentView.getChildCount();
         for(int i = 0; i < size; i++)
@@ -101,7 +106,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             if (parentView.getChildAt(i) == view)
                 return i;
         }
-        return -1;
+        return -1; // No es hijo directo
     }
 
     protected void parseScriptElement(XmlPullParser parser, View viewParent, String[] loadScript, List<String> scriptList) throws IOException, XmlPullParserException
@@ -128,7 +133,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     public void removeAttribute(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
@@ -186,7 +191,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             if (view != getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
-        return page.getItsNatViewImpl(view);
+        return page.getItsNatDocImpl().getItsNatViewImpl(view);
     }
 
     private String getTypeInlineEventHandler(String name)

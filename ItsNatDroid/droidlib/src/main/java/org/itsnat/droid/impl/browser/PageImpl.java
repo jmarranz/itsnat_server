@@ -1,24 +1,19 @@
 package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
-import android.view.View;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
-import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
-import org.itsnat.droid.event.Event;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 
@@ -47,8 +42,6 @@ public class PageImpl implements Page
     protected OnServerStateLostListener stateLostListener;
     protected UserDataImpl userData;
     protected HttpParams httpParams;
-    protected boolean enableEvtMonitors = true;
-    protected List<EventMonitor> evtMonitorList;
     protected boolean dispose;
 
     public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String loadedContent,AttrCustomInflaterListener inflateListener)
@@ -124,18 +117,6 @@ public class PageImpl implements Page
         return getItsNatDroidBrowserImpl();
     }
 
-    @Override
-    public View getRootView()
-    {
-        return getInflatedLayoutPageImpl().getRootView();
-    }
-
-    @Override
-    public View findViewByXMLId(String id)
-    {
-        return getInflatedLayoutPageImpl().findViewByXMLId(id);
-    }
-
     public HttpParams getHttpParams()
     {
         return httpParams;
@@ -190,17 +171,6 @@ public class PageImpl implements Page
         return getInflatedLayoutPageImpl().getContext();
     }
 
-    @Override
-    public ItsNatView getItsNatView(View view)
-    {
-        return getItsNatViewImpl(view);
-    }
-
-    public ItsNatViewImpl getItsNatViewImpl(View view)
-    {
-        return ItsNatViewImpl.getItsNatView(this,view);
-    }
-
     public UserData getUserData()
     {
         if (userData == null) this.userData = new UserDataImpl();
@@ -236,33 +206,6 @@ public class PageImpl implements Page
     public void setOnServerStateLostListener(OnServerStateLostListener listener)
     {
         this.stateLostListener = listener;
-    }
-
-    public void setEnableEventMonitors(boolean value) { this.enableEvtMonitors = value; }
-
-    public void addEventMonitor(EventMonitor monitor)
-    {
-        if (evtMonitorList == null) this.evtMonitorList = new LinkedList<EventMonitor>();
-        evtMonitorList.add(monitor);
-    }
-
-    public boolean removeEventMonitor(EventMonitor monitor)
-    {
-        if (evtMonitorList == null) return false;
-        return evtMonitorList.remove(monitor);
-    }
-
-    public void fireEventMonitors(boolean before,boolean timeout,Event evt)
-    {
-        if (!this.enableEvtMonitors) return;
-
-        if (evtMonitorList == null) return;
-
-        for(EventMonitor curr : evtMonitorList)
-        {
-            if (before) curr.before(evt);
-            else curr.after(evt,timeout);
-        }
     }
 
     public PageRequest reusePageRequest()

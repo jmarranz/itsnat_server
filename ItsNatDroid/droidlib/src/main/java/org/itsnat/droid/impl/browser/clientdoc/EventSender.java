@@ -89,8 +89,7 @@ public class EventSender
     public void processResult(EventGenericImpl evt,HttpRequestResultImpl result,boolean async)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-        page.fireEventMonitors(false,false,evt);
+        itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.responseText;
         StatusLine status = result.status;
@@ -111,17 +110,16 @@ public class EventSender
     public ItsNatDroidException processException(EventGenericImpl evt,Exception ex)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
 
         if (ex instanceof SocketTimeoutException) // Esperamos este error en el caso de timeout
         {
-            page.fireEventMonitors(false, true, evt);
+            itsNatDoc.fireEventMonitors(false, true, evt);
 
             return new ItsNatDroidException(ex);
         }
         else
         {
-            page.fireEventMonitors(false, false, evt);
+            itsNatDoc.fireEventMonitors(false, false, evt);
 
             if (ex instanceof ItsNatDroidException) return (ItsNatDroidException)ex;
             else return new ItsNatDroidException(ex);

@@ -38,7 +38,7 @@ public class TestRemoteControl extends TestRemotePageBase
             {
                 if (name.equals("url"))
                 {
-                    ItsNatView itsNatView = page.getItsNatView(view);
+                    ItsNatView itsNatView = page.getItsNatDoc().getItsNatView(view);
                     itsNatView.setOnClickListener(new View.OnClickListener()
                     {
                         @Override
