@@ -60,7 +60,6 @@ public class HttpUtil
 {
     public static final String MIME_ANDROID_LAYOUT = "android/layout";
     public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente
-    public static final String MIME_TEXT_PLAIN = "text/plain";
     public static final String MIME_JSON = "application/json";
 
 
@@ -86,7 +85,6 @@ public class HttpUtil
 
         HttpClient httpClient = createHttpClient(uri,sslSelfSignedAllowed,httpParams);
 
-                // Prepare a request object
         HttpGet httpGet = new HttpGet(uri);
 
         HttpResponse response = execute(httpClient,httpGet,httpContext,httpHeaders);
@@ -178,7 +176,7 @@ public class HttpUtil
         {
             // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
             if (MIME_ANDROID_LAYOUT.equals(result.mimeType) || MIME_BEANSHELL.equals(result.mimeType) ||
-                MIME_TEXT_PLAIN.equals(result.mimeType) || MIME_JSON.equals(result.mimeType))
+                MIME_JSON.equals(result.mimeType) || result.mimeType.startsWith("text/"))
             {
                 result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
 

@@ -42,6 +42,7 @@ public class TestDroidGlobalRemoteControlListener implements ItsNatAttachedClien
             String docId = request.getParameter("itsnat_doc_id");
             try
             {
+                response.getServletResponse().setContentType("android/layout;charset=UTF-8");                
                 Writer out = response.getServletResponse().getWriter();
                 
                 out.write("  <TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");

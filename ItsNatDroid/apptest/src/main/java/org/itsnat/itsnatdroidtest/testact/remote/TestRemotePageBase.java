@@ -94,9 +94,10 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         if (page.getId() == null)
         {
-            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found");
+            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found or no ItsNat server used");
             View rootView = page.getRootView();
             changeLayout(rootView);
+            bindBackAndReloadButton(page, rootView);
             return;
         }
 
@@ -148,7 +149,12 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             }
             Log.v("TestActivity", "CODE:" + exScr.getScript());
         }
-
+        else if (ex instanceof ItsNatDroidServerResponseException)
+        {
+            ItsNatDroidServerResponseException ex2 = (ItsNatDroidServerResponseException)ex;
+            TestUtil.alertDialog(act, "User Msg: Server loaded content returned error: " + ex2.getMessage() + "\n" + ex2.getHttpRequestResult().getResponseText());
+            Log.v("TestActivity", "RESPONSE:" + ex2.getHttpRequestResult().getResponseText());
+        }
     }
 
     @Override

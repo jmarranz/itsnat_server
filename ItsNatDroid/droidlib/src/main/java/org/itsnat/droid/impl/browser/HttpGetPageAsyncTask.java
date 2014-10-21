@@ -51,7 +51,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
     {
         try
         {
-            pageRequest.processResponse(url,result.responseText);
+            pageRequest.processResponse(result);
         }
         catch(Exception ex)
         {

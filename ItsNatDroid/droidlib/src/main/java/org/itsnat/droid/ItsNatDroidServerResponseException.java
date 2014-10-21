@@ -7,6 +7,12 @@ public class ItsNatDroidServerResponseException extends ItsNatDroidException
 {
     protected HttpRequestResult result;
 
+    public ItsNatDroidServerResponseException(String msg,HttpRequestResult result)
+    {
+        super(msg);
+        this.result = result;
+    }
+
     public ItsNatDroidServerResponseException(HttpRequestResult result)
     {
         super("Server response error");

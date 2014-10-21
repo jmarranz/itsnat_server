@@ -13,6 +13,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
@@ -187,7 +188,7 @@ public class PageRequestImpl implements PageRequest
             }
         }
 
-        processResponse(url,result.responseText);
+        processResponse(result);
     }
 
     private void executeAsync(String url)
@@ -198,14 +199,18 @@ public class PageRequestImpl implements PageRequest
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public void processResponse(String url,String result)
+    public void processResponse(HttpRequestResultImpl result)
     {
+        if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(result.getMimeType()))
+            throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + result.getMimeType(),result);
+
+        String responseText = result.responseText;
+
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
-
         AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
 
-        PageImpl page = new PageImpl(pageRequest,httpParamsRequest, result,inflateListener);
+        PageImpl page = new PageImpl(pageRequest,httpParamsRequest, responseText,inflateListener);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

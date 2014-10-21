@@ -61,6 +61,8 @@ public class TestDroidGlobalDocumentLoadListener implements ItsNatServletRequest
                     System.out.println("Page not found " + docName);
                     try
                     {
+                        response.getServletResponse().setContentType("android/layout;charset=UTF-8");
+                        
                         Writer out = response.getServletResponse().getWriter();
                         
                         out.write("  <TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");

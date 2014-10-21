@@ -56,6 +56,7 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
                     {                       
                         try
                         {
+                            response.setContentType("android/layout;charset=UTF-8");                            
                             Writer out = response.getWriter();
                             
                             out.write("<TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");

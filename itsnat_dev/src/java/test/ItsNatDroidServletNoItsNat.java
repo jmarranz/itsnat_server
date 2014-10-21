@@ -34,21 +34,49 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("android/layout;charset=UTF-8");
         PrintWriter out = response.getWriter();
         try
         {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ItsNatDroidServletNoItsNat</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ItsNatDroidServletNoItsNat at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally
+            StringBuilder res = new StringBuilder();
+          
+            res.append(" <LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
+            res.append("    android:layout_width=\"match_parent\" ");
+            res.append("    android:layout_height=\"match_parent\" ");
+            res.append("    android:orientation=\"vertical\">  ");
+
+            res.append("    <TextView  ");
+            res.append("        android:layout_width=\"match_parent\" ");
+            res.append("        android:layout_height=\"wrap_content\" ");
+            res.append("        android:text=\"TEST NO ITSNAT SERVER\" ");
+            res.append("        android:textSize=\"20dp\" ");
+            res.append("        android:background=\"#00ff00\"> ");
+            res.append("   </TextView> ");
+            
+            res.append("   <Button ");
+            res.append("        android:id=\"@id/back\" ");
+            res.append("        android:layout_width=\"wrap_content\" ");
+            res.append("        android:layout_height=\"wrap_content\" ");
+            res.append("        android:text=\"BACK\" /> ");
+
+            res.append("   <Button ");
+            res.append("        android:id=\"@id/buttonReload\" ");
+            res.append("        android:layout_width=\"wrap_content\" ");
+            res.append("        android:layout_height=\"wrap_content\" ");
+            res.append("        android:text=\"@string/button_reload\" />  ");          
+            
+            
+            res.append("   <Button ");
+            res.append("        android:layout_width=\"wrap_content\" ");
+            res.append("        android:layout_height=\"wrap_content\" ");
+            res.append("        android:layout_marginTop=\"30dp\" ");            
+            res.append("        android:text=\"ADD\" />  ");             
+            
+            res.append(" </LinearLayout> ");
+            
+            out.println(res);
+        }
+        finally
         {
             out.close();
         }
