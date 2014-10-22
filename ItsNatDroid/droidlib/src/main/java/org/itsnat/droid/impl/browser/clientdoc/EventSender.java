@@ -92,7 +92,7 @@ public class EventSender
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.responseText;
-        StatusLine status = result.status;
+        StatusLine status = result.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {

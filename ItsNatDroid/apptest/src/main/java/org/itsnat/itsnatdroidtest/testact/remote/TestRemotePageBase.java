@@ -114,12 +114,13 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             if (session.getPageCount() > droidBrowser.getMaxPagesInSession()) throw new RuntimeException("FAIL");
         }
 
-        Log.v("TestActivity", "CONTENT:" + new String(page.getLoadedContent()));
+        String responseText = page.getHttpRequestResult().getResponseText();
+        Log.v("TestActivity", "CONTENT:" + new String(responseText));
 
         boolean showContentInAlert = false;
         if (showContentInAlert)
         {
-            TestUtil.alertDialog(act, "LAYOUT", new String(page.getLoadedContent()));
+            TestUtil.alertDialog(act, "LAYOUT", new String(responseText));
         }
 
         View rootView = page.getItsNatDoc().getRootView();
@@ -153,9 +154,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
             if (exScr.getCause() instanceof EvalError)
-            {
                 ((EvalError) exScr.getCause()).printStackTrace();
-            }
+
             Log.v("TestActivity", "CODE:" + exScr.getScript());
         }
         else if (ex instanceof ItsNatDroidServerResponseException)
@@ -185,9 +185,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         {
             ItsNatDroidScriptException exScr = (ItsNatDroidScriptException) ex;
             if (exScr.getCause() instanceof EvalError)
-            {
                 ((EvalError) exScr.getCause()).printStackTrace();
-            }
+
             Log.v("TestActivity", "CODE:" + exScr.getScript());
         }
 

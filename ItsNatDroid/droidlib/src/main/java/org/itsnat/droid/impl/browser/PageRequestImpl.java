@@ -204,13 +204,11 @@ public class PageRequestImpl implements PageRequest
         if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(result.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + result.getMimeType(),result);
 
-        String responseText = result.responseText;
-
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
         AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
 
-        PageImpl page = new PageImpl(pageRequest,httpParamsRequest, responseText,inflateListener);
+        PageImpl page = new PageImpl(pageRequest,httpParamsRequest,result,inflateListener);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

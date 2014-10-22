@@ -14,7 +14,7 @@ public interface Page
     public String getId();
     public Context getContext();
     public HttpParams getHttpParams();
-    public String getLoadedContent();
+    public HttpRequestResult getHttpRequestResult();
     public ItsNatSession getItsNatSession();
     public UserData getUserData();
     public ItsNatDoc getItsNatDoc();

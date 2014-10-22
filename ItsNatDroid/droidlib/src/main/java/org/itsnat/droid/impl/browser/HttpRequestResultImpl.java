@@ -1,27 +1,28 @@
 package org.itsnat.droid.impl.browser;
 
 import org.apache.http.Header;
-import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
 public class HttpRequestResultImpl implements HttpRequestResult
 {
-    public HttpResponse response;
-    public byte[] responseByteArray;
-    public StatusLine status;
-    public String mimeType;
-    public String encoding;
+    private byte[] responseByteArray;
+    private StatusLine status;
+    private String mimeType;
+    private String encoding;
+    private Header[] headerList;
     public String responseText;
     public JSONObject responseJSONObject;
 
-    public HttpRequestResultImpl(HttpResponse response,byte[] responseByteArray,StatusLine status, String mimeType, String encoding)
+    public HttpRequestResultImpl(Header[] headerList,byte[] responseByteArray,StatusLine status, String mimeType, String encoding)
     {
-        this.response = response;
+        this.headerList = headerList;
         this.responseByteArray = responseByteArray;
         this.status = status;
         this.mimeType = mimeType;
@@ -31,7 +32,7 @@ public class HttpRequestResultImpl implements HttpRequestResult
     @Override
     public StatusLine getStatusLine()
     {
-        return response.getStatusLine();
+        return status;
     }
 
     @Override
@@ -47,11 +48,17 @@ public class HttpRequestResultImpl implements HttpRequestResult
     }
 
     @Override
-    public String getResponseHeader(String header)
+    public Header[] getResponseHeaders(String name)
     {
-        Header[] headerList = response.getHeaders(header);
-        if (headerList == null || headerList.length == 0) return null;
-        return headerList[0].getName();
+        // http://grepcode.com/file/repo1.maven.org/maven2/org.apache.httpcomponents/httpcore/4.0/org/apache/http/message/HeaderGroup.java#HeaderGroup.getHeaders%28java.lang.String%29
+        ArrayList headersFound = new ArrayList();
+        for (int i = 0; i < headerList.length; i++)
+        {
+            Header header = (Header) headerList[i];
+            if (header.getName().equalsIgnoreCase(name))
+                    headersFound.add(header);
+        }
+        return (Header[]) headersFound.toArray(new Header[headersFound.size()]);
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.ProcessingAsyncTask;
 import org.itsnat.droid.impl.browser.clientdoc.event.EventGenericImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
+
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.eventSender = eventSender;
         this.evt = evt;
@@ -50,7 +52,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
         this.httpHeaders = httpHeaders; // No hace falta clone porque createHttpHeaders() crea un Map
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
-        this.params = params;
+        this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
     }
 
     protected HttpRequestResultImpl executeInBackground() throws Exception

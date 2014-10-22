@@ -4,6 +4,7 @@ import android.content.Context;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -32,7 +33,7 @@ public class PageImpl implements Page
 {
     protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected InflatedLayoutPageImpl inflated;
-    protected String loadedContent;
+    protected HttpRequestResultImpl httpReqResult;
     protected String uniqueIdForInterpreter;
     protected Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
@@ -44,13 +45,13 @@ public class PageImpl implements Page
     protected HttpParams httpParams;
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,String loadedContent,AttrCustomInflaterListener inflateListener)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,HttpRequestResultImpl httpReqResult,AttrCustomInflaterListener inflateListener)
     {
         this.httpParams = httpParams;
-        this.loadedContent = loadedContent;
+        this.httpReqResult = httpReqResult;
         this.pageRequest = pageRequest;
 
-        StringReader input = new StringReader(loadedContent);
+        StringReader input = new StringReader(httpReqResult.getResponseText());
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         InflateRequestImpl inflateRequest = new InflateRequestImpl(browser.getItsNatDroidImpl());
@@ -117,9 +118,16 @@ public class PageImpl implements Page
         return getItsNatDroidBrowserImpl();
     }
 
+    @Override
     public HttpParams getHttpParams()
     {
         return httpParams;
+    }
+
+    @Override
+    public HttpRequestResult getHttpRequestResult()
+    {
+        return httpReqResult;
     }
 
     @Override
@@ -131,12 +139,6 @@ public class PageImpl implements Page
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
         return inflated;
-    }
-
-    @Override
-    public String getLoadedContent()
-    {
-        return loadedContent;
     }
 
     public Interpreter getInterpreter()

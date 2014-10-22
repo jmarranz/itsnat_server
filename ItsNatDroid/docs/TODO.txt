@@ -1,13 +1,4 @@
 
-* Permitir un setMethod() para get, post, put etc en GenericHttpClientImpl
-
-* Guardar el HttpRequestResult en PageImpl y devolver dicho objeto en vez de getLoadedContent() etc
-
-* Permitir que pueda reutilizarse GenericHttpClientImpl aunque no esté diseñado para ello
-
-* Pensar en una alternativa a usar List<NameValuePair> en GenericHttpClient, quizás fluida
-
-* Reutilizar código entre GenericHttpClient y HttpPostGenericAsyncTask y las clases correspondientes para ItsNat
 
 * Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro
 del parseo el View padre insertado
@@ -35,11 +26,9 @@ en tiempo de parseo del View padre en el que será finalmente insertado (el Deco
 
 * Ver como conseguir que un ListView obtenga sus entries y el layout de cada item desde el servidor
 
-* Hacer una navegador autónomo de layouts, hacer ejemplo con eventos y sin eventos (sólo "links").
+* Pensar si en inflar en local otros tipos de XML de resources
 
-* Pensar en como soportar los atributos con Android level superior
-
-* Pensar como modelar los drawable por ejemplo para definir bordes etc desde el servidor
+* Pensar como modelar los drawable por ejemplo para definir bordes, cargar imágenes etc desde el servidor
 
 * Probar re-arranque de actividad (volver a restaurar bien el setting)
 
@@ -51,12 +40,6 @@ en tiempo de parseo del View padre en el que será finalmente insertado (el Deco
 
 * Probar el KeyEvent con un ejemplo de verdad http://www.mysamplecode.com/2012/06/android-edittext-enterkey-event-example.html
 
-* Cargar imágenes remótamente
-
-* Intentar agrupar los atributos de un mismo tipo que sólo admiten un método conjunto, por ej los paddingXXX
-  se definen una de una sola vez con setPadding(int,int,int,int)
-
-* Pensar si en inflar otros tipos de XML de resources
 
 * Añadir licencia Apache a ItsNat Droid, archivo global y manifiesto en cada archivo
 

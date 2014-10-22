@@ -200,7 +200,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
 
     public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener,int errorMode)
     {
-        StatusLine status = result.status;
+        StatusLine status = result.getStatusLine();
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {

@@ -186,12 +186,12 @@ public class HttpUtil
 
         StatusLine status = response.getStatusLine();
 
-        String[] mimeType = new String[1];
-        String[] encoding = new String[1];
+        String[] mimeTypeRes = new String[1];
+        String[] encodingRes = new String[1];
 
-        getMimeTypeEncoding(response, mimeType, encoding);
+        getMimeTypeEncoding(response, mimeTypeRes, encodingRes);
 
-        if (!ValueUtil.isEmpty(overrideMime)) mimeType[0] = overrideMime;
+        if (!ValueUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
         byte[] contentArr = null;
 
@@ -203,17 +203,18 @@ public class HttpUtil
             contentArr = read(input);
         }
 
-        HttpRequestResultImpl result = new HttpRequestResultImpl(response,contentArr,status,mimeType[0],encoding[0]);
+        HttpRequestResultImpl result = new HttpRequestResultImpl(response.getAllHeaders(),contentArr,status,mimeTypeRes[0],encodingRes[0]);
 
-        if (result.status.getStatusCode() == 200)
+        if (result.getStatusLine().getStatusCode() == 200)
         {
             // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
-            if (MIME_ANDROID_LAYOUT.equals(result.mimeType) || MIME_BEANSHELL.equals(result.mimeType) ||
-                MIME_JSON.equals(result.mimeType) || result.mimeType.startsWith("text/"))
+            String mimeType = result.getMimeType();
+            if (MIME_ANDROID_LAYOUT.equals(mimeType) || MIME_BEANSHELL.equals(mimeType) ||
+                MIME_JSON.equals(mimeType) || mimeType.startsWith("text/"))
             {
-                result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+                result.responseText = ValueUtil.toString(result.getResponseByteArray(), result.getEncoding());
 
-                if (MIME_JSON.equals(result.mimeType))
+                if (MIME_JSON.equals(mimeType))
                 {
                     try { result.responseJSONObject = new JSONObject(result.responseText); }
                     catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, result); }
@@ -223,7 +224,7 @@ public class HttpUtil
         else
         {
             // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
-            result.responseText = ValueUtil.toString(result.responseByteArray, result.encoding);
+            result.responseText = ValueUtil.toString(result.getResponseByteArray(), result.getEncoding());
             throw new ItsNatDroidServerResponseException(result);
         }
 
