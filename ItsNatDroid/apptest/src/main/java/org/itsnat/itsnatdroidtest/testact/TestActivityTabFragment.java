@@ -13,6 +13,7 @@ import org.itsnat.itsnatdroidtest.testact.local.TestLayoutLocal3;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteControl;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemoteCore;
 import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePage;
+import org.itsnat.itsnatdroidtest.testact.remote.TestRemotePageNoItsNat;
 
 /**
  * Created by jmarranz on 12/08/14.
@@ -155,13 +156,10 @@ public class TestActivityTabFragment extends Fragment
             public void onClick(View view)
             {
                 String url = act.getUrlTestRemoteNoItsNat();
-                TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                TestRemotePageNoItsNat test = new TestRemotePageNoItsNat(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
                 test.test(url);
             }
         });
-
-
-
 
         return rootView;
     }

@@ -9,6 +9,7 @@ public interface GenericHttpClient
     public GenericHttpClient setErrorMode(int errorMode);
     public GenericHttpClient setOnHttpRequestListener(OnHttpRequestListener listener);
     public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);
+    public GenericHttpClient setMethod(String method);
     public GenericHttpClient setURL(String url);
     public GenericHttpClient addParam(String name,String value);
     public GenericHttpClient clearParams();

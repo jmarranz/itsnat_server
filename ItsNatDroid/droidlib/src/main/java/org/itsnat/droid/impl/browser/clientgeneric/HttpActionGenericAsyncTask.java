@@ -21,10 +21,11 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
+public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
 {
     protected GenericHttpClientImpl parent;
-    protected String servletPath;
+    protected String method;
+    protected String url;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
@@ -33,10 +34,11 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     protected List<NameValuePair> params;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
+    protected int errorMode;
     protected String overrideMime;
 
-    public HttpPostGenericAsyncTask(GenericHttpClientImpl parent,String servletPath,
-                HttpParams httpParamsRequest, List<NameValuePair> params,OnHttpRequestListener listener,OnHttpRequestErrorListener errorListener,String overrideMime)
+
+    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, HttpParams httpParamsRequest, List<NameValuePair> params, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
     {
         PageImpl page = parent.getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
@@ -47,7 +49,8 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         this.parent = parent;
-        this.servletPath = servletPath;
+        this.method = method;
+        this.url = url;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
         this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
@@ -56,12 +59,13 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;
+        this.errorMode = errorMode;
         this.overrideMime = overrideMime;
     }
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
+        return HttpUtil.httpAction(method,url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
     }
 
     @Override
@@ -69,7 +73,7 @@ public class HttpPostGenericAsyncTask extends ProcessingAsyncTask<HttpRequestRes
     {
         try
         {
-            parent.processResult(result,listener);
+            parent.processResult(result,listener,errorMode);
         }
         catch(Exception ex)
         {

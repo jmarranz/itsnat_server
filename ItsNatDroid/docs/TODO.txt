@@ -1,8 +1,7 @@
 
+* Permitir un setMethod() para get, post, put etc en GenericHttpClientImpl
 
 * Guardar el HttpRequestResult en PageImpl y devolver dicho objeto en vez de getLoadedContent() etc
-
-* Permitir un setMethod() para get, post, put etc en GenericHttpClientImpl
 
 * Permitir que pueda reutilizarse GenericHttpClientImpl aunque no esté diseñado para ello
 

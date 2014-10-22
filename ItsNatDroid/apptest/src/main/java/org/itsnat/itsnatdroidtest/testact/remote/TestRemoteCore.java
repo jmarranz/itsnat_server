@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.apache.http.params.HttpParams;
-import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -53,20 +52,7 @@ public class TestRemoteCore extends TestRemotePageBase
         .setSynchronous(testSyncRequests)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
-        .setAttrCustomInflaterListener(new AttrCustomInflaterListener()
-        {
-            @Override
-            public void setAttribute(Page page, View view, String namespace, String name, String value)
-            {
-                System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
-            }
-
-            @Override
-            public void removeAttribute(Page page, View view, String namespace, String name)
-            {
-                System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
-            }
-        })
+        .setAttrCustomInflaterListener(this)
         .setHttpParams(httpParams)
         .setURL(url)
         .execute();

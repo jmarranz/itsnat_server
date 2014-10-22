@@ -338,9 +338,15 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         }
     }
 
+
     public void showErrorMessage(boolean serverErr, String msg)
     {
         int errorMode = getErrorMode();
+        showErrorMessage(serverErr,msg,errorMode);
+    }
+
+    public void showErrorMessage(boolean serverErr, String msg,int errorMode)
+    {
         if (errorMode == ClientErrorMode.NOT_SHOW_ERRORS) return;
 
         if (serverErr) // Pagina HTML con la excepcion del servidor

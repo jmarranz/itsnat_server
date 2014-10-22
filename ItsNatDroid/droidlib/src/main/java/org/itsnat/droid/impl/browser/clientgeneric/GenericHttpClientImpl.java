@@ -42,6 +42,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
     protected List<NameValuePair> paramList = new ArrayList<NameValuePair>(10);
     protected OnHttpRequestListener listener;
     protected String overrideMime;
+    protected String method = "POST";
 
     public GenericHttpClientImpl(ItsNatDocImpl itsNatDoc)
     {
@@ -86,6 +87,13 @@ public class GenericHttpClientImpl implements GenericHttpClient
     public GenericHttpClient setOnHttpRequestErrorListener(OnHttpRequestErrorListener httpErrorListener)
     {
         this.errorListener = httpErrorListener;
+        return this;
+    }
+
+    @Override
+    public GenericHttpClient setMethod(String method)
+    {
+        this.method = method;
         return this;
     }
 
@@ -167,7 +175,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
         }
 
-        processResult(result,listener);
+        processResult(result,listener,errorMode);
 
         return result;
     }
@@ -176,8 +184,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
     public void requestAsync()
     {
         String url = getFinalURL();
-
-        HttpPostGenericAsyncTask postTask = new HttpPostGenericAsyncTask(this,url, httpParamsRequest, paramList, listener,errorListener,overrideMime);
+        HttpActionGenericAsyncTask postTask = new HttpActionGenericAsyncTask(this,method,url, httpParamsRequest, paramList, listener,errorListener,errorMode,overrideMime);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
@@ -191,7 +198,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
             return new ItsNatDroidException(ex);
     }
 
-    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener)
+    public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener,int errorMode)
     {
         StatusLine status = result.status;
         int statusCode = status.getStatusCode();
@@ -202,7 +209,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
             ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-            itsNatDoc.showErrorMessage(true, result.responseText);
+            itsNatDoc.showErrorMessage(true, result.responseText,errorMode);
             throw new ItsNatDroidServerResponseException(result);
         }
     }

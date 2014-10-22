@@ -79,47 +79,71 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:textSize=\"20dp\" ");
         res.append("        android:background=\"#00ff00\" /> ");
 
-        res.append("   <Button ");
+        res.append("    <Button ");
         res.append("        android:id=\"@id/back\" ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
         res.append("        android:text=\"BACK\" /> ");
 
-        res.append("   <Button ");
+        res.append("    <Button ");
         res.append("        android:id=\"@id/buttonReload\" ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
         res.append("        android:text=\"@string/button_reload\" />  ");          
 
-        res.append("   <script>"
+        res.append("    <script>"
                         + "void addItem() { "
                         + "  itsNatDoc.createGenericHttpClient()"
+                        + "  .setMethod(\"GET\")"                
                         + "  .setOnHttpRequestListener(new OnHttpRequestListener(){"                    
                         + "     void onRequest(HttpRequestResult response){"  
                         + "        var viewRoot = itsNatDoc.getRootView();"
+                        + "        int viewParentId = itsNatDoc.getResourceIdentifier(\"parentId\");"                 
+                        + "        var viewParent = viewRoot.findViewById(viewParentId);"                
                         + "        int viewRefId = itsNatDoc.getResourceIdentifier(\"limitId\");"                 
-                        + "        var viewRef = viewRoot.findViewById(viewRefId);"
-                        + "        itsNatDoc.insertFragment(viewRoot,response.getResponseText(),viewRef);" 
+                        + "        var viewRef = viewParent.findViewById(viewRefId);"
+                        + "        itsNatDoc.insertFragment(viewParent,response.getResponseText(),viewRef);" 
                         + "     }"
                         + "   })"
+                        + "  .setOnHttpRequestErrorListener(new OnHttpRequestErrorListener(){"                    
+                        + "     void onError(Exception ex,HttpRequestResult response){"  
+                        + "         ex.printStackTrace();"
+                        + "         alert(\"addItem error:\" + ex.getMessage() );"
+                        + "     }"
+                        + "   })"                 
                         + "  .addParam(\"addItem\",\"true\") "                    
                         + "  .requestAsync(); "
                         + "}"
-                    + "</script> ");
-        res.append("   <Button ");
+                     + "</script> ");
+        res.append("    <Button ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
         res.append("        android:layout_marginTop=\"30dp\" ");            
         res.append("        android:text=\"ADD ITEM\" ");             
-        res.append("        onclick=\"addItem()\" />  ");                 
+        res.append("        onclick=\"addItem()\" /> ");                 
 
         
-        res.append("    <View ");
-        res.append("        android:id=\"@+id/limitId\"  ");        
+        res.append("    <ScrollView ");
         res.append("        android:layout_width=\"match_parent\" ");
-        res.append("        android:layout_height=\"2dp\" ");
-        res.append("        android:layout_marginTop=\"10dp\" ");         
-        res.append("        android:background=\"#000000\" /> ");
+        res.append("        android:layout_height=\"wrap_content\"> ");
+                 
+        res.append("        <LinearLayout ");
+        res.append("            android:id=\"@+id/parentId\"  ");         
+        res.append("            android:layout_width=\"match_parent\" ");
+        res.append("            android:layout_height=\"wrap_content\" ");       
+        res.append("            android:orientation=\"vertical\">  ");        
+        
+        res.append("            <View ");
+        res.append("                android:id=\"@+id/limitId\"  ");        
+        res.append("                android:layout_width=\"match_parent\" ");
+        res.append("                android:layout_height=\"2dp\" ");
+        res.append("                android:layout_marginTop=\"10dp\" ");         
+        res.append("                android:background=\"#000000\" /> ");
+
+        res.append("        </LinearLayout> ");        
+        
+        res.append("    </ScrollView> ");        
+        
         
         res.append(" </LinearLayout> ");
 

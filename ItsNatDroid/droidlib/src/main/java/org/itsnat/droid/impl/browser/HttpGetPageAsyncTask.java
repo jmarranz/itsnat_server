@@ -43,7 +43,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null);
+        return HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
     }
 
     @Override
