@@ -12,6 +12,7 @@ import org.itsnat.core.ItsNatException;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -50,6 +51,7 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         
         markup.append("<script><![CDATA[ alert(\"Inserted by toDOM \\n(OK testing <script> in toDOM)\"); ]]></script> ");       
         // El \\n con dos barras es necesario en este caso por estar metido en una ""
+        markup.append("<script src=\"bs/test_script_to_dom.bs\" /> ");        
         
         markup.append("<TextView ");
         markup.append("  android:layout_width=\"match_parent\" \n");
@@ -70,7 +72,9 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         if (!"match_parent".equals(layout_width))
             throw new RuntimeException("TEST FAIL");
                 
-        
+        // Los <script> DEBEN desaparecer      
+        NodeList scripts = doc.getElementsByTagName("script");
+        if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");         
     }
     
 }

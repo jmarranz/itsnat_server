@@ -1,0 +1,2 @@
+
+alert("Inserted by toDOM \\n(OK testing <script src=\"...\"> in toDOM)");

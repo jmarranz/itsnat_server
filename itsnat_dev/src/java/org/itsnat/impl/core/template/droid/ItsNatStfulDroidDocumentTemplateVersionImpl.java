@@ -16,13 +16,12 @@
 
 package org.itsnat.impl.core.template.droid;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.servlet.ServletContext;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
-import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
@@ -73,18 +72,23 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         Document doc = this.templateDoc;
         // Recuerda que el <script> principal nunca llega a ser DOM pues se mete como cadena en la string del documento serializado
         NodeList scriptElemList = doc.getElementsByTagName("script");
-        for(int i = 0; i < scriptElemList.getLength(); i++)
+        int len = scriptElemList.getLength();
+        if (len > 0)
         {
-            Element scriptElem = (Element)scriptElemList.item(i);
-            String code = BSRenderElementScriptImpl.getScript(scriptElem); // DOMUtilInternal.getTextContent(scriptElem, true);
-            scriptCodeList.add(code);
+            ServletContext servlet = getMarkupTemplate().getItsNatServletImpl().getServlet().getServletConfig().getServletContext();
+            for(int i = 0; i < len; i++)
+            {
+                Element scriptElem = (Element)scriptElemList.item(i);
+                String code = BSRenderElementScriptImpl.getScript(scriptElem,servlet); // DOMUtilInternal.getTextContent(scriptElem, true);
+                scriptCodeList.add(code);
+            }
+
+            while(scriptElemList.getLength() > 0)
+            {
+                Element scriptElem = (Element)scriptElemList.item(0);
+                scriptElem.getParentNode().removeChild(scriptElem);
+            }
         }
-        
-        while(scriptElemList.getLength() > 0)
-        {
-            Element scriptElem = (Element)scriptElemList.item(0);
-            scriptElem.getParentNode().removeChild(scriptElem);
-        }               
     }    
     
     public List<String> getScriptCodeList()

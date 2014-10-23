@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.template.droid;
 
 import java.io.Writer;
+import javax.servlet.ServletContext;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementScriptImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -47,8 +48,10 @@ public class StfulDroidTemplateVersionDelegateImpl extends StfulTemplateVersionD
             if (!"".equals(src))   
             {
                 // Serializamos un clone para evitar generar mutation events, cambiamos <script src=".."> por un <script> con un nodo de texto                
+                ServletContext servlet = getMarkupTemplateVersion().getMarkupTemplate().getItsNatServletImpl().getServlet().getServletConfig().getServletContext();                
+                
                 Element elemCloned = (Element)elem.cloneNode(true);                
-                String scriptCode = BSRenderElementScriptImpl.getScript(elemCloned);
+                String scriptCode = BSRenderElementScriptImpl.getScript(elemCloned,servlet);
                 elemCloned.setTextContent(scriptCode);
                 super.serializeNode(elemCloned, out, nodeRender);
                 return;
