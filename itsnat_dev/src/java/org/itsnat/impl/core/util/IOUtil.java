@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import org.itsnat.core.ItsNatException;
 
 /**
@@ -22,17 +24,28 @@ import org.itsnat.core.ItsNatException;
  */
 public class IOUtil
 {
+    public static byte[] readURL(URL url)
+    {
+        URLConnection urlCon;
+        try 
+        { 
+            urlCon = url.openConnection(); 
+            return readInputStream(urlCon.getInputStream());           
+        } 
+        catch (IOException ex) { throw new ItsNatException(ex); }       
+    }    
+    
     public static byte[] readFile(File file) 
     {
         try
         {
-            return readStream(new FileInputStream(file));
+            return readInputStream(new FileInputStream(file));
         }
         catch(FileNotFoundException ex) { throw new ItsNatException(ex); }        
     }    
     
     
-    public static byte[] readStream(InputStream input) 
+    public static byte[] readInputStream(InputStream input) 
     {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
@@ -65,19 +78,19 @@ public class IOUtil
     {            
         try
         {
-            return readText(new FileInputStream(file),charsetName);
+            return IOUtil.readTextStream(new FileInputStream(file),charsetName);
         }
         catch(FileNotFoundException ex) { throw new ItsNatException(ex); }  
     }
     
-    public static String readText(InputStream input,String charsetName)
+    public static String readTextStream(InputStream input,String charsetName)
     {        
         StringBuilder code = new StringBuilder();
-        readText(input,charsetName,code);
+        readTextStream(input,charsetName,code);
         return code.toString();
     }
     
-    public static void readText(InputStream input,String charsetName,StringBuilder code)
+    public static void readTextStream(InputStream input,String charsetName,StringBuilder code)
     {     
         try
         {

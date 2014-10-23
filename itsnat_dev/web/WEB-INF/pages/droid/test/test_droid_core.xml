@@ -42,7 +42,8 @@
 
         <script><![CDATA[ toast("LOADING \n(OK testing <script> on load)"); ]]></script>
         <script src="bs/test_script_loading.bs" />
-   
+        <script src="http://192.168.0.215:8080/itsnat_dev/bs/test_script_loading_2.bs" />   
+        
         <!-- Test load event inline -->
         <TextView id="testLoadInlineHandlerId"
                 android:layout_width="match_parent"

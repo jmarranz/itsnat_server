@@ -45,7 +45,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     }
 
 
-    public void insertFragment(ViewGroup parentView, String markup,View viewRef, String[] loadScript, List<String> scriptList)
+    public void insertFragment(ViewGroup parentView, String markup,View viewRef, List<String> scriptList)
     {
         if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
 
@@ -79,7 +79,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
             int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
 
-            ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, loadScript, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+            // A través del null de loadScript savemos que NO es tiempo de carga
+            ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, null, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
             while (falseParentView.getChildCount() > 0)
             {
                 View child = falseParentView.getChildAt(0);
@@ -111,17 +112,31 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     protected void parseScriptElement(XmlPullParser parser, View viewParent, String[] loadScript, List<String> scriptList) throws IOException, XmlPullParserException
     {
-        boolean isLoadScript = parser.getAttributeCount() == 1 &&
-                "id".equals(parser.getAttributeName(0)) &&
-                "itsnat_load_script".equals(parser.getAttributeValue(0));
+        // Si loadScript es nulo es que no estamos en tiempo de carga
 
-        while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
+        String src = findAttributeFromParser(null, "src", parser);
+        if (src != null)
+        {
+            if (loadScript != null) throw new ItsNatDroidException("Internal Error"); // Los <script src=""> se procesan en el servidor cargando el archivo de forma síncrona pues en Android tiene que ser asíncrono
 
-        String code = parser.getText();
-        if (isLoadScript) loadScript[0] = code;
-        else scriptList.add(code);
+            scriptList.add("itsNatDoc.downloadFile(\"" + src + "\",\"" + HttpUtil.MIME_BEANSHELL + "\");");
 
-        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+        }
+        else
+        {
+            boolean isLoadScript = loadScript != null && parser.getAttributeCount() == 1 &&
+                    "id".equals(parser.getAttributeName(0)) &&
+                    "itsnat_load_script".equals(parser.getAttributeValue(0));
+
+            while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
+
+            String code = parser.getText();
+            if (isLoadScript) loadScript[0] = code;
+            else scriptList.add(code);
+
+            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+        }
     }
 
     public void setAttribute(View view, String namespaceURI, String name, String value)

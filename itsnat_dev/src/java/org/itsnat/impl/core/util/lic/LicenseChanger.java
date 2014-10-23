@@ -157,6 +157,6 @@ public class LicenseChanger
 
     public static byte[] readFile(InputStream input) 
     {
-        return IOUtil.readStream(input);
+        return IOUtil.readInputStream(input);
     }
 }

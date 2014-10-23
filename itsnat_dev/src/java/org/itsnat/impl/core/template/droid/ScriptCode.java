@@ -13,23 +13,22 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
 package org.itsnat.impl.core.template.droid;
-
-import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
-import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
-
 
 /**
  *
  * @author jmarranz
  */
-public class StfulDroidTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public abstract class ScriptCode
 {
-
-    public StfulDroidTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
+    protected String code;
+    
+    public ScriptCode()
     {
-        super(parent);
     }
     
+    public String getCode()
+    {
+        return code;
+    }
 }

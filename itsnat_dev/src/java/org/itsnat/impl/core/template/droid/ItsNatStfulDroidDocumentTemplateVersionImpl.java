@@ -16,10 +16,13 @@
 
 package org.itsnat.impl.core.template.droid;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletContext;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.browser.Browser;
@@ -29,7 +32,6 @@ import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
-import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementScriptImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
@@ -51,7 +53,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
 {
     protected String androidNamespacePrefix;
     protected LinkedList<Map.Entry<String,String>> namespacesDeclared = new LinkedList<Map.Entry<String,String>>();
-    protected List<String> scriptCodeList = new LinkedList<String>();
+    protected List<ScriptCode> scriptCodeList = new LinkedList<ScriptCode>();
     
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
@@ -75,12 +77,32 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         int len = scriptElemList.getLength();
         if (len > 0)
         {
-            ServletContext servlet = getMarkupTemplate().getItsNatServletImpl().getServlet().getServletConfig().getServletContext();
+            ServletContext servContext = getMarkupTemplate().getItsNatServletImpl().getServlet().getServletConfig().getServletContext();
             for(int i = 0; i < len; i++)
             {
+                ScriptCode scriptCodeItem = null;
                 Element scriptElem = (Element)scriptElemList.item(i);
-                String code = BSRenderElementScriptImpl.getScript(scriptElem,servlet); // DOMUtilInternal.getTextContent(scriptElem, true);
-                scriptCodeList.add(code);
+                String src = scriptElem.getAttribute("src");
+                if (!"".equals(src))
+                {    
+                    URI uri = null;
+                    try { uri = new URI(src); }
+                    catch (URISyntaxException ex) { throw new ItsNatException(ex);  }
+                    
+                    String scheme = uri.getScheme();
+                    if (scheme == null)
+                        scriptCodeItem = new ScriptFile(src,servContext);                        
+                    else if (scheme.equals("http") || scheme.equals("https"))                 
+                        scriptCodeItem = new ScriptURI(uri);
+                    else
+                        throw new ItsNatException("Scheme not allowed or supported: " + scheme); // para evitar el uso de "file:" etc
+                }
+                else
+                {
+                    String code = DOMUtilInternal.getTextContent(scriptElem, true);
+                    scriptCodeItem = new ScriptCodeInline(code);
+                }
+                scriptCodeList.add(scriptCodeItem);
             }
 
             while(scriptElemList.getLength() > 0)
@@ -93,7 +115,10 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     
     public List<String> getScriptCodeList()
     {
-        return scriptCodeList;
+        List<String> res = new LinkedList<String>();
+        for(ScriptCode item : scriptCodeList)
+            res.add(item.getCode());
+        return res;
     }
     
     protected void readNamespaces()

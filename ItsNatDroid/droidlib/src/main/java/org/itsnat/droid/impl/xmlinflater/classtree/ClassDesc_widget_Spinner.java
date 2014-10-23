@@ -60,7 +60,7 @@ public class ClassDesc_widget_Spinner extends ClassDescViewBased
 
     private String findSpinnerModeAttribute(XmlPullParser parser)
     {
-        return findAttributeFromParser(XMLLayoutInflateService.XMLNS_ANDROID, "spinnerMode", parser);
+        return InflatedLayoutImpl.findAttributeFromParser(XMLLayoutInflateService.XMLNS_ANDROID, "spinnerMode", parser);
     }
 
     @Override

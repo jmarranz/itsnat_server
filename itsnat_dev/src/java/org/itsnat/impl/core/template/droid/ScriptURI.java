@@ -13,23 +13,38 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
 package org.itsnat.impl.core.template.droid;
 
-import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
-import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
-
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.util.IOUtil;
 
 /**
  *
  * @author jmarranz
  */
-public class StfulDroidTemplateVersionDelegateImpl extends StfulTemplateVersionDelegateImpl
+public class ScriptURI extends ScriptCode
 {
-
-    public StfulDroidTemplateVersionDelegateImpl(MarkupTemplateVersionImpl parent)
+    public ScriptURI(URI uri)
     {
-        super(parent);
+        URL url;
+        try
+        {
+            url = uri.toURL();
+        }
+        catch (IOException ex) { throw new ItsNatException(ex); }        
+        
+        byte[] content = IOUtil.readURL(url);
+        try        
+        {
+            this.code = new String(content,"UTF-8");
+        }
+        catch (UnsupportedEncodingException ex) { throw new ItsNatException(ex); }    
     }
-    
 }

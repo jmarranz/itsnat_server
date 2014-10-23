@@ -285,24 +285,9 @@ public class ClassDescViewBased
         return createViewObject(ctx,idStyle,pending);
     }
 
-    protected String findAttributeFromParser(String namespaceURI, String name, XmlPullParser parser)
-    {
-        for(int i = 0; i < parser.getAttributeCount(); i++)
-        {
-            String currNamespaceURI = parser.getAttributeNamespace(i);
-            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
-            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            if (!name.equals(currName)) continue;
-            String value = parser.getAttributeValue(i);
-            return value;
-        }
-        return null;
-    }
-
     private int findStyleAttributeFromParser(InflatedLayoutImpl inflated, XmlPullParser parser)
     {
-        String value = findAttributeFromParser(null, "style", parser);
+        String value = InflatedLayoutImpl.findAttributeFromParser(null, "style", parser);
         if (value == null) return 0;
         Context ctx = inflated.getContext();
         return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService());

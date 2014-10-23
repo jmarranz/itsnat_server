@@ -277,7 +277,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     {
         LoadScriptImpl.checkFileName(scriptName);
         InputStream input = LoadScriptImpl.class.getResourceAsStream(scriptName);        
-        IOUtil.readText(input,"UTF-8",code);
+        IOUtil.readTextStream(input,"UTF-8",code);
     }
 
     protected abstract String addScriptMarkupToDocMarkup(String docMarkup,String codeToAdd);

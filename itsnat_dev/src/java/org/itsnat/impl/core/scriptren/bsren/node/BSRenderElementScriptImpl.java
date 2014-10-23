@@ -15,6 +15,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.util.IOUtil;
 import org.w3c.dom.Element;
@@ -69,21 +70,7 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
         String src = nodeElem.getAttribute("src");
         if (!"".equals(src))
         {
-            String basePath = servContext.getRealPath("/");
-            String filePath = basePath + src;
-            
-            File fileBasePath = new File(basePath);            
-            File file = new File(filePath);
-            boolean unexpected = false;
-            try
-            {
-                unexpected = !file.getCanonicalPath().startsWith(fileBasePath.getCanonicalPath()); // Debemos evitar un intento de leer archivos fuera de la app web
-            }
-            catch (IOException ex) { throw new ItsNatException(ex); }
-
-            if (unexpected) throw new ItsNatException("Unexpected security break attempt"); // Inexperado pues se supone que el path de <script> lo pone el programador
-            
-            return IOUtil.readTextFile(file,"UTF-8");
+            return "itsNatDoc.downloadFile(\"" + src + "\",\"" + NamespaceUtil.MIME_BEANSHELL + "\");";
         }
         
         return DOMUtilInternal.getTextContent(nodeElem, true);

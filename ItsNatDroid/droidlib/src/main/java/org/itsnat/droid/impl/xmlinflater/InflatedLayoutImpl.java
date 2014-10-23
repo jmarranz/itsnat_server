@@ -11,6 +11,7 @@ import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -195,6 +196,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     protected View parseNextView(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
     {
+        // loadScript es null si NO es tiempo de carga
         while (parser.next() != XmlPullParser.END_TAG)
         {
             if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
@@ -291,5 +293,20 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,pending,this);
+    }
+
+    public static String findAttributeFromParser(String namespaceURI, String name, XmlPullParser parser)
+    {
+        for(int i = 0; i < parser.getAttributeCount(); i++)
+        {
+            String currNamespaceURI = parser.getAttributeNamespace(i);
+            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
+            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
+            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
+            if (!name.equals(currName)) continue;
+            String value = parser.getAttributeValue(i);
+            return value;
+        }
+        return null;
     }
 }

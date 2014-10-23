@@ -1,8 +1,6 @@
 
-* Hacer <script src> en el servidor, pensar en cachés de código enviado
+* Hacer itsNatDoc.downloadFile
 
-* Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro
-del parseo el View padre insertado
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas.

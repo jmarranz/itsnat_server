@@ -886,11 +886,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con insertFragment (parseando markup) y 179ms con beanshell puro
 
-        String[] loadScript = new String[1]; // Necesario pasar pero no se usa, no es tiempo de carga
         List<String> scriptList = new LinkedList<String>();
 
         PageImpl page = getPageImpl();
-        page.getInflatedLayoutPageImpl().insertFragment((ViewGroup)parentView, markup, viewRef, loadScript, scriptList);
+        page.getInflatedLayoutPageImpl().insertFragment((ViewGroup)parentView, markup, viewRef, scriptList);
         page.executeScriptList(scriptList);
     }
 
@@ -1253,5 +1252,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
                 evt.sendEvent();
             }
         };
+    }
+
+    @Override
+    public void downloadFile(String url,String mime)
+    {
+        alert("downloadFile: " + url + " " + mime);
     }
 }
