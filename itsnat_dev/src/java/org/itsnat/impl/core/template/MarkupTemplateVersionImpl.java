@@ -22,7 +22,6 @@ import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;

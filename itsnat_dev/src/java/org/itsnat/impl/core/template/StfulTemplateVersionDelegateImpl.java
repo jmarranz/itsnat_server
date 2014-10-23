@@ -53,6 +53,23 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
             super.serializeNode(node,out,nodeRender);
     }
 
+    public static boolean is_SCRIPT_or_STYLE_Element(Node node)
+    {
+        // No solo HTML, pueden ser de SVG o XUL
+        if (node.getNodeType() != Node.ELEMENT_NODE)
+            return false;
+
+        Element elem = (Element)node;
+        String localName = DOMUtilInternal.getLocalName(elem); // No usamos Element.getLocalName() porque en Android es null (los elementos no tienen namespace)
+        if (localName.equals("script"))
+            return true;
+
+        if (localName.equals("style"))
+            return true;
+
+        return false;
+    }    
+    
     public static boolean is_SCRIPT_or_STYLE_Text(Node node)
     {
         // No solo HTML, pueden ser de SVG o XUL
@@ -62,18 +79,7 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
         Node parent = node.getParentNode();
         if (parent == null) return false;
 
-        if (parent.getNodeType() != Node.ELEMENT_NODE)
-            return false;
-
-        Element parentElem = (Element)parent;
-        String localName = DOMUtilInternal.getLocalName(parentElem); // No usamos Element.getLocalName() porque en Android es null (los elementos no tienen namespace)
-        if (localName.equals("script"))
-            return true;
-
-        if (localName.equals("style"))
-            return true;
-
-        return false;
+        return is_SCRIPT_or_STYLE_Element(parent);
     }
 
     public void serialize_SCRIPT_or_STYLE_Text(Text content,Writer out,DOMRenderImpl nodeRender)
