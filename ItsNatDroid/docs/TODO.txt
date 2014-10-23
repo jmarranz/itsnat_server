@@ -1,12 +1,11 @@
 
+* Hacer <script src> en el servidor, pensar en cachés de código enviado
 
 * Ver si en inserción remota se usa al máximo el parseo en vez de la creación dinámica, incluido dentro
 del parseo el View padre insertado
 
-* Hacer <script src> en el servidor, pensar en cachés de código enviado
-
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
-como páginas
+como páginas.
 
     Utilizar el <a> por ejemplo en el ejemplo de control remoto
 

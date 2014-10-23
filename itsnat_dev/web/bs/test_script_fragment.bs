@@ -1,0 +1,3 @@
+
+alert("Inserted Fragment \n(OK testing <script src=\"...\"> in fragment)");
+

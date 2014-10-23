@@ -19,6 +19,8 @@
                 
         <script><![CDATA[ alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
         
+        <script src="bs/test_script_fragment.bs" />       
+        
         <TextView
             android:layout_width="200dp"
             android:layout_height="20dp"

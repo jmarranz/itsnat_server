@@ -16,11 +16,15 @@
 
 package org.itsnat.impl.core.scriptren.bsren.node;
 
+import org.itsnat.core.ItsNatDOMException;
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
+import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.RenderNotAttrOrAbstractViewNode;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
@@ -35,6 +39,39 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
     {
     }
 
+    public static BSRenderNotAttrOrAbstractViewNodeImpl getBSRenderNotAttrOrAbstractViewNode(Node node)
+    {
+        int nodeType = node.getNodeType();
+        switch(nodeType)
+        {
+            // Está primero los más habituales (Element y Text nodes)
+            case Node.ELEMENT_NODE:
+                return BSRenderElementImpl.getBSRenderElement((Element)node);
+            case Node.TEXT_NODE:
+                return BSRenderTextImpl.getBSRenderText();            
+            case Node.CDATA_SECTION_NODE:
+                throw new ItsNatDOMException("Unexpected CDATA section node",node);
+            case Node.COMMENT_NODE:
+                throw new ItsNatDOMException("Unexpected comment node",node);                
+            case Node.DOCUMENT_FRAGMENT_NODE:
+                throw new ItsNatDOMException("Unexpected document fragment node",node);
+            case Node.ENTITY_REFERENCE_NODE:
+                throw new ItsNatDOMException("Unexpected entity reference node",node);
+            case Node.PROCESSING_INSTRUCTION_NODE:
+                throw new ItsNatDOMException("Unexpected processing instruction node",node);
+            case Node.DOCUMENT_NODE:
+                throw new ItsNatDOMException("Unexpected Document node",node);
+            case Node.DOCUMENT_TYPE_NODE:
+                throw new ItsNatDOMException("Unexpected DocumentType node",node);
+            case Node.ENTITY_NODE:
+                throw new ItsNatDOMException("Unexpected Entity node",node);
+            case Node.NOTATION_NODE:
+                throw new ItsNatDOMException("Unexpected Notation node",node);
+        }
+
+        throw new ItsNatDOMException("Internal error",node);
+    }    
+    
     public abstract Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc);
 
     public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)

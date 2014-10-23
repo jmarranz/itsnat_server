@@ -123,6 +123,8 @@ public class CodeToSendRegistryImpl implements Serializable
     {
         if (code == null) return; // Nada que hacer
 
+        if (code instanceof String && ((String)code).equals("")) return; // Nada que hacer (algunos métodos de rendering devuelven "")
+        
         // code ha de ser o String o JSCodeFragmentImpl
         if (!clientDoc.isScriptingEnabled())
             throw new ItsNatException("Scripting is disabled",this);

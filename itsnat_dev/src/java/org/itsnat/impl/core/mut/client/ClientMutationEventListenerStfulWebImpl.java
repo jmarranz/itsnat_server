@@ -86,7 +86,7 @@ public abstract class ClientMutationEventListenerStfulWebImpl extends ClientMuta
     protected String getCharacterDataModifiedCode(CharacterData charDataNode)    
     {
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();        
-        JSRenderCharacterDataImpl render = (JSRenderCharacterDataImpl)JSRenderNodeImpl.getJSRenderNode(charDataNode,clientDoc);
+        JSRenderCharacterDataImpl render = (JSRenderCharacterDataImpl)JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(charDataNode,clientDoc);
         String code = render.getCharacterDataModifiedCode(charDataNode,clientDoc); 
         return code;
     }
@@ -94,7 +94,7 @@ public abstract class ClientMutationEventListenerStfulWebImpl extends ClientMuta
     public Object getTreeDOMNodeInsertedCode(Node newNode)
     {
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();        
-        JSRenderNotAttrOrAbstractViewNodeImpl render = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(newNode,clientDoc);
+        JSRenderNotAttrOrAbstractViewNodeImpl render = JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(newNode,clientDoc);
         Object code = render.getInsertNewNodeCode(newNode,clientDoc); // Puede ser null
         return code;
     }
@@ -102,7 +102,7 @@ public abstract class ClientMutationEventListenerStfulWebImpl extends ClientMuta
     public Object getTreeDOMNodeRemovedCode(Node removedNode)
     {
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();        
-        JSRenderNotAttrOrAbstractViewNodeImpl render = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(removedNode,clientDoc);
+        JSRenderNotAttrOrAbstractViewNodeImpl render = JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(removedNode,clientDoc);
         String code = render.getRemoveNodeCode(removedNode,clientDoc);
         return code;
     }
@@ -212,7 +212,7 @@ public abstract class ClientMutationEventListenerStfulWebImpl extends ClientMuta
     public String getRemoveAllChildCode(Node node)
     {
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();          
-        JSRenderNotAttrOrAbstractViewNodeImpl render = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(node,clientDoc);
+        JSRenderNotAttrOrAbstractViewNodeImpl render = JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(node,clientDoc);
         return render.getRemoveAllChildCode(node,clientDoc); 
     }
 }

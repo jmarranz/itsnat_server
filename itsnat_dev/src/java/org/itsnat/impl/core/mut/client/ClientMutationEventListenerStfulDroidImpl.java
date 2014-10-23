@@ -85,7 +85,7 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
     public Object getTreeDOMNodeInsertedCode(Node newNode)
     {
         ClientDocumentStfulDelegateDroidImpl clientDoc = getClientDocumentStfulDelegateDroid();        
-        BSRenderNotAttrOrAbstractViewNodeImpl render = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(newNode);
+        BSRenderNotAttrOrAbstractViewNodeImpl render = BSRenderNotAttrOrAbstractViewNodeImpl.getBSRenderNotAttrOrAbstractViewNode(newNode);
         Object code = render.getInsertNewNodeCode(newNode,clientDoc); // Puede ser null
         return code;
     }
@@ -94,7 +94,7 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
     public Object getTreeDOMNodeRemovedCode(Node removedNode)
     {
         ClientDocumentStfulDelegateDroidImpl clientDoc = getClientDocumentStfulDelegateDroid();        
-        BSRenderNotAttrOrAbstractViewNodeImpl render = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(removedNode);
+        BSRenderNotAttrOrAbstractViewNodeImpl render = BSRenderNotAttrOrAbstractViewNodeImpl.getBSRenderNotAttrOrAbstractViewNode(removedNode);
         String code = render.getRemoveNodeCode(removedNode,clientDoc);
         return code;
     }
@@ -136,7 +136,7 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
     public String getRemoveAllChildCode(Node node)
     {
         ClientDocumentStfulDelegateDroidImpl clientDoc = getClientDocumentStfulDelegateDroid();        
-        BSRenderNotAttrOrAbstractViewNodeImpl render = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(node);
+        BSRenderNotAttrOrAbstractViewNodeImpl render = BSRenderNotAttrOrAbstractViewNodeImpl.getBSRenderNotAttrOrAbstractViewNode(node);
         return render.getRemoveAllChildCode(node,clientDoc);
     }
 

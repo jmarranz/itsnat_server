@@ -6,11 +6,13 @@
 
 package org.itsnat.impl.core.scriptren.bsren.node;
 
+import java.io.File;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
+import org.itsnat.impl.core.util.IOUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -55,9 +57,19 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
         throw new ItsNatException("INTERNAL ERROR"); // No se llega a llamar nunca
     }
         
-    private String getScript(Element nodeElem)
-    {       
-        // El elemento <script> que estamos procesando se elimina en otro lugar inmediatamente después de ésto
+    public static String getScript(Element nodeElem)
+    {   
+        // El elemento <script> que estamos procesando se elimina en otro lugar inmediatamente después de ésto        
+        String src = nodeElem.getAttribute("src");
+        if (!"".equals(src))
+        {
+            if (src.contains("fragment"))
+                src = "C:\\trabajo\\empresa\\itsnat_proj\\itsnat_dev\\web\\bs\\test_script_fragment.bs";
+            else
+                src = "C:\\trabajo\\empresa\\itsnat_proj\\itsnat_dev\\web\\bs\\test_script_loading.bs";
+            return IOUtil.readTextFile(new File(src),"UTF-8");
+        }
+        
         return DOMUtilInternal.getTextContent(nodeElem, true);
     }           
 }

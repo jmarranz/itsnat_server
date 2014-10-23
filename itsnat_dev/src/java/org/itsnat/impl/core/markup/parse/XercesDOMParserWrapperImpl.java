@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.markup.parse;
 
+import java.io.IOException;
 import org.apache.xerces.parsers.DOMParser;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
@@ -114,7 +115,11 @@ public abstract class XercesDOMParserWrapperImpl implements ErrorHandler
         {
             parser.parse(input);
         }
-        catch(Exception ex)
+        catch(SAXException ex)
+        {
+            throw new ItsNatException(ex);
+        }
+        catch (IOException ex)
         {
             throw new ItsNatException(ex);
         }

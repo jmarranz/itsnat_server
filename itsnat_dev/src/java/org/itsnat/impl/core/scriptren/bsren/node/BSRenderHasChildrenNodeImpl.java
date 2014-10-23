@@ -68,7 +68,7 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
             Node child = parent.getFirstChild();
             while(child != null)
             {
-                BSRenderNotAttrOrAbstractViewNodeImpl childRender = (BSRenderNotAttrOrAbstractViewNodeImpl)BSRenderNodeImpl.getBSRenderNode(child);
+                BSRenderNotAttrOrAbstractViewNodeImpl childRender = BSRenderNotAttrOrAbstractViewNodeImpl.getBSRenderNotAttrOrAbstractViewNode(child);
                 code.add( childRender.getAppendNewNodeCode(parent,child,parentVarName,insertMarkupInfo,clientDoc) );
 
                 child = child.getNextSibling();

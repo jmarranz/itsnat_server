@@ -55,37 +55,13 @@ public abstract class JSRenderNodeImpl extends JSRenderImpl
         int nodeType = node.getNodeType();
         switch(nodeType)
         {
-            // Está primero los más habituales (Element y Text nodes)
-            case Node.ELEMENT_NODE:
-                return JSRenderElementImpl.getJSRenderElement((Element)node,clientDoc);
-            case Node.TEXT_NODE:
-                return JSRenderTextImpl.getJSRenderText((Text)node,clientDoc);
             case Node.ATTRIBUTE_NODE:
                 throw new ItsNatException("INTERNAL ERROR");
-                //return attrRender;
-            case Node.CDATA_SECTION_NODE:
-                return JSRenderCDATASectionImpl.SINGLETON;
-            case Node.COMMENT_NODE:
-                return JSRenderCommentImpl.getJSRenderComment((Comment)node,clientDoc);
-            case Node.DOCUMENT_FRAGMENT_NODE:
-                return JSRenderDocumentFragmentImpl.SINGLETON;
-            case Node.ENTITY_REFERENCE_NODE:
-                return JSRenderEntityReferenceImpl.SINGLETON;
-            case Node.PROCESSING_INSTRUCTION_NODE:
-                return JSRenderProcessingInstructionImpl.SINGLETON;
-            case Node.DOCUMENT_NODE:
-                throw new ItsNatDOMException("Unexpected Document node",node);
-            case Node.DOCUMENT_TYPE_NODE:
-                throw new ItsNatDOMException("Unexpected DocumentType node",node);
-            case Node.ENTITY_NODE:
-                throw new ItsNatDOMException("Unexpected Entity node",node);
-            case Node.NOTATION_NODE:
-                throw new ItsNatDOMException("Unexpected Notation node",node);
             case AbstractViewImpl.ABSTRACT_VIEW:
                 return JSRenderAbstractViewImpl.SINGLETON;
+            default:
+                return JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(node, clientDoc);
         }
-
-        throw new ItsNatDOMException("Internal error",node);
     }
 
     public static String addNodeToCache(NodeLocationImpl nodeLoc)

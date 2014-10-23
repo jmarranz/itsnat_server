@@ -30,6 +30,7 @@ import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
+import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementScriptImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateImpl;
 import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateVersionImpl;
@@ -75,7 +76,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         for(int i = 0; i < scriptElemList.getLength(); i++)
         {
             Element scriptElem = (Element)scriptElemList.item(i);
-            String code = DOMUtilInternal.getTextContent(scriptElem, true);
+            String code = BSRenderElementScriptImpl.getScript(scriptElem); // DOMUtilInternal.getTextContent(scriptElem, true);
             scriptCodeList.add(code);
         }
         

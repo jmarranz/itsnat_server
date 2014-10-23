@@ -41,7 +41,7 @@
         <!-- Just a test comment (will be filtered) -->
 
         <script><![CDATA[ toast("LOADING \n(OK testing <script> on load)"); ]]></script>
-
+        <script src="bs/test_script_loading.bs" />
    
         <!-- Test load event inline -->
         <TextView id="testLoadInlineHandlerId"

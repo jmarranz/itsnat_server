@@ -44,37 +44,14 @@ public class BSRenderNodeImpl extends BSRenderImpl
         int nodeType = node.getNodeType();
         switch(nodeType)
         {
-            // Está primero los más habituales (Element y Text nodes)
-            case Node.ELEMENT_NODE:
-                return BSRenderElementImpl.getBSRenderElement((Element)node);
-            case Node.TEXT_NODE:
-                return BSRenderTextImpl.getBSRenderText();            
+            // Está primero los más habituales (Element y Text nodes)          
             case Node.ATTRIBUTE_NODE:
                 throw new ItsNatException("INTERNAL ERROR");
-                //return attrRender;
-            case Node.CDATA_SECTION_NODE:
-                throw new ItsNatDOMException("Unexpected CDATA section node",node);
-            case Node.COMMENT_NODE:
-                throw new ItsNatDOMException("Unexpected comment node",node);                
-            case Node.DOCUMENT_FRAGMENT_NODE:
-                throw new ItsNatDOMException("Unexpected document fragment node",node);
-            case Node.ENTITY_REFERENCE_NODE:
-                throw new ItsNatDOMException("Unexpected entity reference node",node);
-            case Node.PROCESSING_INSTRUCTION_NODE:
-                throw new ItsNatDOMException("Unexpected processing instruction node",node);
-            case Node.DOCUMENT_NODE:
-                throw new ItsNatDOMException("Unexpected Document node",node);
-            case Node.DOCUMENT_TYPE_NODE:
-                throw new ItsNatDOMException("Unexpected DocumentType node",node);
-            case Node.ENTITY_NODE:
-                throw new ItsNatDOMException("Unexpected Entity node",node);
-            case Node.NOTATION_NODE:
-                throw new ItsNatDOMException("Unexpected Notation node",node);
             case AbstractViewImpl.ABSTRACT_VIEW:
                 throw new ItsNatDOMException("Unexpected window use",node);
+            default:
+                return BSRenderNotAttrOrAbstractViewNodeImpl.getBSRenderNotAttrOrAbstractViewNode(node);              
         }
-
-        throw new ItsNatDOMException("Internal error",node);
     }
     
     public static String removeNodeFromCache(LinkedList<String> idList)

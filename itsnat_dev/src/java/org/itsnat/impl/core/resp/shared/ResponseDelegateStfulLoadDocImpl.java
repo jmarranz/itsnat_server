@@ -36,6 +36,7 @@ import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatOtherNSDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
+import org.itsnat.impl.core.util.IOUtil;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 
 /**
@@ -275,23 +276,8 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
     public static void loadScript(String scriptName,StringBuilder code)
     {
         LoadScriptImpl.checkFileName(scriptName);
-        try
-        {
-            InputStream input = LoadScriptImpl.class.getResourceAsStream(scriptName);
-            Reader reader = new InputStreamReader(input);
-            char[] cbuf = new char[1024*10];
-            int count = reader.read(cbuf);
-            while(count != -1)
-            {
-                code.append(cbuf, 0, count);
-                count = reader.read(cbuf);
-            }
-            reader.close();
-        }
-        catch(IOException ex)
-        {
-            throw new ItsNatException("INTERNAL ERROR",ex);
-        }
+        InputStream input = LoadScriptImpl.class.getResourceAsStream(scriptName);        
+        IOUtil.readText(input,"UTF-8",code);
     }
 
     protected abstract String addScriptMarkupToDocMarkup(String docMarkup,String codeToAdd);

@@ -46,7 +46,7 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
 
         // En el template fragment hay un <script> que DEBE desaparecer
         NodeList scripts = frameLayoutViewToRemove.getElementsByTagName("script");
-        if (scripts.getLength() == 0) throw new RuntimeException("Expected <string> element");         
+        if (scripts.getLength() != 2) throw new RuntimeException("Expected 2 <string> elements");         
         
         // Sabemos con seguridad que el fragment se insertará (parcialmente) via markup, nos aseguramos de todas formas que está activado
         if (!BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP) throw new RuntimeException("CANNOT TEST");

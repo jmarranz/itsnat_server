@@ -78,7 +78,7 @@ public abstract class JSRenderHasChildrenNodeImpl extends JSRenderNotAttrOrAbstr
             Node child = parent.getFirstChild();
             while(child != null)
             {
-                JSRenderNotAttrOrAbstractViewNodeImpl childRender = (JSRenderNotAttrOrAbstractViewNodeImpl)JSRenderNodeImpl.getJSRenderNode(child,(ClientDocumentStfulDelegateWebImpl)clientDoc);
+                JSRenderNotAttrOrAbstractViewNodeImpl childRender = JSRenderNotAttrOrAbstractViewNodeImpl.getJSRenderNotAttrOrAbstractViewNode(child,(ClientDocumentStfulDelegateWebImpl)clientDoc);
                 code.add( childRender.getAppendNewNodeCode(parent,child,parentVarName,insertMarkupInfo,clientDoc) );
 
                 child = child.getNextSibling();
