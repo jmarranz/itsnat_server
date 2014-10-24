@@ -48,3 +48,11 @@ en tiempo de parseo del View padre en el que será finalmente insertado (el Deco
 
 * A largo plazo substituir los casos de valor por defecto null (no imponer valor por defecto en el removeAttribute) por valores
 concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTextOff = a.getText(com.android.internal.R.styleable.Switch_textOff);
+
+* Hacer que funcione de forma síncrona la carga del archivo asociado en <script src="..."> en el caso de página no servida por ItsNat
+ (ejemplo ItsNatDroidServletNoItsNat)
+
+    Revisar código en InflatedLayoutPageImpl.parseScriptElement, se trataría de pre-parsear en el caso de página no servida por ItsNat
+    en el hilo de request de la página los <script src="..."> y cargar los archivos en el orden de declaración y hasta que
+    no se han cargado no terminar la request de la página.
+

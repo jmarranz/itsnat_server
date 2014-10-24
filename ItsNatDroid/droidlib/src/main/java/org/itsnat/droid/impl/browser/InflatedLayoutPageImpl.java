@@ -117,7 +117,16 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
         {
-            if (loadScript != null) throw new ItsNatDroidException("Internal Error"); // Los <script src=""> se procesan en el servidor cargando el archivo de forma síncrona pues en Android tiene que ser asíncrono
+            if (loadScript != null && page.getItsNatServerVersion() != null)
+            {
+                // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
+                // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
+                throw new ItsNatDroidException("Internal Error");
+            }
+
+            // Si loadScript es != null es el caso de carga de página NO servida por ItsNat, tenemos que cargar asíncronamente
+            // pues este es el hilo UI :(
+            // Si loadScript es null estamos en un evento (inserción de un fragment)
 
             scriptList.add("itsNatDoc.downloadFile(\"" + src + "\",\"" + HttpUtil.MIME_BEANSHELL + "\");");
 

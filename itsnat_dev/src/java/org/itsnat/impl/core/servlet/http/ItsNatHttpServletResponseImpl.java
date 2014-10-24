@@ -76,13 +76,6 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
 
     public void prepareResponse()
     {
-        HttpServletResponse response = getHttpServletResponse();
-        response.addHeader("Cache-Control","no-store,no-cache,must-revalidate"); //HTTP 1.1
-        response.addHeader("Pragma","no-cache"); //HTTP 1.0
-        response.addDateHeader("Expires", 0); // Quizás también -1
-        // response.addHeader("Expires", "Thu, 01 Jan 1970 01:00:00 GMT");
-        // response.setHeader("Last-Modified", "FRI, JUN 26 3020 23:59:59 GMT"); // En el futuro
-
         // Es absolutamente vital no cachear, sobre todo en FireFox porque soluciona el problema del back/forward
         // que al volver ejecuta el evento load pero sin recargar la página en el servidor
         // y el problema de que el evento unload no
@@ -93,8 +86,15 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
         // http://support.microsoft.com/kb/234067/EN-US/
         // http://www.mnot.net/cache_docs/
         // Problemas:
-        // http://support.microsoft.com/kb/q222064/
-
+        // http://support.microsoft.com/kb/q222064/        
+        
+        HttpServletResponse response = getHttpServletResponse();
+        response.addHeader("Cache-Control","no-store,no-cache,must-revalidate"); //HTTP 1.1
+        response.addHeader("Pragma","no-cache"); //HTTP 1.0
+        response.addDateHeader("Expires", 0); // Quizás también -1
+        // response.addHeader("Expires", "Thu, 01 Jan 1970 01:00:00 GMT");
+        // response.setHeader("Last-Modified", "FRI, JUN 26 3020 23:59:59 GMT"); // En el futuro
+        response.addHeader("ItsNat-version",getItsNatHttpServletImpl().getItsNatImpl().getVersion());
     }
 
     public ServletResponseAttachedServer createServletResponseAttachedServer()

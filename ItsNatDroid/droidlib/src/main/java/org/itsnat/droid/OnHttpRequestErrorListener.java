@@ -5,5 +5,5 @@ package org.itsnat.droid;
  */
 public interface OnHttpRequestErrorListener
 {
-    public void onError(Exception ex,HttpRequestResult response);
+    public void onError(Page page,Exception ex,HttpRequestResult response);
 }

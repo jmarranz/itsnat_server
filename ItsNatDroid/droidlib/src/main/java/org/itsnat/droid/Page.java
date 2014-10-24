@@ -20,6 +20,7 @@ public interface Page
     public ItsNatDoc getItsNatDoc();
     public void setOnEventErrorListener(OnEventErrorListener listener);
     public void setOnServerStateLostListener(OnServerStateLostListener listener);
+    public void setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener);
     public PageRequest reusePageRequest();
     public void dispose();
 }

@@ -79,7 +79,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         {
             if (errorListener != null)
             {
-                errorListener.onError(ex, result);
+                errorListener.onError(parent.getPageImpl(), ex, result);
                 return;
             }
             else
@@ -99,7 +99,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         {
             HttpRequestResult result = (exFinal instanceof ItsNatDroidServerResponseException) ?
                     ((ItsNatDroidServerResponseException)exFinal).getHttpRequestResult() : null;
-            errorListener.onError(exFinal, result);
+            errorListener.onError(parent.getPageImpl(),exFinal, result);
             return;
         }
         else

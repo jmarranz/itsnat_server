@@ -14,16 +14,19 @@ import org.apache.http.message.BasicNameValuePair;
 import org.itsnat.droid.ClientErrorMode;
 import org.itsnat.droid.EventMonitor;
 import org.itsnat.droid.GenericHttpClient;
+import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatView;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnHttpRequestListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
+import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
@@ -53,6 +56,8 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,9 +101,16 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         this.nullView = new ItsNatViewNullImpl(this);
     }
 
+    public GenericHttpClientImpl createGenericHttpClientImpl()
+    {
+        GenericHttpClientImpl client = new GenericHttpClientImpl(this);
+        client.setOnHttpRequestErrorListener(getPageImpl().getOnHttpRequestErrorListener());
+        return client;
+    }
+
     public GenericHttpClient createGenericHttpClient()
     {
-        return new GenericHttpClientImpl(this);
+        return createGenericHttpClientImpl();
     }
 
     public PageImpl getPageImpl()
@@ -1255,8 +1267,37 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public void downloadFile(String url,String mime)
+    public void downloadFile(String src,final String mime)
     {
-        alert("downloadFile: " + url + " " + mime);
+        GenericHttpClientImpl client = createGenericHttpClientImpl();
+
+        URI uri = null;
+        try { uri = new URI(src); }
+        catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
+
+        String scheme = uri.getScheme();
+        if (scheme == null)
+        {
+            String pageReqURL = client.getPageURL();
+            int pos = pageReqURL.lastIndexOf('/');
+            if (pos < pageReqURL.length() - 1) // El / no está en el final
+                pageReqURL = pageReqURL.substring(0,pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
+            src = pageReqURL.substring(0,pos + 1) + src;
+        }
+        else if (!scheme.equals("http") && !scheme.equals("https"))
+            throw new ItsNatDroidException("Scheme not supported: " + scheme);
+
+        client.setURL(src)
+        .setOnHttpRequestListener(new OnHttpRequestListener()
+        {
+            @Override
+            public void onRequest(Page page,HttpRequestResult response)
+            {
+                if (HttpUtil.MIME_BEANSHELL.equals(mime)) // Nos da igual el mime de HttpRequestResult que en el caso de un archivo .bs a saber qué devuelve el servidor, conocemos el mime exacto por el parámetro
+                    eval(response.getResponseText());
+            }
+        })
+        .requestAsync();
+
     }
 }

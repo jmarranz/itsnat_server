@@ -6,18 +6,20 @@
 
 package org.itsnat.impl.core.scriptren.bsren.node;
 
-import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
-import org.itsnat.impl.core.util.IOUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -35,8 +37,7 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
     @Override
     public Object getInsertNewNodeCode(Node newNode,ClientDocumentStfulDelegateDroidImpl clientDoc)    
     {
-        ServletContext servContext = getServletContext(clientDoc);
-        return getScript((Element)newNode,servContext);
+        return getScript((Element)newNode,clientDoc);
     }
     
     @Override
@@ -54,8 +55,7 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
     @Override
     public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)    
     {
-        ServletContext servContext = getServletContext(clientDoc);        
-        return getScript((Element)newNode,servContext);
+        return getScript((Element)newNode,clientDoc);
     }
 
     @Override
@@ -64,12 +64,44 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
         throw new ItsNatException("INTERNAL ERROR"); // No se llega a llamar nunca
     }
         
-    public static String getScript(Element nodeElem,ServletContext servContext)
+    public static String getScript(Element nodeElem,ClientDocumentStfulDelegateImpl clientDoc)
     {   
         // El elemento <script> que estamos procesando se elimina en otro lugar inmediatamente después de ésto        
         String src = nodeElem.getAttribute("src");
         if (!"".equals(src))
         {
+            /* Ya no lo necesitamos pues lo hacemos en Android que es lo normal de un navegador
+            URI uri = null;
+            try { uri = new URI(src); }
+            catch (URISyntaxException ex) { throw new ItsNatException(ex); }
+
+            String scheme = uri.getScheme();            
+            
+            if (scheme == null)
+            {       
+                String docReqURL = clientDoc.getItsNatStfulDocument().getRequestURL();                      
+
+                URL docURL = null;
+                try { docURL = new URL(docReqURL); }
+                catch (MalformedURLException ex) { throw new ItsNatException(ex); }
+
+                StringBuilder baseURL = new StringBuilder(); 
+                baseURL.append(docURL.getProtocol());
+                baseURL.append(":");
+                baseURL.append("//");
+                baseURL.append(docURL.getAuthority());                
+
+                ServletContext servContext = getServletContext(clientDoc);             
+                //baseURL.append('/');                
+                baseURL.append(servContext.getContextPath());                
+                baseURL.append('/'); // Si el src ya empezara en / no pasa nada porque se repita                
+                
+                src = baseURL.toString() + src;
+            }
+            else if (!scheme.equals("http") && !scheme.equals("https")) 
+                    throw new ItsNatException("Scheme not supported: " + scheme);             
+            */                      
+                    
             return "itsNatDoc.downloadFile(\"" + src + "\",\"" + NamespaceUtil.MIME_BEANSHELL + "\");";
         }
         

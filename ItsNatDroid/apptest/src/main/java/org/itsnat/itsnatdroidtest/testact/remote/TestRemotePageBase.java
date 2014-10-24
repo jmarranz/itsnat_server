@@ -14,6 +14,7 @@ import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.OnServerStateLostListener;
@@ -132,6 +133,14 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         if (useItsNatServer)
             page.setOnEventErrorListener(this);
+
+        page.setOnHttpRequestErrorListener(new OnHttpRequestErrorListener(){
+            @Override
+            public void onError(Page page, Exception ex, HttpRequestResult response)
+            {
+                TestUtil.alertDialog(act, "User Msg: Failed HTTP request! \n" + response.getResponseText());
+            }
+        });
 
         page.setOnServerStateLostListener(new OnServerStateLostListener()
         {

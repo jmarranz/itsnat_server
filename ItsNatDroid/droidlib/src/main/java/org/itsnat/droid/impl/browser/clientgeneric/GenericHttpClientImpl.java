@@ -143,6 +143,11 @@ public class GenericHttpClientImpl implements GenericHttpClient
         return this;
     }
 
+    public String getPageURL()
+    {
+        return pageUrl;
+    }
+
     private String getFinalURL()
     {
         return ValueUtil.isEmpty(userUrl) ? pageUrl : userUrl; // Como se puede ver seguridad de "single server" ninguna
@@ -204,7 +209,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         int statusCode = status.getStatusCode();
         if (statusCode == 200)
         {
-            if (listener != null) listener.onRequest(result);
+            if (listener != null) listener.onRequest(itsNatDoc.getPage(),result);
         }
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {

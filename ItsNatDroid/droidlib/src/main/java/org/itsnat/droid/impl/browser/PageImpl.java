@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 
+import org.apache.http.Header;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
@@ -10,6 +11,7 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.OnEventErrorListener;
+import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
@@ -31,9 +33,11 @@ import bsh.NameSpace;
  */
 public class PageImpl implements Page
 {
-    protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
-    protected InflatedLayoutPageImpl inflated;
+    protected HttpParams httpParams;
     protected HttpRequestResultImpl httpReqResult;
+    protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
+    protected String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
+    protected InflatedLayoutPageImpl inflated;
     protected String uniqueIdForInterpreter;
     protected Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
@@ -41,8 +45,9 @@ public class PageImpl implements Page
     protected String clientId;
     protected OnEventErrorListener eventErrorListener;
     protected OnServerStateLostListener stateLostListener;
+    protected OnHttpRequestErrorListener httpReqErrorListener;
     protected UserDataImpl userData;
-    protected HttpParams httpParams;
+
     protected boolean dispose;
 
     public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,HttpRequestResultImpl httpReqResult,AttrCustomInflaterListener inflateListener)
@@ -50,6 +55,9 @@ public class PageImpl implements Page
         this.httpParams = httpParams;
         this.httpReqResult = httpReqResult;
         this.pageRequest = pageRequest;
+
+        Header[] itsNatServerVersionArr = httpReqResult.getResponseHeaders("ItsNat-version");
+        this.itsNatServerVersion = itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
 
         StringReader input = new StringReader(httpReqResult.getResponseText());
 
@@ -136,6 +144,11 @@ public class PageImpl implements Page
         return pageRequest.getURL();
     }
 
+    public String getItsNatServerVersion()
+    {
+        return itsNatServerVersion;
+    }
+
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
         return inflated;
@@ -208,6 +221,16 @@ public class PageImpl implements Page
     public void setOnServerStateLostListener(OnServerStateLostListener listener)
     {
         this.stateLostListener = listener;
+    }
+
+    public OnHttpRequestErrorListener getOnHttpRequestErrorListener()
+    {
+        return httpReqErrorListener;
+    }
+
+    public void setOnHttpRequestErrorListener(OnHttpRequestErrorListener listener)
+    {
+        this.httpReqErrorListener = listener;
     }
 
     public PageRequest reusePageRequest()

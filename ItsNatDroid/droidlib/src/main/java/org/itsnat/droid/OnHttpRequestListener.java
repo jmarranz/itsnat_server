@@ -5,5 +5,5 @@ package org.itsnat.droid;
  */
 public interface OnHttpRequestListener
 {
-    public void onRequest(HttpRequestResult response);
+    public void onRequest(Page page,HttpRequestResult response);
 }

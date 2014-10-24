@@ -15,13 +15,10 @@
 */
 package org.itsnat.impl.core.template.droid;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.util.IOUtil;
 

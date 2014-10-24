@@ -105,6 +105,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
                 scriptCodeList.add(scriptCodeItem);
             }
 
+            // Los eliminamos del DOM, para que no interfieran
             while(scriptElemList.getLength() > 0)
             {
                 Element scriptElem = (Element)scriptElemList.item(0);

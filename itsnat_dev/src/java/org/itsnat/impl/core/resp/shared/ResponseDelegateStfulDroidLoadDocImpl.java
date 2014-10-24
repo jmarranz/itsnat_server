@@ -94,6 +94,7 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         StringBuilder code = new StringBuilder();
         if (!scriptCodeList.isEmpty())
         {
+            // Hay que tener en cuenta que los quitamos del DOM en el template pero como tenemos los scripts los enviamos "recreando" los script
             for(String script : scriptCodeList)
                 code.append( "<script><![CDATA[ " + script + " ]]></script>" );
         }

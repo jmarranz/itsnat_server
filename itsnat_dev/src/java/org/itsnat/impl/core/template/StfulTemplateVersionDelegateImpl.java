@@ -61,10 +61,10 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
 
         Element elem = (Element)node;
         String localName = DOMUtilInternal.getLocalName(elem); // No usamos Element.getLocalName() porque en Android es null (los elementos no tienen namespace)
-        if (localName.equals("script"))
+        if ("script".equals(localName))
             return true;
 
-        if (localName.equals("style"))
+        if ("style".equals(localName))
             return true;
 
         return false;

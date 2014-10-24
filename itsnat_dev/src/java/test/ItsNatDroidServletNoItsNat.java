@@ -91,12 +91,14 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:layout_height=\"wrap_content\" ");
         res.append("        android:text=\"@string/button_reload\" />  ");          
 
+        res.append("    <script src=\"bs/test_script_loading.bs\" /> " );        
+        
         res.append("    <script>"
                         + "void addItem() { "
                         + "  itsNatDoc.createGenericHttpClient()"
                         + "  .setMethod(\"GET\")"                
                         + "  .setOnHttpRequestListener(new OnHttpRequestListener(){"                    
-                        + "     void onRequest(HttpRequestResult response){"  
+                        + "     void onRequest(Page page,HttpRequestResult response){"  
                         + "        var viewRoot = itsNatDoc.getRootView();"
                         + "        int viewParentId = itsNatDoc.getResourceIdentifier(\"parentId\");"                 
                         + "        var viewParent = viewRoot.findViewById(viewParentId);"                
@@ -106,7 +108,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
                         + "     }"
                         + "   })"
                         + "  .setOnHttpRequestErrorListener(new OnHttpRequestErrorListener(){"                    
-                        + "     void onError(Exception ex,HttpRequestResult response){"  
+                        + "     void onError(Page page,Exception ex,HttpRequestResult response){"  
                         + "         ex.printStackTrace();"
                         + "         alert(\"addItem error:\" + ex.getMessage() );"
                         + "     }"
@@ -114,7 +116,8 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
                         + "  .addParam(\"addItem\",\"true\") "                    
                         + "  .requestAsync(); "
                         + "}"
-                     + "</script> ");
+                     + "</script> ");      
+        
         res.append("    <Button ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
