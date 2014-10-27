@@ -10,6 +10,10 @@ import java.io.IOException;
  */
 public class LayoutParserStandalone extends LayoutParser
 {
+    public LayoutParserStandalone()
+    {
+    }
+
     @Override
     protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException
     {

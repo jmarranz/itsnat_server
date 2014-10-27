@@ -12,11 +12,11 @@ import android.widget.GridLayout;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.AttrImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.clientdoc.NodeToInsertImpl;
+import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -29,6 +29,7 @@ import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.attr.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -285,21 +286,21 @@ public class ClassDescViewBased
         return createViewObject(ctx,idStyle,pending);
     }
 
-    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated, XmlPullParser parser)
+    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed)
     {
-        String value = InflatedLayoutImpl.findAttributeFromParser(null, "style", parser);
+        String value = viewParsed.getStyleAttr();
         if (value == null) return 0;
         Context ctx = inflated.getContext();
         return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService());
     }
 
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
-        int idStyle = findStyleAttributeFromParser(inflated, parser);
-        return createViewObjectFromParser(inflated,parser,idStyle,pending);
+        int idStyle = findStyleAttributeFromParser(inflated,viewParsed);
+        return createViewObjectFromParser(inflated,viewParsed,idStyle,pending);
     }
 
-    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,XmlPullParser parser,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         // Se redefine completamente en el caso de Spinner
         Context ctx = inflated.getContext();

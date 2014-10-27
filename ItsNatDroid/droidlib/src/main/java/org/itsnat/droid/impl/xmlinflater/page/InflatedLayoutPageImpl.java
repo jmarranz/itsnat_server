@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
+import org.itsnat.droid.impl.parser.LayoutParser;
+import org.itsnat.droid.impl.parser.LayoutParserPage;
+import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -22,7 +25,6 @@ import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
@@ -35,9 +37,9 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page, AttrCustomInflaterListener inflateListener, Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,TreeViewParsed treeViewParsed, AttrCustomInflaterListener inflateListener, Context ctx)
     {
-        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), inflateListener, ctx);
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(),treeViewParsed, inflateListener, ctx);
         this.page = page;
     }
 
@@ -73,30 +75,36 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         markup = newMarkup.toString();
 
         XmlPullParser parser = Xml.newPullParser();
+        StringReader input = new StringReader(markup);
+        TreeViewParsed treeViewParsed;
         try
         {
-            StringReader input = new StringReader(markup);
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
 
-            int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
-
-            // A través del null de loadScript savemos que NO es tiempo de carga
-            ViewGroup falseParentView = (ViewGroup) parseNextView(parser, null, null, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
-            while (falseParentView.getChildCount() > 0)
-            {
-                View child = falseParentView.getChildAt(0);
-                falseParentView.removeViewAt(0);
-                if (indexRef >= 0)
-                {
-                    parentView.addView(child, indexRef);
-                    indexRef++;
-                }
-                else parentView.addView(child);
-            }
+            boolean loadingPage = false;
+            LayoutParser layoutParser = new LayoutParserPage(page,loadingPage);
+            treeViewParsed = layoutParser.inflate(input);
         }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+        if (treeViewParsed.getScriptList() != null)
+            scriptList.addAll(treeViewParsed.getScriptList());
+
+        ViewParsed falseParentViewParsed = treeViewParsed.getRootView();
+        ViewGroup falseParentView = (ViewGroup) inflateNextView(falseParentViewParsed, null); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
+        while (falseParentView.getChildCount() > 0)
+        {
+            View child = falseParentView.getChildAt(0);
+            falseParentView.removeViewAt(0);
+            if (indexRef >= 0)
+            {
+                parentView.addView(child, indexRef);
+                indexRef++;
+            }
+            else parentView.addView(child);
+        }
     }
 
     public static int getChildIndex(ViewGroup parentView,View view)
@@ -110,44 +118,6 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
                 return i;
         }
         return -1; // No es hijo directo
-    }
-
-    protected void parseScriptElement(XmlPullParser parser, View viewParent, String[] loadScript, List<String> scriptList) throws IOException, XmlPullParserException
-    {
-        // Si loadScript es nulo es que no estamos en tiempo de carga
-
-        String src = findAttributeFromParser(null, "src", parser);
-        if (src != null)
-        {
-            if (loadScript != null && page.getItsNatServerVersion() != null)
-            {
-                // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
-                // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
-                throw new ItsNatDroidException("Internal Error");
-            }
-
-            // Si loadScript es != null es el caso de carga de página, pero si getItsNatServerVersion() es null dicha página
-            // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
-            // Si loadScript es null estamos en un evento (inserción de un fragment)
-
-            scriptList.add("itsNatDoc.downloadFile(\"" + src + "\",\"" + HttpUtil.MIME_BEANSHELL + "\");");
-
-            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
-        }
-        else
-        {
-            boolean isLoadScript = loadScript != null && parser.getAttributeCount() == 1 &&
-                    "id".equals(parser.getAttributeName(0)) &&
-                    "itsnat_load_script".equals(parser.getAttributeValue(0));
-
-            while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
-
-            String code = parser.getText();
-            if (isLoadScript) loadScript[0] = code;
-            else scriptList.add(code);
-
-            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
-        }
     }
 
     public void setAttribute(View view, String namespaceURI, String name, String value)

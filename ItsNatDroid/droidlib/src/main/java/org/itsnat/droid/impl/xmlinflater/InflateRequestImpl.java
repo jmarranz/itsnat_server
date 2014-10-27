@@ -6,8 +6,12 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.parser.LayoutParser;
+import org.itsnat.droid.impl.parser.LayoutParserPage;
+import org.itsnat.droid.impl.parser.LayoutParserStandalone;
+import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.stdalone.InflatedLayoutStandaloneImpl;
 
 import java.io.Reader;
@@ -18,13 +22,13 @@ import java.util.List;
  */
 public class InflateRequestImpl implements InflateRequest
 {
-    protected ItsNatDroidImpl parent;
+    protected ItsNatDroidImpl itsNatDroid;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
 
-    public InflateRequestImpl(ItsNatDroidImpl parent)
+    public InflateRequestImpl(ItsNatDroidImpl itsNatDroid)
     {
-        this.parent = parent;
+        this.itsNatDroid = itsNatDroid;
     }
 
     @Override
@@ -59,9 +63,14 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,inflateListener,ctx) :
-                                                           new InflatedLayoutStandaloneImpl(parent,inflateListener,ctx);
-        inflatedLayout.inflate(input, loadScript,scriptList);
+        boolean loadingPage = loadScript != null;
+        LayoutParser layoutParser = page != null ? new LayoutParserPage(page,loadingPage) :
+                                                   new LayoutParserStandalone();
+        TreeViewParsed treeViewParsed = layoutParser.inflate(input);
+
+        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,treeViewParsed,inflateListener,ctx) :
+                                                           new InflatedLayoutStandaloneImpl(itsNatDroid,treeViewParsed,inflateListener,ctx);
+        inflatedLayout.inflate(loadScript,scriptList);
         return inflatedLayout;
     }
 

@@ -22,7 +22,7 @@ en tiempo de parseo del View padre en el que será finalmente insertado (el Deco
 
 * Ver como conseguir que un ListView obtenga sus entries y el layout de cada item desde el servidor
 
-
+* Hacer caching de TreeViewParsed cuando sea posible para evitar el parseado en cada recarga/inserción de fragment
 
 * Pensar como modelar los drawable por ejemplo para definir bordes, cargar imágenes etc desde el servidor
 

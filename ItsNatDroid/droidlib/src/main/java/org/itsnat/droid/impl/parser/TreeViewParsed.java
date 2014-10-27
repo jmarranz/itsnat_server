@@ -43,6 +43,11 @@ public class TreeViewParsed
         return namespacesByPrefix.get(prefix);
     }
 
+    public ViewParsed getRootView()
+    {
+        return rootView;
+    }
+
     public void setRootView(ViewParsed rootView)
     {
         this.rootView = rootView;
@@ -65,7 +70,7 @@ public class TreeViewParsed
 
     public void addScript(String script)
     {
-        if (scriptList != null) this.scriptList = new LinkedList<String>();
+        if (scriptList == null) this.scriptList = new LinkedList<String>();
         this.scriptList.add(script);
     }
 }

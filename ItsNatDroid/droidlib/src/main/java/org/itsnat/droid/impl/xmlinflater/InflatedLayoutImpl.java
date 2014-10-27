@@ -1,23 +1,21 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
-import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
-import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.parser.Attribute;
+import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
-import java.io.Reader;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,17 +24,18 @@ import java.util.List;
 public abstract class InflatedLayoutImpl implements InflatedLayout
 {
     protected ItsNatDroidImpl itsNatDroid;
+    protected TreeViewParsed treeViewParsed;
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
-    protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
-    protected String androidNSPrefix;
 
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,AttrCustomInflaterListener inflateListener,Context ctx)
+
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,TreeViewParsed treeViewParsed,AttrCustomInflaterListener inflateListener,Context ctx)
     {
         // rootView se define a posteriori
         this.itsNatDroid = itsNatDroid;
+        this.treeViewParsed = treeViewParsed;
         this.inflateListener = inflateListener;
         this.ctx = ctx;
     }
@@ -48,24 +47,17 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public String getAndroidNSPrefix()
     {
-        return androidNSPrefix;
-    }
-
-    public void addNamespace(String prefix,String ns)
-    {
-        namespacesByPrefix.put(prefix,ns);
-        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(ns))
-            this.androidNSPrefix = prefix;
+        return treeViewParsed.getAndroidNSPrefix();
     }
 
     public MapLight<String,String> getNamespacesByPrefix()
     {
-        return namespacesByPrefix;
+        return treeViewParsed.getNamespacesByPrefix();
     }
 
     public String getNamespace(String prefix)
     {
-        return namespacesByPrefix.get(prefix);
+        return getNamespacesByPrefix().get(prefix);
     }
 
     @Override
@@ -127,163 +119,117 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    public View inflate(Reader input,String[] loadScript,List<String> scriptList)
+    public View inflate(String[] loadScript, List<String> scriptList)
     {
-        try
+        if (loadScript != null)
+            loadScript[0] = treeViewParsed.getLoadScript();
+
+        if (scriptList != null)
         {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-            parser.setInput(input);
-            return inflate(parser,loadScript,scriptList);
-        }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
-        finally
-        {
-            try
-            {
-                input.close();
-            }
-            catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        }
-    }
-
-    private View inflate(XmlPullParser parser,String[] loadScript,List<String> scriptList)
-    {
-        try
-        {
-            return parseRootView(parser, loadScript,scriptList);
-        }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
-    }
-
-    private View parseRootView(XmlPullParser parser, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
-    {
-        while (parser.next() != XmlPullParser.END_TAG)
-        {
-            if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
-                continue;
-
-            int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
-            int nsEnd = parser.getNamespaceCount(parser.getDepth());
-            for (int i = nsStart; i < nsEnd; i++)
-            {
-                String prefix = parser.getNamespacePrefix(i);
-                String ns = parser.getNamespaceUri(i);
-                addNamespace(prefix, ns);
-            }
-
-            if (getAndroidNSPrefix() == null)
-                throw new ItsNatDroidException("Missing android namespace declaration in root element");
-
-            String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
-
-            PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
-
-            View rootView = createRootViewObjectAndFillAttributes(viewName,parser,pending);
-
-            processChildViews(parser,rootView,loadScript,scriptList);
-
-            pending.executeTasks();
-
-            return rootView;
+            if (treeViewParsed.getScriptList() != null)
+                scriptList.addAll(treeViewParsed.getScriptList());
         }
 
-        throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
+        return inflateRootView(treeViewParsed);
     }
 
-    protected abstract void parseScriptElement(XmlPullParser parser,View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException;
-
-    protected View parseNextView(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    private View inflateRootView(TreeViewParsed treeViewParsed)
     {
-        // loadScript es null si NO es tiempo de carga
-        while (parser.next() != XmlPullParser.END_TAG)
-        {
-            if (parser.getEventType() != XmlPullParser.START_TAG) // Nodo de texto etc
-                continue;
+        ViewParsed rootViewParsed = treeViewParsed.getRootView();
 
-            String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+        String viewName = rootViewParsed.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            if (viewName.equals("script"))
-            {
-                parseScriptElement(parser,viewParent,loadScript,scriptList);
-            }
-            else
-            {
-                PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-                View view = createViewObjectAndFillAttributesAndAdd(viewName, (ViewGroup) viewParent, parser, pending);
+        View rootView = createRootViewObjectAndFillAttributes(viewName,rootViewParsed,pending);
 
-                // No funciona, sólo funciona con XML compilados:
-                //AttributeSet attributes = Xml.asAttributeSet(parser);
-                //LayoutInflater inf = LayoutInflater.from(ctx);
+        processChildViews(rootViewParsed,rootView);
 
-                processChildViews(parser,view,loadScript,scriptList);
-
-                pending.executeTasks();
-
-                return view;
-            }
-        }
-        return null;
-    }
-
-    protected void processChildViews(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
-    {
-        View childView = parseNextView(parser, viewParent, loadScript, scriptList);
-        while (childView != null)
-        {
-            childView = parseNextView(parser, viewParent, loadScript, scriptList);
-        }
-    }
-
-    private View createViewObject(ClassDescViewBased classDesc, XmlPullParser parser,PendingPostInsertChildrenTasks pending)
-    {
-        return classDesc.createViewObjectFromParser(this,parser,pending);
-    }
-
-    public View createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
-    {
-        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View rootView = createViewObject(classDesc,parser,pending);
-
-        setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
-
-        fillAttributesAndAddView(rootView,classDesc,null,parser,pending);
+        pending.executeTasks();
 
         return rootView;
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(String viewName, ViewGroup viewParent, XmlPullParser parser, PendingPostInsertChildrenTasks pending)
+    protected View inflateNextView(ViewParsed viewParsed, View viewParent)
     {
-        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
-        // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View view = createViewObject(classDesc,parser,pending);
+        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        fillAttributesAndAddView(view,classDesc,viewParent,parser,pending);
+        View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, viewParsed, pending);
+
+        // No funciona, sólo funciona con XML compilados:
+        //AttributeSet attributes = Xml.asAttributeSet(parser);
+        //LayoutInflater inf = LayoutInflater.from(ctx);
+
+        processChildViews(viewParsed,view);
+
+        pending.executeTasks();
 
         return view;
     }
 
-    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,XmlPullParser parser,PendingPostInsertChildrenTasks pending)
+    protected void processChildViews(ViewParsed viewParsedParent, View viewParent)
+    {
+        LinkedList<ViewParsed> childList = viewParsedParent.getChildViewList();
+        if (childList != null)
+        {
+            for (ViewParsed childViewParsed : childList)
+            {
+                View childView = inflateNextView(childViewParsed, viewParent);
+            }
+        }
+    }
+
+    private View createViewObject(ClassDescViewBased classDesc,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
+    {
+        return classDesc.createViewObjectFromParser(this,viewParsed,pending);
+    }
+
+    public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
+    {
+        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
+        View rootView = createViewObject(classDesc,viewParsed,pending);
+
+        setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+
+        fillAttributesAndAddView(rootView,classDesc,null,viewParsed,pending);
+
+        return rootView;
+    }
+
+    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, ViewParsed viewParsed, PendingPostInsertChildrenTasks pending)
+    {
+        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
+        // a setRootView(view); cuando viewParent es null "para reutilizar código"
+        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewBased classDesc = classDescViewMgr.get(viewParsed.getName());
+        View view = createViewObject(classDesc,viewParsed,pending);
+
+        fillAttributesAndAddView(view,classDesc,viewParent,viewParsed,pending);
+
+        return view;
+    }
+
+    private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
-        fillViewAttributes(classDesc,view, parser,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
+        fillViewAttributes(classDesc,view,viewParsed,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
         classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,ctx);
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,XmlPullParser parser,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    private void fillViewAttributes(ClassDescViewBased classDesc,View view,ViewParsed viewParsed,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        for(int i = 0; i < parser.getAttributeCount(); i++)
+        ArrayList<Attribute> attribList = viewParsed.getAttributeList();
+        if (attribList != null)
         {
-            String namespaceURI = parser.getAttributeNamespace(i);
-            if ("".equals(namespaceURI)) namespaceURI = null; // Por estandarizar
-            String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            String value = parser.getAttributeValue(i);
-            setAttribute(classDesc,view,namespaceURI, name, value, oneTimeAttrProcess,pending);
+            for (int i = 0; i < attribList.size(); i++)
+            {
+                Attribute attr = attribList.get(i);
+                String namespaceURI = attr.getNamespaceURI();
+                String name = attr.getName(); // El nombre devuelto no contiene el namespace
+                String value = attr.getValue();
+                setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess, pending);
+            }
         }
 
         oneTimeAttrProcess.executeLastTasks();
@@ -295,18 +241,4 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,pending,this);
     }
 
-    public static String findAttributeFromParser(String namespaceURI, String name, XmlPullParser parser)
-    {
-        for(int i = 0; i < parser.getAttributeCount(); i++)
-        {
-            String currNamespaceURI = parser.getAttributeNamespace(i);
-            if ("".equals(currNamespaceURI)) currNamespaceURI = null; // Por estandarizar
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
-            String currName = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
-            if (!name.equals(currName)) continue;
-            String value = parser.getAttributeValue(i);
-            return value;
-        }
-        return null;
-    }
 }
