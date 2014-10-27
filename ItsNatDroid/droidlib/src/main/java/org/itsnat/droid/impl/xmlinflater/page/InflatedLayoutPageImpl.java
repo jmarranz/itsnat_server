@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid.impl.xmlinflater.page;
 
 import android.content.Context;
 import android.util.Xml;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;

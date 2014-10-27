@@ -12,7 +12,7 @@ import android.widget.GridLayout;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.AttrImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;

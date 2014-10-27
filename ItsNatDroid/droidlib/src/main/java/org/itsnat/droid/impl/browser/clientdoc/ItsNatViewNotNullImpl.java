@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.browser.clientdoc;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.ClickEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.FocusEventListenerViewAdapter;
 import org.itsnat.droid.impl.browser.clientdoc.evtlistadapter.KeyEventListenerViewAdapter;

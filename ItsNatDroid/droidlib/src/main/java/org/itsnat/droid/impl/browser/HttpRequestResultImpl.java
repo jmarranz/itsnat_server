@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -72,11 +71,13 @@ public class HttpRequestResultImpl implements HttpRequestResult
     @Override
     public String getResponseText()
     {
+        /*
         if (responseText == null)
         {
             // Esto es porque el MIME está mal, si está bien la conversión a texto se hace en el hilo de la request que es lo mejor
             this.responseText = ValueUtil.toString(responseByteArray,getEncoding());
         }
+        */
         return responseText;
     }
 

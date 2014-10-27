@@ -27,7 +27,7 @@ import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.clientdoc.event.AttachedClientTimerRefreshEventImpl;
@@ -1288,6 +1288,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             throw new ItsNatDroidException("Scheme not supported: " + scheme);
 
         client.setURL(src)
+        .setOverrideMimeType(mime)
         .setOnHttpRequestListener(new OnHttpRequestListener()
         {
             @Override

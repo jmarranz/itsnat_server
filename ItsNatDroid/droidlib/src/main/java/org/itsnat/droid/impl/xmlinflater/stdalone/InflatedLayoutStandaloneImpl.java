@@ -1,10 +1,11 @@
-package org.itsnat.droid.impl.xmlinflater;
+package org.itsnat.droid.impl.xmlinflater.stdalone;
 
 import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
