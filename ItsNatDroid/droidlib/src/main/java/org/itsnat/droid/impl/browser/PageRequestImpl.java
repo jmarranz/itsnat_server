@@ -166,10 +166,11 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        HttpRequestResultImpl result = null;
+        PageRequestResult result = null;
         try
         {
-            result = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null,null);
+            HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null,null);
+            result = new PageRequestResult(httpReqResult);
         }
         catch(Exception ex)
         {
@@ -178,7 +179,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this, result); // Para poder recogerla desde fuera
+                errorListener.onError(ex, this, result.getHttpRequestResult()); // Para poder recogerla desde fuera
                 return;
             }
             else
@@ -199,10 +200,12 @@ public class PageRequestImpl implements PageRequest
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public void processResponse(HttpRequestResultImpl result)
+    public void processResponse(PageRequestResult result)
     {
-        if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(result.getMimeType()))
-            throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + result.getMimeType(),result);
+        HttpRequestResultImpl httpReqResult = result.getHttpRequestResult();
+
+        if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
+            throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;

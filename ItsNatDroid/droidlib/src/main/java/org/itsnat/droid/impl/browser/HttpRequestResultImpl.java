@@ -29,6 +29,12 @@ public class HttpRequestResultImpl implements HttpRequestResult
         this.encoding = encoding;
     }
 
+    public String getItsNatServerVersion()
+    {
+        Header[] itsNatServerVersionArr = getResponseHeaders("ItsNat-version");
+        return itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
+    }
+
     @Override
     public StatusLine getStatusLine()
     {

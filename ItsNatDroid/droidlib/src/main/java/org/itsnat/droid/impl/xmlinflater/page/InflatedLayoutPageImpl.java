@@ -73,7 +73,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         StringReader input = new StringReader(markup);
 
         boolean loadingPage = false;
-        LayoutParser layoutParser = new LayoutParserPage(page,loadingPage);
+        LayoutParser layoutParser = new LayoutParserPage(page.getItsNatServerVersion(),loadingPage);
         treeViewParsed = layoutParser.inflate(input);
 
         ViewGroup falseParentView = (ViewGroup) insertFragment(treeViewParsed, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados

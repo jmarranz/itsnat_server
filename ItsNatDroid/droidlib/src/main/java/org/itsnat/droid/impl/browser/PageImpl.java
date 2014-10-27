@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.browser;
 
 import android.content.Context;
 
-import org.apache.http.Header;
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
@@ -17,6 +16,7 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.parser.TreeViewParsed;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
@@ -35,7 +35,7 @@ import bsh.NameSpace;
 public class PageImpl implements Page
 {
     protected HttpParams httpParams;
-    protected HttpRequestResultImpl httpReqResult;
+    protected PageRequestResult pageReqResult;
     protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
     protected InflatedLayoutPageImpl inflated;
@@ -51,14 +51,15 @@ public class PageImpl implements Page
 
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,HttpRequestResultImpl httpReqResult,AttrCustomInflaterListener inflateListener)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,PageRequestResult pageReqResult,AttrCustomInflaterListener inflateListener)
     {
         this.httpParams = httpParams;
-        this.httpReqResult = httpReqResult;
+        this.pageReqResult = pageReqResult;
         this.pageRequest = pageRequest;
 
-        Header[] itsNatServerVersionArr = httpReqResult.getResponseHeaders("ItsNat-version");
-        this.itsNatServerVersion = itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
+        HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
+
+        this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
         StringReader input = new StringReader(httpReqResult.getResponseText());
 
@@ -67,10 +68,11 @@ public class PageImpl implements Page
         inflateRequest.setContext(pageRequest.getContext());
         if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
 
+        TreeViewParsed treeViewParsed = pageReqResult.getTreeViewParsed();
 
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(input, loadScriptArr,scriptList,this);
+        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(treeViewParsed, loadScriptArr,scriptList,this);
 
         String loadScript = loadScriptArr[0];
 
@@ -136,7 +138,7 @@ public class PageImpl implements Page
     @Override
     public HttpRequestResult getHttpRequestResult()
     {
-        return httpReqResult;
+        return pageReqResult.getHttpRequestResult();
     }
 
     @Override

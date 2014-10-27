@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.parser.LayoutParser;
 import org.itsnat.droid.impl.parser.LayoutParserPage;
 import org.itsnat.droid.impl.parser.LayoutParserStandalone;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.stdalone.InflatedLayoutStandaloneImpl;
 
@@ -58,14 +59,15 @@ public class InflateRequestImpl implements InflateRequest
     @Override
     public InflatedLayout inflate(Reader input)
     {
-        return inflateInternal(input,null,null,null);
+        String markup = IOUtil.read(input);
+        return inflateInternal(markup,null,null,null);
     }
 
-    public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
+    public InflatedLayoutImpl inflateInternal(String markup,String[] loadScript,List<String> scriptList,PageImpl page)
     {
         boolean loadingPage = loadScript != null;
-        LayoutParser layoutParser = page != null ? new LayoutParserPage(page, loadingPage) : new LayoutParserStandalone();
-        TreeViewParsed treeViewParsed = layoutParser.inflate(input);
+        LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
+        TreeViewParsed treeViewParsed = layoutParser.inflate(markup);
 
         return inflateInternal(treeViewParsed,loadScript,scriptList,page);
     }

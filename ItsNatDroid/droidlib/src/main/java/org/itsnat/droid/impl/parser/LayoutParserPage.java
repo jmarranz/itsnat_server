@@ -2,7 +2,6 @@ package org.itsnat.droid.impl.parser;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -13,12 +12,12 @@ import java.io.IOException;
  */
 public class LayoutParserPage extends LayoutParser
 {
-    protected String itsNatServerVersion;
-    protected boolean loadingPage;
+    protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
+    protected final boolean loadingPage;
 
-    public LayoutParserPage(PageImpl page,boolean loadingPage)
+    public LayoutParserPage(String itsNatServerVersion,boolean loadingPage)
     {
-        this.itsNatServerVersion = page.getItsNatServerVersion();
+        this.itsNatServerVersion = itsNatServerVersion;
         this.loadingPage = loadingPage;
     }
 

@@ -11,14 +11,23 @@ import java.util.List;
  */
 public class TreeViewParsed
 {
+    protected String markup;
+    protected long timestamp;
     protected ViewParsed rootView;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected String loadScript;
     protected List<String> scriptList;
 
-    public TreeViewParsed()
+    public TreeViewParsed(String markup)
     {
+        this.markup = markup;
+        this.timestamp = System.currentTimeMillis();
+    }
+
+    public long getTimestamp()
+    {
+        return timestamp;
     }
 
     public String getAndroidNSPrefix()
@@ -71,6 +80,6 @@ public class TreeViewParsed
     public void addScript(String script)
     {
         if (scriptList == null) this.scriptList = new LinkedList<String>();
-        this.scriptList.add(script);
+        scriptList.add(script);
     }
 }

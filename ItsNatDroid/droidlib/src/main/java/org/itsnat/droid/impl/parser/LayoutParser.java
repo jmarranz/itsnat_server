@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 
 
 /**
@@ -16,11 +17,18 @@ import java.io.Reader;
  */
 public abstract class LayoutParser
 {
-    public TreeViewParsed inflate(Reader input)
+
+    public TreeViewParsed inflate(String markup)
+    {
+        TreeViewParsed treeView = new TreeViewParsed(markup);
+        StringReader input = new StringReader(markup);
+        return inflate(input,treeView);
+    }
+
+    private TreeViewParsed inflate(Reader input,TreeViewParsed treeView)
     {
         try
         {
-            TreeViewParsed treeView = new TreeViewParsed();
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);

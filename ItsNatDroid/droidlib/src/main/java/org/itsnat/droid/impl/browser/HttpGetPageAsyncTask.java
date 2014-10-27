@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 4/06/14.
  */
-public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultImpl>
+public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 {
     protected PageRequestImpl pageRequest;
     protected String url;
@@ -41,13 +41,14 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
     }
 
-    protected HttpRequestResultImpl executeInBackground() throws Exception
+    protected PageRequestResult executeInBackground() throws Exception
     {
-        return HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
+        HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
+        return new PageRequestResult(result);
     }
 
     @Override
-    protected void onFinishOk(HttpRequestResultImpl result)
+    protected void onFinishOk(PageRequestResult result)
     {
         try
         {
@@ -58,7 +59,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<HttpRequestResultI
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, pageRequest,result); // Para poder recogerla desde fuera
+                errorListener.onError(ex, pageRequest,result.getHttpRequestResult()); // Para poder recogerla desde fuera
                 return;
             }
             else
