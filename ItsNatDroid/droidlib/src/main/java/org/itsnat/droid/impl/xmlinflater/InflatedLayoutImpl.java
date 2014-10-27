@@ -228,12 +228,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return null;
     }
 
-    protected void processChildViews(XmlPullParser parser, View view, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
+    protected void processChildViews(XmlPullParser parser, View viewParent, String[] loadScript,List<String> scriptList) throws IOException, XmlPullParserException
     {
-        View childView = parseNextView(parser, view, loadScript, scriptList);
+        View childView = parseNextView(parser, viewParent, loadScript, scriptList);
         while (childView != null)
         {
-            childView = parseNextView(parser, view, loadScript, scriptList);
+            childView = parseNextView(parser, viewParent, loadScript, scriptList);
         }
     }
 
@@ -246,13 +246,13 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     {
         ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View view = createViewObject(classDesc,parser,pending);
+        View rootView = createViewObject(classDesc,parser,pending);
 
-        setRootView(view); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+        setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
-        fillAttributesAndAddView(view,classDesc,null,parser,pending);
+        fillAttributesAndAddView(rootView,classDesc,null,parser,pending);
 
-        return view;
+        return rootView;
     }
 
     public View createViewObjectAndFillAttributesAndAdd(String viewName, ViewGroup viewParent, XmlPullParser parser, PendingPostInsertChildrenTasks pending)

@@ -126,8 +126,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
                 throw new ItsNatDroidException("Internal Error");
             }
 
-            // Si loadScript es != null es el caso de carga de página NO servida por ItsNat, tenemos que cargar asíncronamente
-            // pues este es el hilo UI :(
+            // Si loadScript es != null es el caso de carga de página, pero si getItsNatServerVersion() es null dicha página
+            // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
             // Si loadScript es null estamos en un evento (inserción de un fragment)
 
             scriptList.add("itsNatDoc.downloadFile(\"" + src + "\",\"" + HttpUtil.MIME_BEANSHELL + "\");");
