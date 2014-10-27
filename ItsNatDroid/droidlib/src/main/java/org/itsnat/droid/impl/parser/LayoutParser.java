@@ -21,7 +21,6 @@ public abstract class LayoutParser
         try
         {
             TreeViewParsed treeView = new TreeViewParsed();
-
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);

@@ -64,10 +64,14 @@ public class InflateRequestImpl implements InflateRequest
     public InflatedLayoutImpl inflateInternal(Reader input,String[] loadScript,List<String> scriptList,PageImpl page)
     {
         boolean loadingPage = loadScript != null;
-        LayoutParser layoutParser = page != null ? new LayoutParserPage(page,loadingPage) :
-                                                   new LayoutParserStandalone();
+        LayoutParser layoutParser = page != null ? new LayoutParserPage(page, loadingPage) : new LayoutParserStandalone();
         TreeViewParsed treeViewParsed = layoutParser.inflate(input);
 
+        return inflateInternal(treeViewParsed,loadScript,scriptList,page);
+    }
+
+    public InflatedLayoutImpl inflateInternal(TreeViewParsed treeViewParsed,String[] loadScript,List<String> scriptList,PageImpl page)
+    {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,treeViewParsed,inflateListener,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid,treeViewParsed,inflateListener,ctx);
         inflatedLayout.inflate(loadScript,scriptList);

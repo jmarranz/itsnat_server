@@ -130,7 +130,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
                 scriptList.addAll(treeViewParsed.getScriptList());
         }
 
-        return inflateRootView(treeViewParsed);
+        View rootView = inflateRootView(treeViewParsed);
+        treeViewParsed.setRootView(null); // Liberamos memoria, si lo necesitáramos (por ej caché) siempre se puede quitar esta línea de código
+        return rootView;
     }
 
     private View inflateRootView(TreeViewParsed treeViewParsed)
@@ -148,6 +150,15 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         pending.executeTasks();
 
         return rootView;
+    }
+
+    public View insertFragment(TreeViewParsed treeViewParsed,List<String> scriptList)
+    {
+        if (treeViewParsed.getScriptList() != null)
+            scriptList.addAll(treeViewParsed.getScriptList());
+
+        ViewParsed parentViewParsed = treeViewParsed.getRootView();
+        return inflateNextView(parentViewParsed, null);
     }
 
     protected View inflateNextView(ViewParsed viewParsed, View viewParent)

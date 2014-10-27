@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.page;
 
 import android.content.Context;
-import android.util.Xml;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +13,6 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.parser.LayoutParser;
 import org.itsnat.droid.impl.parser.LayoutParserPage;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -22,8 +20,6 @@ import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.StringReader;
 import java.util.Iterator;
@@ -74,25 +70,13 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
         markup = newMarkup.toString();
 
-        XmlPullParser parser = Xml.newPullParser();
         StringReader input = new StringReader(markup);
-        TreeViewParsed treeViewParsed;
-        try
-        {
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-            parser.setInput(input);
 
-            boolean loadingPage = false;
-            LayoutParser layoutParser = new LayoutParserPage(page,loadingPage);
-            treeViewParsed = layoutParser.inflate(input);
-        }
-        catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
+        boolean loadingPage = false;
+        LayoutParser layoutParser = new LayoutParserPage(page,loadingPage);
+        treeViewParsed = layoutParser.inflate(input);
 
-        if (treeViewParsed.getScriptList() != null)
-            scriptList.addAll(treeViewParsed.getScriptList());
-
-        ViewParsed falseParentViewParsed = treeViewParsed.getRootView();
-        ViewGroup falseParentView = (ViewGroup) inflateNextView(falseParentViewParsed, null); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) insertFragment(treeViewParsed, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {

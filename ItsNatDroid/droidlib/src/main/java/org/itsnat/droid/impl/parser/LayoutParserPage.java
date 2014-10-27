@@ -13,12 +13,12 @@ import java.io.IOException;
  */
 public class LayoutParserPage extends LayoutParser
 {
-    protected PageImpl page;
+    protected String itsNatServerVersion;
     protected boolean loadingPage;
 
     public LayoutParserPage(PageImpl page,boolean loadingPage)
     {
-        this.page = page;
+        this.itsNatServerVersion = page.getItsNatServerVersion();
         this.loadingPage = loadingPage;
     }
 
@@ -28,14 +28,14 @@ public class LayoutParserPage extends LayoutParser
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
         {
-            if (loadingPage && page.getItsNatServerVersion() != null)
+            if (loadingPage && itsNatServerVersion != null)
             {
                 // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
                 // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
                 throw new ItsNatDroidException("Internal Error");
             }
 
-            // Si loadingPage es true es el caso de carga de página, pero si getItsNatServerVersion() es null dicha página
+            // Si loadingPage es true es el caso de carga de página, pero si serverVersion es null dicha página
             // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
             // Si loadScript es null estamos en un evento (inserción de un fragment)
 
