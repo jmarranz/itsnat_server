@@ -3,6 +3,12 @@
 
   Quitar entonces: treeViewParsed.setRootView(null);
 
+* Hacer getItsNatDocImpl().sendLoadEvent(); (constructor de PageImpl) cuando sepamos que hemos cargado t_odos los archivos dependendientes en tiempo de carga
+
+* Probar MD5
+
+* Probrar lollipop
+
 * Pensar si en inflar en local otros tipos de XML de resources
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos

@@ -30,6 +30,13 @@ public class TreeViewParsed
         return timestamp;
     }
 
+    public long updateTimestamp()
+    {
+        long timestampOld = this.timestamp;
+        this.timestamp = System.currentTimeMillis();
+        return timestampOld;
+    }
+
     public String getAndroidNSPrefix()
     {
         return androidNSPrefix;

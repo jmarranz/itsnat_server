@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.parser.LayoutParser;
 import org.itsnat.droid.impl.parser.LayoutParserPage;
 import org.itsnat.droid.impl.parser.LayoutParserStandalone;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.stdalone.InflatedLayoutStandaloneImpl;
@@ -39,6 +40,11 @@ public class InflateRequestImpl implements InflateRequest
         return this;
     }
 
+    public ItsNatDroidImpl getItsNatDroidImpl()
+    {
+        return itsNatDroid;
+    }
+
     @Override
     public InflateRequest setAttrCustomInflaterListener(AttrCustomInflaterListener inflateListener)
     {
@@ -65,9 +71,20 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(String markup,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        boolean loadingPage = loadScript != null;
-        LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
-        TreeViewParsed treeViewParsed = layoutParser.inflate(markup);
+        TreeViewParsed treeViewParsed;
+
+        TreeViewParsedCache treeViewParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
+
+        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
+        if (cachedTreeView != null)
+            treeViewParsed = cachedTreeView;
+        else
+        {
+            boolean loadingPage = loadScript != null;
+            LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
+            treeViewParsed = layoutParser.inflate(markup);
+            treeViewParsedCache.put(markup,treeViewParsed);
+        }
 
         return inflateInternal(treeViewParsed,loadScript,scriptList,page);
     }

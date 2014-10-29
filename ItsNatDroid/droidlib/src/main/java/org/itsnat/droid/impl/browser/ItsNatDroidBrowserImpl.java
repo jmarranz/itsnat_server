@@ -96,6 +96,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         return httpParams;
     }
 
+
     public ItsNatDroid getItsNatDroid()
     {
         return getItsNatDroidImpl();

@@ -6,6 +6,7 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
+import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 
 import java.util.Map;
 
@@ -21,10 +22,15 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected HttpParams httpParamsDefault;
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
+    protected TreeViewParsedCache treeViewParsedCache; // Es un singleton con métodos sincronizados
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
                     HttpParams httpParamsRequest)
     {
+        this.pageRequest = pageRequest;
+        this.url = url;
+        this.treeViewParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
+
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsDefault = browser.getHttpParams();
@@ -32,8 +38,6 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
-        this.pageRequest = pageRequest;
-        this.url = url;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
         this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
@@ -44,7 +48,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected PageRequestResult executeInBackground() throws Exception
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
-        return new PageRequestResult(result);
+        return new PageRequestResult(result,treeViewParsedCache);
     }
 
     @Override

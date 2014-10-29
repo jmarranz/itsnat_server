@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.parser.LayoutParser;
 import org.itsnat.droid.impl.parser.LayoutParserPage;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
@@ -21,7 +22,6 @@ import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
-import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -70,11 +70,18 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
         markup = newMarkup.toString();
 
-        StringReader input = new StringReader(markup);
+        TreeViewParsedCache treeViewParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
 
-        boolean loadingPage = false;
-        LayoutParser layoutParser = new LayoutParserPage(page.getItsNatServerVersion(),loadingPage);
-        treeViewParsed = layoutParser.inflate(input);
+        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
+        if (cachedTreeView != null)
+            this.treeViewParsed = cachedTreeView;
+        else
+        {
+            boolean loadingPage = false;
+            LayoutParser layoutParser = new LayoutParserPage(page.getItsNatServerVersion(),loadingPage);
+            treeViewParsed = layoutParser.inflate(markup);
+            treeViewParsedCache.put(markup,treeViewParsed);
+        }
 
         ViewGroup falseParentView = (ViewGroup) insertFragment(treeViewParsed, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;

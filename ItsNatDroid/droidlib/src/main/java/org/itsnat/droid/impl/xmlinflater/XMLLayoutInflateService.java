@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +13,11 @@ public class XMLLayoutInflateService
 {
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
-
+    protected ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
-
-    protected ItsNatDroidImpl parent;
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
+    protected TreeViewParsedCache treeViewParsedCache = new TreeViewParsedCache();
 
     public XMLLayoutInflateService(ItsNatDroidImpl parent)
     {
@@ -27,6 +27,11 @@ public class XMLLayoutInflateService
     public ClassDescViewMgr getClassDescViewMgr()
     {
         return classDescViewMgr;
+    }
+
+    public TreeViewParsedCache getTreeViewParsedCache()
+    {
+        return treeViewParsedCache;
     }
 
     public int generateViewId()

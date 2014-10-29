@@ -131,7 +131,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         }
 
         View rootView = inflateRootView(treeViewParsed);
-        treeViewParsed.setRootView(null); // Liberamos memoria, si lo necesitáramos (por ej caché) siempre se puede quitar esta línea de código
+        //treeViewParsed.setRootView(null); // Liberamos memoria, si lo necesitáramos (por ej caché) siempre se puede quitar esta línea de código
         return rootView;
     }
 

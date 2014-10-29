@@ -12,8 +12,6 @@ import java.util.TreeMap;
  */
 public class TreeViewParsedCache
 {
-    //Seguir: usando la clase antes de crear un nuevo TreeViewParsed
-
     public static final int MAX_PAGES = 10;
 
     protected Map<String,TreeViewParsed> registryByMarkup = new HashMap<String, TreeViewParsed>();
@@ -21,7 +19,21 @@ public class TreeViewParsedCache
 
     public synchronized TreeViewParsed get(String markup)
     {
-        return registryByMarkup.get(markup);
+        return get(markup,true);
+    }
+
+    public synchronized TreeViewParsed get(String markup,boolean updateTimestamp)
+    {
+        // Si la página es generada por ItsNat y tiene scripting de carga inline no habrá dos páginas iguales porque algunos ids usados cambian en cada carga
+        TreeViewParsed treeView = registryByMarkup.get(markup);
+        if (treeView == null) return null;
+        if (updateTimestamp)
+        {
+            long timestampOld = treeView.updateTimestamp();
+            registryByTimestamp.remove(timestampOld);
+            registryByTimestamp.put(treeView.getTimestamp(), treeView); // Así hacemos ver que esta página se está usando recientemente y no será candidata a eliminarse
+        }
+        return treeView;
     }
 
     public synchronized void put(String markup,TreeViewParsed treeView)
@@ -36,7 +48,7 @@ public class TreeViewParsedCache
         TreeViewParsed res;
         res = registryByMarkup.put(markup,treeView);
         if (res != null) throw new ItsNatDroidException("Internal Error");
-        res = registryByTimestamp.put(treeView.getTimestamp(),treeView);
+        res = registryByTimestamp.put(treeView.getTimestamp(),treeView); // No me puedo creer que un usuario cargue dos páginas en menos de 1ms
         if (res != null) throw new ItsNatDroidException("Internal Error");
     }
 }
