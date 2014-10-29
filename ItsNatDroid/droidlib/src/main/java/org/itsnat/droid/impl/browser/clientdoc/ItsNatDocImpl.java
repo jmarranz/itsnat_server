@@ -92,13 +92,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected EventManager evtManager = new EventManager(this);
     protected List<GlobalEventListener> globalEventListeners;
     protected boolean disabledEvents = false; // En Droid tiene poco sentido y no se usa, candidato a eliminarse
-    protected ItsNatViewNullImpl nullView; // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
+    protected ItsNatViewNullImpl nullView = new ItsNatViewNullImpl(this);; // Viene a tener el rol del objeto Window en web, útil para registrar eventos unload etc
     protected DroidEventDispatcher eventDispatcher = new DroidEventDispatcher(this);
+    protected FragmentLayoutInserter fragmentLayoutInserter = new FragmentLayoutInserter(this);
 
     public ItsNatDocImpl(PageImpl page)
     {
         this.page = page;
-        this.nullView = new ItsNatViewNullImpl(this);
     }
 
     public GenericHttpClientImpl createGenericHttpClientImpl()
@@ -899,10 +899,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // Por ejemplo 78ms con insertFragment (parseando markup) y 179ms con beanshell puro
 
         List<String> scriptList = new LinkedList<String>();
-
-        PageImpl page = getPageImpl();
-        page.getInflatedLayoutPageImpl().insertFragment((ViewGroup)parentView, markup, viewRef, scriptList);
-        page.executeScriptList(scriptList);
+        fragmentLayoutInserter.insertFragment((ViewGroup) parentView, markup, viewRef, scriptList);
+        getPageImpl().executeScriptList(scriptList);
     }
 
     @Override
@@ -1267,7 +1265,21 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public void downloadFile(String src,final String mime)
+    public void downloadScript(String src)
+    {
+        OnHttpRequestListener listener = new OnHttpRequestListener()
+        {
+            @Override
+            public void onRequest(Page page,HttpRequestResult response)
+            {
+                eval(response.getResponseText());
+            }
+        };
+
+        downloadFile(src,HttpUtil.MIME_BEANSHELL,listener);
+    }
+
+    public void downloadFile(String src,String mime,OnHttpRequestListener listener)
     {
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
@@ -1289,15 +1301,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         client.setURL(src)
         .setOverrideMimeType(mime)
-        .setOnHttpRequestListener(new OnHttpRequestListener()
-        {
-            @Override
-            public void onRequest(Page page,HttpRequestResult response)
-            {
-                if (HttpUtil.MIME_BEANSHELL.equals(mime)) // Nos da igual el mime de HttpRequestResult que en el caso de un archivo .bs a saber qué devuelve el servidor, conocemos el mime exacto por el parámetro
-                    eval(response.getResponseText());
-            }
-        })
+        .setOnHttpRequestListener(listener)
         .requestAsync();
 
     }

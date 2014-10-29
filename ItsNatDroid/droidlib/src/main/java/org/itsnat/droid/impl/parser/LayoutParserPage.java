@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.parser;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.HttpUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -21,13 +20,18 @@ public class LayoutParserPage extends LayoutParser
         this.loadingPage = loadingPage;
     }
 
+    private boolean isPageServedByItsNat()
+    {
+        return (itsNatServerVersion != null); // Si es null es que no se ha servidor a través de ItsNat framework server
+    }
+
     @Override
     protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException
     {
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
         {
-            if (loadingPage && itsNatServerVersion != null)
+            if (loadingPage && isPageServedByItsNat())
             {
                 // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
                 // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
@@ -38,7 +42,8 @@ public class LayoutParserPage extends LayoutParser
             // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
             // Si loadScript es null estamos en un evento (inserción de un fragment)
 
-            treeView.addScript("itsNatDoc.downloadFile(\"" + src + "\",\"" + HttpUtil.MIME_BEANSHELL + "\");");
+            ScriptRemoteParsed script = new ScriptRemoteParsed(src);
+            treeView.addScript(script);
 
             while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
         }
@@ -52,7 +57,11 @@ public class LayoutParserPage extends LayoutParser
 
             String code = parser.getText();
             if (isLoadScript) treeView.setLoadScript(code);
-            else treeView.addScript(code);
+            else
+            {
+                ScriptInlineParsed script = new ScriptInlineParsed(code);
+                treeView.addScript(script);
+            }
 
             while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
         }

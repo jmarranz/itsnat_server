@@ -74,7 +74,6 @@ public class InflateRequestImpl implements InflateRequest
         TreeViewParsed treeViewParsed;
 
         TreeViewParsedCache treeViewParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
-
         TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
         if (cachedTreeView != null)
             treeViewParsed = cachedTreeView;

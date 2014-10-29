@@ -10,21 +10,13 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.clientdoc.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.clientdoc.ItsNatViewNotNullImpl;
-import org.itsnat.droid.impl.parser.LayoutParser;
-import org.itsnat.droid.impl.parser.LayoutParserPage;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
-import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 20/08/14.
@@ -42,60 +34,6 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     public PageImpl getPageImpl()
     {
         return page;
-    }
-
-
-    public void insertFragment(ViewGroup parentView, String markup,View viewRef, List<String> scriptList)
-    {
-        if (page == null) throw new ItsNatDroidException("INTERNAL ERROR");
-
-        // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
-        // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
-        // LayoutParams se hagan bien.
-
-        StringBuilder newMarkup = new StringBuilder();
-
-        newMarkup.append("<" + parentView.getClass().getName());
-
-        MapLight<String, String> namespaceMap = getNamespacesByPrefix();
-        for (Iterator<Map.Entry<String, String>> it = namespaceMap.getEntryList().iterator(); it.hasNext(); )
-        {
-            Map.Entry<String, String> entry = it.next();
-            newMarkup.append(" xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\">");
-        }
-
-        newMarkup.append(">");
-        newMarkup.append(markup);
-        newMarkup.append("</" + parentView.getClass().getName() + ">");
-
-        markup = newMarkup.toString();
-
-        TreeViewParsedCache treeViewParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
-
-        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
-        if (cachedTreeView != null)
-            this.treeViewParsed = cachedTreeView;
-        else
-        {
-            boolean loadingPage = false;
-            LayoutParser layoutParser = new LayoutParserPage(page.getItsNatServerVersion(),loadingPage);
-            treeViewParsed = layoutParser.inflate(markup);
-            treeViewParsedCache.put(markup,treeViewParsed);
-        }
-
-        ViewGroup falseParentView = (ViewGroup) insertFragment(treeViewParsed, scriptList); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
-        int indexRef = viewRef != null ? getChildIndex(parentView,viewRef) : -1;
-        while (falseParentView.getChildCount() > 0)
-        {
-            View child = falseParentView.getChildAt(0);
-            falseParentView.removeViewAt(0);
-            if (indexRef >= 0)
-            {
-                parentView.addView(child, indexRef);
-                indexRef++;
-            }
-            else parentView.addView(child);
-        }
     }
 
     public static int getChildIndex(ViewGroup parentView,View view)

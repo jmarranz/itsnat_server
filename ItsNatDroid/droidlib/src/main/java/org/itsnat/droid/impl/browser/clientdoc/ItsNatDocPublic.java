@@ -92,5 +92,5 @@ public interface ItsNatDocPublic
     public void sendAttachCometTaskRefresh(String listenerId,int commMode,long timeout);
     public void addAttachUnloadListener(int commMode);
 
-    public void downloadFile(String url,String mime);
+    public void downloadScript(String src);
 }

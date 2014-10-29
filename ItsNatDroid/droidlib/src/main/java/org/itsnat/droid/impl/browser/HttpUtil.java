@@ -31,12 +31,12 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -105,11 +105,11 @@ public class HttpUtil
         HttpUriRequest httpUriRequest = null;
 
         method = method.toUpperCase(); // Se especifica que sea en mayúsculas pero por si acaso
-        if ("POST".equals(method) || "PUT".equals(method)) // PATCH no está implementado (HttpPatch)
+        if ("POST".equals(method) || "PUT".equals(method)) // PATCH no está implementado (sería HttpPatch)
         {
             if ("POST".equals(method))
                 httpUriRequest = new HttpPost(url);
-            else
+            else // PUT
                 httpUriRequest = new HttpPut(url); // http://stackoverflow.com/questions/3649814/android-httpput-example-code
             // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
             try
@@ -200,7 +200,7 @@ public class HttpUtil
             InputStream input = null;
             try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200)
             catch (IOException ex) { throw new ItsNatDroidException(ex); }
-            contentArr = read(input);
+            contentArr = IOUtil.read(input);
         }
 
         HttpRequestResultImpl result = new HttpRequestResultImpl(response.getAllHeaders(),contentArr,status,mimeTypeRes[0],encodingRes[0]);
@@ -259,28 +259,35 @@ public class HttpUtil
         if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
     }
 
-    public static byte[] read(InputStream input)
+    public static void sequentialScriptsDownload(final String[] srcList)
     {
-        ByteArrayOutputStream output = new ByteArrayOutputStream(20*1024);
-        byte[] buffer = new byte[10*1024];
-        int read = 0;
-        try
+        final long timeout = 5000;
+
+        Thread parentThread = new Thread()
         {
-            read = input.read(buffer);
-            while (read != -1)
+            public void run()
             {
-                output.write(buffer, 0, read);
-                read = input.read(buffer);
+                Thread thread;
+                for(int i = 0; i < srcList.length; i++)
+                {
+                    thread = new Thread()
+                    {
+                        public void run()
+                        {
+//SEGUIR;
+                        }
+                    };
+                    thread.start();
+                    try { thread.join(timeout); } // pulir, el 5000 se puede obtener de la configuración
+                    catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
+                }
             }
-        }
-        catch (IOException ex) { throw new ItsNatDroidException(ex); }
-        finally
-        {
-            try { input.close(); }
-            catch (IOException ex2) { throw new ItsNatDroidException(ex2); }
-        }
-        return output.toByteArray();
+        };
+        parentThread.start();
+        try { parentThread.join(srcList.length * 5000); } // pulir, el 5000 se puede obtener de la configuración
+        catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
     }
+
 
     private static class SSLSocketFactoryForSelfSigned extends SSLSocketFactory
     {

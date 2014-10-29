@@ -9,6 +9,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.parser.Attribute;
+import org.itsnat.droid.impl.parser.ScriptParsed;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
 import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
@@ -119,19 +120,25 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
+    public static void fillScriptList(TreeViewParsed treeViewParsed,List<String> scriptList)
+    {
+        List<ScriptParsed> scriptListFromTree = treeViewParsed.getScriptList();
+        if (scriptListFromTree != null)
+        {
+            for (ScriptParsed script : scriptListFromTree)
+                scriptList.add(script.getCode());
+        }
+    }
+
     public View inflate(String[] loadScript, List<String> scriptList)
     {
         if (loadScript != null)
             loadScript[0] = treeViewParsed.getLoadScript();
 
         if (scriptList != null)
-        {
-            if (treeViewParsed.getScriptList() != null)
-                scriptList.addAll(treeViewParsed.getScriptList());
-        }
+            fillScriptList(treeViewParsed,scriptList);
 
         View rootView = inflateRootView(treeViewParsed);
-        //treeViewParsed.setRootView(null); // Liberamos memoria, si lo necesitáramos (por ej caché) siempre se puede quitar esta línea de código
         return rootView;
     }
 
@@ -152,17 +159,14 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return rootView;
     }
 
-    public View insertFragment(TreeViewParsed treeViewParsed,List<String> scriptList)
+    public View insertFragment(ViewParsed rootViewFragmentParsed)
     {
-        if (treeViewParsed.getScriptList() != null)
-            scriptList.addAll(treeViewParsed.getScriptList());
-
-        ViewParsed parentViewParsed = treeViewParsed.getRootView();
-        return inflateNextView(parentViewParsed, null);
+        return inflateNextView(rootViewFragmentParsed,null);
     }
 
-    protected View inflateNextView(ViewParsed viewParsed, View viewParent)
+    private View inflateNextView(ViewParsed viewParsed, View viewParent)
     {
+        // Es llamado también para insertar fragmentos
         PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
         View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, viewParsed, pending);

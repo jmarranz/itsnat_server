@@ -17,7 +17,7 @@ public class TreeViewParsed
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected String loadScript;
-    protected List<String> scriptList;
+    protected List<ScriptParsed> scriptList;
 
     public TreeViewParsed(String markup)
     {
@@ -79,14 +79,14 @@ public class TreeViewParsed
         this.loadScript = loadScript;
     }
 
-    public List<String> getScriptList()
+    public List<ScriptParsed> getScriptList()
     {
         return scriptList;
     }
 
-    public void addScript(String script)
+    public void addScript(ScriptParsed script)
     {
-        if (scriptList == null) this.scriptList = new LinkedList<String>();
+        if (scriptList == null) this.scriptList = new LinkedList<ScriptParsed>();
         scriptList.add(script);
     }
 }

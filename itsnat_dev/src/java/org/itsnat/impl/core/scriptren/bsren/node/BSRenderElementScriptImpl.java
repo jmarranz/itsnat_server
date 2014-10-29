@@ -102,7 +102,7 @@ public class BSRenderElementScriptImpl extends BSRenderElementImpl
                     throw new ItsNatException("Scheme not supported: " + scheme);             
             */                      
                     
-            return "itsNatDoc.downloadFile(\"" + src + "\",\"" + NamespaceUtil.MIME_BEANSHELL + "\");";
+            return "itsNatDoc.downloadScript(\"" + src + "\");";
         }
         
         return DOMUtilInternal.getTextContent(nodeElem, true);
