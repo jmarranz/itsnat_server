@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Spinner;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
-import org.itsnat.droid.impl.browser.clientdoc.NodeToInsertImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.parser.ViewParsed;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;

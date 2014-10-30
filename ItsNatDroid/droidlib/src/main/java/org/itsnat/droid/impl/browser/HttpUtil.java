@@ -41,10 +41,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
@@ -259,33 +261,124 @@ public class HttpUtil
         if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
     }
 
-    public static void sequentialScriptsDownload(final String[] srcList)
+    /*
+    public static void sequentialScriptsDownload(final String[] srcList,final String[] resScriptList,ItsNatDocImpl itsNatDoc)
     {
-        final long timeout = 5000;
+        PageImpl page = itsNatDoc.getPageImpl();
+        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+
+        final String pageURLBase = itsNatDoc.getPageURLBase();
+        HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = page.getHttpParams();
+        httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
+        HttpParams httpParamsDefault = browser.getHttpParams();
+        httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
+        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
+        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
 
         Thread parentThread = new Thread()
         {
             public void run()
             {
-                Thread thread;
                 for(int i = 0; i < srcList.length; i++)
                 {
-                    thread = new Thread()
+                    final String src = srcList[i];
+                    Thread thread = new Thread()
                     {
                         public void run()
                         {
-//SEGUIR;
+
+                            String url = composeAbsoluteURL(src,pageURLBase);
+
+                            HttpRequestResultImpl result = null;
+                            try
+                            {
+                                result = HttpUtil.httpPost(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
+                            }
+                            catch (Exception ex)
+                            {
+                                ItsNatDroidException exFinal = processException(ex);
+                                throw exFinal;
+
+                                // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
+                            }
                         }
                     };
                     thread.start();
-                    try { thread.join(timeout); } // pulir, el 5000 se puede obtener de la configuración
+                    try { thread.join(); } // No hace falta poner tiempo, el timeout de la conexión provocará una excepción
                     catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
                 }
             }
         };
         parentThread.start();
-        try { parentThread.join(srcList.length * 5000); } // pulir, el 5000 se puede obtener de la configuración
+        try { parentThread.join(srcList.length * timeout); } // pulir, el 5000 se puede obtener de la configuración
         catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
+    }
+*/
+
+    public static String composeAbsoluteURL(String src,String pageURL)
+    {
+        URI uri = null;
+        try { uri = new URI(src); } catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
+
+        String scheme = uri.getScheme();
+        if (scheme == null)
+        {
+            int pos = pageURL.lastIndexOf('/');
+            if (pos < pageURL.length() - 1) // El / no está en el final
+                pageURL = pageURL.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
+            src = pageURL.substring(0, pos + 1) + src;
+        }
+        else if (!scheme.equals("http") && !scheme.equals("https"))
+            throw new ItsNatDroidException("Scheme not supported: " + scheme);
+
+        return src;
+    }
+
+    public static String getBasePathOfURL(String urlStr)
+    {
+        URL u = null;
+        try { u = new URL(urlStr); }
+        catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
+
+        // Vale, sí, este código está basado en el código fuente de java.net.URLStreamHandler.toExternalForm()
+
+        // pre-compute length of StringBuilder
+        int len = u.getProtocol().length() + 1;
+        if (u.getAuthority() != null && u.getAuthority().length() > 0)
+            len += 2 + u.getAuthority().length();
+        if (u.getPath() != null) {
+            len += u.getPath().length();
+        }
+        /*
+        if (u.getQuery() != null) {
+            len += 1 + u.getQuery().length();
+        }
+        if (u.getRef() != null)
+            len += 1 + u.getRef().length();
+        */
+        StringBuilder result = new StringBuilder(len);
+        result.append(u.getProtocol());
+        result.append(":");
+        if (u.getAuthority() != null && u.getAuthority().length() > 0) {
+            result.append("//");
+            result.append(u.getAuthority());
+        }
+        if (u.getPath() != null) {
+            result.append(u.getPath());
+        }
+        /*
+        if (u.getQuery() != null) {
+            result.append('?');
+            result.append(u.getQuery());
+        }
+        if (u.getRef() != null) {
+            result.append("#");
+            result.append(u.getRef());
+        }
+        */
+        return result.toString();
     }
 
 

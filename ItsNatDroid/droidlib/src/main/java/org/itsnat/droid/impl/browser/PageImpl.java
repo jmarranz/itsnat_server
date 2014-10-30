@@ -15,7 +15,7 @@ import org.itsnat.droid.OnServerStateLostListener;
 import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
-import org.itsnat.droid.impl.browser.clientdoc.ItsNatDocImpl;
+import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
@@ -41,7 +41,7 @@ public class PageImpl implements Page
     protected InflatedLayoutPageImpl inflated;
     protected String uniqueIdForInterpreter;
     protected Interpreter interp;
-    protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
+    protected ItsNatDocImpl itsNatDoc;
     protected ItsNatSessionImpl itsNatSession;
     protected String clientId;
     protected OnEventErrorListener eventErrorListener;
@@ -56,6 +56,7 @@ public class PageImpl implements Page
         this.httpParams = httpParams;
         this.pageReqResult = pageReqResult;
         this.pageRequest = pageRequest;
+        this.itsNatDoc = new ItsNatDocImpl(this);
 
         HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
 
@@ -107,7 +108,7 @@ public class PageImpl implements Page
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
 
-        if (getId() != null)
+        if (getId() != null) // Es página generada por ItsNat y tiene al menos scripting enabled
             getItsNatDocImpl().sendLoadEvent();
         else
             dispose(); // En el servidor
