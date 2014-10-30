@@ -6,8 +6,13 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
+import org.itsnat.droid.impl.parser.ScriptParsed;
+import org.itsnat.droid.impl.parser.ScriptRemoteParsed;
+import org.itsnat.droid.impl.parser.TreeViewParsed;
 import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -17,6 +22,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 {
     protected PageRequestImpl pageRequest;
     protected String url;
+    protected String pageURLBase;
     protected HttpContext httpContext;
     protected HttpParams httpParamsRequest;
     protected HttpParams httpParamsDefault;
@@ -29,6 +35,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     {
         this.pageRequest = pageRequest;
         this.url = url;
+        this.pageURLBase = pageRequest.getURLBase();
         this.treeViewParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
@@ -48,7 +55,26 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected PageRequestResult executeInBackground() throws Exception
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
-        return new PageRequestResult(result,treeViewParsedCache);
+        PageRequestResult pageReqResult = new PageRequestResult(result,treeViewParsedCache);
+
+        if (result.getItsNatServerVersion() == null)
+        {
+            // Página NO servida por ItsNat, tenemos que descargar los <script src="..."> remótamente
+            TreeViewParsed treeView = pageReqResult.getTreeViewParsed();
+            ArrayList<ScriptParsed> scriptList = treeView.getScriptList();
+            for(int i = 0; i < scriptList.size(); i++)
+            {
+                ScriptParsed script = scriptList.get(i);
+                if (script instanceof ScriptRemoteParsed)
+                {
+                    ScriptRemoteParsed scriptRemote = (ScriptRemoteParsed)script;
+                    String code = downloadScript(scriptRemote.getSrc());
+                    scriptRemote.setCode(code);
+                }
+            }
+        }
+
+        return pageReqResult;
     }
 
     @Override
@@ -92,4 +118,13 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             else throw new ItsNatDroidException(ex);
         }
     }
+
+
+    private String downloadScript(String src) throws SocketTimeoutException
+    {
+        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null,HttpUtil.MIME_BEANSHELL);
+        return result.getResponseText();
+    }
+
 }

@@ -73,7 +73,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     private static final String key_itsNatUserListenersByName = "itsNatUserListenersByName";
 
     protected PageImpl page;
-    protected String pageURLBase;
     protected String itsNatServletPath; // Definido en el servidor
     protected int errorMode;
     protected String attachType;
@@ -98,7 +97,6 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public ItsNatDocImpl(PageImpl page)
     {
         this.page = page;
-        this.pageURLBase = HttpUtil.getBasePathOfURL(page.getURL()); // Para la carga de recursos (scripts, imágenes etc)
     }
 
     public GenericHttpClientImpl createGenericHttpClientImpl()
@@ -120,7 +118,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public String getPageURLBase()
     {
-        return pageURLBase;
+        return page.getURLBase(); // Para la carga de recursos (scripts, imágenes etc)
     }
 
     public EventManager getEventManager()

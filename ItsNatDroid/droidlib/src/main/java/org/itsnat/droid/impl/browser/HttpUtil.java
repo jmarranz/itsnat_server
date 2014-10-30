@@ -55,6 +55,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -84,17 +85,17 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("GET",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,nameValuePairs,overrideMime);
+        return httpAction("GET",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
     }
 
-    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("POST",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,nameValuePairs,overrideMime);
+        return httpAction("POST",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
     }
 
-    public static HttpRequestResultImpl httpAction(String method,String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> nameValuePairs,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultImpl httpAction(String method,String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -116,16 +117,17 @@ public class HttpUtil
             // httpUriRequest.setHeader("Content-Type", "application/x-www-form-urlencoded");
             try
             {
-                ((HttpEntityEnclosingRequestBase)httpUriRequest).setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                if (paramList == null) paramList = new LinkedList<NameValuePair>(); // Creo que no se admite que sea nulo
+                ((HttpEntityEnclosingRequestBase)httpUriRequest).setEntity(new UrlEncodedFormEntity(paramList));
             }
             catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
         }
         else
         {
-            if (nameValuePairs != null && nameValuePairs.size() > 0)
+            if (paramList != null && paramList.size() > 0)
             {
                 // http://stackoverflow.com/questions/2959316/how-to-add-parameters-to-a-http-get-request-in-android
-                String paramString = URLEncodedUtils.format(nameValuePairs, "utf-8");
+                String paramString = URLEncodedUtils.format(paramList, "utf-8");
                 int pos = url.lastIndexOf('?');
                 if (pos != -1) // Tiene ?
                 {
@@ -207,7 +209,7 @@ public class HttpUtil
 
         HttpRequestResultImpl result = new HttpRequestResultImpl(response.getAllHeaders(),contentArr,status,mimeTypeRes[0],encodingRes[0]);
 
-        if (result.getStatusLine().getStatusCode() == 200)
+        if (result.isStatusOK())
         {
             // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
             String mimeType = result.getMimeType();
@@ -261,61 +263,6 @@ public class HttpUtil
         if (encoding[0] == null) encoding[0] = "UTF-8"; // Por si acaso
     }
 
-    /*
-    public static void sequentialScriptsDownload(final String[] srcList,final String[] resScriptList,ItsNatDocImpl itsNatDoc)
-    {
-        PageImpl page = itsNatDoc.getPageImpl();
-        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-
-        final String pageURLBase = itsNatDoc.getPageURLBase();
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
-        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-
-
-        Thread parentThread = new Thread()
-        {
-            public void run()
-            {
-                for(int i = 0; i < srcList.length; i++)
-                {
-                    final String src = srcList[i];
-                    Thread thread = new Thread()
-                    {
-                        public void run()
-                        {
-
-                            String url = composeAbsoluteURL(src,pageURLBase);
-
-                            HttpRequestResultImpl result = null;
-                            try
-                            {
-                                result = HttpUtil.httpPost(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
-                            }
-                            catch (Exception ex)
-                            {
-                                ItsNatDroidException exFinal = processException(ex);
-                                throw exFinal;
-
-                                // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
-                            }
-                        }
-                    };
-                    thread.start();
-                    try { thread.join(); } // No hace falta poner tiempo, el timeout de la conexión provocará una excepción
-                    catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
-                }
-            }
-        };
-        parentThread.start();
-        try { parentThread.join(srcList.length * timeout); } // pulir, el 5000 se puede obtener de la configuración
-        catch (InterruptedException ex) { throw new ItsNatDroidException(ex); }
-    }
-*/
 
     public static String composeAbsoluteURL(String src,String pageURL)
     {

@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.ItsNatVariableResolver;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class TestDroidCoreDocument implements Serializable
@@ -22,13 +24,19 @@ public class TestDroidCoreDocument implements Serializable
         HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();
               
         String model = httpReq.getHeader("ItsNat-model");        
+        if (model == null) throw new RuntimeException("Unexpected"); 
         String sdk_int = httpReq.getHeader("ItsNat-sdk-int");        
+        if (sdk_int == null) throw new RuntimeException("Unexpected");        
         String widthPixels = httpReq.getHeader("ItsNat-display-width");
+        if (widthPixels == null) throw new RuntimeException("Unexpected");         
         String heightPixels = httpReq.getHeader("ItsNat-display-height");        
+        if (heightPixels == null) throw new RuntimeException("Unexpected");        
         String density = httpReq.getHeader("ItsNat-display-density");            
+        if (density == null) throw new RuntimeException("Unexpected");        
         
         this.itsNatDoc = itsNatDoc;
-
+      
+        
         new TestDroidMiscAutomatic(itsNatDoc);
         new TestDroidEventTimeout(itsNatDoc);    
         new TestDroidServerException(itsNatDoc);

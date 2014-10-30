@@ -41,7 +41,7 @@ public class PageImpl implements Page
     protected InflatedLayoutPageImpl inflated;
     protected String uniqueIdForInterpreter;
     protected Interpreter interp;
-    protected ItsNatDocImpl itsNatDoc;
+    protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
     protected String clientId;
     protected OnEventErrorListener eventErrorListener;
@@ -56,7 +56,6 @@ public class PageImpl implements Page
         this.httpParams = httpParams;
         this.pageReqResult = pageReqResult;
         this.pageRequest = pageRequest;
-        this.itsNatDoc = new ItsNatDocImpl(this);
 
         HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
 
@@ -146,6 +145,11 @@ public class PageImpl implements Page
     public String getURL()
     {
         return pageRequest.getURL();
+    }
+
+    public String getURLBase()
+    {
+        return pageRequest.getURLBase();
     }
 
     public String getItsNatServerVersion()

@@ -25,12 +25,12 @@ import org.itsnat.impl.core.util.IOUtil;
  *
  * @author jmarranz
  */
-public class ScriptFile extends ScriptCode
+public class ScriptLocalFile extends ScriptCode
 {
     protected File file;
     protected long timeStamp;
     
-    public ScriptFile(String src,ServletContext servContext)
+    public ScriptLocalFile(String src,ServletContext servContext)
     {
         String basePath = servContext.getRealPath("/");
         String filePath = basePath + src;

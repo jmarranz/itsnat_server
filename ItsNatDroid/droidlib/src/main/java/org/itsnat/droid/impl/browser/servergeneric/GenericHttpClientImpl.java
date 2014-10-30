@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.servergeneric;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
@@ -201,9 +200,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
 
     public void processResult(HttpRequestResultImpl result,OnHttpRequestListener listener,int errorMode)
     {
-        StatusLine status = result.getStatusLine();
-        int statusCode = status.getStatusCode();
-        if (statusCode == 200)
+        if (result.isStatusOK())
         {
             if (listener != null) listener.onRequest(itsNatDoc.getPage(),result);
         }

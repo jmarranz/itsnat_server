@@ -48,7 +48,8 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         else
         {
             session.setAttribute("counter",0);
-            res = loadPage();
+            
+            res = loadPage(request.getLocalAddr(),request.getLocalPort());
         }
         
         PrintWriter out = response.getWriter();
@@ -62,7 +63,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         }
     }
 
-    private StringBuilder loadPage()
+    private StringBuilder loadPage(String host,int port)
     {
         StringBuilder res = new StringBuilder();
 
@@ -92,7 +93,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:text=\"@string/button_reload\" />  ");          
 
         res.append("    <script src=\"bs/test_script_loading.bs\" /> " );        
-        
+        res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/bs/test_script_loading_2.bs\" /> " );          
         res.append("    <script>"
                         + "void addItem() { "
                         + "  itsNatDoc.createGenericHttpClient()"

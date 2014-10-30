@@ -17,18 +17,20 @@ public class PageRequestResult
     {
         this.httpReqResult = httpReqResult;
 
-        String markup = httpReqResult.getResponseText();
-
-        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
-        if (cachedTreeView != null)
-            this.treeViewParsed = cachedTreeView;
-        else
+        if (httpReqResult.isStatusOK())
         {
-            String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
-            boolean loadingPage = true;
-            LayoutParser layoutParser = new LayoutParserPage(itsNatServerVersion, loadingPage);
-            this.treeViewParsed = layoutParser.inflate(markup);
-            treeViewParsedCache.put(markup,treeViewParsed);
+            String markup = httpReqResult.getResponseText();
+
+            TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
+            if (cachedTreeView != null) this.treeViewParsed = cachedTreeView;
+            else
+            {
+                String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
+                boolean loadingPage = true;
+                LayoutParser layoutParser = new LayoutParserPage(itsNatServerVersion, loadingPage);
+                this.treeViewParsed = layoutParser.inflate(markup);
+                treeViewParsedCache.put(markup, treeViewParsed);
+            }
         }
     }
 

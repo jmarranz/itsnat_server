@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
@@ -92,9 +91,7 @@ public class EventSender
         itsNatDoc.fireEventMonitors(false,false,evt);
 
         String responseText = result.responseText;
-        StatusLine status = result.getStatusLine();
-        int statusCode = status.getStatusCode();
-        if (statusCode == 200)
+        if (result.isStatusOK())
         {
             itsNatDoc.eval(responseText);
 

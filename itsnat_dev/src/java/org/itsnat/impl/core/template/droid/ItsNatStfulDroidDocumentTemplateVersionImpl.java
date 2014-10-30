@@ -91,7 +91,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
                     
                     String scheme = uri.getScheme();
                     if (scheme == null)
-                        scriptCodeItem = new ScriptFile(src,servContext);                        
+                        scriptCodeItem = new ScriptLocalFile(src,servContext);                        
                     else if (scheme.equals("http") || scheme.equals("https"))                 
                         scriptCodeItem = new ScriptURI(uri);
                     else

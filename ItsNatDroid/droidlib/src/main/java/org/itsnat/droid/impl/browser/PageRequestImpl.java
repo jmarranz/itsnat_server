@@ -36,6 +36,7 @@ public class PageRequestImpl implements PageRequest
     protected AttrCustomInflaterListener inflateListener;
     protected boolean sync = false;
     protected String url;
+    protected String urlBase;
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser)
     {
@@ -118,7 +119,13 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setURL(String url)
     {
         this.url = url;
+        this.urlBase = HttpUtil.getBasePathOfURL(url);
         return this;
+    }
+
+    public String getURLBase()
+    {
+        return urlBase;
     }
 
     public Map<String,String> createHttpHeaders()

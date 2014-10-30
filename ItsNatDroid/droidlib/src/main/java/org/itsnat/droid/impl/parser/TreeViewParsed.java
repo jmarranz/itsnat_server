@@ -3,8 +3,7 @@ package org.itsnat.droid.impl.parser;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 27/10/14.
@@ -17,7 +16,7 @@ public class TreeViewParsed
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected String loadScript;
-    protected List<ScriptParsed> scriptList;
+    protected ArrayList<ScriptParsed> scriptList;
 
     public TreeViewParsed(String markup)
     {
@@ -79,14 +78,14 @@ public class TreeViewParsed
         this.loadScript = loadScript;
     }
 
-    public List<ScriptParsed> getScriptList()
+    public ArrayList<ScriptParsed> getScriptList()
     {
         return scriptList;
     }
 
     public void addScript(ScriptParsed script)
     {
-        if (scriptList == null) this.scriptList = new LinkedList<ScriptParsed>();
+        if (scriptList == null) this.scriptList = new ArrayList<ScriptParsed>();
         scriptList.add(script);
     }
 }
