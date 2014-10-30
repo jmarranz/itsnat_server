@@ -40,9 +40,9 @@
 
         <!-- Just a test comment (will be filtered) -->
 
-        <script><![CDATA[ toast("LOADING \n(OK testing <script> on load)"); ]]></script>
+        <script><![CDATA[ toast("LOADING \n(OK testing on load <script> )"); ]]></script>
         <script src="bs/test_script_loading.bs" />
-        <script id="remoteScriptId" src="http://localhost:8080/itsnat_dev/bs/test_script_loading_2.bs" />   
+        <script src="http://localhost:8080/itsnat_dev/bs/test_script_loading_2.bs" />   
         
         <!-- Test load event inline -->
         <TextView id="testLoadInlineHandlerId"

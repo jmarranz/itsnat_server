@@ -53,73 +53,17 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
 {
     protected String androidNamespacePrefix;
     protected LinkedList<Map.Entry<String,String>> namespacesDeclared = new LinkedList<Map.Entry<String,String>>();
-    protected List<ScriptCode> scriptCodeList = new LinkedList<ScriptCode>();
     
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
         super(docTemplate, source, timeStamp, request, response);
-        
-        extractScriptElements();        
-        
+               
         readNamespaces();
     }
     
     public String getAndroidNamespacePrefix()
     {
         return androidNamespacePrefix;
-    }
-    
-    protected void extractScriptElements()
-    {
-        Document doc = this.templateDoc;
-        // Recuerda que el <script> principal nunca llega a ser DOM pues se mete como cadena en la string del documento serializado
-        NodeList scriptElemList = doc.getElementsByTagName("script");
-        int len = scriptElemList.getLength();
-        if (len > 0)
-        {
-            ServletContext servContext = getMarkupTemplate().getItsNatServletImpl().getServlet().getServletConfig().getServletContext();
-            for(int i = 0; i < len; i++)
-            {
-                ScriptCode scriptCodeItem = null;
-                Element scriptElem = (Element)scriptElemList.item(i);
-                String src = scriptElem.getAttribute("src");
-                if (!"".equals(src))
-                {    
-                    URI uri = null;
-                    try { uri = new URI(src); }
-                    catch (URISyntaxException ex) { throw new ItsNatException(ex);  }
-                    
-                    String scheme = uri.getScheme();
-                    if (scheme == null)
-                        scriptCodeItem = new ScriptLocalFile(src,servContext);                        
-                    else if (scheme.equals("http") || scheme.equals("https"))                 
-                        scriptCodeItem = new ScriptURI(uri);
-                    else
-                        throw new ItsNatException("Scheme not allowed or supported: " + scheme); // para evitar el uso de "file:" etc
-                }
-                else
-                {
-                    String code = DOMUtilInternal.getTextContent(scriptElem, true);
-                    scriptCodeItem = new ScriptCodeInline(code);
-                }
-                scriptCodeList.add(scriptCodeItem);
-            }
-
-            // Los eliminamos del DOM, para que no interfieran
-            while(scriptElemList.getLength() > 0)
-            {
-                Element scriptElem = (Element)scriptElemList.item(0);
-                scriptElem.getParentNode().removeChild(scriptElem);
-            }
-        }
-    }    
-    
-    public List<String> getScriptCodeList()
-    {
-        List<String> res = new LinkedList<String>();
-        for(ScriptCode item : scriptCodeList)
-            res.add(item.getCode());
-        return res;
     }
     
     protected void readNamespaces()

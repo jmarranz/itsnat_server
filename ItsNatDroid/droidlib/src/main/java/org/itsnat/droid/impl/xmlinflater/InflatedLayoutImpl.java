@@ -120,7 +120,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    public static void fillScriptList(TreeViewParsed treeViewParsed,List<String> scriptList)
+    private static void fillScriptList(TreeViewParsed treeViewParsed,List<String> scriptList)
     {
         List<ScriptParsed> scriptListFromTree = treeViewParsed.getScriptList();
         if (scriptListFromTree != null)

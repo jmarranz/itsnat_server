@@ -42,9 +42,25 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         itsNatDoc.addEventListener((EventTarget)rootElem, "load", this, false);
         itsNatDoc.addEventListener((EventTarget)rootElem, "unload", this, false);       
         
-        // Hay un <script> en el template inicial que DEBE desaparecer en tiempo de carga antes de poder acceder al Document
+        if (!itsNatDoc.getItsNatDocumentTemplate().isFastLoadMode())
+        {
+            throw new RuntimeException("These <string> tests must be executed in fast load mode"); 
+        }
+        
+        // Hay más de un <script> en el template inicial que DEBEN desaparecer en tiempo de carga antes de poder acceder al Document
         NodeList scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
+        
+        Element elemTemp = itsNatDoc.getDocument().createElement("script");
+        elemTemp.setTextContent("toast(\"LOADING \\n(OK testing on load <script> test 2)\");");
+        rootElem.appendChild(elemTemp);  // Da igual donde se inserte pues se elimina inmediatamente      
+        
+        elemTemp = itsNatDoc.getDocument().createElement("script");
+        elemTemp.setAttribute("src", "http://localhost:8080/itsnat_dev/bs/test_script_loading_3.bs");
+        rootElem.appendChild(elemTemp);  // Da igual donde se inserte pues se elimina inmediatamente       
+        
+        scripts = doc.getElementsByTagName("script");
+        if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");           
     }
     
     public void handleEvent(Event evt)

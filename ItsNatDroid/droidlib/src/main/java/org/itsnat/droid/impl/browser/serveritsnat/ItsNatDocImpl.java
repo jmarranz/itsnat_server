@@ -28,6 +28,7 @@ import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.servergeneric.GenericHttpClientImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientUnloadEventImpl;
@@ -45,7 +46,6 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.ContinueEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
-import org.itsnat.droid.impl.browser.servergeneric.GenericHttpClientImpl;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
@@ -76,6 +76,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     protected String itsNatServletPath; // Definido en el servidor
     protected int errorMode;
     protected String attachType;
+    protected boolean eventsEnabled;
     protected boolean enableEvtMonitors = true;
     protected List<EventMonitor> evtMonitorList;
     protected Map<String,Node> nodeCacheById = new HashMap<String,Node>();
@@ -144,6 +145,11 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public DroidEventDispatcher getDroidEventDispatcher()
     {
         return eventDispatcher;
+    }
+
+    public boolean isEventsEnabled()
+    {
+        return eventsEnabled;
     }
 
     @Override
@@ -420,7 +426,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     }
 
     @Override
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType)
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType,boolean eventsEnabled)
     {
         if (errorMode == ClientErrorMode.NOT_CATCH_ERRORS)
             throw new ItsNatDroidException("ClientErrorMode.NOT_CATCH_ERRORS is not supported"); // No tiene mucho sentido porque el objetivo es dejar fallar y si el usuario no ha registrado "error listeners" ItsNat Droid deja siempre fallar lanzando la excepción
@@ -429,6 +435,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         this.itsNatServletPath = servletPath;
         this.errorMode = errorMode;
         this.attachType = attachType;
+        this.eventsEnabled = eventsEnabled;
     }
 
     public Runnable getAttachTimerRefreshCallback()
@@ -901,9 +908,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // a hacerlo elemento a elemento, atributo a atributo con la API debido a la lentitud de Beanshell
         // Por ejemplo 78ms con insertFragment (parseando markup) y 179ms con beanshell puro
 
-        List<String> scriptList = new LinkedList<String>();
-        fragmentLayoutInserter.insertFragment((ViewGroup) parentView, markup, viewRef, scriptList);
-        getPageImpl().executeScriptList(scriptList);
+        fragmentLayoutInserter.insertFragment((ViewGroup) parentView, markup, viewRef);
     }
 
     @Override

@@ -1,2 +1,2 @@
 
-toast("LOADING \n(OK testing <script src=\"...\"> on load test 2)");
+toast("LOADING \n(OK testing on load <script src=\"...\"> test 2)");

@@ -13,7 +13,7 @@ import org.itsnat.droid.event.UserEvent;
  */
 public interface ItsNatDocPublic
 {
-    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType);
+    public void init(String stdSessionId,String sessionToken,String sessionId,String clientId,String servletPath,int errorMode,String attachType,boolean eventsEnabled);
 
     public void setDisabledEvents();
     public void onServerStateLost();

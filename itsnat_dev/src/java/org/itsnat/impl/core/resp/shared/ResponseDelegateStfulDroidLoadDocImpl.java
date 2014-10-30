@@ -74,6 +74,7 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         String clientId =  clientDoc.getId();
         String servletPath = delegByBrowser.getServletPathForEvents();
         int errorMode = itsNatDoc.getClientErrorMode(); 
+        boolean eventsEnabled = itsNatDoc.isEventsEnabled();
         
         String attachType = null;
         if (clientDoc instanceof ClientDocumentAttachedClientImpl)
@@ -81,15 +82,15 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
             attachType = ((ClientDocumentAttachedClientImpl)clientDoc).getAttachType();
         }        
         
-        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ",\"" + attachType + "\");"; // HACER
+        return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ",\"" + attachType + "\"," + eventsEnabled + ");\n"; // HACER
     }
     
     @Override
     protected String generateFinalScriptsMarkup()
     {
         ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();           
-        ItsNatStfulDroidDocumentTemplateVersionImpl templateVersion = itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion();
-        List<String> scriptCodeList = templateVersion.getScriptCodeList();
+        //ItsNatStfulDroidDocumentTemplateVersionImpl templateVersion = itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion();
+        List<String> scriptCodeList = itsNatDoc.getScriptCodeList();
         
         StringBuilder code = new StringBuilder();
         if (!scriptCodeList.isEmpty())

@@ -16,8 +16,12 @@
 
 package org.itsnat.impl.core.mut.doc.droid;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import org.w3c.dom.events.MutationEvent;
 
@@ -36,4 +40,33 @@ public class DocMutationEventListenerStfulDroidImpl extends DocMutationEventList
     {
     }
 
+    public ItsNatStfulDroidDocumentImpl getItsNatStfulDroidDocument()
+    {
+        return (ItsNatStfulDroidDocumentImpl)itsNatDoc;
+    }
+    
+    @Override
+    protected void beforeAfterRenderAndSendMutationCode(boolean before,MutationEvent mutEvent,ClientDocumentImpl[] allClients)
+    {
+        super.beforeAfterRenderAndSendMutationCode(before, mutEvent, allClients);    
+     
+        if (itsNatDoc.isLoadingPhaseAndFastLoadMode())
+        {
+            if (before)
+            {
+                String type = mutEvent.getType();                
+                if (type.equals("DOMNodeInserted"))
+                {
+                    Node insertedNode = (Node)mutEvent.getTarget();
+                    if (insertedNode instanceof Element && "script".equals(((Element)insertedNode).getTagName()))
+                    {
+                        Element scriptElem = (Element)insertedNode;                        
+                        scriptElem.getParentNode().removeChild(scriptElem);
+                        
+                        getItsNatStfulDroidDocument().addScript(scriptElem);
+                    }    
+                }
+            }
+        }        
+    }
 }

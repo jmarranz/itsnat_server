@@ -163,6 +163,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
                 }
             }
         }
+        
     }
 
     protected void processTreeCleanEventListeners(Node node,ClientDocumentImpl[] allClients)

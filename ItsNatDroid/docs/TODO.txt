@@ -1,29 +1,14 @@
 
 
-* Pulir: parentThread.join(srcList.length * 5000); // pulir, el 5000 se puede obtener de la configuración
-
-* Hacer la carga de scripts con src (revisar los TreeViewParsed.getScriptList())
-
-* Ver si el script de carga cargado via src funciona (es opcional)
-
 * revisar peliculas ciclo de cine
 
-* Hacer carga síncrona de scripts en el caso de carga de página no ItsNat
-
-* Hacer carga asíncrona de scripts en el caso de inserción de Fragment
-
-* No enviar el sendLoadEvent si no están activados los eventos, quizás se necesita un param más, valdría también para Web
-  Idem sendUnloadEvent
-
+* Pensar si en inflar en local otros tipos de XML de resources
 
 * Hacer getItsNatDocImpl().sendLoadEvent(); (constructor de PageImpl) cuando sepamos que hemos cargado t_odos los archivos dependendientes en tiempo de carga
 
-
-* Probar MD5
-
 * Probrar lollipop
 
-* Pensar si en inflar en local otros tipos de XML de resources
+
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas.

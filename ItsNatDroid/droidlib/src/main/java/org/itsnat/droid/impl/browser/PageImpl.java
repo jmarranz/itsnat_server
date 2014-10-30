@@ -107,8 +107,8 @@ public class PageImpl implements Page
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
 
-        if (getId() != null) // Es página generada por ItsNat y tiene al menos scripting enabled
-            getItsNatDocImpl().sendLoadEvent();
+        if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat y tiene al menos scripting enabled
+            itsNatDoc.sendLoadEvent();
         else
             dispose(); // En el servidor
     }
@@ -250,7 +250,7 @@ public class PageImpl implements Page
     {
         if (dispose) return;
         this.dispose = true;
-        if (getId() != null)
+        if (getId() != null && itsNatDoc.isEventsEnabled())
             itsNatDoc.sendUnloadEvent();
         if (itsNatSession != null) // itsNatSession es null cuando la página no contiene script de inicialización
         {
@@ -259,26 +259,5 @@ public class PageImpl implements Page
         }
     }
 
-    public void executeScriptList(List<String> scriptList)
-    {
-        if (scriptList.isEmpty()) return;
 
-        Interpreter interp = getInterpreter();
-        for (String code : scriptList)
-        {
-            try
-            {
-                interp.eval(code);
-            }
-            catch (EvalError ex)
-            {
-                throw new ItsNatDroidScriptException(ex, code);
-            }
-            catch (Exception ex)
-            {
-                throw new ItsNatDroidScriptException(ex, code);
-            }
-        }
-
-    }
 }

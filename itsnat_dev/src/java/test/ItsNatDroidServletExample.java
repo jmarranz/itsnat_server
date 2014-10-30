@@ -58,6 +58,8 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.setFastLoadMode(true);    
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
+        //docTemplate.setLoadScriptInline(false);
+        //docTemplate.setEventsEnabled(false);
         
         
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);

@@ -3,16 +3,24 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.parser.LayoutParser;
 import org.itsnat.droid.impl.parser.LayoutParserPage;
+import org.itsnat.droid.impl.parser.ScriptInlineParsed;
+import org.itsnat.droid.impl.parser.ScriptParsed;
+import org.itsnat.droid.impl.parser.ScriptRemoteParsed;
 import org.itsnat.droid.impl.parser.TreeViewParsed;
 import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import bsh.EvalError;
+import bsh.Interpreter;
 
 /**
  * Created by jmarranz on 29/10/14.
@@ -26,7 +34,7 @@ public class FragmentLayoutInserter
         this.itsNatDoc = itsNatDoc;
     }
 
-    public void insertFragment(ViewGroup parentView, String markup,View viewRef, List<String> scriptList)
+    public void insertFragment(ViewGroup parentView, String markup,View viewRef)
     {
         // Preparamos primero el markup añadiendo un false parentView que luego quitamos, el false parentView es necesario
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
@@ -65,7 +73,11 @@ public class FragmentLayoutInserter
             treeViewParsedCache.put(markup,treeViewParsed);
         }
 
-        InflatedLayoutPageImpl.fillScriptList(treeViewParsed,scriptList);
+        LinkedList<ScriptParsed> scriptList = new LinkedList<ScriptParsed>();
+
+        List<ScriptParsed> scriptListTreeView = treeViewParsed.getScriptList();
+        if (scriptListTreeView != null)
+            scriptList.addAll(scriptListTreeView);
 
         ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(treeViewParsed.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutPageImpl.getChildIndex(parentView,viewRef) : -1;
@@ -80,6 +92,33 @@ public class FragmentLayoutInserter
             }
             else parentView.addView(child);
         }
+
+        executeScriptList(scriptList);
     }
 
+    private void executeScriptList(LinkedList<ScriptParsed> scriptList)
+    {
+        if (scriptList.isEmpty()) return;
+
+        Interpreter interp = itsNatDoc.getPageImpl().getInterpreter();
+        for (ScriptParsed script : scriptList)
+        {
+            if (script instanceof ScriptInlineParsed)
+            {
+                String code = script.getCode();
+                try
+                {
+                    interp.eval(code);
+                }
+                catch (EvalError ex) { throw new ItsNatDroidScriptException(ex, code); }
+                catch (Exception ex) { throw new ItsNatDroidScriptException(ex, code); }
+            }
+            else if (script instanceof ScriptRemoteParsed)
+            {
+                String src = ((ScriptRemoteParsed)script).getSrc();
+                itsNatDoc.downloadScript(src); // Se carga asíncronamente sin un orden claro
+            }
+        }
+
+    }
 }
