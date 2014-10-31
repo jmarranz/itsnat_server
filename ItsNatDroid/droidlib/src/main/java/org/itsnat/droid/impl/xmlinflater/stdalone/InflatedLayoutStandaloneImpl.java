@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 
 /**
@@ -12,8 +12,8 @@ import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
  */
 public class InflatedLayoutStandaloneImpl extends InflatedLayoutImpl
 {
-    public InflatedLayoutStandaloneImpl(ItsNatDroidImpl itsNatDroid,TreeViewParsed treeViewParsed, AttrCustomInflaterListener inflateListener, Context ctx)
+    public InflatedLayoutStandaloneImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed, AttrCustomInflaterListener inflateListener, Context ctx)
     {
-        super(itsNatDroid,treeViewParsed,inflateListener, ctx);
+        super(itsNatDroid, layoutParsed,inflateListener, ctx);
     }
 }

@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.browser;
 
-import org.itsnat.droid.impl.parser.LayoutParser;
-import org.itsnat.droid.impl.parser.LayoutParserPage;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.parser.layout.LayoutParser;
+import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 
 /**
  * Created by jmarranz on 27/10/14.
@@ -11,9 +11,9 @@ import org.itsnat.droid.impl.parser.TreeViewParsedCache;
 public class PageRequestResult
 {
     protected HttpRequestResultImpl httpReqResult;
-    protected TreeViewParsed treeViewParsed;
+    protected LayoutParsed layoutParsed;
 
-    public PageRequestResult(HttpRequestResultImpl httpReqResult,TreeViewParsedCache treeViewParsedCache)
+    public PageRequestResult(HttpRequestResultImpl httpReqResult,LayoutParsedCache layoutParsedCache)
     {
         this.httpReqResult = httpReqResult;
 
@@ -21,15 +21,15 @@ public class PageRequestResult
         {
             String markup = httpReqResult.getResponseText();
 
-            TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
-            if (cachedTreeView != null) this.treeViewParsed = cachedTreeView;
+            LayoutParsed cachedLayout = layoutParsedCache.get(markup);
+            if (cachedLayout != null) this.layoutParsed = cachedLayout;
             else
             {
                 String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
                 boolean loadingPage = true;
                 LayoutParser layoutParser = new LayoutParserPage(itsNatServerVersion, loadingPage);
-                this.treeViewParsed = layoutParser.inflate(markup);
-                treeViewParsedCache.put(markup, treeViewParsed);
+                this.layoutParsed = layoutParser.inflate(markup);
+                layoutParsedCache.put(markup, layoutParsed);
             }
         }
     }
@@ -39,8 +39,8 @@ public class PageRequestResult
         return httpReqResult;
     }
 
-    public TreeViewParsed getTreeViewParsed()
+    public LayoutParsed getLayoutParsed()
     {
-        return treeViewParsed;
+        return layoutParsed;
     }
 }

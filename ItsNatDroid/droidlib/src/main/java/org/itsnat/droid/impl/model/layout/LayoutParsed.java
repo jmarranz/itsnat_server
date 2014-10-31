@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.model.layout;
 
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class TreeViewParsed
+public class LayoutParsed
 {
     protected String markup;
     protected long timestamp;
@@ -18,7 +18,7 @@ public class TreeViewParsed
     protected String loadScript;
     protected ArrayList<ScriptParsed> scriptList;
 
-    public TreeViewParsed(String markup)
+    public LayoutParsed(String markup)
     {
         this.markup = markup;
         this.timestamp = System.currentTimeMillis();

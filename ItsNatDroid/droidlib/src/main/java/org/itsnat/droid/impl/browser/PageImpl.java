@@ -16,7 +16,7 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
@@ -68,11 +68,11 @@ public class PageImpl implements Page
         inflateRequest.setContext(pageRequest.getContext());
         if (inflateListener != null) inflateRequest.setAttrCustomInflaterListener(inflateListener);
 
-        TreeViewParsed treeViewParsed = pageReqResult.getTreeViewParsed();
+        LayoutParsed layoutParsed = pageReqResult.getLayoutParsed();
 
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(treeViewParsed, loadScriptArr,scriptList,this);
+        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(layoutParsed, loadScriptArr,scriptList,this);
 
         String loadScript = loadScriptArr[0];
 

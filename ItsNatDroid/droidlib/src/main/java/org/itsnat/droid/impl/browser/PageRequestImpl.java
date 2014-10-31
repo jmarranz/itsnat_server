@@ -18,7 +18,7 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
+import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -174,13 +174,13 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        TreeViewParsedCache treeViewParsedCache = browser.getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
+        LayoutParsedCache layoutParsedCache = browser.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
 
         PageRequestResult result = null;
         try
         {
             HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null,null);
-            result = new PageRequestResult(httpReqResult,treeViewParsedCache);
+            result = new PageRequestResult(httpReqResult, layoutParsedCache);
         }
         catch(Exception ex)
         {

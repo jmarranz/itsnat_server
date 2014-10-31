@@ -1,6 +1,10 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
+import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -26,7 +30,7 @@ public class LayoutParserPage extends LayoutParser
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent, LayoutParsed layoutParsed) throws IOException, XmlPullParserException
     {
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
@@ -43,7 +47,7 @@ public class LayoutParserPage extends LayoutParser
             // Si loadScript es null estamos en un evento (inserción de un fragment)
 
             ScriptRemoteParsed script = new ScriptRemoteParsed(src);
-            treeView.addScript(script);
+            layoutParsed.addScript(script);
 
             while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
         }
@@ -56,11 +60,11 @@ public class LayoutParserPage extends LayoutParser
             while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
 
             String code = parser.getText();
-            if (isLoadScript) treeView.setLoadScript(code);
+            if (isLoadScript) layoutParsed.setLoadScript(code);
             else
             {
                 ScriptInlineParsed script = new ScriptInlineParsed(code);
-                treeView.addScript(script);
+                layoutParsed.addScript(script);
             }
 
             while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;

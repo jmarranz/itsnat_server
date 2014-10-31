@@ -1,8 +1,10 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.parser.layout;
 
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,45 +20,42 @@ import java.io.StringReader;
 public abstract class LayoutParser
 {
 
-    public TreeViewParsed inflate(String markup)
+    public LayoutParsed inflate(String markup)
     {
-        TreeViewParsed treeView = new TreeViewParsed(markup);
+        LayoutParsed layoutParsed = new LayoutParsed(markup);
         StringReader input = new StringReader(markup);
-        return inflate(input,treeView);
+        return inflate(input,layoutParsed);
     }
 
-    private TreeViewParsed inflate(Reader input,TreeViewParsed treeView)
+    private LayoutParsed inflate(Reader input,LayoutParsed layoutParsed)
     {
         try
         {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
             parser.setInput(input);
-            inflate(parser,treeView);
-            return treeView;
+            inflate(parser,layoutParsed);
+            return layoutParsed;
         }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
         finally
         {
-            try
-            {
-                input.close();
-            }
+            try { input.close(); }
             catch (IOException ex) { throw new ItsNatDroidException(ex); }
         }
     }
 
-    private void inflate(XmlPullParser parser,TreeViewParsed treeView)
+    private void inflate(XmlPullParser parser,LayoutParsed layoutParsed)
     {
         try
         {
-            parseRootView(parser,treeView);
+            parseRootView(parser,layoutParsed);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    private ViewParsed parseRootView(XmlPullParser parser, TreeViewParsed treeView) throws IOException, XmlPullParserException
+    private ViewParsed parseRootView(XmlPullParser parser, LayoutParsed layoutParsed) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -69,17 +68,17 @@ public abstract class LayoutParser
             {
                 String prefix = parser.getNamespacePrefix(i);
                 String ns = parser.getNamespaceUri(i);
-                treeView.addNamespace(prefix, ns);
+                layoutParsed.addNamespace(prefix, ns);
             }
 
-            if (treeView.getAndroidNSPrefix() == null)
+            if (layoutParsed.getAndroidNSPrefix() == null)
                 throw new ItsNatDroidException("Missing android namespace declaration in root element");
 
             String viewName = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            ViewParsed rootView = createRootViewObjectAndFillAttributes(viewName,parser,treeView);
+            ViewParsed rootView = createRootViewObjectAndFillAttributes(viewName,parser,layoutParsed);
 
-            processChildViews(parser,rootView,treeView);
+            processChildViews(parser,rootView,layoutParsed);
 
             return rootView;
         }
@@ -87,18 +86,18 @@ public abstract class LayoutParser
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
     }
 
-    private ViewParsed createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,TreeViewParsed treeView)
+    private ViewParsed createRootViewObjectAndFillAttributes(String viewName,XmlPullParser parser,LayoutParsed layoutParsed)
     {
         ViewParsed rootView = new ViewParsed(viewName,null);
 
-        treeView.setRootView(rootView);
+        layoutParsed.setRootView(rootView);
 
         fillAttributesAndAddView(parser,null,rootView);
 
         return rootView;
     }
 
-    private ViewParsed parseNextView(XmlPullParser parser,ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException
+    private ViewParsed parseNextView(XmlPullParser parser,ViewParsed viewParent, LayoutParsed layoutParsed) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -109,13 +108,13 @@ public abstract class LayoutParser
 
             if (viewName.equals("script"))
             {
-                parseScriptElement(parser,viewParent,treeView);
+                parseScriptElement(parser,viewParent,layoutParsed);
             }
             else
             {
                 ViewParsed view = createViewObjectAndFillAttributesAndAdd(viewName,viewParent, parser);
 
-                processChildViews(parser,view,treeView);
+                processChildViews(parser,view,layoutParsed);
 
                 return view;
             }
@@ -156,12 +155,12 @@ public abstract class LayoutParser
         }
     }
 
-    private void processChildViews(XmlPullParser parser,ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException
+    private void processChildViews(XmlPullParser parser,ViewParsed viewParent, LayoutParsed layoutParsed) throws IOException, XmlPullParserException
     {
-        ViewParsed childView = parseNextView(parser, viewParent,treeView);
+        ViewParsed childView = parseNextView(parser, viewParent,layoutParsed);
         while (childView != null)
         {
-            childView = parseNextView(parser, viewParent,treeView);
+            childView = parseNextView(parser, viewParent,layoutParsed);
         }
     }
 
@@ -180,5 +179,5 @@ public abstract class LayoutParser
         return null;
     }
 
-    protected abstract void parseScriptElement(XmlPullParser parser,ViewParsed viewParent, TreeViewParsed treeView) throws IOException, XmlPullParserException;
+    protected abstract void parseScriptElement(XmlPullParser parser,ViewParsed viewParent, LayoutParsed layoutParsed) throws IOException, XmlPullParserException;
 }

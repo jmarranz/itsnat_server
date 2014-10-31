@@ -10,7 +10,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
@@ -25,9 +25,9 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page,TreeViewParsed treeViewParsed, AttrCustomInflaterListener inflateListener, Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed, AttrCustomInflaterListener inflateListener, Context ctx)
     {
-        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(),treeViewParsed, inflateListener, ctx);
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, inflateListener, ctx);
         this.page = page;
     }
 

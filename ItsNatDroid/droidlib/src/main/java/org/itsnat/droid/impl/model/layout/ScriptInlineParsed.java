@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.model.layout;
 
 /**
  * Created by jmarranz on 29/10/14.

@@ -7,11 +7,11 @@ import org.itsnat.droid.InflateRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.parser.LayoutParser;
-import org.itsnat.droid.impl.parser.LayoutParserPage;
-import org.itsnat.droid.impl.parser.LayoutParserStandalone;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.parser.layout.LayoutParser;
+import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
+import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.stdalone.InflatedLayoutStandaloneImpl;
@@ -71,27 +71,27 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateInternal(String markup,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        TreeViewParsed treeViewParsed;
+        LayoutParsed layoutParsed;
 
-        TreeViewParsedCache treeViewParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
-        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
-        if (cachedTreeView != null)
-            treeViewParsed = cachedTreeView;
+        LayoutParsedCache layoutParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        LayoutParsed cachedLayout = layoutParsedCache.get(markup);
+        if (cachedLayout != null)
+            layoutParsed = cachedLayout;
         else
         {
             boolean loadingPage = loadScript != null;
             LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
-            treeViewParsed = layoutParser.inflate(markup);
-            treeViewParsedCache.put(markup,treeViewParsed);
+            layoutParsed = layoutParser.inflate(markup);
+            layoutParsedCache.put(markup, layoutParsed);
         }
 
-        return inflateInternal(treeViewParsed,loadScript,scriptList,page);
+        return inflateInternal(layoutParsed,loadScript,scriptList,page);
     }
 
-    public InflatedLayoutImpl inflateInternal(TreeViewParsed treeViewParsed,String[] loadScript,List<String> scriptList,PageImpl page)
+    public InflatedLayoutImpl inflateInternal(LayoutParsed layoutParsed,String[] loadScript,List<String> scriptList,PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page,treeViewParsed,inflateListener,ctx) :
-                                                           new InflatedLayoutStandaloneImpl(itsNatDroid,treeViewParsed,inflateListener,ctx);
+        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed,inflateListener,ctx) :
+                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed,inflateListener,ctx);
         inflatedLayout.inflate(loadScript,scriptList);
         return inflatedLayout;
     }

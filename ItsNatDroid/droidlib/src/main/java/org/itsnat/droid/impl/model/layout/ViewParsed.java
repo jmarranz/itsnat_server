@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.model.layout;
 
 import org.itsnat.droid.impl.util.ValueUtil;
 
@@ -13,7 +13,7 @@ public class ViewParsed
     protected String name;
     protected ViewParsed viewParent; // Si es null es el root
     protected String styleAttr;
-    protected ArrayList<Attribute> attribs;
+    protected ArrayList<AttributeParsed> attribs;
     protected LinkedList<ViewParsed> childViews;
 
     public ViewParsed(String name,ViewParsed viewParent)
@@ -42,7 +42,7 @@ public class ViewParsed
         this.styleAttr = styleAttr;
     }
 
-    public ArrayList<Attribute> getAttributeList()
+    public ArrayList<AttributeParsed> getAttributeList()
     {
         return attribs;
     }
@@ -50,19 +50,19 @@ public class ViewParsed
     public void initAttribList(int count)
     {
         // Aunque luego sea alguno menos (el style no se guarda aquí) no importa, así evitamos que reconstruya el array interno
-        this.attribs = new ArrayList<Attribute>(count);
+        this.attribs = new ArrayList<AttributeParsed>(count);
     }
 
     public void addAttribute(String namespaceURI,String name,String value)
     {
-        attribs.add(new Attribute(namespaceURI,name,value));
+        attribs.add(new AttributeParsed(namespaceURI,name,value));
     }
 
     public String findAttribute(String namespaceURI, String name)
     {
         for(int i = 0; i < attribs.size(); i++)
         {
-            Attribute attr = attribs.get(i);
+            AttributeParsed attr = attribs.get(i);
             String currNamespaceURI = attr.getNamespaceURI();
             if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = attr.getName(); // El nombre devuelto no contiene el namespace

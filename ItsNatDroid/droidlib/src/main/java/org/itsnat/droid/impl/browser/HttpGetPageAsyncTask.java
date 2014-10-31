@@ -6,10 +6,10 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
-import org.itsnat.droid.impl.parser.ScriptParsed;
-import org.itsnat.droid.impl.parser.ScriptRemoteParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.model.layout.ScriptParsed;
+import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected HttpParams httpParamsDefault;
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
-    protected TreeViewParsedCache treeViewParsedCache; // Es un singleton con métodos sincronizados
+    protected LayoutParsedCache layoutParsedCache; // Es un singleton con métodos sincronizados
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
                     HttpParams httpParamsRequest)
@@ -36,7 +36,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
-        this.treeViewParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
+        this.layoutParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         HttpContext httpContext = browser.getHttpContext();
@@ -55,13 +55,13 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected PageRequestResult executeInBackground() throws Exception
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
-        PageRequestResult pageReqResult = new PageRequestResult(result,treeViewParsedCache);
+        PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsedCache);
 
         if (result.getItsNatServerVersion() == null)
         {
             // Página NO servida por ItsNat, tenemos que descargar los <script src="..."> remótamente
-            TreeViewParsed treeView = pageReqResult.getTreeViewParsed();
-            ArrayList<ScriptParsed> scriptList = treeView.getScriptList();
+            LayoutParsed layoutParsed = pageReqResult.getLayoutParsed();
+            ArrayList<ScriptParsed> scriptList = layoutParsed.getScriptList();
             for(int i = 0; i < scriptList.size(); i++)
             {
                 ScriptParsed script = scriptList.get(i);

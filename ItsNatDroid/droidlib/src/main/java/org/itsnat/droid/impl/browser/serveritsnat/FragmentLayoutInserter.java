@@ -4,13 +4,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.impl.parser.LayoutParser;
-import org.itsnat.droid.impl.parser.LayoutParserPage;
-import org.itsnat.droid.impl.parser.ScriptInlineParsed;
-import org.itsnat.droid.impl.parser.ScriptParsed;
-import org.itsnat.droid.impl.parser.ScriptRemoteParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.parser.layout.LayoutParser;
+import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
+import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
+import org.itsnat.droid.impl.model.layout.ScriptParsed;
+import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
 
@@ -59,27 +59,27 @@ public class FragmentLayoutInserter
 
         markup = newMarkup.toString();
 
-        TreeViewParsed treeViewParsed;
+        LayoutParsed layoutParsed;
 
-        TreeViewParsedCache treeViewParsedCache = pageLayout.getItsNatDroidImpl().getXMLLayoutInflateService().getTreeViewParsedCache();
-        TreeViewParsed cachedTreeView = treeViewParsedCache.get(markup);
-        if (cachedTreeView != null)
-            treeViewParsed = cachedTreeView;
+        LayoutParsedCache layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        LayoutParsed cachedLayout = layoutParsedCache.get(markup);
+        if (cachedLayout != null)
+            layoutParsed = cachedLayout;
         else
         {
             boolean loadingPage = false;
             LayoutParser layoutParser = new LayoutParserPage(pageLayout.getPageImpl().getItsNatServerVersion(),loadingPage);
-            treeViewParsed = layoutParser.inflate(markup);
-            treeViewParsedCache.put(markup,treeViewParsed);
+            layoutParsed = layoutParser.inflate(markup);
+            layoutParsedCache.put(markup, layoutParsed);
         }
 
         LinkedList<ScriptParsed> scriptList = new LinkedList<ScriptParsed>();
 
-        List<ScriptParsed> scriptListTreeView = treeViewParsed.getScriptList();
-        if (scriptListTreeView != null)
-            scriptList.addAll(scriptListTreeView);
+        List<ScriptParsed> scriptListParsed = layoutParsed.getScriptList();
+        if (scriptListParsed != null)
+            scriptList.addAll(scriptListParsed);
 
-        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(treeViewParsed.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(layoutParsed.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutPageImpl.getChildIndex(parentView,viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {

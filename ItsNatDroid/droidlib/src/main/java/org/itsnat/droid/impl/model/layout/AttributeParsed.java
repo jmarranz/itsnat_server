@@ -1,17 +1,17 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.model.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class Attribute
+public class AttributeParsed
 {
     protected String namespaceURI;
     protected String name;
     protected String value;
 
-    public Attribute(String namespaceURI, String name, String value)
+    public AttributeParsed(String namespaceURI, String name, String value)
     {
         this.namespaceURI = namespaceURI;
         this.name = name;

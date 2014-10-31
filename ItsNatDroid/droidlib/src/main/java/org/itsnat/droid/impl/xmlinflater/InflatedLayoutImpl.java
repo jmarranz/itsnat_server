@@ -8,10 +8,10 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.parser.Attribute;
-import org.itsnat.droid.impl.parser.ScriptParsed;
-import org.itsnat.droid.impl.parser.TreeViewParsed;
-import org.itsnat.droid.impl.parser.ViewParsed;
+import org.itsnat.droid.impl.model.layout.AttributeParsed;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.model.layout.ScriptParsed;
+import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.classtree.ClassDescViewBased;
 
@@ -25,18 +25,18 @@ import java.util.List;
 public abstract class InflatedLayoutImpl implements InflatedLayout
 {
     protected ItsNatDroidImpl itsNatDroid;
-    protected TreeViewParsed treeViewParsed;
+    protected LayoutParsed layoutParsed;
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
     protected Context ctx;
     protected AttrCustomInflaterListener inflateListener;
 
 
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,TreeViewParsed treeViewParsed,AttrCustomInflaterListener inflateListener,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,AttrCustomInflaterListener inflateListener,Context ctx)
     {
         // rootView se define a posteriori
         this.itsNatDroid = itsNatDroid;
-        this.treeViewParsed = treeViewParsed;
+        this.layoutParsed = layoutParsed;
         this.inflateListener = inflateListener;
         this.ctx = ctx;
     }
@@ -48,12 +48,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public String getAndroidNSPrefix()
     {
-        return treeViewParsed.getAndroidNSPrefix();
+        return layoutParsed.getAndroidNSPrefix();
     }
 
     public MapLight<String,String> getNamespacesByPrefix()
     {
-        return treeViewParsed.getNamespacesByPrefix();
+        return layoutParsed.getNamespacesByPrefix();
     }
 
     public String getNamespace(String prefix)
@@ -120,9 +120,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    private static void fillScriptList(TreeViewParsed treeViewParsed,List<String> scriptList)
+    private static void fillScriptList(LayoutParsed layoutParsed,List<String> scriptList)
     {
-        List<ScriptParsed> scriptListFromTree = treeViewParsed.getScriptList();
+        List<ScriptParsed> scriptListFromTree = layoutParsed.getScriptList();
         if (scriptListFromTree != null)
         {
             for (ScriptParsed script : scriptListFromTree)
@@ -133,18 +133,18 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     public View inflate(String[] loadScript, List<String> scriptList)
     {
         if (loadScript != null)
-            loadScript[0] = treeViewParsed.getLoadScript();
+            loadScript[0] = layoutParsed.getLoadScript();
 
         if (scriptList != null)
-            fillScriptList(treeViewParsed,scriptList);
+            fillScriptList(layoutParsed,scriptList);
 
-        View rootView = inflateRootView(treeViewParsed);
+        View rootView = inflateRootView(layoutParsed);
         return rootView;
     }
 
-    private View inflateRootView(TreeViewParsed treeViewParsed)
+    private View inflateRootView(LayoutParsed layoutParsed)
     {
-        ViewParsed rootViewParsed = treeViewParsed.getRootView();
+        ViewParsed rootViewParsed = layoutParsed.getRootView();
 
         String viewName = rootViewParsed.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
@@ -234,12 +234,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,ViewParsed viewParsed,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        ArrayList<Attribute> attribList = viewParsed.getAttributeList();
+        ArrayList<AttributeParsed> attribList = viewParsed.getAttributeList();
         if (attribList != null)
         {
             for (int i = 0; i < attribList.size(); i++)
             {
-                Attribute attr = attribList.get(i);
+                AttributeParsed attr = attribList.get(i);
                 String namespaceURI = attr.getNamespaceURI();
                 String name = attr.getName(); // El nombre devuelto no contiene el namespace
                 String value = attr.getValue();

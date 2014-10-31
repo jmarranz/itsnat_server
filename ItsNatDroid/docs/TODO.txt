@@ -4,9 +4,7 @@
 
 * Pensar si en inflar en local otros tipos de XML de resources
 
-* Hacer getItsNatDocImpl().sendLoadEvent(); (constructor de PageImpl) cuando sepamos que hemos cargado t_odos los archivos dependendientes en tiempo de carga
-
-* Probrar lollipop
+* Llamar getItsNatDocImpl().sendLoadEvent(); (en el constructor de PageImpl) cuando sepamos que hemos cargado t_odos los archivos dependendientes en tiempo de carga
 
 
 
@@ -63,4 +61,7 @@ concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTex
     Revisar código en InflatedLayoutPageImpl.parseScriptElement, se trataría de pre-parsear en el caso de página no servida por ItsNat
     en el hilo de request de la página los <script src="..."> y cargar los archivos en el orden de declaración y hasta que
     no se han cargado no terminar la request de la página.
+
+* Publicar en Hacker News y otros (ver lista)
+
 

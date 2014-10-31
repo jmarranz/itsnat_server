@@ -9,7 +9,7 @@ import android.widget.Spinner;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
-import org.itsnat.droid.impl.parser.ViewParsed;
+import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.xmlinflater.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.PendingPostInsertChildrenTasks;
