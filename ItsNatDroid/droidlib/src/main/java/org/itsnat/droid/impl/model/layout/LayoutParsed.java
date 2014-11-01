@@ -10,7 +10,6 @@ import java.util.ArrayList;
  */
 public class LayoutParsed
 {
-    protected String markup;
     protected long timestamp;
     protected ViewParsed rootView;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
@@ -18,9 +17,8 @@ public class LayoutParsed
     protected String loadScript;
     protected ArrayList<ScriptParsed> scriptList;
 
-    public LayoutParsed(String markup)
+    public LayoutParsed()
     {
-        this.markup = markup;
         this.timestamp = System.currentTimeMillis();
     }
 

@@ -5,13 +5,13 @@ import org.itsnat.droid.ItsNatDroidException;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class AttributeParsed
+public class AttrParsed
 {
     protected String namespaceURI;
     protected String name;
     protected String value;
 
-    public AttributeParsed(String namespaceURI, String name, String value)
+    public AttrParsed(String namespaceURI, String name, String value)
     {
         this.namespaceURI = namespaceURI;
         this.name = name;

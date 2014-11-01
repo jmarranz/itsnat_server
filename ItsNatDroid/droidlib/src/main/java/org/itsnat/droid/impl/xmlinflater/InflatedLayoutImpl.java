@@ -8,7 +8,8 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.layout.AttributeParsed;
+import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.model.layout.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
@@ -184,12 +185,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     protected void processChildViews(ViewParsed viewParsedParent, View viewParent)
     {
-        LinkedList<ViewParsed> childList = viewParsedParent.getChildViewList();
-        if (childList != null)
+        LinkedList<ElementParsed> childViewList = viewParsedParent.getChildList();
+        if (childViewList != null)
         {
-            for (ViewParsed childViewParsed : childList)
+            for (ElementParsed childViewParsed : childViewList)
             {
-                View childView = inflateNextView(childViewParsed, viewParent);
+                View childView = inflateNextView((ViewParsed)childViewParsed, viewParent);
             }
         }
     }
@@ -234,12 +235,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,ViewParsed viewParsed,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        ArrayList<AttributeParsed> attribList = viewParsed.getAttributeList();
+        ArrayList<AttrParsed> attribList = viewParsed.getAttributeList();
         if (attribList != null)
         {
             for (int i = 0; i < attribList.size(); i++)
             {
-                AttributeParsed attr = attribList.get(i);
+                AttrParsed attr = attribList.get(i);
                 String namespaceURI = attr.getNamespaceURI();
                 String name = attr.getName(); // El nombre devuelto no contiene el namespace
                 String value = attr.getValue();

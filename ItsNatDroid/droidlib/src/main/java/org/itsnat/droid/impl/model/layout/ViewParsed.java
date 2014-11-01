@@ -1,35 +1,22 @@
 package org.itsnat.droid.impl.model.layout;
 
-import org.itsnat.droid.impl.util.ValueUtil;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
+import org.itsnat.droid.impl.model.ElementParsed;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class ViewParsed
+public class ViewParsed extends ElementParsed
 {
-    protected String name;
-    protected ViewParsed viewParent; // Si es null es el root
     protected String styleAttr;
-    protected ArrayList<AttributeParsed> attribs;
-    protected LinkedList<ViewParsed> childViews;
 
-    public ViewParsed(String name,ViewParsed viewParent)
+    public ViewParsed(String name,ViewParsed parentElement)
     {
-        this.name = name;
-        this.viewParent = viewParent;
+        super(name,parentElement);
     }
 
-    public String getName()
+    public ViewParsed getParentViewParsed()
     {
-        return name;
-    }
-
-    public ViewParsed getViewParent()
-    {
-        return viewParent;
+        return (ViewParsed)getParentElement();
     }
 
     public String getStyleAttr()
@@ -42,45 +29,8 @@ public class ViewParsed
         this.styleAttr = styleAttr;
     }
 
-    public ArrayList<AttributeParsed> getAttributeList()
-    {
-        return attribs;
-    }
-
-    public void initAttribList(int count)
-    {
-        // Aunque luego sea alguno menos (el style no se guarda aquí) no importa, así evitamos que reconstruya el array interno
-        this.attribs = new ArrayList<AttributeParsed>(count);
-    }
-
-    public void addAttribute(String namespaceURI,String name,String value)
-    {
-        attribs.add(new AttributeParsed(namespaceURI,name,value));
-    }
-
-    public String findAttribute(String namespaceURI, String name)
-    {
-        for(int i = 0; i < attribs.size(); i++)
-        {
-            AttributeParsed attr = attribs.get(i);
-            String currNamespaceURI = attr.getNamespaceURI();
-            if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
-            String currName = attr.getName(); // El nombre devuelto no contiene el namespace
-            if (!name.equals(currName)) continue;
-            String value = attr.getValue();
-            return value;
-        }
-        return null;
-    }
-
-    public LinkedList<ViewParsed> getChildViewList()
-    {
-        return childViews;
-    }
-
     public void addChildView(ViewParsed viewParsed)
     {
-        if (childViews == null) this.childViews = new LinkedList<ViewParsed>();
-        childViews.add(viewParsed);
+        super.addChild(viewParsed);
     }
 }
