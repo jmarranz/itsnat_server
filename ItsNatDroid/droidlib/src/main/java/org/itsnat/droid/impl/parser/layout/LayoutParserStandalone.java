@@ -19,5 +19,7 @@ public class LayoutParserStandalone extends LayoutParser
     protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent) throws IOException, XmlPullParserException
     {
         android.util.Log.v("LayoutParserStandalone","<script> elements are ignored in standalone layouts");
+
+        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
     }
 }

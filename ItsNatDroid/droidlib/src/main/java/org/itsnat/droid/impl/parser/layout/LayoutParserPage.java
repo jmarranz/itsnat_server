@@ -38,6 +38,7 @@ public class LayoutParserPage extends LayoutParser
             {
                 // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
                 // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
+                // incluso en el <script> de inicialización
                 throw new ItsNatDroidException("Internal Error");
             }
 
@@ -47,8 +48,6 @@ public class LayoutParserPage extends LayoutParser
 
             ScriptRemoteParsed script = new ScriptRemoteParsed(src);
             layoutParsed.addScript(script);
-
-            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
         }
         else
         {
@@ -65,8 +64,8 @@ public class LayoutParserPage extends LayoutParser
                 ScriptInlineParsed script = new ScriptInlineParsed(code);
                 layoutParsed.addScript(script);
             }
-
-            while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
         }
+
+        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
     }
 }

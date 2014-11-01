@@ -97,12 +97,14 @@ public abstract class XMLParserBase
 
             String name = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            processElement(name, parentElement, parser);
+            ElementParsed element = processElement(name, parentElement, parser);
+            if (element == null) continue; // Se ignora
+            return element;
         }
         return null;
     }
 
-    private ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser) throws IOException, XmlPullParserException
+    protected ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser) throws IOException, XmlPullParserException
     {
         ElementParsed element = createElementAndFillAttributesAndAdd(name, parentElement, parser);
         processChildElements(element,parser);
