@@ -1,11 +1,11 @@
-package org.itsnat.droid.impl.model.layout;
+package org.itsnat.droid.impl.model;
 
 import org.itsnat.droid.ItsNatDroidException;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class AttrParsed
+public abstract class AttrParsed
 {
     protected String namespaceURI;
     protected String name;

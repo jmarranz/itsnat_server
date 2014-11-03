@@ -69,7 +69,7 @@ public class FragmentLayoutInserter
         {
             boolean loadingPage = false;
             LayoutParser layoutParser = new LayoutParserPage(pageLayout.getPageImpl().getItsNatServerVersion(),loadingPage);
-            layoutParsed = layoutParser.inflate(markup);
+            layoutParsed = layoutParser.parse(markup);
             layoutParsedCache.put(markup, layoutParsed);
         }
 

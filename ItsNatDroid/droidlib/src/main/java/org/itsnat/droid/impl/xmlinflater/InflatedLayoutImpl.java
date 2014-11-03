@@ -9,7 +9,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.model.ElementParsed;
-import org.itsnat.droid.impl.model.layout.AttrParsed;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;

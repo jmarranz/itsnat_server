@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.parser.layout;
 
+import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -16,7 +17,7 @@ public class LayoutParserStandalone extends LayoutParser
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException
     {
         android.util.Log.v("LayoutParserStandalone","<script> elements are ignored in standalone layouts");
 

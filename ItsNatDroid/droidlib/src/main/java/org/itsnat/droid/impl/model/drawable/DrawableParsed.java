@@ -1,14 +1,13 @@
 package org.itsnat.droid.impl.model.drawable;
 
-import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.model.XMLParsed;
 
 /**
  * Created by jmarranz on 31/10/14.
  */
-public abstract class DrawableParsed extends ElementParsed
+public abstract class DrawableParsed extends XMLParsed
 {
-    public DrawableParsed(String name)
+    public DrawableParsed()
     {
-        super(name,null);
     }
 }

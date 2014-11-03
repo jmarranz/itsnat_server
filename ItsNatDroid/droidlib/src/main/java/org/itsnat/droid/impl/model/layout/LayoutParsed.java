@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.model.layout;
 
+import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
@@ -8,10 +9,9 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class LayoutParsed
+public class LayoutParsed extends XMLParsed
 {
     protected long timestamp;
-    protected ViewParsed rootView;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected String loadScript;
@@ -58,12 +58,12 @@ public class LayoutParsed
 
     public ViewParsed getRootView()
     {
-        return rootView;
+        return (ViewParsed)getRootElement();
     }
 
     public void setRootView(ViewParsed rootView)
     {
-        this.rootView = rootView;
+        setRootElement(rootView);
     }
 
     public String getLoadScript()

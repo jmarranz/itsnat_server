@@ -1,6 +1,8 @@
 package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.model.XMLParsed;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
@@ -29,8 +31,10 @@ public class LayoutParserPage extends LayoutParser
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException
     {
+        LayoutParsed layoutParsed = (LayoutParsed)xmlParsed;
+
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
         {
