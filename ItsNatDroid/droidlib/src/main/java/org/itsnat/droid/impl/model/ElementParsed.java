@@ -1,6 +1,5 @@
 package org.itsnat.droid.impl.model;
 
-import org.itsnat.droid.impl.model.layout.AttrParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public abstract class ElementParsed
         this.attribs = new ArrayList<AttrParsed>(count);
     }
 
-    public void addAttribute(String namespaceURI,String name,String value)
+    public void addAttribute(AttrParsed attr)
     {
-        attribs.add(new AttrParsed(namespaceURI,name,value));
+        attribs.add(attr);
     }
 
     public String findAttribute(String namespaceURI, String name)

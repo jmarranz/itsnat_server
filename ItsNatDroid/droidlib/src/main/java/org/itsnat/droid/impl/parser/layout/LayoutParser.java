@@ -1,9 +1,8 @@
 package org.itsnat.droid.impl.parser.layout;
 
-import android.util.Xml;
-
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.parser.XMLParserBase;
@@ -20,24 +19,18 @@ import java.io.StringReader;
  */
 public abstract class LayoutParser extends XMLParserBase
 {
-    protected LayoutParsed layoutParsed;
-
-    public LayoutParsed inflate(String markup)
+    public LayoutParsed parse(String markup)
     {
-        this.layoutParsed = new LayoutParsed();
         StringReader input = new StringReader(markup);
-        inflate(input);
-        return layoutParsed;
+        return parse(input);
     }
 
-    private void inflate(Reader input)
+    private LayoutParsed parse(Reader input)
     {
         try
         {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-            parser.setInput(input);
-            inflate(parser);
+            XmlPullParser parser = newPullParser(input);
+            return parse(parser);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -48,15 +41,18 @@ public abstract class LayoutParser extends XMLParserBase
         }
     }
 
-    private void inflate(XmlPullParser parser) throws IOException, XmlPullParserException
+    private LayoutParsed parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-        parseRootElement(rootElemName,parser);
+        LayoutParsed layoutParsed = new LayoutParsed();
+        parseRootElement(rootElemName,parser,layoutParsed);
+        return layoutParsed;
     }
 
     @Override
-    public ElementParsed parseRootElement(String rootElemName, XmlPullParser parser) throws IOException, XmlPullParserException
+    public ElementParsed parseRootElement(String rootElemName,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
     {
+        LayoutParsed layoutParsed = (LayoutParsed)xmlParsed;
         int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
         for (int i = nsStart; i < nsEnd; i++)
@@ -69,7 +65,7 @@ public abstract class LayoutParser extends XMLParserBase
         if (layoutParsed.getAndroidNSPrefix() == null)
             throw new ItsNatDroidException("Missing android namespace declaration in root element");
 
-        return super.parseRootElement(rootElemName,parser);
+        return super.parseRootElement(rootElemName,parser,xmlParsed);
     }
 
     @Override
@@ -78,13 +74,6 @@ public abstract class LayoutParser extends XMLParserBase
         return new ViewParsed(name,null);
     }
 
-    @Override
-    protected void setRootElement(ElementParsed rootElement)
-    {
-        super.setRootElement(rootElement);
-
-        layoutParsed.setRootView((ViewParsed)rootElement);
-    }
 
     @Override
     protected ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser) throws IOException, XmlPullParserException

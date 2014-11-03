@@ -7,8 +7,7 @@ public class NinePatchDrawableParsed extends DrawableParsed
 {
     public NinePatchDrawableParsed()
     {
-        super("nine-patch");
-    }
 
+    }
 
 }

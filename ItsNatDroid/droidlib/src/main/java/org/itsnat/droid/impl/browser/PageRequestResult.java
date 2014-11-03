@@ -28,7 +28,7 @@ public class PageRequestResult
                 String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
                 boolean loadingPage = true;
                 LayoutParser layoutParser = new LayoutParserPage(itsNatServerVersion, loadingPage);
-                this.layoutParsed = layoutParser.inflate(markup);
+                this.layoutParsed = layoutParser.parse(markup);
                 layoutParsedCache.put(markup, layoutParsed);
             }
         }

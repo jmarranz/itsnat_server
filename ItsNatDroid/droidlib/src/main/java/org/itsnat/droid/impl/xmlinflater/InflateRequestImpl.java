@@ -81,7 +81,7 @@ public class InflateRequestImpl implements InflateRequest
         {
             boolean loadingPage = loadScript != null;
             LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
-            layoutParsed = layoutParser.inflate(markup);
+            layoutParsed = layoutParser.parse(markup);
             layoutParsedCache.put(markup, layoutParsed);
         }
 

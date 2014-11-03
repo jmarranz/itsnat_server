@@ -1,10 +1,8 @@
 package org.itsnat.droid.impl.parser.drawable;
 
-import android.util.Xml;
-
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.ElementParsed;
 import org.itsnat.droid.impl.model.drawable.DrawableParsed;
+import org.itsnat.droid.impl.model.drawable.NinePatchDrawableParsed;
 import org.itsnat.droid.impl.parser.XMLParserBase;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,20 +16,18 @@ import java.io.StringReader;
  */
 public abstract class DrawableParser extends XMLParserBase
 {
-    public static DrawableParsed inflate(String markup)
+    public static DrawableParsed parse(String markup)
     {
         StringReader input = new StringReader(markup);
-        return (DrawableParsed)inflate(input);
+        return (DrawableParsed) parse(input);
     }
 
-    private static ElementParsed inflate(Reader input)
+    private static DrawableParsed parse(Reader input)
     {
         try
         {
-            XmlPullParser parser = Xml.newPullParser();
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-            parser.setInput(input);
-            return inflate(parser);
+            XmlPullParser parser = newPullParser(input);
+            return parse(parser);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -42,16 +38,17 @@ public abstract class DrawableParser extends XMLParserBase
         }
     }
 
-    private static ElementParsed inflate(XmlPullParser parser) throws IOException, XmlPullParserException
+    private static DrawableParsed parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-
-        XMLParserBase xmlParser = null;
+        DrawableParser drawableParser = null;
+        DrawableParsed drawableParsed = null;
         if ("nine-patch".equals(rootElemName))
         {
-            xmlParser = new NinePatchDrawableParser();
+            drawableParser = new NinePatchDrawableParser();
+            drawableParsed = new NinePatchDrawableParsed();
         }
-        return xmlParser.parseRootElement(rootElemName,parser);
+        drawableParser.parseRootElement(rootElemName, parser, drawableParsed);
+        return drawableParsed;
     }
-
 }
