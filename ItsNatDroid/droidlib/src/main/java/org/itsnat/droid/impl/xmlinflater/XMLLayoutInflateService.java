@@ -1,7 +1,8 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class XMLLayoutInflateService
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
     protected Map<String,Integer> newIdMap = new HashMap<String,Integer>();
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
-    protected LayoutParsedCache layoutParsedCache = new LayoutParsedCache();
+    protected XMLParsedCache<LayoutParsed> layoutParsedCache = new XMLParsedCache<LayoutParsed>();
 
     public XMLLayoutInflateService(ItsNatDroidImpl parent)
     {
@@ -29,7 +30,7 @@ public class XMLLayoutInflateService
         return classDescViewMgr;
     }
 
-    public LayoutParsedCache getLayoutParsedCache()
+    public XMLParsedCache<LayoutParsed> getLayoutParsedCache()
     {
         return layoutParsedCache;
     }

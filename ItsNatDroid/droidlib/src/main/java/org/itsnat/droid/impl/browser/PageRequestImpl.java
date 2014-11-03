@@ -18,7 +18,8 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
+import org.itsnat.droid.impl.model.layout.LayoutParsed;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -174,7 +175,7 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        LayoutParsedCache layoutParsedCache = browser.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = browser.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
 
         PageRequestResult result = null;
         try

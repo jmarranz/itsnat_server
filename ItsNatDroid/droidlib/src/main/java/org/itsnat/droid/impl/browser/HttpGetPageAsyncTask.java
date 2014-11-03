@@ -9,7 +9,7 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected HttpParams httpParamsDefault;
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
-    protected LayoutParsedCache layoutParsedCache; // Es un singleton con métodos sincronizados
+    protected XMLParsedCache<LayoutParsed> layoutParsedCache; // Es un singleton con métodos sincronizados
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
                     HttpParams httpParamsRequest)

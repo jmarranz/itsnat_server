@@ -9,7 +9,6 @@ import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.model.ElementParsed;
 import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -57,28 +56,28 @@ public abstract class XMLParserBase
 
         setRootElement(rootElement,xmlParsed); // Cuanto antes
 
-        fillAttributesAndAddElement(null, rootElement,parser);
+        fillAttributesAndAddElement(null, rootElement,parser,xmlParsed);
 
         return rootElement;
     }
 
-    protected ElementParsed createElementAndFillAttributesAndAdd(String name, ElementParsed parentElement, XmlPullParser parser)
+    protected ElementParsed createElementAndFillAttributesAndAdd(String name, ElementParsed parentElement, XmlPullParser parser,XMLParsed xmlParsed)
     {
         // parentElement es null en el caso de parseo de fragment
         ElementParsed element = createRootElement(name);
 
-        fillAttributesAndAddElement(parentElement, element,parser);
+        fillAttributesAndAddElement(parentElement, element,parser,xmlParsed);
 
         return element;
     }
 
-    protected void fillAttributesAndAddElement(ElementParsed parentElement, ElementParsed element,XmlPullParser parser)
+    protected void fillAttributesAndAddElement(ElementParsed parentElement, ElementParsed element,XmlPullParser parser,XMLParsed xmlParsed)
     {
-        fillElementAttributes(element,parser);
+        fillElementAttributes(element,parser,xmlParsed);
         if (parentElement != null) parentElement.addChild(element);
     }
 
-    protected void fillElementAttributes(ElementParsed element,XmlPullParser parser)
+    protected void fillElementAttributes(ElementParsed element,XmlPullParser parser,XMLParsed xmlParsed)
     {
         int len = parser.getAttributeCount();
         element.initAttribList(len);
@@ -88,7 +87,7 @@ public abstract class XMLParserBase
             if ("".equals(namespaceURI)) namespaceURI = null; // Por estandarizar
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            addAttribute(element, namespaceURI, name, value);
+            addAttribute(element, namespaceURI, name, value,xmlParsed);
         }
     }
 
@@ -119,7 +118,7 @@ public abstract class XMLParserBase
 
     protected ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
     {
-        ElementParsed element = createElementAndFillAttributesAndAdd(name, parentElement, parser);
+        ElementParsed element = createElementAndFillAttributesAndAdd(name, parentElement, parser,xmlParsed);
         processChildElements(element,parser,xmlParsed);
         return element;
     }
@@ -154,16 +153,20 @@ public abstract class XMLParserBase
 
     protected AttrParsed createAttribute(String namespaceURI,String name,String value)
     {
-        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"))
+        if (AttrParsedRemote.isRemote(namespaceURI,value))
             return new AttrParsedRemote(namespaceURI,name,value);
         else
             return new AttrParsedDefault(namespaceURI,name,value);
     }
 
-    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value)
+    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)
     {
         AttrParsed attrib = createAttribute(namespaceURI,name,value);
         element.addAttribute(attrib);
+        if (attrib instanceof AttrParsedRemote)
+        {
+            xmlParsed.addAttributeRemote((AttrParsedRemote)attrib);
+        }
     }
 
     protected abstract ElementParsed createRootElement(String name);

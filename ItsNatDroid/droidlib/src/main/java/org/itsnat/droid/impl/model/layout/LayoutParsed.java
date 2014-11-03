@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class LayoutParsed extends XMLParsed
 {
-    protected long timestamp;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
     protected String loadScript;
@@ -19,19 +18,7 @@ public class LayoutParsed extends XMLParsed
 
     public LayoutParsed()
     {
-        this.timestamp = System.currentTimeMillis();
-    }
 
-    public long getTimestamp()
-    {
-        return timestamp;
-    }
-
-    public long updateTimestamp()
-    {
-        long timestampOld = this.timestamp;
-        this.timestamp = System.currentTimeMillis();
-        return timestampOld;
     }
 
     public String getAndroidNSPrefix()

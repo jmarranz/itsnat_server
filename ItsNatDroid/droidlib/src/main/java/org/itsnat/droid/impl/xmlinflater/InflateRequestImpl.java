@@ -8,7 +8,7 @@ import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.parser.layout.LayoutParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
@@ -73,7 +73,7 @@ public class InflateRequestImpl implements InflateRequest
     {
         LayoutParsed layoutParsed;
 
-        LayoutParsedCache layoutParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
         LayoutParsed cachedLayout = layoutParsedCache.get(markup);
         if (cachedLayout != null)
             layoutParsed = cachedLayout;

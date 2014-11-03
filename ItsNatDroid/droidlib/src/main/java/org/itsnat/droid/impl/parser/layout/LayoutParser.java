@@ -87,13 +87,13 @@ public abstract class LayoutParser extends XMLParserBase
     }
 
     @Override
-    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value)
+    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)
     {
         ViewParsed viewParsed = (ViewParsed)element;
         if (viewParsed.getStyleAttr() == null && (namespaceURI == null) && "style".equals(name))
             viewParsed.setStyleAttr(value);
         else
-            super.addAttribute(element, namespaceURI, name, value);
+            super.addAttribute(element, namespaceURI, name, value, xmlParsed);
     }
 
     protected abstract void parseScriptElement(XmlPullParser parser,ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException;

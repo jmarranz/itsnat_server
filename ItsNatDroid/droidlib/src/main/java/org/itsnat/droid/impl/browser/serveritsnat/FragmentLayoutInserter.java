@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.parser.layout.LayoutParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
@@ -61,7 +61,7 @@ public class FragmentLayoutInserter
 
         LayoutParsed layoutParsed;
 
-        LayoutParsedCache layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
         LayoutParsed cachedLayout = layoutParsedCache.get(markup);
         if (cachedLayout != null)
             layoutParsed = cachedLayout;

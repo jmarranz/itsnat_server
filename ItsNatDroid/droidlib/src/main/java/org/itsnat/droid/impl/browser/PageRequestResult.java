@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.parser.layout.LayoutParsedCache;
+import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.parser.layout.LayoutParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 
@@ -13,7 +13,7 @@ public class PageRequestResult
     protected HttpRequestResultImpl httpReqResult;
     protected LayoutParsed layoutParsed;
 
-    public PageRequestResult(HttpRequestResultImpl httpReqResult,LayoutParsedCache layoutParsedCache)
+    public PageRequestResult(HttpRequestResultImpl httpReqResult,XMLParsedCache<LayoutParsed> layoutParsedCache)
     {
         this.httpReqResult = httpReqResult;
 
