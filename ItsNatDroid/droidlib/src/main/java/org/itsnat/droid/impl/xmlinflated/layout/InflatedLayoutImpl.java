@@ -11,11 +11,11 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLLayoutInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
     protected ItsNatDroidImpl itsNatDroid;
-    protected XMLLayoutInflater inflater;
+    protected XMLInflaterLayout inflater;
     protected LayoutParsed layoutParsed;
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
@@ -51,9 +51,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return layoutParsed;
     }
 
-    public XMLLayoutInflateService getXMLLayoutInflateService()
+    public XMLInflateService getXMLInflateService()
     {
-        return itsNatDroid.getXMLLayoutInflateService();
+        return itsNatDroid.getXMLInflateService();
     }
 
     public String getAndroidNSPrefix()
@@ -146,5 +146,5 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return inflater.setAttribute(classDesc,view,attr,oneTimeAttrProcess,pending);
     }
 
-    public abstract XMLLayoutInflater createXMLLayoutInflater();
+    public abstract XMLInflaterLayout createXMLLayoutInflater();
 }

@@ -10,8 +10,8 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLLayoutInflater;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLLayoutInflaterPage;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 /**
  * Created by jmarranz on 20/08/14.
@@ -27,14 +27,14 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     }
 
     @Override
-    public XMLLayoutInflater createXMLLayoutInflater()
+    public XMLInflaterLayout createXMLLayoutInflater()
     {
-        return new XMLLayoutInflaterPage(this);
+        return new XMLInflaterLayoutPage(this);
     }
 
-    public XMLLayoutInflaterPage getXMLLayoutInflaterPage()
+    public XMLInflaterLayoutPage getXMLLayoutInflaterPage()
     {
-        return (XMLLayoutInflaterPage)inflater;
+        return (XMLInflaterLayoutPage)inflater;
     }
 
     public PageImpl getPageImpl()

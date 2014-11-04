@@ -51,9 +51,9 @@ import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 
@@ -209,8 +209,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (id > 0)
             return id;
 
-        XMLLayoutInflateService layoutService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
-        id = layoutService.findViewId(name);
+        XMLInflateService layoutService = page.getInflatedLayoutPageImpl().getXMLInflateService();
+        id = layoutService.findId(name);
         return id;
     }
 
@@ -758,7 +758,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         NodeToInsertImpl newChildToIn = (NodeToInsertImpl)newChild;
 
         InflatedLayoutImpl inflated = page.getInflatedLayoutPageImpl();
-        XMLLayoutInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLLayoutInflateService();
+        XMLInflateService inflaterService = page.getInflatedLayoutPageImpl().getXMLInflateService();
         ClassDescViewBased classDesc = inflaterService.getClassDescViewMgr().get(newChildToIn.getName());
         int index = childRef == null ? -1 : getChildIndex(parentNode,childRef);
 

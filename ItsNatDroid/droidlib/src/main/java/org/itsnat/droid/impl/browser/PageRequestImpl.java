@@ -175,7 +175,7 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = browser.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = browser.getItsNatDroidImpl().getXMLInflateService().getLayoutParsedCache();
 
         PageRequestResult result = null;
         try

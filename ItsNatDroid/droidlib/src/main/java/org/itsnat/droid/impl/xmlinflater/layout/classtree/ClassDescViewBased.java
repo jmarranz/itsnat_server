@@ -18,17 +18,17 @@ import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -38,30 +38,23 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescViewBased
+public class ClassDescViewBased extends ClassDesc<View>
 {
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
-                    new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
+                        new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
 
     protected ClassDescViewMgr classMgr;
-    protected String className;
-    protected Class<View> clasz;
     protected Constructor<View> constructor1P;
     protected Constructor<View> constructor3P;
-    protected HashMap<String,AttrDesc> attrDescMap;
-    protected ClassDescViewBased parentClass;
-    protected boolean initiated;
 
-    public ClassDescViewBased(ClassDescViewMgr classMgr,String className,ClassDescViewBased parentClass)
+    public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
     {
+        super(className,parentClass);
         this.classMgr = classMgr;
-        this.className = className;
-        this.parentClass = parentClass;
     }
 
     public ClassDescViewMgr getClassDescViewMgr()
@@ -69,58 +62,29 @@ public class ClassDescViewBased
         return classMgr;
     }
 
-    public XMLLayoutInflateService getXMLLayoutInflateService()
+    public XMLInflateService getXMLInflateService()
     {
-        return classMgr.getXMLLayoutInflateService();
+        return classMgr.getXMLInflateService();
     }
 
     public ClassDescViewBased getParentClassDescViewBased()
     {
-        return parentClass;
-    }
-
-    public String getClassName()
-    {
-        return className;
+        return (ClassDescViewBased)getParentClassDesc();
     }
 
     public Class<View> getViewClass()
     {
-        return (Class<View>)clasz;
+        return getDeclaredClass();
     }
 
-    private Class<View> initClass()
+    protected AttrDescView getAttrDescView(String name)
     {
-        if (clasz == null) this.clasz = (Class<View>)MiscUtil.resolveClass(className);
-        return clasz;
-    }
-
-    protected boolean isInit()
-    {
-        return initiated;
-    }
-
-    protected void init()
-    {
-        initClass();
-
-        this.attrDescMap = new HashMap<String,AttrDesc>();
+        return (AttrDescView)getAttrDesc(name);
     }
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
         return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
-    }
-
-    protected void addAttrDesc(AttrDesc attrDesc)
-    {
-        AttrDesc old = attrDescMap.put(attrDesc.getName(),attrDesc);
-        if (old != null) throw new ItsNatDroidException("Internal Error, duplicated attribute in this class: " + attrDesc.getName());
-    }
-
-    protected AttrDesc getAttrDesc(String name)
-    {
-        return attrDescMap.get(name);
     }
 
     protected boolean isAttributeIgnored(String namespaceURI,String name)
@@ -140,7 +104,7 @@ public class ClassDescViewBased
 
         if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
         {
-            AttrDesc attrDesc = getAttrDesc(name);
+            AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
             {
                 attrDesc.setAttribute(view, attr, oneTimeAttrProcess,pending);
@@ -149,6 +113,7 @@ public class ClassDescViewBased
             {
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
+                ClassDescViewBased parentClass = getParentClassDescViewBased();
                 if (parentClass != null)
                 {
                     parentClass.setAttribute(view, attr, oneTimeAttrProcess,pending,inflated);
@@ -186,13 +151,14 @@ public class ClassDescViewBased
 
         if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
         {
-            AttrDesc attrDesc = getAttrDesc(name);
+            AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
             {
                 attrDesc.removeAttribute(view);
             }
             else
             {
+                ClassDescViewBased parentClass = getParentClassDescViewBased();
                 if (parentClass != null)
                 {
                     parentClass.removeAttribute(view, namespaceURI, name, inflated);
@@ -274,7 +240,7 @@ public class ClassDescViewBased
         String value = findAttributeFromRemote(null, "style", newChildToIn);
         if (value == null) return 0;
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        return AttrDesc.getIdentifier(value,ctx,getXMLLayoutInflateService());
+        return AttrDescView.getIdentifier(value, ctx, getXMLInflateService());
     }
 
     public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending)
@@ -295,7 +261,7 @@ public class ClassDescViewBased
         String value = viewParsed.getStyleAttr();
         if (value == null) return 0;
         Context ctx = inflated.getContext();
-        return AttrDesc.getIdentifier(value, ctx,getXMLLayoutInflateService());
+        return AttrDescView.getIdentifier(value, ctx, getXMLInflateService());
     }
 
     public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)

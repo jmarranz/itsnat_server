@@ -40,7 +40,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
-        this.layoutParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        this.layoutParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateService().getLayoutParsedCache();
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         HttpContext httpContext = browser.getHttpContext();

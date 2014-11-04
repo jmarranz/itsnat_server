@@ -9,8 +9,8 @@ import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.R;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 
 
 /**
@@ -21,7 +21,7 @@ public class ItsNatDroidImpl implements ItsNatDroid
     public static ItsNatDroidImpl DEFAULT;
 
     protected Application app;
-    protected XMLLayoutInflateService inflateService = new XMLLayoutInflateService(this); // Sólo creamos una instancia pues cuesta mucho instanciar los objetos procesadores de clases y atributos
+    protected XMLInflateService inflateService = new XMLInflateService(this); // Sólo creamos una instancia pues cuesta mucho instanciar los objetos procesadores de clases y atributos
 
     public ItsNatDroidImpl(Application app)
     {
@@ -66,7 +66,7 @@ public class ItsNatDroidImpl implements ItsNatDroid
         return res.getInteger(R.integer.libVersionCode);
     }
 
-    public XMLLayoutInflateService getXMLLayoutInflateService()
+    public XMLInflateService getXMLInflateService()
     {
         return inflateService;
     }

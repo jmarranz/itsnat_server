@@ -61,7 +61,7 @@ public class FragmentLayoutInserter
 
         LayoutParsed layoutParsed;
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLLayoutInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLInflateService().getLayoutParsedCache();
         LayoutParsed cachedLayout = layoutParsedCache.get(markup);
         if (cachedLayout != null)
             layoutParsed = cachedLayout;

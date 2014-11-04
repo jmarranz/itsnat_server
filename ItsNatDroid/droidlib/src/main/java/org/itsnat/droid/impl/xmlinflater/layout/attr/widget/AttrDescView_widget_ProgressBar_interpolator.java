@@ -1,0 +1,34 @@
+package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.ProgressBar;
+
+import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
+import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+
+/**
+ * Created by jmarranz on 30/04/14.
+ */
+public class AttrDescView_widget_ProgressBar_interpolator extends AttrDescView
+{
+    public AttrDescView_widget_ProgressBar_interpolator(ClassDescViewBased parent)
+    {
+        super(parent,"interpolator");
+    }
+
+    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    {
+        Context ctx = view.getContext();
+        int resId = getIdentifier(value,ctx);
+
+        ((ProgressBar)view).setInterpolator(ctx, resId);
+    }
+
+    public void removeAttribute(View view)
+    {
+        setAttribute(view,"@android:anim/linear_interpolator",null,null); // Yo creo que es el que usa por defecto Android en este caso
+    }
+}
