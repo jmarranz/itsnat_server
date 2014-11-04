@@ -36,13 +36,19 @@
               android:textSize="20dp"
               android:layout_below="@id/testLocal3"/>
 
+    <Button android:id="@+id/testRemoteResources"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEST REMOTE RESOURCES"
+            android:textSize="20dp"
+            android:layout_below="@id/testRemoteCore"/>
 
     <Button android:id="@+id/testRemoteControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="TEST REMOTE CONTROL"
             android:textSize="20dp"
-            android:layout_below="@id/testRemoteCore"/>
+            android:layout_below="@id/testRemoteResources"/>
 
     <Button android:id="@+id/testRemoteStatelessCore"
             android:layout_width="wrap_content"

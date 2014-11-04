@@ -18,8 +18,8 @@ public class HttpRequestResultImpl implements HttpRequestResult
     private String encoding;
     private Header[] headerList;
     private String itsNatServerVersion;
-    public String responseText;
-    public JSONObject responseJSONObject;
+    private String responseText;
+    private JSONObject responseJSONObject;
 
     public HttpRequestResultImpl(Header[] headerList,byte[] responseByteArray,StatusLine status, String mimeType, String encoding)
     {
@@ -101,9 +101,19 @@ public class HttpRequestResultImpl implements HttpRequestResult
         return responseText;
     }
 
+    public void setResponseText(String responseText)
+    {
+        this.responseText = responseText;
+    }
+
     @Override
     public JSONObject getResponseJSONObject()
     {
         return responseJSONObject;
+    }
+
+    public void setResponseJSONObject(JSONObject responseJSONObject)
+    {
+        this.responseJSONObject = responseJSONObject;
     }
 }

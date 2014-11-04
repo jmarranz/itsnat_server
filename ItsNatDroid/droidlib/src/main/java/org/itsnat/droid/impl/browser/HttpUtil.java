@@ -68,10 +68,15 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
+    // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
     public static final String MIME_ANDROID_LAYOUT = "android/layout";
     public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente
     public static final String MIME_JSON = "application/json";
-
+    public static final String MIME_XML = "text/xml"; // No usamos application/xml aunque sea más correcto, pues en otro lugar al detectar "text/XXX" lo convertimos a texto
+    public static final String MIME_PNG = "image/png";
+    //public static final String MIME_PNG_9 = "image/png9"; // Inventada, si no se necesitara realmente eliminarla
+    public static final String MIME_JPEG = "image/jpg"; // Válido en BitmapDrawable
+    public static final String MIME_GIF = "image/gif"; // Válido en BitmapDrawable
 
     private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {
@@ -213,14 +218,16 @@ public class HttpUtil
         {
             // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
             String mimeType = result.getMimeType();
-            if (MIME_ANDROID_LAYOUT.equals(mimeType) || MIME_BEANSHELL.equals(mimeType) ||
-                MIME_JSON.equals(mimeType) || mimeType.startsWith("text/"))
+            if (MIME_ANDROID_LAYOUT.equals(mimeType) ||
+                MIME_BEANSHELL.equals(mimeType) ||
+                MIME_JSON.equals(mimeType) ||
+                mimeType.startsWith("text/"))
             {
-                result.responseText = ValueUtil.toString(result.getResponseByteArray(), result.getEncoding());
+                result.setResponseText( ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()) );
 
                 if (MIME_JSON.equals(mimeType))
                 {
-                    try { result.responseJSONObject = new JSONObject(result.responseText); }
+                    try { result.setResponseJSONObject( new JSONObject(result.getResponseText() ) ); }
                     catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, result); }
                 }
             }
@@ -228,7 +235,7 @@ public class HttpUtil
         else
         {
             // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
-            result.responseText = ValueUtil.toString(result.getResponseByteArray(), result.getEncoding());
+            result.setResponseText( ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()) );
             throw new ItsNatDroidServerResponseException(result);
         }
 

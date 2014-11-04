@@ -1,6 +1,11 @@
 
 
-* revisar peliculas ciclo de cine
+* Usar pool threads cuando se pueda
+
+  quizás usar Future
+
+  http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html
+
 
 * Pensar si en inflar en local otros tipos de XML de resources
 
@@ -64,4 +69,8 @@ concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTex
 
 * Publicar en Hacker News y otros (ver lista)
 
+* Subir el jar a Maven Central
+
+    http://jedicoder.blogspot.com.es/2011/11/automated-gradle-project-deployment-to.html
+    https://github.com/raycoarana/roborouter/blob/master/gradle-mvn-push.gradle
 

@@ -18,8 +18,8 @@ import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.util.UserDataImpl;
-import org.itsnat.droid.impl.xmlinflater.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.InflateRequestImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.page.InflatedLayoutPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;

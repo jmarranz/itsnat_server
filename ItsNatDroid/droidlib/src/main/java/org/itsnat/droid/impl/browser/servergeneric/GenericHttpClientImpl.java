@@ -207,7 +207,7 @@ public class GenericHttpClientImpl implements GenericHttpClient
         else // Error del servidor, lo normal es que haya lanzado una excepción
         {
             ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-            itsNatDoc.showErrorMessage(true, result.responseText,errorMode);
+            itsNatDoc.showErrorMessage(true, result.getResponseText(),errorMode);
             throw new ItsNatDroidServerResponseException(result);
         }
     }

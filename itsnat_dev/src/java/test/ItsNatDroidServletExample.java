@@ -21,6 +21,7 @@ import test.droid.core.TestDroidCoreDocLoadListener;
 import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
+import test.droid.remres.TestDroidRemoteResourcesDocLoadListener;
 import test.droid.shared.TestDroidGlobalDocumentLoadListener;
 import test.droid.shared.TestDroidGlobalRemoteControlListener;
 import test.droid.stateless.core.TestDroidStatelessCoreEventDocLoadListener;
@@ -61,6 +62,8 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setLoadScriptInline(false);
         //docTemplate.setEventsEnabled(false);
         
+        docTemplate = registerDocument("test_droid_remote_resources","android/layout",pathPrefix,pages);        
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        
         
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());

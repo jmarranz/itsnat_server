@@ -50,25 +50,6 @@ public abstract class LayoutParser extends XMLParserBase
     }
 
     @Override
-    public ElementParsed parseRootElement(String rootElemName,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
-    {
-        LayoutParsed layoutParsed = (LayoutParsed)xmlParsed;
-        int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
-        int nsEnd = parser.getNamespaceCount(parser.getDepth());
-        for (int i = nsStart; i < nsEnd; i++)
-        {
-            String prefix = parser.getNamespacePrefix(i);
-            String ns = parser.getNamespaceUri(i);
-            layoutParsed.addNamespace(prefix, ns);
-        }
-
-        if (layoutParsed.getAndroidNSPrefix() == null)
-            throw new ItsNatDroidException("Missing android namespace declaration in root element");
-
-        return super.parseRootElement(rootElemName,parser,xmlParsed);
-    }
-
-    @Override
     protected ElementParsed createRootElement(String name)
     {
         return new ViewParsed(name,null);

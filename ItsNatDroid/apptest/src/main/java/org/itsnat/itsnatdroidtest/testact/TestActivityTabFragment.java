@@ -112,6 +112,17 @@ public class TestActivityTabFragment extends Fragment
             }
         });
 
+        View testRemoteResources = rootView.findViewById(R.id.testRemoteResources);
+        testRemoteResources.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                String url = act.getUrlTestRemoteResources();
+                TestRemotePage test = new TestRemotePage(TestActivityTabFragment.this, act.getItsNatDroidBrowser());
+                test.test(url);
+            }
+        });
 
         View testRemoteControl = rootView.findViewById(R.id.testRemoteControl);
         testRemoteControl.setOnClickListener(new View.OnClickListener()

@@ -43,6 +43,19 @@ public abstract class XMLParserBase
 
     public ElementParsed parseRootElement(String rootElemName,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
     {
+        int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
+        int nsEnd = parser.getNamespaceCount(parser.getDepth());
+        for (int i = nsStart; i < nsEnd; i++)
+        {
+            String prefix = parser.getNamespacePrefix(i);
+            String ns = parser.getNamespaceUri(i);
+            xmlParsed.addNamespace(prefix, ns);
+        }
+
+        if (xmlParsed.getAndroidNSPrefix() == null)
+            throw new ItsNatDroidException("Missing android namespace declaration in root element");
+
+
         ElementParsed rootElement = createRootElementAndFillAttributes(rootElemName, parser,xmlParsed);
 
         processChildElements(rootElement,parser,xmlParsed);
@@ -153,7 +166,7 @@ public abstract class XMLParserBase
 
     protected AttrParsed createAttribute(String namespaceURI,String name,String value)
     {
-        if (AttrParsedRemote.isRemote(namespaceURI,value))
+        if (AttrParsedRemote.isRemote(namespaceURI, value))
             return new AttrParsedRemote(namespaceURI,name,value);
         else
             return new AttrParsedDefault(namespaceURI,name,value);

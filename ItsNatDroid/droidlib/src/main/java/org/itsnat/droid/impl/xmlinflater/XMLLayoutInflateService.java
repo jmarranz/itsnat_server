@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 
 import java.util.HashMap;
 import java.util.Map;

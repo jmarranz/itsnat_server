@@ -90,7 +90,7 @@ public class EventSender
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         itsNatDoc.fireEventMonitors(false,false,evt);
 
-        String responseText = result.responseText;
+        String responseText = result.getResponseText();
         if (result.isStatusOK())
         {
             itsNatDoc.eval(responseText);
