@@ -46,6 +46,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.ContinueEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
@@ -407,13 +408,10 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         if (newChildToIn.hasAttributes())
         {
-            for (Map.Entry<String, AttrImpl> entry : newChildToIn.getAttributes().entrySet())
+            for (Map.Entry<String, AttrParsed> entry : newChildToIn.getAttributes().entrySet())
             {
-                AttrImpl attr = entry.getValue();
-                String namespaceURI = attr.getNamespaceURI();
-                String name = attr.getName();
-                String value = attr.getValue();
-                inflated.setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess,(PendingPostInsertChildrenTasks)null);
+                AttrParsed attr = entry.getValue();
+                inflated.setAttribute(classDesc, view, attr, oneTimeAttrProcess,(PendingPostInsertChildrenTasks)null);
             }
         }
 
@@ -520,18 +518,20 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         }
 
+        AttrParsed attr = AttrParsed.createAttrParsed(namespaceURI,name,value);
+
         if (node instanceof NodeToInsertImpl)
         {
             NodeToInsertImpl nodeToIn = (NodeToInsertImpl)node;
             if (!nodeToIn.isInserted())
             {
-                nodeToIn.setAttribute(namespaceURI,name,value);
+                nodeToIn.setAttribute(attr);
                 return;
             }
         }
 
         View view = node.getView();
-        page.getInflatedLayoutPageImpl().setAttribute(view, namespaceURI, name, value);
+        page.getInflatedLayoutPageImpl().setAttribute(view,attr);
     }
 
     @Override

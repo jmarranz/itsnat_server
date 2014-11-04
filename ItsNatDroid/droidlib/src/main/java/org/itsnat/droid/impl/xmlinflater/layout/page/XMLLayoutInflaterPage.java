@@ -7,6 +7,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -35,11 +36,11 @@ public class XMLLayoutInflaterPage extends XMLLayoutInflater
         return getInflatedLayoutPageImpl().getPageImpl();
     }
 
-    public void setAttribute(View view, String namespaceURI, String name, String value)
+    public void setAttribute(View view, AttrParsed attr)
     {
         ClassDescViewMgr classDescViewMgr = layout.getXMLLayoutInflateService().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        setAttribute(viewClassDesc, view, namespaceURI, name, value, null,null);
+        setAttribute(viewClassDesc, view, attr, null,null);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
@@ -49,9 +50,12 @@ public class XMLLayoutInflaterPage extends XMLLayoutInflater
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
 
-    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name, String value,
+    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
+        String namespaceURI = attr.getNamespaceURI();
+        String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        String value = attr.getValue();
         if (ValueUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
@@ -65,11 +69,11 @@ public class XMLLayoutInflaterPage extends XMLLayoutInflater
                 return true;
             }
             else
-                return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess,pending);
+                return super.setAttribute(viewClassDesc, view, attr, oneTimeAttrProcess,pending);
         }
         else
         {
-            return super.setAttribute(viewClassDesc, view, namespaceURI, name, value, oneTimeAttrProcess,pending);
+            return super.setAttribute(viewClassDesc, view, attr, oneTimeAttrProcess,pending);
         }
     }
 

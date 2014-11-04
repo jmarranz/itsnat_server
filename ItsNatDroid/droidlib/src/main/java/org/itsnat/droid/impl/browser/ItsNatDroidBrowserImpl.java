@@ -16,7 +16,7 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.CustomFunction;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.util.UniqueIdGenerator;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -51,7 +51,7 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
         try
         {
 
-            interp.set("NSAND", XMLLayoutInflateService.XMLNS_ANDROID);
+            interp.set("NSAND", InflatedLayoutImpl.XMLNS_ANDROID);
             // No definimos aquí set("itsNatDoc",null) o similar para poder definir métodos alert y toast
             // porque queda "itsNatDoc" como global y cualquier set() cambia valor global y por tanto ya no es local por Page
             //interp.set("itsNatDoc",new Object()); // Esto es necesario para los alert y toast que se definen luego y que usan itsNatDoc, luego cambiará con el objeto de verdad

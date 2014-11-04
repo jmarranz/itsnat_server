@@ -10,11 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Map;
@@ -404,7 +405,12 @@ public abstract class AttrDesc
         return res;
     }
 
-    public abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
+    public void setAttribute(View view, AttrParsed attr, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    {
+        setAttribute(view,attr.getValue(), oneTimeAttrProcess,pending);
+    }
+
+    protected abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
 
     public abstract void removeAttribute(View view);
 }

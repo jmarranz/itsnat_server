@@ -7,6 +7,7 @@ import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
@@ -24,6 +25,8 @@ import java.util.List;
  */
 public abstract class InflatedLayoutImpl implements InflatedLayout
 {
+    public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
+
     protected ItsNatDroidImpl itsNatDroid;
     protected XMLLayoutInflater inflater;
     protected LayoutParsed layoutParsed;
@@ -40,6 +43,7 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         this.layoutParsed = layoutParsed;
         this.inflateListener = inflateListener;
         this.ctx = ctx;
+        this.inflater = createXMLLayoutInflater();
     }
 
     public LayoutParsed getLayoutParsed()
@@ -128,7 +132,6 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
-        this.inflater = createXMLLayoutInflater();
         return inflater.inflateLayout(loadScript, scriptList);
     }
 
@@ -137,10 +140,10 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return inflater.insertFragment(rootViewFragmentParsed);
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,
+    public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return inflater.setAttribute(classDesc,view,namespaceURI,name,value,oneTimeAttrProcess,pending);
+        return inflater.setAttribute(classDesc,view,attr,oneTimeAttrProcess,pending);
     }
 
     public abstract XMLLayoutInflater createXMLLayoutInflater();

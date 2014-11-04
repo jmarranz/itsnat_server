@@ -4,7 +4,6 @@ import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedDefault;
 import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.model.ElementParsed;
 import org.itsnat.droid.impl.model.XMLParsed;
@@ -166,10 +165,7 @@ public abstract class XMLParserBase
 
     protected AttrParsed createAttribute(String namespaceURI,String name,String value)
     {
-        if (AttrParsedRemote.isRemote(namespaceURI, value))
-            return new AttrParsedRemote(namespaceURI,name,value);
-        else
-            return new AttrParsedDefault(namespaceURI,name,value);
+        return AttrParsed.createAttrParsed(namespaceURI,name,value);
     }
 
     protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)

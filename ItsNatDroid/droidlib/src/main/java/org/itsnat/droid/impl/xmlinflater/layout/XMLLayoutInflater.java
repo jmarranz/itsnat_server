@@ -118,20 +118,17 @@ public abstract class XMLLayoutInflater
             for (int i = 0; i < attribList.size(); i++)
             {
                 AttrParsed attr = attribList.get(i);
-                String namespaceURI = attr.getNamespaceURI();
-                String name = attr.getName(); // El nombre devuelto no contiene el namespace
-                String value = attr.getValue();
-                setAttribute(classDesc, view, namespaceURI, name, value, oneTimeAttrProcess, pending);
+                setAttribute(classDesc, view, attr, oneTimeAttrProcess, pending);
             }
         }
 
         oneTimeAttrProcess.executeLastTasks();
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,String namespaceURI,String name,String value,
+    public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.setAttribute(view,namespaceURI, name, value, oneTimeAttrProcess,pending,layout);
+        return classDesc.setAttribute(view,attr, oneTimeAttrProcess,pending,layout);
     }
 
     protected void processChildViews(ViewParsed viewParsedParent, View viewParent)

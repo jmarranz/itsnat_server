@@ -13,23 +13,23 @@ import android.widget.GridLayout;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.AttrImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
+import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -128,18 +128,22 @@ public class ClassDescViewBased
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
-    public boolean setAttribute(View view,String namespaceURI,String name,String value,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending,InflatedLayoutImpl inflated)
+    public boolean setAttribute(View view,AttrParsed attr,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending,InflatedLayoutImpl inflated)
     {
         if (!isInit()) init();
 
+        String namespaceURI = attr.getNamespaceURI();
+        String name = attr.getName(); // El nombre devuelto no contiene el namespace
+        String value = attr.getValue();
+
         if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
-        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
+        if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(view, value, oneTimeAttrProcess,pending);
+                attrDesc.setAttribute(view, attr, oneTimeAttrProcess,pending);
             }
             else
             {
@@ -147,7 +151,7 @@ public class ClassDescViewBased
                 // y tiene prioridad la clase más derivada
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(view, namespaceURI, name, value, oneTimeAttrProcess,pending,inflated);
+                    parentClass.setAttribute(view, attr, oneTimeAttrProcess,pending,inflated);
                 }
                 else
                 {
@@ -180,7 +184,7 @@ public class ClassDescViewBased
 
         if (isStyleAttribute(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
-        if (XMLLayoutInflateService.XMLNS_ANDROID.equals(namespaceURI))
+        if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDesc attrDesc = getAttrDesc(name);
             if (attrDesc != null)
@@ -260,7 +264,7 @@ public class ClassDescViewBased
 
     protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
     {
-        AttrImpl attr = newChildToIn.getAttribute(namespaceURI,attrName);
+        AttrParsed attr = newChildToIn.getAttribute(namespaceURI,attrName);
         if (attr == null) return null;
         return attr.getValue();
     }

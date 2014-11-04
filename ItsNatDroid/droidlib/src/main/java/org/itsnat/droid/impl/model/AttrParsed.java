@@ -19,6 +19,14 @@ public abstract class AttrParsed
         if ("".equals(namespaceURI)) throw new ItsNatDroidException("Internal error: empty string not allowed"); // Debe ser null o una cadena no vacía
     }
 
+    public static AttrParsed createAttrParsed(String namespaceURI,String name,String value)
+    {
+        if (AttrParsedRemote.isRemote(namespaceURI, value))
+            return new AttrParsedRemote(namespaceURI,name,value);
+        else
+            return new AttrParsedDefault(namespaceURI,name,value);
+    }
+
     public String getNamespaceURI()
     {
         return namespaceURI;
