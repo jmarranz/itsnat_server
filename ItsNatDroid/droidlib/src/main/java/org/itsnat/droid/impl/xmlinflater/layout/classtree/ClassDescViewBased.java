@@ -22,7 +22,7 @@ import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
@@ -62,9 +62,9 @@ public class ClassDescViewBased extends ClassDesc<View>
         return classMgr;
     }
 
-    public XMLInflateService getXMLInflateService()
+    public XMLInflateRegistry getXMLInflateRegistry()
     {
-        return classMgr.getXMLInflateService();
+        return classMgr.getXMLInflateRegistry();
     }
 
     public ClassDescViewBased getParentClassDescViewBased()
@@ -240,7 +240,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         String value = findAttributeFromRemote(null, "style", newChildToIn);
         if (value == null) return 0;
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        return AttrDescView.getIdentifier(value, ctx, getXMLInflateService());
+        return AttrDescView.getIdentifier(value, ctx, getXMLInflateRegistry());
     }
 
     public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending)
@@ -261,7 +261,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         String value = viewParsed.getStyleAttr();
         if (value == null) return 0;
         Context ctx = inflated.getContext();
-        return AttrDescView.getIdentifier(value, ctx, getXMLInflateService());
+        return AttrDescView.getIdentifier(value, ctx, getXMLInflateRegistry());
     }
 
     public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)

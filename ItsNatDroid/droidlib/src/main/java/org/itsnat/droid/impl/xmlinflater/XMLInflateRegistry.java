@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 25/06/14.
  */
-public class XMLInflateService
+public class XMLInflateRegistry
 {
     protected ItsNatDroidImpl parent;
     private int sNextGeneratedId = 1; // No usamos AtomicInteger porque no lo usaremos en multihilo
@@ -19,7 +19,7 @@ public class XMLInflateService
     protected ClassDescViewMgr classDescViewMgr = new ClassDescViewMgr(this);
     protected XMLParsedCache<LayoutParsed> layoutParsedCache = new XMLParsedCache<LayoutParsed>();
 
-    public XMLInflateService(ItsNatDroidImpl parent)
+    public XMLInflateRegistry(ItsNatDroidImpl parent)
     {
         this.parent = parent;
     }

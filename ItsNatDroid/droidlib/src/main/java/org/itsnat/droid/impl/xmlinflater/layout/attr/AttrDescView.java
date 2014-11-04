@@ -14,7 +14,7 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -65,15 +65,15 @@ public abstract class AttrDescView extends AttrDesc
 
     public int getIdentifier(String attrValue, Context ctx,boolean throwErr)
     {
-        return getIdentifier(attrValue,ctx,parent.getClassDescViewMgr().getXMLInflateService(),throwErr);
+        return getIdentifier(attrValue,ctx,parent.getClassDescViewMgr().getXMLInflateRegistry(),throwErr);
     }
 
-    public static int getIdentifier(String attrValue, Context ctx,XMLInflateService layoutService)
+    public static int getIdentifier(String attrValue, Context ctx,XMLInflateRegistry layoutService)
     {
         return getIdentifier(attrValue, ctx,layoutService,true);
     }
 
-    public static int getIdentifier(String value, Context ctx,XMLInflateService layoutService,boolean throwErr)
+    public static int getIdentifier(String value, Context ctx,XMLInflateRegistry layoutService,boolean throwErr)
     {
         if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
 
@@ -107,7 +107,7 @@ public abstract class AttrDescView extends AttrDesc
         return outValue.resourceId;
     }
 
-    public static int getIdentifierDynamicallyAdded(String value, Context ctx,XMLInflateService layoutService)
+    public static int getIdentifierDynamicallyAdded(String value, Context ctx,XMLInflateRegistry layoutService)
     {
         if (value.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
             return 0; // No encontrado
@@ -153,7 +153,7 @@ public abstract class AttrDescView extends AttrDesc
             {
                 int pos = value.indexOf('/');
                 String idName = value.substring(pos + 1);
-                XMLInflateService inflateService = parent.getClassDescViewMgr().getXMLInflateService();
+                XMLInflateRegistry inflateService = parent.getClassDescViewMgr().getXMLInflateRegistry();
                 if (value.startsWith("@+id/")) id = inflateService.findIdAddIfNecessary(idName);
                 else id = inflateService.findId(idName);
                 if (id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");

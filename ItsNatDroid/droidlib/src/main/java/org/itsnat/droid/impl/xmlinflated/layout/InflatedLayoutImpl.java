@@ -11,7 +11,7 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
@@ -51,9 +51,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         return layoutParsed;
     }
 
-    public XMLInflateService getXMLInflateService()
+    public XMLInflateRegistry getXMLInflateRegistry()
     {
-        return itsNatDroid.getXMLInflateService();
+        return itsNatDroid.getXMLInflateRegistry();
     }
 
     public String getAndroidNSPrefix()

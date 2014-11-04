@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateService;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewUnknown;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_gesture_GestureOverlayView;
@@ -55,16 +55,16 @@ import java.util.HashMap;
  */
 public class ClassDescViewMgr
 {
-    protected XMLInflateService parent;
+    protected XMLInflateRegistry parent;
     private final HashMap<String,ClassDescViewBased> classes = new HashMap<String,ClassDescViewBased>();
 
-    public ClassDescViewMgr(XMLInflateService parent)
+    public ClassDescViewMgr(XMLInflateRegistry parent)
     {
         this.parent = parent;
         initClassDesc();
     }
 
-    public XMLInflateService getXMLInflateService()
+    public XMLInflateRegistry getXMLInflateRegistry()
     {
         return parent;
     }

@@ -74,7 +74,7 @@ public class InflateRequestImpl implements InflateRequest
     {
         LayoutParsed layoutParsed;
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = getItsNatDroidImpl().getXMLInflateService().getLayoutParsedCache();
+        XMLParsedCache<LayoutParsed> layoutParsedCache = getItsNatDroidImpl().getXMLInflateRegistry().getLayoutParsedCache();
         LayoutParsed cachedLayout = layoutParsedCache.get(markup);
         if (cachedLayout != null)
             layoutParsed = cachedLayout;

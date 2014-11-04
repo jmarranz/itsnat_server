@@ -38,14 +38,14 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 
     public void setAttribute(View view, AttrParsed attr)
     {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateService().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
         setAttribute(viewClassDesc, view, attr, null,null);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = layout.getXMLInflateService().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }

@@ -2,11 +2,12 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import org.itsnat.droid.impl.model.drawable.DrawableParsed;
 import org.itsnat.droid.impl.model.drawable.NinePatchDrawableParsed;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class XMLInflaterDrawable
+public abstract class XMLInflaterDrawable extends XMLInflater
 {
     protected DrawableParsed drawableParsed;
 

@@ -9,6 +9,7 @@ import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class XMLInflaterLayout
+public abstract class XMLInflaterLayout extends XMLInflater
 {
     protected InflatedLayoutImpl layout;
 
@@ -69,7 +70,7 @@ public abstract class XMLInflaterLayout
 
     public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateService().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View rootView = createViewObject(classDesc,viewParsed,pending);
 
@@ -89,7 +90,7 @@ public abstract class XMLInflaterLayout
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateService().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewParsed.getName());
         View view = createViewObject(classDesc,viewParsed,pending);
 
