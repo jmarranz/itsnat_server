@@ -13,8 +13,9 @@ import org.itsnat.droid.impl.parser.layout.LayoutParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
 import org.itsnat.droid.impl.util.IOUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.page.InflatedLayoutPageImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.stdalone.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;
 
 import java.io.Reader;
 import java.util.List;
@@ -66,10 +67,10 @@ public class InflateRequestImpl implements InflateRequest
     public InflatedLayout inflate(Reader input)
     {
         String markup = IOUtil.read(input);
-        return inflateInternal(markup,null,null,null);
+        return inflatePageInternal(markup, null, null, null);
     }
 
-    public InflatedLayoutImpl inflateInternal(String markup,String[] loadScript,List<String> scriptList,PageImpl page)
+    public InflatedLayoutImpl inflatePageInternal(String markup, String[] loadScript, List<String> scriptList, PageImpl page)
     {
         LayoutParsed layoutParsed;
 
@@ -85,14 +86,14 @@ public class InflateRequestImpl implements InflateRequest
             layoutParsedCache.put(markup, layoutParsed);
         }
 
-        return inflateInternal(layoutParsed,loadScript,scriptList,page);
+        return inflateLayoutInternal(layoutParsed, loadScript, scriptList, page);
     }
 
-    public InflatedLayoutImpl inflateInternal(LayoutParsed layoutParsed,String[] loadScript,List<String> scriptList,PageImpl page)
+    public InflatedLayoutImpl inflateLayoutInternal(LayoutParsed layoutParsed, String[] loadScript, List<String> scriptList, PageImpl page)
     {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed,inflateListener,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed,inflateListener,ctx);
-        inflatedLayout.inflate(loadScript,scriptList);
+        inflatedLayout.inflateLayout(loadScript, scriptList);
         return inflatedLayout;
     }
 

@@ -2,6 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.view.View;
 
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+
 /**
  * Created by jmarranz on 25/08/14.
  */

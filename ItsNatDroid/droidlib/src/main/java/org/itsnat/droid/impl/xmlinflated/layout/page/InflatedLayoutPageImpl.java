@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.layout.page;
+package org.itsnat.droid.impl.xmlinflated.layout.page;
 
 import android.content.Context;
 import android.view.View;
@@ -7,16 +7,10 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrCustomInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
-import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
-import org.itsnat.droid.impl.xmlinflater.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
-import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLLayoutInflater;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLLayoutInflaterPage;
 
 /**
  * Created by jmarranz on 20/08/14.
@@ -29,6 +23,17 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
     {
         super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, inflateListener, ctx);
         this.page = page;
+    }
+
+    @Override
+    public XMLLayoutInflater createXMLLayoutInflater()
+    {
+        return new XMLLayoutInflaterPage(this);
+    }
+
+    public XMLLayoutInflaterPage getXMLLayoutInflaterPage()
+    {
+        return (XMLLayoutInflaterPage)inflater;
     }
 
     public PageImpl getPageImpl()
@@ -51,18 +56,15 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 
     public void setAttribute(View view, String namespaceURI, String name, String value)
     {
-        ClassDescViewMgr classDescViewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
-        setAttribute(viewClassDesc, view, namespaceURI, name, value, null,null);
+        getXMLLayoutInflaterPage().setAttribute(view,namespaceURI,name,value);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = getXMLLayoutInflateService().getClassDescViewMgr();
-        ClassDescViewBased viewClassDesc = viewMgr.get(view);
-        removeAttribute(viewClassDesc, view, namespaceURI, name);
+        getXMLLayoutInflaterPage().removeAttribute(view, namespaceURI, name);
     }
 
+/*
     public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, String namespaceURI, String name, String value,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
@@ -128,4 +130,5 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
             return null;
         return type;
     }
+    */
 }

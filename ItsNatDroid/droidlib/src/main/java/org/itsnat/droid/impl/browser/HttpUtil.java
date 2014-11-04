@@ -55,6 +55,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,21 @@ public class HttpUtil
     //public static final String MIME_PNG_9 = "image/png9"; // Inventada, si no se necesitara realmente eliminarla
     public static final String MIME_JPEG = "image/jpg"; // Válido en BitmapDrawable
     public static final String MIME_GIF = "image/gif"; // Válido en BitmapDrawable
+
+    public static final Map<String,String> MIME_BY_EXT = new HashMap<String,String>(); // Como sólo se lee puede usarse en multihilo
+    static
+    {
+        // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
+        MIME_BY_EXT.put("xml",HttpUtil.MIME_XML);
+        MIME_BY_EXT.put("png",HttpUtil.MIME_PNG);
+        MIME_BY_EXT.put("9.png",HttpUtil.MIME_PNG);
+        MIME_BY_EXT.put("jpg",HttpUtil.MIME_JPEG);
+        MIME_BY_EXT.put("jpe",HttpUtil.MIME_JPEG);
+        MIME_BY_EXT.put("jpeg",HttpUtil.MIME_JPEG);
+        MIME_BY_EXT.put("gif",HttpUtil.MIME_GIF);
+
+        // No es necesario "bs" ni "json" estos no se acceden remótamente, en el caso de .bs sí pero sabemos que es un script beanshell da igual la extensión
+    }
 
     private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {

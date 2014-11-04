@@ -49,12 +49,12 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
-import org.itsnat.droid.impl.xmlinflater.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.XMLLayoutInflateService;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 
 import java.util.HashMap;
 import java.util.LinkedList;

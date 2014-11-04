@@ -30,18 +30,8 @@ public class AttrParsedRemote extends AttrParsed
         this.extension = value.substring(pos3 + 1).toLowerCase(); // xml, png, 9.png
 
         // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-        String mime;
-        if ("xml".equals(extension))
-            mime = HttpUtil.MIME_XML;
-        else if ("png".equals(extension))
-            mime = HttpUtil.MIME_PNG;
-            //else if ("9.png".equals(extension))
-            //    mime = HttpUtil.MIME_PNG_9;
-        else if ("jpg".equals(extension) || "jpeg".equals(extension))
-            mime = HttpUtil.MIME_JPEG;
-        else if ("gif".equals(extension))
-            mime = HttpUtil.MIME_GIF;
-        else
+        String mime = HttpUtil.MIME_BY_EXT.get(extension);
+        if (mime == null)
             throw new ItsNatDroidException("Unexpected extension: " + extension);
         this.mime = mime;
     }

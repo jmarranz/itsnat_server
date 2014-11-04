@@ -19,7 +19,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateRequestImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -72,7 +72,7 @@ public class PageImpl implements Page
 
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateInternal(layoutParsed, loadScriptArr,scriptList,this);
+        this.inflated = (InflatedLayoutPageImpl)inflateRequest.inflateLayoutInternal(layoutParsed, loadScriptArr, scriptList, this);
 
         String loadScript = loadScriptArr[0];
 

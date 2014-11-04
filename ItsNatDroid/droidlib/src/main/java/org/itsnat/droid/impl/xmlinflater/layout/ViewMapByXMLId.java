@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewParent;
 
 import org.itsnat.droid.impl.util.WeakMapWithValue;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 
 /**
  * Created by jmarranz on 25/08/14.

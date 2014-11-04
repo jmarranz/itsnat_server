@@ -12,7 +12,7 @@ import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.xmlinflater.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 
 import java.util.Iterator;
 import java.util.LinkedList;
