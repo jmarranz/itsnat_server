@@ -47,19 +47,17 @@ public class ClassDescViewBased extends ClassDesc<View>
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
                         new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
 
-    protected ClassDescViewMgr classMgr;
     protected Constructor<View> constructor1P;
     protected Constructor<View> constructor3P;
 
     public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
     {
-        super(className,parentClass);
-        this.classMgr = classMgr;
+        super(classMgr,className,parentClass);
     }
 
     public ClassDescViewMgr getClassDescViewMgr()
     {
-        return classMgr;
+        return (ClassDescViewMgr)classMgr;
     }
 
     public XMLInflateRegistry getXMLInflateRegistry()

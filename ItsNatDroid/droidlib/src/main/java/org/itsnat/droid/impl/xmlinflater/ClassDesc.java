@@ -8,18 +8,25 @@ import java.util.HashMap;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class ClassDesc<T>
+public abstract class ClassDesc<Tnative>
 {
+    protected ClassDescMgr classMgr;
     protected String className;
-    protected Class<T> clasz;
+    protected Class<Tnative> clasz;
     protected ClassDesc parentClass;
     protected boolean initiated;
     protected HashMap<String,AttrDesc> attrDescMap;
 
-    public ClassDesc(String className,ClassDesc parentClass)
+    public ClassDesc(ClassDescMgr classMgr,String className,ClassDesc parentClass)
     {
+        this.classMgr = classMgr;
         this.className = className;
         this.parentClass = parentClass;
+    }
+
+    public ClassDescMgr getClassDescMgr()
+    {
+        return classMgr;
     }
 
     public ClassDesc getParentClassDesc()
@@ -32,14 +39,14 @@ public abstract class ClassDesc<T>
         return className;
     }
 
-    public Class<T> getDeclaredClass()
+    public Class<Tnative> getDeclaredClass()
     {
         return clasz;
     }
 
-    protected Class<T> initClass()
+    protected Class<Tnative> initClass()
     {
-        if (clasz == null) this.clasz = (Class<T>) MiscUtil.resolveClass(className);
+        if (clasz == null) this.clasz = (Class<Tnative>) MiscUtil.resolveClass(className);
         return clasz;
     }
 

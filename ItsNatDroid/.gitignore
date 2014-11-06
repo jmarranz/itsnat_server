@@ -1,6 +1,8 @@
 .gradle
 /local.properties
+# http://stackoverflow.com/questions/11968531/what-to-gitignore-from-the-idea-folder
 /.idea/workspace.xml
-.DS_Store
+/.idea/libraries/support_v13_19_1_0.xml
+/.idea/libraries/support_v4_19_1_0.xml
 /build
-/.nb-gradle
+
