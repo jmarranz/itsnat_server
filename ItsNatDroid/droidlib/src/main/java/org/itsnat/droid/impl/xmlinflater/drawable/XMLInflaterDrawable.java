@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import org.itsnat.droid.impl.model.drawable.DrawableParsed;
 import org.itsnat.droid.impl.model.drawable.NinePatchDrawableParsed;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 /**
@@ -9,29 +10,45 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflater;
  */
 public abstract class XMLInflaterDrawable extends XMLInflater
 {
-    protected DrawableParsed drawableParsed;
+    protected InflatedDrawable inflatedDrawable;
 
-    public XMLInflaterDrawable(DrawableParsed drawableParsed)
+    public XMLInflaterDrawable(InflatedDrawable inflatedDrawable)
     {
-        this.drawableParsed = drawableParsed;
+        this.inflatedDrawable = inflatedDrawable;
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(DrawableParsed drawableParsed)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable)
     {
+        DrawableParsed drawableParsed = inflatedDrawable.getDrawableParsed();
         if (drawableParsed instanceof NinePatchDrawableParsed)
         {
-            return new XMLInflaterNinePatchDrawable(drawableParsed);
+            return new XMLInflaterNinePatchDrawable(inflatedDrawable);
         }
         return null;
     }
 
 /*
-    public Drawable inflateDrawable()
+    public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
         LayoutParsed layoutParsed = layout.getLayoutParsed();
+        if (loadScript != null)
+            loadScript[0] = layoutParsed.getLoadScript();
+
+        if (scriptList != null)
+            fillScriptList(layoutParsed,scriptList);
 
         View rootView = inflateRootView(layoutParsed);
         return rootView;
+    }
+
+    private static void fillScriptList(LayoutParsed layoutParsed,List<String> scriptList)
+    {
+        List<ScriptParsed> scriptListFromTree = layoutParsed.getScriptList();
+        if (scriptListFromTree != null)
+        {
+            for (ScriptParsed script : scriptListFromTree)
+                scriptList.add(script.getCode());
+        }
     }
 
     private View inflateRootView(LayoutParsed layoutParsed)
@@ -53,7 +70,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View rootView = createViewObject(classDesc,viewParsed,pending);
 
@@ -73,7 +90,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = layout.getXMLLayoutInflateService().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewParsed.getName());
         View view = createViewObject(classDesc,viewParsed,pending);
 

@@ -1,4 +1,5 @@
 
+* Cambiar nombre AttrCustomInflaterListener por AttrLayoutInflaterListener
 
 * Usar pool threads cuando se pueda
 

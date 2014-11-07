@@ -6,7 +6,7 @@ package org.itsnat.droid;
 public interface ItsNatDroid
 {
     public ItsNatDroidBrowser createItsNatDroidBrowser();
-    public InflateRequest createInflateRequest();
+    public InflateLayoutRequest createInflateLayoutRequest();
     public String getVersionName();
     public int getVersionCode();
 }

@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflated.layout;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
@@ -11,6 +11,7 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -23,32 +24,29 @@ import java.util.List;
 /**
  * Created by jmarranz on 16/06/14.
  */
-public abstract class InflatedLayoutImpl implements InflatedLayout
+public abstract class InflatedLayoutImpl extends InflatedXML implements InflatedLayout
 {
-    public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
-
-    protected ItsNatDroidImpl itsNatDroid;
-    protected XMLInflaterLayout inflater;
-    protected LayoutParsed layoutParsed;
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
-    protected Context ctx;
-    protected AttrCustomInflaterListener inflateListener;
+    protected AttrLayoutInflaterListener inflateLayoutListener;
 
 
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,AttrCustomInflaterListener inflateListener,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
     {
+        super(itsNatDroid,layoutParsed,ctx);
+
+        this.inflateLayoutListener = inflateLayoutListener;
         // rootView se define a posteriori
-        this.itsNatDroid = itsNatDroid;
-        this.layoutParsed = layoutParsed;
-        this.inflateListener = inflateListener;
-        this.ctx = ctx;
-        this.inflater = createXMLLayoutInflater();
     }
 
     public LayoutParsed getLayoutParsed()
     {
-        return layoutParsed;
+        return (LayoutParsed)xmlParsed;
+    }
+
+    public XMLInflaterLayout getXMLInflaterLayout()
+    {
+        return (XMLInflaterLayout)xmlInflater;
     }
 
     public XMLInflateRegistry getXMLInflateRegistry()
@@ -58,12 +56,12 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public String getAndroidNSPrefix()
     {
-        return layoutParsed.getAndroidNSPrefix();
+        return getLayoutParsed().getAndroidNSPrefix();
     }
 
     public MapLight<String,String> getNamespacesByPrefix()
     {
-        return layoutParsed.getNamespacesByPrefix();
+        return getLayoutParsed().getNamespacesByPrefix();
     }
 
     public String getNamespace(String prefix)
@@ -93,9 +91,9 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
         this.rootView = rootView;
     }
 
-    public AttrCustomInflaterListener getAttrCustomInflaterListener()
+    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateListener;
+        return inflateLayoutListener;
     }
 
     public Context getContext()
@@ -132,19 +130,19 @@ public abstract class InflatedLayoutImpl implements InflatedLayout
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
-        return inflater.inflateLayout(loadScript, scriptList);
+        return getXMLInflaterLayout().inflateLayout(loadScript, scriptList);
     }
 
     public View insertFragment(ViewParsed rootViewFragmentParsed)
     {
-        return inflater.insertFragment(rootViewFragmentParsed);
+        return getXMLInflaterLayout().insertFragment(rootViewFragmentParsed);
     }
 
     public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return inflater.setAttribute(classDesc,view,attr,oneTimeAttrProcess,pending);
+        return getXMLInflaterLayout().setAttribute(classDesc,view,attr,oneTimeAttrProcess,pending);
     }
 
-    public abstract XMLInflaterLayout createXMLLayoutInflater();
+
 }

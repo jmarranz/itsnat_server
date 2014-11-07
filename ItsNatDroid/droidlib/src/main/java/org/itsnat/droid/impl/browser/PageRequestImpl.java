@@ -11,7 +11,8 @@ import android.util.DisplayMetrics;
 
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
-import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
@@ -34,7 +35,8 @@ public class PageRequestImpl implements PageRequest
     protected HttpParams httpParams;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
-    protected AttrCustomInflaterListener inflateListener;
+    protected AttrLayoutInflaterListener inflateLayoutListener;
+    protected AttrDrawableInflaterListener inflateDrawableListener;
     protected boolean sync = false;
     protected String url;
     protected String urlBase;
@@ -85,15 +87,27 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    public AttrCustomInflaterListener getAttrCustomInflaterListener()
+    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateListener;
+        return inflateLayoutListener;
     }
 
     @Override
-    public PageRequest setAttrCustomInflaterListener(AttrCustomInflaterListener inflateListener)
+    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener inflateLayoutListener)
     {
-        this.inflateListener = inflateListener;
+        this.inflateLayoutListener = inflateLayoutListener;
+        return this;
+    }
+
+    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
+    {
+        return inflateDrawableListener;
+    }
+
+    @Override
+    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener)
+    {
+        this.inflateDrawableListener = inflateDrawableListener;
         return this;
     }
 
@@ -220,9 +234,9 @@ public class PageRequestImpl implements PageRequest
 
         PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
-        AttrCustomInflaterListener inflateListener = getAttrCustomInflaterListener();
+        AttrLayoutInflaterListener inflateLayoutListener = getAttrLayoutInflaterListener();
 
-        PageImpl page = new PageImpl(pageRequest,httpParamsRequest,result,inflateListener);
+        PageImpl page = new PageImpl(pageRequest,httpParamsRequest,result,inflateLayoutListener);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }
@@ -236,7 +250,7 @@ public class PageRequestImpl implements PageRequest
                .setHttpParams(httpParams)
                .setOnPageLoadListener(pageListener)
                .setOnPageLoadErrorListener(errorListener)
-               .setAttrCustomInflaterListener(inflateListener)
+               .setAttrLayoutInflaterListener(inflateLayoutListener)
                .setSynchronous(sync)
                .setURL(url);
         return request;

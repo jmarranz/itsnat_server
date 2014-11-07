@@ -10,6 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -41,12 +42,12 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private static boolean isSpinnerModeAttribute(String namespaceURI,String name)
     {
-        return InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
+        return InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && name.equals("spinnerMode");
     }
 
     private static String findSpinnerModeAttribute(NodeToInsertImpl newChildToIn)
     {
-        return findAttributeFromRemote(InflatedLayoutImpl.XMLNS_ANDROID, "spinnerMode", newChildToIn);
+        return findAttributeFromRemote(InflatedXML.XMLNS_ANDROID, "spinnerMode", newChildToIn);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private String findSpinnerModeAttribute(ViewParsed viewParsed)
     {
-        return viewParsed.findAttribute(InflatedLayoutImpl.XMLNS_ANDROID, "spinnerMode");
+        return viewParsed.findAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
     }
 
     @Override

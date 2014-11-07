@@ -2,8 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.content.Context;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.InflateRequest;
+import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -23,19 +23,19 @@ import java.util.List;
 /**
  * Created by jmarranz on 5/06/14.
  */
-public class InflateRequestImpl implements InflateRequest
+public class InflateLayoutRequestImpl implements InflateLayoutRequest
 {
     protected ItsNatDroidImpl itsNatDroid;
     protected Context ctx;
-    protected AttrCustomInflaterListener inflateListener;
+    protected AttrLayoutInflaterListener inflateLayoutListener;
 
-    public InflateRequestImpl(ItsNatDroidImpl itsNatDroid)
+    public InflateLayoutRequestImpl(ItsNatDroidImpl itsNatDroid)
     {
         this.itsNatDroid = itsNatDroid;
     }
 
     @Override
-    public InflateRequest setContext(Context ctx)
+    public InflateLayoutRequest setContext(Context ctx)
     {
         this.ctx = ctx;
         return this;
@@ -47,15 +47,15 @@ public class InflateRequestImpl implements InflateRequest
     }
 
     @Override
-    public InflateRequest setAttrCustomInflaterListener(AttrCustomInflaterListener inflateListener)
+    public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener inflateLayoutListener)
     {
-        this.inflateListener = inflateListener;
+        this.inflateLayoutListener = inflateLayoutListener;
         return this;
     }
 
-    public AttrCustomInflaterListener getAttrCustomInflaterListener()
+    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateListener;
+        return inflateLayoutListener;
     }
 
     public Context getContext()
@@ -91,8 +91,8 @@ public class InflateRequestImpl implements InflateRequest
 
     public InflatedLayoutImpl inflateLayoutInternal(LayoutParsed layoutParsed, String[] loadScript, List<String> scriptList, PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed,inflateListener,ctx) :
-                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed,inflateListener,ctx);
+        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed, inflateLayoutListener,ctx) :
+                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed, inflateLayoutListener,ctx);
         inflatedLayout.inflateLayout(loadScript, scriptList);
         return inflatedLayout;
     }

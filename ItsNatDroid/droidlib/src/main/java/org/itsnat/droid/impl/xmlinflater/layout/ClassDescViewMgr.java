@@ -59,6 +59,7 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
         initClassDesc();
     }
 
+    @Override
     protected void initClassDesc()
     {
         ClassDescView_view_View view_View = new ClassDescView_view_View(this);
@@ -273,10 +274,8 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
     }
 
     @Override
-    protected ClassDescViewBased createClassDescUnknown(String className,ClassDescViewBased parent)
+    protected ClassDescViewBased createClassDescUnknown(String className,ClassDescViewBased parentClass)
     {
-        return new ClassDescViewUnknown(this,className,parent);
+        return new ClassDescViewUnknown(this,className,parentClass);
     }
-
-
 }

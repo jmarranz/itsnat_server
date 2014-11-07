@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 /**
@@ -20,21 +20,21 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed, AttrCustomInflaterListener inflateListener, Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
     {
-        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, inflateListener, ctx);
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, inflateLayoutListener, ctx);
         this.page = page;
     }
 
     @Override
-    public XMLInflaterLayout createXMLLayoutInflater()
+    public XMLInflater createXMLInflater()
     {
         return new XMLInflaterLayoutPage(this);
     }
 
     public XMLInflaterLayoutPage getXMLLayoutInflaterPage()
     {
-        return (XMLInflaterLayoutPage)inflater;
+        return (XMLInflaterLayoutPage) xmlInflater;
     }
 
     public PageImpl getPageImpl()

@@ -3,8 +3,8 @@ package org.itsnat.itsnatdroidtest.testact.local;
 import android.view.View;
 import android.widget.Toast;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
-import org.itsnat.droid.InflateRequest;
+import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroidRoot;
 import org.itsnat.droid.Page;
@@ -18,7 +18,7 @@ import java.io.InputStreamReader;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestLayoutLocalBase implements AttrCustomInflaterListener
+public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener
 {
     protected final TestActivityTabFragment fragment;
 
@@ -63,8 +63,8 @@ public abstract class TestLayoutLocalBase implements AttrCustomInflaterListener
         // Sólo para testear carga local
         TestActivity act = getTestActivity();
 
-        InflateRequest inflateRequest = ItsNatDroidRoot.get().createInflateRequest();
-        InflatedLayout layout = inflateRequest.setAttrCustomInflaterListener(this)
+        InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
+        InflatedLayout layout = inflateRequest.setAttrLayoutInflaterListener(this)
                 .setContext(act)
                 .inflate(new InputStreamReader(input));
 

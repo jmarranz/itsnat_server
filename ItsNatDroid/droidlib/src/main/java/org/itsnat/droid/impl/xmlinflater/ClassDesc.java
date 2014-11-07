@@ -24,6 +24,11 @@ public abstract class ClassDesc<Tnative>
         this.parentClass = parentClass;
     }
 
+    public XMLInflateRegistry getXMLInflateRegistry()
+    {
+        return classMgr.getXMLInflateRegistry();
+    }
+
     public ClassDescMgr getClassDescMgr()
     {
         return classMgr;

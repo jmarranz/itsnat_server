@@ -3,14 +3,14 @@ package org.itsnat.droid.impl;
 import android.app.Application;
 import android.content.res.Resources;
 
-import org.itsnat.droid.InflateRequest;
+import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.R;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.layout.InflateRequestImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 
 
 /**
@@ -45,11 +45,11 @@ public class ItsNatDroidImpl implements ItsNatDroid
         return new ItsNatDroidBrowserImpl(this);
     }
 
-    public InflateRequest createInflateRequest()
+    public InflateLayoutRequest createInflateLayoutRequest()
     {
         // El modelo ItsNat está muy bien pero ofrecemos como alternativa que el propio programador se descargue sus layouts
         // y los gestione a su manera
-        return new InflateRequestImpl(this);
+        return new InflateLayoutRequestImpl(this);
     }
 
     @Override

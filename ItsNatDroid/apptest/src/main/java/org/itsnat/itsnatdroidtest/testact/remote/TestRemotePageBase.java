@@ -7,7 +7,7 @@ import android.widget.Toast;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidScriptException;
@@ -32,7 +32,7 @@ import bsh.EvalError;
 /**
  * Created by jmarranz on 13/08/14.
  */
-public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,AttrCustomInflaterListener
+public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,AttrLayoutInflaterListener
 {
     protected final TestActivityTabFragment fragment;
     protected final ItsNatDroidBrowser droidBrowser;
@@ -229,7 +229,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         pageRequest.setContext(act)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
-        .setAttrCustomInflaterListener(this)
+        .setAttrLayoutInflaterListener(this)
         .setHttpParams(httpParams)
         .setURL(url)
         .execute();

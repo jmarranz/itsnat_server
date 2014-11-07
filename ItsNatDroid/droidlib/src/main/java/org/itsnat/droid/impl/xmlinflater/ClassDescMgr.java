@@ -69,5 +69,5 @@ public abstract class ClassDescMgr<TclassDesc extends ClassDesc,Tnative>
     }
 
     protected abstract void initClassDesc();
-    protected abstract TclassDesc createClassDescUnknown(String className, TclassDesc parent);
+    protected abstract TclassDesc createClassDescUnknown(String className, TclassDesc parentClass);
 }

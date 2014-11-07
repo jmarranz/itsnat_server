@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.model;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 3/11/14.
@@ -38,7 +38,7 @@ public class AttrParsedRemote extends AttrParsed
 
     public static boolean isRemote(String namespaceURI,String value)
     {
-        return (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
+        return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
     }
 
     public String getResourceType()

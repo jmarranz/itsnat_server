@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 
-import org.itsnat.droid.AttrCustomInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
@@ -19,10 +19,10 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
@@ -60,11 +60,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (ClassDescViewMgr)classMgr;
     }
 
-    public XMLInflateRegistry getXMLInflateRegistry()
-    {
-        return classMgr.getXMLInflateRegistry();
-    }
-
     public ClassDescViewBased getParentClassDescViewBased()
     {
         return (ClassDescViewBased)getParentClassDesc();
@@ -100,7 +95,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
-        if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
+        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
@@ -119,9 +114,12 @@ public class ClassDescViewBased extends ClassDesc<View>
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
-                    AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
-                    if (listener != null) listener.setAttribute(page,view,namespaceURI, name, value);
+                    AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
+                    if (listener != null)
+                    {
+                        PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                        listener.setAttribute(page, view, namespaceURI, name, value);
+                    }
                 }
             }
         }
@@ -132,9 +130,12 @@ public class ClassDescViewBased extends ClassDesc<View>
         else
         {
             // No se encuentra opción de proceso custom
-            AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
-            PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
-            if (listener != null) listener.setAttribute(page,view,namespaceURI, name, value);
+            AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
+            if (listener != null)
+            {
+                PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                listener.setAttribute(page, view, namespaceURI, name, value);
+            }
         }
 
         return true;
@@ -145,9 +146,9 @@ public class ClassDescViewBased extends ClassDesc<View>
     {
         if (!isInit()) init();
 
-        if (isStyleAttribute(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
+        if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
-        if (InflatedLayoutImpl.XMLNS_ANDROID.equals(namespaceURI))
+        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
@@ -164,9 +165,12 @@ public class ClassDescViewBased extends ClassDesc<View>
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
-                    AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
-                    if (listener != null) listener.removeAttribute(page,view, namespaceURI, name);
+                    AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
+                    if (listener != null)
+                    {
+                        PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                        listener.removeAttribute(page, view, namespaceURI, name);
+                    }
                 }
             }
         }
@@ -177,9 +181,12 @@ public class ClassDescViewBased extends ClassDesc<View>
         else
         {
             // No se encuentra opción de proceso custom
-            AttrCustomInflaterListener listener = inflated.getAttrCustomInflaterListener();
-            PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl)inflated).getPageImpl() : null;
-            if (listener != null) listener.removeAttribute(page,view, namespaceURI, name);
+            AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
+            if (listener != null)
+            {
+                PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                listener.removeAttribute(page, view, namespaceURI, name);
+            }
         }
 
         return true;

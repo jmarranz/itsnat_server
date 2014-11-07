@@ -12,7 +12,8 @@ public interface PageRequest
     public PageRequest setContext(Context ctx);
     public PageRequest setOnPageLoadListener(OnPageLoadListener listener);
     public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener listener);
-    public PageRequest setAttrCustomInflaterListener(AttrCustomInflaterListener listener);
+    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
+    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener listener);
     public PageRequest setHttpParams(HttpParams httpParams);
     public PageRequest setSynchronous(boolean sync);
     public PageRequest setURL(String url);
