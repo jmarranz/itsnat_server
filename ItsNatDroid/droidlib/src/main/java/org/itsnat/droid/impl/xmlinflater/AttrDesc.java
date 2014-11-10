@@ -9,7 +9,14 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.AttrParsedRemote;
+import org.itsnat.droid.impl.model.drawable.DrawableParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
 
 import java.util.Map;
@@ -324,6 +331,20 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
             dimension = getDimensionInt(value, ctx);
         }
         return dimension;
+    }
+
+
+    public Drawable getDrawable(AttrParsed attr, Context ctx,PageImpl page)
+    {
+        if (attr instanceof AttrParsedRemote)
+        {
+            AttrParsedRemote attrRem = (AttrParsedRemote)attr;
+            DrawableParsed drawableParsed = (DrawableParsed)attrRem.getRemoteResource();
+            InflatedDrawable inflatedDrawable = new InflatedDrawablePage(page,(DrawableParsed)drawableParsed,ctx);
+            XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable);
+            return xmlInflater.inflateDrawable();
+        }
+        else return getDrawable(attr.getValue(), ctx);
     }
 
     public Drawable getDrawable(String attrValue, Context ctx)

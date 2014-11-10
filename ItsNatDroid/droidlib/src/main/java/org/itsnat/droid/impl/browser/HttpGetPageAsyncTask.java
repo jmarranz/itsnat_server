@@ -1,18 +1,21 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.Context;
+
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
+import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.model.XMLParsed;
-import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
-import org.itsnat.droid.impl.parser.drawable.DrawableParser;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.Map;
  */
 public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 {
+    protected ItsNatDroidImpl itsNatDroid; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
     protected PageRequestImpl pageRequest;
     protected String url;
     protected String pageURLBase;
@@ -32,15 +36,21 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected HttpParams httpParamsDefault;
     protected Map<String,String> httpHeaders;
     protected boolean sslSelfSignedAllowed;
-    protected XMLParsedCache<LayoutParsed> layoutParsedCache; // Es un singleton con métodos sincronizados
+    protected XMLInflateRegistry xmlInflateRegistry;
+    protected AttrDrawableInflaterListener inflateDrawableListener;
+    protected Context ctx; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
                     HttpParams httpParamsRequest)
     {
+        ItsNatDroidImpl itsNatDroid = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl();
+        this.itsNatDroid = itsNatDroid;
         this.pageRequest = pageRequest;
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
-        this.layoutParsedCache = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry().getLayoutParsedCache();
+        this.xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
+        this.inflateDrawableListener = pageRequest.getAttrDrawableInflaterListener();
+        this.ctx = pageRequest.getContext();
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         HttpContext httpContext = browser.getHttpContext();
@@ -59,9 +69,17 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected PageRequestResult executeInBackground() throws Exception
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
-        PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsedCache);
 
-        LayoutParsed layoutParsed = pageReqResult.getLayoutParsed();
+        LayoutParsed layoutParsed = null;
+        if (result.isStatusOK())
+        {
+            String markup = result.getResponseText();
+            String itsNatServerVersion = result.getItsNatServerVersion();
+            layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion);
+        }
+
+        PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsed);
+
         if (result.getItsNatServerVersion() == null)
         {
             // Página NO servida por ItsNat, tenemos que descargar los <script src="..."> remótamente
@@ -114,7 +132,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
                                 XMLParsed parsed;
                                 if ("drawable".equals(resourceType))
                                 {
-                                    parsed = DrawableParser.parse(markup);
+                                    parsed = xmlInflateRegistry.getDrawableParsedCache(markup);
                                 }
                                 else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
 

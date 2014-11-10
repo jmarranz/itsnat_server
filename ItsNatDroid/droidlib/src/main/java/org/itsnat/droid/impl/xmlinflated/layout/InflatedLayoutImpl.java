@@ -12,14 +12,11 @@ import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.ViewMapByXMLId;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-
-import java.util.List;
 
 /**
  * Created by jmarranz on 16/06/14.
@@ -28,14 +25,11 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
 {
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
-    protected AttrLayoutInflaterListener inflateLayoutListener;
+    protected XMLInflaterLayout xmlInflater; // El InflatedLayoutImpl está "vivo" tras el inflado, pueden haber cambios de atributos e inserción de fragments, por eso necesitamos el XML inflater que se usó para inflar en tiempo de carga
 
-
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,Context ctx)
     {
         super(itsNatDroid,layoutParsed,ctx);
-
-        this.inflateLayoutListener = inflateLayoutListener;
         // rootView se define a posteriori
     }
 
@@ -46,12 +40,12 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
 
     public XMLInflaterLayout getXMLInflaterLayout()
     {
-        return (XMLInflaterLayout)xmlInflater;
+        return xmlInflater;
     }
 
-    public XMLInflateRegistry getXMLInflateRegistry()
+    public void setXMLInflaterLayout(XMLInflaterLayout xmlInflater)
     {
-        return itsNatDroid.getXMLInflateRegistry();
+        this.xmlInflater = xmlInflater;
     }
 
     public String getAndroidNSPrefix()
@@ -75,10 +69,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return getItsNatDroidImpl();
     }
 
-    public ItsNatDroidImpl getItsNatDroidImpl()
-    {
-        return itsNatDroid;
-    }
 
     @Override
     public View getRootView()
@@ -91,10 +81,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         this.rootView = rootView;
     }
 
-    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
-    {
-        return inflateLayoutListener;
-    }
+
 
     public Context getContext()
     {
@@ -128,11 +115,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    public View inflateLayout(String[] loadScript, List<String> scriptList)
-    {
-        return getXMLInflaterLayout().inflateLayout(loadScript, scriptList);
-    }
-
     public View insertFragment(ViewParsed rootViewFragmentParsed)
     {
         return getXMLInflaterLayout().insertFragment(rootViewFragmentParsed);
@@ -141,8 +123,8 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return getXMLInflaterLayout().setAttribute(classDesc,view,attr,oneTimeAttrProcess,pending);
+        return getXMLInflaterLayout().setAttribute(classDesc, view, attr, oneTimeAttrProcess, pending);
     }
 
-
+    public abstract AttrLayoutInflaterListener getAttrLayoutInflaterListener();
 }

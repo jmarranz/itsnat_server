@@ -1,14 +1,14 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
-import org.itsnat.droid.impl.model.drawable.NinePatchDrawableParsed;
+import android.graphics.drawable.Drawable;
+
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 
 /**
  * Created by jmarranz on 4/11/14.
  */
-public abstract class XMLInflaterDrawable extends XMLInflater
+public class XMLInflaterDrawable extends XMLInflater
 {
     protected InflatedDrawable inflatedDrawable;
 
@@ -19,59 +19,39 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable)
     {
-        DrawableParsed drawableParsed = inflatedDrawable.getDrawableParsed();
-        if (drawableParsed instanceof NinePatchDrawableParsed)
-        {
-            return new XMLInflaterNinePatchDrawable(inflatedDrawable);
-        }
+        return new XMLInflaterDrawable(inflatedDrawable);
+    }
+
+    public Drawable inflateDrawable()
+    {
         return null;
+        //return inflateRoot(inflatedDrawable.getDrawableParsed());
     }
 
 /*
-    public View inflateLayout(String[] loadScript, List<String> scriptList)
+    private Drawable inflateRoot(DrawableParsed drawableParsed)
     {
-        LayoutParsed layoutParsed = layout.getLayoutParsed();
-        if (loadScript != null)
-            loadScript[0] = layoutParsed.getLoadScript();
+        ElementParsed rootElemParsed = drawableParsed.getRootElement();
 
-        if (scriptList != null)
-            fillScriptList(layoutParsed,scriptList);
+        String name = rootElemParsed.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-        View rootView = inflateRootView(layoutParsed);
-        return rootView;
+        //PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+
+        Drawable rootDrawable = createRootObjectAndFillAttributes(name,rootElemParsed);
+
+        processChildViews(rootElemParsed,rootDrawable);
+
+        //pending.executeTasks();
+
+        return rootDrawable;
     }
+*/
 
-    private static void fillScriptList(LayoutParsed layoutParsed,List<String> scriptList)
+/*
+    public Drawable createRootObjectAndFillAttributes(String name,ElementParsed rootElemParsed)
     {
-        List<ScriptParsed> scriptListFromTree = layoutParsed.getScriptList();
-        if (scriptListFromTree != null)
-        {
-            for (ScriptParsed script : scriptListFromTree)
-                scriptList.add(script.getCode());
-        }
-    }
-
-    private View inflateRootView(LayoutParsed layoutParsed)
-    {
-        ViewParsed rootViewParsed = layoutParsed.getRootView();
-
-        String viewName = rootViewParsed.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
-
-        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
-
-        View rootView = createRootViewObjectAndFillAttributes(viewName,rootViewParsed,pending);
-
-        processChildViews(rootViewParsed,rootView);
-
-        pending.executeTasks();
-
-        return rootView;
-    }
-
-    public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
-    {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
+        ClassDescDrawableMgr classDescViewMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
+        ClassDescDrawable classDesc = classDescViewMgr.get(name);
         View rootView = createViewObject(classDesc,viewParsed,pending);
 
         setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
@@ -80,6 +60,8 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
         return rootView;
     }
+
+
 
     public void setRootView(View rootView)
     {

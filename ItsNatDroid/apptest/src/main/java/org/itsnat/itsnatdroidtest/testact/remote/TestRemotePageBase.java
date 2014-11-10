@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -32,7 +34,8 @@ import bsh.EvalError;
 /**
  * Created by jmarranz on 13/08/14.
  */
-public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,AttrLayoutInflaterListener
+public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,
+        AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
     protected final TestActivityTabFragment fragment;
     protected final ItsNatDroidBrowser droidBrowser;
@@ -204,13 +207,25 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
     @Override
     public void setAttribute(final Page page,View view, String namespace, String name, final String value)
     {
-        System.out.println("NOT FOUND ATTRIBUTE: " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND LAYOUT ATTRIBUTE: " + namespace + " " + name + " " + value);
     }
 
     @Override
     public void removeAttribute(Page page,View view, String namespace, String name)
     {
-        System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+    }
+
+    @Override
+    public void setAttribute(Page page, Drawable obj, String namespace, String name, String value)
+    {
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE: " + namespace + " " + name + " " + value);
+    }
+
+    @Override
+    public void removeAttribute(Page page, Drawable obj, String namespace, String name)
+    {
+        System.out.println("NOT FOUND DRAWABLE ATTRIBUTE (removeAttribute): " + namespace + " " + name);
     }
 
     protected void changeLayout(View rootView)
@@ -230,6 +245,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)
+        .setAttrDrawableInflaterListener(this)
         .setHttpParams(httpParams)
         .setURL(url)
         .execute();

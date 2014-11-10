@@ -19,8 +19,8 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -189,13 +189,22 @@ public class PageRequestImpl implements PageRequest
         Map<String,String> httpHeaders = createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = browser.getItsNatDroidImpl().getXMLInflateRegistry().getLayoutParsedCache();
+        XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
 
         PageRequestResult result = null;
         try
         {
             HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null,null);
-            result = new PageRequestResult(httpReqResult, layoutParsedCache);
+
+            LayoutParsed layoutParsed = null;
+            if (httpReqResult.isStatusOK())
+            {
+                String markup = httpReqResult.getResponseText();
+                String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
+                layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion);
+            }
+
+            result = new PageRequestResult(httpReqResult, layoutParsed);
         }
         catch(Exception ex)
         {
@@ -251,6 +260,7 @@ public class PageRequestImpl implements PageRequest
                .setOnPageLoadListener(pageListener)
                .setOnPageLoadErrorListener(errorListener)
                .setAttrLayoutInflaterListener(inflateLayoutListener)
+               .setAttrDrawableInflaterListener(inflateDrawableListener)
                .setSynchronous(sync)
                .setURL(url);
         return request;

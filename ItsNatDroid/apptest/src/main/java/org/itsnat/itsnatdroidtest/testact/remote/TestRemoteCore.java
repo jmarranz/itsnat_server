@@ -53,6 +53,7 @@ public class TestRemoteCore extends TestRemotePageBase
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)
+        .setAttrDrawableInflaterListener(this)
         .setHttpParams(httpParams)
         .setURL(url)
         .execute();

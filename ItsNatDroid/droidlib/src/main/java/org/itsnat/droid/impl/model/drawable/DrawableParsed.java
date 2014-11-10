@@ -5,7 +5,7 @@ import org.itsnat.droid.impl.model.XMLParsed;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public abstract class DrawableParsed extends XMLParsed
+public class DrawableParsed extends XMLParsed
 {
     public DrawableParsed()
     {

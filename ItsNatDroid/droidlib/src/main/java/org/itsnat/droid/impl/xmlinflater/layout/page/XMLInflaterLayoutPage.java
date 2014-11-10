@@ -28,7 +28,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
-        return (InflatedLayoutPageImpl)layout;
+        return (InflatedLayoutPageImpl) inflatedLayout;
     }
 
     public PageImpl getPageImpl()
@@ -38,14 +38,14 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 
     public void setAttribute(View view, AttrParsed attr)
     {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
         setAttribute(viewClassDesc, view, attr, null,null);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
@@ -103,7 +103,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
         {
             // El handler inline de load o unload sólo se puede poner una vez por layout por lo que obligamos
             // a que sea el View root de forma similar al <body> en HTML
-            if (view != layout.getRootView())
+            if (view != inflatedLayout.getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
         return getInflatedLayoutPageImpl().getPageImpl().getItsNatDocImpl().getItsNatViewImpl(view);

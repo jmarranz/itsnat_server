@@ -75,6 +75,12 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (AttrDescView)getAttrDesc(name);
     }
 
+    public static PageImpl getPageImpl(InflatedLayoutImpl inflated)
+    {
+        // PUEDE SER NULL
+        return (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+    }
+
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
         return ValueUtil.isEmpty(namespaceURI) && name.equals("style");
@@ -117,7 +123,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                     AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                        PageImpl page = getPageImpl(inflated); // Puede ser null
                         listener.setAttribute(page, view, namespaceURI, name, value);
                     }
                 }
@@ -133,7 +139,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
             if (listener != null)
             {
-                PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                PageImpl page = getPageImpl(inflated); // Puede ser null
                 listener.setAttribute(page, view, namespaceURI, name, value);
             }
         }
@@ -168,7 +174,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                     AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                        PageImpl page = getPageImpl(inflated); // Puede ser null
                         listener.removeAttribute(page, view, namespaceURI, name);
                     }
                 }
@@ -184,7 +190,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
             if (listener != null)
             {
-                PageImpl page = (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+                PageImpl page = getPageImpl(inflated); // Puede ser null
                 listener.removeAttribute(page, view, namespaceURI, name);
             }
         }

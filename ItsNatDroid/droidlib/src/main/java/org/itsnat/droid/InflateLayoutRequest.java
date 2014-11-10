@@ -11,5 +11,6 @@ public interface InflateLayoutRequest
 {
     public InflateLayoutRequest setContext(Context ctx);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
+    public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener);
     public InflatedLayout inflate(Reader input);
 }

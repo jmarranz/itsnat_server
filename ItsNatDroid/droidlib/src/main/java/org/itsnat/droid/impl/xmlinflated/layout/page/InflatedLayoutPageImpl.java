@@ -10,7 +10,6 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 /**
@@ -20,16 +19,10 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed,Context ctx)
     {
-        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, inflateLayoutListener, ctx);
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, ctx);
         this.page = page;
-    }
-
-    @Override
-    public XMLInflater createXMLInflater()
-    {
-        return new XMLInflaterLayoutPage(this);
     }
 
     public XMLInflaterLayoutPage getXMLLayoutInflaterPage()
@@ -65,4 +58,8 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         getXMLLayoutInflaterPage().removeAttribute(view, namespaceURI, name);
     }
 
+    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
+    {
+        return page.getPageRequestImpl().getAttrLayoutInflaterListener();
+    }
 }

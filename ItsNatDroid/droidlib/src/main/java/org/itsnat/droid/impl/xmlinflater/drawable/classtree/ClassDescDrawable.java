@@ -37,6 +37,12 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
         return (ClassDescDrawable) getParentClassDesc();
     }
 
+    public static PageImpl getPageImpl(InflatedDrawable inflated)
+    {
+        // A día de hoy nunca es null pero podría serlo en el futuro por simetría con InflatedLayout si el drwable puede leerse de los assets por ej
+        return (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+    }
+
     public Class<Drawable> getDrawableClass()
     {
         return getDeclaredClass();
@@ -84,7 +90,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
                     AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+                        PageImpl page = getPageImpl(inflated); // Puede ser nulo
                         listener.setAttribute(page, draw, namespaceURI, name, value);
                     }
                 }
@@ -96,7 +102,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
             AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
             if (listener != null)
             {
-                PageImpl page = (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+                PageImpl page = getPageImpl(inflated); // Puede ser nulo
                 listener.setAttribute(page, draw, namespaceURI, name, value);
             }
         }
@@ -131,7 +137,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
                     AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+                        PageImpl page = getPageImpl(inflated); // Puede ser nulo
                         listener.removeAttribute(page, draw, namespaceURI, name);
                     }
                 }
@@ -143,7 +149,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
             AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
             if (listener != null)
             {
-                PageImpl page = (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+                PageImpl page = getPageImpl(inflated); // Puede ser nulo
                 listener.removeAttribute(page, draw, namespaceURI, name);
             }
         }

@@ -1,5 +1,5 @@
 
-* Cambiar nombre AttrCustomInflaterListener por AttrLayoutInflaterListener
+* Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
 
 * Usar pool threads cuando se pueda
 
@@ -75,3 +75,7 @@ concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTex
     http://jedicoder.blogspot.com.es/2011/11/automated-gradle-project-deployment-to.html
     https://github.com/raycoarana/roborouter/blob/master/gradle-mvn-push.gradle
 
+* En el ejemplo de test probar a usar un Toolbar en vez del ActionBar que está deprecated
+
+    http://developer.android.com/reference/android/support/v7/widget/Toolbar.html
+    https://developer.android.com/reference/android/support/v7/app/ActionBar.html

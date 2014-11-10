@@ -9,8 +9,12 @@ import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.layout.stdalone.XMLInflaterLayoutStandalone;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,16 +25,30 @@ import java.util.List;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    protected InflatedLayoutImpl layout;
+    protected InflatedLayoutImpl inflatedLayout;
 
-    public XMLInflaterLayout(InflatedLayoutImpl layout)
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout)
     {
-        this.layout = layout;
+        this.inflatedLayout = inflatedLayout;
     }
+
+    public static XMLInflaterLayout createXMLInflatedLayout(InflatedLayoutImpl inflatedLayout)
+    {
+        if (inflatedLayout instanceof InflatedLayoutPageImpl)
+        {
+            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout);
+        }
+        else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
+        {
+            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout);
+        }
+        return null; // Internal Error
+    }
+
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
-        LayoutParsed layoutParsed = layout.getLayoutParsed();
+        LayoutParsed layoutParsed = inflatedLayout.getLayoutParsed();
         if (loadScript != null)
             loadScript[0] = layoutParsed.getLoadScript();
 
@@ -70,7 +88,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View rootView = createViewObject(classDesc,viewParsed,pending);
 
@@ -83,14 +101,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public void setRootView(View rootView)
     {
-        layout.setRootView(rootView);
+        inflatedLayout.setRootView(rootView);
     }
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, ViewParsed viewParsed, PendingPostInsertChildrenTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewParsed.getName());
         View view = createViewObject(classDesc,viewParsed,pending);
 
@@ -101,14 +119,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private View createViewObject(ClassDescViewBased classDesc,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.createViewObjectFromParser(layout,viewParsed,pending);
+        return classDesc.createViewObjectFromParser(inflatedLayout,viewParsed,pending);
     }
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,view,viewParsed,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,layout.getContext());
+        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, inflatedLayout.getContext());
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,ViewParsed viewParsed,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
@@ -129,7 +147,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.setAttribute(view,attr, oneTimeAttrProcess,pending,layout);
+        return classDesc.setAttribute(view,attr, oneTimeAttrProcess,pending, inflatedLayout);
     }
 
     protected void processChildViews(ViewParsed viewParsedParent, View viewParent)

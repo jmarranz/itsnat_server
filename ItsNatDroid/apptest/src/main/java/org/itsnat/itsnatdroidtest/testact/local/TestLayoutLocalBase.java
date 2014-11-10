@@ -1,8 +1,10 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Toast;
 
+import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
@@ -18,7 +20,7 @@ import java.io.InputStreamReader;
 /**
  * Created by jmarranz on 16/07/14.
  */
-public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener
+public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
     protected final TestActivityTabFragment fragment;
 
@@ -36,13 +38,25 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener
     @Override
     public void setAttribute(Page page, View view, String namespace, String name, String value)
     {
-        System.out.println("NOT FOUND ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
     }
 
     @Override
     public void removeAttribute(Page page, View view, String namespace, String name)
     {
-        System.out.println("NOT FOUND ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+        System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
+    }
+
+    @Override
+    public void setAttribute(Page page, Drawable obj, String namespace, String name, String value)
+    {
+        System.out.println("NOT FOUND Drawable ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
+    }
+
+    @Override
+    public void removeAttribute(Page page, Drawable obj, String namespace, String name)
+    {
+        System.out.println("NOT FOUND Drawable ATTRIBUTE (removeAttribute): " + namespace + " " + name);
     }
 
     protected View loadCompiledAndBindBackReloadButtons(int layoutId)
@@ -64,7 +78,9 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener
         TestActivity act = getTestActivity();
 
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
-        InflatedLayout layout = inflateRequest.setAttrLayoutInflaterListener(this)
+        InflatedLayout layout = inflateRequest
+                .setAttrLayoutInflaterListener(this)
+                .setAttrDrawableInflaterListener(this)
                 .setContext(act)
                 .inflate(new InputStreamReader(input));
 

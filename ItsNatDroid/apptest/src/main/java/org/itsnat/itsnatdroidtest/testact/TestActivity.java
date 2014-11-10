@@ -61,12 +61,12 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         this.urlTestComponents =     urlTestBase + itsNatServlet + "?itsnat_doc_name=test_droid_components";
         this.urlTestRemoteNoItsNat = urlTestBase + "ItsNatDroidServletNoItsNat";
 
-        getActionBar().setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
+        final ActionBar actionBar = getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true); // Muestra y activa el simbolito del back
 
         setContentView(R.layout.activity_test);
 
         // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         // Create the adapter that will return a fragment for each of the three
@@ -99,6 +99,22 @@ public class TestActivity extends Activity implements ActionBar.TabListener
                             .setTabListener(this));
         }
 
+
+        /*
+        String text;
+        try
+        {
+            AssetManager assetManager = getAssets();
+            InputStream ims = assetManager.open("/prueba/prueba2/hola.txt");
+            byte[] res = IOUtil.read(ims);
+            text = new String(res,"UTF-8");
+            System.out.println(text);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        */
 
         //org.itsnat.droid.impl.util.MapLightAndRealPerformTest.test();
     }
