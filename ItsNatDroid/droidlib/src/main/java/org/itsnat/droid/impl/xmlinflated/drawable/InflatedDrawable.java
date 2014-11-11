@@ -25,5 +25,15 @@ public abstract class InflatedDrawable extends InflatedXML
         return (DrawableParsed)xmlParsed;
     }
 
+    public Drawable getDrawable()
+    {
+        return drawable;
+    }
+
+    public void setDrawable(Drawable drawable)
+    {
+        this.drawable = drawable;
+    }
+
     public abstract AttrDrawableInflaterListener getAttrDrawableInflaterListener();
 }

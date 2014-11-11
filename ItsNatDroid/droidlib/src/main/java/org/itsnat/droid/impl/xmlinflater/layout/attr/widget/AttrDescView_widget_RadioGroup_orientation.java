@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodSingleName;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.OrientationUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 

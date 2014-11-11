@@ -4,6 +4,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.GridLayout;
 
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+
 /**
  * Created by jmarranz on 7/09/14.
  */

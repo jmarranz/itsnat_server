@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
+import android.content.Context;
+
 import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
@@ -8,9 +10,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl layout)
+    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl layout,Context ctx)
     {
-        super(layout);
+        super(layout,ctx);
     }
 
 }

@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -18,7 +21,7 @@ public class AttrDescView_view_View_fadeScrollbars extends AttrDescViewReflecMet
         super(parent,"fadeScrollbars","setScrollbarFadingEnabled",true);
     }
 
-    public void setAttribute(final View view,final String value, final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         if (oneTimeAttrProcess != null)
         {
@@ -28,13 +31,13 @@ public class AttrDescView_view_View_fadeScrollbars extends AttrDescViewReflecMet
                 @Override
                 public void run()
                 {
-                    AttrDescView_view_View_fadeScrollbars.super.setAttribute(view,value,oneTimeAttrProcess,pending);
+                    AttrDescView_view_View_fadeScrollbars.super.setAttribute(view,attr,xmlInflaterLayout,ctx,oneTimeAttrProcess,pending);
                 }
             });
         }
         else
         {
-            super.setAttribute(view,value,oneTimeAttrProcess,pending);
+            super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
         }
     }
 

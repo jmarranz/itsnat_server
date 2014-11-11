@@ -1,12 +1,15 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -22,17 +25,17 @@ public class AttrDescView_widget_TextView_lineSpacingMultiplier extends AttrDesc
         this.field = new FieldContainer<Float>(parent,"mSpacingAdd");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        float convertedValue = getFloat(value, view.getContext());
+        float convertedValue = getFloat(attr.getValue(),ctx);
 
         TextView textView = (TextView)view;
         textView.setLineSpacing(getLineSpacingExtra(textView),convertedValue);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "1.0", null,null);
+        setAttribute(view, "1.0",xmlInflaterLayout,ctx, null,null);
     }
 
     protected float getLineSpacingExtra(TextView view)

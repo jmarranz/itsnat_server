@@ -1,13 +1,16 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.view.View;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -30,7 +33,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         this.fieldShadowDy = new FieldContainer<Float>(parent,"mShadowDy");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         TextView textView = (TextView)view;
 
@@ -39,9 +42,10 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         float dy = -1;
         int color = -1;
 
+        String value = attr.getValue();
         if (name.equals("shadowColor"))
         {
-            int convValue = getColor(value, textView.getContext());
+            int convValue = getColor(value, ctx);
 
             radius = fieldShadowRadius.get(textView);
             dx = fieldShadowDx.get(textView);
@@ -50,7 +54,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         }
         else if (name.equals("shadowDx"))
         {
-            float convValue = getFloat(value, textView.getContext());
+            float convValue = getFloat(value,ctx);
 
             radius = fieldShadowRadius.get(textView);
             dx = convValue;
@@ -59,7 +63,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         }
         else if (name.equals("shadowDy"))
         {
-            float convValue = getFloat(value, textView.getContext());
+            float convValue = getFloat(value, ctx);
 
             radius = fieldShadowRadius.get(textView);
             dx = fieldShadowDx.get(textView);
@@ -68,7 +72,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         }
         else if (name.equals("shadowRadius"))
         {
-            float convValue = getFloat(value, view.getContext());
+            float convValue = getFloat(value, ctx);
 
             radius = convValue;
             dx = fieldShadowDx.get(textView);
@@ -79,7 +83,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         textView.setShadowLayer(radius,dx,dy,color);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         String defaultValue = null;
         if (name.equals("shadowColor"))   defaultValue = "0";
@@ -87,7 +91,7 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
         else if (name.equals("shadowDy")) defaultValue = "0";
         else if (name.equals("shadowRadius")) defaultValue = "0";
 
-        setAttribute(view,defaultValue,null,null);
+        setAttribute(view,defaultValue,xmlInflaterLayout,ctx,null,null);
     }
 
 

@@ -28,8 +28,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -91,7 +92,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
-    public boolean setAttribute(View view,AttrParsed attr,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending,InflatedLayoutImpl inflated)
+    public boolean setAttribute(View view,AttrParsed attr,XMLInflaterLayout xmlInflaterLayout,Context ctx,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         if (!isInit()) init();
 
@@ -101,12 +102,14 @@ public class ClassDescViewBased extends ClassDesc<View>
 
         if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
+        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(view, attr, oneTimeAttrProcess,pending);
+                attrDesc.setAttribute(view, attr, xmlInflaterLayout,ctx, oneTimeAttrProcess,pending);
             }
             else
             {
@@ -115,7 +118,7 @@ public class ClassDescViewBased extends ClassDesc<View>
                 ClassDescViewBased parentClass = getParentClassDescViewBased();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(view, attr, oneTimeAttrProcess,pending,inflated);
+                    parentClass.setAttribute(view, attr,xmlInflaterLayout,ctx, oneTimeAttrProcess,pending);
                 }
                 else
                 {
@@ -148,25 +151,27 @@ public class ClassDescViewBased extends ClassDesc<View>
     }
 
 
-    public boolean removeAttribute(View view,String namespaceURI,String name,InflatedLayoutImpl inflated)
+    public boolean removeAttribute(View view,String namespaceURI,String name,XMLInflaterLayout xmlInflaterLayout,Context ctx)
     {
         if (!isInit()) init();
 
         if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
+
+        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescView attrDesc = getAttrDescView(name);
             if (attrDesc != null)
             {
-                attrDesc.removeAttribute(view);
+                attrDesc.removeAttribute(view,xmlInflaterLayout,ctx);
             }
             else
             {
                 ClassDescViewBased parentClass = getParentClassDescViewBased();
                 if (parentClass != null)
                 {
-                    parentClass.removeAttribute(view, namespaceURI, name, inflated);
+                    parentClass.removeAttribute(view, namespaceURI, name, xmlInflaterLayout,ctx);
                 }
                 else
                 {

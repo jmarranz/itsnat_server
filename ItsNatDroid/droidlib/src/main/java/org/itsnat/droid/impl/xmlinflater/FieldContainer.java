@@ -1,7 +1,6 @@
-package org.itsnat.droid.impl.xmlinflater.layout.attr;
+package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.lang.reflect.Field;
 
@@ -14,9 +13,9 @@ public class FieldContainer<T>
     protected final String fieldName;
     protected Field field;
 
-    public FieldContainer(ClassDescViewBased parent,String fieldName)
+    public FieldContainer(ClassDesc parent,String fieldName)
     {
-        this(parent.getViewClass(),fieldName);
+        this(parent.getDeclaredClass(),fieldName);
     }
 
     public FieldContainer(Class<?> clasz,String fieldName)

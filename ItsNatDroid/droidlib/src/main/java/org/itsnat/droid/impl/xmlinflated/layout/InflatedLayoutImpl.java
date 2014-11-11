@@ -123,7 +123,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return getXMLInflaterLayout().setAttribute(classDesc, view, attr, oneTimeAttrProcess, pending);
+        return getXMLInflaterLayout().setAttribute(classDesc, view, attr,oneTimeAttrProcess, pending);
     }
 
     public abstract AttrLayoutInflaterListener getAttrLayoutInflaterListener();

@@ -518,7 +518,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         }
 
-        AttrParsed attr = AttrParsed.createAttrParsed(namespaceURI,name,value);
+        AttrParsed attr = AttrParsed.create(namespaceURI, name, value);
 
         if (node instanceof NodeToInsertImpl)
         {

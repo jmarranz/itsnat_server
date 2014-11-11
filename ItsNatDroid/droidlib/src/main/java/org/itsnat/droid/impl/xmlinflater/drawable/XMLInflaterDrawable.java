@@ -1,9 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.model.drawable.DrawableParsed;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by jmarranz on 4/11/14.
@@ -12,23 +20,23 @@ public class XMLInflaterDrawable extends XMLInflater
 {
     protected InflatedDrawable inflatedDrawable;
 
-    public XMLInflaterDrawable(InflatedDrawable inflatedDrawable)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedDrawable,Context ctx)
     {
+        super(ctx);
         this.inflatedDrawable = inflatedDrawable;
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,Context ctx)
     {
-        return new XMLInflaterDrawable(inflatedDrawable);
+        return new XMLInflaterDrawable(inflatedDrawable,ctx);
     }
 
     public Drawable inflateDrawable()
     {
-        return null;
-        //return inflateRoot(inflatedDrawable.getDrawableParsed());
+        return inflateRoot(inflatedDrawable.getDrawableParsed());
     }
 
-/*
+
     private Drawable inflateRoot(DrawableParsed drawableParsed)
     {
         ElementParsed rootElemParsed = drawableParsed.getRootElement();
@@ -37,50 +45,85 @@ public class XMLInflaterDrawable extends XMLInflater
 
         //PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        Drawable rootDrawable = createRootObjectAndFillAttributes(name,rootElemParsed);
+        Drawable rootDrawable = createRootDrawableAndFillAttributes(name, rootElemParsed);
 
-        processChildViews(rootElemParsed,rootDrawable);
+        processChildElements(rootElemParsed,rootDrawable);
 
         //pending.executeTasks();
 
         return rootDrawable;
     }
-*/
 
-/*
-    public Drawable createRootObjectAndFillAttributes(String name,ElementParsed rootElemParsed)
+    public Drawable createRootDrawableAndFillAttributes(String name,ElementParsed rootElemParsed)
     {
         ClassDescDrawableMgr classDescViewMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescDrawable classDesc = classDescViewMgr.get(name);
-        View rootView = createViewObject(classDesc,viewParsed,pending);
+        Drawable drawable = createRootDrawable(classDesc);
 
-        setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+        setRootDrawable(drawable);
 
-        fillAttributesAndAddView(rootView,classDesc,null,viewParsed,pending);
+        fillAttributes(classDesc, drawable, rootElemParsed,ctx);
 
-        return rootView;
+        return drawable;
     }
 
-
-
-    public void setRootView(View rootView)
+    private Drawable createRootDrawable(ClassDescDrawable classDesc)
     {
-        layout.setRootView(rootView);
+        return classDesc.createRootDrawable(inflatedDrawable, ctx.getResources());
     }
 
-    public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, ViewParsed viewParsed, PendingPostInsertChildrenTasks pending)
+    public void setRootDrawable(Drawable rootDrawable)
     {
-        // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
-        // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = layout.getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(viewParsed.getName());
-        View view = createViewObject(classDesc,viewParsed,pending);
+        inflatedDrawable.setDrawable(rootDrawable);
+    }
 
-        fillAttributesAndAddView(view,classDesc,viewParent,viewParsed,pending);
+    private void fillAttributes(ClassDescDrawable classDesc,Drawable drawable,ElementParsed elemParsed,Context ctx)
+    {
+        ArrayList<AttrParsed> attribList = elemParsed.getAttributeList();
+        if (attribList != null)
+        {
+            for (int i = 0; i < attribList.size(); i++)
+            {
+                AttrParsed attr = attribList.get(i);
+                setAttribute(classDesc, drawable, attr,ctx);
+            }
+        }
+    }
+
+    public boolean setAttribute(ClassDescDrawable classDesc,Drawable drawable,AttrParsed attr,Context ctx)
+    {
+        return classDesc.setAttribute(drawable,attr,inflatedDrawable,ctx);
+    }
+
+    protected void processChildElements(ElementParsed elemParsedParent, Drawable drawable)
+    {
+        LinkedList<ElementParsed> childViewList = elemParsedParent.getChildList();
+        if (childViewList != null)
+        {
+            for (ElementParsed childElemParsed : childViewList)
+            {
+                inflateNextElement(childElemParsed,elemParsedParent, drawable);
+            }
+        }
+    }
+
+    private void inflateNextElement(ElementParsed elemParsed,ElementParsed elemParsedParent, Drawable drawable)
+    {
+        /*
+        // Es llamado también para insertar fragmentos
+        //PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
+
+        View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, viewParsed, pending);
+
+        processChildViews(viewParsed,view);
+
+        //pending.executeTasks();
 
         return view;
+        */
     }
 
+/*
     private View createViewObject(ClassDescViewBased classDesc,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
     {
         return classDesc.createViewObjectFromParser(layout,viewParsed,pending);
@@ -93,60 +136,13 @@ public class XMLInflaterDrawable extends XMLInflater
         classDesc.addViewObject(viewParent,view,-1,oneTimeAttrProcess,layout.getContext());
     }
 
-    private void fillViewAttributes(ClassDescViewBased classDesc,View view,ViewParsed viewParsed,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
-    {
-        ArrayList<AttrParsed> attribList = viewParsed.getAttributeList();
-        if (attribList != null)
-        {
-            for (int i = 0; i < attribList.size(); i++)
-            {
-                AttrParsed attr = attribList.get(i);
-                setAttribute(classDesc, view, attr, oneTimeAttrProcess, pending);
-            }
-        }
 
-        oneTimeAttrProcess.executeLastTasks();
-    }
-
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
-                                OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
-    {
-        return classDesc.setAttribute(view,attr, oneTimeAttrProcess,pending,layout);
-    }
-
-    protected void processChildViews(ViewParsed viewParsedParent, View viewParent)
-    {
-        LinkedList<ElementParsed> childViewList = viewParsedParent.getChildList();
-        if (childViewList != null)
-        {
-            for (ElementParsed childViewParsed : childViewList)
-            {
-                View childView = inflateNextView((ViewParsed)childViewParsed, viewParent);
-            }
-        }
-    }
 
     public View insertFragment(ViewParsed rootViewFragmentParsed)
     {
         return inflateNextView(rootViewFragmentParsed,null);
     }
 
-    private View inflateNextView(ViewParsed viewParsed, View viewParent)
-    {
-        // Es llamado también para insertar fragmentos
-        PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        View view = createViewObjectAndFillAttributesAndAdd((ViewGroup) viewParent, viewParsed, pending);
-
-        // No funciona, sólo funciona con XML compilados:
-        //AttributeSet attributes = Xml.asAttributeSet(parser);
-        //LayoutInflater inf = LayoutInflater.from(ctx);
-
-        processChildViews(viewParsed,view);
-
-        pending.executeTasks();
-
-        return view;
-    }
     */
 }

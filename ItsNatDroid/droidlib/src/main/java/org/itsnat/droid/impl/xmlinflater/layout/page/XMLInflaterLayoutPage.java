@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.page;
 
+import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -21,9 +22,9 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  */
 public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,Context ctx)
     {
-        super(layout);
+        super(layout,ctx);
     }
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
@@ -55,12 +56,12 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        String value = attr.getValue();
         if (ValueUtil.isEmpty(namespaceURI))
         {
             String type = getTypeInlineEventHandler(name);
             if (type != null)
             {
+                String value = attr.getValue();
                 ItsNatViewImpl viewData = getItsNatViewOfInlineHandler(type,view);
                 viewData.setOnTypeInlineCode(name, value);
                 if (viewData instanceof ItsNatViewNotNullImpl)
@@ -69,7 +70,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
                 return true;
             }
             else
-                return super.setAttribute(viewClassDesc, view, attr, oneTimeAttrProcess,pending);
+                return super.setAttribute(viewClassDesc, view, attr,oneTimeAttrProcess,pending);
         }
         else
         {
@@ -89,11 +90,11 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 
                 return true;
             }
-            else return viewClassDesc.removeAttribute(view, namespaceURI, name, getInflatedLayoutPageImpl());
+            else return viewClassDesc.removeAttribute(view, namespaceURI, name,this,ctx);
         }
         else
         {
-            return viewClassDesc.removeAttribute(view, namespaceURI, name, getInflatedLayoutPageImpl());
+            return viewClassDesc.removeAttribute(view, namespaceURI, name,this,ctx);
         }
     }
 

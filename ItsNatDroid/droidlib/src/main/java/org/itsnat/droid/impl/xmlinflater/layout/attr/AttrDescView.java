@@ -1,13 +1,19 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.MiscUtil;
+import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -37,15 +43,23 @@ public abstract class AttrDescView extends AttrDesc
         return class_R_styleable;
     }
 
-
-    public void setAttribute(View view, AttrParsed attr, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public Drawable getDrawable(AttrParsed attr,Context ctx,XMLInflaterLayout xmlInflaterLayout)
     {
-        setAttribute(view,attr.getValue(), oneTimeAttrProcess,pending);
+        PageImpl page = null;
+        if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
+            page = ((XMLInflaterLayoutPage)xmlInflaterLayout).getPageImpl();
+        return getDrawable(attr,ctx,page);
     }
 
-    protected abstract void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
+    protected void setAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    {
+        AttrParsed attr = AttrParsed.create(InflatedXML.XMLNS_ANDROID,getName(),value);
+        setAttribute(view, attr, xmlInflaterLayout,ctx,oneTimeAttrProcess,pending);
+    }
 
-    public abstract void removeAttribute(View view);
+    public abstract void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
+
+    public abstract void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx);
 }
 
 

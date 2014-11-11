@@ -1,11 +1,14 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -30,10 +33,10 @@ public abstract class AttrDescViewTypeface extends AttrDescView
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         Typeface tf = null; // El caso null
-        int convValue = AttrDescView.<Integer>parseSingleName(value, valueMap);
+        int convValue = AttrDescView.<Integer>parseSingleName(attr.getValue(), valueMap);
         switch(convValue)
         {
             case 0: tf = null;
@@ -53,9 +56,9 @@ public abstract class AttrDescViewTypeface extends AttrDescView
         textView.setTypeface(tf,style);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "normal", null,null);
+        setAttribute(view, "normal",xmlInflaterLayout,ctx, null,null);
     }
 
 

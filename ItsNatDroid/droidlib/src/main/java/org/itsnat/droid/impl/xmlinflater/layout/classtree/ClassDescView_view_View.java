@@ -54,6 +54,7 @@ public class ClassDescView_view_View extends ClassDescViewBased
         super(classMgr,"android.view.View",null);
     }
 
+    @Override
     protected void init()
     {
         super.init();

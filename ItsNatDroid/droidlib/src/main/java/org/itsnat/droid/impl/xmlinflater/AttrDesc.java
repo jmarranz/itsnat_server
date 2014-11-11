@@ -334,20 +334,20 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
     }
 
 
-    public Drawable getDrawable(AttrParsed attr, Context ctx,PageImpl page)
+    public Drawable getDrawable(AttrParsed attr,Context ctx,PageImpl page)
     {
         if (attr instanceof AttrParsedRemote)
         {
             AttrParsedRemote attrRem = (AttrParsedRemote)attr;
             DrawableParsed drawableParsed = (DrawableParsed)attrRem.getRemoteResource();
             InflatedDrawable inflatedDrawable = new InflatedDrawablePage(page,(DrawableParsed)drawableParsed,ctx);
-            XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable);
+            XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,ctx);
             return xmlInflater.inflateDrawable();
         }
         else return getDrawable(attr.getValue(), ctx);
     }
 
-    public Drawable getDrawable(String attrValue, Context ctx)
+    private Drawable getDrawable(String attrValue, Context ctx)
     {
         if (isResource(attrValue))
         {

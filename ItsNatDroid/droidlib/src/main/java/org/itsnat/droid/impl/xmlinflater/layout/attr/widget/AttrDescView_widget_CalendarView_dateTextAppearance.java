@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**
@@ -31,20 +33,18 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         this.fieldDateTextSize = new FieldContainer<Integer>(parent,"mDateTextSize");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int dateTextAppearanceResId = getIdentifier(value,view.getContext());
+        int dateTextAppearanceResId = getIdentifier(attr.getValue(),ctx);
 
         if (dateTextAppearanceResId <= 0) dateTextAppearanceResId = fieldTextAppearance_Small.get(null); // Valor por defecto
-
-        Context context = view.getContext();
 
         int[] textAppearanceStyleArr = fieldTextAppearance.get(null);
 
         int textSizeStyle = fieldTextAppearance_textSize.get(null);
 
         int dateTextSize;
-        TypedArray dateTextAppearance = context.obtainStyledAttributes(dateTextAppearanceResId,textAppearanceStyleArr);
+        TypedArray dateTextAppearance = ctx.obtainStyledAttributes(dateTextAppearanceResId,textAppearanceStyleArr);
         try
         {
             dateTextSize = dateTextAppearance.getDimensionPixelSize(textSizeStyle, 14); // DEFAULT_DATE_TEXT_SIZE = 14
@@ -57,10 +57,10 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         fieldDateTextSize.set(view,dateTextSize);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         // Se usa el valor por defecto de Android
-        setAttribute(view,"0",null,null);
+        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
 
     }
 }

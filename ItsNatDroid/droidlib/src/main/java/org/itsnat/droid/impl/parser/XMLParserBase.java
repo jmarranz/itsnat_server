@@ -165,7 +165,7 @@ public abstract class XMLParserBase
 
     protected AttrParsed createAttribute(String namespaceURI,String name,String value)
     {
-        return AttrParsed.createAttrParsed(namespaceURI,name,value);
+        return AttrParsed.create(namespaceURI, name, value);
     }
 
     protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)

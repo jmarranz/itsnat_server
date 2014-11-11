@@ -1,13 +1,16 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.HashMap;
@@ -49,9 +52,9 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         }
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        Drawable convValue = getDrawable(value, view.getContext());
+        Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
 
         int index = drawableMap.get(name);
 
@@ -63,9 +66,9 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"@null",null,null);
+        setAttribute(view,"@null",xmlInflaterLayout,ctx,null,null);
     }
 
     protected Drawable getDrawable(View view,int index)

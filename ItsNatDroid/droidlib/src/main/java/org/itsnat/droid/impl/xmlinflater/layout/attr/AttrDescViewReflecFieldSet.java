@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
 import android.view.View;
 
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 /**

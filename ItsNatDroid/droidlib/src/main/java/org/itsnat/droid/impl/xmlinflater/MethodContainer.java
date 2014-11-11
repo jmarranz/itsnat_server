@@ -1,7 +1,6 @@
-package org.itsnat.droid.impl.xmlinflater.layout.attr;
+package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,9 +15,9 @@ public class MethodContainer<T>
     protected final Class[] paramClasses;
     protected Method method;
 
-    public MethodContainer(ClassDescViewBased parent,String methodName,Class[] paramClasses)
+    public MethodContainer(ClassDesc parent,String methodName,Class[] paramClasses)
     {
-        this(parent.getViewClass(),methodName,paramClasses);
+        this(parent.getDeclaredClass(),methodName,paramClasses);
     }
 
     public MethodContainer(Class<?> clasz, String methodName,Class[] paramClasses)

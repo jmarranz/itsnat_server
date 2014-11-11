@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -19,15 +21,14 @@ public class AttrDescView_widget_TextView_textAppearance extends AttrDescView
         super(parent,"textAppearance");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        Context ctx = view.getContext();
-        int resId = getIdentifier(value,ctx);
+        int resId = getIdentifier(attr.getValue(),ctx);
 
         ((TextView)view).setTextAppearance(ctx,resId);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         // No se que hacer
     }

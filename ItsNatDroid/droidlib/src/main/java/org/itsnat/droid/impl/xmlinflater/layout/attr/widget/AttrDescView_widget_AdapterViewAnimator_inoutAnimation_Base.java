@@ -2,11 +2,14 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterViewAnimator;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -22,18 +25,18 @@ public abstract class AttrDescView_widget_AdapterViewAnimator_inoutAnimation_Bas
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int id = getIdentifier(value, view.getContext());
+        int id = getIdentifier(attr.getValue(), ctx);
 
-        ObjectAnimator animator = id > 0 ? (ObjectAnimator)AnimatorInflater.loadAnimator(view.getContext(), id) : getDefaultAnimation();
+        ObjectAnimator animator = id > 0 ? (ObjectAnimator)AnimatorInflater.loadAnimator(ctx, id) : getDefaultAnimation();
 
         setAnimation((AdapterViewAnimator)view,animator);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0",null,null);
+        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
     }
 
     protected abstract void setAnimation(AdapterViewAnimator view,ObjectAnimator animator);

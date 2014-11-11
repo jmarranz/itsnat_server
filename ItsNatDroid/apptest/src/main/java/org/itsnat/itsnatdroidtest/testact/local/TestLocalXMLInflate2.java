@@ -35,8 +35,8 @@ import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.itsnatdroidtest.R;
 import org.itsnat.itsnatdroidtest.testact.util.TestUtil;
 

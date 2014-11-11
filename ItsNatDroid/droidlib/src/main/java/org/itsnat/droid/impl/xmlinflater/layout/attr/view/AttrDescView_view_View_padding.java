@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -17,9 +20,9 @@ public class AttrDescView_view_View_padding extends AttrDescView
         super(parent,name);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        int convValue = getDimensionInt(value, view.getContext());
+        int convValue = getDimensionInt(attr.getValue(), ctx);
 
         String name = getName();
         if ("padding".equals(name))
@@ -34,8 +37,8 @@ public class AttrDescView_view_View_padding extends AttrDescView
             view.setPadding(view.getPaddingLeft(),view.getPaddingTop(),view.getPaddingRight(),convValue);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0dp",null,null);
+        setAttribute(view,"0dp",xmlInflaterLayout,ctx,null,null);
     }
 }

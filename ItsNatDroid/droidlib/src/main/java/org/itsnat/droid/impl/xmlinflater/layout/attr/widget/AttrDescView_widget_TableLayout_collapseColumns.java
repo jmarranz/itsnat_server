@@ -1,11 +1,14 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -19,7 +22,7 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDescVie
         super(parent,"collapseColumns");
     }
 
-    public void setAttribute(final View view,final String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         final TableLayout tableView = (TableLayout)view;
 
@@ -38,6 +41,7 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDescVie
             @Override
             public void run()
             {
+                String value = attr.getValue();
                 if ("".equals(value))
                 {
                     int maxColumns = getMaxColumns((TableLayout) view);
@@ -66,9 +70,9 @@ public class AttrDescView_widget_TableLayout_collapseColumns extends AttrDescVie
 
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"",null,null);
+        setAttribute(view,"",xmlInflaterLayout,ctx,null,null);
     }
 
     private static int getMaxColumns(TableLayout view)

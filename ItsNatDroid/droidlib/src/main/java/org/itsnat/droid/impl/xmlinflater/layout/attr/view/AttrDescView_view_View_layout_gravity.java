@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,9 +8,11 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.GridLayout_columnSpec;
@@ -26,9 +29,9 @@ public class AttrDescView_view_View_layout_gravity extends AttrDescView
         super(parent,"layout_gravity");
     }
 
-    public void setAttribute(final View view, String value,final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final int valueInt = parseMultipleName(value, GravityUtil.valueMap);
+        final int valueInt = parseMultipleName(attr.getValue(), GravityUtil.valueMap);
 
         Runnable task = new Runnable(){
             @Override
@@ -70,7 +73,7 @@ public class AttrDescView_view_View_layout_gravity extends AttrDescView
 
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         if (params instanceof LinearLayout.LayoutParams)

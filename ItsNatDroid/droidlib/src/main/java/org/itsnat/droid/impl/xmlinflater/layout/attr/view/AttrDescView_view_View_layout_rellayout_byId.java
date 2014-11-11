@@ -1,10 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -21,16 +24,18 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         this.selector = selector;
     }
 
-    public void setAttribute(final View view,final String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final AttrParsed attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
+
         Runnable task = new Runnable(){
             @Override
             public void run()
             {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
+                String value = attr.getValue();
                 if (!value.isEmpty())
                 {
-                    int viewId = getIdentifierAddIfNecessary(value, view.getContext());
+                    int viewId = getIdentifierAddIfNecessary(value,ctx);
                     params.addRule(selector, viewId);
                 }
                 else
@@ -52,7 +57,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         }
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)view.getLayoutParams();
         params.addRule(selector, 0);

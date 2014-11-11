@@ -1,10 +1,13 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
+import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -21,9 +24,9 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack extends A
                 boolean.class);
     }
 
-    public void setAttribute(final View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final boolean convertedValue = getBoolean(value, view.getContext());
+        final boolean convertedValue = getBoolean(attr.getValue(),ctx);
 
         if (oneTimeAttrProcess != null)
         {
@@ -43,9 +46,9 @@ public class AttrDescView_view_View_scrollbarAlwaysDrawHorizontalTrack extends A
         }
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"false",null,null);
+        setAttribute(view,"false",xmlInflaterLayout,ctx,null,null);
     }
 
 }

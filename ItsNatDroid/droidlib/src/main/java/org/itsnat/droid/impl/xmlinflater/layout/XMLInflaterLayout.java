@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,24 +28,29 @@ public abstract class XMLInflaterLayout extends XMLInflater
 {
     protected InflatedLayoutImpl inflatedLayout;
 
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout)
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout,Context ctx)
     {
+        super(ctx);
         this.inflatedLayout = inflatedLayout;
     }
 
-    public static XMLInflaterLayout createXMLInflatedLayout(InflatedLayoutImpl inflatedLayout)
+    public static XMLInflaterLayout createXMLInflatedLayout(InflatedLayoutImpl inflatedLayout,Context ctx)
     {
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout);
+            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,ctx);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout);
+            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,ctx);
         }
         return null; // Internal Error
     }
 
+    public InflatedLayoutImpl getInflatedLayoutImpl()
+    {
+        return inflatedLayout;
+    }
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
@@ -86,15 +92,15 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return rootView;
     }
 
-    public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
+    public View createRootViewObjectAndFillAttributes(String viewName,ViewParsed rootViewParsed,PendingPostInsertChildrenTasks pending)
     {
         ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
-        View rootView = createViewObject(classDesc,viewParsed,pending);
+        View rootView = createViewObject(classDesc,rootViewParsed,pending);
 
         setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
-        fillAttributesAndAddView(rootView,classDesc,null,viewParsed,pending);
+        fillAttributesAndAddView(rootView,classDesc,null,rootViewParsed,pending);
 
         return rootView;
     }
@@ -147,7 +153,7 @@ public abstract class XMLInflaterLayout extends XMLInflater
     public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.setAttribute(view,attr, oneTimeAttrProcess,pending, inflatedLayout);
+        return classDesc.setAttribute(view,attr,this,ctx,oneTimeAttrProcess,pending);
     }
 
     protected void processChildViews(ViewParsed viewParsedParent, View viewParent)

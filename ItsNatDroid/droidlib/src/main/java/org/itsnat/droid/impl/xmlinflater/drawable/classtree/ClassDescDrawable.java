@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -9,14 +11,17 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.ConstructorContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawable extends ClassDesc<Drawable>
+public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 {
+    protected ConstructorContainer<Drawable> rootConstructor;
+
     //protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP = new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams", null);
 
     //protected Constructor<View> constructor1P;
@@ -25,6 +30,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
     public ClassDescDrawable(ClassDescDrawableMgr classMgr, String className, ClassDescDrawable parentClass)
     {
         super(classMgr, className, parentClass);
+        this.rootConstructor = new ConstructorContainer<Drawable>(this,null);
     }
 
     public ClassDescDrawableMgr getClassDescDrawableMgr()
@@ -53,18 +59,22 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
         return (AttrDescDrawable) getAttrDesc(name);
     }
 
+    public Drawable createRootDrawable(InflatedDrawable inflatedDrawable, Resources res)
+    {
+        return rootConstructor.invoke();
+    }
+
     protected boolean isAttributeIgnored(String namespaceURI, String name)
     {
         return false;
     }
 
-    public boolean setAttribute(Drawable draw, AttrParsed attr, InflatedDrawable inflated)
+    public boolean setAttribute(Drawable draw, AttrParsed attr, InflatedDrawable inflated,Context ctx)
     {
         if (!isInit()) init();
 
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
-        String value = attr.getValue();
 
         if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
 
@@ -73,7 +83,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
             AttrDescDrawable attrDesc = getAttrDescDrawable(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(draw, attr);
+                attrDesc.setAttribute(draw, attr,ctx);
             }
             else
             {
@@ -82,7 +92,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(draw, attr, inflated);
+                    parentClass.setAttribute(draw, attr, inflated,ctx);
                 }
                 else
                 {
@@ -91,6 +101,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
                     if (listener != null)
                     {
                         PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                        String value = attr.getValue();
                         listener.setAttribute(page, draw, namespaceURI, name, value);
                     }
                 }
@@ -103,6 +114,7 @@ public class ClassDescDrawable extends ClassDesc<Drawable>
             if (listener != null)
             {
                 PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                String value = attr.getValue();
                 listener.setAttribute(page, draw, namespaceURI, name, value);
             }
         }

@@ -1,9 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -17,8 +20,9 @@ public class AttrDescView_widget_SlidingDrawer_orientation extends AttrDescViewR
         super(parent,"orientation","mVertical",true);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
+        String value = attr.getValue();
         boolean vertical = true;
         if (value.equals("horizontal"))
             vertical = false;
@@ -28,9 +32,9 @@ public class AttrDescView_widget_SlidingDrawer_orientation extends AttrDescViewR
         setField(view,vertical);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view, "vertical", null,null);
+        setAttribute(view, "vertical",xmlInflaterLayout,ctx, null,null);
     }
 
 

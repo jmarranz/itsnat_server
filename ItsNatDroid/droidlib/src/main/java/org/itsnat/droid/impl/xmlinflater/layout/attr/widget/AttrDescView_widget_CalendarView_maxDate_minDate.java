@@ -1,14 +1,17 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.FieldContainer;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.FieldContainer;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Calendar;
@@ -40,9 +43,9 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         this.fieldMaxMinDate = new FieldContainer<Calendar>(parent,fieldName);
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        String date = getString(value,view.getContext());
+        String date = getString(attr.getValue(),ctx);
 
         Locale currentLocale = fieldCurrentLocale.get(view);
         Calendar outDate = Calendar.getInstance(currentLocale);
@@ -67,14 +70,14 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         fieldMaxMinDate.set(view,outDate);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
         String value = null;
         if ("maxDate".equals(name))
             value = DEFAULT_MAX_DATE;
         else if ("minDate".equals(name))
             value = DEFAULT_MIN_DATE;
-        setAttribute(view,value,null,null);
+        setAttribute(view,value,xmlInflaterLayout,ctx,null,null);
     }
 
     private boolean parseDate(View view,String date, Calendar outDate)

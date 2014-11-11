@@ -6,8 +6,10 @@ import android.widget.AbsSpinner;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -21,10 +23,9 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDescV
         super(parent,"entries");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        Context ctx = view.getContext();
-        CharSequence[] entries = getTextArray(value,view.getContext());
+        CharSequence[] entries = getTextArray(attr.getValue(),ctx);
 
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(ctx, android.R.layout.simple_list_item_1, entries);
         if (view instanceof ListView)
@@ -33,9 +34,9 @@ public class AttrDescView_widget_ListViewAndAbsSpinner_entries extends AttrDescV
             ((AbsSpinner)view).setAdapter(adapter);
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"0",null,null);
+        setAttribute(view,"0",xmlInflaterLayout,ctx,null,null);
     }
 
 }

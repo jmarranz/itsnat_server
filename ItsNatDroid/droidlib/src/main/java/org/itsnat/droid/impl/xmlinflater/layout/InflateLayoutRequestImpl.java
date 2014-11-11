@@ -111,7 +111,7 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
     {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed, ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed, inflateLayoutListener,ctx);
-        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflatedLayout(inflatedLayout);
+        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflatedLayout(inflatedLayout,ctx);
         inflatedLayout.setXMLInflaterLayout(xmlInflater); // Se necesita después para la inserción de fragments, cambio de atributos etc
         xmlInflater.inflateLayout(loadScript, scriptList);
         return inflatedLayout;

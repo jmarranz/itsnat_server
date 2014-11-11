@@ -3,9 +3,11 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
@@ -22,9 +24,9 @@ public class AttrDescView_view_View_onClick extends AttrDescView
         super(parent,"onClick");
     }
 
-    public void setAttribute(View view, String value, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        final String handlerName = value;
+        final String handlerName = attr.getValue();
 
         if (!ValueUtil.isEmpty(handlerName))
         {
@@ -34,7 +36,6 @@ public class AttrDescView_view_View_onClick extends AttrDescView
 
                 public void onClick(View v)
                 {
-                    Context ctx = v.getContext();
                     if (mHandler == null)
                     {
                         try
@@ -74,8 +75,8 @@ public class AttrDescView_view_View_onClick extends AttrDescView
         }
     }
 
-    public void removeAttribute(View view)
+    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
     {
-        setAttribute(view,"",null,null);
+        setAttribute(view,"",xmlInflaterLayout,ctx,null,null);
     }
 }

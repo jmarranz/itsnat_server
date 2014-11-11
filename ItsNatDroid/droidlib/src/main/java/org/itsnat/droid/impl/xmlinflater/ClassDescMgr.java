@@ -35,35 +35,35 @@ public abstract class ClassDescMgr<TclassDesc extends ClassDesc,Tnative>
 
     public TclassDesc get(String viewName)
     {
-        Class<Tnative> viewClass = null;
-        try { viewClass = resolveClass(viewName); }
+        Class<Tnative> nativeClass = null;
+        try { nativeClass = resolveClass(viewName); }
         catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
-        TclassDesc classDesc = get(viewClass);
+        TclassDesc classDesc = get(nativeClass);
         return classDesc;
     }
 
-    public TclassDesc get(Class<Tnative> viewClass)
+    public TclassDesc get(Class<Tnative> nativeClass)
     {
-        TclassDesc classDesc = classes.get(viewClass.getName());
-        if (classDesc == null) classDesc = registerUnknown(viewClass);
+        TclassDesc classDesc = classes.get(nativeClass.getName());
+        if (classDesc == null) classDesc = registerUnknown(nativeClass);
         return classDesc; // Nunca es nulo
     }
 
-    public TclassDesc get(Tnative view)
+    public TclassDesc get(Tnative nativeObj)
     {
-        Class<Tnative> viewClass = (Class<Tnative>)view.getClass();
-        return get(viewClass);
+        Class<Tnative> nativeClass = (Class<Tnative>)nativeObj.getClass();
+        return get(nativeClass);
     }
 
-    public TclassDesc registerUnknown(Class<Tnative> viewClass)
+    public TclassDesc registerUnknown(Class<Tnative> nativeClass)
     {
-        String className = viewClass.getName();
+        String className = nativeClass.getName();
         // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
-        Class<?> superClass = (Class<?>)viewClass.getSuperclass();
+        Class<?> superClass = (Class<?>)nativeClass.getSuperclass();
         TclassDesc parentClassDesc = get((Class<Tnative>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
-        TclassDesc classDesc = createClassDescUnknown(className,parentClassDesc);
+        TclassDesc classDesc = createClassDescUnknown(className, parentClassDesc);
 
-        classes.put(viewClass.getName(), classDesc);
+        classes.put(nativeClass.getName(), classDesc);
 
         return classDesc;
     }
