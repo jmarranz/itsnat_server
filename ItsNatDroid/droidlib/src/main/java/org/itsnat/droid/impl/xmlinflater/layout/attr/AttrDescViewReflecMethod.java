@@ -15,7 +15,7 @@ public abstract class AttrDescViewReflecMethod extends AttrDescView
     public AttrDescViewReflecMethod(ClassDescViewBased parent, String name, String methodName, Class classParam)
     {
         super(parent,name);
-        this.method = new MethodContainer(parent,methodName,classParam != null ? new Class[]{classParam} : null);
+        this.method = new MethodContainer(parent.getDeclaredClass(),methodName,classParam != null ? new Class[]{classParam} : null);
     }
 
     public AttrDescViewReflecMethod(ClassDescViewBased parent, String name, Class classParam)

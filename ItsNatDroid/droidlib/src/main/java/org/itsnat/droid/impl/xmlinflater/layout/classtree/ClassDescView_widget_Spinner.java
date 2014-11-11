@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
+import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -60,7 +61,9 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
 
     private String findSpinnerModeAttribute(ViewParsed viewParsed)
     {
-        return viewParsed.findAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
+        AttrParsed attr = viewParsed.findAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
+        if (attr == null) return null;
+        return attr.getValue();
     }
 
     @Override

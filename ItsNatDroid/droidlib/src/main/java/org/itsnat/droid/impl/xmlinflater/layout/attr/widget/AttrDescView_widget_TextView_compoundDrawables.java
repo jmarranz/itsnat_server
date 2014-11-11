@@ -41,7 +41,7 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
     public AttrDescView_widget_TextView_compoundDrawables(ClassDescViewBased parent, String name)
     {
         super(parent,name);
-        this.fieldDrawables = new FieldContainer(parent,"mDrawables");
+        this.fieldDrawables = new FieldContainer(parent.getDeclaredClass(),"mDrawables");
 
         String[] fieldMemberNames = new String[] { "mDrawableLeft","mDrawableTop","mDrawableRight","mDrawableBottom" };
         this.fieldMemberDrawables = new FieldContainer[fieldMemberNames.length];

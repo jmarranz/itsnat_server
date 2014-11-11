@@ -31,6 +31,11 @@ public class XMLInflaterDrawable extends XMLInflater
         return new XMLInflaterDrawable(inflatedDrawable,ctx);
     }
 
+    public InflatedDrawable getInflatedDrawable()
+    {
+        return inflatedDrawable;
+    }
+
     public Drawable inflateDrawable()
     {
         return inflateRoot(inflatedDrawable.getDrawableParsed());
@@ -58,7 +63,7 @@ public class XMLInflaterDrawable extends XMLInflater
     {
         ClassDescDrawableMgr classDescViewMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescDrawable classDesc = classDescViewMgr.get(name);
-        Drawable drawable = createRootDrawable(classDesc);
+        Drawable drawable = createRootDrawable(classDesc,rootElemParsed);
 
         setRootDrawable(drawable);
 
@@ -67,9 +72,9 @@ public class XMLInflaterDrawable extends XMLInflater
         return drawable;
     }
 
-    private Drawable createRootDrawable(ClassDescDrawable classDesc)
+    private Drawable createRootDrawable(ClassDescDrawable classDesc,ElementParsed rootElemParsed)
     {
-        return classDesc.createRootDrawable(inflatedDrawable, ctx.getResources());
+        return classDesc.createRootDrawable(rootElemParsed,inflatedDrawable, ctx);
     }
 
     public void setRootDrawable(Drawable rootDrawable)
@@ -92,7 +97,7 @@ public class XMLInflaterDrawable extends XMLInflater
 
     public boolean setAttribute(ClassDescDrawable classDesc,Drawable drawable,AttrParsed attr,Context ctx)
     {
-        return classDesc.setAttribute(drawable,attr,inflatedDrawable,ctx);
+        return classDesc.setAttribute(drawable,attr,this,ctx);
     }
 
     protected void processChildElements(ElementParsed elemParsedParent, Drawable drawable)

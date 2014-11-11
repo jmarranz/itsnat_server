@@ -13,11 +13,6 @@ public class FieldContainer<T>
     protected final String fieldName;
     protected Field field;
 
-    public FieldContainer(ClassDesc parent,String fieldName)
-    {
-        this(parent.getDeclaredClass(),fieldName);
-    }
-
     public FieldContainer(Class<?> clasz,String fieldName)
     {
         this.clasz = clasz;

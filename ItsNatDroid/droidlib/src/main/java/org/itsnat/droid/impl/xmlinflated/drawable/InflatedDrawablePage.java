@@ -17,6 +17,8 @@ public class InflatedDrawablePage extends InflatedDrawable
     {
         // Este constructor puede llegar a ejecutarse en un hilo NO UI, no hacer nada más
         super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), drawableParsed, ctx);
+
+        this.page = page;
     }
 
     public PageImpl getPageImpl()

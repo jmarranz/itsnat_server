@@ -2,6 +2,7 @@ package org.itsnat.droid.impl.xmlinflater.layout;
 
 import android.view.View;
 
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -51,13 +52,49 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescView_widget_V
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
+public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased>
 {
     public ClassDescViewMgr(XMLInflateRegistry parent)
     {
         super(parent);
         initClassDesc();
     }
+
+    public ClassDescViewBased get(String className)
+    {
+        Class<View> nativeClass = null;
+        try { nativeClass = resolveClass(className); }
+        catch (ClassNotFoundException ex) { throw new ItsNatDroidException(ex); }
+        ClassDescViewBased classDesc = get(nativeClass);
+        return classDesc;
+    }
+
+    public ClassDescViewBased get(Class<View> nativeClass)
+    {
+        ClassDescViewBased classDesc = classes.get(nativeClass.getName());
+        if (classDesc == null) classDesc = registerUnknown(nativeClass);
+        return classDesc; // Nunca es nulo
+    }
+
+    public ClassDescViewBased get(View nativeObj)
+    {
+        Class<View> nativeClass = (Class<View>)nativeObj.getClass();
+        return get(nativeClass);
+    }
+
+    public ClassDescViewBased registerUnknown(Class<View> nativeClass)
+    {
+        String className = nativeClass.getName();
+        // Tenemos que obtener los ClassDescViewBase de las clases base para que podamos saber lo más posible
+        Class<?> superClass = (Class<?>)nativeClass.getSuperclass();
+        ClassDescViewBased parentClassDesc = get((Class<View>)superClass); // Si fuera también unknown se llamará recursivamente de nuevo a este método
+        ClassDescViewBased classDesc = createClassDescUnknown(className, parentClassDesc);
+
+        classes.put(nativeClass.getName(), classDesc);
+
+        return classDesc;
+    }
+
 
     @Override
     protected void initClassDesc()
@@ -253,7 +290,6 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
 
     }
 
-    @Override
     public Class<View> resolveClass(String viewName) throws ClassNotFoundException
     {
         if (viewName.indexOf('.') == -1)
@@ -269,11 +305,10 @@ public class ClassDescViewMgr extends ClassDescMgr<ClassDescViewBased,View>
         }
         else
         {
-            return super.resolveClass(viewName);
+            return (Class<View>)Class.forName(viewName);
         }
     }
 
-    @Override
     protected ClassDescViewBased createClassDescUnknown(String className,ClassDescViewBased parentClass)
     {
         return new ClassDescViewUnknown(this,className,parentClass);

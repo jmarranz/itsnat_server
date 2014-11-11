@@ -1,17 +1,14 @@
 package org.itsnat.droid.impl.xmlinflater.drawable;
 
-import android.graphics.drawable.Drawable;
-
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawableUnknown;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable,Drawable>
+public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
 {
     public ClassDescDrawableMgr(XMLInflateRegistry parent)
     {
@@ -19,10 +16,9 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable,Drawabl
         initClassDesc();
     }
 
-    @Override
-    protected ClassDescDrawable createClassDescUnknown(String className, ClassDescDrawable parentClass)
+    public ClassDescDrawable get(String className)
     {
-        return new ClassDescDrawableUnknown(this, className, parentClass);
+        return classes.get(className);
     }
 
     @Override

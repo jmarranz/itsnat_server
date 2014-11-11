@@ -1,27 +1,25 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.ElementParsed;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
-import org.itsnat.droid.impl.xmlinflater.ConstructorContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class ClassDescDrawable extends ClassDesc<Drawable>
+public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends ClassDesc<Drawable>
 {
-    protected ConstructorContainer<Drawable> rootConstructor;
-
     //protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP = new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams", null);
 
     //protected Constructor<View> constructor1P;
@@ -30,7 +28,6 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
     public ClassDescDrawable(ClassDescDrawableMgr classMgr, String className, ClassDescDrawable parentClass)
     {
         super(classMgr, className, parentClass);
-        this.rootConstructor = new ConstructorContainer<Drawable>(this,null);
     }
 
     public ClassDescDrawableMgr getClassDescDrawableMgr()
@@ -49,19 +46,9 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         return (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
     }
 
-    public Class<Drawable> getDrawableClass()
-    {
-        return getDeclaredClass();
-    }
-
     protected AttrDescDrawable getAttrDescDrawable(String name)
     {
         return (AttrDescDrawable) getAttrDesc(name);
-    }
-
-    public Drawable createRootDrawable(InflatedDrawable inflatedDrawable, Resources res)
-    {
-        return rootConstructor.invoke();
     }
 
     protected boolean isAttributeIgnored(String namespaceURI, String name)
@@ -69,7 +56,7 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         return false;
     }
 
-    public boolean setAttribute(Drawable draw, AttrParsed attr, InflatedDrawable inflated,Context ctx)
+    public boolean setAttribute(Drawable draw, AttrParsed attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 
@@ -78,21 +65,24 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
 
         if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
 
+        InflatedDrawable inflated = xmlInflaterDrawable.getInflatedDrawable();
+
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescDrawable attrDesc = getAttrDescDrawable(name);
             if (attrDesc != null)
             {
-                attrDesc.setAttribute(draw, attr,ctx);
+                attrDesc.setAttribute(draw, attr,xmlInflaterDrawable,ctx);
             }
             else
             {
                 // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
                 // y tiene prioridad la clase más derivada
+
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(draw, attr, inflated,ctx);
+                    parentClass.setAttribute(draw, attr, xmlInflaterDrawable,ctx);
                 }
                 else
                 {
@@ -123,25 +113,27 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
     }
 
 
-    public boolean removeAttribute(Drawable draw, String namespaceURI, String name, InflatedDrawable inflated)
+    public boolean removeAttribute(Drawable draw, String namespaceURI, String name, XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 
         if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
+
+        InflatedDrawable inflated = xmlInflaterDrawable.getInflatedDrawable();
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
             AttrDescDrawable attrDesc = getAttrDescDrawable(name);
             if (attrDesc != null)
             {
-                attrDesc.removeAttribute(draw);
+                attrDesc.removeAttribute(draw,xmlInflaterDrawable,ctx);
             }
             else
             {
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.removeAttribute(draw, namespaceURI, name, inflated);
+                    parentClass.removeAttribute(draw, namespaceURI, name, xmlInflaterDrawable,ctx);
                 }
                 else
                 {
@@ -169,4 +161,6 @@ public abstract class ClassDescDrawable extends ClassDesc<Drawable>
         return true;
     }
 
+    public abstract Class<Tdrawable> getDrawableClass();
+    public abstract Drawable createRootDrawable(ElementParsed rootElem,InflatedDrawable inflatedDrawable,Context ctx);
 }

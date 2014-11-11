@@ -18,11 +18,13 @@ import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
+import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
@@ -30,7 +32,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -48,12 +49,20 @@ public class ClassDescViewBased extends ClassDesc<View>
     protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP =
                         new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class,"generateDefaultLayoutParams",null);
 
+    protected Class<View> clasz;
     protected Constructor<View> constructor1P;
     protected Constructor<View> constructor3P;
 
     public ClassDescViewBased(ClassDescViewMgr classMgr, String className,ClassDescViewBased parentClass)
     {
         super(classMgr,className,parentClass);
+    }
+
+    protected void init()
+    {
+        initClass();
+
+        super.init();
     }
 
     public ClassDescViewMgr getClassDescViewMgr()
@@ -64,6 +73,17 @@ public class ClassDescViewBased extends ClassDesc<View>
     public ClassDescViewBased getParentClassDescViewBased()
     {
         return (ClassDescViewBased)getParentClassDesc();
+    }
+
+    public Class<View> getDeclaredClass()
+    {
+        return clasz;
+    }
+
+    protected Class<View> initClass()
+    {
+        if (clasz == null) this.clasz = (Class<View>) MiscUtil.resolveClass(className);
+        return clasz;
     }
 
     public Class<View> getViewClass()
@@ -256,7 +276,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         String value = findAttributeFromRemote(null, "style", newChildToIn);
         if (value == null) return 0;
         Context ctx = itsNatDoc.getPageImpl().getContext();
-        return AttrDescView.getIdentifier(value, ctx, getXMLInflateRegistry());
+        return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
     public View createViewObjectFromRemote(ItsNatDocImpl itsNatDoc,NodeToInsertImpl newChildToIn,PendingPostInsertChildrenTasks pending)
@@ -277,7 +297,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         String value = viewParsed.getStyleAttr();
         if (value == null) return 0;
         Context ctx = inflated.getContext();
-        return AttrDescView.getIdentifier(value, ctx, getXMLInflateRegistry());
+        return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
     public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)

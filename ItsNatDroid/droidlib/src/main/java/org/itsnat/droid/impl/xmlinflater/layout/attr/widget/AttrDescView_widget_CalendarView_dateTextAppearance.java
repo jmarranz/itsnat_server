@@ -30,7 +30,7 @@ public class AttrDescView_widget_CalendarView_dateTextAppearance extends AttrDes
         this.fieldTextAppearance = new FieldContainer<int[]>(class_R_styleable,"TextAppearance");
         this.fieldTextAppearance_textSize = new FieldContainer<Integer>(class_R_styleable,"TextAppearance_textSize");
         this.fieldTextAppearance_Small = new FieldContainer<Integer>(class_R_styleable,"TextAppearance_Small");
-        this.fieldDateTextSize = new FieldContainer<Integer>(parent,"mDateTextSize");
+        this.fieldDateTextSize = new FieldContainer<Integer>(parent.getDeclaredClass(),"mDateTextSize");
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

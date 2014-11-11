@@ -21,9 +21,9 @@ public class AttrDescView_gesture_GestureOverlayView_gestureColor extends AttrDe
     {
         super(parent,"gestureColor","#ffff00"/*yellow*/);
 
-        this.fieldGesturePaint = new FieldContainer<Paint>(parent,"mGesturePaint");
+        this.fieldGesturePaint = new FieldContainer<Paint>(parent.getDeclaredClass(),"mGesturePaint");
         this.methodPaintSetColor = new MethodContainer<Void>(fieldGesturePaint.getField().getType(),"setColor",new Class[]{int.class});
-        this.fieldCurrentColor = new FieldContainer<Integer>(parent,"mCurrentColor");
+        this.fieldCurrentColor = new FieldContainer<Integer>(parent.getDeclaredClass(),"mCurrentColor");
     }
 
     protected void callMethod(View view, Object convertedValue)

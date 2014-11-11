@@ -15,11 +15,6 @@ public class MethodContainer<T>
     protected final Class[] paramClasses;
     protected Method method;
 
-    public MethodContainer(ClassDesc parent,String methodName,Class[] paramClasses)
-    {
-        this(parent.getDeclaredClass(),methodName,paramClasses);
-    }
-
     public MethodContainer(Class<?> clasz, String methodName,Class[] paramClasses)
     {
         this.clasz = clasz;

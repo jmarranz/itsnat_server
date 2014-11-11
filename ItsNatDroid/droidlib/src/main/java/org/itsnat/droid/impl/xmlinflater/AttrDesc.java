@@ -45,115 +45,25 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return name;
     }
 
-    private static boolean isResource(String attrValue)
+    protected static boolean isResource(String attrValue)
     {
         // No hace falta hacer un trim, un espacio al ppio invalida el atributo
         return attrValue.startsWith("@") || attrValue.startsWith("?");
     }
 
-    public int getIdentifier(String attrValue, Context ctx)
+    protected XMLInflateRegistry getXMLInflateRegistry()
     {
-        return getIdentifier(attrValue,ctx,true);
-    }
-
-    public int getIdentifier(String attrValue, Context ctx,boolean throwErr)
-    {
-        return getIdentifier(attrValue,ctx, classDesc.getClassDescMgr().getXMLInflateRegistry(),throwErr);
-    }
-
-    public static int getIdentifier(String attrValue, Context ctx,XMLInflateRegistry layoutService)
-    {
-        return getIdentifier(attrValue, ctx,layoutService,true);
-    }
-
-    public static int getIdentifier(String value, Context ctx,XMLInflateRegistry layoutService,boolean throwErr)
-    {
-        if ("0".equals(value) || "-1".equals(value) || "@null".equals(value)) return 0;
-
-        int id;
-        char first = value.charAt(0);
-        if (first == '?')
-        {
-            id = getIdentifierTheme(value, ctx);
-        }
-        else if (first == '@')
-        {
-            // En este caso es posible que se haya registrado dinámicamente el id via "@+id/..." Tiene prioridad el registro de Android que el de ItsNat, para qué generar un id si ya existe como recurso
-            id = getIdentifierResource(value, ctx);
-            if (id > 0)
-                return id;
-            id = getIdentifierDynamicallyAdded(value,ctx,layoutService);
-        }
-        else
-            throw new ItsNatDroidException("INTERNAL ERROR");
-
-        if (throwErr && id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
-        return id;
-    }
-
-    private static int getIdentifierTheme(String value, Context ctx)
-    {
-        // http://stackoverflow.com/questions/12781501/android-setting-linearlayout-background-programmatically
-        // Ej. android:textAppearance="?android:attr/textAppearanceMedium"
-        TypedValue outValue = new TypedValue();
-        ctx.getTheme().resolveAttribute(getIdentifierResource(value, ctx), outValue, true);
-        return outValue.resourceId;
-    }
-
-    public static int getIdentifierDynamicallyAdded(String value, Context ctx,XMLInflateRegistry layoutService)
-    {
-        if (value.indexOf(':') != -1) // Tiene package, ej "@+android:id/", no se encontrará un id registrado como "@+id/..." y los posibles casos con package NO los hemos contemplado
-            return 0; // No encontrado
-
-        value = value.substring(1); // Quitamos el @ o #
-        int pos = value.indexOf('/');
-        String idName = value.substring(pos + 1);
-
-        return layoutService.findId(idName);
-    }
-
-    private static int getIdentifierResource(String value, Context ctx)
-    {
-        Resources res = ctx.getResources();
-
-        value = value.substring(1); // Quitamos el @ o #
-        if (value.startsWith("+id/"))
-            value = value.substring(1); // Quitamos el +
-        String packageName;
-        if (value.indexOf(':') != -1) // Tiene package el value, ej "android:" delegamos en Resources.getIdentifier() que lo resuelva
-        {
-            packageName = null;
-        }
-        else
-        {
-            packageName = ctx.getPackageName(); // El package es necesario como parámetro sólo cuando no está en la string (recursos locales)
-        }
-
-        return res.getIdentifier(value, null, packageName);
+        return classDesc.getXMLInflateRegistry();
     }
 
     public int getIdentifierAddIfNecessary(String value, Context ctx)
     {
-        // Procesamos aquí los casos de "@+id/...", la razón es que cualquier atributo que referencie un id (más allá
-        // de android:id) puede registrar un nuevo atributo lo cual es útil si el android:id como tal está después,
-        // después en android:id ya no hace falta que sea "@+id/...".
-        // http://stackoverflow.com/questions/11029635/android-radiogroup-checkedbutton-property
-        int id = 0;
-        if (value.startsWith("@+id/") || value.startsWith("@id/")) // Si fuera el caso de "@+mypackage:id/name" ese caso no lo soportamos, no lo he visto nunca aunque en teoría está sintácticamente permitido
-        {
-            id = getIdentifier(value, ctx, false); // Tiene prioridad el recurso de Android, pues para qué generar un id nuevo si ya existe o bien ya fue registrado dinámicamente
-            if (id <= 0)
-            {
-                int pos = value.indexOf('/');
-                String idName = value.substring(pos + 1);
-                XMLInflateRegistry inflateService = classDesc.getClassDescMgr().getXMLInflateRegistry();
-                if (value.startsWith("@+id/")) id = inflateService.findIdAddIfNecessary(idName);
-                else id = inflateService.findId(idName);
-                if (id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
-            }
-        }
-        else id = getIdentifier(value, ctx);
-        return id;
+        return getXMLInflateRegistry().getIdentifierAddIfNecessary(value,ctx);
+    }
+    
+    public int getIdentifier(String attrValue, Context ctx)
+    {
+        return getXMLInflateRegistry().getIdentifier(attrValue,ctx);
     }
 
     public int getInteger(String attrValue, Context ctx)
@@ -332,7 +242,6 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         }
         return dimension;
     }
-
 
     public Drawable getDrawable(AttrParsed attr,Context ctx,PageImpl page)
     {

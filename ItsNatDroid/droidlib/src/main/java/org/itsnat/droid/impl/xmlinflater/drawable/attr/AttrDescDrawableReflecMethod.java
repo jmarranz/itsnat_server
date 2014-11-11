@@ -15,7 +15,7 @@ public abstract class AttrDescDrawableReflecMethod extends AttrDescDrawable
     public AttrDescDrawableReflecMethod(ClassDescDrawable parent, String name, String methodName, Class classParam)
     {
         super(parent,name);
-        this.method = new MethodContainer(parent,methodName,classParam != null ? new Class[]{classParam} : null);
+        this.method = new MethodContainer(parent.getDrawableClass(),methodName,classParam != null ? new Class[]{classParam} : null);
     }
 
     public AttrDescDrawableReflecMethod(ClassDescDrawable parent, String name, Class classParam)

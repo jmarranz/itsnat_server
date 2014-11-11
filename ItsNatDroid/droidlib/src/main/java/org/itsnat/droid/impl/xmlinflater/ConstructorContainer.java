@@ -14,11 +14,6 @@ public class ConstructorContainer<T>
     protected final Class[] paramClasses;
     protected Constructor constructor;
 
-    public ConstructorContainer(ClassDesc parent, Class[] paramClasses)
-    {
-        this(parent.getDeclaredClass(),paramClasses);
-    }
-
     public ConstructorContainer(Class<?> clasz, Class[] paramClasses)
     {
         this.clasz = clasz;

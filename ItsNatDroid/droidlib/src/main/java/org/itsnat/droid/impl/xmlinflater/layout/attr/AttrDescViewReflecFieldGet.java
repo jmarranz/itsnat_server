@@ -15,7 +15,7 @@ public abstract class AttrDescViewReflecFieldGet extends AttrDescView
     public AttrDescViewReflecFieldGet(ClassDescViewBased parent, String name, String fieldName)
     {
         super(parent,name);
-        this.field = new FieldContainer(parent,fieldName);
+        this.field = new FieldContainer(parent.getDeclaredClass(),fieldName);
     }
 
     protected Object getField(View view)

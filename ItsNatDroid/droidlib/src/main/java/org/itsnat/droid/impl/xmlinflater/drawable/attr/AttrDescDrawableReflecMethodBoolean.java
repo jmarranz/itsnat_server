@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
@@ -30,14 +32,14 @@ public class AttrDescDrawableReflecMethodBoolean extends AttrDescDrawableReflecM
     }
 
     @Override
-    protected void setAttribute(Drawable draw, String value,Context ctx)
+    public void setAttribute(Drawable draw, AttrParsed attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx)
     {
-        boolean convValue = getBoolean(value,ctx);
+        boolean convValue = getBoolean(attr.getValue(),ctx);
         callMethod(draw, convValue);
     }
 
     @Override
-    public void removeAttribute(Drawable draw)
+    public void removeAttribute(Drawable draw,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         callMethod(draw, defaultValue);
     }

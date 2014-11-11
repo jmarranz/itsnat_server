@@ -19,7 +19,7 @@ public abstract class AttrDescViewReflecFieldFieldMethod extends AttrDescView
     {
         super(parent,name);
 
-        this.field1 = new FieldContainer(parent,fieldName1);
+        this.field1 = new FieldContainer(parent.getDeclaredClass(),fieldName1);
         this.field2 = new FieldContainer(field2Class,fieldName2);
         this.method = new MethodContainer(methodClass,methodName,new Class[]{paramClass});
     }

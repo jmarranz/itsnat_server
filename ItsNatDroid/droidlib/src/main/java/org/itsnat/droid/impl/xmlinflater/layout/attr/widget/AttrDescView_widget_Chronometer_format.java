@@ -22,7 +22,7 @@ public class AttrDescView_widget_Chronometer_format extends AttrDescViewReflecMe
     {
         super(parent,"format","%s"); // Android tiene un texto por defecto
 
-        this.methodContainer = new MethodContainer(parent,"init",null);
+        this.methodContainer = new MethodContainer(parent.getDeclaredClass(),"init",null);
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

@@ -32,7 +32,7 @@ public class AttrParsedRemote extends AttrParsed
         // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
         String mime = HttpUtil.MIME_BY_EXT.get(extension);
         if (mime == null)
-            throw new ItsNatDroidException("Unexpected extension: " + extension);
+            throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
         this.mime = mime;
     }
 

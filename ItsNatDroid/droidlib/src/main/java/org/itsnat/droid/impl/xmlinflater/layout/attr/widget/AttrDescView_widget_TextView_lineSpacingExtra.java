@@ -22,7 +22,7 @@ public class AttrDescView_widget_TextView_lineSpacingExtra extends AttrDescView
     public AttrDescView_widget_TextView_lineSpacingExtra(ClassDescViewBased parent)
     {
         super(parent,"lineSpacingExtra");
-        this.field = new FieldContainer<Float>(parent,"mSpacingMult");
+        this.field = new FieldContainer<Float>(parent.getDeclaredClass(),"mSpacingMult");
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

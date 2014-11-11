@@ -35,7 +35,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
     public AttrDescView_view_View_scrollbars(ClassDescViewBased parent)
     {
         super(parent,"scrollbars");
-        this.methodSetFlags = new MethodContainer(parent,"setFlags",new Class[]{int.class, int.class});
+        this.methodSetFlags = new MethodContainer(parent.getDeclaredClass(),"setFlags",new Class[]{int.class, int.class});
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

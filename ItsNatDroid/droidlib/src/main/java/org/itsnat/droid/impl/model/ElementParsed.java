@@ -47,7 +47,7 @@ public abstract class ElementParsed
         attribs.add(attr);
     }
 
-    public String findAttribute(String namespaceURI, String name)
+    public AttrParsed findAttribute(String namespaceURI, String name)
     {
         for(int i = 0; i < attribs.size(); i++)
         {
@@ -56,8 +56,7 @@ public abstract class ElementParsed
             if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = attr.getName(); // El nombre devuelto no contiene el namespace
             if (!name.equals(currName)) continue;
-            String value = attr.getValue();
-            return value;
+            return attr;
         }
         return null;
     }

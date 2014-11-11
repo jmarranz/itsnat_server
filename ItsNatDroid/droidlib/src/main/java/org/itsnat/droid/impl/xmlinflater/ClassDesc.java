@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.util.MiscUtil;
 
 import java.util.HashMap;
 
@@ -12,7 +11,6 @@ public abstract class ClassDesc<Tnative>
 {
     protected ClassDescMgr classMgr;
     protected String className;
-    protected Class<Tnative> clasz;
     protected ClassDesc parentClass;
     protected boolean initiated;
     protected HashMap<String,AttrDesc> attrDescMap;
@@ -44,16 +42,7 @@ public abstract class ClassDesc<Tnative>
         return className;
     }
 
-    public Class<Tnative> getDeclaredClass()
-    {
-        return clasz;
-    }
 
-    protected Class<Tnative> initClass()
-    {
-        if (clasz == null) this.clasz = (Class<Tnative>) MiscUtil.resolveClass(className);
-        return clasz;
-    }
 
     protected boolean isInit()
     {
@@ -62,8 +51,6 @@ public abstract class ClassDesc<Tnative>
 
     protected void init()
     {
-        initClass();
-
         this.attrDescMap = new HashMap<String,AttrDesc>();
     }
 

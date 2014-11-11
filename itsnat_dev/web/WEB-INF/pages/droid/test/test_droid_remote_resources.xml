@@ -4,9 +4,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    onload="load(event)"
-    onunload="unload(event)" >
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -26,12 +24,27 @@
             android:background="#00ff00">
         </TextView>
 
+        <Button
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK" />
+
+        <Button
+                android:id="@id/buttonReload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_reload" />
+
         <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test nine-patch"
-                android:textSize="25dp"                
+                android:layout_marginTop="20dp"
+                android:text="Test nine-patch (border must be green)"
+                android:textSize="20dp"                
                 android:background="@remote:drawable/droid/res/drawable/nine-patch.xml" />
 
+        
+        
     </LinearLayout>
 </ScrollView>

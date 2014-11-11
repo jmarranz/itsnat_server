@@ -28,9 +28,9 @@ public class AttrDescView_widget_TextView_shadowLayer_base extends AttrDescView
     {
         super(parent,name);
         this.fieldShadowColor = new FieldContainer<Integer>(Paint.class,"shadowColor");
-        this.fieldShadowRadius = new FieldContainer<Float>(parent,"mShadowRadius");
-        this.fieldShadowDx = new FieldContainer<Float>(parent,"mShadowDx");
-        this.fieldShadowDy = new FieldContainer<Float>(parent,"mShadowDy");
+        this.fieldShadowRadius = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowRadius");
+        this.fieldShadowDx = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowDx");
+        this.fieldShadowDy = new FieldContainer<Float>(parent.getDeclaredClass(),"mShadowDy");
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

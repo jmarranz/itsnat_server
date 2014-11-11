@@ -32,8 +32,8 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
     public AttrDescView_widget_DatePicker_maxDate_minDate(ClassDescViewBased parent, String name)
     {
         super(parent,name);
-        this.methodParseDate = new MethodContainer<Boolean>(parent,"parseDate",new Class[]{String.class,Calendar.class});
-        this.fieldCurrentLocale = new FieldContainer<Locale>(parent,"mCurrentLocale");
+        this.methodParseDate = new MethodContainer<Boolean>(parent.getDeclaredClass(),"parseDate",new Class[]{String.class,Calendar.class});
+        this.fieldCurrentLocale = new FieldContainer<Locale>(parent.getDeclaredClass(),"mCurrentLocale");
 
         String methodName = null;
         if ("maxDate".equals(name))
@@ -41,7 +41,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
         else if ("minDate".equals(name))
             methodName = "setMinDate";
 
-        this.methodMaxMinDate = new MethodContainer<Calendar>(parent,methodName,new Class[]{long.class});
+        this.methodMaxMinDate = new MethodContainer<Calendar>(parent.getDeclaredClass(),methodName,new Class[]{long.class});
     }
 
     public void setAttribute(final View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)

@@ -32,15 +32,15 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
     public AttrDescView_widget_CalendarView_maxDate_minDate(ClassDescViewBased parent, String name)
     {
         super(parent,name);
-        this.methodParseDate = new MethodContainer<Boolean>(parent,"parseDate",new Class[]{String.class,Calendar.class});
-        this.fieldCurrentLocale = new FieldContainer<Locale>(parent,"mCurrentLocale");
+        this.methodParseDate = new MethodContainer<Boolean>(parent.getDeclaredClass(),"parseDate",new Class[]{String.class,Calendar.class});
+        this.fieldCurrentLocale = new FieldContainer<Locale>(parent.getDeclaredClass(),"mCurrentLocale");
 
         String fieldName = null;
         if ("maxDate".equals(name))
             fieldName = "mMaxDate";
         else if ("minDate".equals(name))
             fieldName = "mMinDate";
-        this.fieldMaxMinDate = new FieldContainer<Calendar>(parent,fieldName);
+        this.fieldMaxMinDate = new FieldContainer<Calendar>(parent.getDeclaredClass(),fieldName);
     }
 
     public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
