@@ -36,6 +36,11 @@ public class AttrParsedRemote extends AttrParsed
         this.mime = mime;
     }
 
+    public boolean isDownloaded()
+    {
+        return remoteResource != null;
+    }
+
     public static boolean isRemote(String namespaceURI,String value)
     {
         return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));

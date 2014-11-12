@@ -3,11 +3,12 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 import android.os.AsyncTask;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
+import org.itsnat.droid.impl.browser.HttpConfig;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
@@ -40,25 +41,17 @@ public class EventSender
         return evtManager.getItsNatDocImpl();
     }
 
-    public HttpParams buildHttpParamsRequest(long timeout)
-    {
-        ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
-        PageImpl page = itsNatDoc.getPageImpl();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest.copy();
-        int soTimeout = timeout < 0 ? Integer.MAX_VALUE : (int) timeout;
-        HttpConnectionParams.setSoTimeout(httpParamsRequest, soTimeout);
-        return httpParamsRequest;
-    }
-
     public void requestSync(EventGenericImpl evt, String servletPath, List<NameValuePair> params, long timeout)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
 
+        // No hace falta clonar porque es síncrona la llamada
         HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = buildHttpParamsRequest(timeout);
+        HttpParams httpParamsRequest = page.getHttpParams();
+        httpParamsRequest = httpParamsRequest != null ? httpParamsRequest : new BasicHttpParams();
+        HttpConfig.setTimeout(timeout,httpParamsRequest);
         HttpParams httpParamsDefault = browser.getHttpParams();
         Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
@@ -70,7 +63,7 @@ public class EventSender
         }
         catch (Exception ex)
         {
-            ItsNatDroidException exFinal = processException(evt, ex);
+            ItsNatDroidException exFinal = convertException(evt, ex);
             throw exFinal;
 
             // No usamos aquí el OnEventErrorListener porque la excepción es capturada por un catch anterior que sí lo hace
@@ -104,7 +97,7 @@ public class EventSender
         }
     }
 
-    public ItsNatDroidException processException(EventGenericImpl evt,Exception ex)
+    public ItsNatDroidException convertException(EventGenericImpl evt, Exception ex)
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
 

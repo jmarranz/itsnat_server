@@ -28,6 +28,7 @@ import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
+import org.itsnat.droid.impl.browser.servergeneric.DownloadResourcesHttpClient;
 import org.itsnat.droid.impl.browser.servergeneric.GenericHttpClientImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
@@ -47,15 +48,16 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
 import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -111,6 +113,13 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
     public GenericHttpClient createGenericHttpClient()
     {
         return createGenericHttpClientImpl();
+    }
+
+    public DownloadResourcesHttpClient createDownloadResourcesHttpClient()
+    {
+        DownloadResourcesHttpClient client = new DownloadResourcesHttpClient(this);
+        client.setOnHttpRequestErrorListenerNotFluid(getPageImpl().getOnHttpRequestErrorListener());
+        return client;
     }
 
     public PageImpl getPageImpl()
@@ -1289,6 +1298,8 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     public void downloadFile(String src,String mime,OnHttpRequestListener listener)
     {
+        boolean sync = getPageImpl().getPageRequestImpl().isSynchronous();
+
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
         src = HttpUtil.composeAbsoluteURL(src,client.getPageURL());
@@ -1296,6 +1307,24 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         client.setURL(src)
         .setOverrideMimeType(mime)
         .setOnHttpRequestListener(listener)
-        .requestAsync();
+        .request(!sync);
+    }
+
+    public void downloadResources(AttrParsedRemote attr,final Runnable task)
+    {
+        OnHttpRequestListener listener = new OnHttpRequestListener()
+        {
+            @Override
+            public void onRequest(Page page,HttpRequestResult response)
+            {
+                task.run();
+            }
+        };
+
+        boolean sync = getPageImpl().getPageRequestImpl().isSynchronous();
+
+        DownloadResourcesHttpClient client = createDownloadResourcesHttpClient();
+        client.setOnHttpRequestListenerNotFluid(listener);
+        client.request(attr, !sync);
     }
 }

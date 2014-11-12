@@ -34,7 +34,7 @@ import bsh.NameSpace;
  */
 public class PageImpl implements Page
 {
-    protected HttpParams httpParams;
+    protected HttpParams httpParams; // Los parámetros que se utilizarán en sucesivas requests desde la página
     protected PageRequestResult pageReqResult;
     protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
     protected String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
@@ -53,15 +53,13 @@ public class PageImpl implements Page
 
     public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,PageRequestResult pageReqResult,AttrLayoutInflaterListener inflateLayoutListener)
     {
-        this.httpParams = httpParams;
+        this.pageRequest = pageRequest.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
+        this.httpParams = httpParams != null ? httpParams.copy() : null;
         this.pageReqResult = pageReqResult;
-        this.pageRequest = pageRequest;
 
         HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
 
         this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
-
-        StringReader input = new StringReader(httpReqResult.getResponseText());
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         InflateLayoutRequestImpl inflateLayoutRequest = new InflateLayoutRequestImpl(browser.getItsNatDroidImpl());

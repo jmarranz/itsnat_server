@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser;
 import android.content.Context;
 
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
@@ -11,7 +10,6 @@ import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.model.AttrParsedRemote;
-import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
@@ -20,25 +18,20 @@ import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Map;
 
 /**
  * Created by jmarranz on 4/06/14.
  */
 public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 {
-    protected ItsNatDroidImpl itsNatDroid; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
-    protected PageRequestImpl pageRequest;
-    protected String url;
-    protected String pageURLBase;
-    protected HttpContext httpContext;
-    protected HttpParams httpParamsRequest;
-    protected HttpParams httpParamsDefault;
-    protected Map<String,String> httpHeaders;
-    protected boolean sslSelfSignedAllowed;
-    protected XMLInflateRegistry xmlInflateRegistry;
-    protected AttrDrawableInflaterListener inflateDrawableListener;
-    protected Context ctx; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
+    protected final ItsNatDroidImpl itsNatDroid; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
+    protected final PageRequestImpl pageRequest;
+    protected final String url;
+    protected final String pageURLBase;
+    protected final HttpConfig httpConfig;
+    protected final XMLInflateRegistry xmlInflateRegistry;
+    protected final AttrDrawableInflaterListener inflateDrawableListener;
+    protected final Context ctx; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest,String url,
                     HttpParams httpParamsRequest)
@@ -52,23 +45,13 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.inflateDrawableListener = pageRequest.getAttrDrawableInflaterListener();
         this.ctx = pageRequest.getContext();
 
-        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = pageRequest.createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
-        this.httpContext = httpContext;
-        this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
-        this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;
-        this.httpHeaders = httpHeaders; // No hace falta clone porque createHttpHeaders() crea un Map
-        this.sslSelfSignedAllowed = sslSelfSignedAllowed;
+        this.httpConfig = new HttpConfig(pageRequest);
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        HttpRequestResultImpl result = HttpUtil.httpGet(url, httpContext, httpParamsRequest,httpParamsDefault, httpHeaders,sslSelfSignedAllowed,null,null);
+        HttpRequestResultImpl result = HttpUtil.httpGet(url,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,null,null);
 
         LayoutParsed layoutParsed = null;
         if (result.isStatusOK())
@@ -98,80 +81,14 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
         LinkedList<AttrParsedRemote> attrRemoteList = layoutParsed.getAttributeRemoteList();
         if (attrRemoteList != null)
-            downloadRemoteResources(attrRemoteList);
+        {
+            HttpResourceDownloader resDownloader =
+                    new HttpResourceDownloader(pageURLBase,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry);
+            resDownloader.downloadResources(attrRemoteList);
+        }
 
         return pageReqResult;
     }
-
-    protected void downloadRemoteResources(LinkedList<AttrParsedRemote> attrRemoteList) throws Exception
-    {
-        final Thread[] threadArray = new Thread[attrRemoteList.size()];
-        final Exception[] exList = new Exception[attrRemoteList.size()];
-
-        {
-            int i = 0;
-            final boolean[] stop = new boolean[1];
-            for (final AttrParsedRemote attr : attrRemoteList)
-            {
-                final String resourceMime = attr.getResourceMime();
-                final String resourceType = attr.getResourceType();
-                final int i2 = i;
-                final String url = HttpUtil.composeAbsoluteURL(attr.getRemoteLocation(), pageURLBase);
-                Thread thread = new Thread()
-                {
-                    public void run()
-                    {
-                        if (stop[0]) return;
-                        HttpRequestResultImpl resultRes = null;
-                        try
-                        {
-                            resultRes = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
-                            if (HttpUtil.MIME_XML.equals(resourceMime))
-                            {
-                                String markup = resultRes.getResponseText();
-                                XMLParsed parsed;
-                                if ("drawable".equals(resourceType))
-                                {
-                                    parsed = xmlInflateRegistry.getDrawableParsedCache(markup);
-                                }
-                                else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
-
-                                attr.setRemoteResource(parsed);
-                                LinkedList<AttrParsedRemote> attrRemoteList = parsed.getAttributeRemoteList();
-                                if (attrRemoteList != null)
-                                    downloadRemoteResources(attrRemoteList);
-                            }
-                            else if (HttpUtil.MIME_PNG.equals(resourceMime) ||
-                                     HttpUtil.MIME_JPEG.equals(resourceMime) ||
-                                     HttpUtil.MIME_GIF.equals(resourceMime))
-                            {
-                                attr.setRemoteResource(resultRes.getResponseByteArray());
-                            }
-                            else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
-                        }
-                        catch (Exception ex)
-                        {
-                            exList[i2] = ex;
-                            stop[0] = true;
-                        }
-                    }
-                };
-                thread.start();
-                threadArray[i] = thread;
-                i++;
-            }
-        }
-
-        {
-            for (int i = 0; i < threadArray.length; i++)
-            {
-                threadArray[i].join();
-                if (exList[i] != null)
-                    throw exList[i];
-            }
-        }
-    }
-
 
     @Override
     protected void onFinishOk(PageRequestResult result)
@@ -219,7 +136,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     private String downloadScript(String src) throws SocketTimeoutException
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultImpl result = HttpUtil.httpGet(src, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null,HttpUtil.MIME_BEANSHELL);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,HttpUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 

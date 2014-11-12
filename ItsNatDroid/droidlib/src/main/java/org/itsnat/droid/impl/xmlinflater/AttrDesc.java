@@ -243,7 +243,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return dimension;
     }
 
-    public Drawable getDrawable(AttrParsed attr,Context ctx,PageImpl page)
+    public Drawable getDrawable(AttrParsed attr, Context ctx,PageImpl page)
     {
         if (attr instanceof AttrParsedRemote)
         {
@@ -253,24 +253,23 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
             XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,ctx);
             return xmlInflater.inflateDrawable();
         }
-        else return getDrawable(attr.getValue(), ctx);
-    }
-
-    private Drawable getDrawable(String attrValue, Context ctx)
-    {
-        if (isResource(attrValue))
+        else
         {
-            int resId = getIdentifier(attrValue,ctx);
-            if (resId <= 0) return null;
-            return ctx.getResources().getDrawable(resId);
-        }
-        else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
-        {
-            int color = Color.parseColor(attrValue);
-            return new ColorDrawable(color);
-        }
+            String attrValue = attr.getValue();
+            if (isResource(attrValue))
+            {
+                int resId = getIdentifier(attrValue, ctx);
+                if (resId <= 0) return null;
+                return ctx.getResources().getDrawable(resId);
+            }
+            else if (attrValue.startsWith("#")) // Color literal. No hace falta hacer trim
+            {
+                int color = Color.parseColor(attrValue);
+                return new ColorDrawable(color);
+            }
 
-        throw new ItsNatDroidException("Cannot process " + attrValue);
+            throw new ItsNatDroidException("Cannot process " + attrValue);
+        }
     }
 
     public int getColor(String attrValue, Context ctx)

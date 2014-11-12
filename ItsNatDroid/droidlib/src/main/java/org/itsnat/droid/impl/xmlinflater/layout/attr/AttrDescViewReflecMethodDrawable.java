@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.AttrParsedRemote;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -34,10 +37,24 @@ public class AttrDescViewReflecMethodDrawable extends AttrDescViewReflecMethod
         return Drawable.class;
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view,final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
-        callMethod(view, convValue);
+        Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
+                callMethod(view, convValue);
+            }
+        };
+        if (attr instanceof AttrParsedRemote && !((AttrParsedRemote)attr).isDownloaded())
+        {
+            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+            PageImpl page = ClassDescViewBased.getPageImpl(inflated); // NO puede ser nulo
+            page.getItsNatDocImpl().downloadResources((AttrParsedRemote)attr,task);
+        }
+        else task.run();
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)

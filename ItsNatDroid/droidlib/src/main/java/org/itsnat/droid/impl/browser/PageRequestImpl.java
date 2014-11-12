@@ -118,6 +118,11 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public boolean isSynchronous()
+    {
+        return sync;
+    }
+
     @Override
     public PageRequest setSynchronous(boolean sync)
     {
@@ -183,6 +188,7 @@ public class PageRequestImpl implements PageRequest
 
     private void executeSync(String url)
     {
+        // No hace falta clonar porque es síncrono el método
         HttpContext httpContext = browser.getHttpContext();
         HttpParams httpParamsRequest = this.httpParams;
         HttpParams httpParamsDefault = browser.getHttpParams();
@@ -241,11 +247,9 @@ public class PageRequestImpl implements PageRequest
         if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
-        PageRequestImpl pageRequest = clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
-        HttpParams httpParamsRequest = httpParams != null ? httpParams.copy() : null;
         AttrLayoutInflaterListener inflateLayoutListener = getAttrLayoutInflaterListener();
 
-        PageImpl page = new PageImpl(pageRequest,httpParamsRequest,result,inflateLayoutListener);
+        PageImpl page = new PageImpl(this,httpParams,result,inflateLayoutListener);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }
