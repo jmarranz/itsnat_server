@@ -36,6 +36,27 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_reload" />
 
+        <!-- Test Fragment Insertion setInnerXML -->
+        <Button id="testFragmentInsertionInnerXMLId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion with setInnerXML" />
+
+        <TextView id="testFragmentInsertionInnerXMLHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <!-- Test Fragment Insertion using DOM API -->
+        <Button id="testFragmentInsertionUsingDOMAPIId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion using DOM API" />
+
+        <TextView id="testFragmentInsertionUsingDOMAPIHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />         
+        
+        
         <TextView 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

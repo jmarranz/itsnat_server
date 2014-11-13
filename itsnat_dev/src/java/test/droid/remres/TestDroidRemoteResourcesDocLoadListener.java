@@ -6,6 +6,7 @@
 package test.droid.remres;
 
 
+import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
@@ -15,6 +16,6 @@ public class TestDroidRemoteResourcesDocLoadListener implements ItsNatServletReq
 {
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        //new TestDroidRemoteResourcesDocument((ItsNatDocument)request.getItsNatDocument(),request);
+        new TestDroidRemoteResourcesDocument((ItsNatDocument)request.getItsNatDocument(),request);
     }
 }

@@ -153,7 +153,7 @@
         <Button id="testFragmentInsertionInnerXMLId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion by InnerXML" />
+                android:text="Test Fragment Insertion by setInnerXML" />
 
         <TextView id="testFragmentInsertionInnerXMLHiddenId"
                 android:layout_width="0dp"
@@ -163,7 +163,7 @@
         <Button id="testFragmentInsertionUsingAPIId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion by BS API" />
+                android:text="Test Fragment Insertion by DOM API" />
 
         <TextView id="testFragmentInsertionUsingAPIHiddenId"
                 android:layout_width="0dp"

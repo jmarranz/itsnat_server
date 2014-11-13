@@ -1,4 +1,21 @@
 
+* Llevar DownloadResourcesHttpClientImpl a "serveritsnat" folder????
+
+  Idem HttpDownloadResourcesAsyncTask
+
+* Seguir con AttrDescViewReflecMethodDrawable
+
+* Eliminar HttpResourceDownloader ItsNatDocImpl.createHttpResourceDownloader()
+
+* No olvidar el proceso de error
+
+* Hacer el caso síncrono, probarlo tanto en carga como con evento
+
+* Provocar error de recurso no existente drawable en caso de evento
+
+* Seguir con los demás getDrawable(...)
+
+
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
 
 * Usar pool threads cuando se pueda

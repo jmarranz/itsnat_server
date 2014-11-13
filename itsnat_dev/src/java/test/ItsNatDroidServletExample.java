@@ -111,6 +111,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         ItsNatDocFragmentTemplate docFragDesc;
 
         docFragDesc = registerDocFragment("test_droid_core_fragment","android/layout",pathPrefix,pages);        
+        docFragDesc = registerDocFragment("test_droid_remote_resources_fragment","android/layout",pathPrefix,pages);         
     }
   
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)

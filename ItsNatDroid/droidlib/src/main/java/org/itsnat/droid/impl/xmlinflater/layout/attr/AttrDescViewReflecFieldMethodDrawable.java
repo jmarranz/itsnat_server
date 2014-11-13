@@ -24,11 +24,18 @@ public class AttrDescViewReflecFieldMethodDrawable extends AttrDescViewReflecFie
         this.defaultValue = defaultValue;
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view,final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx,final OneTimeAttrProcess oneTimeAttrProcess,final PendingPostInsertChildrenTasks pending)
     {
-        Drawable convertedValue = getDrawable(attr,ctx,xmlInflaterLayout);
-
-        callFieldMethod(view, convertedValue);
+        Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Drawable convertedValue = getDrawable(attr,ctx,xmlInflaterLayout);
+                callFieldMethod(view, convertedValue);
+            }
+        };
+        processDrawableTask(attr,task,xmlInflaterLayout);
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)

@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.layout.attr;
+package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -8,20 +8,18 @@ import org.itsnat.droid.impl.model.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldFieldMethod;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescViewReflecFieldSetDrawable extends AttrDescViewReflecFieldSet
+public abstract class AttrDescViewReflecFieldFieldMethodDrawable extends AttrDescViewReflecFieldFieldMethod
 {
-    protected String defaultValue;
-
-    public AttrDescViewReflecFieldSetDrawable(ClassDescViewBased parent, String name, String fieldName, String defaultValue)
+    public AttrDescViewReflecFieldFieldMethodDrawable(ClassDescViewBased parent, String name, String fieldName1, String fieldName2, String methodName, Class field2Class, Class methodClass, Class paramClass)
     {
-        super(parent,name,fieldName);
-        this.defaultValue = defaultValue;
+        super(parent,name,fieldName1,fieldName2,methodName,field2Class,methodClass,paramClass);
     }
 
     public void setAttribute(final View view,final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
@@ -31,16 +29,11 @@ public class AttrDescViewReflecFieldSetDrawable extends AttrDescViewReflecFieldS
             @Override
             public void run()
             {
-                Drawable convertedValue = getDrawable(attr, ctx,xmlInflaterLayout);
-                setField(view,convertedValue);
+                Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
+                callFieldFieldMethod(view, convValue);
             }
         };
         processDrawableTask(attr,task,xmlInflaterLayout);
     }
 
-    public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
-    {
-        if (defaultValue != null)
-            setAttribute(view,defaultValue,xmlInflaterLayout,ctx,null,null);
-    }
 }

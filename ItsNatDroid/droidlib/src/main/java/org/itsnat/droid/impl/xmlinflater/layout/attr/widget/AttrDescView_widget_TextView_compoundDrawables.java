@@ -52,18 +52,27 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
         }
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view,final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
+        Runnable task = new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Drawable convValue = getDrawable(attr,ctx,xmlInflaterLayout);
 
-        int index = drawableMap.get(name);
+                int index = drawableMap.get(name);
 
-        Drawable drawableLeft   = index == LEFT ? convValue : getDrawable(view,LEFT);
-        Drawable drawableTop    = index == TOP ? convValue : getDrawable(view,TOP);
-        Drawable drawableRight  = index == RIGHT ? convValue : getDrawable(view,RIGHT);
-        Drawable drawableBottom = index == BOTTOM ? convValue : getDrawable(view,BOTTOM);
+                Drawable drawableLeft   = index == LEFT ? convValue : getDrawable(view,LEFT);
+                Drawable drawableTop    = index == TOP ? convValue : getDrawable(view,TOP);
+                Drawable drawableRight  = index == RIGHT ? convValue : getDrawable(view,RIGHT);
+                Drawable drawableBottom = index == BOTTOM ? convValue : getDrawable(view,BOTTOM);
 
-        ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
+                ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
+            }
+        };
+        processDrawableTask(attr,task,xmlInflaterLayout);
+
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)

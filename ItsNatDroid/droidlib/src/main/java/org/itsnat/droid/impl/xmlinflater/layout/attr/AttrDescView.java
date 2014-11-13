@@ -6,8 +6,10 @@ import android.view.View;
 
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -49,6 +51,25 @@ public abstract class AttrDescView extends AttrDesc
         if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
             page = ((XMLInflaterLayoutPage)xmlInflaterLayout).getPageImpl();
         return getDrawable(attr,ctx,page);
+    }
+
+    protected void processDrawableTask(AttrParsed attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
+    {
+        if (attr instanceof AttrParsedRemote && !((AttrParsedRemote) attr).isDownloaded())
+        {
+            downloadResources((AttrParsedRemote) attr, task, xmlInflaterLayout);
+        }
+        else
+        {
+            task.run();
+        }
+    }
+
+    private static void downloadResources(AttrParsedRemote attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
+    {
+        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+        PageImpl page = ClassDescViewBased.getPageImpl(inflated); // NO puede ser nulo
+        page.getItsNatDocImpl().downloadResources(attr,task);
     }
 
     protected void setAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
