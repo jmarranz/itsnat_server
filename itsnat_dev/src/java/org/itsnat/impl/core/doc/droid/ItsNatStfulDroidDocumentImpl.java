@@ -42,6 +42,7 @@ import org.itsnat.impl.core.template.droid.ScriptCode;
 import org.itsnat.impl.core.template.droid.ScriptCodeInline;
 import org.itsnat.impl.core.template.droid.ScriptLocalFile;
 import org.itsnat.impl.core.template.droid.ScriptURI;
+import org.itsnat.impl.core.template.droid.ScriptWithSrc;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,6 +56,8 @@ import org.w3c.dom.events.EventTarget;
  */
 public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
 {
+    public static final boolean PRELOAD_SCRIPTS = false;
+    
     protected ItsNatDroidEventListenerRegistryImpl droidEvtListenerRegistry;
     protected List<ScriptCode> scriptCodeList = new LinkedList<ScriptCode>();
     
@@ -195,6 +198,7 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         }
     }    
     
+    /*
     public List<String> getScriptCodeList()
     {
         List<String> res = new LinkedList<String>();
@@ -202,6 +206,12 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
             res.add(item.getCode());
         return res;
     }    
+    */
+    
+    public List<ScriptCode> getScriptCodeList()
+    {
+        return scriptCodeList;
+    }        
     
     public void addScript(Element scriptElem)
     {
@@ -215,17 +225,21 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         String src = scriptElem.getAttribute("src");
         if (!"".equals(src))
         {    
-            URI uri = null;
-            try { uri = new URI(src); }
-            catch (URISyntaxException ex) { throw new ItsNatException(ex);  }
+            if (PRELOAD_SCRIPTS)
+            {
+                URI uri = null;
+                try { uri = new URI(src); }
+                catch (URISyntaxException ex) { throw new ItsNatException(ex);  }
 
-            String scheme = uri.getScheme();
-            if (scheme == null)
-                scriptCodeItem = new ScriptLocalFile(src,servContext);                        
-            else if (scheme.equals("http") || scheme.equals("https"))                 
-                scriptCodeItem = new ScriptURI(uri);
-            else
-                throw new ItsNatException("Scheme not allowed or supported: " + scheme); // para evitar el uso de "file:" etc
+                String scheme = uri.getScheme();
+                if (scheme == null)
+                    scriptCodeItem = new ScriptLocalFile(src,servContext);                        
+                else if (scheme.equals("http") || scheme.equals("https"))                 
+                    scriptCodeItem = new ScriptURI(uri);
+                else
+                    throw new ItsNatException("Scheme not allowed or supported: " + scheme); // para evitar el uso de "file:" etc
+            }
+            else scriptCodeItem = new ScriptWithSrc(src);            
         }
         else
         {

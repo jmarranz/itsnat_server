@@ -11,7 +11,9 @@ import org.itsnat.droid.impl.model.drawable.DrawableParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.parser.drawable.DrawableParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParser;
+import org.itsnat.droid.impl.parser.layout.LayoutParserFragment;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
+import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 
@@ -46,31 +48,45 @@ public class XMLInflateRegistry
         return classDescDrawableMgr;
     }
 
-    public XMLParsedCache<LayoutParsed> getLayoutParsedCache()
-    {
-        return layoutParsedCache;
-    }
-
-    public XMLParsedCache<DrawableParsed> getDrawableParsedCache()
-    {
-        return drawableParsedCache;
-    }
-
-    public LayoutParsed getLayoutParsedCache(String markup,String itsNatServerVersion)
+    public LayoutParsed getLayoutParsedCache(String markup,String itsNatServerVersion,boolean loadingPage,boolean remotePageOrFrag)
     {
         // Este método DEBE ser multihilo, layoutParsedCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
-        // es un caché
-        LayoutParsed cachedLayout = layoutParsedCache.get(markup);
-        if (cachedLayout != null) return cachedLayout;
+        // es un caché.
+
+        // Extraemos el markup sin el script de carga porque dos páginas generadas "iguales" SIEMPRE serán diferentes a nivel
+        // de markup en el loadScript porque el id cambia y algún token aleatorio, sin el loadScript podemos conseguir
+        // muchos más aciertos de cacheo y acelerar un montón al tener el parseo ya hecho.
+        // Si el template no es generado por ItsNat server o bien el scripting está desactivado (itsNatServerVersion puede
+        // ser no null pues es un header), loadScript será null y no pasa nada markupNoLoadScript[0] es el markup original
+        String[] markupNoLoadScript = new String[1];
+        String loadScript = null;
+        if (itsNatServerVersion != null && loadingPage)
+            loadScript = LayoutParsed.extractLoadScriptMarkup(markup, markupNoLoadScript);
+        else
+            markupNoLoadScript[0] = markup;
+
+        LayoutParsed cachedLayoutParsed = layoutParsedCache.get(markupNoLoadScript[0]);
+        if (cachedLayoutParsed != null)
+        {
+            // Recuerda que cachedLayout tiene el timestamp actualizado por el hecho de llamar al get()
+        }
         else
         {
-            boolean loadingPage = true;
-            LayoutParser layoutParser = new LayoutParserPage(itsNatServerVersion, loadingPage);
-            LayoutParsed layoutParsed = layoutParser.parse(markup);
-            layoutParsedCache.put(markup, layoutParsed);
-            return layoutParsed;
+            LayoutParser layoutParser;
+            if (remotePageOrFrag)
+                layoutParser = loadingPage ? new LayoutParserPage(itsNatServerVersion) : new LayoutParserFragment();
+            else
+                layoutParser = new LayoutParserStandalone();
+
+            cachedLayoutParsed = layoutParser.parse(markup);
+            cachedLayoutParsed.setLoadScript(null); // Que quede claro que no se puede utilizar
+            layoutParsedCache.put(markupNoLoadScript[0], cachedLayoutParsed);
         }
+
+        LayoutParsed cloned = cachedLayoutParsed.partialClone(); // No devolvemos nunca el que cacheamos "por si acaso"
+        cloned.setLoadScript(loadScript);
+        return cloned;
     }
 
     public DrawableParsed getDrawableParsedCache(String markup)

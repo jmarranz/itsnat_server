@@ -23,7 +23,8 @@ import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
-import org.itsnat.impl.core.template.droid.ItsNatStfulDroidDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.droid.ScriptCode;
+import org.itsnat.impl.core.template.droid.ScriptWithSrc;
 
 /**
  *
@@ -47,9 +48,8 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     }
 
     @Override
-    protected String addScriptMarkupToDocMarkup(String docMarkup, String scriptsMarkup)
+    protected String addMarkupToTheEndOfDoc(String docMarkup, String newMarkup)
     {
-        // REVISAR
         StringBuilder finalMarkup = new StringBuilder();
 
         int posRootTagEnd = docMarkup.lastIndexOf('<');
@@ -57,7 +57,7 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         String posScript = docMarkup.substring(posRootTagEnd);
 
         finalMarkup.append(preScript);
-        finalMarkup.append(scriptsMarkup);
+        finalMarkup.append(newMarkup);
         finalMarkup.append(posScript);
 
         return finalMarkup.toString();
@@ -85,22 +85,46 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ",\"" + attachType + "\"," + eventsEnabled + ");\n"; // HACER
     }
     
-    @Override
-    protected String generateFinalScriptsMarkup()
+    @Override     
+    protected String addRequiredMarkupToTheEndOfDoc(String docMarkup)       
     {
-        ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();           
-        //ItsNatStfulDroidDocumentTemplateVersionImpl templateVersion = itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion();
-        List<String> scriptCodeList = itsNatDoc.getScriptCodeList();
+        docMarkup = super.addRequiredMarkupToTheEndOfDoc(docMarkup);
         
-        StringBuilder code = new StringBuilder();
+        StringBuilder markup = new StringBuilder();  
+        
+        ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();           
+        List<ScriptCode> scriptCodeList = itsNatDoc.getScriptCodeList();
+        
         if (!scriptCodeList.isEmpty())
         {
             // Hay que tener en cuenta que los quitamos del DOM en el template pero como tenemos los scripts los enviamos "recreando" los script
-            for(String script : scriptCodeList)
-                code.append( "<script><![CDATA[ " + script + " ]]></script>" );
-        }
-        code.append( "<script id=\"itsnat_load_script\"><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>" );
+            for(ScriptCode script : scriptCodeList)
+            {
+                if (ItsNatStfulDroidDocumentImpl.PRELOAD_SCRIPTS)
+                {
+                    markup.append( "<script><![CDATA[ " + script.getCode() + " ]]></script>" );
+                }
+                else
+                {
+                    if (script instanceof ScriptWithSrc)
+                        markup.append( "<script src=\"" + ((ScriptWithSrc)script).getSrc() + "\"></script>" );
+                    else
+                        markup.append( "<script><![CDATA[ " + script.getCode() + " ]]></script>" );
+                }                    
+            }
+        }      
+
+        return addMarkupToTheEndOfDoc(docMarkup, markup.toString());
+    }    
+    
+    @Override
+    protected String generateFinalScriptsMarkup()
+    {
+        StringBuilder markup = new StringBuilder();        
+
+        // NO CAMBIAR NI UN ESPACIO, este patrón se usa en el código cliente Android para localizar el script de carga
+        markup.append( "<script id=\"itsnat_load_script\"><![CDATA[ " + getInitScriptContentCode(1) + " ]]></script>" );
         
-        return code.toString();
+        return markup.toString();
     }
 }

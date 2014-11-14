@@ -57,6 +57,8 @@ public abstract class AttrDescView extends AttrDesc
     {
         if (attr instanceof AttrParsedRemote && !((AttrParsedRemote) attr).isDownloaded())
         {
+            // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
+            // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
             downloadResources((AttrParsedRemote) attr, task, xmlInflaterLayout);
         }
         else

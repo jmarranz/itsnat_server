@@ -16,13 +16,8 @@
 
 package org.itsnat.impl.core.template.droid;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import javax.servlet.ServletContext;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.browser.Browser;
@@ -42,7 +37,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 /**

@@ -6,9 +6,11 @@
 
 package test.droid.core;
 
+import javax.servlet.http.HttpServletRequest;
 import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatServletRequest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -23,7 +25,7 @@ import org.w3c.dom.events.EventTarget;
 public class TestDroidMiscAutomatic extends TestDroidBase implements EventListener
 {
    
-    public TestDroidMiscAutomatic(ItsNatDocument itsNatDoc)
+    public TestDroidMiscAutomatic(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {
         super(itsNatDoc);
 
@@ -56,7 +58,11 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         rootElem.appendChild(elemTemp);  // Da igual donde se inserte pues se elimina inmediatamente      
         
         elemTemp = itsNatDoc.getDocument().createElement("script");
-        elemTemp.setAttribute("src", "http://localhost:8080/itsnat_dev/bs/test_script_loading_3.bs");
+        
+        HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();
+        String host = httpReq.getLocalAddr();
+        int port = httpReq.getLocalPort();
+        elemTemp.setAttribute("src", "http://" + host + ":" + port + "/itsnat_dev/bs/test_script_loading_3.bs");
         rootElem.appendChild(elemTemp);  // Da igual donde se inserte pues se elimina inmediatamente       
         
         scripts = doc.getElementsByTagName("script");

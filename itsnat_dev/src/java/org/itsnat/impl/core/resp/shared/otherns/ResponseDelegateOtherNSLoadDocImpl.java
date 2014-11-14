@@ -62,7 +62,7 @@ public abstract class ResponseDelegateOtherNSLoadDocImpl extends ResponseDelegat
         return "W3COtherNSDocument";
     }
 
-    public String addScriptMarkupToDocMarkup(String docMarkup,String scriptsMarkup)
+    public String addMarkupToTheEndOfDoc(String docMarkup,String scriptsMarkup)
     {
         StringBuilder finalMarkup = new StringBuilder();
 

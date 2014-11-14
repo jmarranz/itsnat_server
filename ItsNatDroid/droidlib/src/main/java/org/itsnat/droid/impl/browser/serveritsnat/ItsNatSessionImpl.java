@@ -1,9 +1,11 @@
-package org.itsnat.droid.impl.browser;
+package org.itsnat.droid.impl.browser.serveritsnat;
 
 import org.itsnat.droid.ItsNatDroidBrowser;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatSession;
 import org.itsnat.droid.Page;
+import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
+import org.itsnat.droid.impl.browser.PageImpl;
 
 import java.util.Collections;
 import java.util.HashMap;

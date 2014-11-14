@@ -24,6 +24,7 @@ import org.w3c.dom.events.EventTarget;
 public class TestDroidReferrer extends TestDroidBase implements EventListener
 {
     protected Element outElem;
+    protected String referrerId;
     
     public TestDroidReferrer(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {
@@ -34,16 +35,17 @@ public class TestDroidReferrer extends TestDroidBase implements EventListener
         
         this.outElem = getDocument().getElementById("testReferrer_text_Id");         
         
-        ItsNatDocument itsNatDocReferrer = request.getItsNatDocumentReferrer();
-        
-        logToTextView(outElem,"Referrer Doc Id: " + (itsNatDocReferrer != null ? itsNatDocReferrer.getId() : "(no ref)"));         
-        logToTextView(outElem,"\nCurrent Doc Id: " + itsNatDoc.getId());          
-        logToTextView(outElem,"\nNote: id numbers are not strictly consecutives");  // El generador de ids de los documentos es a nivel de sesión y se usa para otros tipos de objetos también 
+        ItsNatDocument itsNatDocReferrer = request.getItsNatDocumentReferrer();        
+        this.referrerId = (itsNatDocReferrer != null ? itsNatDocReferrer.getId() : "(no ref)");
     }
     
     public void handleEvent(Event evt)
-    {     
-        itsNatDoc.addCodeToSend("alert(\"Does nothing\");");
+    {            
+        logToTextView(outElem,"Referrer Doc Id: " + referrerId);         
+        logToTextView(outElem,"\nCurrent Doc Id: " + itsNatDoc.getId());          
+        logToTextView(outElem,"\nNote: id numbers are not strictly consecutives");  // El generador de ids de los documentos es a nivel de sesión y se usa para otros tipos de objetos también 
+        
+        // itsNatDoc.addCodeToSend("alert(\"Does nothing\");");
     }
     
 }

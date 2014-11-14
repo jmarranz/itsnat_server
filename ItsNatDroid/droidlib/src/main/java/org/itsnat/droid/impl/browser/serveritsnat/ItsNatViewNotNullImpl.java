@@ -116,7 +116,7 @@ public class ItsNatViewNotNullImpl extends ItsNatViewImpl
     {
         if (type.equals("click"))
         {
-            // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter, pero da igual puede llamarse todas las veces que se quiera
+            // No sabemos si ha sido registrado ya antes el ClickEventListenerViewAdapter en este view, pero da igual puede llamarse todas las veces que se quiera
             ClickEventListenerViewAdapter evtListAdapter = getClickEventListenerViewAdapter();
             view.setOnClickListener(evtListAdapter);
         }

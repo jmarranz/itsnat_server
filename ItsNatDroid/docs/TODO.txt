@@ -1,20 +1,9 @@
 
-* Llevar DownloadResourcesHttpClientImpl a "serveritsnat" folder????
+* No cargar desde el servidor los <script> servidos por ItsNat, no es necesario, hacer un flag
 
-  Idem HttpDownloadResourcesAsyncTask
-
-* Seguir con AttrDescViewReflecMethodDrawable
-
-* Eliminar HttpResourceDownloader ItsNatDocImpl.createHttpResourceDownloader()
-
-* No olvidar el proceso de error
+* Servir un drawable XML dinámicamente desde ItsNat
 
 * Hacer el caso síncrono, probarlo tanto en carga como con evento
-
-* Provocar error de recurso no existente drawable en caso de evento
-
-* Seguir con los demás getDrawable(...)
-
 
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
 
@@ -25,11 +14,7 @@
   http://docs.oracle.com/javase/6/docs/api/java/util/concurrent/Future.html
 
 
-* Pensar si en inflar en local otros tipos de XML de resources
-
-* Llamar getItsNatDocImpl().sendLoadEvent(); (en el constructor de PageImpl) cuando sepamos que hemos cargado t_odos los archivos dependendientes en tiempo de carga
-
-
+* Hacer remote animations
 
 * Hacer un custom View <a> y quizás un custom View <form>, el objetivo es hacer un navegador de layouts nativos
 como páginas.

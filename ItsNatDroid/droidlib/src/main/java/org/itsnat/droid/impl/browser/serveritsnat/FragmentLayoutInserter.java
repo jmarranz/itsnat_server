@@ -5,14 +5,12 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.model.XMLParsedCache;
-import org.itsnat.droid.impl.parser.layout.LayoutParser;
-import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -59,19 +57,10 @@ public class FragmentLayoutInserter
 
         markup = newMarkup.toString();
 
-        LayoutParsed layoutParsed;
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = pageLayout.getItsNatDroidImpl().getXMLInflateRegistry().getLayoutParsedCache();
-        LayoutParsed cachedLayout = layoutParsedCache.get(markup);
-        if (cachedLayout != null)
-            layoutParsed = cachedLayout;
-        else
-        {
-            boolean loadingPage = false;
-            LayoutParser layoutParser = new LayoutParserPage(pageLayout.getPageImpl().getItsNatServerVersion(),loadingPage);
-            layoutParsed = layoutParser.parse(markup);
-            layoutParsedCache.put(markup, layoutParsed);
-        }
+        XMLInflateRegistry xmlInflateRegistry = pageLayout.getItsNatDroidImpl().getXMLInflateRegistry();
+        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup, pageLayout.getPageImpl().getItsNatServerVersion(),false,true);
+
 
         LinkedList<ScriptParsed> scriptList = new LinkedList<ScriptParsed>();
 

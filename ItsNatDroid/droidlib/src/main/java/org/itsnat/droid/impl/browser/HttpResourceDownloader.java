@@ -107,10 +107,11 @@ public class HttpResourceDownloader
 
     private void processResultResource(AttrParsedRemote attr,HttpRequestResultImpl resultRes,List<HttpRequestResultImpl> resultList) throws Exception
     {
+        // Método llamado en multihilo
         String resourceMime = attr.getResourceMime();
-        String resourceType = attr.getResourceType();
         if (HttpUtil.MIME_XML.equals(resourceMime))
         {
+            String resourceType = attr.getResourceType();
             String markup = resultRes.getResponseText();
             XMLParsed parsed;
             if ("drawable".equals(resourceType))
@@ -125,8 +126,8 @@ public class HttpResourceDownloader
                 downloadResources(attrRemoteList,resultList);
         }
         else if (HttpUtil.MIME_PNG.equals(resourceMime) ||
-                HttpUtil.MIME_JPEG.equals(resourceMime) ||
-                HttpUtil.MIME_GIF.equals(resourceMime))
+                 HttpUtil.MIME_JPEG.equals(resourceMime) ||
+                 HttpUtil.MIME_GIF.equals(resourceMime))
         {
             attr.setRemoteResource(resultRes.getResponseByteArray());
         }

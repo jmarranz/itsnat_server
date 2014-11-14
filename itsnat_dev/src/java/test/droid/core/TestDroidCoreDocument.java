@@ -37,7 +37,7 @@ public class TestDroidCoreDocument implements Serializable
         this.itsNatDoc = itsNatDoc;
       
         
-        new TestDroidMiscAutomatic(itsNatDoc);
+        new TestDroidMiscAutomatic(itsNatDoc,request);
         new TestDroidEventTimeout(itsNatDoc);    
         new TestDroidServerException(itsNatDoc);
         new TestDroidClientException(itsNatDoc);        

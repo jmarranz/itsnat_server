@@ -182,6 +182,8 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
             mutListener.setEnabled(true); // Restauramos
         }
 
+        docMarkup = addRequiredMarkupToTheEndOfDoc(docMarkup);
+
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
         if (clientDoc.isScriptingEnabled())
         {
@@ -189,12 +191,17 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
             if (getResponseLoadStfulDocumentValid().isOnlyReturnMarkupOfScripts())
                 docMarkup = scriptsMarkup;
             else
-                docMarkup = addScriptMarkupToDocMarkup(docMarkup,scriptsMarkup);
-        }
-
+                docMarkup = addMarkupToTheEndOfDoc(docMarkup,scriptsMarkup);
+        }         
+        
         getResponseLoadDoc().sendMarkupToClient(docMarkup);
     }
 
+    protected String addRequiredMarkupToTheEndOfDoc(String docMarkup)
+    {
+        return docMarkup; // Se redefine en un caso
+    }
+    
     public void dispatchRequestListeners()
     {
         getResponseLoadDoc().dispatchRequestListeners();
@@ -280,5 +287,5 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         IOUtil.readTextStream(input,"UTF-8",code);
     }
 
-    protected abstract String addScriptMarkupToDocMarkup(String docMarkup,String codeToAdd);
+    protected abstract String addMarkupToTheEndOfDoc(String docMarkup,String codeToAdd);
 }

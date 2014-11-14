@@ -13,7 +13,7 @@ public class AttrParsedRemote extends AttrParsed
     protected String extension;
     protected String mime;
     protected String remoteLocation;
-    protected Object remoteResource;
+    protected volatile Object remoteResource;
 
     public AttrParsedRemote(String namespaceURI, String name, String value)
     {
@@ -68,11 +68,17 @@ public class AttrParsedRemote extends AttrParsed
 
     public Object getRemoteResource()
     {
+        // Es sólo llamado en el hilo UI pero setRemoteResource se ha llama en multihilo
         return remoteResource;
     }
 
     public void setRemoteResource(Object remoteResource)
     {
+        // Es llamado en multihilo
+        // No pasa nada porque se llame e inmediatamente después se cambie el valor, puede ocurrir que se esté procesando
+        // el mismo atributo a la vez por dos hilos, ten en cuenta que el template puede estar cacheado y reutilizado, pero no pasa nada
+        // porque el nuevo remoteResource NUNCA es null y es siempre el mismo recurso como mucho actualizado si ha cambiado
+        // en el servidor
         this.remoteResource = remoteResource;
     }
 }

@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.servergeneric;
+package org.itsnat.droid.impl.browser;
 
 import android.os.AsyncTask;
 
@@ -11,10 +11,6 @@ import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
-import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 
 import java.util.ArrayList;

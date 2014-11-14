@@ -207,7 +207,7 @@ public class PageRequestImpl implements PageRequest
             {
                 String markup = httpReqResult.getResponseText();
                 String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
-                layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion);
+                layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion,true,true);
             }
 
             result = new PageRequestResult(httpReqResult, layoutParsed);

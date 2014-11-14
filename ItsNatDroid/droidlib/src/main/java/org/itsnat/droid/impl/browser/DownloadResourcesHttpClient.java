@@ -1,14 +1,10 @@
-package org.itsnat.droid.impl.browser.servergeneric;
+package org.itsnat.droid.impl.browser;
 
 import android.os.AsyncTask;
 
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
-import org.itsnat.droid.impl.browser.HttpResourceDownloader;
-import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;

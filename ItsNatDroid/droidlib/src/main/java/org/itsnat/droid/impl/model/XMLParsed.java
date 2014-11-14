@@ -75,4 +75,13 @@ public abstract class XMLParsed
         if (remoteAttribs == null) this.remoteAttribs = new LinkedList<AttrParsedRemote>();
         remoteAttribs.add(attr);
     }
+
+    public void partialClone(XMLParsed cloned)
+    {
+        cloned.timestamp = this.timestamp; // Antes de clonar se ha actualizado
+        cloned.namespacesByPrefix = this.namespacesByPrefix;
+        cloned.androidNSPrefix = this.androidNSPrefix;
+        cloned.rootElement = this.rootElement;
+        cloned.remoteAttribs = this.remoteAttribs;
+    }
 }

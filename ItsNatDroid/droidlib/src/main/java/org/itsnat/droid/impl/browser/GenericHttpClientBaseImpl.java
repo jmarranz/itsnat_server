@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.browser.servergeneric;
+package org.itsnat.droid.impl.browser;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.ClientErrorMode;

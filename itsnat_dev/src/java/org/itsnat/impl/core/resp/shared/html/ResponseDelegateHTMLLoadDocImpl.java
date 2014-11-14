@@ -104,7 +104,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
             scriptElem.appendChild(doc.createCDATASection(code));
     }
 
-    public String addScriptMarkupToDocMarkup(String docMarkup,String scriptsMarkup)
+    public String addMarkupToTheEndOfDoc(String docMarkup,String scriptsMarkup)
     {
         StringBuilder finalMarkup = new StringBuilder();
 

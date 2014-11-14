@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
 import org.itsnat.droid.impl.model.layout.ScriptParsed;
 import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.net.SocketTimeoutException;
@@ -58,14 +59,14 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         {
             String markup = result.getResponseText();
             String itsNatServerVersion = result.getItsNatServerVersion();
-            layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion);
+            layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion,true,true);
         }
 
         PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsed);
 
-        if (result.getItsNatServerVersion() == null)
+        if (!LayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
         {
-            // Página NO servida por ItsNat, tenemos que descargar los <script src="..."> remótamente
+            // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
             ArrayList<ScriptParsed> scriptList = layoutParsed.getScriptList();
             for(int i = 0; i < scriptList.size(); i++)
             {

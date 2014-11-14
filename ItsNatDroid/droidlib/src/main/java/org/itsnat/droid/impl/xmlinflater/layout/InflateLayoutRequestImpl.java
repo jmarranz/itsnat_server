@@ -8,15 +8,12 @@ import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.model.XMLParsedCache;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.parser.layout.LayoutParser;
-import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
-import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.io.Reader;
 import java.util.List;
@@ -85,26 +82,19 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
     public InflatedLayout inflate(Reader input)
     {
         String markup = IOUtil.read(input);
-        return inflatePageInternal(markup, null, null, null);
+        return inflateLayoutStandalone(markup);
     }
 
-    public InflatedLayoutImpl inflatePageInternal(String markup, String[] loadScript, List<String> scriptList, PageImpl page)
+    private InflatedLayoutImpl inflateLayoutStandalone(String markup)
     {
-        LayoutParsed layoutParsed;
+        XMLInflateRegistry xmlInflateRegistry = getItsNatDroidImpl().getXMLInflateRegistry();
 
-        XMLParsedCache<LayoutParsed> layoutParsedCache = getItsNatDroidImpl().getXMLInflateRegistry().getLayoutParsedCache();
-        LayoutParsed cachedLayout = layoutParsedCache.get(markup);
-        if (cachedLayout != null)
-            layoutParsed = cachedLayout;
-        else
-        {
-            boolean loadingPage = loadScript != null;
-            LayoutParser layoutParser = page != null ? new LayoutParserPage(page.getItsNatServerVersion(), loadingPage) : new LayoutParserStandalone();
-            layoutParsed = layoutParser.parse(markup);
-            layoutParsedCache.put(markup, layoutParsed);
-        }
+        boolean loadingPage = true;
+        String itsNatServerVersion = null;
+        boolean remotePageOrFrag = false;
+        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion,loadingPage,remotePageOrFrag);
 
-        return inflateLayoutInternal(layoutParsed, loadScript, scriptList, page);
+        return inflateLayoutInternal(layoutParsed, null, null, null);
     }
 
     public InflatedLayoutImpl inflateLayoutInternal(LayoutParsed layoutParsed, String[] loadScript, List<String> scriptList, PageImpl page)

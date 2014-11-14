@@ -1,28 +1,24 @@
 package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.XMLParsed;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
-import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
-import org.itsnat.droid.impl.model.layout.ViewParsed;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
 /**
- * Created by jmarranz on 27/10/14.
+ * Created by jmarranz on 14/11/14.
  */
-public class LayoutParserPage extends LayoutParser
+public class LayoutParserPage extends LayoutParserPageOrFragment
 {
-    protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
-    protected final boolean loadingPage;
+    public static final boolean PRELOAD_SCRIPTS = false;
 
-    public LayoutParserPage(String itsNatServerVersion,boolean loadingPage)
+    protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
+
+    public LayoutParserPage(String itsNatServerVersion)
     {
         this.itsNatServerVersion = itsNatServerVersion;
-        this.loadingPage = loadingPage;
     }
 
     private boolean isPageServedByItsNat()
@@ -31,45 +27,37 @@ public class LayoutParserPage extends LayoutParser
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    protected void addScriptRemoteParsed(String src,LayoutParsed layoutParsed)
     {
-        LayoutParsed layoutParsed = (LayoutParsed)xmlParsed;
-
-        String src = findAttributeFromParser(null, "src", parser);
-        if (src != null)
+        if (PRELOAD_SCRIPTS && isPageServedByItsNat())
         {
-            if (loadingPage && isPageServedByItsNat())
-            {
-                // Los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
-                // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
-                // incluso en el <script> de inicialización
-                throw new ItsNatDroidException("Internal Error");
-            }
+            // En este caso los <script src="localfile"> se procesan en el servidor ItsNat cargando el archivo de forma síncrona y metiendo
+            // el script como nodo de texto dentro de un "nuevo" <script> que desde luego NO tiene el atributo src
+            // incluso en el <script> de inicialización
+            throw new ItsNatDroidException("Internal Error");
+        }
 
-            // Si loadingPage es true es el caso de carga de página, pero si serverVersion es null dicha página
-            // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
-            // Si loadScript es null estamos en un evento (inserción de un fragment)
+        super.addScriptRemoteParsed(src,layoutParsed);
+    }
 
-            ScriptRemoteParsed script = new ScriptRemoteParsed(src);
-            layoutParsed.addScript(script);
+    @Override
+    protected void addScriptInlineParsed(XmlPullParser parser,LayoutParsed layoutParsed) throws IOException, XmlPullParserException
+    {
+        boolean isLoadScript = isPageServedByItsNat() &&
+                parser.getAttributeCount() == 1 &&
+                "id".equals(parser.getAttributeName(0)) &&
+                "itsnat_load_script".equals(parser.getAttributeValue(0));
+
+        if (isLoadScript)
+        {
+            // Tratamiento especial
+            while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
+            String code = parser.getText();
+
+            layoutParsed.setLoadScript(code);
         }
         else
-        {
-            boolean isLoadScript = loadingPage && parser.getAttributeCount() == 1 &&
-                    "id".equals(parser.getAttributeName(0)) &&
-                    "itsnat_load_script".equals(parser.getAttributeValue(0));
-
-            while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
-
-            String code = parser.getText();
-            if (isLoadScript) layoutParsed.setLoadScript(code);
-            else
-            {
-                ScriptInlineParsed script = new ScriptInlineParsed(code);
-                layoutParsed.addScript(script);
-            }
-        }
-
-        while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
+            super.addScriptInlineParsed(parser,layoutParsed);
     }
+
 }
