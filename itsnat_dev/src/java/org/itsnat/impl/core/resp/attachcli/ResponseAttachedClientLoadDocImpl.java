@@ -237,7 +237,7 @@ public abstract class ResponseAttachedClientLoadDocImpl extends ResponseAttached
         // Nada que hacer
     }
 
-    public boolean isOnlyReturnMarkupOfScripts()
+    public boolean isOnlyReturnMarkupOfFinalScripts()
     {
         return false;
     }

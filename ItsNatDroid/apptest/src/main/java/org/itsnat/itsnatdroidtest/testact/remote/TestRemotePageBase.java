@@ -106,7 +106,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         if (useItsNatServer && page.getId() == null)
         {
-            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found or no ItsNat server used");
+            TestUtil.alertDialog(act, "LAYOUT", "It seems page is not found or no ItsNat server used or scripting disabled");
             View rootView = page.getItsNatDoc().getRootView();
             changeLayout(rootView);
             return;

@@ -302,7 +302,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         // Nada que hacer
     }
 
-    public boolean isOnlyReturnMarkupOfScripts()
+    public boolean isOnlyReturnMarkupOfFinalScripts()
     {
         if (getParentResponseAttachedServerLoadDoc() != null)
             return true;  // Porque el markup ya está en el cliente no es necesario enviarlo de nuevo

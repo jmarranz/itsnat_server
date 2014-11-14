@@ -17,6 +17,8 @@
 package org.itsnat.impl.core.resp.shared;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import org.itsnat.core.ItsNatVariableResolver;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -89,15 +91,15 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     protected String addRequiredMarkupToTheEndOfDoc(String docMarkup)       
     {
         docMarkup = super.addRequiredMarkupToTheEndOfDoc(docMarkup);
-        
-        StringBuilder markup = new StringBuilder();  
-        
+                
         ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();           
         List<ScriptCode> scriptCodeList = itsNatDoc.getScriptCodeList();
         
+        String markupStr = null;
         if (!scriptCodeList.isEmpty())
-        {
+        {           
             // Hay que tener en cuenta que los quitamos del DOM en el template pero como tenemos los scripts los enviamos "recreando" los script
+            StringBuilder markup = new StringBuilder();             
             for(ScriptCode script : scriptCodeList)
             {
                 if (ItsNatStfulDroidDocumentImpl.PRELOAD_SCRIPTS)
@@ -112,9 +114,34 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
                         markup.append( "<script><![CDATA[ " + script.getCode() + " ]]></script>" );
                 }                    
             }
+            
+            // Esto es por intentar dar algo de customización a los scripts teniendo en cuenta que no son accesibles y sobre todo para hacer que un test
+            // funcione.
+            HttpServletRequest request = (HttpServletRequest)getResponseLoadDoc().getRequestLoadDoc().getItsNatServletRequest().getServletRequest();            
+            String scheme = request.getScheme();
+            String authType = request.getAuthType();
+            String host = request.getServerName();
+            int port = request.getServerPort();
+            String pathInfo = request.getPathInfo();
+            String pathTranslated = request.getPathTranslated();
+            String contextPath = request.getContextPath();
+            String queryString = request.getQueryString();
+                        
+            ItsNatVariableResolver resolver = itsNatDoc.createItsNatVariableResolver(false);
+            resolver.setLocalVariable("scheme", scheme);
+            resolver.setLocalVariable("authType", authType);            
+            resolver.setLocalVariable("host", host);
+            resolver.setLocalVariable("port", port);
+            resolver.setLocalVariable("pathInfo", pathInfo);
+            resolver.setLocalVariable("pathTranslated", pathTranslated);
+            resolver.setLocalVariable("contextPath", contextPath);
+            resolver.setLocalVariable("queryString", queryString);            
+            
+            markupStr = resolver.resolve(markup.toString());
         }      
 
-        return addMarkupToTheEndOfDoc(docMarkup, markup.toString());
+        if (markupStr == null) return docMarkup;
+        return addMarkupToTheEndOfDoc(docMarkup,markupStr);
     }    
     
     @Override

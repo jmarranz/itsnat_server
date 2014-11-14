@@ -27,7 +27,7 @@ public interface ResponseLoadStfulDocumentValid extends ResponseStfulDocument
     public ClientDocumentStfulImpl getClientDocumentStful();
     public boolean isSerializeBeforeDispatching(); // Devuelve true en caso de !fastLoad y remote control
     public void preSerializeDocumentStful();
-    public boolean isOnlyReturnMarkupOfScripts();
+    public boolean isOnlyReturnMarkupOfFinalScripts();
     public boolean isNeededAbsoluteURL();
     public boolean isInlineLoadFrameworkScripts();
 }

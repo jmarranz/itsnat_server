@@ -188,7 +188,7 @@ public abstract class ResponseDelegateStfulLoadDocImpl extends ResponseDelegateS
         if (clientDoc.isScriptingEnabled())
         {
             String scriptsMarkup = generateFinalScriptsMarkup();
-            if (getResponseLoadStfulDocumentValid().isOnlyReturnMarkupOfScripts())
+            if (getResponseLoadStfulDocumentValid().isOnlyReturnMarkupOfFinalScripts())
                 docMarkup = scriptsMarkup;
             else
                 docMarkup = addMarkupToTheEndOfDoc(docMarkup,scriptsMarkup);

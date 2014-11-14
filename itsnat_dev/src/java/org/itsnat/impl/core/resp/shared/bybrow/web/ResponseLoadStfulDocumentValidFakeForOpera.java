@@ -60,7 +60,7 @@ public class ResponseLoadStfulDocumentValidFakeForOpera implements ResponseLoadS
         throw new ItsNatException("INTERNAL ERROR");
     }
 
-    public boolean isOnlyReturnMarkupOfScripts()
+    public boolean isOnlyReturnMarkupOfFinalScripts()
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
