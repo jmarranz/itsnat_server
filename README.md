@@ -1,3 +1,8 @@
+News
+======
+- Nov 16 2014 ItsNat Droid is a new project inside ItsNat, [more info](https://groups.google.com/forum/#!topic/itsnat/13nl0P12J_s).
+
+
 ItsNat
 ======
 
