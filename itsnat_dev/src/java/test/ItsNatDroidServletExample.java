@@ -18,6 +18,7 @@ import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import test.droid.comp.TestDroidComponentsDocLoadListener;
 import test.droid.comp.TestDroidCreateItsNatComponentListener;
 import test.droid.core.TestDroidCoreDocLoadListener;
+import test.droid.drawable.TestDroidDrawableLoadListener;
 import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
@@ -66,6 +67,11 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate = registerDocument("test_droid_remote_resources","android/layout",pathPrefix,pages);        
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        
         
+        docTemplate = registerDocument("test_droid_remote_drawable","text/xml",pathPrefix,pages);        
+        docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());              
+        
+        
+        
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
         
@@ -91,6 +97,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setJoystickMode(joystickMode);
         //docTemplate.setScriptingEnabled(false);
         //docTemplate.setEventsEnabled(false);        
+        
+        
+        
+        
         
         // Attached server
         

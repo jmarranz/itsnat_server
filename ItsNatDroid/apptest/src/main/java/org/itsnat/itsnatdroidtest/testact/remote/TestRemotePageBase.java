@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
 import android.graphics.drawable.Drawable;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -37,6 +38,8 @@ import bsh.EvalError;
 public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoadErrorListener,OnEventErrorListener,
         AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
+    public static final boolean TEST_SYNC_REQUESTS = false;
+
     protected final TestActivityTabFragment fragment;
     protected final ItsNatDroidBrowser droidBrowser;
     protected boolean useItsNatServer;
@@ -51,6 +54,12 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         this.fragment = fragment;
         this.droidBrowser = droidBrowser;
         this.useItsNatServer = useItsNatServer;
+
+        if (TEST_SYNC_REQUESTS)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
     }
 
     protected TestActivity getTestActivity()
@@ -242,6 +251,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
 
         PageRequest pageRequest = droidBrowser.createPageRequest();
         pageRequest.setContext(act)
+        .setSynchronous(TEST_SYNC_REQUESTS)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)

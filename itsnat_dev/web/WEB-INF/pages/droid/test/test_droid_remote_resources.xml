@@ -65,6 +65,14 @@
                 android:textSize="20dp"                
                 android:background="@remote:drawable/droid/res/drawable/nine-patch.xml" />
 
+        <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Test nine-patch served by ItsNat (border green)"
+                android:textSize="20dp"                
+                android:background="@remote:drawable//ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable" />        
+                  
         
         
     </LinearLayout>

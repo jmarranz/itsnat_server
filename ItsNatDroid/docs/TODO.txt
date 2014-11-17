@@ -1,11 +1,10 @@
 
-* No cargar desde el servidor los <script> servidos por ItsNat, no es necesario, hacer un flag
-
-* Servir un drawable XML dinámicamente desde ItsNat
 
 * Hacer el caso síncrono, probarlo tanto en carga como con evento
 
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
+
+* Pensar el Last-Modified y el cacheo para evitar descargar recursos que no han cambiado
 
 * Usar pool threads cuando se pueda
 
@@ -24,6 +23,12 @@ como páginas.
 * Revisar que estamos procesando todos los atributos:
 
     http://developer.android.com/reference/android/R.styleable.html
+
+* Usar Toolbar en vez de ActionBar
+
+    http://android-developers.blogspot.com.es/2014/10/appcompat-v21-material-design-for-pre.html
+    https://gist.github.com/gabrielemariotti/ae63392e1c70bc33af8b
+    http://stackoverflow.com/questions/26540078/use-tab-with-new-toolbar-appcompat-v7-21
 
 * Testear en un layout aparte KeyboardView
 

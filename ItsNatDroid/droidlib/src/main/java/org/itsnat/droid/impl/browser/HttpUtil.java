@@ -85,7 +85,7 @@ public class HttpUtil
         // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
         MIME_BY_EXT.put("xml",HttpUtil.MIME_XML);
         MIME_BY_EXT.put("png",HttpUtil.MIME_PNG);
-        MIME_BY_EXT.put("9.png",HttpUtil.MIME_PNG);
+        //MIME_BY_EXT.put("9.png",HttpUtil.MIME_PNG);
         MIME_BY_EXT.put("jpg",HttpUtil.MIME_JPEG);
         MIME_BY_EXT.put("jpe",HttpUtil.MIME_JPEG);
         MIME_BY_EXT.put("jpeg",HttpUtil.MIME_JPEG);

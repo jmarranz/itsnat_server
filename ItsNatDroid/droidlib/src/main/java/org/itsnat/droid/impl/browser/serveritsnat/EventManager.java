@@ -90,17 +90,6 @@ public class EventManager
         List<NameValuePair> params = evt.genParamURL();
 
 
-/*
-if (true)
-{
-    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-    StrictMode.setThreadPolicy(policy);
-
-    EventSender sender = new EventSender(this);
-    sender.requestSync(evt, servletPath, params, timeout);
-    return;
-}
-*/
         if (commMode == CommMode.XHR_SYNC)
         {
             EventSender sender = new EventSender(this);

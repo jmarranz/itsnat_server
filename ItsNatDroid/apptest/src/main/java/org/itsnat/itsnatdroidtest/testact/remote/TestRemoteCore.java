@@ -1,6 +1,5 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
-import android.os.StrictMode;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,16 +39,9 @@ public class TestRemoteCore extends TestRemotePageBase
             url = "https://www.pcwebshop.co.uk"; // Alternativa: https://mms.nw.ru
         }
 
-        boolean testSyncRequests = false;
-        if (testSyncRequests)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
         PageRequest pageRequest = droidBrowser.createPageRequest();
         pageRequest.setContext(act)
-        .setSynchronous(testSyncRequests)
+        .setSynchronous(TEST_SYNC_REQUESTS)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)

@@ -35,12 +35,6 @@ public class HttpResourceDownloader
         this.xmlInflateRegistry = xmlInflateRegistry;
     }
 
-    /*
-    public void downloadResourcesAsync(LinkedList<AttrParsedRemote> attrRemoteList) throws Exception
-    {
-
-    }
-*/
     public void downloadResources(List<AttrParsedRemote> attrRemoteList) throws Exception
     {
         downloadResources(attrRemoteList,null);

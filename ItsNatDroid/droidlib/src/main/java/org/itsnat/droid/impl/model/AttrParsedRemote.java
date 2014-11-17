@@ -22,18 +22,28 @@ public class AttrParsedRemote extends AttrParsed
         // Ej. @remote:drawable/res/drawable/file.png   Remote Path: res/drawable/file.png
         //     @remote:drawable//res/drawable/file.png  Remote Path: /res/drawable/file.png
         //     @remote:drawable/http://somehost/res/drawable/file.png  Remote Path: http://somehost/res/drawable/file.png
+        //     @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
         int pos1 = value.indexOf(':');
         int pos2 = value.indexOf('/');
-        int pos3 = value.indexOf('.');
         this.resType = value.substring(pos1 + 1,pos2); // Ej. "drawable"
         this.remoteLocation = value.substring(pos2 + 1);
-        this.extension = value.substring(pos3 + 1).toLowerCase(); // xml, png, 9.png
-
-        // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-        String mime = HttpUtil.MIME_BY_EXT.get(extension);
-        if (mime == null)
-            throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
-        this.mime = mime;
+        int pos3 = value.lastIndexOf('.');
+        if (pos3 != -1)
+        {
+            this.extension = value.substring(pos3 + 1).toLowerCase(); // xml, png...
+            // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
+            String mime = HttpUtil.MIME_BY_EXT.get(extension);
+            if (mime == null)
+                throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
+            this.mime = mime;
+        }
+        else
+        {
+            // Por ejemplo:  @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
+            // Suponemos que se genera el XML por ej del drawable
+            this.extension = null;
+            this.mime = HttpUtil.MIME_XML;
+        }
     }
 
     public boolean isDownloaded()

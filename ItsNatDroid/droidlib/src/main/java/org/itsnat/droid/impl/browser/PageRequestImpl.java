@@ -10,7 +10,6 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
@@ -19,10 +18,18 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
+import org.itsnat.droid.impl.model.AttrParsedRemote;
 import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.model.layout.ScriptParsed;
+import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
+import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
+import java.net.SocketTimeoutException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -189,28 +196,25 @@ public class PageRequestImpl implements PageRequest
     private void executeSync(String url)
     {
         // No hace falta clonar porque es síncrono el método
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = this.httpParams;
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        HttpConfig httpConfig = new HttpConfig(this);
+        httpConfig.httpContext = browser.getHttpContext();
+        httpConfig.httpParamsRequest = this.httpParams;
+        httpConfig.httpParamsDefault = browser.getHttpParams();
+        httpConfig.httpHeaders = createHttpHeaders();
+        httpConfig.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
+
+        String pageURLBase = getURLBase();
 
         PageRequestResult result = null;
         try
         {
-            HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders, sslSelfSignedAllowed,null,null);
+            HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url,httpConfig.httpContext,httpConfig.httpParamsRequest,
+                    httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,null,null);
 
-            LayoutParsed layoutParsed = null;
-            if (httpReqResult.isStatusOK())
-            {
-                String markup = httpReqResult.getResponseText();
-                String itsNatServerVersion = httpReqResult.getItsNatServerVersion();
-                layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion,true,true);
-            }
-
-            result = new PageRequestResult(httpReqResult, layoutParsed);
+            result = processHttpRequestResult(httpReqResult,pageURLBase,httpConfig,xmlInflateRegistry);
         }
         catch(Exception ex)
         {
@@ -240,6 +244,54 @@ public class PageRequestImpl implements PageRequest
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
+    public static PageRequestResult processHttpRequestResult(HttpRequestResultImpl result,
+                                                             String pageURLBase,HttpConfig httpConfig,XMLInflateRegistry xmlInflateRegistry) throws Exception
+    {
+        if (!result.isStatusOK())
+        {
+            // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
+            result.setResponseText(ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()));
+            throw new ItsNatDroidServerResponseException(result);
+        }
+
+        String markup = result.getResponseText();
+        String itsNatServerVersion = result.getItsNatServerVersion();
+        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup, itsNatServerVersion, true, true);
+
+
+        PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsed);
+
+        if (!LayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
+        {
+            // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
+            ArrayList<ScriptParsed> scriptList = layoutParsed.getScriptList();
+            if (scriptList != null)
+            {
+                for (int i = 0; i < scriptList.size(); i++)
+                {
+                    ScriptParsed script = scriptList.get(i);
+                    if (script instanceof ScriptRemoteParsed)
+                    {
+                        ScriptRemoteParsed scriptRemote = (ScriptRemoteParsed) script;
+                        String code = downloadScript(scriptRemote.getSrc(),pageURLBase,httpConfig);
+                        scriptRemote.setCode(code);
+                    }
+                }
+            }
+        }
+
+
+        LinkedList<AttrParsedRemote> attrRemoteList = layoutParsed.getAttributeRemoteList();
+        if (attrRemoteList != null)
+        {
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry);
+            resDownloader.downloadResources(attrRemoteList);
+        }
+
+        return pageReqResult;
+    }
+
+
     public void processResponse(PageRequestResult result)
     {
         HttpRequestResultImpl httpReqResult = result.getHttpRequestResult();
@@ -268,5 +320,12 @@ public class PageRequestImpl implements PageRequest
                .setSynchronous(sync)
                .setURL(url);
         return request;
+    }
+
+    private static String downloadScript(String src,String pageURLBase,HttpConfig httpConfig) throws SocketTimeoutException
+    {
+        src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,HttpUtil.MIME_BEANSHELL);
+        return result.getResponseText();
     }
 }
