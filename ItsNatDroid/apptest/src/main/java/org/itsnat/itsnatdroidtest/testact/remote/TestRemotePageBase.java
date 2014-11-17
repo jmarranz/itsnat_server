@@ -150,7 +150,8 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
             @Override
             public void onError(Page page, Exception ex, HttpRequestResult response)
             {
-                TestUtil.alertDialog(act, "User Msg: Failed HTTP request! \n" + response.getResponseText());
+                String responseText = response != null ? response.getResponseText() : null;
+                TestUtil.alertDialog(act, "User Msg: Failed HTTP request! \n" + responseText);
             }
         });
 

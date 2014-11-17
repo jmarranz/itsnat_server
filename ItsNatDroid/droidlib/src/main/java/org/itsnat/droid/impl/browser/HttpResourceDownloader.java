@@ -42,9 +42,13 @@ public class HttpResourceDownloader
 
     public void downloadResources(List<AttrParsedRemote> attrRemoteList,List<HttpRequestResultImpl> resultList) throws Exception
     {
+        downloadResources(pageURLBase,attrRemoteList,resultList);
+    }
+
+    private void downloadResources(String urlBase,List<AttrParsedRemote> attrRemoteList,List<HttpRequestResultImpl> resultList) throws Exception
+    {
         int len = attrRemoteList.size();
         final Thread[] threadArray = new Thread[len];
-        final HttpRequestResultImpl[] resultArray = new HttpRequestResultImpl[len];
         final Exception[] exList = new Exception[len];
 
         {
@@ -52,7 +56,7 @@ public class HttpResourceDownloader
             final boolean[] stop = new boolean[1];
             for (AttrParsedRemote attr : attrRemoteList)
             {
-                Thread thread = downloadResource(attr, stop, i,resultList, exList);
+                Thread thread = downloadResource(urlBase,attr, stop, i,resultList, exList);
                 threadArray[i] = thread;
                 i++;
             }
@@ -72,7 +76,7 @@ public class HttpResourceDownloader
         }
     }
 
-    private Thread downloadResource(final AttrParsedRemote attr, final boolean[] stop, final int i,
+    private Thread downloadResource(final String urlBase,final AttrParsedRemote attr, final boolean[] stop, final int i,
                                     final List<HttpRequestResultImpl> resultList,final Exception[] exList) throws Exception
     {
         Thread thread = new Thread()
@@ -83,10 +87,10 @@ public class HttpResourceDownloader
                 try
                 {
                     String resourceMime = attr.getResourceMime();
-                    String url = HttpUtil.composeAbsoluteURL(attr.getRemoteLocation(), pageURLBase);
+                    String url = HttpUtil.composeAbsoluteURL(attr.getRemoteLocation(), urlBase);
                     HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
                     if (resultList != null) resultList.add(resultResource);
-                    processResultResource(attr,resultResource,resultList);
+                    processResultResource(url,attr,resultResource,resultList);
                 }
                 catch (Exception ex)
                 {
@@ -99,7 +103,7 @@ public class HttpResourceDownloader
         return thread;
     }
 
-    private void processResultResource(AttrParsedRemote attr,HttpRequestResultImpl resultRes,List<HttpRequestResultImpl> resultList) throws Exception
+    private void processResultResource(String urlBase,AttrParsedRemote attr,HttpRequestResultImpl resultRes,List<HttpRequestResultImpl> resultList) throws Exception
     {
         // Método llamado en multihilo
         String resourceMime = attr.getResourceMime();
@@ -117,7 +121,9 @@ public class HttpResourceDownloader
             attr.setRemoteResource(parsed);
             LinkedList<AttrParsedRemote> attrRemoteList = parsed.getAttributeRemoteList();
             if (attrRemoteList != null)
-                downloadResources(attrRemoteList,resultList);
+            {
+                downloadResources(urlBase, attrRemoteList, resultList);
+            }
         }
         else if (HttpUtil.MIME_PNG.equals(resourceMime) ||
                  HttpUtil.MIME_JPEG.equals(resourceMime) ||

@@ -6,8 +6,6 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.util.ValueUtil;
 
@@ -93,7 +91,7 @@ public abstract class GenericHttpClientBaseImpl //implements GenericHttpClient
             httpParamsRequest.setParameter(header,value);
     }
 
-    public String getPageURL()
+    public String getPageURLBase()
     {
         return itsNatDoc.getPageURLBase();
     }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import org.itsnat.core.CommMode;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
@@ -63,6 +64,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setLoadScriptInline(false);
         //docTemplate.setEventsEnabled(false);
         //docTemplate.setScriptingEnabled(false);        
+        //docTemplate.setCommMode(CommMode.XHR_SYNC);
         
         docTemplate = registerDocument("test_droid_remote_resources","android/layout",pathPrefix,pages);        
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        

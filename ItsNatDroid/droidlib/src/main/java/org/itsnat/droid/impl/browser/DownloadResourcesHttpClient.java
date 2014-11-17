@@ -27,6 +27,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     {
         List<AttrParsedRemote> attrRemoteList = new LinkedList<AttrParsedRemote>();
         attrRemoteList.add(attrRemote);
+
         return request(attrRemoteList,async);
     }
 

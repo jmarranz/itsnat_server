@@ -91,7 +91,15 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
         res.append("        android:text=\"@string/button_reload\" />  ");          
-
+        
+        res.append("    <TextView  ");   
+        res.append("        android:layout_width=\"match_parent\"  ");
+        res.append("        android:layout_height=\"wrap_content\"  ");
+        res.append("        android:layout_marginTop=\"20dp\"  ");
+        res.append("        android:text=\"Test nine-patch (border must be green)\"  ");
+        res.append("        android:textSize=\"20dp\"  ");                
+        res.append("        android:background=\"@remote:drawable/droid/res/drawable/nine-patch.xml\" />  ");           
+        
         res.append("    <script src=\"bs/test_script_loading.bs\" /> " );        
         res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/bs/test_script_loading_2.bs\" /> " );          
         res.append("    <script>"
@@ -122,7 +130,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("    <Button ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
-        res.append("        android:layout_marginTop=\"30dp\" ");            
+        res.append("        android:layout_marginTop=\"10dp\" ");            
         res.append("        android:text=\"ADD ITEM\" ");             
         res.append("        onclick=\"addItem()\" /> ");                 
 
@@ -136,6 +144,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("            android:layout_width=\"match_parent\" ");
         res.append("            android:layout_height=\"wrap_content\" ");       
         res.append("            android:orientation=\"vertical\">  ");        
+      
         
         res.append("            <View ");
         res.append("                android:id=\"@+id/limitId\"  ");        
@@ -143,7 +152,8 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("                android:layout_height=\"2dp\" ");
         res.append("                android:layout_marginTop=\"10dp\" ");         
         res.append("                android:background=\"#000000\" /> ");
-
+      
+        
         res.append("        </LinearLayout> ");        
         
         res.append("    </ScrollView> ");        
@@ -171,6 +181,14 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:text=\"ITEM " + counter + "\" ");
         res.append("        android:textSize=\"20dp\" ");
         res.append("        android:background=\"#ffff00\" /> ");
+        
+        res.append("    <TextView  ");   
+        res.append("        android:layout_width=\"match_parent\"  ");
+        res.append("        android:layout_height=\"wrap_content\"  ");
+        res.append("        android:layout_marginTop=\"20dp\"  ");
+        res.append("        android:text=\"Test nine-patch (border must be green)\"  ");
+        res.append("        android:textSize=\"20dp\"  ");                
+        res.append("        android:background=\"@remote:drawable/droid/res/drawable/nine-patch.xml\" />  ");         
 
         return res;
     }    

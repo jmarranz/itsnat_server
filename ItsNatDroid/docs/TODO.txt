@@ -1,8 +1,21 @@
 
 
-* Hacer el caso síncrono, probarlo tanto en carga como con evento
-
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
+
+        String text;
+        try
+        {
+            AssetManager assetManager = getAssets();
+            InputStream ims = assetManager.open("/prueba/prueba2/hola.txt");
+            byte[] res = IOUtil.read(ims);
+            text = new String(res,"UTF-8");
+            System.out.println(text);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
 
 * Pensar el Last-Modified y el cacheo para evitar descargar recursos que no han cambiado
 

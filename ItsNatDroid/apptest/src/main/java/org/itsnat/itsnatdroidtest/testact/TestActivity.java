@@ -100,22 +100,6 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         }
 
 
-        /*
-        String text;
-        try
-        {
-            AssetManager assetManager = getAssets();
-            InputStream ims = assetManager.open("/prueba/prueba2/hola.txt");
-            byte[] res = IOUtil.read(ims);
-            text = new String(res,"UTF-8");
-            System.out.println(text);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        */
-
         //org.itsnat.droid.impl.util.MapLightAndRealPerformTest.test();
     }
 

@@ -1302,7 +1302,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         GenericHttpClientImpl client = createGenericHttpClientImpl();
 
-        src = HttpUtil.composeAbsoluteURL(src,client.getPageURL());
+        src = HttpUtil.composeAbsoluteURL(src,client.getPageURLBase());
 
         client.setURL(src)
         .setOverrideMimeType(mime)

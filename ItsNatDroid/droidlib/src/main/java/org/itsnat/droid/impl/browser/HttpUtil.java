@@ -298,6 +298,9 @@ public class HttpUtil
             int pos = pageURL.lastIndexOf('/');
             if (pos < pageURL.length() - 1) // El / no está en el final
                 pageURL = pageURL.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
+            // pageURL termina en '/'
+            // Si src empieza en '/' lo quitamos para que no haya dos "//" seguidos
+            if (src.startsWith("/")) src = src.substring(1);
             src = pageURL.substring(0, pos + 1) + src;
         }
         else if (!scheme.equals("http") && !scheme.equals("https"))

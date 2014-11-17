@@ -59,7 +59,8 @@ public abstract class AttrDescView extends AttrDesc
         {
             // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
             // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
-            downloadResources((AttrParsedRemote) attr, task, xmlInflaterLayout);
+            AttrParsedRemote attrRemote = (AttrParsedRemote) attr;
+            downloadResources(attrRemote, task, xmlInflaterLayout);
         }
         else
         {
@@ -71,6 +72,7 @@ public abstract class AttrDescView extends AttrDesc
     {
         InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
         PageImpl page = ClassDescViewBased.getPageImpl(inflated); // NO puede ser nulo
+
         page.getItsNatDocImpl().downloadResources(attr,task);
     }
 
