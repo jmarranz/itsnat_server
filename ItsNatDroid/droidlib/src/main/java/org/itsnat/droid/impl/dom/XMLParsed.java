@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.model;
+package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;

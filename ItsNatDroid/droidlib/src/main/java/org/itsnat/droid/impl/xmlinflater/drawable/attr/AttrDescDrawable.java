@@ -9,8 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsedRemote;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;

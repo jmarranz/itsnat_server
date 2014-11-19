@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.view.View;
 
-import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;

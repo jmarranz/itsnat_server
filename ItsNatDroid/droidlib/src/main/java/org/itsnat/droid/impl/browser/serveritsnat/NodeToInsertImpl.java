@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.view.View;
 
-import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.HashMap;

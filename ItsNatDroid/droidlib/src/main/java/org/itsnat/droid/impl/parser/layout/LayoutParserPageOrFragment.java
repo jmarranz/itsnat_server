@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.parser.layout;
 
-import org.itsnat.droid.impl.model.XMLParsed;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
-import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
-import org.itsnat.droid.impl.model.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.XMLParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptInlineParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.dom.layout.ViewParsed;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

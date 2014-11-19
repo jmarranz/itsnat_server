@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsedRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;

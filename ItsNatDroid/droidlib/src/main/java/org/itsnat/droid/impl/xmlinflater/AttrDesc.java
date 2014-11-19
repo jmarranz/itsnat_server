@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedRemote;
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;

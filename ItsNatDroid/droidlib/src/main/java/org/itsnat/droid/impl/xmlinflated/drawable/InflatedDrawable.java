@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**

@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.ElementParsed;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;

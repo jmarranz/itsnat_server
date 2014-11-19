@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

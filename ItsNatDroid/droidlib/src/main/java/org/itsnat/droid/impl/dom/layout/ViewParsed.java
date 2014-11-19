@@ -1,6 +1,6 @@
-package org.itsnat.droid.impl.model.layout;
+package org.itsnat.droid.impl.dom.layout;
 
-import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.dom.ElementParsed;
 
 /**
  * Created by jmarranz on 27/10/14.

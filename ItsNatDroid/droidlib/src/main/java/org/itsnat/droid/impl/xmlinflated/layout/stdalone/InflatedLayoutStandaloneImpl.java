@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 
 /**

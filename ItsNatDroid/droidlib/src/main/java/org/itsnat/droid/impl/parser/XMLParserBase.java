@@ -3,10 +3,10 @@ package org.itsnat.droid.impl.parser;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedRemote;
-import org.itsnat.droid.impl.model.ElementParsed;
-import org.itsnat.droid.impl.model.XMLParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.XMLParsed;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

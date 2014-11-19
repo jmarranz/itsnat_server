@@ -3,9 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.ElementParsed;
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;

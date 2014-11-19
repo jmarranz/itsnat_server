@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.model.layout;
+package org.itsnat.droid.impl.dom.layout;
 
 /**
  * Created by jmarranz on 29/10/14.

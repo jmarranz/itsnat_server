@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 
-import org.itsnat.droid.impl.model.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;

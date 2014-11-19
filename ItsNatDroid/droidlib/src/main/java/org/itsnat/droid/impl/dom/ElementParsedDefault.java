@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.model;
+package org.itsnat.droid.impl.dom;
 
 /**
  * Created by jmarranz on 3/11/14.

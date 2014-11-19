@@ -1,6 +1,6 @@
-package org.itsnat.droid.impl.model.layout;
+package org.itsnat.droid.impl.dom.layout;
 
-import org.itsnat.droid.impl.model.XMLParsed;
+import org.itsnat.droid.impl.dom.XMLParsed;
 
 import java.util.ArrayList;
 

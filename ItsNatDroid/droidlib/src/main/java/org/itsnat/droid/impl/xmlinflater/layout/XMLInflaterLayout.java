@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.ElementParsed;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.model.layout.ScriptParsed;
-import org.itsnat.droid.impl.model.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptParsed;
+import org.itsnat.droid.impl.dom.layout.ViewParsed;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;

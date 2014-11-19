@@ -295,13 +295,22 @@ public class HttpUtil
         String scheme = uri.getScheme();
         if (scheme == null)
         {
-            int pos = pageURL.lastIndexOf('/');
-            if (pos < pageURL.length() - 1) // El / no está en el final
-                pageURL = pageURL.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
-            // pageURL termina en '/'
-            // Si src empieza en '/' lo quitamos para que no haya dos "//" seguidos
-            if (src.startsWith("/")) src = src.substring(1);
-            src = pageURL.substring(0, pos + 1) + src;
+            if (src.startsWith("/"))
+            {
+                // Path absoluto, tenemos que formar: scheme://authority + src
+                URL url;
+                try { url = new URL(pageURL); }
+                catch (MalformedURLException ex) { throw new ItsNatDroidException(ex); }
+                src = url.getProtocol() + "://" + url.getAuthority() + src;
+            }
+            else
+            {
+                int pos = pageURL.lastIndexOf('/');
+                if (pos < pageURL.length() - 1) // El / no está en el final
+                    pageURL = pageURL.substring(0, pos + 1); // Quitamos así el servlet, el JSP etc que generó la página
+                // Ahora pageURL termina en '/'
+                src = pageURL.substring(0, pos + 1) + src;
+            }
         }
         else if (!scheme.equals("http") && !scheme.equals("https"))
             throw new ItsNatDroidException("Scheme not supported: " + scheme);

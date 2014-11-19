@@ -47,8 +47,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.ContinueEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.AttrParsedRemote;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;

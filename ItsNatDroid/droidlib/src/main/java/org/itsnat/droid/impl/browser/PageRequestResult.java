@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
 
 /**
  * Created by jmarranz on 27/10/14.

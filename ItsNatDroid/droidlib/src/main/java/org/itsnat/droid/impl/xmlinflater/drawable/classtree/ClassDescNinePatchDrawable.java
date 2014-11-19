@@ -8,8 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.model.AttrParsed;
-import org.itsnat.droid.impl.model.ElementParsed;
+import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.ElementParsed;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;

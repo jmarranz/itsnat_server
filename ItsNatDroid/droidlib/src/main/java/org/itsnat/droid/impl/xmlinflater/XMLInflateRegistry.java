@@ -6,9 +6,9 @@ import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.XMLParsedCache;
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.XMLParsedCache;
+import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
 import org.itsnat.droid.impl.parser.drawable.DrawableParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParser;
 import org.itsnat.droid.impl.parser.layout.LayoutParserFragment;

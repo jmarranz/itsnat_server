@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.impl.model.layout.LayoutParsed;
-import org.itsnat.droid.impl.model.layout.ScriptInlineParsed;
-import org.itsnat.droid.impl.model.layout.ScriptParsed;
-import org.itsnat.droid.impl.model.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptInlineParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptParsed;
+import org.itsnat.droid.impl.dom.layout.ScriptRemoteParsed;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;

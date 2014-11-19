@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.model.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
 
 /**
  * Created by jmarranz on 10/11/14.

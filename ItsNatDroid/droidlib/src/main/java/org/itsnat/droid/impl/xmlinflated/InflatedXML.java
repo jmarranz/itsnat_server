@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflated;
 import android.content.Context;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.model.XMLParsed;
+import org.itsnat.droid.impl.dom.XMLParsed;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 /**
