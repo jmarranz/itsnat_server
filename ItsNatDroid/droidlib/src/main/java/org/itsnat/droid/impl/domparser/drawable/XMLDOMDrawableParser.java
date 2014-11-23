@@ -1,10 +1,10 @@
-package org.itsnat.droid.impl.parser.drawable;
+package org.itsnat.droid.impl.domparser.drawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.DOMElementDefault;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
-import org.itsnat.droid.impl.parser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

@@ -1,11 +1,11 @@
-package org.itsnat.droid.impl.parser.layout;
+package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMView;
-import org.itsnat.droid.impl.parser.XMLDOMParser;
+import org.itsnat.droid.impl.domparser.XMLDOMParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 

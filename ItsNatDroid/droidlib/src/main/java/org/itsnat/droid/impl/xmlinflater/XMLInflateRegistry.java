@@ -9,11 +9,11 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.XMLDOMCache;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.parser.drawable.XMLDOMDrawableParser;
-import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParser;
-import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserFragment;
-import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserPage;
-import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserStandalone;
+import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserFragment;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
+import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 

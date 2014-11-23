@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser.layout;
+package org.itsnat.droid.impl.domparser.layout;
 
 /**
  * Created by jmarranz on 14/11/14.

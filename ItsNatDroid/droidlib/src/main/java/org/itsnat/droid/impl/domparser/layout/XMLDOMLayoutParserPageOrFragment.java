@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser.layout;
+package org.itsnat.droid.impl.domparser.layout;
 
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;

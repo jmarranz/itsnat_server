@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.parser;
+package org.itsnat.droid.impl.domparser;
 
 import android.util.Xml;
 
