@@ -10,13 +10,13 @@ import java.io.IOException;
 /**
  * Created by jmarranz on 14/11/14.
  */
-public class LayoutParserPage extends LayoutParserPageOrFragment
+public class XMLDOMLayoutParserPage extends XMLDOMLayoutParserPageOrFragment
 {
     public static final boolean PRELOAD_SCRIPTS = false;
 
     protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
 
-    public LayoutParserPage(String itsNatServerVersion)
+    public XMLDOMLayoutParserPage(String itsNatServerVersion)
     {
         this.itsNatServerVersion = itsNatServerVersion;
     }

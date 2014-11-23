@@ -10,9 +10,9 @@ import java.io.IOException;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class LayoutParserStandalone extends LayoutParser
+public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
 {
-    public LayoutParserStandalone()
+    public XMLDOMLayoutParserStandalone()
     {
     }
 

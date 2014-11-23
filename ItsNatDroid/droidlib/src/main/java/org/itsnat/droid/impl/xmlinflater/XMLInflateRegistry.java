@@ -9,11 +9,11 @@ import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.XMLDOMCache;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.parser.drawable.DrawableParser;
-import org.itsnat.droid.impl.parser.layout.LayoutParser;
-import org.itsnat.droid.impl.parser.layout.LayoutParserFragment;
-import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
-import org.itsnat.droid.impl.parser.layout.LayoutParserStandalone;
+import org.itsnat.droid.impl.parser.drawable.XMLDOMDrawableParser;
+import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParser;
+import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserFragment;
+import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserPage;
+import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 
@@ -73,11 +73,11 @@ public class XMLInflateRegistry
         }
         else
         {
-            LayoutParser layoutParser;
+            XMLDOMLayoutParser layoutParser;
             if (remotePageOrFrag)
-                layoutParser = loadingPage ? new LayoutParserPage(itsNatServerVersion) : new LayoutParserFragment();
+                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(itsNatServerVersion) : new XMLDOMLayoutParserFragment();
             else
-                layoutParser = new LayoutParserStandalone();
+                layoutParser = new XMLDOMLayoutParserStandalone();
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
@@ -96,7 +96,7 @@ public class XMLInflateRegistry
         if (cachedDrawable != null) return cachedDrawable;
         else
         {
-            XMLDOMDrawable xmlDOMDrawable = DrawableParser.parse(markup);
+            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup);
             domDrawableCache.put(markup, xmlDOMDrawable);
             return xmlDOMDrawable;
         }

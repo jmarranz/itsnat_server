@@ -4,7 +4,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.DOMElementDefault;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
-import org.itsnat.droid.impl.parser.XMLParserBase;
+import org.itsnat.droid.impl.parser.XMLDOMParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -15,7 +15,7 @@ import java.io.StringReader;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public class DrawableParser extends XMLParserBase
+public class XMLDOMDrawableParser extends XMLDOMParser
 {
     public static XMLDOMDrawable parse(String markup)
     {
@@ -42,7 +42,7 @@ public class DrawableParser extends XMLParserBase
     private static XMLDOMDrawable parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-        DrawableParser drawableParser = new DrawableParser();
+        XMLDOMDrawableParser drawableParser = new XMLDOMDrawableParser();
         XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
         drawableParser.parseRootElement(rootElemName, parser, xmlDOMDrawable);
         return xmlDOMDrawable;

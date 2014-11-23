@@ -5,7 +5,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMView;
-import org.itsnat.droid.impl.parser.XMLParserBase;
+import org.itsnat.droid.impl.parser.XMLDOMParser;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -17,7 +17,7 @@ import java.io.StringReader;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public abstract class LayoutParser extends XMLParserBase
+public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
     public XMLDOMLayout parse(String markup)
     {

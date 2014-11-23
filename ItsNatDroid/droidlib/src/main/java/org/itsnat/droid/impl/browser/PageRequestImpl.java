@@ -22,7 +22,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
-import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
+import org.itsnat.droid.impl.parser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
@@ -261,7 +261,7 @@ public class PageRequestImpl implements PageRequest
 
         PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
 
-        if (!LayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
+        if (!XMLDOMLayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
         {
             // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
             ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();

@@ -13,9 +13,9 @@ import java.io.IOException;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public abstract class LayoutParserPageOrFragment extends LayoutParser
+public abstract class XMLDOMLayoutParserPageOrFragment extends XMLDOMLayoutParser
 {
-    public LayoutParserPageOrFragment()
+    public XMLDOMLayoutParserPageOrFragment()
     {
     }
 
