@@ -8,8 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -30,12 +30,12 @@ public class ClassDescNinePatchDrawable extends ClassDescDrawable<NinePatchDrawa
     }
 
     @Override
-    public Drawable createRootDrawable(ElementParsed rootElem,InflatedDrawable inflatedDrawable,Context ctx)
+    public Drawable createRootDrawable(DOMElement rootElem,InflatedDrawable inflatedDrawable,Context ctx)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime
 
-        AttrParsed attrSrc = rootElem.findAttribute(InflatedXML.XMLNS_ANDROID, "src");
+        DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
 
         Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc, ctx, classMgr.getXMLInflateRegistry());
 

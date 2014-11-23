@@ -5,7 +5,7 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.TextView;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -22,7 +22,7 @@ public class AttrDescView_widget_TextView_maxLength extends AttrDescView
         super(parent,"maxLength");
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         int convertedValue = getInteger(attr.getValue(),ctx);
 

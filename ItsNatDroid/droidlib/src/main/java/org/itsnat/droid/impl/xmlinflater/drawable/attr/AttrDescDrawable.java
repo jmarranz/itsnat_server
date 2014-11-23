@@ -9,8 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -29,12 +29,12 @@ public abstract class AttrDescDrawable extends AttrDesc
         super(parent,name);
     }
 
-    public static Bitmap getBitmap(AttrParsed attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
+    public static Bitmap getBitmap(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {
-        if (attr instanceof AttrParsedRemote)
+        if (attr instanceof DOMAttrRemote)
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
-            AttrParsedRemote attrRem = (AttrParsedRemote)attr;
+            DOMAttrRemote attrRem = (DOMAttrRemote)attr;
             byte[] byteArray = (byte[])attrRem.getRemoteResource();
             BitmapFactory.Options options = new BitmapFactory.Options();
             return BitmapFactory.decodeByteArray(byteArray,0,byteArray.length,options);
@@ -70,7 +70,7 @@ public abstract class AttrDescDrawable extends AttrDesc
         }
     }
 
-    public abstract void setAttribute(Drawable draw, AttrParsed attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
+    public abstract void setAttribute(Drawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
 
     public abstract void removeAttribute(Drawable draw,XMLInflaterDrawable xmlInflaterDrawable, Context ctx);
 }

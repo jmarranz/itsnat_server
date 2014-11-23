@@ -2,31 +2,33 @@ package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
  * Created by jmarranz on 3/11/14.
  */
-public class AttrParsedRemote extends AttrParsed
+public class DOMAttrDynamic extends DOMAttr
 {
     protected String resType;
     protected String extension;
     protected String mime;
-    protected String remoteLocation;
-    protected volatile Object remoteResource;
+    protected String location;
+    protected volatile Object resource;
 
-    public AttrParsedRemote(String namespaceURI, String name, String value)
+    public DOMAttrDynamic(String namespaceURI, String name, String value)
     {
         super(namespaceURI, name, value);
+
+        // Ej. @assets:drawable/res/drawable/file.png   Path: res/drawable/file.png
 
         // Ej. @remote:drawable/res/drawable/file.png   Remote Path: res/drawable/file.png
         //     @remote:drawable//res/drawable/file.png  Remote Path: /res/drawable/file.png
         //     @remote:drawable/http://somehost/res/drawable/file.png  Remote Path: http://somehost/res/drawable/file.png
         //     @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
+
         int pos1 = value.indexOf(':');
         int pos2 = value.indexOf('/');
         this.resType = value.substring(pos1 + 1,pos2); // Ej. "drawable"
-        this.remoteLocation = value.substring(pos2 + 1);
+        this.location = value.substring(pos2 + 1);
         int pos3 = value.lastIndexOf('.');
         if (pos3 != -1)
         {
@@ -46,16 +48,6 @@ public class AttrParsedRemote extends AttrParsed
         }
     }
 
-    public boolean isDownloaded()
-    {
-        return remoteResource != null;
-    }
-
-    public static boolean isRemote(String namespaceURI,String value)
-    {
-        return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
-    }
-
     public String getResourceType()
     {
         return resType;
@@ -66,9 +58,9 @@ public class AttrParsedRemote extends AttrParsed
         return extension;
     }
 
-    public String getRemoteLocation()
+    public String getLocation()
     {
-        return remoteLocation;
+        return location;
     }
 
     public String getResourceMime()
@@ -76,19 +68,19 @@ public class AttrParsedRemote extends AttrParsed
         return mime;
     }
 
-    public Object getRemoteResource()
+    public Object getResource()
     {
-        // Es sólo llamado en el hilo UI pero setRemoteResource se ha llama en multihilo
-        return remoteResource;
+        // Es sólo llamado en el hilo UI pero setResource se llama en multihilo
+        return resource;
     }
 
-    public void setRemoteResource(Object remoteResource)
+    public void setResource(Object resource)
     {
         // Es llamado en multihilo
         // No pasa nada porque se llame e inmediatamente después se cambie el valor, puede ocurrir que se esté procesando
         // el mismo atributo a la vez por dos hilos, ten en cuenta que el template puede estar cacheado y reutilizado, pero no pasa nada
         // porque el nuevo remoteResource NUNCA es null y es siempre el mismo recurso como mucho actualizado si ha cambiado
         // en el servidor
-        this.remoteResource = remoteResource;
+        this.resource = resource;
     }
 }

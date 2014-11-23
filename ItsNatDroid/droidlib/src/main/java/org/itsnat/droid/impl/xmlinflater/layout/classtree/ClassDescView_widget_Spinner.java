@@ -9,8 +9,8 @@ import android.widget.Spinner;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -59,18 +59,18 @@ public class ClassDescView_widget_Spinner extends ClassDescViewBased
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 
-    private String findSpinnerModeAttribute(ViewParsed viewParsed)
+    private String findSpinnerModeAttribute(DOMView domView)
     {
-        AttrParsed attr = viewParsed.findAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
+        DOMAttr attr = domView.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "spinnerMode");
         if (attr == null) return null;
         return attr.getValue();
     }
 
     @Override
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,int idStyle,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         Context ctx = inflated.getContext();
-        String spinnerMode = findSpinnerModeAttribute(viewParsed);
+        String spinnerMode = findSpinnerModeAttribute(domView);
         return createSpinnerObject(idStyle, spinnerMode, ctx);
     }
 

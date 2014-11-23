@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -33,7 +33,7 @@ public class AttrDescViewReflecMethodLong extends AttrDescViewReflecMethod
         return long.class;
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         int convValue = getInteger(attr.getValue(),ctx); // No hay un Resources.getLong(), en Android aunque el atributo contenedor sea long el dato se suele manejar como int
         callMethod(view, convValue);

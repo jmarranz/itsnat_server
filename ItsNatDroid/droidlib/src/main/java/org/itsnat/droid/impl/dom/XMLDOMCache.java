@@ -10,7 +10,7 @@ import java.util.TreeMap;
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class XMLParsedCache<T extends XMLParsed>
+public class XMLDOMCache<T extends XMLDOM>
 {
     public static final int MAX_PAGES = 10;
 
@@ -25,18 +25,18 @@ public class XMLParsedCache<T extends XMLParsed>
     public synchronized T get(String markup,boolean updateTimestamp)
     {
         // Si la página es generada por ItsNat y tiene scripting de carga inline no habrá dos páginas iguales porque algunos ids usados cambian en cada carga
-        T xmlParsed = registryByMarkup.get(markup);
-        if (xmlParsed == null) return null;
+        T xmlDOM = registryByMarkup.get(markup);
+        if (xmlDOM == null) return null;
         if (updateTimestamp)
         {
-            long timestampOld = xmlParsed.updateTimestamp();
+            long timestampOld = xmlDOM.updateTimestamp();
             registryByTimestamp.remove(timestampOld);
-            registryByTimestamp.put(xmlParsed.getTimestamp(), xmlParsed); // Así hacemos ver que esta página se está usando recientemente y no será candidata a eliminarse
+            registryByTimestamp.put(xmlDOM.getTimestamp(), xmlDOM); // Así hacemos ver que esta página se está usando recientemente y no será candidata a eliminarse
         }
-        return xmlParsed;
+        return xmlDOM;
     }
 
-    public synchronized void put(String markup,T xmlParsed)
+    public synchronized void put(String markup,T xmlDOM)
     {
         if (registryByMarkup.size() == MAX_PAGES)
         {
@@ -46,9 +46,9 @@ public class XMLParsedCache<T extends XMLParsed>
             registryByMarkup.remove(oldestItem.getValue());
         }
         T res;
-        res = registryByMarkup.put(markup,xmlParsed);
+        res = registryByMarkup.put(markup,xmlDOM);
         if (res != null) throw new ItsNatDroidException("Internal Error");
-        res = registryByTimestamp.put(xmlParsed.getTimestamp(), xmlParsed); // No me puedo creer que un usuario cargue dos páginas en menos de 1ms
+        res = registryByTimestamp.put(xmlDOM.getTimestamp(), xmlDOM); // No me puedo creer que un usuario cargue dos páginas en menos de 1ms
         if (res != null) throw new ItsNatDroidException("Internal Error");
     }
 }

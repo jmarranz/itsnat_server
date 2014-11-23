@@ -3,10 +3,11 @@ package org.itsnat.droid.impl.parser;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
-import org.itsnat.droid.impl.dom.ElementParsed;
-import org.itsnat.droid.impl.dom.XMLParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrAsset;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -35,12 +36,12 @@ public abstract class XMLParserBase
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    protected void setRootElement(ElementParsed rootElement,XMLParsed xmlParsed)
+    protected void setRootElement(DOMElement rootElement,XMLDOM xmlDOM)
     {
-        xmlParsed.setRootElement(rootElement);
+        xmlDOM.setRootElement(rootElement);
     }
 
-    public ElementParsed parseRootElement(String rootElemName,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    public DOMElement parseRootElement(String rootElemName,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         int nsStart = parser.getNamespaceCount(parser.getDepth()-1);
         int nsEnd = parser.getNamespaceCount(parser.getDepth());
@@ -48,71 +49,71 @@ public abstract class XMLParserBase
         {
             String prefix = parser.getNamespacePrefix(i);
             String ns = parser.getNamespaceUri(i);
-            xmlParsed.addNamespace(prefix, ns);
+            xmlDOM.addNamespace(prefix, ns);
         }
 
-        if (xmlParsed.getAndroidNSPrefix() == null)
+        if (xmlDOM.getAndroidNSPrefix() == null)
             throw new ItsNatDroidException("Missing android namespace declaration in root element");
 
 
-        ElementParsed rootElement = createRootElementAndFillAttributes(rootElemName, parser,xmlParsed);
+        DOMElement rootElement = createRootElementAndFillAttributes(rootElemName, parser, xmlDOM);
 
-        processChildElements(rootElement,parser,xmlParsed);
+        processChildElements(rootElement,parser, xmlDOM);
 
         return rootElement;
     }
 
-    protected ElementParsed createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLParsed xmlParsed)
+    protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM)
     {
-        ElementParsed rootElement = createRootElement(name);
+        DOMElement rootElement = createRootElement(name);
 
-        setRootElement(rootElement,xmlParsed); // Cuanto antes
+        setRootElement(rootElement, xmlDOM); // Cuanto antes
 
-        fillAttributesAndAddElement(null, rootElement,parser,xmlParsed);
+        fillAttributesAndAddElement(null, rootElement,parser, xmlDOM);
 
         return rootElement;
     }
 
-    protected ElementParsed createElementAndFillAttributesAndAdd(String name, ElementParsed parentElement, XmlPullParser parser,XMLParsed xmlParsed)
+    protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM)
     {
         // parentElement es null en el caso de parseo de fragment
-        ElementParsed element = createRootElement(name);
+        DOMElement element = createRootElement(name);
 
-        fillAttributesAndAddElement(parentElement, element,parser,xmlParsed);
+        fillAttributesAndAddElement(parentElement, element,parser, xmlDOM);
 
         return element;
     }
 
-    protected void fillAttributesAndAddElement(ElementParsed parentElement, ElementParsed element,XmlPullParser parser,XMLParsed xmlParsed)
+    protected void fillAttributesAndAddElement(DOMElement parentElement, DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
     {
-        fillElementAttributes(element,parser,xmlParsed);
-        if (parentElement != null) parentElement.addChild(element);
+        fillElementAttributes(element,parser, xmlDOM);
+        if (parentElement != null) parentElement.addChildDOMElement(element);
     }
 
-    protected void fillElementAttributes(ElementParsed element,XmlPullParser parser,XMLParsed xmlParsed)
+    protected void fillElementAttributes(DOMElement element,XmlPullParser parser,XMLDOM xmlDOM)
     {
         int len = parser.getAttributeCount();
-        element.initAttribList(len);
+        element.initDOMAttribList(len);
         for (int i = 0; i < len; i++)
         {
             String namespaceURI = parser.getAttributeNamespace(i);
             if ("".equals(namespaceURI)) namespaceURI = null; // Por estandarizar
             String name = parser.getAttributeName(i); // El nombre devuelto no contiene el namespace
             String value = parser.getAttributeValue(i);
-            addAttribute(element, namespaceURI, name, value,xmlParsed);
+            addDOMAttr(element, namespaceURI, name, value, xmlDOM);
         }
     }
 
-    protected void processChildElements(ElementParsed parentElement,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    protected void processChildElements(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        ElementParsed childView = parseNextChild(parentElement,parser,xmlParsed);
+        DOMElement childView = parseNextChild(parentElement,parser, xmlDOM);
         while (childView != null)
         {
-            childView = parseNextChild(parentElement,parser,xmlParsed);
+            childView = parseNextChild(parentElement,parser, xmlDOM);
         }
     }
 
-    private ElementParsed parseNextChild(ElementParsed parentElement,XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    private DOMElement parseNextChild(DOMElement parentElement,XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.END_TAG)
         {
@@ -121,17 +122,17 @@ public abstract class XMLParserBase
 
             String name = parser.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
-            ElementParsed element = processElement(name, parentElement, parser,xmlParsed);
+            DOMElement element = processElement(name, parentElement, parser, xmlDOM);
             if (element == null) continue; // Se ignora
             return element;
         }
         return null;
     }
 
-    protected ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        ElementParsed element = createElementAndFillAttributesAndAdd(name, parentElement, parser,xmlParsed);
-        processChildElements(element,parser,xmlParsed);
+        DOMElement element = createElementAndFillAttributesAndAdd(name, parentElement, parser, xmlDOM);
+        processChildElements(element,parser, xmlDOM);
         return element;
     }
 
@@ -163,21 +164,21 @@ public abstract class XMLParserBase
         throw new ItsNatDroidException("INTERNAL ERROR: NO ROOT VIEW");
     }
 
-    protected AttrParsed createAttribute(String namespaceURI,String name,String value)
-    {
-        return AttrParsed.create(namespaceURI, name, value);
-    }
 
-    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)
+    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOM)
     {
-        AttrParsed attrib = createAttribute(namespaceURI,name,value);
-        element.addAttribute(attrib);
-        if (attrib instanceof AttrParsedRemote)
+        DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
+        element.addDOMAttribute(attrib);
+        if (attrib instanceof DOMAttrRemote)
         {
-            xmlParsed.addAttributeRemote((AttrParsedRemote)attrib);
+            xmlDOM.addDOMAttrRemote((DOMAttrRemote) attrib);
+        }
+        else if (attrib instanceof DOMAttrAsset)
+        {
+            xmlDOM.addDOMAttrAsset((DOMAttrAsset) attrib);
         }
     }
 
-    protected abstract ElementParsed createRootElement(String name);
+    protected abstract DOMElement createRootElement(String name);
 
 }

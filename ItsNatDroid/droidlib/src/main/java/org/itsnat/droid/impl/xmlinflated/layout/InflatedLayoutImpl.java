@@ -7,9 +7,9 @@ import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
-import org.itsnat.droid.impl.dom.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -27,15 +27,15 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     protected ViewMapByXMLId viewMapByXMLId;
     protected XMLInflaterLayout xmlInflater; // El InflatedLayoutImpl está "vivo" tras el inflado, pueden haber cambios de atributos e inserción de fragments, por eso necesitamos el XML inflater que se usó para inflar en tiempo de carga
 
-    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,LayoutParsed layoutParsed,Context ctx)
+    public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,XMLDOMLayout domLayout,Context ctx)
     {
-        super(itsNatDroid,layoutParsed,ctx);
+        super(itsNatDroid,domLayout,ctx);
         // rootView se define a posteriori
     }
 
-    public LayoutParsed getLayoutParsed()
+    public XMLDOMLayout getXMLDOMLayout()
     {
-        return (LayoutParsed)xmlParsed;
+        return (XMLDOMLayout) xmlDOM;
     }
 
     public XMLInflaterLayout getXMLInflaterLayout()
@@ -50,12 +50,12 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
 
     public String getAndroidNSPrefix()
     {
-        return getLayoutParsed().getAndroidNSPrefix();
+        return getXMLDOMLayout().getAndroidNSPrefix();
     }
 
     public MapLight<String,String> getNamespacesByPrefix()
     {
-        return getLayoutParsed().getNamespacesByPrefix();
+        return getXMLDOMLayout().getNamespacesByPrefix();
     }
 
     public String getNamespace(String prefix)
@@ -115,12 +115,12 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return viewMapByXMLId.findViewByXMLId(id);
     }
 
-    public View insertFragment(ViewParsed rootViewFragmentParsed)
+    public View insertFragment(DOMView rootDOMViewFragment)
     {
-        return getXMLInflaterLayout().insertFragment(rootViewFragmentParsed);
+        return getXMLInflaterLayout().insertFragment(rootDOMViewFragment);
     }
 
-    public boolean setAttribute(ClassDescViewBased classDesc,View view,AttrParsed attr,
+    public boolean setAttribute(ClassDescViewBased classDesc,View view,DOMAttr attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         return getXMLInflaterLayout().setAttribute(classDesc, view, attr,oneTimeAttrProcess, pending);

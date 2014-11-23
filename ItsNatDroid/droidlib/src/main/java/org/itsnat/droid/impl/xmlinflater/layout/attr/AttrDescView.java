@@ -5,8 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
@@ -45,7 +46,7 @@ public abstract class AttrDescView extends AttrDesc
         return class_R_styleable;
     }
 
-    public Drawable getDrawable(AttrParsed attr,Context ctx,XMLInflaterLayout xmlInflaterLayout)
+    public Drawable getDrawable(DOMAttr attr,Context ctx,XMLInflaterLayout xmlInflaterLayout)
     {
         PageImpl page = null;
         if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
@@ -53,13 +54,13 @@ public abstract class AttrDescView extends AttrDesc
         return getDrawable(attr,ctx,page);
     }
 
-    protected void processDrawableTask(AttrParsed attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
+    protected void processDrawableTask(DOMAttr attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
     {
-        if (attr instanceof AttrParsedRemote && !((AttrParsedRemote) attr).isDownloaded())
+        if (attr instanceof DOMAttrRemote && !((DOMAttrRemote) attr).isDownloaded())
         {
             // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
             // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
-            AttrParsedRemote attrRemote = (AttrParsedRemote) attr;
+            DOMAttrRemote attrRemote = (DOMAttrRemote) attr;
             downloadResources(attrRemote, task, xmlInflaterLayout);
         }
         else
@@ -68,7 +69,7 @@ public abstract class AttrDescView extends AttrDesc
         }
     }
 
-    private static void downloadResources(AttrParsedRemote attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
+    private static void downloadResources(DOMAttrRemote attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
     {
         InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
         PageImpl page = ClassDescViewBased.getPageImpl(inflated); // NO puede ser nulo
@@ -78,11 +79,13 @@ public abstract class AttrDescView extends AttrDesc
 
     protected void setAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        AttrParsed attr = AttrParsed.create(InflatedXML.XMLNS_ANDROID,getName(),value);
+        // Este método es llamado desde removeAttribute, cuyo valor será o @null o un recurso de Android, no esperamos
+        // nada dinámico (Remote o Asset), por eso hacemos cast sin complejos a AttrParsedLocalResource
+        DOMAttrLocalResource attr = (DOMAttrLocalResource) DOMAttr.create(InflatedXML.XMLNS_ANDROID, getName(), value);
         setAttribute(view, attr, xmlInflaterLayout,ctx,oneTimeAttrProcess,pending);
     }
 
-    public abstract void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
+    public abstract void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending);
 
     public abstract void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx);
 }

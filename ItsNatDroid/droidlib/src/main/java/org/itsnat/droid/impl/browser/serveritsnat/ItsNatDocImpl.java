@@ -47,8 +47,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.ContinueEventListe
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.DroidEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.TimerEventListener;
 import org.itsnat.droid.impl.browser.serveritsnat.evtlistener.UserEventListener;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
@@ -417,9 +417,9 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         if (newChildToIn.hasAttributes())
         {
-            for (Map.Entry<String, AttrParsed> entry : newChildToIn.getAttributes().entrySet())
+            for (Map.Entry<String, DOMAttr> entry : newChildToIn.getAttributes().entrySet())
             {
-                AttrParsed attr = entry.getValue();
+                DOMAttr attr = entry.getValue();
                 inflated.setAttribute(classDesc, view, attr, oneTimeAttrProcess,(PendingPostInsertChildrenTasks)null);
             }
         }
@@ -527,7 +527,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         }
 
-        AttrParsed attr = AttrParsed.create(namespaceURI, name, value);
+        DOMAttr attr = DOMAttr.create(namespaceURI, name, value);
 
         if (node instanceof NodeToInsertImpl)
         {
@@ -1310,7 +1310,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         .request(!sync);
     }
 
-    public void downloadResources(AttrParsedRemote attr,final Runnable task)
+    public void downloadResources(DOMAttrRemote attr,final Runnable task)
     {
         OnHttpRequestListener listener = new OnHttpRequestListener()
         {

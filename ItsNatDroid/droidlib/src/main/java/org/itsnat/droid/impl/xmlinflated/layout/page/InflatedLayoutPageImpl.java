@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
@@ -19,9 +19,9 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
 {
     protected PageImpl page;
 
-    public InflatedLayoutPageImpl(PageImpl page,LayoutParsed layoutParsed,Context ctx)
+    public InflatedLayoutPageImpl(PageImpl page,XMLDOMLayout domLayout,Context ctx)
     {
-        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), layoutParsed, ctx);
+        super(page.getItsNatDroidBrowserImpl().getItsNatDroidImpl(), domLayout, ctx);
         this.page = page;
     }
 
@@ -48,7 +48,7 @@ public class InflatedLayoutPageImpl extends InflatedLayoutImpl
         return -1; // No es hijo directo
     }
 
-    public void setAttribute(View view, AttrParsed attr)
+    public void setAttribute(View view, DOMAttr attr)
     {
         getXMLLayoutInflaterPage().setAttribute(view,attr);
     }

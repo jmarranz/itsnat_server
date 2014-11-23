@@ -1,4 +1,5 @@
 
+* Evitar el uso de Activity o Context en la salida de los AsyncTask, revisar el uso de Activity en TestRemotePageBase
 
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone
 

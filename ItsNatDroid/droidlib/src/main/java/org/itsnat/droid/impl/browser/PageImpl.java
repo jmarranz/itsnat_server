@@ -17,7 +17,7 @@ import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.UserData;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
@@ -67,11 +67,11 @@ public class PageImpl implements Page
         inflateLayoutRequest.setContext(pageRequest.getContext());
         if (inflateLayoutListener != null) inflateLayoutRequest.setAttrLayoutInflaterListener(inflateLayoutListener);
 
-        LayoutParsed layoutParsed = pageReqResult.getLayoutParsed();
+        XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
 
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl)inflateLayoutRequest.inflateLayoutInternal(layoutParsed, loadScriptArr, scriptList, this);
+        this.inflated = (InflatedLayoutPageImpl)inflateLayoutRequest.inflateLayoutInternal(domLayout, loadScriptArr, scriptList, this);
 
         String loadScript = loadScriptArr[0];
 

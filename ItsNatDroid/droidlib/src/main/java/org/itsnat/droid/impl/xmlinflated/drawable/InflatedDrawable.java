@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 
 /**
@@ -15,14 +15,14 @@ public abstract class InflatedDrawable extends InflatedXML
 {
     protected Drawable drawable;
 
-    public InflatedDrawable(ItsNatDroidImpl itsNatDroid,DrawableParsed drawableParsed,Context ctx)
+    public InflatedDrawable(ItsNatDroidImpl itsNatDroid,XMLDOMDrawable xmlDOMDrawable,Context ctx)
     {
-        super(itsNatDroid,drawableParsed,ctx);
+        super(itsNatDroid, xmlDOMDrawable,ctx);
     }
 
-    public DrawableParsed getDrawableParsed()
+    public XMLDOMDrawable getXMLDOMDrawable()
     {
-        return (DrawableParsed)xmlParsed;
+        return (XMLDOMDrawable) xmlDOM;
     }
 
     public Drawable getDrawable()

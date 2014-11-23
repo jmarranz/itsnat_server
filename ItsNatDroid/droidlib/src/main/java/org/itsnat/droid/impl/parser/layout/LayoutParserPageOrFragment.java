@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.parser.layout;
 
-import org.itsnat.droid.impl.dom.XMLParsed;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptInlineParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptRemoteParsed;
-import org.itsnat.droid.impl.dom.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -20,40 +20,40 @@ public abstract class LayoutParserPageOrFragment extends LayoutParser
     }
 
     @Override
-    protected void parseScriptElement(XmlPullParser parser, ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    protected void parseScriptElement(XmlPullParser parser, DOMView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
-        LayoutParsed layoutParsed = (LayoutParsed)xmlParsed;
+        XMLDOMLayout domLayout = (XMLDOMLayout) xmlDOM;
 
         String src = findAttributeFromParser(null, "src", parser);
         if (src != null)
         {
-            addScriptRemoteParsed(src,layoutParsed);
+            addDOMScriptRemote(src, domLayout);
         }
         else
         {
-            addScriptInlineParsed(parser,layoutParsed);
+            addDOMScriptInline(parser, domLayout);
         }
 
         while (parser.next() != XmlPullParser.END_TAG) /*nop*/ ;
     }
 
-    protected void addScriptRemoteParsed(String src,LayoutParsed layoutParsed)
+    protected void addDOMScriptRemote(String src, XMLDOMLayout domLayout)
     {
         // Si loadingPage es true es el caso de carga de página, pero si serverVersion es null dicha página
         // NO es servida por ItsNat, tenemos que cargar asíncronamente el archivo script pues este es el hilo UI :(
         // Si loadScript es null estamos en un evento (inserción de un fragment)
 
-        ScriptRemoteParsed script = new ScriptRemoteParsed(src);
-        layoutParsed.addScript(script);
+        DOMScriptRemote script = new DOMScriptRemote(src);
+        domLayout.addDOMScript(script);
     }
 
-    protected void addScriptInlineParsed(XmlPullParser parser,LayoutParsed layoutParsed) throws IOException, XmlPullParserException
+    protected void addDOMScriptInline(XmlPullParser parser, XMLDOMLayout domLayout) throws IOException, XmlPullParserException
     {
         while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
 
         String code = parser.getText();
 
-        ScriptInlineParsed script = new ScriptInlineParsed(code);
-        layoutParsed.addScript(script);
+        DOMScriptInline script = new DOMScriptInline(code);
+        domLayout.addDOMScript(script);
     }
 }

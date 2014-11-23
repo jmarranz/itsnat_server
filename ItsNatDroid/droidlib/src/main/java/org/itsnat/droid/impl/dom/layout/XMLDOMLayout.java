@@ -1,24 +1,24 @@
 package org.itsnat.droid.impl.dom.layout;
 
-import org.itsnat.droid.impl.dom.XMLParsed;
+import org.itsnat.droid.impl.dom.XMLDOM;
 
 import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class LayoutParsed extends XMLParsed
+public class XMLDOMLayout extends XMLDOM
 {
     protected String loadScript;
-    protected ArrayList<ScriptParsed> scriptList;
+    protected ArrayList<DOMScript> scriptList;
 
-    public LayoutParsed()
+    public XMLDOMLayout()
     {
     }
 
-    public ViewParsed getRootView()
+    public DOMView getRootView()
     {
-        return (ViewParsed)getRootElement();
+        return (DOMView)getRootElement();
     }
 
     public String getLoadScript()
@@ -31,14 +31,14 @@ public class LayoutParsed extends XMLParsed
         this.loadScript = loadScript;
     }
 
-    public ArrayList<ScriptParsed> getScriptList()
+    public ArrayList<DOMScript> getDOMScriptList()
     {
         return scriptList;
     }
 
-    public void addScript(ScriptParsed script)
+    public void addDOMScript(DOMScript script)
     {
-        if (scriptList == null) this.scriptList = new ArrayList<ScriptParsed>();
+        if (scriptList == null) this.scriptList = new ArrayList<DOMScript>();
         scriptList.add(script);
     }
 
@@ -61,10 +61,10 @@ public class LayoutParsed extends XMLParsed
         return loadScript;
     }
 
-    public LayoutParsed partialClone()
+    public XMLDOMLayout partialClone()
     {
         // Reutilizamos t_odo excepto el loadScript pues es la única parte que cambia
-        LayoutParsed cloned = new LayoutParsed();
+        XMLDOMLayout cloned = new XMLDOMLayout();
         partialClone(cloned);
         cloned.scriptList = this.scriptList;
         return cloned;

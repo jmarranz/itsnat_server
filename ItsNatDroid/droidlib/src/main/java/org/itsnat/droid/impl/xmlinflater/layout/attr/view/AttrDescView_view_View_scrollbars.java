@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.view;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -38,7 +38,7 @@ public class AttrDescView_view_View_scrollbars extends AttrDescView
         this.methodSetFlags = new MethodContainer(parent.getDeclaredClass(),"setFlags",new Class[]{int.class, int.class});
     }
 
-    public void setAttribute(View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         int scrollbars = parseMultipleName(attr.getValue(), valueMap);
 

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
-import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
@@ -243,13 +243,13 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return dimension;
     }
 
-    public Drawable getDrawable(AttrParsed attr, Context ctx,PageImpl page)
+    public Drawable getDrawable(DOMAttr attr, Context ctx,PageImpl page)
     {
-        if (attr instanceof AttrParsedRemote)
+        if (attr instanceof DOMAttrRemote)
         {
-            AttrParsedRemote attrRem = (AttrParsedRemote)attr;
-            DrawableParsed drawableParsed = (DrawableParsed)attrRem.getRemoteResource();
-            InflatedDrawable inflatedDrawable = new InflatedDrawablePage(page,(DrawableParsed)drawableParsed,ctx);
+            DOMAttrRemote attrRem = (DOMAttrRemote)attr;
+            XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable)attrRem.getRemoteResource();
+            InflatedDrawable inflatedDrawable = new InflatedDrawablePage(page,(XMLDOMDrawable) xmlDOMDrawable,ctx);
             XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,ctx);
             return xmlInflater.inflateDrawable();
         }

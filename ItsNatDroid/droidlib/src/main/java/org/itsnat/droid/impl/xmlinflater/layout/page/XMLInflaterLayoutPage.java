@@ -8,7 +8,7 @@ import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -37,7 +37,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
         return getInflatedLayoutPageImpl().getPageImpl();
     }
 
-    public void setAttribute(View view, AttrParsed attr)
+    public void setAttribute(View view, DOMAttr attr)
     {
         ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
@@ -51,7 +51,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
 
-    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, AttrParsed attr,
+    public boolean setAttribute(ClassDescViewBased viewClassDesc, View view, DOMAttr attr,
                                 OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         String namespaceURI = attr.getNamespaceURI();

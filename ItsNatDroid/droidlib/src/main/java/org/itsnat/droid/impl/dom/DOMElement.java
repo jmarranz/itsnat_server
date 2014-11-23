@@ -8,14 +8,14 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 31/10/14.
  */
-public abstract class ElementParsed
+public abstract class DOMElement
 {
     protected String name;
-    protected ElementParsed parentElement; // Si es null es el root
-    protected ArrayList<AttrParsed> attribs;
-    protected LinkedList<ElementParsed> childList;
+    protected DOMElement parentElement; // Si es null es el root
+    protected ArrayList<DOMAttr> attribs;
+    protected LinkedList<DOMElement> childList;
 
-    public ElementParsed(String name,ElementParsed parentElement)
+    public DOMElement(String name,DOMElement parentElement)
     {
         this.name = name;
         this.parentElement = parentElement;
@@ -26,32 +26,32 @@ public abstract class ElementParsed
         return name;
     }
 
-    public ElementParsed getParentElement()
+    public DOMElement getParentDOMElement()
     {
         return parentElement;
     }
 
-    public ArrayList<AttrParsed> getAttributeList()
+    public ArrayList<DOMAttr> getDOMAttributeList()
     {
         return attribs;
     }
 
-    public void initAttribList(int count)
+    public void initDOMAttribList(int count)
     {
         // Aunque luego sea alguno menos (el style de los View no se guarda aquí por ej.) no importa, así evitamos que reconstruya el array interno
-        this.attribs = new ArrayList<AttrParsed>(count);
+        this.attribs = new ArrayList<DOMAttr>(count);
     }
 
-    public void addAttribute(AttrParsed attr)
+    public void addDOMAttribute(DOMAttr attr)
     {
         attribs.add(attr);
     }
 
-    public AttrParsed findAttribute(String namespaceURI, String name)
+    public DOMAttr findDOMAttribute(String namespaceURI, String name)
     {
         for(int i = 0; i < attribs.size(); i++)
         {
-            AttrParsed attr = attribs.get(i);
+            DOMAttr attr = attribs.get(i);
             String currNamespaceURI = attr.getNamespaceURI();
             if (!ValueUtil.equalsNullAllowed(currNamespaceURI, namespaceURI)) continue;
             String currName = attr.getName(); // El nombre devuelto no contiene el namespace
@@ -61,15 +61,15 @@ public abstract class ElementParsed
         return null;
     }
 
-    public LinkedList<ElementParsed> getChildList()
+    public LinkedList<DOMElement> getChildDOMElementList()
     {
         return childList;
     }
 
-    public void addChild(ElementParsed viewParsed)
+    public void addChildDOMElement(DOMElement domElement)
     {
-        if (childList == null) this.childList = new LinkedList<ElementParsed>();
-        childList.add(viewParsed);
+        if (childList == null) this.childList = new LinkedList<DOMElement>();
+        childList.add(domElement);
     }
 
 }

@@ -4,10 +4,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptInlineParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
+import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -59,16 +59,16 @@ public class FragmentLayoutInserter
 
 
         XMLInflateRegistry xmlInflateRegistry = pageLayout.getItsNatDroidImpl().getXMLInflateRegistry();
-        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup, pageLayout.getPageImpl().getItsNatServerVersion(),false,true);
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, pageLayout.getPageImpl().getItsNatServerVersion(), false, true);
 
 
-        LinkedList<ScriptParsed> scriptList = new LinkedList<ScriptParsed>();
+        LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
 
-        List<ScriptParsed> scriptListParsed = layoutParsed.getScriptList();
-        if (scriptListParsed != null)
-            scriptList.addAll(scriptListParsed);
+        List<DOMScript> domScriptList = domLayout.getDOMScriptList();
+        if (domScriptList != null)
+            scriptList.addAll(domScriptList);
 
-        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(layoutParsed.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
+        ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(domLayout.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
         int indexRef = viewRef != null ? InflatedLayoutPageImpl.getChildIndex(parentView,viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {
@@ -85,14 +85,14 @@ public class FragmentLayoutInserter
         executeScriptList(scriptList);
     }
 
-    private void executeScriptList(LinkedList<ScriptParsed> scriptList)
+    private void executeScriptList(LinkedList<DOMScript> scriptList)
     {
         if (scriptList.isEmpty()) return;
 
         Interpreter interp = itsNatDoc.getPageImpl().getInterpreter();
-        for (ScriptParsed script : scriptList)
+        for (DOMScript script : scriptList)
         {
-            if (script instanceof ScriptInlineParsed)
+            if (script instanceof DOMScriptInline)
             {
                 String code = script.getCode();
                 try
@@ -102,9 +102,9 @@ public class FragmentLayoutInserter
                 catch (EvalError ex) { throw new ItsNatDroidScriptException(ex, code); }
                 catch (Exception ex) { throw new ItsNatDroidScriptException(ex, code); }
             }
-            else if (script instanceof ScriptRemoteParsed)
+            else if (script instanceof DOMScriptRemote)
             {
-                String src = ((ScriptRemoteParsed)script).getSrc();
+                String src = ((DOMScriptRemote)script).getSrc();
                 itsNatDoc.downloadScript(src); // Se carga asíncronamente sin un orden claro
             }
         }

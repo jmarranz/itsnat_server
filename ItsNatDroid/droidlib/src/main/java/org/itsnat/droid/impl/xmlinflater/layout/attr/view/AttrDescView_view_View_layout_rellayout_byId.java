@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -24,7 +24,7 @@ public class AttrDescView_view_View_layout_rellayout_byId extends AttrDescView
         this.selector = selector;
     }
 
-    public void setAttribute(final View view, final AttrParsed attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr, XMLInflaterLayout xmlInflaterLayout,final Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
 
         Runnable task = new Runnable(){

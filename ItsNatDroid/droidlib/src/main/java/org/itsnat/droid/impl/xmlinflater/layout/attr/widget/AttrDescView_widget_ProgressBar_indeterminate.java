@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 import android.content.Context;
 import android.view.View;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -20,7 +20,7 @@ public class AttrDescView_widget_ProgressBar_indeterminate extends AttrDescViewR
         super(parent,name,defaultValue);
     }
 
-    public void setAttribute(final View view, final AttrParsed attr,final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, final DOMAttr attr,final XMLInflaterLayout xmlInflaterLayout, final Context ctx, final OneTimeAttrProcess oneTimeAttrProcess, final PendingPostInsertChildrenTasks pending)
     {
         if (oneTimeAttrProcess != null)
         {

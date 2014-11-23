@@ -6,7 +6,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.OnHttpRequestErrorListener;
 import org.itsnat.droid.OnHttpRequestListener;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<HttpRequestResultImpl>>
 {
-    protected List<AttrParsedRemote> attrRemoteList;
+    protected List<DOMAttrRemote> attrRemoteList;
     protected DownloadResourcesHttpClient parent;
     protected String method;
     protected String pageURLBase;
@@ -27,7 +27,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected int errorMode;
     protected XMLInflateRegistry xmlInflateRegistry;
 
-    public HttpDownloadResourcesAsyncTask(List<AttrParsedRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode)
     {
         PageImpl page = parent.getPageImpl();
 

@@ -2,7 +2,7 @@ package org.itsnat.droid.impl.browser.serveritsnat;
 
 import android.view.View;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.ValueUtil;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class NodeToInsertImpl extends NodeImpl
 {
     protected String viewName;
-    protected Map<String,AttrParsed> attribs;
+    protected Map<String,DOMAttr> attribs;
     protected boolean inserted = false;
 
     public NodeToInsertImpl(String viewName)
@@ -33,9 +33,9 @@ public class NodeToInsertImpl extends NodeImpl
         return (attribs != null && !attribs.isEmpty());
     }
 
-    public Map<String,AttrParsed> getAttributes()
+    public Map<String,DOMAttr> getAttributes()
     {
-        if (attribs == null) this.attribs = new HashMap<String,AttrParsed>();
+        if (attribs == null) this.attribs = new HashMap<String,DOMAttr>();
         return attribs;
     }
 
@@ -60,7 +60,7 @@ public class NodeToInsertImpl extends NodeImpl
         this.attribs = null;
     }
 
-    public AttrParsed getAttribute(String namespaceURI,String name)
+    public DOMAttr getAttribute(String namespaceURI,String name)
     {
         if (attribs == null) return null;
         String key = toKey(namespaceURI, name);
@@ -75,7 +75,7 @@ public class NodeToInsertImpl extends NodeImpl
     }
 */
 
-    public void setAttribute(AttrParsed attr)
+    public void setAttribute(DOMAttr attr)
     {
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace

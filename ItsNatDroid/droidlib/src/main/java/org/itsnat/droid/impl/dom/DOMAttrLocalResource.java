@@ -3,9 +3,9 @@ package org.itsnat.droid.impl.dom;
 /**
  * Created by jmarranz on 3/11/14.
  */
-public class AttrParsedDefault extends AttrParsed
+public class DOMAttrLocalResource extends DOMAttr
 {
-    public AttrParsedDefault(String namespaceURI, String name, String value)
+    public DOMAttrLocalResource(String namespaceURI, String name, String value)
     {
         super(namespaceURI, name, value);
     }

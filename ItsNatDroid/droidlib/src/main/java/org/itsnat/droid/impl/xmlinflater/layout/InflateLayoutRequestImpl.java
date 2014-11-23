@@ -8,7 +8,7 @@ import org.itsnat.droid.InflateLayoutRequest;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
@@ -92,15 +92,15 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
         boolean loadingPage = true;
         String itsNatServerVersion = null;
         boolean remotePageOrFrag = false;
-        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup,itsNatServerVersion,loadingPage,remotePageOrFrag);
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, loadingPage, remotePageOrFrag);
 
-        return inflateLayoutInternal(layoutParsed, null, null, null);
+        return inflateLayoutInternal(domLayout, null, null, null);
     }
 
-    public InflatedLayoutImpl inflateLayoutInternal(LayoutParsed layoutParsed, String[] loadScript, List<String> scriptList, PageImpl page)
+    public InflatedLayoutImpl inflateLayoutInternal(XMLDOMLayout domLayout, String[] loadScript, List<String> scriptList, PageImpl page)
     {
-        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, layoutParsed, ctx) :
-                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, layoutParsed, inflateLayoutListener,ctx);
+        InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(page, domLayout, ctx) :
+                                                           new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, inflateLayoutListener,ctx);
         XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflatedLayout(inflatedLayout,ctx);
         inflatedLayout.setXMLInflaterLayout(xmlInflater); // Se necesita después para la inserción de fragments, cambio de atributos etc
         xmlInflater.inflateLayout(loadScript, scriptList);

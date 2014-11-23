@@ -1,9 +1,9 @@
 package org.itsnat.droid.impl.parser.drawable;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.ElementParsed;
-import org.itsnat.droid.impl.dom.ElementParsedDefault;
-import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.DOMElementDefault;
+import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.parser.XMLParserBase;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -17,13 +17,13 @@ import java.io.StringReader;
  */
 public class DrawableParser extends XMLParserBase
 {
-    public static DrawableParsed parse(String markup)
+    public static XMLDOMDrawable parse(String markup)
     {
         StringReader input = new StringReader(markup);
         return parse(input);
     }
 
-    private static DrawableParsed parse(Reader input)
+    private static XMLDOMDrawable parse(Reader input)
     {
         try
         {
@@ -39,18 +39,18 @@ public class DrawableParser extends XMLParserBase
         }
     }
 
-    private static DrawableParsed parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private static XMLDOMDrawable parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
         DrawableParser drawableParser = new DrawableParser();
-        DrawableParsed drawableParsed = new DrawableParsed();
-        drawableParser.parseRootElement(rootElemName, parser, drawableParsed);
-        return drawableParsed;
+        XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
+        drawableParser.parseRootElement(rootElemName, parser, xmlDOMDrawable);
+        return xmlDOMDrawable;
     }
 
     @Override
-    protected ElementParsed createRootElement(String name)
+    protected DOMElement createRootElement(String name)
     {
-        return new ElementParsedDefault(name,null);
+        return new DOMElementDefault(name,null);
     }
 }

@@ -8,15 +8,16 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 3/11/14.
  */
-public abstract class XMLParsed
+public abstract class XMLDOM
 {
     protected long timestamp;
     protected MapLight<String,String> namespacesByPrefix = new MapLight<String,String>();
     protected String androidNSPrefix;
-    protected ElementParsed rootElement;
-    protected LinkedList<AttrParsedRemote> remoteAttribs;
+    protected DOMElement rootElement;
+    protected LinkedList<DOMAttrRemote> remoteAttribList;
+    protected LinkedList<DOMAttrAsset>  assetAttribList;
 
-    public XMLParsed()
+    public XMLDOM()
     {
         this.timestamp = System.currentTimeMillis();
     }
@@ -55,33 +56,44 @@ public abstract class XMLParsed
         return namespacesByPrefix.get(prefix);
     }
 
-    public ElementParsed getRootElement()
+    public DOMElement getRootElement()
     {
         return rootElement;
     }
 
-    public void setRootElement(ElementParsed rootElement)
+    public void setRootElement(DOMElement rootElement)
     {
         this.rootElement = rootElement;
     }
 
-    public LinkedList<AttrParsedRemote> getAttributeRemoteList()
+    public LinkedList<DOMAttrRemote> getDOMAttrRemoteList()
     {
-        return remoteAttribs;
+        return remoteAttribList;
     }
 
-    public void addAttributeRemote(AttrParsedRemote attr)
+    public void addDOMAttrAsset(DOMAttrAsset attr)
     {
-        if (remoteAttribs == null) this.remoteAttribs = new LinkedList<AttrParsedRemote>();
-        remoteAttribs.add(attr);
+        if (assetAttribList == null) this.assetAttribList = new LinkedList<DOMAttrAsset>();
+        assetAttribList.add(attr);
     }
 
-    public void partialClone(XMLParsed cloned)
+    public LinkedList<DOMAttrAsset> getDOMAttrAssetList()
+    {
+        return assetAttribList;
+    }
+
+    public void addDOMAttrRemote(DOMAttrRemote attr)
+    {
+        if (remoteAttribList == null) this.remoteAttribList = new LinkedList<DOMAttrRemote>();
+        remoteAttribList.add(attr);
+    }
+
+    public void partialClone(XMLDOM cloned)
     {
         cloned.timestamp = this.timestamp; // Antes de clonar se ha actualizado
         cloned.namespacesByPrefix = this.namespacesByPrefix;
         cloned.androidNSPrefix = this.androidNSPrefix;
         cloned.rootElement = this.rootElement;
-        cloned.remoteAttribs = this.remoteAttribs;
+        cloned.remoteAttribList = this.remoteAttribList;
     }
 }

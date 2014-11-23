@@ -1,22 +1,22 @@
 package org.itsnat.droid.impl.dom.layout;
 
-import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.DOMElement;
 
 /**
  * Created by jmarranz on 27/10/14.
  */
-public class ViewParsed extends ElementParsed
+public class DOMView extends DOMElement
 {
     protected String styleAttr;
 
-    public ViewParsed(String name,ViewParsed parentElement)
+    public DOMView(String name,DOMView parentElement)
     {
         super(name,parentElement);
     }
 
-    public ViewParsed getParentViewParsed()
+    public DOMView getParentDOMView()
     {
-        return (ViewParsed)getParentElement();
+        return (DOMView) getParentDOMElement();
     }
 
     public String getStyleAttr()
@@ -29,8 +29,8 @@ public class ViewParsed extends ElementParsed
         this.styleAttr = styleAttr;
     }
 
-    public void addChildView(ViewParsed viewParsed)
+    public void addChildView(DOMView domView)
     {
-        super.addChild(viewParsed);
+        super.addChildDOMElement(domView);
     }
 }

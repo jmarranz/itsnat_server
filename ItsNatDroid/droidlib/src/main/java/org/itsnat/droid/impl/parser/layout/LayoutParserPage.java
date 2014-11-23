@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -27,7 +27,7 @@ public class LayoutParserPage extends LayoutParserPageOrFragment
     }
 
     @Override
-    protected void addScriptRemoteParsed(String src,LayoutParsed layoutParsed)
+    protected void addDOMScriptRemote(String src, XMLDOMLayout domLayout)
     {
         if (PRELOAD_SCRIPTS && isPageServedByItsNat())
         {
@@ -37,11 +37,11 @@ public class LayoutParserPage extends LayoutParserPageOrFragment
             throw new ItsNatDroidException("Internal Error");
         }
 
-        super.addScriptRemoteParsed(src,layoutParsed);
+        super.addDOMScriptRemote(src, domLayout);
     }
 
     @Override
-    protected void addScriptInlineParsed(XmlPullParser parser,LayoutParsed layoutParsed) throws IOException, XmlPullParserException
+    protected void addDOMScriptInline(XmlPullParser parser, XMLDOMLayout domLayout) throws IOException, XmlPullParserException
     {
         boolean isLoadScript = isPageServedByItsNat() &&
                 parser.getAttributeCount() == 1 &&
@@ -54,10 +54,10 @@ public class LayoutParserPage extends LayoutParserPageOrFragment
             while (parser.next() != XmlPullParser.TEXT) /*nop*/ ;
             String code = parser.getText();
 
-            layoutParsed.setLoadScript(code);
+            domLayout.setLoadScript(code);
         }
         else
-            super.addScriptInlineParsed(parser,layoutParsed);
+            super.addDOMScriptInline(parser, domLayout);
     }
 
 }

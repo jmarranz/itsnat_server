@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 
 /**
  * Created by jmarranz on 27/10/14.
@@ -8,12 +8,12 @@ import org.itsnat.droid.impl.dom.layout.LayoutParsed;
 public class PageRequestResult
 {
     protected HttpRequestResultImpl httpReqResult;
-    protected LayoutParsed layoutParsed;
+    protected XMLDOMLayout domLayout;
 
-    public PageRequestResult(HttpRequestResultImpl httpReqResult,LayoutParsed layoutParsed)
+    public PageRequestResult(HttpRequestResultImpl httpReqResult,XMLDOMLayout domLayout)
     {
         this.httpReqResult = httpReqResult;
-        this.layoutParsed = layoutParsed;
+        this.domLayout = domLayout;
     }
 
     public HttpRequestResultImpl getHttpRequestResult()
@@ -21,8 +21,8 @@ public class PageRequestResult
         return httpReqResult;
     }
 
-    public LayoutParsed getLayoutParsed()
+    public XMLDOMLayout getXMLDOMLayout()
     {
-        return layoutParsed;
+        return domLayout;
     }
 }

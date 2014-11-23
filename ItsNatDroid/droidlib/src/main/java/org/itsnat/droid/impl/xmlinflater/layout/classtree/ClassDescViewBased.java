@@ -15,8 +15,8 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.NodeToInsertImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -112,7 +112,7 @@ public class ClassDescViewBased extends ClassDesc<View>
         return isStyleAttribute(namespaceURI,name); // Se trata de forma especial en otro lugar
     }
 
-    public boolean setAttribute(View view,AttrParsed attr,XMLInflaterLayout xmlInflaterLayout,Context ctx,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
+    public boolean setAttribute(View view,DOMAttr attr,XMLInflaterLayout xmlInflaterLayout,Context ctx,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)
     {
         if (!isInit()) init();
 
@@ -266,7 +266,7 @@ public class ClassDescViewBased extends ClassDesc<View>
 
     protected static String findAttributeFromRemote(String namespaceURI, String attrName, NodeToInsertImpl newChildToIn)
     {
-        AttrParsed attr = newChildToIn.getAttribute(namespaceURI,attrName);
+        DOMAttr attr = newChildToIn.getAttribute(namespaceURI,attrName);
         if (attr == null) return null;
         return attr.getValue();
     }
@@ -292,21 +292,21 @@ public class ClassDescViewBased extends ClassDesc<View>
         return createViewObject(ctx,idStyle,pending);
     }
 
-    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed)
+    private int findStyleAttributeFromParser(InflatedLayoutImpl inflated,DOMView domView)
     {
-        String value = viewParsed.getStyleAttr();
+        String value = domView.getStyleAttr();
         if (value == null) return 0;
         Context ctx = inflated.getContext();
         return getXMLInflateRegistry().getIdentifier(value, ctx);
     }
 
-    public View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,PendingPostInsertChildrenTasks pending)
+    public View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
-        int idStyle = findStyleAttributeFromParser(inflated,viewParsed);
-        return createViewObjectFromParser(inflated,viewParsed,idStyle,pending);
+        int idStyle = findStyleAttributeFromParser(inflated, domView);
+        return createViewObjectFromParser(inflated, domView,idStyle,pending);
     }
 
-    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,ViewParsed viewParsed,int idStyle,PendingPostInsertChildrenTasks pending)
+    protected View createViewObjectFromParser(InflatedLayoutImpl inflated,DOMView domView,int idStyle,PendingPostInsertChildrenTasks pending)
     {
         // Se redefine completamente en el caso de Spinner
         Context ctx = inflated.getContext();

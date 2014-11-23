@@ -3,7 +3,7 @@ package org.itsnat.droid.impl.xmlinflated;
 import android.content.Context;
 
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.XMLParsed;
+import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 /**
@@ -14,14 +14,14 @@ public abstract class InflatedXML
     public static final String XMLNS_ANDROID = "http://schemas.android.com/apk/res/android";
 
     protected ItsNatDroidImpl itsNatDroid;
-    protected XMLParsed xmlParsed;
+    protected XMLDOM xmlDOM;
     protected Context ctx;
 
-    protected InflatedXML(ItsNatDroidImpl itsNatDroid, XMLParsed xmlParsed, Context ctx)
+    protected InflatedXML(ItsNatDroidImpl itsNatDroid, XMLDOM xmlDOM, Context ctx)
     {
         // Este constructor puede llegar a ejecutarse en un hilo NO UI, no hacer nada más
         this.itsNatDroid = itsNatDroid;
-        this.xmlParsed = xmlParsed;
+        this.xmlDOM = xmlDOM;
         this.ctx = ctx;
     }
 

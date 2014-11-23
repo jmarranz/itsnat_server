@@ -5,8 +5,8 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.ElementParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
@@ -56,7 +56,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         return false;
     }
 
-    public boolean setAttribute(Drawable draw, AttrParsed attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(Drawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 
@@ -162,5 +162,5 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
     }
 
     public abstract Class<Tdrawable> getDrawableClass();
-    public abstract Drawable createRootDrawable(ElementParsed rootElem,InflatedDrawable inflatedDrawable,Context ctx);
+    public abstract Drawable createRootDrawable(DOMElement rootElem,InflatedDrawable inflatedDrawable,Context ctx);
 }

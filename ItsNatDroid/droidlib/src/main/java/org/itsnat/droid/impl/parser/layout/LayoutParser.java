@@ -1,10 +1,10 @@
 package org.itsnat.droid.impl.parser.layout;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.ElementParsed;
-import org.itsnat.droid.impl.dom.XMLParsed;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
-import org.itsnat.droid.impl.dom.layout.ViewParsed;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.parser.XMLParserBase;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,13 +19,13 @@ import java.io.StringReader;
  */
 public abstract class LayoutParser extends XMLParserBase
 {
-    public LayoutParsed parse(String markup)
+    public XMLDOMLayout parse(String markup)
     {
         StringReader input = new StringReader(markup);
         return parse(input);
     }
 
-    private LayoutParsed parse(Reader input)
+    private XMLDOMLayout parse(Reader input)
     {
         try
         {
@@ -41,41 +41,41 @@ public abstract class LayoutParser extends XMLParserBase
         }
     }
 
-    private LayoutParsed parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private XMLDOMLayout parse(XmlPullParser parser) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-        LayoutParsed layoutParsed = new LayoutParsed();
-        parseRootElement(rootElemName,parser,layoutParsed);
-        return layoutParsed;
+        XMLDOMLayout domLayout = new XMLDOMLayout();
+        parseRootElement(rootElemName,parser,domLayout);
+        return domLayout;
     }
 
     @Override
-    protected ElementParsed createRootElement(String name)
+    protected DOMElement createRootElement(String name)
     {
-        return new ViewParsed(name,null);
+        return new DOMView(name,null);
     }
 
 
     @Override
-    protected ElementParsed processElement(String name, ElementParsed parentElement, XmlPullParser parser,XMLParsed xmlParsed) throws IOException, XmlPullParserException
+    protected DOMElement processElement(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM) throws IOException, XmlPullParserException
     {
         if (name.equals("script"))
         {
-            parseScriptElement(parser,(ViewParsed)parentElement,xmlParsed);
+            parseScriptElement(parser,(DOMView)parentElement, xmlDOM);
             return null; // Ignorar porque "desaparece"
         }
-        else return super.processElement(name,parentElement,parser,xmlParsed);
+        else return super.processElement(name,parentElement,parser, xmlDOM);
     }
 
     @Override
-    protected void addAttribute(ElementParsed element,String namespaceURI,String name,String value,XMLParsed xmlParsed)
+    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOM)
     {
-        ViewParsed viewParsed = (ViewParsed)element;
-        if (viewParsed.getStyleAttr() == null && (namespaceURI == null) && "style".equals(name))
-            viewParsed.setStyleAttr(value);
+        DOMView domView = (DOMView)element;
+        if (domView.getStyleAttr() == null && (namespaceURI == null) && "style".equals(name))
+            domView.setStyleAttr(value);
         else
-            super.addAttribute(element, namespaceURI, name, value, xmlParsed);
+            super.addDOMAttr(element, namespaceURI, name, value, xmlDOM);
     }
 
-    protected abstract void parseScriptElement(XmlPullParser parser,ViewParsed viewParent,XMLParsed xmlParsed) throws IOException, XmlPullParserException;
+    protected abstract void parseScriptElement(XmlPullParser parser,DOMView viewParent,XMLDOM xmlDOM) throws IOException, XmlPullParserException;
 }

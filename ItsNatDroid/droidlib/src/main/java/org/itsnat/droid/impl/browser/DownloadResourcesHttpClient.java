@@ -6,7 +6,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
@@ -23,15 +23,15 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         super(itsNatDoc);
     }
 
-    public List<HttpRequestResultImpl> request(AttrParsedRemote attrRemote,boolean async)
+    public List<HttpRequestResultImpl> request(DOMAttrRemote attrRemote,boolean async)
     {
-        List<AttrParsedRemote> attrRemoteList = new LinkedList<AttrParsedRemote>();
+        List<DOMAttrRemote> attrRemoteList = new LinkedList<DOMAttrRemote>();
         attrRemoteList.add(attrRemote);
 
         return request(attrRemoteList,async);
     }
 
-    public List<HttpRequestResultImpl> request(List<AttrParsedRemote> attrRemoteList,boolean async)
+    public List<HttpRequestResultImpl> request(List<DOMAttrRemote> attrRemoteList,boolean async)
     {
         if (async)
         {
@@ -41,7 +41,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         else return requestSync(attrRemoteList);
     }
 
-    public List<HttpRequestResultImpl> requestSync(List<AttrParsedRemote> attrRemoteList)
+    public List<HttpRequestResultImpl> requestSync(List<DOMAttrRemote> attrRemoteList)
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
@@ -79,7 +79,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         return resultList;
     }
 
-    public void requestAsync(List<AttrParsedRemote> attrRemoteList)
+    public void requestAsync(List<DOMAttrRemote> attrRemoteList)
     {
         String url = getFinalURL();
         HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,httpParamsRequest,listener,errorListener,errorMode);

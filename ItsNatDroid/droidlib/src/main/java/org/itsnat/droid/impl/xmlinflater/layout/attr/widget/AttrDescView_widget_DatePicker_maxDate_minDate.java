@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.dom.AttrParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -44,7 +44,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
         this.methodMaxMinDate = new MethodContainer<Calendar>(parent.getDeclaredClass(),methodName,new Class[]{long.class});
     }
 
-    public void setAttribute(final View view, AttrParsed attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
+    public void setAttribute(final View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         final String date = getString(attr.getValue(),ctx);
 

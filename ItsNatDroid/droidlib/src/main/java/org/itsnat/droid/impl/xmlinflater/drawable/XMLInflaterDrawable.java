@@ -3,9 +3,9 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.impl.dom.AttrParsed;
-import org.itsnat.droid.impl.dom.ElementParsed;
-import org.itsnat.droid.impl.dom.drawable.DrawableParsed;
+import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
+import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
@@ -38,43 +38,43 @@ public class XMLInflaterDrawable extends XMLInflater
 
     public Drawable inflateDrawable()
     {
-        return inflateRoot(inflatedDrawable.getDrawableParsed());
+        return inflateRoot(inflatedDrawable.getXMLDOMDrawable());
     }
 
 
-    private Drawable inflateRoot(DrawableParsed drawableParsed)
+    private Drawable inflateRoot(XMLDOMDrawable xmlDOMDrawable)
     {
-        ElementParsed rootElemParsed = drawableParsed.getRootElement();
+        DOMElement rootDOMElem = xmlDOMDrawable.getRootElement();
 
-        String name = rootElemParsed.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+        String name = rootDOMElem.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
 
         //PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        Drawable rootDrawable = createRootDrawableAndFillAttributes(name, rootElemParsed);
+        Drawable rootDrawable = createRootDrawableAndFillAttributes(name, rootDOMElem);
 
-        processChildElements(rootElemParsed,rootDrawable);
+        processChildElements(rootDOMElem,rootDrawable);
 
         //pending.executeTasks();
 
         return rootDrawable;
     }
 
-    public Drawable createRootDrawableAndFillAttributes(String name,ElementParsed rootElemParsed)
+    public Drawable createRootDrawableAndFillAttributes(String name,DOMElement rootDOMElem)
     {
         ClassDescDrawableMgr classDescViewMgr = inflatedDrawable.getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescDrawable classDesc = classDescViewMgr.get(name);
-        Drawable drawable = createRootDrawable(classDesc,rootElemParsed);
+        Drawable drawable = createRootDrawable(classDesc,rootDOMElem);
 
         setRootDrawable(drawable);
 
-        fillAttributes(classDesc, drawable, rootElemParsed,ctx);
+        fillAttributes(classDesc, drawable, rootDOMElem,ctx);
 
         return drawable;
     }
 
-    private Drawable createRootDrawable(ClassDescDrawable classDesc,ElementParsed rootElemParsed)
+    private Drawable createRootDrawable(ClassDescDrawable classDesc,DOMElement rootDOMElem)
     {
-        return classDesc.createRootDrawable(rootElemParsed,inflatedDrawable, ctx);
+        return classDesc.createRootDrawable(rootDOMElem,inflatedDrawable, ctx);
     }
 
     public void setRootDrawable(Drawable rootDrawable)
@@ -82,37 +82,37 @@ public class XMLInflaterDrawable extends XMLInflater
         inflatedDrawable.setDrawable(rootDrawable);
     }
 
-    private void fillAttributes(ClassDescDrawable classDesc,Drawable drawable,ElementParsed elemParsed,Context ctx)
+    private void fillAttributes(ClassDescDrawable classDesc,Drawable drawable,DOMElement domElement,Context ctx)
     {
-        ArrayList<AttrParsed> attribList = elemParsed.getAttributeList();
+        ArrayList<DOMAttr> attribList = domElement.getDOMAttributeList();
         if (attribList != null)
         {
             for (int i = 0; i < attribList.size(); i++)
             {
-                AttrParsed attr = attribList.get(i);
+                DOMAttr attr = attribList.get(i);
                 setAttribute(classDesc, drawable, attr,ctx);
             }
         }
     }
 
-    public boolean setAttribute(ClassDescDrawable classDesc,Drawable drawable,AttrParsed attr,Context ctx)
+    public boolean setAttribute(ClassDescDrawable classDesc,Drawable drawable,DOMAttr attr,Context ctx)
     {
         return classDesc.setAttribute(drawable,attr,this,ctx);
     }
 
-    protected void processChildElements(ElementParsed elemParsedParent, Drawable drawable)
+    protected void processChildElements(DOMElement domElemParent, Drawable drawable)
     {
-        LinkedList<ElementParsed> childViewList = elemParsedParent.getChildList();
+        LinkedList<DOMElement> childViewList = domElemParent.getChildDOMElementList();
         if (childViewList != null)
         {
-            for (ElementParsed childElemParsed : childViewList)
+            for (DOMElement childDOMElem : childViewList)
             {
-                inflateNextElement(childElemParsed,elemParsedParent, drawable);
+                inflateNextElement(childDOMElem,domElemParent, drawable);
             }
         }
     }
 
-    private void inflateNextElement(ElementParsed elemParsed,ElementParsed elemParsedParent, Drawable drawable)
+    private void inflateNextElement(DOMElement domElement,DOMElement domElementParent, Drawable drawable)
     {
         /*
         // Es llamado también para insertar fragmentos

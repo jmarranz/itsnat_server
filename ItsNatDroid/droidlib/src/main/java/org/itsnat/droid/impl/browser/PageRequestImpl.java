@@ -18,10 +18,10 @@ import org.itsnat.droid.OnPageLoadErrorListener;
 import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
-import org.itsnat.droid.impl.dom.AttrParsedRemote;
-import org.itsnat.droid.impl.dom.layout.LayoutParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptParsed;
-import org.itsnat.droid.impl.dom.layout.ScriptRemoteParsed;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.parser.layout.LayoutParserPage;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -245,7 +245,7 @@ public class PageRequestImpl implements PageRequest
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultImpl result,
-                                                             String pageURLBase,HttpConfig httpConfig,XMLInflateRegistry xmlInflateRegistry) throws Exception
+                                          String pageURLBase,HttpConfig httpConfig,XMLInflateRegistry xmlInflateRegistry) throws Exception
     {
         if (!result.isStatusOK())
         {
@@ -256,23 +256,23 @@ public class PageRequestImpl implements PageRequest
 
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion();
-        LayoutParsed layoutParsed = xmlInflateRegistry.getLayoutParsedCache(markup, itsNatServerVersion, true, true);
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true);
 
 
-        PageRequestResult pageReqResult = new PageRequestResult(result, layoutParsed);
+        PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
 
         if (!LayoutParserPage.PRELOAD_SCRIPTS || result.getItsNatServerVersion() == null)
         {
             // Página NO servida por ItsNat o bien se especifica que no se precargan, tenemos que descargar los <script src="..."> remótamente
-            ArrayList<ScriptParsed> scriptList = layoutParsed.getScriptList();
+            ArrayList<DOMScript> scriptList = domLayout.getDOMScriptList();
             if (scriptList != null)
             {
                 for (int i = 0; i < scriptList.size(); i++)
                 {
-                    ScriptParsed script = scriptList.get(i);
-                    if (script instanceof ScriptRemoteParsed)
+                    DOMScript script = scriptList.get(i);
+                    if (script instanceof DOMScriptRemote)
                     {
-                        ScriptRemoteParsed scriptRemote = (ScriptRemoteParsed) script;
+                        DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
                         String code = downloadScript(scriptRemote.getSrc(),pageURLBase,httpConfig);
                         scriptRemote.setCode(code);
                     }
@@ -281,13 +281,21 @@ public class PageRequestImpl implements PageRequest
         }
 
 
-        LinkedList<AttrParsedRemote> attrRemoteList = layoutParsed.getAttributeRemoteList();
+        LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
             HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry);
             resDownloader.downloadResources(attrRemoteList);
         }
 
+/*
+        LinkedList<DOMAttrAsset> attrAssetList = domLayout.getDOMAttrAssetList();
+        if (attrAssetList != null)
+        {
+            AssetResourceReader resReader = new AssetResourceReader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry);
+            resReader.readResources(attrAssetList);
+        }
+*/
         return pageReqResult;
     }
 
