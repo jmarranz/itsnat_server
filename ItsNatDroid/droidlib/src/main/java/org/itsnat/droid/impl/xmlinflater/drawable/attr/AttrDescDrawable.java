@@ -35,7 +35,7 @@ public abstract class AttrDescDrawable extends AttrDesc
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
             DOMAttrRemote attrRem = (DOMAttrRemote)attr;
-            byte[] byteArray = (byte[])attrRem.getRemoteResource();
+            byte[] byteArray = (byte[])attrRem.getResource();
             BitmapFactory.Options options = new BitmapFactory.Options();
             return BitmapFactory.decodeByteArray(byteArray,0,byteArray.length,options);
         }

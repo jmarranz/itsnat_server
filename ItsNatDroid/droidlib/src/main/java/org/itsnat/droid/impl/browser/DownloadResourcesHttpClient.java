@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.res.AssetManager;
 import android.os.AsyncTask;
 
 import org.apache.http.params.HttpParams;
@@ -57,12 +58,14 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
 
         XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
 
+        AssetManager assetManager = page.getContext().getResources().getAssets();
+
         List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
 
         try
         {
             HttpResourceDownloader resDownloader =
-                    new HttpResourceDownloader(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,xmlInflateRegistry);
+                    new HttpResourceDownloader(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList,resultList);
         }
         catch (Exception ex)
@@ -82,7 +85,8 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     public void requestAsync(List<DOMAttrRemote> attrRemoteList)
     {
         String url = getFinalURL();
-        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,httpParamsRequest,listener,errorListener,errorMode);
+        AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
+        HttpDownloadResourcesAsyncTask task = new HttpDownloadResourcesAsyncTask(attrRemoteList,this,method,url,httpParamsRequest,listener,errorListener,errorMode,assetManager);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

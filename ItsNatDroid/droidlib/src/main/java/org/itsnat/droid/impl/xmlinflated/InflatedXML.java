@@ -34,4 +34,9 @@ public abstract class InflatedXML
     {
         return itsNatDroid.getXMLInflateRegistry();
     }
+
+    public Context getContext()
+    {
+        return ctx;
+    }
 }

@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.res.AssetManager;
+
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
@@ -23,8 +25,9 @@ public class HttpResourceDownloader
     protected final Map<String,String> httpHeaders;
     protected final boolean sslSelfSignedAllowed;
     protected final XMLInflateRegistry xmlInflateRegistry;
+    protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, XMLInflateRegistry xmlInflateRegistry)
+    public HttpResourceDownloader(String pageURLBase, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
         this.httpContext = httpContext;
@@ -33,6 +36,7 @@ public class HttpResourceDownloader
         this.httpHeaders = httpHeaders;
         this.sslSelfSignedAllowed = sslSelfSignedAllowed;
         this.xmlInflateRegistry = xmlInflateRegistry;
+        this.assetManager = assetManager;
     }
 
     public void downloadResources(List<DOMAttrRemote> attrRemoteList) throws Exception
@@ -87,7 +91,7 @@ public class HttpResourceDownloader
                 try
                 {
                     String resourceMime = attr.getResourceMime();
-                    String url = HttpUtil.composeAbsoluteURL(attr.getRemoteLocation(), urlBase);
+                    String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
                     HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
                     processHttpRequestResultResource(url, attr, resultResource, resultList);
                 }
@@ -116,11 +120,11 @@ public class HttpResourceDownloader
             XMLDOM xmlDOM;
             if ("drawable".equals(resourceType))
             {
-                xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup); // Es multihilo el método
+                xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup,assetManager); // Es multihilo el método
             }
             else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
 
-            attr.setRemoteResource(xmlDOM);
+            attr.setResource(xmlDOM);
             LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
             if (attrRemoteList != null)
             {
@@ -131,7 +135,7 @@ public class HttpResourceDownloader
                  HttpUtil.MIME_JPEG.equals(resourceMime) ||
                  HttpUtil.MIME_GIF.equals(resourceMime))
         {
-            attr.setRemoteResource(resultRes.getResponseByteArray());
+            attr.setResource(resultRes.getResponseByteArray());
         }
         else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
     }

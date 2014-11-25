@@ -1,5 +1,6 @@
 package org.itsnat.droid.impl.domparser;
 
+import android.content.res.AssetManager;
 import android.util.Xml;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -8,11 +9,15 @@ import org.itsnat.droid.impl.dom.DOMAttrAsset;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
+import org.itsnat.droid.impl.util.IOUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 
 /**
@@ -20,8 +25,11 @@ import java.io.Reader;
  */
 public abstract class XMLDOMParser
 {
-    public XMLDOMParser()
+    protected AssetManager assetManager;
+
+    public XMLDOMParser(AssetManager assetManager)
     {
+        this.assetManager = assetManager;
     }
 
     public static XmlPullParser newPullParser(Reader input)
@@ -175,9 +183,37 @@ public abstract class XMLDOMParser
         }
         else if (attrib instanceof DOMAttrAsset)
         {
-            xmlDOM.addDOMAttrAsset((DOMAttrAsset) attrib);
+            DOMAttrAsset assetAttr = (DOMAttrAsset)attrib;
+
+            String location = assetAttr.getLocation();
+            InputStream ims = null;
+            byte[] res;
+            try
+            {
+                // AssetManager.open es multihilo
+                // http://www.netmite.com/android/mydroid/frameworks/base/libs/utils/AssetManager.cpp
+                ims = assetManager.open(location);
+                res = IOUtil.read(ims);
+            }
+            catch (IOException ex)
+            {
+                throw new ItsNatDroidException(ex);
+            }
+            finally
+            {
+                if (ims != null)
+                    try { ims.close(); }
+                    catch (IOException ex) { throw new ItsNatDroidException(ex); }
+            }
+            String markup = ValueUtil.toString(res,"UTF-8");
+
+            // Por ahora sólo drawable
+            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,assetManager);
+            assetAttr.setResource(xmlDOMDrawable);
         }
     }
+
+
 
     protected abstract DOMElement createRootElement(String name);
 

@@ -22,6 +22,7 @@ public class DOMAttrRemote extends DOMAttrDynamic
         return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
     }
 
+/*
     public String getRemoteLocation()
     {
         return getLocation();
@@ -37,4 +38,5 @@ public class DOMAttrRemote extends DOMAttrDynamic
     {
         setResource(remoteResource);
     }
+    */
 }

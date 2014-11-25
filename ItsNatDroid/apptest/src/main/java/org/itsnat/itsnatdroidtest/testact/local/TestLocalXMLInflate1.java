@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.graphics.PorterDuffColorFilter;
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.SpannableString;
@@ -412,11 +414,19 @@ public class TestLocalXMLInflate1
             assertNotNull((Drawable) TestUtil.getField(compLayout, "mDrawable"));
             assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
-            // android:hint (no tiene método get)
-            // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
-            assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
-            assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+            // android:tint (no tiene método get)
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) // LOLLIPOP = 21
+            {
+                // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
+                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
+                assertNotNull(((PorterDuffColorFilter) TestUtil.getField(parsedLayout, "mColorFilter")));
+            }
+            else
+            {
+                // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
+                assertEquals((ColorStateList) TestUtil.callMethod(compLayout, null, "getImageTintList", null), (ColorStateList) TestUtil.callMethod(parsedLayout, null, "getImageTintList", null));
 
+            }
         }
 
         childCount++;
@@ -684,8 +694,18 @@ public class TestLocalXMLInflate1
             }
 
             // Test android:shadowColor
-            assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),0xffff0000);
-            assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),(Integer) TestUtil.getField(parsedLayout.getPaint(), Paint.class, "shadowColor"));
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) // 4.0.3 Level 15
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),0xffff0000);
+                assertEquals((Integer) TestUtil.getField(compLayout.getPaint(), Paint.class, "shadowColor"),(Integer) TestUtil.getField(parsedLayout.getPaint(), Paint.class, "shadowColor"));
+            }
+            else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
+            {
+                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getShadowColor",null),0xffff0000);
+                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getShadowColor",null),(Integer) TestUtil.callMethod(parsedLayout,null,"getShadowColor",null));
+            }
+
 
             // Test android:shadowDx
             assertEquals((Float)TestUtil.getField(compLayout,"mShadowDx"),1.1f);
@@ -745,7 +765,10 @@ public class TestLocalXMLInflate1
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
             assertEquals(compTf.getStyle(),parsedTf.getStyle());
-            assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
+            else // A partir de Lollipop (level 21) es un long
+                assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));
         }
 
         childCount++;
@@ -872,7 +895,10 @@ public class TestLocalXMLInflate1
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
             assertEquals(compTf.getStyle(),parsedTf.getStyle());
-            assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+                assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
+            else // A partir de Lollipop (level 21) es un long
+                assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));
 
             // Test android:thumb
             assertNotNull((StateListDrawable) TestUtil.getField(compLayout,"mThumbDrawable"));

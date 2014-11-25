@@ -10,7 +10,6 @@ import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -71,8 +70,7 @@ public abstract class AttrDescView extends AttrDesc
 
     private static void downloadResources(DOMAttrRemote attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
     {
-        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-        PageImpl page = ClassDescViewBased.getPageImpl(inflated); // NO puede ser nulo
+        PageImpl page = ClassDescViewBased.getPageImpl(xmlInflaterLayout); // NO puede ser nulo
 
         page.getItsNatDocImpl().downloadResources(attr,task);
     }

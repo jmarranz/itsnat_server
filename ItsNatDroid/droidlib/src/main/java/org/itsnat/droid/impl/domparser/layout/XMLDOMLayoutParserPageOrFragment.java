@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.res.AssetManager;
+
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
@@ -15,8 +17,9 @@ import java.io.IOException;
  */
 public abstract class XMLDOMLayoutParserPageOrFragment extends XMLDOMLayoutParser
 {
-    public XMLDOMLayoutParserPageOrFragment()
+    public XMLDOMLayoutParserPageOrFragment(AssetManager assetManager)
     {
+        super(assetManager);
     }
 
     @Override

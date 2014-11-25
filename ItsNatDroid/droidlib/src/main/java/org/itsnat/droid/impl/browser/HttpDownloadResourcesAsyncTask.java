@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.browser;
 
+import android.content.res.AssetManager;
+
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
@@ -26,8 +28,9 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode;
     protected XMLInflateRegistry xmlInflateRegistry;
+    protected AssetManager assetManager;
 
-    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode)
+    public HttpDownloadResourcesAsyncTask(List<DOMAttrRemote> attrRemoteList,DownloadResourcesHttpClient parent, String method, String pageURLBase, HttpParams httpParamsRequest, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode,AssetManager assetManager)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -40,12 +43,13 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.errorListener = errorListener;
         this.errorMode = errorMode;
         this.xmlInflateRegistry = page.getItsNatDroidBrowserImpl().getItsNatDroidImpl().getXMLInflateRegistry();
+        this.assetManager = assetManager;
     }
 
     protected List<HttpRequestResultImpl> executeInBackground() throws Exception
     {
         HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry);
+                new HttpResourceDownloader(pageURLBase,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
         List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
         resDownloader.downloadResources(attrRemoteList,resultList);
         return resultList;

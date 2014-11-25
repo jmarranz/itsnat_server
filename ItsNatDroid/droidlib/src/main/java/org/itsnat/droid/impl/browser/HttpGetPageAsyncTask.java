@@ -1,6 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
-import android.content.Context;
+import android.content.res.AssetManager;
 
 import org.apache.http.params.HttpParams;
 import org.itsnat.droid.AttrDrawableInflaterListener;
@@ -23,7 +23,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final HttpConfig httpConfig;
     protected final XMLInflateRegistry xmlInflateRegistry;
     protected final AttrDrawableInflaterListener inflateDrawableListener;
-    protected final Context ctx; // No hay problemas de hilos, únicamente se pasa a un objeto resultado y dicho objeto no hace nada con él durante la ejecución del hilo
+    protected final AssetManager assetManager;
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url, HttpParams httpParamsRequest)
     {
@@ -34,7 +34,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.pageURLBase = pageRequest.getURLBase();
         this.xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
         this.inflateDrawableListener = pageRequest.getAttrDrawableInflaterListener();
-        this.ctx = pageRequest.getContext();
+        this.assetManager = pageRequest.getContext().getAssets();
 
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
         this.httpConfig = new HttpConfig(pageRequest);
@@ -44,7 +44,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     {
         HttpRequestResultImpl result = HttpUtil.httpGet(url, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, null, null);
 
-        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase,httpConfig,xmlInflateRegistry);
+        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase,httpConfig,xmlInflateRegistry,assetManager);
         return pageReqResult;
     }
 

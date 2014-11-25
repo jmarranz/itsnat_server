@@ -1,12 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.layout.classtree;
 
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodBoolean;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodColor;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDimensionInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodDrawable;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetBoolean;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_scaleType;
+import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_ImageView_tint;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -30,9 +30,7 @@ public class ClassDescView_widget_ImageView extends ClassDescViewBased
         addAttrDesc(new AttrDescViewReflecMethodDimensionInt(this,"maxWidth",(float)Integer.MAX_VALUE));
         addAttrDesc(new AttrDescView_widget_ImageView_scaleType(this));
         addAttrDesc(new AttrDescViewReflecMethodDrawable(this,"src","setImageDrawable","@null"));
-        addAttrDesc(new AttrDescViewReflecMethodColor(this,"tint","setColorFilter","#000000"));
-
-
+        addAttrDesc(new AttrDescView_widget_ImageView_tint(this));
     }
 }
 

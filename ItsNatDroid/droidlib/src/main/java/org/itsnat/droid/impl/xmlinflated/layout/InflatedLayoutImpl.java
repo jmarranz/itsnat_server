@@ -2,14 +2,15 @@ package org.itsnat.droid.impl.xmlinflated.layout;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.droid.ItsNatDroid;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -82,12 +83,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
     }
 
 
-
-    public Context getContext()
-    {
-        return ctx;
-    }
-
     private ViewMapByXMLId getViewMapByXMLId()
     {
         if (viewMapByXMLId == null) viewMapByXMLId = new ViewMapByXMLId(this);
@@ -126,5 +121,17 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
         return getXMLInflaterLayout().setAttribute(classDesc, view, attr,oneTimeAttrProcess, pending);
     }
 
-    public abstract AttrLayoutInflaterListener getAttrLayoutInflaterListener();
+    public static int getChildViewIndex(ViewGroup parentView, View view)
+    {
+        if (view.getParent() != parentView) throw new ItsNatDroidException("View must be a direct child of parent View");
+        // Esto es una chapuza pero no hay opción
+        int size = parentView.getChildCount();
+        for(int i = 0; i < size; i++)
+        {
+            if (parentView.getChildAt(i) == view)
+                return i;
+        }
+        return -1; // No es hijo directo
+    }
+
 }

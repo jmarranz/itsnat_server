@@ -9,4 +9,9 @@ public class DOMAttrLocalResource extends DOMAttr
     {
         super(namespaceURI, name, value);
     }
+
+    public static DOMAttrLocalResource createDOMAttrLocalResource(DOMAttrLocalResource attr, String newValue)
+    {
+        return new DOMAttrLocalResource(attr.getNamespaceURI(),attr.getName(),newValue);
+    }
 }

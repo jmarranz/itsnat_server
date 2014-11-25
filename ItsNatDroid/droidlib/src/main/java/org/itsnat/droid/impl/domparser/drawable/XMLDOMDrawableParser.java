@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.drawable;
 
+import android.content.res.AssetManager;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.DOMElementDefault;
@@ -17,18 +19,23 @@ import java.io.StringReader;
  */
 public class XMLDOMDrawableParser extends XMLDOMParser
 {
-    public static XMLDOMDrawable parse(String markup)
+    public XMLDOMDrawableParser(AssetManager assetManager)
     {
-        StringReader input = new StringReader(markup);
-        return parse(input);
+        super(assetManager);
     }
 
-    private static XMLDOMDrawable parse(Reader input)
+    public static XMLDOMDrawable parse(String markup,AssetManager assetManager)
+    {
+        StringReader input = new StringReader(markup);
+        return parse(input,assetManager);
+    }
+
+    private static XMLDOMDrawable parse(Reader input,AssetManager assetManager)
     {
         try
         {
             XmlPullParser parser = newPullParser(input);
-            return parse(parser);
+            return parse(parser,assetManager);
         }
         catch (IOException ex) { throw new ItsNatDroidException(ex); }
         catch (XmlPullParserException ex) { throw new ItsNatDroidException(ex); }
@@ -39,10 +46,10 @@ public class XMLDOMDrawableParser extends XMLDOMParser
         }
     }
 
-    private static XMLDOMDrawable parse(XmlPullParser parser) throws IOException, XmlPullParserException
+    private static XMLDOMDrawable parse(XmlPullParser parser,AssetManager assetManager) throws IOException, XmlPullParserException
     {
         String rootElemName = getRootElementName(parser);
-        XMLDOMDrawableParser drawableParser = new XMLDOMDrawableParser();
+        XMLDOMDrawableParser drawableParser = new XMLDOMDrawableParser(assetManager);
         XMLDOMDrawable xmlDOMDrawable = new XMLDOMDrawable();
         drawableParser.parseRootElement(rootElemName, parser, xmlDOMDrawable);
         return xmlDOMDrawable;

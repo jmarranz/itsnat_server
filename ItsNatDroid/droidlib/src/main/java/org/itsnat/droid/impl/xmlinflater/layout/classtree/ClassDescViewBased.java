@@ -22,7 +22,6 @@ import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
@@ -32,6 +31,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -96,10 +96,10 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (AttrDescView)getAttrDesc(name);
     }
 
-    public static PageImpl getPageImpl(InflatedLayoutImpl inflated)
+    public static PageImpl getPageImpl(XMLInflaterLayout xmlInflaterLayout)
     {
         // PUEDE SER NULL
-        return (inflated instanceof InflatedLayoutPageImpl) ? ((InflatedLayoutPageImpl) inflated).getPageImpl() : null;
+        return (xmlInflaterLayout instanceof XMLInflaterLayoutPage) ? ((XMLInflaterLayoutPage) xmlInflaterLayout).getPageImpl() : null;
     }
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
@@ -120,54 +120,61 @@ public class ClassDescViewBased extends ClassDesc<View>
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
         String value = attr.getValue();
 
-        if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
-
-        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        try
         {
-            AttrDescView attrDesc = getAttrDescView(name);
-            if (attrDesc != null)
+            if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
+
+            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+
+            if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                attrDesc.setAttribute(view, attr, xmlInflaterLayout,ctx, oneTimeAttrProcess,pending);
-            }
-            else
-            {
-                // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
-                // y tiene prioridad la clase más derivada
-                ClassDescViewBased parentClass = getParentClassDescViewBased();
-                if (parentClass != null)
+                AttrDescView attrDesc = getAttrDescView(name);
+                if (attrDesc != null)
                 {
-                    parentClass.setAttribute(view, attr,xmlInflaterLayout,ctx, oneTimeAttrProcess,pending);
+                    attrDesc.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
                 }
                 else
                 {
-                    // No se encuentra opción de proceso custom
-                    AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
-                    if (listener != null)
+                    // Es importante recorrer las clases de abajo a arriba pues algún atributo se repite en varios niveles tal y como minHeight y minWidth
+                    // y tiene prioridad la clase más derivada
+                    ClassDescViewBased parentClass = getParentClassDescViewBased();
+                    if (parentClass != null)
                     {
-                        PageImpl page = getPageImpl(inflated); // Puede ser null
-                        listener.setAttribute(page, view, namespaceURI, name, value);
+                        parentClass.setAttribute(view, attr, xmlInflaterLayout, ctx, oneTimeAttrProcess, pending);
+                    }
+                    else
+                    {
+                        // No se encuentra opción de proceso custom
+                        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                        if (listener != null)
+                        {
+                            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                            listener.setAttribute(page, view, namespaceURI, name, value);
+                        }
                     }
                 }
             }
-        }
-        else if (isXMLIdAttrAsDOM(namespaceURI, name))
-        {
-            inflated.setXMLId(value, view);
-        }
-        else
-        {
-            // No se encuentra opción de proceso custom
-            AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
-            if (listener != null)
+            else if (isXMLIdAttrAsDOM(namespaceURI, name))
             {
-                PageImpl page = getPageImpl(inflated); // Puede ser null
-                listener.setAttribute(page, view, namespaceURI, name, value);
+                inflated.setXMLId(value, view);
             }
-        }
+            else
+            {
+                // No se encuentra opción de proceso custom
+                AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                if (listener != null)
+                {
+                    PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                    listener.setAttribute(page, view, namespaceURI, name, value);
+                }
+            }
 
-        return true;
+            return true;
+        }
+        catch(Exception ex)
+        {
+            throw new ItsNatDroidException("Error setting attribute: " + namespaceURI + " " + name + " " + value + " in object " + view, ex);
+        }
     }
 
 
@@ -175,49 +182,56 @@ public class ClassDescViewBased extends ClassDesc<View>
     {
         if (!isInit()) init();
 
-        if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
-
-        InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
+        try
         {
-            AttrDescView attrDesc = getAttrDescView(name);
-            if (attrDesc != null)
+            if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
+
+            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
+
+            if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
-                attrDesc.removeAttribute(view,xmlInflaterLayout,ctx);
-            }
-            else
-            {
-                ClassDescViewBased parentClass = getParentClassDescViewBased();
-                if (parentClass != null)
+                AttrDescView attrDesc = getAttrDescView(name);
+                if (attrDesc != null)
                 {
-                    parentClass.removeAttribute(view, namespaceURI, name, xmlInflaterLayout,ctx);
+                    attrDesc.removeAttribute(view,xmlInflaterLayout,ctx);
                 }
                 else
                 {
-                    // No se encuentra opción de proceso custom
-                    AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
-                    if (listener != null)
+                    ClassDescViewBased parentClass = getParentClassDescViewBased();
+                    if (parentClass != null)
                     {
-                        PageImpl page = getPageImpl(inflated); // Puede ser null
-                        listener.removeAttribute(page, view, namespaceURI, name);
+                        parentClass.removeAttribute(view, namespaceURI, name, xmlInflaterLayout,ctx);
+                    }
+                    else
+                    {
+                        // No se encuentra opción de proceso custom
+                        AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                        if (listener != null)
+                        {
+                            PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                            listener.removeAttribute(page, view, namespaceURI, name);
+                        }
                     }
                 }
             }
-        }
-        else if (isXMLIdAttrAsDOM(namespaceURI, name))
-        {
-            inflated.unsetXMLId(view);
-        }
-        else
-        {
-            // No se encuentra opción de proceso custom
-            AttrLayoutInflaterListener listener = inflated.getAttrLayoutInflaterListener();
-            if (listener != null)
+            else if (isXMLIdAttrAsDOM(namespaceURI, name))
             {
-                PageImpl page = getPageImpl(inflated); // Puede ser null
-                listener.removeAttribute(page, view, namespaceURI, name);
+                inflated.unsetXMLId(view);
             }
+            else
+            {
+                // No se encuentra opción de proceso custom
+                AttrLayoutInflaterListener listener = xmlInflaterLayout.getAttrLayoutInflaterListener();
+                if (listener != null)
+                {
+                    PageImpl page = getPageImpl(xmlInflaterLayout); // Puede ser null
+                    listener.removeAttribute(page, view, namespaceURI, name);
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            throw new ItsNatDroidException("Error removing attribute: " + namespaceURI + " " + name + " in object " + view, ex);
         }
 
         return true;

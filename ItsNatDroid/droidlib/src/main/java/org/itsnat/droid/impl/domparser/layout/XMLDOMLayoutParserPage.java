@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.res.AssetManager;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.xmlpull.v1.XmlPullParser;
@@ -16,8 +18,9 @@ public class XMLDOMLayoutParserPage extends XMLDOMLayoutParserPageOrFragment
 
     protected final String itsNatServerVersion; // Puede ser null, layout no servido por ItsNat
 
-    public XMLDOMLayoutParserPage(String itsNatServerVersion)
+    public XMLDOMLayoutParserPage(AssetManager assetManager,String itsNatServerVersion)
     {
+        super(assetManager);
         this.itsNatServerVersion = itsNatServerVersion;
     }
 

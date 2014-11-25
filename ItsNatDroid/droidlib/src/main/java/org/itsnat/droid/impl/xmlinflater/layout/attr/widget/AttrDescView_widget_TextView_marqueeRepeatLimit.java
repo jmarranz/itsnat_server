@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -23,7 +24,7 @@ public class AttrDescView_widget_TextView_marqueeRepeatLimit extends AttrDescVie
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         if ("marquee_forever".equals(attr.getValue()))
-            attr = DOMAttr.create(attr, "-1");
+            attr = DOMAttrLocalResource.createDOMAttrLocalResource((DOMAttrLocalResource)attr, "-1");
         super.setAttribute(view,attr, xmlInflaterLayout, ctx, oneTimeAttrProcess,pending);
     }
 }

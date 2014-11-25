@@ -1,4 +1,13 @@
 
+
+* Probar en ICS (level 15)
+
+* Hacer caché en vez de llamar directamente a XMLDOMDrawableParser.parse(xmlText)
+
+  Hacer la construcción de los objetos en getXMLDOMDrawableCache(String markup) al igual que getXMLDOMLayoutCache
+
+* Pensar si permitir subitems remotos en un Drawable en assets
+
 * Evitar el uso de Activity o Context en la salida de los AsyncTask, revisar el uso de Activity en TestRemotePageBase
 
 * Permitir leer drawables de raw o assets. Implementar InflatedDrawableStandalone

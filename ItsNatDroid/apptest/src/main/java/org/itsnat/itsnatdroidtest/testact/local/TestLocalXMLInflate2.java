@@ -124,14 +124,30 @@ public class TestLocalXMLInflate2
             final CalendarView parsedLayout = (CalendarView) parsed.getChildAt(childCount);
 
             // Test android:dateTextAppearance
-            assertPositive((Integer) TestUtil.getField(compLayout, "mDateTextSize"));
-            assertEquals((Integer)TestUtil.getField(compLayout, "mDateTextSize"), (Integer)TestUtil.getField(parsedLayout, "mDateTextSize"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertPositive((Integer) TestUtil.getField(compLayout, "mDateTextSize"));
+                assertEquals((Integer) TestUtil.getField(compLayout, "mDateTextSize"), (Integer) TestUtil.getField(parsedLayout, "mDateTextSize"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertPositive((Integer) TestUtil.callMethod(compLayout,null,"getDateTextAppearance",null));
+                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getDateTextAppearance",null),TestUtil.callMethod(parsedLayout,null,"getDateTextAppearance",null));
+            }
 
             assertEquals(compLayout.getFirstDayOfWeek(),3);
             assertEquals(compLayout.getFirstDayOfWeek(),parsedLayout.getFirstDayOfWeek());
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mFocusedMonthDateColor"),0xffff0000);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mFocusedMonthDateColor"), (Integer)TestUtil.getField(parsedLayout, "mFocusedMonthDateColor"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mFocusedMonthDateColor"), 0xffff0000);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mFocusedMonthDateColor"), (Integer) TestUtil.getField(parsedLayout, "mFocusedMonthDateColor"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertEquals((Integer) TestUtil.callMethod(compLayout,null,"getFocusedMonthDateColor",null),0xffff0000);
+                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getFocusedMonthDateColor",null),TestUtil.callMethod(parsedLayout,null,"getFocusedMonthDateColor",null));
+            }
 
             // Test android:maxDate y minDate
             Locale locale = getCurrentLocale(compLayout);

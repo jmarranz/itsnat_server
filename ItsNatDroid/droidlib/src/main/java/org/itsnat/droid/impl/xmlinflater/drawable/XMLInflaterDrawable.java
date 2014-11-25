@@ -3,12 +3,18 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
+import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.drawable.stdalone.XMLInflaterDrawableStandalone;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -16,19 +22,34 @@ import java.util.LinkedList;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public class XMLInflaterDrawable extends XMLInflater
+public abstract class XMLInflaterDrawable extends XMLInflater
 {
     protected InflatedDrawable inflatedDrawable;
+    protected AttrDrawableInflaterListener inflateDrawableListener;
 
-    protected XMLInflaterDrawable(InflatedDrawable inflatedDrawable,Context ctx)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedDrawable,AttrDrawableInflaterListener inflateDrawableListener,Context ctx)
     {
         super(ctx);
         this.inflatedDrawable = inflatedDrawable;
+        this.inflateDrawableListener = inflateDrawableListener;
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,Context ctx)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,AttrDrawableInflaterListener inflateDrawableListener, Context ctx,PageImpl page)
     {
-        return new XMLInflaterDrawable(inflatedDrawable,ctx);
+        if (inflatedDrawable instanceof InflatedDrawablePage)
+        {
+            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,inflateDrawableListener,ctx,page);
+        }
+        else if (inflatedDrawable instanceof InflatedDrawableStandalone)
+        {
+            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,inflateDrawableListener,ctx);
+        }
+        return null; // Internal Error
+    }
+
+    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
+    {
+        return inflateDrawableListener;
     }
 
     public InflatedDrawable getInflatedDrawable()

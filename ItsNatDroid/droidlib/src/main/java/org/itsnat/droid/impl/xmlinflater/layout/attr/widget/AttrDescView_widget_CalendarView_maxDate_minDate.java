@@ -1,11 +1,14 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr.widget;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CalendarView;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
@@ -25,35 +28,52 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
     private static final String DEFAULT_MIN_DATE = "01/01/1900";
     private static final String DEFAULT_MAX_DATE = "01/01/2100";
 
-    protected MethodContainer<Boolean> methodParseDate;
+    protected FieldContainer<Object> fieldDelegate;
     protected FieldContainer<Locale> fieldCurrentLocale;
+    protected MethodContainer<Boolean> methodParseDate;
     protected FieldContainer<Calendar> fieldMaxMinDate;
 
     public AttrDescView_widget_CalendarView_maxDate_minDate(ClassDescViewBased parent, String name)
     {
         super(parent,name);
-        this.methodParseDate = new MethodContainer<Boolean>(parent.getDeclaredClass(),"parseDate",new Class[]{String.class,Calendar.class});
-        this.fieldCurrentLocale = new FieldContainer<Locale>(parent.getDeclaredClass(),"mCurrentLocale");
+
+        Class calendarClass1,calendarClass2;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            calendarClass1 = parent.getDeclaredClass();
+            calendarClass2 = calendarClass1;
+        }
+        else // Lollipop
+        {
+            this.fieldDelegate = new FieldContainer<Object>(parent.getDeclaredClass(), "mDelegate");
+            calendarClass1 = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
+            calendarClass2 = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+        }
+
+        this.fieldCurrentLocale = new FieldContainer<Locale>(calendarClass1, "mCurrentLocale");
+        this.methodParseDate = new MethodContainer<Boolean>(calendarClass2,"parseDate",new Class[]{String.class,Calendar.class});
 
         String fieldName = null;
         if ("maxDate".equals(name))
             fieldName = "mMaxDate";
         else if ("minDate".equals(name))
             fieldName = "mMinDate";
-        this.fieldMaxMinDate = new FieldContainer<Calendar>(parent.getDeclaredClass(),fieldName);
+        this.fieldMaxMinDate = new FieldContainer<Calendar>(calendarClass2,fieldName);
     }
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
         String date = getString(attr.getValue(),ctx);
 
-        Locale currentLocale = fieldCurrentLocale.get(view);
+        Object calendarObject = getCalendarObject(view);
+
+        Locale currentLocale = fieldCurrentLocale.get(calendarObject);
         Calendar outDate = Calendar.getInstance(currentLocale);
         // No es necesario: outDate.clear();
 
         if (!TextUtils.isEmpty(date))
         {
-            if (!parseDate(view,date, outDate)) // El código fuente de Android tolera un mal formato, nosotros no pues no hace más que complicarlo todo
+            if (!parseDate(calendarObject,date, outDate)) // El código fuente de Android tolera un mal formato, nosotros no pues no hace más que complicarlo todo
                 throw new ItsNatDroidException("Date: " + date + " not in format: " + "MM/dd/yyyy");
         }
         else // Caso de eliminación de atributo, interpretamos el "" como el deseo de poner los valores por defecto (más o menos es así en el código fuente)
@@ -64,10 +84,10 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
             else if ("minDate".equals(name))
                 defaultMaxMin = DEFAULT_MIN_DATE;
 
-            parseDate(view,defaultMaxMin, outDate);
+            parseDate(calendarObject,defaultMaxMin, outDate);
         }
 
-        fieldMaxMinDate.set(view,outDate);
+        fieldMaxMinDate.set(calendarObject,outDate);
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)
@@ -80,8 +100,16 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         setAttribute(view,value,xmlInflaterLayout,ctx,null,null);
     }
 
-    private boolean parseDate(View view,String date, Calendar outDate)
+    private Object getCalendarObject(View view)
     {
-        return methodParseDate.invoke(view,date,outDate);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            return (CalendarView)view;
+        else
+            return fieldDelegate.get(view);
+    }
+
+    private boolean parseDate(Object calendarObject,String date, Calendar outDate)
+    {
+        return methodParseDate.invoke(calendarObject,date,outDate);
     }
 }

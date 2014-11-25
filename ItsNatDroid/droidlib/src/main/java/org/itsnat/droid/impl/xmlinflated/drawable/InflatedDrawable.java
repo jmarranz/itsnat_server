@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.xmlinflated.drawable;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
@@ -35,5 +34,4 @@ public abstract class InflatedDrawable extends InflatedXML
         this.drawable = drawable;
     }
 
-    public abstract AttrDrawableInflaterListener getAttrDrawableInflaterListener();
 }

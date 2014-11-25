@@ -26,6 +26,7 @@ import java.util.Iterator;
  */
 public class Assert
 {
+
     public static void assertPositive(int a)
     {
         if (a <= 0) throw new ItsNatDroidException("Failed " + a);
@@ -149,6 +150,22 @@ public class Assert
         assertEquals((float)a,(float)b);
     }
 
+    public final static void assertEquals(int[][] a,int[][] b)
+    {
+        if (a.length != b.length) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+
+        for(int i = 0; i < a.length; i++)
+            assertEquals(a[i],b[i]);
+    }
+
+    public final static void assertEquals(int[] a,int[] b)
+    {
+        if (a.length != b.length) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+
+        for(int i = 0; i < a.length; i++)
+            assertEquals(a[i],b[i]);
+    }
+
     public static void assertEquals(Drawable a,Drawable b)
     {
         if (!a.getClass().equals(b.getClass())) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
@@ -165,7 +182,7 @@ public class Assert
             Drawable.ConstantState sb = ((GradientDrawable) b).getConstantState();
 
             assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
-            assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
+            // mSolidColor ya no existe en level 21: assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
         }
         else if (a instanceof BitmapDrawable)
         {
@@ -243,7 +260,11 @@ public class Assert
 
     public static void assertEquals(ColorStateList a,ColorStateList b)
     {
-        if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
+        assertEquals((int[][])TestUtil.getField(a,"mStateSpecs"),(int[][])TestUtil.getField(b,"mStateSpecs"));
+        assertEquals((int[])TestUtil.getField(a,"mColors"),(int[])TestUtil.getField(b,"mColors"));
+        assertEquals((Integer)TestUtil.getField(a,"mDefaultColor"),(Integer)TestUtil.getField(b,"mDefaultColor"));
+
+//        if (!a.equals(b)) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
     }
 
     public static void assertEquals(ObjectAnimator a,ObjectAnimator b)

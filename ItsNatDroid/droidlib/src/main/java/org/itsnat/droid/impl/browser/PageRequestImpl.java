@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.browser;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -19,9 +20,9 @@ import org.itsnat.droid.OnPageLoadListener;
 import org.itsnat.droid.PageRequest;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
-import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -214,7 +215,8 @@ public class PageRequestImpl implements PageRequest
             HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url,httpConfig.httpContext,httpConfig.httpParamsRequest,
                     httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,null,null);
 
-            result = processHttpRequestResult(httpReqResult,pageURLBase,httpConfig,xmlInflateRegistry);
+            AssetManager assetManager = getContext().getResources().getAssets();
+            result = processHttpRequestResult(httpReqResult,pageURLBase,httpConfig,xmlInflateRegistry,assetManager);
         }
         catch(Exception ex)
         {
@@ -245,7 +247,8 @@ public class PageRequestImpl implements PageRequest
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultImpl result,
-                                          String pageURLBase,HttpConfig httpConfig,XMLInflateRegistry xmlInflateRegistry) throws Exception
+                                       String pageURLBase,HttpConfig httpConfig,
+                                       XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager) throws Exception
     {
         if (!result.isStatusOK())
         {
@@ -256,7 +259,7 @@ public class PageRequestImpl implements PageRequest
 
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion();
-        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true);
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true, assetManager);
 
 
         PageRequestResult pageReqResult = new PageRequestResult(result, domLayout);
@@ -284,21 +287,12 @@ public class PageRequestImpl implements PageRequest
         LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
-            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry);
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList);
         }
 
-/*
-        LinkedList<DOMAttrAsset> attrAssetList = domLayout.getDOMAttrAssetList();
-        if (attrAssetList != null)
-        {
-            AssetResourceReader resReader = new AssetResourceReader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry);
-            resReader.readResources(attrAssetList);
-        }
-*/
         return pageReqResult;
     }
-
 
     public void processResponse(PageRequestResult result)
     {

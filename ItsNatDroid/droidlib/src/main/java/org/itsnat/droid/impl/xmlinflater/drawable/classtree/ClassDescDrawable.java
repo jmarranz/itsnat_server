@@ -9,11 +9,11 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -40,10 +40,9 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         return (ClassDescDrawable) getParentClassDesc();
     }
 
-    public static PageImpl getPageImpl(InflatedDrawable inflated)
+    public static PageImpl getPageImpl(XMLInflaterDrawable xmlInflaterDrawable)
     {
-        // A día de hoy nunca es null pero podría serlo en el futuro por simetría con InflatedLayout si el drwable puede leerse de los assets por ej
-        return (inflated instanceof InflatedDrawablePage) ? ((InflatedDrawablePage) inflated).getPageImpl() : null;
+        return (xmlInflaterDrawable instanceof XMLInflaterDrawablePage) ? ((XMLInflaterDrawablePage) xmlInflaterDrawable).getPageImpl() : null;
     }
 
     protected AttrDescDrawable getAttrDescDrawable(String name)
@@ -87,10 +86,10 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
+                    AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                        PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                         String value = attr.getValue();
                         listener.setAttribute(page, draw, namespaceURI, name, value);
                     }
@@ -100,10 +99,10 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         else
         {
             // No se encuentra opción de proceso custom
-            AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
+            AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
             if (listener != null)
             {
-                PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                 String value = attr.getValue();
                 listener.setAttribute(page, draw, namespaceURI, name, value);
             }
@@ -138,10 +137,10 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                 else
                 {
                     // No se encuentra opción de proceso custom
-                    AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
+                    AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
                     if (listener != null)
                     {
-                        PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                        PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                         listener.removeAttribute(page, draw, namespaceURI, name);
                     }
                 }
@@ -150,10 +149,10 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         else
         {
             // No se encuentra opción de proceso custom
-            AttrDrawableInflaterListener listener = inflated.getAttrDrawableInflaterListener();
+            AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
             if (listener != null)
             {
-                PageImpl page = getPageImpl(inflated); // Puede ser nulo
+                PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                 listener.removeAttribute(page, draw, namespaceURI, name);
             }
         }

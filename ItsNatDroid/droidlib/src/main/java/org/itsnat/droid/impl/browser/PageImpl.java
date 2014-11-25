@@ -20,7 +20,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;

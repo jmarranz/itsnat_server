@@ -15,7 +15,6 @@ public abstract class XMLDOM
     protected String androidNSPrefix;
     protected DOMElement rootElement;
     protected LinkedList<DOMAttrRemote> remoteAttribList;
-    protected LinkedList<DOMAttrAsset>  assetAttribList;
 
     public XMLDOM()
     {
@@ -69,17 +68,6 @@ public abstract class XMLDOM
     public LinkedList<DOMAttrRemote> getDOMAttrRemoteList()
     {
         return remoteAttribList;
-    }
-
-    public void addDOMAttrAsset(DOMAttrAsset attr)
-    {
-        if (assetAttribList == null) this.assetAttribList = new LinkedList<DOMAttrAsset>();
-        assetAttribList.add(attr);
-    }
-
-    public LinkedList<DOMAttrAsset> getDOMAttrAssetList()
-    {
-        return assetAttribList;
     }
 
     public void addDOMAttrRemote(DOMAttrRemote attr)

@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
@@ -48,7 +49,7 @@ public class XMLInflateRegistry
         return classDescDrawableMgr;
     }
 
-    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag)
+    public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
     {
         // Este método DEBE ser multihilo, layoutParsedCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
@@ -75,9 +76,10 @@ public class XMLInflateRegistry
         {
             XMLDOMLayoutParser layoutParser;
             if (remotePageOrFrag)
-                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(itsNatServerVersion) : new XMLDOMLayoutParserFragment();
+                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(assetManager,itsNatServerVersion) :
+                                             new XMLDOMLayoutParserFragment(assetManager);
             else
-                layoutParser = new XMLDOMLayoutParserStandalone();
+                layoutParser = new XMLDOMLayoutParserStandalone(assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
@@ -89,14 +91,14 @@ public class XMLInflateRegistry
         return cloned;
     }
 
-    public XMLDOMDrawable getXMLDOMDrawableCache(String markup)
+    public XMLDOMDrawable getXMLDOMDrawableCache(String markup,AssetManager assetManager)
     {
         // Ver notas de getXMLDOMLayoutCache()
         XMLDOMDrawable cachedDrawable = domDrawableCache.get(markup);
         if (cachedDrawable != null) return cachedDrawable;
         else
         {
-            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup);
+            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,assetManager);
             domDrawableCache.put(markup, xmlDOMDrawable);
             return xmlDOMDrawable;
         }

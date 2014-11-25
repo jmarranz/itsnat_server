@@ -1,5 +1,7 @@
 package org.itsnat.droid.impl.domparser.layout;
 
+import android.content.res.AssetManager;
+
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
@@ -19,6 +21,11 @@ import java.io.StringReader;
  */
 public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
+    public XMLDOMLayoutParser(AssetManager assetManager)
+    {
+        super(assetManager);
+    }
+
     public XMLDOMLayout parse(String markup)
     {
         StringReader input = new StringReader(markup);

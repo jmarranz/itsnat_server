@@ -1,15 +1,18 @@
 package org.itsnat.droid.impl.browser.serveritsnat;
 
+import android.content.res.AssetManager;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.ItsNatDroidScriptException;
-import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
+import org.itsnat.droid.impl.dom.layout.DOMScriptInline;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.MapLight;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.Iterator;
@@ -38,7 +41,8 @@ public class FragmentLayoutInserter
         // para declarar el namespace android, el false parentView será del mismo tipo que el de verdad para que los
         // LayoutParams se hagan bien.
 
-        InflatedLayoutPageImpl pageLayout = itsNatDoc.getPageImpl().getInflatedLayoutPageImpl();
+        PageImpl page = itsNatDoc.getPageImpl();
+        InflatedLayoutPageImpl pageLayout = page.getInflatedLayoutPageImpl();
 
         StringBuilder newMarkup = new StringBuilder();
 
@@ -59,7 +63,9 @@ public class FragmentLayoutInserter
 
 
         XMLInflateRegistry xmlInflateRegistry = pageLayout.getItsNatDroidImpl().getXMLInflateRegistry();
-        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, pageLayout.getPageImpl().getItsNatServerVersion(), false, true);
+        AssetManager assetManager = itsNatDoc.getPageImpl().getContext().getResources().getAssets();
+
+        XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, page.getItsNatServerVersion(), false, true, assetManager);
 
 
         LinkedList<DOMScript> scriptList = new LinkedList<DOMScript>();
@@ -69,7 +75,7 @@ public class FragmentLayoutInserter
             scriptList.addAll(domScriptList);
 
         ViewGroup falseParentView = (ViewGroup) pageLayout.insertFragment(domLayout.getRootView()); // Los XML ids, los inlineHandlers etc habrán quedado memorizados
-        int indexRef = viewRef != null ? InflatedLayoutPageImpl.getChildIndex(parentView,viewRef) : -1;
+        int indexRef = viewRef != null ? InflatedLayoutImpl.getChildViewIndex(parentView, viewRef) : -1;
         while (falseParentView.getChildCount() > 0)
         {
             View child = falseParentView.getChildAt(0);

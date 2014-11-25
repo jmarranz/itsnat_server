@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.DroidEventGroupInfo;
@@ -10,7 +11,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.ValueUtil;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -22,19 +23,22 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
  */
 public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,Context ctx)
+    protected PageImpl page;
+
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,AttrLayoutInflaterListener inflateLayoutListener,Context ctx,PageImpl page)
     {
-        super(layout,ctx);
+        super(layout,inflateLayoutListener,ctx);
+        this.page = page;
+    }
+
+    public PageImpl getPageImpl()
+    {
+        return page;
     }
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
         return (InflatedLayoutPageImpl) inflatedLayout;
-    }
-
-    public PageImpl getPageImpl()
-    {
-        return getInflatedLayoutPageImpl().getPageImpl();
     }
 
     public void setAttribute(View view, DOMAttr attr)
@@ -107,7 +111,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
             if (view != inflatedLayout.getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
-        return getInflatedLayoutPageImpl().getPageImpl().getItsNatDocImpl().getItsNatViewImpl(view);
+        return getPageImpl().getItsNatDocImpl().getItsNatViewImpl(view);
     }
 
     private String getTypeInlineEventHandler(String name)

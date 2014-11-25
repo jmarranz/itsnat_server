@@ -53,7 +53,7 @@ import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
-import org.itsnat.droid.impl.xmlinflated.layout.page.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -405,7 +405,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,newChildToIn,inflated,oneTimeAttrProcess);
-        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,inflated.getContext());
+        classDesc.addViewObject(viewParent, view, index,oneTimeAttrProcess,getContext());
 
         return view;
     }
@@ -429,7 +429,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private Context getContext()
     {
-        return page.getInflatedLayoutPageImpl().getContext();
+        return page.getContext();
     }
 
     @Override
@@ -756,7 +756,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         // Esto es una chapuza pero no hay opción
         ViewGroup parentView = (ViewGroup)parentNode.getView();
         View view = node.getView();
-        return InflatedLayoutPageImpl.getChildIndex(parentView, view);
+        return InflatedLayoutPageImpl.getChildViewIndex(parentView, view);
     }
 
 

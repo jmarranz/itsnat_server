@@ -66,6 +66,7 @@ public class XMLDOMLayout extends XMLDOM
         // Reutilizamos t_odo excepto el loadScript pues es la única parte que cambia
         XMLDOMLayout cloned = new XMLDOMLayout();
         partialClone(cloned);
+        cloned.loadScript = null; // Para que quede claro que no se clona
         cloned.scriptList = this.scriptList;
         return cloned;
     }

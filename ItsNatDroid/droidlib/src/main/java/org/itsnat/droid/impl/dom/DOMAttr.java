@@ -29,10 +29,7 @@ public abstract class DOMAttr
             return new DOMAttrLocalResource(namespaceURI,name,value);
     }
 
-    public static DOMAttr create(DOMAttr attr, String newValue)
-    {
-        return new DOMAttrLocalResource(attr.getNamespaceURI(),attr.getName(),newValue);
-    }
+
 
     public String getNamespaceURI()
     {

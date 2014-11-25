@@ -2,7 +2,8 @@ package org.itsnat.droid.impl.xmlinflater.layout.stdalone;
 
 import android.content.Context;
 
-import org.itsnat.droid.impl.xmlinflated.layout.stdalone.InflatedLayoutStandaloneImpl;
+import org.itsnat.droid.AttrLayoutInflaterListener;
+import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 
 /**
@@ -10,9 +11,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl layout,Context ctx)
+    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl layout,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
     {
-        super(layout,ctx);
+        super(layout,inflateLayoutListener,ctx);
     }
-
 }
