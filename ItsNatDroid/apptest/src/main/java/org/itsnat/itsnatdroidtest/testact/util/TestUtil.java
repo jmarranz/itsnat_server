@@ -85,6 +85,11 @@ public class TestUtil
         catch (NoSuchFieldException ex) { throw new ItsNatDroidException(ex); }
     }
 
+    public static Object callGetMethod(Object obj,String methodName)
+    {
+        return callMethod(obj,null,obj.getClass(),methodName,null);
+    }
+
     public static Object callMethod(Object obj,Object[] params,String methodName,Class[] paramClasses)
     {
         return callMethod(obj,params,obj.getClass(),methodName,paramClasses);

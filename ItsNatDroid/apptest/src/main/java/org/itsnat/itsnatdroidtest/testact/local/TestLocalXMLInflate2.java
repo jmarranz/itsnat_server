@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 import android.widget.ViewFlipper;
 
+import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
@@ -56,8 +57,29 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertTrue;
  */
 public class TestLocalXMLInflate2
 {
-    private static final MethodContainer<Boolean> calendarView_methodParseDate = new MethodContainer<Boolean>(CalendarView.class,"parseDate",new Class[]{String.class,Calendar.class});
-    private static final FieldContainer<Locale> calendarView_fieldCurrentLocale = new FieldContainer<Locale>(CalendarView.class,"mCurrentLocale");
+    private static FieldContainer<Object> calendarView_fieldDelegate;
+    private static FieldContainer<Locale> calendarView_fieldCurrentLocale;
+    private static MethodContainer<Boolean> calendarView_methodParseDate;
+
+    static
+    {
+        Class calendarClass1,calendarClass2;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        {
+            calendarClass1 = CalendarView.class;
+            calendarClass2 = calendarClass1;
+        }
+        else // Lollipop
+        {
+            calendarView_fieldDelegate = new FieldContainer<Object>(CalendarView.class, "mDelegate");
+            calendarClass1 = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
+            calendarClass2 = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+        }
+
+        calendarView_fieldCurrentLocale = new FieldContainer<Locale>(calendarClass1, "mCurrentLocale");
+        calendarView_methodParseDate = new MethodContainer<Boolean>(calendarClass2,"parseDate",new Class[]{String.class,Calendar.class});
+
+    }
 
 
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
@@ -131,8 +153,8 @@ public class TestLocalXMLInflate2
             }
             else // A partir de level 16 hay un método get
             {
-                assertPositive((Integer) TestUtil.callMethod(compLayout,null,"getDateTextAppearance",null));
-                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getDateTextAppearance",null),TestUtil.callMethod(parsedLayout,null,"getDateTextAppearance",null));
+                assertPositive((Integer) TestUtil.callGetMethod(compLayout,"getDateTextAppearance"));
+                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getDateTextAppearance"),TestUtil.callGetMethod(parsedLayout,"getDateTextAppearance"));
             }
 
             assertEquals(compLayout.getFirstDayOfWeek(),3);
@@ -145,39 +167,88 @@ public class TestLocalXMLInflate2
             }
             else // A partir de level 16 hay un método get
             {
-                assertEquals((Integer) TestUtil.callMethod(compLayout,null,"getFocusedMonthDateColor",null),0xffff0000);
-                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getFocusedMonthDateColor",null),TestUtil.callMethod(parsedLayout,null,"getFocusedMonthDateColor",null));
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,"getFocusedMonthDateColor"),0xffff0000);
+                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getFocusedMonthDateColor"),TestUtil.callGetMethod(parsedLayout,"getFocusedMonthDateColor"));
             }
 
             // Test android:maxDate y minDate
-            Locale locale = getCurrentLocale(compLayout);
-            Calendar outDate = Calendar.getInstance(locale);
-            parseDate(compLayout,"01/01/2101",outDate);
+            Locale locale;
+            Calendar outDate;
+            {
+                Object compLayoutFinal = getCalendarObject(compLayout);
+                locale = getCurrentLocale(compLayoutFinal);
+                outDate = Calendar.getInstance(locale);
+                parseDate(compLayoutFinal, "01/01/2101", outDate);
+            }
             assertEquals(compLayout.getMaxDate(), outDate.getTimeInMillis());
             assertEquals(compLayout.getMaxDate(),parsedLayout.getMaxDate());
 
-            outDate = Calendar.getInstance(locale);
-            parseDate(compLayout,"01/01/1901",outDate);
+            {
+                Object compLayoutFinal = getCalendarObject(compLayout);
+                outDate = Calendar.getInstance(locale);
+                parseDate(compLayoutFinal, "01/01/1901", outDate);
+            }
             assertEquals(compLayout.getMinDate(),outDate.getTimeInMillis());
             assertEquals(compLayout.getMinDate(),parsedLayout.getMinDate());
 
             // Test android:selectedDateVerticalBar
-            assertNotNull((Drawable)TestUtil.getField(compLayout, "mSelectedDateVerticalBar"));
-            assertEquals((Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"), (Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertNotNull((Drawable) TestUtil.getField(compLayout, "mSelectedDateVerticalBar"));
+                assertEquals((Drawable) TestUtil.getField(compLayout, "mSelectedDateVerticalBar"), (Drawable) TestUtil.getField(parsedLayout, "mSelectedDateVerticalBar"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertNotNull((Drawable) TestUtil.callGetMethod(compLayout,"getSelectedDateVerticalBar"));
+                assertEquals((Drawable) TestUtil.callGetMethod(compLayout,"getSelectedDateVerticalBar"), (Drawable) TestUtil.callGetMethod(parsedLayout,"getSelectedDateVerticalBar"));
+            }
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"),0xff0000ff);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), (Integer)TestUtil.getField(parsedLayout, "mSelectedWeekBackgroundColor"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), 0xff0000ff);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mSelectedWeekBackgroundColor"), (Integer) TestUtil.getField(parsedLayout, "mSelectedWeekBackgroundColor"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,"getSelectedWeekBackgroundColor"), 0xff0000ff);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,"getSelectedWeekBackgroundColor"), (Integer) TestUtil.callGetMethod(parsedLayout,"getSelectedWeekBackgroundColor"));
+            }
 
             assertTrue(compLayout.getShowWeekNumber());
             assertEquals(compLayout.getShowWeekNumber(),parsedLayout.getShowWeekNumber());
 
             // Test shownWeekCount
-            assertEquals((Integer)TestUtil.getField(compLayout, "mShownWeekCount"),5);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mShownWeekCount"), (Integer)TestUtil.getField(parsedLayout, "mShownWeekCount"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mShownWeekCount"), 5);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mShownWeekCount"), (Integer) TestUtil.getField(parsedLayout, "mShownWeekCount"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,"getShownWeekCount"), 5);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout,"getShownWeekCount"), (Integer) TestUtil.callGetMethod(parsedLayout,"getShownWeekCount"));
+            }
 
             // Test unfocusedMonthDateColor
-            assertEquals((Integer)TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"),0xff00cc00);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), (Integer)TestUtil.getField(parsedLayout, "mUnfocusedMonthDateColor"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), 0xff00cc00);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mUnfocusedMonthDateColor"), (Integer) TestUtil.getField(parsedLayout, "mUnfocusedMonthDateColor"));
+            }
+            else // A partir de level 16 hay un método getUnfocusedMonthDateColor
+            {
+                // Sin embargo este método tiene un bug:
+                // https://code.google.com/p/android/issues/detail?id=80934
+                // Tenemos que seguir recurriendo al atributo, sólo que tenemos en cuenta Lollipop que tiene el atributo en otro sitio
+                Object compLayoutFinal = getCalendarObject(compLayout);
+                Object parsedLayoutFinal = getCalendarObject(parsedLayout);
+                assertEquals((Integer) TestUtil.getField(compLayoutFinal, "mUnfocusedMonthDateColor"), 0xff00cc00);
+                assertEquals((Integer) TestUtil.getField(compLayoutFinal, "mUnfocusedMonthDateColor"), (Integer) TestUtil.getField(parsedLayoutFinal, "mUnfocusedMonthDateColor"));
+
+                // Cuando detectemos que está arreglado a partir de una versión (level) concreta, habilitaremos estas dos líneas:
+                //assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getUnfocusedMonthDateColor"), 0xff00cc00);
+                //assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getUnfocusedMonthDateColor"), (Integer) TestUtil.callGetMethod(parsedLayout, "getUnfocusedMonthDateColor"));
+            }
 
             // Test android:weekDayTextAppearance
             // en Level 15 (4.0.3) es complicadísimo testear. Se ve a simple vista que las letras de los días de la semama (L,M,X...) son grandes
@@ -187,11 +258,29 @@ public class TestLocalXMLInflate2
                 assertEquals((Integer)TestUtil.callMethod(compLayout,null,CalendarView.class,"getWeekDayTextAppearance",null),(Integer)TestUtil.callMethod(parsedLayout,null,CalendarView.class,"getWeekDayTextAppearance",null));
             }
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekNumberColor"),0xffaaaa77);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekNumberColor"), (Integer)TestUtil.getField(parsedLayout, "mWeekNumberColor"));
+            // Test android:weekNumberColor
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mWeekNumberColor"), 0xffaaaa77);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mWeekNumberColor"), (Integer) TestUtil.getField(parsedLayout, "mWeekNumberColor"));
+            }
+            else // A partir de level 16 hay un método get
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekNumberColor"), 0xffaaaa77);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekNumberColor"), (Integer) TestUtil.callGetMethod(parsedLayout, "getWeekNumberColor"));
+            }
 
-            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekSeparatorLineColor"),0xffaa8888);
-            assertEquals((Integer)TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), (Integer)TestUtil.getField(parsedLayout, "mWeekSeparatorLineColor"));
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+            {
+                assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), 0xffaa8888);
+                assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), (Integer) TestUtil.getField(parsedLayout, "mWeekSeparatorLineColor"));
+            }
+            else
+            {
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekSeparatorLineColor"), 0xffaa8888);
+                assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekSeparatorLineColor"), (Integer) TestUtil.callGetMethod(parsedLayout, "getWeekSeparatorLineColor"));
+            }
+
         }
 
         childCount++;
@@ -800,13 +889,21 @@ public class TestLocalXMLInflate2
 
     }
 
-    private static boolean parseDate(CalendarView view,String date, Calendar outDate)
+    private static Object getCalendarObject(CalendarView view)
     {
-        return calendarView_methodParseDate.invoke(view,date,outDate);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            return view;
+        else
+            return calendarView_fieldDelegate.get(view);
     }
 
-    private static Locale getCurrentLocale(CalendarView view)
+    private static boolean parseDate(Object calendarObject,String date, Calendar outDate)
     {
-        return calendarView_fieldCurrentLocale.get(view);
+        return calendarView_methodParseDate.invoke(calendarObject,date,outDate);
+    }
+
+    private static Locale getCurrentLocale(Object calendarObject)
+    {
+        return calendarView_fieldCurrentLocale.get(calendarObject);
     }
 }

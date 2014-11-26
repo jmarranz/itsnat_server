@@ -67,7 +67,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
     {
         final String date = getString(attr.getValue(),ctx);
 
-        final Object datePickerObject = getDatePickerObject(view);
+        final Object datePickerObject = getDatePickerObject((DatePicker)view);
 
         Runnable task = new Runnable()
         {
@@ -112,10 +112,10 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
         setAttribute(view,"",xmlInflaterLayout,ctx,null,null);
     }
 
-    private Object getDatePickerObject(View view)
+    private Object getDatePickerObject(DatePicker view)
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            return (DatePicker)view;
+            return view;
         else
             return fieldDelegate.get(view);
     }

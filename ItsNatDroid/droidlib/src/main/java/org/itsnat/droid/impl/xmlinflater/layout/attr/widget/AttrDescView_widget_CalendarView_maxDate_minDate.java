@@ -65,7 +65,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
     {
         String date = getString(attr.getValue(),ctx);
 
-        Object calendarObject = getCalendarObject(view);
+        Object calendarObject = getCalendarObject((CalendarView)view);
 
         Locale currentLocale = fieldCurrentLocale.get(calendarObject);
         Calendar outDate = Calendar.getInstance(currentLocale);
@@ -100,10 +100,10 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         setAttribute(view,value,xmlInflaterLayout,ctx,null,null);
     }
 
-    private Object getCalendarObject(View view)
+    private Object getCalendarObject(CalendarView view)
     {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
-            return (CalendarView)view;
+            return view;
         else
             return fieldDelegate.get(view);
     }

@@ -424,7 +424,7 @@ public class TestLocalXMLInflate1
             else
             {
                 // A partir de Lollipop via XML no se define el tint con setColorFilter() sino de otra forma
-                assertEquals((ColorStateList) TestUtil.callMethod(compLayout, null, "getImageTintList", null), (ColorStateList) TestUtil.callMethod(parsedLayout, null, "getImageTintList", null));
+                assertEquals((ColorStateList) TestUtil.callGetMethod(compLayout,"getImageTintList"), (ColorStateList) TestUtil.callGetMethod(parsedLayout,"getImageTintList"));
 
             }
         }
@@ -557,8 +557,8 @@ public class TestLocalXMLInflate1
                 if (!(ex.getCause() instanceof NoSuchFieldException))
                     throw ex;
 
-                assertTrue((Boolean) TestUtil.callMethod(compLayout,null,"isCursorVisible",null));
-                assertEquals((Boolean)TestUtil.callMethod(compLayout,null,"isCursorVisible",null),(Boolean)TestUtil.callMethod(parsedLayout,null,"isCursorVisible",null));
+                assertTrue((Boolean) TestUtil.callGetMethod(compLayout,"isCursorVisible"));
+                assertEquals((Boolean)TestUtil.callGetMethod(compLayout,"isCursorVisible"),(Boolean)TestUtil.callGetMethod(parsedLayout,"isCursorVisible"));
             }
 
             // Test android:drawableBottom,android:drawableLeft,android:drawableRight,android:drawableTop
@@ -702,8 +702,8 @@ public class TestLocalXMLInflate1
             }
             else // Partir de la versión siguiente (level 16) hay un método getShadowColor(), en teoría se podría seguir usando el atributo interno shadowColor de Paint pero en Level 21 (Lollipop) desaparece, usar el método desde level 16 es la mejor opción
             {
-                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getShadowColor",null),0xffff0000);
-                assertEquals((Integer)TestUtil.callMethod(compLayout,null,"getShadowColor",null),(Integer) TestUtil.callMethod(parsedLayout,null,"getShadowColor",null));
+                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),0xffff0000);
+                assertEquals((Integer)TestUtil.callGetMethod(compLayout,"getShadowColor"),(Integer) TestUtil.callGetMethod(parsedLayout,"getShadowColor"));
             }
 
 
