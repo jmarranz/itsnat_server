@@ -24,6 +24,7 @@ import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
@@ -298,8 +299,8 @@ public class PageRequestImpl implements PageRequest
     {
         HttpRequestResultImpl httpReqResult = result.getHttpRequestResult();
 
-        if (!HttpUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
-            throw new ItsNatDroidServerResponseException("Expected " + HttpUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
+        if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
+            throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
         AttrLayoutInflaterListener inflateLayoutListener = getAttrLayoutInflaterListener();
 
@@ -327,7 +328,7 @@ public class PageRequestImpl implements PageRequest
     private static String downloadScript(String src,String pageURLBase,HttpConfig httpConfig) throws SocketTimeoutException
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,HttpUtil.MIME_BEANSHELL);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 }

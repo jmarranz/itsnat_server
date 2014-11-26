@@ -8,6 +8,7 @@ import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMView;
 import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -21,9 +22,9 @@ import java.io.StringReader;
  */
 public abstract class XMLDOMLayoutParser extends XMLDOMParser
 {
-    public XMLDOMLayoutParser(AssetManager assetManager)
+    public XMLDOMLayoutParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
-        super(assetManager);
+        super(xmlInflateRegistry,assetManager);
     }
 
     public XMLDOMLayout parse(String markup)

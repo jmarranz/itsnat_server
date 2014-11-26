@@ -4,13 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.dom.layout.DOMScript;
 import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
@@ -29,24 +30,28 @@ import java.util.List;
 public abstract class XMLInflaterLayout extends XMLInflater
 {
     protected InflatedLayoutImpl inflatedLayout;
-    protected AttrLayoutInflaterListener inflateLayoutListener;
+    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
+    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
 
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout,AttrLayoutInflaterListener inflateLayoutListener,Context ctx)
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout,
+                             AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
+                             Context ctx)
     {
         super(ctx);
         this.inflatedLayout = inflatedLayout;
-        this.inflateLayoutListener = inflateLayoutListener;
+        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
+        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
     }
 
-    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,AttrLayoutInflaterListener inflateLayoutListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,inflateLayoutListener,ctx,page);
+            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,inflateLayoutListener,ctx);
+            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         }
         return null; // Internal Error
     }
@@ -58,7 +63,12 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateLayoutListener;
+        return attrLayoutInflaterListener;
+    }
+
+    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
+    {
+        return attrDrawableInflaterListener;
     }
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)

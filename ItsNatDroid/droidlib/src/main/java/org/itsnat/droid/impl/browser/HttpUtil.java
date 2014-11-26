@@ -32,6 +32,7 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +56,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -69,30 +69,6 @@ import javax.net.ssl.X509TrustManager;
  */
 public class HttpUtil
 {
-    // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-    public static final String MIME_ANDROID_LAYOUT = "android/layout";
-    public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente
-    public static final String MIME_JSON = "application/json";
-    public static final String MIME_XML = "text/xml"; // No usamos application/xml aunque sea más correcto, pues en otro lugar al detectar "text/XXX" lo convertimos a texto
-    public static final String MIME_PNG = "image/png";
-    //public static final String MIME_PNG_9 = "image/png9"; // Inventada, si no se necesitara realmente eliminarla
-    public static final String MIME_JPEG = "image/jpg"; // Válido en BitmapDrawable
-    public static final String MIME_GIF = "image/gif"; // Válido en BitmapDrawable
-
-    public static final Map<String,String> MIME_BY_EXT = new HashMap<String,String>(); // Como sólo se lee puede usarse en multihilo
-    static
-    {
-        // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-        MIME_BY_EXT.put("xml",HttpUtil.MIME_XML);
-        MIME_BY_EXT.put("png",HttpUtil.MIME_PNG);
-        //MIME_BY_EXT.put("9.png",HttpUtil.MIME_PNG);
-        MIME_BY_EXT.put("jpg",HttpUtil.MIME_JPEG);
-        MIME_BY_EXT.put("jpe",HttpUtil.MIME_JPEG);
-        MIME_BY_EXT.put("jpeg",HttpUtil.MIME_JPEG);
-        MIME_BY_EXT.put("gif",HttpUtil.MIME_GIF);
-
-        // No es necesario "bs" ni "json" estos no se acceden remótamente, en el caso de .bs sí pero sabemos que es un script beanshell da igual la extensión
-    }
 
     private static HttpParams getHttpParams(HttpParams httpParamsRequest, HttpParams httpParamsDefault)
     {
@@ -234,14 +210,14 @@ public class HttpUtil
         {
             // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
             String mimeType = result.getMimeType();
-            if (MIME_ANDROID_LAYOUT.equals(mimeType) ||
-                MIME_BEANSHELL.equals(mimeType) ||
-                MIME_JSON.equals(mimeType) ||
+            if (MimeUtil.MIME_ANDROID_LAYOUT.equals(mimeType) ||
+                MimeUtil.MIME_BEANSHELL.equals(mimeType) ||
+                MimeUtil.MIME_JSON.equals(mimeType) ||
                 mimeType.startsWith("text/"))
             {
                 result.setResponseText( ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()) );
 
-                if (MIME_JSON.equals(mimeType))
+                if (MimeUtil.MIME_JSON.equals(mimeType))
                 {
                     try { result.setResponseJSONObject( new JSONObject(result.getResponseText() ) ); }
                     catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, result); }

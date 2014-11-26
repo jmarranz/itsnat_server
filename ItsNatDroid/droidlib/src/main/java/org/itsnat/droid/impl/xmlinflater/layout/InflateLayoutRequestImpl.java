@@ -26,8 +26,9 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
 {
     protected ItsNatDroidImpl itsNatDroid;
     protected Context ctx;
-    protected AttrLayoutInflaterListener inflateLayoutListener;
-    protected AttrDrawableInflaterListener inflateDrawableListener;
+    protected String encoding;
+    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
+    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
 
     public InflateLayoutRequestImpl(ItsNatDroidImpl itsNatDroid)
     {
@@ -41,6 +42,13 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
         return this;
     }
 
+    @Override
+    public InflateLayoutRequest setEncoding(String encoding)
+    {
+        this.encoding = encoding;
+        return this;
+    }
+
     public ItsNatDroidImpl getItsNatDroidImpl()
     {
         return itsNatDroid;
@@ -48,31 +56,27 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateLayoutListener;
+        return attrLayoutInflaterListener;
     }
 
     @Override
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener inflateLayoutListener)
     {
-        this.inflateLayoutListener = inflateLayoutListener;
+        this.attrLayoutInflaterListener = inflateLayoutListener;
         return this;
     }
 
     public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
     {
-        return inflateDrawableListener;
+        return attrDrawableInflaterListener;
     }
 
     @Override
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener)
     {
-        this.inflateDrawableListener = inflateDrawableListener;
+        this.attrDrawableInflaterListener = inflateDrawableListener;
         return this;
     }
-
-
-
-
 
     public Context getContext()
     {
@@ -103,7 +107,7 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
     {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, domLayout,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, ctx);
-        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout,inflateLayoutListener, ctx, page);
+        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
         inflatedLayout.setXMLInflaterLayout(xmlInflater); // Se necesita después para la inserción de fragments, cambio de atributos etc
         xmlInflater.inflateLayout(loadScript, scriptList);
         return inflatedLayout;

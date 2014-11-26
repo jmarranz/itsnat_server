@@ -11,7 +11,7 @@ import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
 /**
  * Created by jmarranz on 19/06/14.
  */
-public class TestLocalXMLInflate3
+public class TestLocalXMLInflateResources
 {
     public static void test(ScrollView compRoot, ScrollView parsedRoot)
     {

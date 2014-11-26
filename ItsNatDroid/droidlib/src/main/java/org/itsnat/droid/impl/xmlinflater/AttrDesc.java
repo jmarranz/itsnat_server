@@ -12,9 +12,9 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
-import org.itsnat.droid.impl.browser.PageRequestImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
+import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.util.ValueUtil;
@@ -22,7 +22,9 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
+import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
+import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 import java.util.Map;
 
@@ -248,23 +250,27 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return dimension;
     }
 
-    public Drawable getDrawable(DOMAttr attr, Context ctx,PageImpl page)
+    public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflaterLayout xmlInflaterLayout)
     {
         if (attr instanceof DOMAttrDynamic)
         {
+            PageImpl page = null;
+            if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
+                page = ((XMLInflaterLayoutPage)xmlInflaterLayout).getPageImpl();
+
             if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected");
 
-            DOMAttrRemote attrDyn = (DOMAttrRemote)attr;
+            ItsNatDroidImpl itsNatDroid = xmlInflaterLayout.getInflatedLayoutImpl().getItsNatDroidImpl();
+            AttrDrawableInflaterListener listener = xmlInflaterLayout.getAttrDrawableInflaterListener();
+
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
-            PageRequestImpl pageRequest = page.getPageRequestImpl();
-            ItsNatDroidImpl itsNatDroid = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl();
             InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) :
                                                                new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-            AttrDrawableInflaterListener listener = pageRequest.getAttrDrawableInflaterListener();
             XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, listener, ctx, page);
             return xmlInflater.inflateDrawable();
         }
-        else
+        else if (attr instanceof DOMAttrLocalResource)
         {
             String attrValue = attr.getValue();
             if (isResource(attrValue))
@@ -281,6 +287,8 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
             throw new ItsNatDroidException("Cannot process " + attrValue);
         }
+        else throw new ItsNatDroidException("Cannot process " + attr.getValue());
+
     }
 
     public int getColor(String attrValue, Context ctx)

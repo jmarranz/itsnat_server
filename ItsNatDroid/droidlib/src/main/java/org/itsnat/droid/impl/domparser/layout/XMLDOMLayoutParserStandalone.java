@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 
 import org.itsnat.droid.impl.dom.XMLDOM;
 import org.itsnat.droid.impl.dom.layout.DOMView;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -14,9 +15,9 @@ import java.io.IOException;
  */
 public class XMLDOMLayoutParserStandalone extends XMLDOMLayoutParser
 {
-    public XMLDOMLayoutParserStandalone(AssetManager assetManager)
+    public XMLDOMLayoutParserStandalone(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
-        super(assetManager);
+        super(xmlInflateRegistry,assetManager);
     }
 
     @Override

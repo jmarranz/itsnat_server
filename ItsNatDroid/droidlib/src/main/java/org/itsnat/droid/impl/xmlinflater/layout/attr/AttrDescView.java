@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.xmlinflater.layout.attr;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -15,7 +14,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 
 /**
  * Created by jmarranz on 30/04/14.
@@ -43,14 +41,6 @@ public abstract class AttrDescView extends AttrDesc
         if (class_R_styleable == null)
             class_R_styleable = MiscUtil.resolveClass("com.android.internal.R$styleable");
         return class_R_styleable;
-    }
-
-    public Drawable getDrawable(DOMAttr attr,Context ctx,XMLInflaterLayout xmlInflaterLayout)
-    {
-        PageImpl page = null;
-        if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
-            page = ((XMLInflaterLayoutPage)xmlInflaterLayout).getPageImpl();
-        return getDrawable(attr,ctx,page);
     }
 
     protected void processDrawableTask(DOMAttr attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)

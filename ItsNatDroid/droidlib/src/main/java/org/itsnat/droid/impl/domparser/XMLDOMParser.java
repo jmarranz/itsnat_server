@@ -6,29 +6,33 @@ import android.util.Xml;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrAsset;
+import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.XMLDOM;
-import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
-import org.itsnat.droid.impl.domparser.drawable.XMLDOMDrawableParser;
 import org.itsnat.droid.impl.util.IOUtil;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
+import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.LinkedList;
 
 /**
  * Created by jmarranz on 31/10/14.
  */
 public abstract class XMLDOMParser
 {
+    protected XMLInflateRegistry xmlInflateRegistry;
     protected AssetManager assetManager;
 
-    public XMLDOMParser(AssetManager assetManager)
+    public XMLDOMParser(XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
+        this.xmlInflateRegistry = xmlInflateRegistry;
         this.assetManager = assetManager;
     }
 
@@ -173,13 +177,14 @@ public abstract class XMLDOMParser
     }
 
 
-    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOM)
+    protected void addDOMAttr(DOMElement element, String namespaceURI, String name, String value, XMLDOM xmlDOMParent)
     {
         DOMAttr attrib = DOMAttr.create(namespaceURI, name, value);
         element.addDOMAttribute(attrib);
+
         if (attrib instanceof DOMAttrRemote)
         {
-            xmlDOM.addDOMAttrRemote((DOMAttrRemote) attrib);
+            xmlDOMParent.addDOMAttrRemote((DOMAttrRemote) attrib);
         }
         else if (attrib instanceof DOMAttrAsset)
         {
@@ -201,19 +206,44 @@ public abstract class XMLDOMParser
             }
             finally
             {
-                if (ims != null)
-                    try { ims.close(); }
-                    catch (IOException ex) { throw new ItsNatDroidException(ex); }
+                if (ims != null) try { ims.close(); } catch (IOException ex) { throw new ItsNatDroidException(ex); }
             }
-            String markup = ValueUtil.toString(res,"UTF-8");
 
-            // Por ahora sólo drawable
-            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,assetManager);
-            assetAttr.setResource(xmlDOMDrawable);
+            String resourceMime = assetAttr.getResourceMime();
+            if (MimeUtil.MIME_XML.equals(resourceMime))
+            {
+                String markup = ValueUtil.toString(res,"UTF-8");
+
+                XMLDOM xmlDOMChild = processDOMAttrDynamicXML(assetAttr,markup,xmlInflateRegistry,assetManager);
+
+                LinkedList<DOMAttrRemote> attrRemoteList = xmlDOMChild.getDOMAttrRemoteList();
+                if (attrRemoteList != null)
+                    throw new ItsNatDroidException("Remote resources cannot be specified by a resource loaded as asset");
+            }
+            else if (MimeUtil.isMIMEImage(resourceMime))
+            {
+                assetAttr.setResource(res);
+            }
+            else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
     }
 
+    public static XMLDOM processDOMAttrDynamicXML(DOMAttrDynamic attr,String markup,XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    {
+        String resourceType = attr.getResourceType();
 
+        // Por ahora sólo drawable
+        XMLDOM xmlDOM;
+        if ("drawable".equals(resourceType))
+        {
+            xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup, assetManager); // Es multihilo el método
+        }
+        else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
+
+        attr.setResource(xmlDOM);
+
+        return xmlDOM;
+    }
 
     protected abstract DOMElement createRootElement(String name);
 

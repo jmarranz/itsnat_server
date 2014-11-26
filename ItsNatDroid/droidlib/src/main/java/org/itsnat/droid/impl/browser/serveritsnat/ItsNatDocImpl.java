@@ -26,10 +26,10 @@ import org.itsnat.droid.Page;
 import org.itsnat.droid.event.Event;
 import org.itsnat.droid.event.EventStateless;
 import org.itsnat.droid.event.UserEvent;
-import org.itsnat.droid.impl.browser.HttpUtil;
-import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.DownloadResourcesHttpClient;
 import org.itsnat.droid.impl.browser.GenericHttpClientImpl;
+import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientCometTaskRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientTimerRefreshEventImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.event.AttachedClientUnloadEventImpl;
@@ -52,6 +52,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MapLightList;
 import org.itsnat.droid.impl.util.MapList;
 import org.itsnat.droid.impl.util.MapRealList;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
@@ -1293,7 +1294,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
             }
         };
 
-        downloadFile(src,HttpUtil.MIME_BEANSHELL,listener);
+        downloadFile(src, MimeUtil.MIME_BEANSHELL,listener);
     }
 
     public void downloadFile(String src,String mime,OnHttpRequestListener listener)

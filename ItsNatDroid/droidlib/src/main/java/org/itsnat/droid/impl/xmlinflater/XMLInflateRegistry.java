@@ -76,10 +76,10 @@ public class XMLInflateRegistry
         {
             XMLDOMLayoutParser layoutParser;
             if (remotePageOrFrag)
-                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(assetManager,itsNatServerVersion) :
-                                             new XMLDOMLayoutParserFragment(assetManager);
+                layoutParser = loadingPage ? new XMLDOMLayoutParserPage(this,assetManager,itsNatServerVersion) :
+                                             new XMLDOMLayoutParserFragment(this,assetManager);
             else
-                layoutParser = new XMLDOMLayoutParserStandalone(assetManager);
+                layoutParser = new XMLDOMLayoutParserStandalone(this,assetManager);
 
             cachedDOMLayout = layoutParser.parse(markup);
             cachedDOMLayout.setLoadScript(null); // Que quede claro que no se puede utilizar
@@ -98,7 +98,7 @@ public class XMLInflateRegistry
         if (cachedDrawable != null) return cachedDrawable;
         else
         {
-            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,assetManager);
+            XMLDOMDrawable xmlDOMDrawable = XMLDOMDrawableParser.parse(markup,this,assetManager);
             domDrawableCache.put(markup, xmlDOMDrawable);
             return xmlDOMDrawable;
         }

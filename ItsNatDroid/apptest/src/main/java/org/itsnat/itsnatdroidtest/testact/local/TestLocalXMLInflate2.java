@@ -275,7 +275,7 @@ public class TestLocalXMLInflate2
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), 0xffaa8888);
                 assertEquals((Integer) TestUtil.getField(compLayout, "mWeekSeparatorLineColor"), (Integer) TestUtil.getField(parsedLayout, "mWeekSeparatorLineColor"));
             }
-            else
+            else // A partir de level 16 hay un método get
             {
                 assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekSeparatorLineColor"), 0xffaa8888);
                 assertEquals((Integer) TestUtil.callGetMethod(compLayout, "getWeekSeparatorLineColor"), (Integer) TestUtil.callGetMethod(parsedLayout, "getWeekSeparatorLineColor"));

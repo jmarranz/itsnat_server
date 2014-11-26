@@ -1,7 +1,7 @@
 package org.itsnat.droid.impl.dom;
 
 import org.itsnat.droid.ItsNatDroidException;
-import org.itsnat.droid.impl.browser.HttpUtil;
+import org.itsnat.droid.impl.util.MimeUtil;
 
 /**
  * Created by jmarranz on 3/11/14.
@@ -34,7 +34,7 @@ public class DOMAttrDynamic extends DOMAttr
         {
             this.extension = value.substring(pos3 + 1).toLowerCase(); // xml, png...
             // http://www.sitepoint.com/web-foundations/mime-types-complete-list/
-            String mime = HttpUtil.MIME_BY_EXT.get(extension);
+            String mime = MimeUtil.MIME_BY_EXT.get(extension);
             if (mime == null)
                 throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
             this.mime = mime;
@@ -44,7 +44,7 @@ public class DOMAttrDynamic extends DOMAttr
             // Por ejemplo:  @remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable
             // Suponemos que se genera el XML por ej del drawable
             this.extension = null;
-            this.mime = HttpUtil.MIME_XML;
+            this.mime = MimeUtil.MIME_XML;
         }
     }
 

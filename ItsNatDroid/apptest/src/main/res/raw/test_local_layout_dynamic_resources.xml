@@ -29,6 +29,14 @@
             android:layout_height="wrap_content"
             android:text="@string/button_reload" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="Test nine-patch (border must be green)"
+            android:textSize="20dp"
+            android:background="@assets:drawable/res/drawable/test_nine_patch.xml" />
+
     </LinearLayout>
 
 </org.itsnat.itsnatdroidtest.testact.util.CustomScrollView>

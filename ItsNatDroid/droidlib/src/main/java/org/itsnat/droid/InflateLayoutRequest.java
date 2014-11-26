@@ -10,6 +10,7 @@ import java.io.Reader;
 public interface InflateLayoutRequest
 {
     public InflateLayoutRequest setContext(Context ctx);
+    public InflateLayoutRequest setEncoding(String encoding);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener);
     public InflatedLayout inflate(Reader input);

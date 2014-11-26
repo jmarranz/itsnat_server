@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.layout.page;
 import android.content.Context;
 import android.view.View;
 
+import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -25,9 +26,9 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 {
     protected PageImpl page;
 
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,AttrLayoutInflaterListener inflateLayoutListener,Context ctx,PageImpl page)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
     {
-        super(layout,inflateLayoutListener,ctx);
+        super(layout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         this.page = page;
     }
 

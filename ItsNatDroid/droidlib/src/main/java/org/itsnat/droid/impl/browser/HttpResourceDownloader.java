@@ -7,6 +7,8 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.XMLDOM;
+import org.itsnat.droid.impl.domparser.XMLDOMParser;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.util.LinkedList;
@@ -113,27 +115,16 @@ public class HttpResourceDownloader
         if (resultList != null) resultList.add(resultRes);
 
         String resourceMime = attr.getResourceMime();
-        if (HttpUtil.MIME_XML.equals(resourceMime))
+        if (MimeUtil.MIME_XML.equals(resourceMime))
         {
-            String resourceType = attr.getResourceType();
             String markup = resultRes.getResponseText();
-            XMLDOM xmlDOM;
-            if ("drawable".equals(resourceType))
-            {
-                xmlDOM = xmlInflateRegistry.getXMLDOMDrawableCache(markup,assetManager); // Es multihilo el método
-            }
-            else throw new ItsNatDroidException("Unsupported resource type as remote: " + resourceType);
+            XMLDOM xmlDOM = XMLDOMParser.processDOMAttrDynamicXML(attr, markup, xmlInflateRegistry, assetManager);
 
-            attr.setResource(xmlDOM);
             LinkedList<DOMAttrRemote> attrRemoteList = xmlDOM.getDOMAttrRemoteList();
             if (attrRemoteList != null)
-            {
                 downloadResources(urlBase, attrRemoteList, resultList);
-            }
         }
-        else if (HttpUtil.MIME_PNG.equals(resourceMime) ||
-                 HttpUtil.MIME_JPEG.equals(resourceMime) ||
-                 HttpUtil.MIME_GIF.equals(resourceMime))
+        else if (MimeUtil.isMIMEImage(resourceMime))
         {
             attr.setResource(resultRes.getResponseByteArray());
         }

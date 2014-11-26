@@ -10,7 +10,7 @@ import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMAttrRemote;
+import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -31,10 +31,10 @@ public abstract class AttrDescDrawable extends AttrDesc
 
     public static Bitmap getBitmap(DOMAttr attr,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {
-        if (attr instanceof DOMAttrRemote)
+        if (attr instanceof DOMAttrDynamic)
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
-            DOMAttrRemote attrRem = (DOMAttrRemote)attr;
+            DOMAttrDynamic attrRem = (DOMAttrDynamic)attr;
             byte[] byteArray = (byte[])attrRem.getResource();
             BitmapFactory.Options options = new BitmapFactory.Options();
             return BitmapFactory.decodeByteArray(byteArray,0,byteArray.length,options);
