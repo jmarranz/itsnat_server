@@ -3,20 +3,22 @@ package org.itsnat.droid.impl.xmlinflater.drawable.page;
 import android.content.Context;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
  * Created by jmarranz on 24/11/14.
  */
-public class XMLInflaterDrawablePage extends XMLInflaterDrawable
+public class XMLInflaterDrawablePage extends XMLInflaterDrawable implements XMLInflaterPage
 {
     protected PageImpl page;
 
-    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedDrawable,AttrDrawableInflaterListener inflateDrawableListener, Context ctx,PageImpl page)
+    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedXML,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
-        super(inflatedDrawable,inflateDrawableListener, ctx);
+        super(inflatedXML,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
         this.page = page;
     }
 

@@ -13,6 +13,7 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatViewNotNullImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -22,13 +23,13 @@ import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 /**
  * Created by jmarranz on 4/11/14.
  */
-public class XMLInflaterLayoutPage extends XMLInflaterLayout
+public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInflaterPage
 {
     protected PageImpl page;
 
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl layout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
     {
-        super(layout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         this.page = page;
     }
 
@@ -39,19 +40,19 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
 
     public InflatedLayoutPageImpl getInflatedLayoutPageImpl()
     {
-        return (InflatedLayoutPageImpl) inflatedLayout;
+        return (InflatedLayoutPageImpl) inflatedXML;
     }
 
     public void setAttribute(View view, DOMAttr attr)
     {
-        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = classDescViewMgr.get(view);
         setAttribute(viewClassDesc, view, attr, null,null);
     }
 
     public void removeAttribute(View view, String namespaceURI, String name)
     {
-        ClassDescViewMgr viewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr viewMgr = getInflatedLayoutPageImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased viewClassDesc = viewMgr.get(view);
         removeAttribute(viewClassDesc, view, namespaceURI, name);
     }
@@ -109,7 +110,7 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout
         {
             // El handler inline de load o unload sólo se puede poner una vez por layout por lo que obligamos
             // a que sea el View root de forma similar al <body> en HTML
-            if (view != inflatedLayout.getRootView())
+            if (view != getInflatedLayoutPageImpl().getRootView())
                 throw new ItsNatDroidException("onload/onunload handlers only can be defined in the view root of the layout");
         }
         return getPageImpl().getItsNatDocImpl().getItsNatViewImpl(view);

@@ -29,51 +29,39 @@ import java.util.List;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    protected InflatedLayoutImpl inflatedLayout;
-    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
-    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
-
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedLayout,
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,
                              AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                              Context ctx)
     {
-        super(ctx);
-        this.inflatedLayout = inflatedLayout;
-        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
-        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
+        super(inflatedXML,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
     }
 
     public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
+        XMLInflaterLayout xmlInflaterLayout = null;
+
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            return new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
+            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            return new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         }
-        return null; // Internal Error
+
+        inflatedLayout.setXMLInflaterLayout(xmlInflaterLayout); // Se necesita después para la inserción de fragments, cambio de atributos etc
+
+        return xmlInflaterLayout; // Internal Error
     }
 
     public InflatedLayoutImpl getInflatedLayoutImpl()
     {
-        return inflatedLayout;
-    }
-
-    public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
-    {
-        return attrLayoutInflaterListener;
-    }
-
-    public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
-    {
-        return attrDrawableInflaterListener;
+        return (InflatedLayoutImpl)inflatedXML;
     }
 
     public View inflateLayout(String[] loadScript, List<String> scriptList)
     {
-        XMLDOMLayout domLayout = inflatedLayout.getXMLDOMLayout();
+        XMLDOMLayout domLayout = getInflatedLayoutImpl().getXMLDOMLayout();
         if (loadScript != null)
             loadScript[0] = domLayout.getLoadScript();
 
@@ -98,11 +86,9 @@ public abstract class XMLInflaterLayout extends XMLInflater
     {
         DOMView rootDOMView = domLayout.getRootView();
 
-        String viewName = rootDOMView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
-
         PendingPostInsertChildrenTasks pending = new PendingPostInsertChildrenTasks();
 
-        View rootView = createRootViewObjectAndFillAttributes(viewName, rootDOMView,pending);
+        View rootView = createRootViewObjectAndFillAttributes(rootDOMView,pending);
 
         processChildViews(rootDOMView,rootView);
 
@@ -111,9 +97,10 @@ public abstract class XMLInflaterLayout extends XMLInflater
         return rootView;
     }
 
-    public View createRootViewObjectAndFillAttributes(String viewName,DOMView rootDOMView,PendingPostInsertChildrenTasks pending)
+    public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pending)
     {
-        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
+        String viewName = rootDOMView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
         View rootView = createViewObject(classDesc, rootDOMView,pending);
 
@@ -126,14 +113,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public void setRootView(View rootView)
     {
-        inflatedLayout.setRootView(rootView);
+        getInflatedLayoutImpl().setRootView(rootView);
     }
 
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMView domView, PendingPostInsertChildrenTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = inflatedLayout.getXMLInflateRegistry().getClassDescViewMgr();
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
         ClassDescViewBased classDesc = classDescViewMgr.get(domView.getName());
         View view = createViewObject(classDesc, domView,pending);
 
@@ -144,14 +131,14 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     private View createViewObject(ClassDescViewBased classDesc,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
-        return classDesc.createViewObjectFromParser(inflatedLayout, domView,pending);
+        return classDesc.createViewObjectFromParser(getInflatedLayoutImpl(), domView,pending);
     }
 
     private void fillAttributesAndAddView(View view,ClassDescViewBased classDesc,ViewGroup viewParent,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
         OneTimeAttrProcess oneTimeAttrProcess = classDesc.createOneTimeAttrProcess(view,viewParent);
         fillViewAttributes(classDesc,view, domView,oneTimeAttrProcess,pending); // Los atributos los definimos después porque el addView define el LayoutParameters adecuado según el padre (LinearLayout, RelativeLayout...)
-        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, inflatedLayout.getContext());
+        classDesc.addViewObject(viewParent, view, -1, oneTimeAttrProcess, getInflatedLayoutImpl().getContext());
     }
 
     private void fillViewAttributes(ClassDescViewBased classDesc,View view,DOMView domView,OneTimeAttrProcess oneTimeAttrProcess,PendingPostInsertChildrenTasks pending)

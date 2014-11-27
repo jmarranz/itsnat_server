@@ -1,6 +1,7 @@
 package org.itsnat.droid.impl.xmlinflater;
 
 import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.browser.PageImpl;
 
 import java.util.HashMap;
 
@@ -42,7 +43,11 @@ public abstract class ClassDesc<Tnative>
         return className;
     }
 
-
+    public static PageImpl getPageImpl(XMLInflater xmlInflater)
+    {
+        // PUEDE SER NULL
+        return (xmlInflater instanceof XMLInflaterPage) ? ((XMLInflaterPage) xmlInflater).getPageImpl() : null;
+    }
 
     protected boolean isInit()
     {

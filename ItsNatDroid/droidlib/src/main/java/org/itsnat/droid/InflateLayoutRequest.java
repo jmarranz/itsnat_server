@@ -2,6 +2,7 @@ package org.itsnat.droid;
 
 import android.content.Context;
 
+import java.io.InputStream;
 import java.io.Reader;
 
 /**
@@ -13,5 +14,6 @@ public interface InflateLayoutRequest
     public InflateLayoutRequest setEncoding(String encoding);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener);
+    public InflatedLayout inflate(InputStream input);
     public InflatedLayout inflate(Reader input);
 }

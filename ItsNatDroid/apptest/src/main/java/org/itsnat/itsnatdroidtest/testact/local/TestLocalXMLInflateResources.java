@@ -1,11 +1,14 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
+import android.graphics.drawable.NinePatchDrawable;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertEquals;
+import static org.itsnat.itsnatdroidtest.testact.util.Assert.assertNotNull;
 
 
 /**
@@ -46,6 +49,21 @@ public class TestLocalXMLInflateResources
             Button parsedButton = (Button) parsed.getChildAt(childCount);
             assertEquals(compButton.getId(), parsedButton.getId());
             assertEquals(compButton.getText(), parsedButton.getText());
+        }
+
+        childCount++;
+
+        // Test NinePatchDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "Test nine-patch (border must be green)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((NinePatchDrawable) compLayout.getBackground());
+            assertEquals((NinePatchDrawable)compLayout.getBackground(), (NinePatchDrawable)parsedLayout.getBackground());
+
         }
 
 

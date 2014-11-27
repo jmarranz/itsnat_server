@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -33,7 +34,10 @@ public abstract class AttrDescViewReflecFieldFieldMethodDrawable extends AttrDes
                 callFieldFieldMethod(view, convValue);
             }
         };
-        processDrawableTask(attr,task,xmlInflaterLayout);
+        if (DOMAttrRemote.isPendingToDownload(attr))
+            processDownloadTask((DOMAttrRemote)attr,task,xmlInflaterLayout);
+        else
+            task.run();
     }
 
 }

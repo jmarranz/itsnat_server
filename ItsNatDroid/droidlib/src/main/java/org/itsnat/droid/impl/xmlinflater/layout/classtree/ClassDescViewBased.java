@@ -24,6 +24,8 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutImpl;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
+import org.itsnat.droid.impl.xmlinflater.XMLInflaterPage;
 import org.itsnat.droid.impl.xmlinflater.layout.ClassDescViewMgr;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessChildGridLayout;
@@ -31,7 +33,6 @@ import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcessDefault;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescView;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -96,11 +97,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         return (AttrDescView)getAttrDesc(name);
     }
 
-    public static PageImpl getPageImpl(XMLInflaterLayout xmlInflaterLayout)
-    {
-        // PUEDE SER NULL
-        return (xmlInflaterLayout instanceof XMLInflaterLayoutPage) ? ((XMLInflaterLayoutPage) xmlInflaterLayout).getPageImpl() : null;
-    }
 
     protected static boolean isStyleAttribute(String namespaceURI,String name)
     {
@@ -123,8 +119,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         try
         {
             if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
-
-            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
 
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
@@ -156,6 +150,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else if (isXMLIdAttrAsDOM(namespaceURI, name))
             {
+                InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
                 inflated.setXMLId(value, view);
             }
             else
@@ -186,8 +181,6 @@ public class ClassDescViewBased extends ClassDesc<View>
         {
             if (isAttributeIgnored(namespaceURI,name)) return false; // Se trata de forma especial en otro lugar
 
-            InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
-
             if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
             {
                 AttrDescView attrDesc = getAttrDescView(name);
@@ -216,6 +209,7 @@ public class ClassDescViewBased extends ClassDesc<View>
             }
             else if (isXMLIdAttrAsDOM(namespaceURI, name))
             {
+                InflatedLayoutImpl inflated = xmlInflaterLayout.getInflatedLayoutImpl();
                 inflated.unsetXMLId(view);
             }
             else

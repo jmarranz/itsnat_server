@@ -3,6 +3,7 @@ package org.itsnat.droid.impl.xmlinflater.drawable.stdalone;
 import android.content.Context;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
@@ -11,8 +12,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
  */
 public class XMLInflaterDrawableStandalone extends XMLInflaterDrawable
 {
-    public XMLInflaterDrawableStandalone(InflatedDrawableStandalone inflatedDrawable,AttrDrawableInflaterListener inflateDrawableListener, Context ctx)
+    public XMLInflaterDrawableStandalone(InflatedDrawableStandalone inflatedXML,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx)
     {
-        super(inflatedDrawable,inflateDrawableListener, ctx);
+        super(inflatedXML,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
     }
 }

@@ -22,7 +22,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final String pageURLBase;
     protected final HttpConfig httpConfig;
     protected final XMLInflateRegistry xmlInflateRegistry;
-    protected final AttrDrawableInflaterListener inflateDrawableListener;
+    protected final AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected final AssetManager assetManager;
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url, HttpParams httpParamsRequest)
@@ -33,7 +33,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.url = url;
         this.pageURLBase = pageRequest.getURLBase();
         this.xmlInflateRegistry = itsNatDroid.getXMLInflateRegistry();
-        this.inflateDrawableListener = pageRequest.getAttrDrawableInflaterListener();
+        this.attrDrawableInflaterListener = pageRequest.getAttrDrawableInflaterListener();
         this.assetManager = pageRequest.getContext().getAssets();
 
         // Hay que tener en cuenta que estos objetos se acceden en multihilo

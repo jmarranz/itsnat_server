@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nine-patch xmlns:android="http://schemas.android.com/apk/res/android"
     android:src="@assets:drawable/res/drawable/list_selector_background_focused_light.9.png"
-    android:dither="true" />
+    android:dither="false" />

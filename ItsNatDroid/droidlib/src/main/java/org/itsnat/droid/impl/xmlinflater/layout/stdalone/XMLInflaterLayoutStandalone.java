@@ -12,8 +12,8 @@ import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
  */
 public class XMLInflaterLayoutStandalone extends XMLInflaterLayout
 {
-    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl layout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
+    public XMLInflaterLayoutStandalone(InflatedLayoutStandaloneImpl inflatedXML,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
     {
-        super(layout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,inflateLayoutListener,attrDrawableInflaterListener,ctx);
     }
 }

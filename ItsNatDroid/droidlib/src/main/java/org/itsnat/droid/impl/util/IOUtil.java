@@ -6,7 +6,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by jmarranz on 16/05/14.
@@ -34,6 +36,14 @@ public class IOUtil
             catch (IOException ex2) { throw new ItsNatDroidException(ex2); }
         }
         return output.toString();
+    }
+
+    public static String read(InputStream input,String encoding)
+    {
+        Reader reader;
+        try { reader = new InputStreamReader(input,encoding); }
+        catch (UnsupportedEncodingException ex) { throw new ItsNatDroidException(ex); }
+        return read(reader);
     }
 
     public static byte[] read(InputStream input)

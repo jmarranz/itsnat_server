@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.xmlinflater.FieldContainer;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
@@ -71,8 +72,10 @@ public class AttrDescView_widget_TextView_compoundDrawables extends AttrDescView
                 ((TextView)view).setCompoundDrawablesWithIntrinsicBounds(drawableLeft, drawableTop, drawableRight, drawableBottom);
             }
         };
-        processDrawableTask(attr,task,xmlInflaterLayout);
-
+        if (DOMAttrRemote.isPendingToDownload(attr))
+            processDownloadTask((DOMAttrRemote)attr,task,xmlInflaterLayout);
+        else
+            task.run();
     }
 
     public void removeAttribute(View view, XMLInflaterLayout xmlInflaterLayout, Context ctx)

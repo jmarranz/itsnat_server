@@ -1,14 +1,12 @@
 package org.itsnat.droid.impl.xmlinflater.drawable.attr;
 
-import android.graphics.drawable.Drawable;
-
 import org.itsnat.droid.impl.xmlinflater.MethodContainer;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescDrawableReflecMethod extends AttrDescDrawable
+public abstract class AttrDescDrawableReflecMethod<Tdrawable> extends AttrDescDrawable<Tdrawable>
 {
     protected MethodContainer method;
 
@@ -28,7 +26,7 @@ public abstract class AttrDescDrawableReflecMethod extends AttrDescDrawable
         return "set" + Character.toUpperCase(name.charAt(0)) + name.substring(1);
     }
 
-    protected void callMethod(Drawable drawable, Object convertedValue)
+    protected void callMethod(Tdrawable drawable, Object convertedValue)
     {
         method.invoke(drawable, convertedValue);
     }

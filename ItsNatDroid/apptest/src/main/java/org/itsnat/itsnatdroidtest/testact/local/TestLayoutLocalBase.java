@@ -15,7 +15,6 @@ import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Created by jmarranz on 16/07/14.
@@ -79,10 +78,11 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
 
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
         InflatedLayout layout = inflateRequest
+                .setEncoding("UTF-8")
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
                 .setContext(act)
-                .inflate(new InputStreamReader(input));
+                .inflate(input);
 
         View dynamicRootView = layout.getRootView();
         changeLayout(fragment, dynamicRootView);

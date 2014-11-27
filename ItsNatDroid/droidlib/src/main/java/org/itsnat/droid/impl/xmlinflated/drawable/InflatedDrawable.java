@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 
 /**
  * Created by jmarranz on 7/11/14.
@@ -17,6 +18,16 @@ public abstract class InflatedDrawable extends InflatedXML
     public InflatedDrawable(ItsNatDroidImpl itsNatDroid,XMLDOMDrawable xmlDOMDrawable,Context ctx)
     {
         super(itsNatDroid, xmlDOMDrawable,ctx);
+    }
+
+    public XMLInflaterDrawable getXMLInflaterDrawable()
+    {
+        return (XMLInflaterDrawable)xmlInflater;
+    }
+
+    public void setXMLInflaterDrawable(XMLInflaterDrawable xmlInflater)
+    {
+        this.xmlInflater = xmlInflater;
     }
 
     public XMLDOMDrawable getXMLDOMDrawable()

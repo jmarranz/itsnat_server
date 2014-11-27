@@ -26,7 +26,6 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
 {
     protected View rootView;
     protected ViewMapByXMLId viewMapByXMLId;
-    protected XMLInflaterLayout xmlInflater; // El InflatedLayoutImpl está "vivo" tras el inflado, pueden haber cambios de atributos e inserción de fragments, por eso necesitamos el XML inflater que se usó para inflar en tiempo de carga
 
     public InflatedLayoutImpl(ItsNatDroidImpl itsNatDroid,XMLDOMLayout domLayout,Context ctx)
     {
@@ -41,7 +40,7 @@ public abstract class InflatedLayoutImpl extends InflatedXML implements Inflated
 
     public XMLInflaterLayout getXMLInflaterLayout()
     {
-        return xmlInflater;
+        return (XMLInflaterLayout)xmlInflater;
     }
 
     public void setXMLInflaterLayout(XMLInflaterLayout xmlInflater)

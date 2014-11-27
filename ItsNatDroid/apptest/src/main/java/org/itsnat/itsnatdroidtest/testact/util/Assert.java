@@ -2,6 +2,8 @@ package org.itsnat.itsnatdroidtest.testact.util;
 
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ClipDrawable;
@@ -9,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.graphics.drawable.RotateDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.text.InputFilter;
@@ -166,6 +169,13 @@ public class Assert
             assertEquals(a[i],b[i]);
     }
 
+    public static void assertEquals(Bitmap a,Bitmap b)
+    {
+        assertEquals(a.getByteCount(),b.getByteCount());
+        assertEquals(a.getWidth(),b.getWidth());
+        assertEquals(a.getHeight(),b.getHeight());
+    }
+
     public static void assertEquals(Drawable a,Drawable b)
     {
         if (!a.getClass().equals(b.getClass())) throw new ItsNatDroidException("Not equal: \"" + a + "\" - \"" + b + "\"");
@@ -178,78 +188,108 @@ public class Assert
         }
         else if (a instanceof GradientDrawable)
         {
-            Drawable.ConstantState sa = ((GradientDrawable) a).getConstantState();
-            Drawable.ConstantState sb = ((GradientDrawable) b).getConstantState();
-
-            assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
-            // mSolidColor ya no existe en level 21: assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
+            assertEquals((GradientDrawable)a,(GradientDrawable)b);
         }
         else if (a instanceof BitmapDrawable)
         {
-            BitmapDrawable a_bitmap = (BitmapDrawable)a;
-            BitmapDrawable b_bitmap = (BitmapDrawable)b;
-            assertEquals(a_bitmap.getBitmap().getByteCount(),b_bitmap.getBitmap().getByteCount());
-            assertEquals(a_bitmap.getBitmap().getWidth(),b_bitmap.getBitmap().getWidth());
-            assertEquals(a_bitmap.getBitmap().getHeight(),b_bitmap.getBitmap().getHeight());
+            assertEquals((BitmapDrawable)a,(BitmapDrawable)b);
+        }
+        else if (a instanceof NinePatchDrawable)
+        {
+            assertEquals((NinePatchDrawable)a,(NinePatchDrawable)b);
         }
         else if (a instanceof LayerDrawable)
         {
-            LayerDrawable a_layer = (LayerDrawable)a;
-            LayerDrawable b_layer = (LayerDrawable)b;
-
-            assertEquals(a_layer.getIntrinsicWidth(), b_layer.getIntrinsicWidth());
-            assertEquals(a_layer.getIntrinsicHeight(),b_layer.getIntrinsicHeight());
-            assertEquals(a_layer.getNumberOfLayers(),a_layer.getNumberOfLayers());
-            for(int i = 0; i < a_layer.getNumberOfLayers(); i++)
-            {
-                assertEquals(a_layer.getDrawable(i), b_layer.getDrawable(i));
-            }
+            assertEquals((LayerDrawable)a,(LayerDrawable)b);
         }
         else if (a instanceof RotateDrawable)
         {
-            RotateDrawable a_rot = (RotateDrawable)a;
-            RotateDrawable b_rot = (RotateDrawable)b;
-
-            assertEquals(a_rot.getIntrinsicWidth(), b_rot.getIntrinsicWidth());
-            assertEquals(a_rot.getIntrinsicHeight(),b_rot.getIntrinsicHeight());
-
-            assertEquals(a_rot.getDrawable(), b_rot.getDrawable());
+            assertEquals((RotateDrawable)a,(RotateDrawable)b);
         }
         else if (a instanceof ClipDrawable)
         {
-            ClipDrawable a_clip = (ClipDrawable)a;
-            ClipDrawable b_clip = (ClipDrawable)b;
-
-            assertEquals(a_clip.getOpacity(), b_clip.getOpacity());
-            assertEquals(a_clip.isStateful(), b_clip.isStateful());
-            assertEquals(a_clip.getIntrinsicWidth(), b_clip.getIntrinsicWidth());
-            assertEquals(a_clip.getIntrinsicHeight(), b_clip.getIntrinsicHeight());
-
-            Drawable.ConstantState sa = a_clip.getConstantState();
-            Drawable.ConstantState sb = b_clip.getConstantState();
-
-            Class clasz = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
-            assertEquals((Drawable)TestUtil.getField(sa,clasz,"mDrawable"),(Drawable)TestUtil.getField(sb,clasz,"mDrawable"));
+            assertEquals((ClipDrawable)a,(ClipDrawable)b);
         }
         else if (a instanceof StateListDrawable)
         {
-            StateListDrawable a_state = (StateListDrawable) a;
-            StateListDrawable b_state = (StateListDrawable) b;
-
-/*
-            mStateListState/mStateSets
-            StateListState a_stList = a_state.getStateListState();
-*/
-            int[] a_stateArr = a_state.getState();
-            int[] b_stateArr = b_state.getState();
-            assertEquals(a_stateArr.length,b_stateArr.length);
-            for(int i = 0; i < a_stateArr.length; i++)
-            {
-                assertEquals(a_stateArr[i],b_stateArr[i]);
-            }
+            assertEquals((StateListDrawable)a,(StateListDrawable)b);
         }
         else
-            throw new ItsNatDroidException("Cannot test " + a);
+            throw new ItsNatDroidException("Cannot test drawable " + a);
+    }
+
+    public static void assertEquals(BitmapDrawable a,BitmapDrawable b)
+    {
+        assertEquals(a.getBitmap(), b.getBitmap());
+    }
+
+    public static void assertEquals(ClipDrawable a,ClipDrawable b)
+    {
+        assertEquals(a.getOpacity(), b.getOpacity());
+        assertEquals(a.isStateful(), b.isStateful());
+        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+
+        Drawable.ConstantState sa = b.getConstantState();
+        Drawable.ConstantState sb = b.getConstantState();
+
+        Class clasz = TestUtil.resolveClass(ClipDrawable.class.getName() + "$ClipState");
+        assertEquals((Drawable) TestUtil.getField(sa, clasz, "mDrawable"), (Drawable) TestUtil.getField(sb, clasz, "mDrawable"));
+    }
+
+    public static void assertEquals(GradientDrawable a,GradientDrawable b)
+    {
+        Drawable.ConstantState sa = a.getConstantState();
+        Drawable.ConstantState sb = b.getConstantState();
+
+        assertEquals((Integer) TestUtil.getField(sa, "mStrokeWidth"), (Integer) TestUtil.getField(sb, "mStrokeWidth"));
+        // mSolidColor ya no existe en level 21: assertEquals((Integer)TestUtil.getField(sa,"mSolidColor"),(Integer)TestUtil.getField(sb,"mSolidColor"));
+    }
+
+    public static void assertEquals(LayerDrawable a,LayerDrawable b)
+    {
+        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        assertEquals(a.getNumberOfLayers(), b.getNumberOfLayers());
+        for (int i = 0; i < a.getNumberOfLayers(); i++)
+        {
+            assertEquals(a.getDrawable(i), b.getDrawable(i));
+        }
+    }
+
+    public static void assertEquals(NinePatchDrawable a,NinePatchDrawable b)
+    {
+        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        assertEquals(a.getOpacity(), b.getOpacity());
+        //assertEquals(a.getAlpha(), b.getAlpha());
+
+        NinePatch a2 = (NinePatch) TestUtil.getField(a, "mNinePatch");
+        NinePatch b2 = (NinePatch) TestUtil.getField(b, "mNinePatch");
+        assertEquals((Bitmap)TestUtil.getField(a2, "mBitmap"),(Bitmap)TestUtil.getField(b2, "mBitmap"));
+    }
+
+    public static void assertEquals(RotateDrawable a,RotateDrawable b)
+    {
+        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+
+        assertEquals(a.getDrawable(), b.getDrawable());
+    }
+
+    public static void assertEquals(StateListDrawable a,StateListDrawable b)
+    {
+    /*
+                mStateListState/mStateSets
+                StateListState a_stList = a_state.getStateListState();
+    */
+        int[] a_stateArr = a.getState();
+        int[] b_stateArr = b.getState();
+        assertEquals(a_stateArr.length, b_stateArr.length);
+        for (int i = 0; i < a_stateArr.length; i++)
+        {
+            assertEquals(a_stateArr[i], b_stateArr[i]);
+        }
     }
 
     public static void assertEqualsStrokeWidth(Drawable a,int b)

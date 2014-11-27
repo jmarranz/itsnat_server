@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -22,7 +21,7 @@ import java.io.InputStream;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class AttrDescDrawable extends AttrDesc
+public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
 {
     public AttrDescDrawable(ClassDescDrawable parent, String name)
     {
@@ -70,9 +69,14 @@ public abstract class AttrDescDrawable extends AttrDesc
         }
     }
 
-    public abstract void setAttribute(Drawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
+    public abstract void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
 
-    public abstract void removeAttribute(Drawable draw,XMLInflaterDrawable xmlInflaterDrawable, Context ctx);
+    public void removeAttribute(Tdrawable draw,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    {
+        throw new ItsNatDroidException("Internal error");
+    }
+
+
 }
 
 

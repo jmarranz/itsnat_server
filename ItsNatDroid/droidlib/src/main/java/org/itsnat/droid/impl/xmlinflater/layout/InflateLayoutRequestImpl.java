@@ -16,6 +16,7 @@ import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutStandaloneImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
 {
     protected ItsNatDroidImpl itsNatDroid;
     protected Context ctx;
-    protected String encoding;
+    protected String encoding = "UTF-8";
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
 
@@ -72,15 +73,22 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
     }
 
     @Override
-    public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener)
+    public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        this.attrDrawableInflaterListener = inflateDrawableListener;
+        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
         return this;
     }
 
     public Context getContext()
     {
         return ctx;
+    }
+
+    @Override
+    public InflatedLayout inflate(InputStream input)
+    {
+        String markup = IOUtil.read(input,encoding);
+        return inflateLayoutStandalone(markup);
     }
 
     @Override
@@ -108,7 +116,6 @@ public class InflateLayoutRequestImpl implements InflateLayoutRequest
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, domLayout,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, ctx);
         XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
-        inflatedLayout.setXMLInflaterLayout(xmlInflater); // Se necesita después para la inserción de fragments, cambio de atributos etc
         xmlInflater.inflateLayout(loadScript, scriptList);
         return inflatedLayout;
     }

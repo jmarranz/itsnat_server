@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.ItsNatDroidImpl;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -22,9 +23,8 @@ import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
-import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
-import org.itsnat.droid.impl.xmlinflater.layout.page.XMLInflaterLayoutPage;
+import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
 
 import java.util.Map;
 
@@ -61,6 +61,20 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
     protected XMLInflateRegistry getXMLInflateRegistry()
     {
         return classDesc.getXMLInflateRegistry();
+    }
+
+    protected void processDownloadTask(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
+    {
+        // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
+        // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
+        downloadResources(attr, task, xmlInflater);
+    }
+
+    private static void downloadResources(DOMAttrRemote attr,Runnable task,XMLInflater xmlInflater)
+    {
+        PageImpl page = ClassDescViewBased.getPageImpl(xmlInflater); // NO puede ser nulo
+
+        page.getItsNatDocImpl().downloadResources(attr,task);
     }
 
     public int getIdentifierAddIfNecessary(String value, Context ctx)
@@ -250,25 +264,26 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         return dimension;
     }
 
-    public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflaterLayout xmlInflaterLayout)
+    public Drawable getDrawable(DOMAttr attr, Context ctx,XMLInflater xmlInflater)
     {
         if (attr instanceof DOMAttrDynamic)
         {
             PageImpl page = null;
-            if (xmlInflaterLayout instanceof XMLInflaterLayoutPage)
-                page = ((XMLInflaterLayoutPage)xmlInflaterLayout).getPageImpl();
+            if (xmlInflater instanceof XMLInflaterPage)
+                page = ((XMLInflaterPage)xmlInflater).getPageImpl();
 
             if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected");
 
-            ItsNatDroidImpl itsNatDroid = xmlInflaterLayout.getInflatedLayoutImpl().getItsNatDroidImpl();
-            AttrDrawableInflaterListener listener = xmlInflaterLayout.getAttrDrawableInflaterListener();
+            ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
+            AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
+            AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
             InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) :
                                                                new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-            XMLInflaterDrawable xmlInflater = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, listener, ctx, page);
-            return xmlInflater.inflateDrawable();
+            XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
+            return xmlInflaterDrawable.inflateDrawable();
         }
         else if (attr instanceof DOMAttrLocalResource)
         {

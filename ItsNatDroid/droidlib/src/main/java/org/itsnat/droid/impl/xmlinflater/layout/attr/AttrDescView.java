@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.util.MiscUtil;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
+import org.itsnat.droid.impl.xmlinflater.XMLInflater;
 import org.itsnat.droid.impl.xmlinflater.layout.OneTimeAttrProcess;
 import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.XMLInflaterLayout;
@@ -43,27 +44,9 @@ public abstract class AttrDescView extends AttrDesc
         return class_R_styleable;
     }
 
-    protected void processDrawableTask(DOMAttr attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
-    {
-        if (attr instanceof DOMAttrRemote && !((DOMAttrRemote) attr).isDownloaded())
-        {
-            // Es el caso de inserción dinámica post page load via ItsNat de nuevos View con atributos que especifican recursos remotos
-            // Hay que cargar primero los recursos y luego ejecutar la task que definirá el drawable
-            DOMAttrRemote attrRemote = (DOMAttrRemote) attr;
-            downloadResources(attrRemote, task, xmlInflaterLayout);
-        }
-        else
-        {
-            task.run();
-        }
-    }
 
-    private static void downloadResources(DOMAttrRemote attr,Runnable task,XMLInflaterLayout xmlInflaterLayout)
-    {
-        PageImpl page = ClassDescViewBased.getPageImpl(xmlInflaterLayout); // NO puede ser nulo
 
-        page.getItsNatDocImpl().downloadResources(attr,task);
-    }
+
 
     protected void setAttribute(View view, String value, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {

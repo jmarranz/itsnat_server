@@ -3,6 +3,8 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 
 /**
@@ -24,8 +26,15 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     @Override
     protected void initClassDesc()
     {
-        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this,null);
+        ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
         addClassDesc(ninePatch);
+
+        ClassDescLayerDrawable layer = new ClassDescLayerDrawable(this);
+        addClassDesc(layer);
+
+            ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
+            addClassDesc(itemLayer);
+
 
         /*
         ClassDescView_view_View view_View = new ClassDescView_view_View(this);

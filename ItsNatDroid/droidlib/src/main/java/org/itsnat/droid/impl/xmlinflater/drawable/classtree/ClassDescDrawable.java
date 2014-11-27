@@ -6,9 +6,8 @@ import android.graphics.drawable.Drawable;
 import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
-import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ChildElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -18,13 +17,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends ClassDesc<Drawable>
+public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
 {
-    //protected static MethodContainer<ViewGroup.LayoutParams> methodGenerateLP = new MethodContainer<ViewGroup.LayoutParams>(ViewGroup.class, "generateDefaultLayoutParams", null);
-
-    //protected Constructor<View> constructor1P;
-    //protected Constructor<View> constructor3P;
-
     public ClassDescDrawable(ClassDescDrawableMgr classMgr, String className, ClassDescDrawable parentClass)
     {
         super(classMgr, className, parentClass);
@@ -50,12 +44,21 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         return (AttrDescDrawable) getAttrDesc(name);
     }
 
+    public Drawable getDrawable(Tdrawable draw)
+    {
+        if (draw instanceof Drawable)
+            return (Drawable)draw;
+        else if (draw instanceof ChildElementDrawable)
+            return ((ChildElementDrawable)draw).getParentDrawable(); // Puede ser null si los elementos hijos se están procesando antes de crear el Drawable porque se necesitan para el constructor
+        return null; // Nunca debe pasar por aquí
+    }
+
     protected boolean isAttributeIgnored(String namespaceURI, String name)
     {
         return false;
     }
 
-    public boolean setAttribute(Drawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean setAttribute(Tdrawable draw,DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 
@@ -63,8 +66,6 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
 
         if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
-
-        InflatedDrawable inflated = xmlInflaterDrawable.getInflatedDrawable();
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -81,7 +82,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.setAttribute(draw, attr, xmlInflaterDrawable,ctx);
+                    parentClass.setAttribute(draw,attr, xmlInflaterDrawable,ctx);
                 }
                 else
                 {
@@ -91,7 +92,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                     {
                         PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                         String value = attr.getValue();
-                        listener.setAttribute(page, draw, namespaceURI, name, value);
+                        listener.setAttribute(page,getDrawable(draw), namespaceURI, name, value);
                     }
                 }
             }
@@ -104,7 +105,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
             {
                 PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
                 String value = attr.getValue();
-                listener.setAttribute(page, draw, namespaceURI, name, value);
+                listener.setAttribute(page, getDrawable(draw), namespaceURI, name, value);
             }
         }
 
@@ -112,13 +113,11 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
     }
 
 
-    public boolean removeAttribute(Drawable draw, String namespaceURI, String name, XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
+    public boolean removeAttribute(Tdrawable draw,String namespaceURI, String name, XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
         if (!isInit()) init();
 
         if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
-
-        InflatedDrawable inflated = xmlInflaterDrawable.getInflatedDrawable();
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {
@@ -132,7 +131,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                 ClassDescDrawable parentClass = getParentClassDescDrawable();
                 if (parentClass != null)
                 {
-                    parentClass.removeAttribute(draw, namespaceURI, name, xmlInflaterDrawable,ctx);
+                    parentClass.removeAttribute(draw,namespaceURI, name, xmlInflaterDrawable,ctx);
                 }
                 else
                 {
@@ -141,7 +140,7 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
                     if (listener != null)
                     {
                         PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                        listener.removeAttribute(page, draw, namespaceURI, name);
+                        listener.removeAttribute(page, getDrawable(draw), namespaceURI, name);
                     }
                 }
             }
@@ -153,13 +152,13 @@ public abstract class ClassDescDrawable<Tdrawable extends Drawable> extends Clas
             if (listener != null)
             {
                 PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                listener.removeAttribute(page, draw, namespaceURI, name);
+                listener.removeAttribute(page, getDrawable(draw), namespaceURI, name);
             }
         }
 
         return true;
     }
 
-    public abstract Class<Tdrawable> getDrawableClass();
-    public abstract Drawable createRootDrawable(DOMElement rootElem,InflatedDrawable inflatedDrawable,Context ctx);
+    public abstract Class<?> getDrawableClass();
+
 }

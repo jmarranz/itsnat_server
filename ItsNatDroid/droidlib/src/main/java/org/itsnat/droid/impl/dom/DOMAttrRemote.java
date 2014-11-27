@@ -22,6 +22,11 @@ public class DOMAttrRemote extends DOMAttrDynamic
         return (InflatedXML.XMLNS_ANDROID.equals(namespaceURI) && value.startsWith("@remote:"));
     }
 
+    public static boolean isPendingToDownload(DOMAttr attr)
+    {
+        return (attr instanceof DOMAttrRemote && !((DOMAttrRemote) attr).isDownloaded());
+    }
+
 /*
     public String getRemoteLocation()
     {

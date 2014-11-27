@@ -44,8 +44,8 @@ public class PageRequestImpl implements PageRequest
     protected HttpParams httpParams;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
-    protected AttrLayoutInflaterListener inflateLayoutListener;
-    protected AttrDrawableInflaterListener inflateDrawableListener;
+    protected AttrLayoutInflaterListener attrLayoutInflaterListener;
+    protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected boolean sync = false;
     protected String url;
     protected String urlBase;
@@ -98,25 +98,25 @@ public class PageRequestImpl implements PageRequest
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()
     {
-        return inflateLayoutListener;
+        return attrLayoutInflaterListener;
     }
 
     @Override
-    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener inflateLayoutListener)
+    public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener attrLayoutInflaterListener)
     {
-        this.inflateLayoutListener = inflateLayoutListener;
+        this.attrLayoutInflaterListener = attrLayoutInflaterListener;
         return this;
     }
 
     public AttrDrawableInflaterListener getAttrDrawableInflaterListener()
     {
-        return inflateDrawableListener;
+        return attrDrawableInflaterListener;
     }
 
     @Override
-    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener)
+    public PageRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener attrDrawableInflaterListener)
     {
-        this.inflateDrawableListener = inflateDrawableListener;
+        this.attrDrawableInflaterListener = attrDrawableInflaterListener;
         return this;
     }
 
@@ -318,8 +318,8 @@ public class PageRequestImpl implements PageRequest
                .setHttpParams(httpParams)
                .setOnPageLoadListener(pageListener)
                .setOnPageLoadErrorListener(errorListener)
-               .setAttrLayoutInflaterListener(inflateLayoutListener)
-               .setAttrDrawableInflaterListener(inflateDrawableListener)
+               .setAttrLayoutInflaterListener(attrLayoutInflaterListener)
+               .setAttrDrawableInflaterListener(attrDrawableInflaterListener)
                .setSynchronous(sync)
                .setURL(url);
         return request;

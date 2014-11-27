@@ -4,33 +4,29 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.NinePatch;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
 
 /**
  * Created by jmarranz on 10/11/14.
  */
-public class ClassDescNinePatchDrawable extends ClassDescDrawable<NinePatchDrawable>
+public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<NinePatchDrawable>
 {
-    //protected ConstructorContainer<NinePatchDrawable> rootConstructor;
-
-    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr, ClassDescDrawable parentClass)
+    public ClassDescNinePatchDrawable(ClassDescDrawableMgr classMgr)
     {
-        super(classMgr,"nine-patch", parentClass);
-        //this.rootConstructor = new ConstructorContainer<NinePatchDrawable>(getDrawableClass(),null);
+        super(classMgr,"nine-patch");
     }
 
     @Override
-    public Drawable createRootDrawable(DOMElement rootElem,InflatedDrawable inflatedDrawable,Context ctx)
+    public NinePatchDrawable createRootDrawable(DOMElement rootElem,XMLInflaterDrawable inflaterDrawable,Context ctx)
     {
         // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
         // http://stackoverflow.com/questions/5079868/create-a-ninepatch-ninepatchdrawable-in-runtime
@@ -68,9 +64,7 @@ public class ClassDescNinePatchDrawable extends ClassDescDrawable<NinePatchDrawa
     {
         super.init();
 
-        // Atributos analizados para Android 4.4 (API Level: 19) pero teniendo en cuenta que sólo soportamos Level 15 (Android 4.0.3)
-
-        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "dither", true));
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this, "dither"));
     }
 
 
