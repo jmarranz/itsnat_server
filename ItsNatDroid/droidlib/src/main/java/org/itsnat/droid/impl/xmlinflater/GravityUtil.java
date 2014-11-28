@@ -1,4 +1,4 @@
-package org.itsnat.droid.impl.xmlinflater.layout.attr;
+package org.itsnat.droid.impl.xmlinflater;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +18,8 @@ public class GravityUtil
         // http://developer.android.com/reference/android/widget/LinearLayout.html#attr_android:gravity
         // http://developer.android.com/reference/android/widget/TextView.html#attr_android:gravity
         // http://developer.android.com/reference/android/widget/FrameLayout.html#attr_android:foregroundGravity
+        // Tambien en drawables
+        // http://developer.android.com/reference/android/graphics/drawable/BitmapDrawable.html#attr_android:gravity
 
         valueMap.put("top",0x30);
         valueMap.put("bottom", 0x50);

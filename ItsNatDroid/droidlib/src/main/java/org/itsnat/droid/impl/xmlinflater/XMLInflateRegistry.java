@@ -186,7 +186,7 @@ public class XMLInflateRegistry
             id = getIdentifierDynamicallyAdded(value,ctx);
         }
         else
-            throw new ItsNatDroidException("INTERNAL ERROR");
+            throw new ItsNatDroidException("Bad format in id declaration: " + value);
 
         if (throwErr && id <= 0) throw new ItsNatDroidException("Not found resource with id \"" + value + "\"");
         return id;

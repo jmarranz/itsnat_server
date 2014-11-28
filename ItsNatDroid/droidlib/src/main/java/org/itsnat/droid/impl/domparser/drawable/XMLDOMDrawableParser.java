@@ -57,8 +57,8 @@ public class XMLDOMDrawableParser extends XMLDOMParser
     }
 
     @Override
-    protected DOMElement createRootElement(String name)
+    protected DOMElement createElement(String name,DOMElement parent)
     {
-        return new DOMElementDefault(name,null);
+        return new DOMElementDefault(name,parent);
     }
 }

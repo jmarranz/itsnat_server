@@ -182,7 +182,15 @@ public class Assert
 
         //assertEquals(a.getBounds(),b.getBounds());
 
-        if (a instanceof ColorDrawable)
+        if (a instanceof BitmapDrawable)
+        {
+            assertEquals((BitmapDrawable)a,(BitmapDrawable)b);
+        }
+        else if (a instanceof ClipDrawable)
+        {
+            assertEquals((ClipDrawable)a,(ClipDrawable)b);
+        }
+        else if (a instanceof ColorDrawable)
         {
             assertEquals(((ColorDrawable) a).getColor(), ((ColorDrawable) b).getColor());
         }
@@ -190,25 +198,17 @@ public class Assert
         {
             assertEquals((GradientDrawable)a,(GradientDrawable)b);
         }
-        else if (a instanceof BitmapDrawable)
+        else if (a instanceof LayerDrawable)
         {
-            assertEquals((BitmapDrawable)a,(BitmapDrawable)b);
+            assertEquals((LayerDrawable)a,(LayerDrawable)b);
         }
         else if (a instanceof NinePatchDrawable)
         {
             assertEquals((NinePatchDrawable)a,(NinePatchDrawable)b);
         }
-        else if (a instanceof LayerDrawable)
-        {
-            assertEquals((LayerDrawable)a,(LayerDrawable)b);
-        }
         else if (a instanceof RotateDrawable)
         {
             assertEquals((RotateDrawable)a,(RotateDrawable)b);
-        }
-        else if (a instanceof ClipDrawable)
-        {
-            assertEquals((ClipDrawable)a,(ClipDrawable)b);
         }
         else if (a instanceof StateListDrawable)
         {
@@ -251,8 +251,29 @@ public class Assert
         assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
         assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
         assertEquals(a.getNumberOfLayers(), b.getNumberOfLayers());
+        Rect ar = new Rect(); Rect br = new Rect();
+        a.getPadding(ar); b.getPadding(br);
+        assertEquals(ar, br);
+
+        Object a_ls = TestUtil.getField(a, "mLayerState"); // LayerState
+        Object b_ls = TestUtil.getField(b, "mLayerState"); // "
+
+        Object[] a_cd_array = (Object[])TestUtil.getField(a_ls, "mChildren"); // ChildDrawable[]
+        Object[] b_cd_array = (Object[])TestUtil.getField(b_ls, "mChildren"); // "
+
+
         for (int i = 0; i < a.getNumberOfLayers(); i++)
         {
+            assertEquals(a.getId(i), b.getId(i));
+
+            Object a_cd = a_cd_array[i]; // ChildDrawable
+            Object b_cd = a_cd_array[i];
+
+            assertEquals((Integer)TestUtil.getField(a_cd,"mInsetL"),(Integer)TestUtil.getField(b_cd,"mInsetL"));
+            assertEquals((Integer)TestUtil.getField(a_cd,"mInsetT"),(Integer)TestUtil.getField(b_cd,"mInsetT"));
+            assertEquals((Integer)TestUtil.getField(a_cd,"mInsetR"),(Integer)TestUtil.getField(b_cd,"mInsetR"));
+            assertEquals((Integer)TestUtil.getField(a_cd,"mInsetB"),(Integer)TestUtil.getField(b_cd,"mInsetB"));
+
             assertEquals(a.getDrawable(i), b.getDrawable(i));
         }
     }

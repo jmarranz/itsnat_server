@@ -17,5 +17,5 @@ public abstract class ClassDescChildElementDrawable<Tdrawable extends ChildEleme
         super(classMgr, elemName, null);
     }
 
-    public abstract ChildElementDrawable createChildElementDrawable(DOMElement domElement,XMLInflaterDrawable inflaterDrawable,Context ctx);
+    public abstract ChildElementDrawable createChildElementDrawable(DOMElement domElement,XMLInflaterDrawable inflaterDrawable,ChildElementDrawable parentChildDrawable,Context ctx);
 }

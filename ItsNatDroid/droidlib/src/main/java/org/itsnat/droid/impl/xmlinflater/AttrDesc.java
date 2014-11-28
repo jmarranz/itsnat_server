@@ -18,10 +18,12 @@ import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.dom.DOMAttrRemote;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
+import org.itsnat.droid.impl.util.MimeUtil;
 import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
+import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.Dimension;
 import org.itsnat.droid.impl.xmlinflater.layout.classtree.ClassDescViewBased;
@@ -36,7 +38,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
     protected String name;
     protected TclassDesc classDesc;
 
-    public AttrDesc(TclassDesc classDesc,String name)
+    public AttrDesc(TclassDesc classDesc, String name)
     {
         this.classDesc = classDesc;
         this.name = name;
@@ -70,21 +72,21 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         downloadResources(attr, task, xmlInflater);
     }
 
-    private static void downloadResources(DOMAttrRemote attr,Runnable task,XMLInflater xmlInflater)
+    private static void downloadResources(DOMAttrRemote attr, Runnable task, XMLInflater xmlInflater)
     {
         PageImpl page = ClassDescViewBased.getPageImpl(xmlInflater); // NO puede ser nulo
 
-        page.getItsNatDocImpl().downloadResources(attr,task);
+        page.getItsNatDocImpl().downloadResources(attr, task);
     }
 
     public int getIdentifierAddIfNecessary(String value, Context ctx)
     {
-        return getXMLInflateRegistry().getIdentifierAddIfNecessary(value,ctx);
+        return getXMLInflateRegistry().getIdentifierAddIfNecessary(value, ctx);
     }
-    
+
     public int getIdentifier(String attrValue, Context ctx)
     {
-        return getXMLInflateRegistry().getIdentifier(attrValue,ctx);
+        return getXMLInflateRegistry().getIdentifier(attrValue, ctx);
     }
 
     public int getInteger(String attrValue, Context ctx)
@@ -158,43 +160,32 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
 
     private static int getDimensionSuffixAsInt(String suffix)
     {
-        if (suffix.equals("dp") || suffix.equals("dip"))
-            return TypedValue.COMPLEX_UNIT_DIP;
-        else if (suffix.equals("px"))
-            return TypedValue.COMPLEX_UNIT_PX;
-        else if (suffix.equals("sp"))
-            return TypedValue.COMPLEX_UNIT_SP;
-        else if (suffix.equals("in"))
-            return TypedValue.COMPLEX_UNIT_IN;
-        else if (suffix.equals("mm"))
-            return TypedValue.COMPLEX_UNIT_MM;
-        else
-            throw new ItsNatDroidException("Internal error");
+        if (suffix.equals("dp") || suffix.equals("dip")) return TypedValue.COMPLEX_UNIT_DIP;
+        else if (suffix.equals("px")) return TypedValue.COMPLEX_UNIT_PX;
+        else if (suffix.equals("sp")) return TypedValue.COMPLEX_UNIT_SP;
+        else if (suffix.equals("in")) return TypedValue.COMPLEX_UNIT_IN;
+        else if (suffix.equals("mm")) return TypedValue.COMPLEX_UNIT_MM;
+        else throw new ItsNatDroidException("Internal error");
     }
 
     private static String getDimensionSuffix(String value)
     {
         String valueTrim = value.trim();
 
-        if (valueTrim.endsWith("dp"))
-            return "dp";
+        if (valueTrim.endsWith("dp")) return "dp";
         if (valueTrim.endsWith("dip")) // Concesión al pasado
             return "dip";
-        else if (valueTrim.endsWith("px"))
-            return "px";
-        else if (valueTrim.endsWith("sp"))
-            return "sp";
-        else if (valueTrim.endsWith("in"))
-            return "in";
-        else if (valueTrim.endsWith("mm"))
-            return "mm";
+        else if (valueTrim.endsWith("px")) return "px";
+        else if (valueTrim.endsWith("sp")) return "sp";
+        else if (valueTrim.endsWith("in")) return "in";
+        else if (valueTrim.endsWith("mm")) return "mm";
         else throw new ItsNatDroidException("ERROR unrecognized dimension: " + valueTrim);
     }
 
     private static float extractFloat(String value, String suffix)
     {
         int pos = value.lastIndexOf(suffix);
-        value = value.substring(0,pos);
+        value = value.substring(0, pos);
         return Float.parseFloat(value);
     }
 
@@ -206,7 +197,7 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         {
             int resId = getIdentifier(attrValue, ctx);
             float num = res.getDimension(resId);
-            return new Dimension(TypedValue.COMPLEX_UNIT_PX,num);
+            return new Dimension(TypedValue.COMPLEX_UNIT_PX, num);
         }
         else
         {
@@ -214,14 +205,14 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
             String suffix = getDimensionSuffix(valueTrim);
             int complexUnit = getDimensionSuffixAsInt(suffix);
             float num = extractFloat(valueTrim, suffix);
-            return new Dimension(complexUnit,num);
+            return new Dimension(complexUnit, num);
         }
     }
 
     public int getDimensionInt(String attrValue, Context ctx)
     {
         //return (int)getDimensionFloat(attrValue,ctx);
-        return Math.round(getDimensionFloat(attrValue,ctx));
+        return Math.round(getDimensionFloat(attrValue, ctx));
     }
 
     public float getDimensionFloat(String attrValue, Context ctx)
@@ -229,10 +220,10 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         // El retorno es en px
         Resources res = ctx.getResources();
 
-        Dimension dimen = getDimensionObject(attrValue,ctx);
+        Dimension dimen = getDimensionObject(attrValue, ctx);
         int unit = dimen.getComplexUnit();
         float num = dimen.getValue();
-        switch(unit)
+        switch (unit)
         {
             case TypedValue.COMPLEX_UNIT_DIP:
                 return ValueUtil.dpToPixel(num, res);
@@ -249,12 +240,12 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
         throw new ItsNatDroidException("Cannot process " + attrValue); // POR AHORA hay que ver si faltan más casos
     }
 
-    protected int getDimensionWithNameInt(String value,Context ctx)
+    protected int getDimensionWithNameInt(String value, Context ctx)
     {
         int dimension;
 
         // No hace falta hacer trim en caso de "match_parent" etc un espacio fastidia el attr
-        if      ("fill_parent".equals(value))  dimension = ViewGroup.LayoutParams.MATCH_PARENT;
+        if ("fill_parent".equals(value)) dimension = ViewGroup.LayoutParams.MATCH_PARENT;
         else if ("match_parent".equals(value)) dimension = ViewGroup.LayoutParams.MATCH_PARENT;
         else if ("wrap_content".equals(value)) dimension = ViewGroup.LayoutParams.WRAP_CONTENT;
         else
@@ -272,18 +263,28 @@ public abstract class AttrDesc<TclassDesc extends ClassDesc>
             if (xmlInflater instanceof XMLInflaterPage)
                 page = ((XMLInflaterPage)xmlInflater).getPageImpl();
 
-            if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected");
+            if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
             ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
             AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
             AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
-            XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
-            InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) :
-                                                               new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-            XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
-            return xmlInflaterDrawable.inflateDrawable();
+            String resourceMime = attrDyn.getResourceMime();
+            if (MimeUtil.MIME_XML.equals(resourceMime))
+            {
+                // Esperamos un drawable no una animación
+                XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
+                InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
+                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable, attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
+                return xmlInflaterDrawable.inflateDrawable();
+            }
+            else if (MimeUtil.isMIMEImage(resourceMime))
+            {
+                byte[] byteArray = (byte[])attrDyn.getResource();
+                return DrawableUtil.createImageBasedDrawable(byteArray,ctx.getResources());
+            }
+            else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }
         else if (attr instanceof DOMAttrLocalResource)
         {

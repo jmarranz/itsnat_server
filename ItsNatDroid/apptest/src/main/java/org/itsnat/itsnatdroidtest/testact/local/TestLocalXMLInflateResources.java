@@ -1,6 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -53,12 +55,27 @@ public class TestLocalXMLInflateResources
 
         childCount++;
 
+        // Test BitmapDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "BitmapDrawable (image in center)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((BitmapDrawable) compLayout.getBackground());
+            assertEquals((BitmapDrawable)compLayout.getBackground(), (BitmapDrawable)parsedLayout.getBackground());
+
+        }
+
+        childCount++;
+
         // Test NinePatchDrawable attribs
         {
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getText(), "Test nine-patch (border must be green)");
+            assertEquals(compLayout.getText(), "NinePatchDrawable (border must be green)");
             assertEquals(compLayout.getText(), parsedLayout.getText());
 
             assertNotNull((NinePatchDrawable) compLayout.getBackground());
@@ -66,6 +83,19 @@ public class TestLocalXMLInflateResources
 
         }
 
+        childCount++;
+
+        // Test LayerDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "LayerDrawable (green rect and centered img)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((LayerDrawable) compLayout.getBackground());
+            assertEquals((LayerDrawable)compLayout.getBackground(), (LayerDrawable)parsedLayout.getBackground());
+        }
 
 
 //         System.out.println("\n\n\nDEFAULT VALUE: " + compLayout.getColumnCount() + " " + parsedLayout.getColumnCount());

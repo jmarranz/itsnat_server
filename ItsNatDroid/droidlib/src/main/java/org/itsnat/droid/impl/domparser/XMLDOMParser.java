@@ -77,7 +77,7 @@ public abstract class XMLDOMParser
 
     protected DOMElement createRootElementAndFillAttributes(String name,XmlPullParser parser,XMLDOM xmlDOM)
     {
-        DOMElement rootElement = createRootElement(name);
+        DOMElement rootElement = createElement(name,null);
 
         setRootElement(rootElement, xmlDOM); // Cuanto antes
 
@@ -89,7 +89,7 @@ public abstract class XMLDOMParser
     protected DOMElement createElementAndFillAttributesAndAdd(String name, DOMElement parentElement, XmlPullParser parser,XMLDOM xmlDOM)
     {
         // parentElement es null en el caso de parseo de fragment
-        DOMElement element = createRootElement(name);
+        DOMElement element = createElement(name,parentElement);
 
         fillAttributesAndAddElement(parentElement, element,parser, xmlDOM);
 
@@ -245,6 +245,6 @@ public abstract class XMLDOMParser
         return xmlDOM;
     }
 
-    protected abstract DOMElement createRootElement(String name);
+    protected abstract DOMElement createElement(String name,DOMElement parent);
 
 }

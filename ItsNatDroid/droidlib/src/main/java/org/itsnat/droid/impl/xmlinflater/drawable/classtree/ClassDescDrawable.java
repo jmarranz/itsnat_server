@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.AttrDrawableInflaterListener;
+import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
@@ -115,48 +116,7 @@ public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
 
     public boolean removeAttribute(Tdrawable draw,String namespaceURI, String name, XMLInflaterDrawable xmlInflaterDrawable, Context ctx)
     {
-        if (!isInit()) init();
-
-        if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
-
-        if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
-        {
-            AttrDescDrawable attrDesc = getAttrDescDrawable(name);
-            if (attrDesc != null)
-            {
-                attrDesc.removeAttribute(draw,xmlInflaterDrawable,ctx);
-            }
-            else
-            {
-                ClassDescDrawable parentClass = getParentClassDescDrawable();
-                if (parentClass != null)
-                {
-                    parentClass.removeAttribute(draw,namespaceURI, name, xmlInflaterDrawable,ctx);
-                }
-                else
-                {
-                    // No se encuentra opción de proceso custom
-                    AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
-                    if (listener != null)
-                    {
-                        PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                        listener.removeAttribute(page, getDrawable(draw), namespaceURI, name);
-                    }
-                }
-            }
-        }
-        else
-        {
-            // No se encuentra opción de proceso custom
-            AttrDrawableInflaterListener listener = xmlInflaterDrawable.getAttrDrawableInflaterListener();
-            if (listener != null)
-            {
-                PageImpl page = getPageImpl(xmlInflaterDrawable); // Puede ser nulo
-                listener.removeAttribute(page, getDrawable(draw), namespaceURI, name);
-            }
-        }
-
-        return true;
+        throw new ItsNatDroidException("Internal error");
     }
 
     public abstract Class<?> getDrawableClass();

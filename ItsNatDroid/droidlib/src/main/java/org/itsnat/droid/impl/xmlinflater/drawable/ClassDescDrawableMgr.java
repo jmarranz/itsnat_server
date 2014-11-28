@@ -2,9 +2,11 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItemBitmap;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 
 /**
@@ -26,6 +28,9 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     @Override
     protected void initClassDesc()
     {
+        ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
+        addClassDesc(bitmap);
+
         ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
         addClassDesc(ninePatch);
 
@@ -35,14 +40,8 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
             addClassDesc(itemLayer);
 
-
-        /*
-        ClassDescView_view_View view_View = new ClassDescView_view_View(this);
-        addClassDesc(view_View);
-
-            ClassDescView_widget_AnalogClock widget_AnalogClock = new ClassDescView_widget_AnalogClock(this,view_View);
-            addClassDesc(widget_AnalogClock);
-*/
+                ClassDescLayerDrawableItemBitmap itemLayerBitmap = new ClassDescLayerDrawableItemBitmap(this);
+                addClassDesc(itemLayerBitmap);
 
     }
 

@@ -12,6 +12,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
+import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 
@@ -33,10 +34,9 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
         if (attr instanceof DOMAttrDynamic)
         {
             // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/Drawable.java#Drawable.createFromXmlInner%28android.content.res.Resources%2Corg.xmlpull.v1.XmlPullParser%2Candroid.util.AttributeSet%29
-            DOMAttrDynamic attrRem = (DOMAttrDynamic)attr;
-            byte[] byteArray = (byte[])attrRem.getResource();
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            return BitmapFactory.decodeByteArray(byteArray,0,byteArray.length,options);
+            DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
+            byte[] byteArray = (byte[])attrDyn.getResource();
+            return DrawableUtil.createBitmap(byteArray);
         }
         else
         {
@@ -68,6 +68,7 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
             throw new ItsNatDroidException("Cannot process " + attrValue);
         }
     }
+
 
     public abstract void setAttribute(Tdrawable draw, DOMAttr attr,XMLInflaterDrawable xmlInflaterDrawable,Context ctx);
 

@@ -18,7 +18,7 @@ import org.itsnat.droid.impl.xmlinflater.layout.PendingPostInsertChildrenTasks;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecFieldSetDimensionWithNameInt;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodCharSequence;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.AttrDescViewReflecMethodMultipleName;
-import org.itsnat.droid.impl.xmlinflater.layout.attr.GravityUtil;
+import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_dropDownHorizontalOffset;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_dropDownVerticalOffset;
 import org.itsnat.droid.impl.xmlinflater.layout.attr.widget.AttrDescView_widget_Spinner_popupBackground;

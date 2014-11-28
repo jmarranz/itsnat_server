@@ -25,7 +25,7 @@ public class AttrDescDrawableReflecMethodDrawable<Tdrawable> extends AttrDescDra
 
     protected static Class<?> getClassParam()
     {
-        return boolean.class;
+        return Drawable.class;
     }
 
     @Override

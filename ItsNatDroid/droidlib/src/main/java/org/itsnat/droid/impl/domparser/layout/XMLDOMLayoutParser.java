@@ -58,9 +58,9 @@ public abstract class XMLDOMLayoutParser extends XMLDOMParser
     }
 
     @Override
-    protected DOMElement createRootElement(String name)
+    protected DOMElement createElement(String name,DOMElement parent)
     {
-        return new DOMView(name,null);
+        return new DOMView(name,(DOMView)parent);
     }
 
 

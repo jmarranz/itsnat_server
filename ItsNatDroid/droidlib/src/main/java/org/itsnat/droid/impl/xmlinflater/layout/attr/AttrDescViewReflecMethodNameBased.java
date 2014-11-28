@@ -14,19 +14,19 @@ import java.util.Map;
 /**
  * Created by jmarranz on 1/05/14.
  */
-public abstract class AttrDescViewReflecMethodNameBased<T> extends AttrDescViewReflecMethod
+public abstract class AttrDescViewReflecMethodNameBased<Treturn> extends AttrDescViewReflecMethod
 {
-    protected Map<String, T> valueMap;
+    protected Map<String, Treturn> valueMap;
     protected String defaultName;
 
-    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, String methodName, Class classParam, Map<String, Treturn> valueMap, String defaultName)
     {
         super(parent,name,methodName,classParam);
         this.valueMap = valueMap;
         this.defaultName = defaultName;
     }
 
-    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, Map<String, T> valueMap, String defaultName)
+    public AttrDescViewReflecMethodNameBased(ClassDescViewBased parent, String name, Class classParam, Map<String, Treturn> valueMap, String defaultName)
     {
         super(parent, name,classParam);
         this.valueMap = valueMap;
@@ -35,7 +35,7 @@ public abstract class AttrDescViewReflecMethodNameBased<T> extends AttrDescViewR
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
     {
-        T valueRes = parseNameBasedValue(attr.getValue());
+        Treturn valueRes = parseNameBasedValue(attr.getValue());
         callMethod(view, valueRes);
     }
 
@@ -48,5 +48,5 @@ public abstract class AttrDescViewReflecMethodNameBased<T> extends AttrDescViewR
         }
     }
 
-    protected abstract <T> T parseNameBasedValue(String value);
+    protected abstract Treturn parseNameBasedValue(String value);
 }

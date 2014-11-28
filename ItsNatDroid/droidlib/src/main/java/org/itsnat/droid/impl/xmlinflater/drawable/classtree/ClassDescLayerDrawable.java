@@ -41,9 +41,10 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
         for(int i = 0; i < itemList.size(); i++)
         {
             LayerDrawableItem item = (LayerDrawableItem)itemList.get(i);
-            item.setParentDrawable(drawable);
+            item.setParentDrawable(drawable); // Por si acaso aunque ya es tarde y no se necesita
 
-            // FALTAN COSAS AQUI (paddings, id etc)
+            drawable.setId(i,item.getId());
+            drawable.setLayerInset(i,item.getLeft(),item.getTop(),item.getRight(),item.getBottom());
         }
 
         return drawable;
