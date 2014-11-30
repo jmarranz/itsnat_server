@@ -90,7 +90,7 @@ public class TestLocalXMLInflateResources
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getText(), "LayerDrawable (green rect and centered img)");
+            assertEquals(compLayout.getText(), "LayerDrawable (2 green rects and centered img)");
             assertEquals(compLayout.getText(), parsedLayout.getText());
 
             assertNotNull((LayerDrawable) compLayout.getBackground());

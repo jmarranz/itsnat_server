@@ -6,7 +6,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawa
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItemBitmap;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItemBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 
 /**
@@ -40,7 +40,7 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
             addClassDesc(itemLayer);
 
-                ClassDescLayerDrawableItemBitmap itemLayerBitmap = new ClassDescLayerDrawableItemBitmap(this);
+                ClassDescLayerDrawableItemBridge itemLayerBitmap = new ClassDescLayerDrawableItemBridge(this);
                 addClassDesc(itemLayerBitmap);
 
     }

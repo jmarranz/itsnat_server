@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="20dp"
-            android:text="LayerDrawable (green rect and centered img)"
+            android:text="LayerDrawable (2 green rects and centered img)"
             android:textSize="20dp"
             android:background="@assets:drawable/res/drawable/test_layer_drawable.xml" />
 

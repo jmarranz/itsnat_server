@@ -22,6 +22,6 @@ public class AttrDescViewReflecMethodSingleName<T> extends AttrDescViewReflecMet
     @Override
     protected T parseNameBasedValue(String value)
     {
-        return AttrDescView.<T>parseSingleName(value, valueMap);
+        return this.<T>parseSingleName(value, valueMap);
     }
 }

@@ -160,10 +160,22 @@ public abstract class XMLInflaterDrawable extends XMLInflater
 
     public ChildElementDrawable createChildElementDrawableAndFillAttributes(DOMElement domElement,DOMElement domElementParent,ChildElementDrawable parentChildDrawable)
     {
-        String name = getFullName(domElement);
+        String parentName = getFullName(domElementParent);
+        String name = parentName + ":" + domElement.getName();
         ClassDescDrawableMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
         ClassDescChildElementDrawable classDesc = (ClassDescChildElementDrawable)classDescViewMgr.get(name);
-        ChildElementDrawable childDrawable = createChildElementDrawable(classDesc, domElement,parentChildDrawable);
+        ChildElementDrawable childDrawable;
+        if (classDesc != null)
+        {
+            childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
+        }
+        else
+        {
+            name = parentName + ":*";
+            classDesc = (ClassDescChildElementDrawable)classDescViewMgr.get(name);
+            if (classDesc == null) throw new ItsNatDroidException("Not found descriptor: " + name);
+            childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
+        }
 
         fillAttributes(classDesc, childDrawable, domElement,ctx);
 

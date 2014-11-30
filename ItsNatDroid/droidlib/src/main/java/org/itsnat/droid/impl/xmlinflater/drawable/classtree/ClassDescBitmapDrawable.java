@@ -11,7 +11,9 @@ import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodMultipleName;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileMode;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -33,9 +35,9 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    protected boolean isAttributeIgnored(BitmapDrawable draw,String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
         return isSrcAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
     }
@@ -55,7 +57,14 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
     {
         super.init();
 
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"antialias","setAntiAlias"));
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"dither"));
+        addAttrDesc(new AttrDescDrawableReflecMethodBoolean(this,"filter","setFilterBitmap"));
         addAttrDesc(new AttrDescDrawableReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap));
+        // android:mipMap parece que es level 17
+        // android:src se procesa en tiempo de creación
+        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this));
+
     }
 
 

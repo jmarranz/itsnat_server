@@ -16,7 +16,6 @@ import org.itsnat.itsnatdroidtest.testact.TestActivity;
 import org.itsnat.itsnatdroidtest.testact.TestActivityTabFragment;
 import org.itsnat.itsnatdroidtest.testact.util.CustomScrollView;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,10 +43,7 @@ public class TestLayoutLocal1 extends TestLayoutLocalBase
             public void onClick(View view)
             {
                 // TEST de carga dinámica de layout guardado localmente
-                InputStream input = act.getResources().openRawResource(R.raw.test_local_layout_dynamic_1);
-                // XmlResourceParser input = act.getResources().getXml(R.xml.test_local_layout_dynamic_1); devuelve un XMLBlock parser que no funciona igual que un parser normal y falla
-
-                InflatedLayout layout = loadDynamicAndBindBackReloadButtons(input);
+                InflatedLayout layout = loadDynamicAndBindBackReloadButtons(R.raw.test_local_layout_dynamic_1);
                 View dynamicRootView = layout.getRootView();
 
                 initialConfiguration(act, dynamicRootView);

@@ -51,9 +51,9 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
     }
 
     @Override
-    protected boolean isAttributeIgnored(String namespaceURI,String name)
+    protected boolean isAttributeIgnored(LayerDrawable draw,String namespaceURI,String name)
     {
-        if (super.isAttributeIgnored(namespaceURI,name))
+        if (super.isAttributeIgnored(draw,namespaceURI,name))
             return true;
         return isSrcAttribute(namespaceURI, name); // Se trata de forma especial en otro lugar
     }

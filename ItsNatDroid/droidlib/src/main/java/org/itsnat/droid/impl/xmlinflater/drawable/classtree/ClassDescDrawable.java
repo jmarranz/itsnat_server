@@ -54,7 +54,7 @@ public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
         return null; // Nunca debe pasar por aquí
     }
 
-    protected boolean isAttributeIgnored(String namespaceURI, String name)
+    protected boolean isAttributeIgnored(Tdrawable draw,String namespaceURI, String name)
     {
         return false;
     }
@@ -66,7 +66,7 @@ public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
         String namespaceURI = attr.getNamespaceURI();
         String name = attr.getName(); // El nombre devuelto no contiene el namespace
 
-        if (isAttributeIgnored(namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
+        if (isAttributeIgnored(draw,namespaceURI, name)) return false; // Se trata de forma especial en otro lugar
 
         if (InflatedXML.XMLNS_ANDROID.equals(namespaceURI))
         {

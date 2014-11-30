@@ -10,7 +10,16 @@
     />
 
     <item
+        android:drawable="@assets:drawable/res/drawable/list_selector_background_focused_light.9.png"
         android:id="@+id/layer_list_item_1"
+        android:top="5dp"
+        android:right="6dp"
+        android:bottom="7dp"
+        android:left="8dp">
+    </item>
+
+    <item
+        android:id="@+id/layer_list_item_2"
         android:top="5dp"
         android:right="6dp"
         android:bottom="7dp"

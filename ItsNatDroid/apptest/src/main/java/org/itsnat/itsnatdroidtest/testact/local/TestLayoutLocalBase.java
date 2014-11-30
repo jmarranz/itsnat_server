@@ -21,6 +21,8 @@ import java.io.InputStream;
  */
 public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,AttrDrawableInflaterListener
 {
+    public static final String NAMESPACE_ANDROID = "http://schemas.android.com/apk/res/android";
+
     protected final TestActivityTabFragment fragment;
 
     public TestLayoutLocalBase(final TestActivityTabFragment fragment)
@@ -37,24 +39,36 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
     @Override
     public void setAttribute(Page page, View view, String namespace, String name, String value)
     {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android layout attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
     }
 
     @Override
     public void removeAttribute(Page page, View view, String namespace, String name)
     {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android layout attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
         System.out.println("NOT FOUND LAYOUT ATTRIBUTE (removeAttribute): " + namespace + " " + name);
     }
 
     @Override
     public void setAttribute(Page page, Drawable obj, String namespace, String name, String value)
     {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
         System.out.println("NOT FOUND Drawable ATTRIBUTE (setAttribute): " + namespace + " " + name + " " + value);
     }
 
     @Override
     public void removeAttribute(Page page, Drawable obj, String namespace, String name)
     {
+        if (NAMESPACE_ANDROID.equals(namespace))
+            throw new RuntimeException("Android drawable attribute not processed: " + name); // Esto es para detectar que no se está procesando por lo que sea
+
         System.out.println("NOT FOUND Drawable ATTRIBUTE (removeAttribute): " + namespace + " " + name);
     }
 
@@ -71,10 +85,11 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
         return compiledRootView;
     }
 
-    protected InflatedLayout loadDynamicAndBindBackReloadButtons(InputStream input)
+    protected InflatedLayout loadDynamicAndBindBackReloadButtons(int resId)
     {
         // Sólo para testear carga local
         TestActivity act = getTestActivity();
+        InputStream input = act.getResources().openRawResource(resId);
 
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
         InflatedLayout layout = inflateRequest
