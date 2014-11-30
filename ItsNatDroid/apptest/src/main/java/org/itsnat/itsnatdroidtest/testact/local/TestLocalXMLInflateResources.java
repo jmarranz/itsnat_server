@@ -70,6 +70,20 @@ public class TestLocalXMLInflateResources
 
         childCount++;
 
+        // Test BitmapDrawable 2 attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "BitmapDrawable 2 (image repeated)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((BitmapDrawable) compLayout.getBackground());
+            assertEquals((BitmapDrawable)compLayout.getBackground(), (BitmapDrawable)parsedLayout.getBackground());
+        }
+
+        childCount++;
+
         // Test NinePatchDrawable attribs
         {
             final TextView compLayout = (TextView) comp.getChildAt(childCount);

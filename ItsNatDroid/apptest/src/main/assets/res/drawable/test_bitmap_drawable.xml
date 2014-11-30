@@ -3,6 +3,10 @@
         android:src="@assets:drawable/res/drawable/ic_launcher.png"
         android:antialias="true"
         android:dither="false"
-
-        android:gravity="center" />
+        android:filter="false"
+        android:gravity="center"
+        android:tileMode="disabled"
+        android:tileModeX="disabled"
+        android:tileModeY="disabled"
+    />
 

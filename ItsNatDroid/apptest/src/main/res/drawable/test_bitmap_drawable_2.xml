@@ -4,9 +4,8 @@
         android:antialias="true"
         android:dither="false"
         android:filter="false"
-        android:gravity="center"
-        android:tileMode="disabled"
-        android:tileModeX="disabled"
-        android:tileModeY="disabled"
+        android:tileMode="repeat"
+        android:tileModeX="repeat"
+        android:tileModeY="repeat"
     />
 

@@ -13,7 +13,7 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodMultipleName;
-import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileMode;
+import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable_BitmapDrawable_tileModeXY;
 
 /**
  * Created by jmarranz on 10/11/14.
@@ -63,8 +63,9 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
         addAttrDesc(new AttrDescDrawableReflecMethodMultipleName(this,"gravity", GravityUtil.valueMap));
         // android:mipMap parece que es level 17
         // android:src se procesa en tiempo de creación
-        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileMode(this));
-
+        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileModeXY(this,"tileMode"));
+        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileModeXY(this,"tileModeX"));
+        addAttrDesc(new AttrDescDrawable_BitmapDrawable_tileModeXY(this,"tileModeY"));
     }
 
 
