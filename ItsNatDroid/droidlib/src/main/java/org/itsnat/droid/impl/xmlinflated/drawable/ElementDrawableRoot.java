@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class ElementDrawableRoot extends ElementDrawable
+public class ElementDrawableRoot extends ElementDrawable implements ElementDrawableContainer
 {
     protected Drawable drawable;
 
@@ -15,6 +15,10 @@ public class ElementDrawableRoot extends ElementDrawable
     {
         this.drawable = drawable;
         setChildElementDrawableList(itemList);
+    }
+
+    public ElementDrawableRoot()
+    {
     }
 
     public void setChildElementDrawableList(ArrayList<ElementDrawable> childDrawableList)

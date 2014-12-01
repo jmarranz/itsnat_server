@@ -10,6 +10,7 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChildBridge;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
@@ -43,14 +44,15 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
     @Override
     public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
+        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+
         XMLInflateRegistry xmlInflateRegistry = classMgr.getXMLInflateRegistry();
 
-
         Drawable drawable = null;
-        DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
-        if (attrSrc != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elementos hijo
+        DOMAttr attrDrawable = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "drawable");
+        if (attrDrawable != null) // Puede ser nulo, en dicho caso el drawable debe estar definido inline como elemento hijo
         {
-            drawable = xmlInflateRegistry.getDrawable(attrSrc,ctx,inflaterDrawable);
+            drawable = xmlInflateRegistry.getDrawable(attrDrawable,ctx,inflaterDrawable);
         }
 
         int gravity;
@@ -67,25 +69,21 @@ public class ClassDescClipDrawable extends ClassDescRootElementDrawable<ClipDraw
         else
             orientation = ClipDrawable.HORIZONTAL;
 
-        // Si el drawable está definido como elemento hijo gana éste por delante del atributo src
-        ArrayList<ElementDrawable> childList = inflaterDrawable.processRootChildElements(rootElem);
-        if (childList.size() > 1)
-            throw new ItsNatDroidException("Expected just a single element or none, processing ClipDrawable");
-        if (childList.size() == 1)
+        // Si el drawable está definido como elemento hijo gana éste por delante del atributo drawable
+        inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
+        ArrayList<ElementDrawable> childList = elementDrawableRoot.getChildElementDrawableList();
+        if (childList != null)
         {
-            ElementDrawable childDrawable = childList.get(0);
-
-            /*
-            String name = domElement.getName();
-            ClassDescRootElementDrawable classDescBridge = (ClassDescRootElementDrawable)getClassDescDrawableMgr().get(name);
-            drawable = classDescBridge.createRootElementDrawable(domElement,inflaterDrawable,ctx);
-            */
-
-            drawable = null; // PROVISIONAL
+            if (childList.size() > 1) throw new ItsNatDroidException("Expected just a single child element or none, processing ClipDrawable");
+            if (childList.size() == 1)
+            {
+                ElementDrawableChildBridge childDrawable = (ElementDrawableChildBridge)childList.get(0);
+                drawable = childDrawable.getDrawable();
+            }
         }
 
         if (drawable == null)
-            throw new ItsNatDroidException("Drawable is not defined in src attribute or as a child element, processing ClipDrawable");
+            throw new ItsNatDroidException("Drawable is not defined in drawable attribute or as a child element, processing ClipDrawable");
 
         return new ElementDrawableRoot(new ClipDrawable(drawable,gravity,orientation),childList);
     }

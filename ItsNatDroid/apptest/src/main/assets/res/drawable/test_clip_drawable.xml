@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<clip xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@assets:drawable/res/drawable/ic_launcher.png"
+        android:clipOrientation="horizontal"
+        android:gravity="left"
+    />
+<!-- Se define en otro sitio el level por código -->
+

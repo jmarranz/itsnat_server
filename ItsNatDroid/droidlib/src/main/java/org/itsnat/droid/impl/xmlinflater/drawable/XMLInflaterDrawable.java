@@ -11,13 +11,12 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
-import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescChildElementDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
@@ -119,7 +118,8 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return classDesc.setAttribute(drawable,attr,this,ctx);
     }
 
-    public ArrayList<ElementDrawable> processRootChildElements(DOMElement domElemParent)
+/*
+    public ArrayList<ElementDrawable> processRootChildElements(DOMElement domElemParent,ElementDrawableRoot elementDrawableRoot)
     {
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return null;
@@ -127,16 +127,16 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         ArrayList<ElementDrawable> childDrawableList = new ArrayList<ElementDrawable>(childDOMElemList.size());
         for (DOMElement childDOMElem : childDOMElemList)
         {
-            ElementDrawable childDrawable = inflateNextElement(childDOMElem,domElemParent,null);
-
+            ElementDrawable childDrawable = inflateNextElement(childDOMElem,domElemParent,elementDrawableRoot);
             childDrawableList.add(childDrawable);
         }
         return childDrawableList;
     }
+*/
 
-    protected ElementDrawableChild inflateNextElement(DOMElement domElement,DOMElement domElementParent,ElementDrawableChild parentChildDrawable)
+    protected ElementDrawable inflateNextElement(DOMElement domElement,DOMElement domElementParent,ElementDrawable parentChildDrawable)
     {
-        ElementDrawableChild childDrawable = createChildElementDrawableAndFillAttributes(domElement,domElementParent,parentChildDrawable);
+        ElementDrawable childDrawable = createChildElementDrawableAndFillAttributes(domElement,domElementParent,parentChildDrawable);
 
         processChildElements(domElement,childDrawable);
 
@@ -160,36 +160,33 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         return name.toString();
     }
 
-    public ElementDrawableChild createChildElementDrawableAndFillAttributes(DOMElement domElement,DOMElement domElementParent,ElementDrawableChild parentChildDrawable)
+    public ElementDrawable createChildElementDrawableAndFillAttributes(DOMElement domElement,DOMElement domElementParent,ElementDrawable parentChildDrawable)
     {
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getName();
         ClassDescDrawableMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
-        ClassDescChildElementDrawable classDesc = (ClassDescChildElementDrawable)classDescViewMgr.get(name);
-        ElementDrawableChild childDrawable;
-        if (classDesc != null)
+        ClassDescDrawable classDesc = classDescViewMgr.get(name);
+        if (classDesc == null)
         {
-            childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
-        }
-        else
-        {
-            name = parentName + ":*";
-            classDesc = (ClassDescChildElementDrawable)classDescViewMgr.get(name);
+            // name = parentName + ":*";
+            name = "*";
+            classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
             if (classDesc == null) throw new ItsNatDroidException("Not found descriptor: " + name);
-            childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
         }
+
+        ElementDrawable childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
 
         fillAttributes(classDesc, childDrawable, domElement,ctx);
 
         return childDrawable;
     }
 
-    private ElementDrawableChild createChildElementDrawable(ClassDescChildElementDrawable classDesc,DOMElement domElement,ElementDrawableChild parentChildDrawable)
+    private ElementDrawable createChildElementDrawable(ClassDescDrawable classDesc,DOMElement domElement,ElementDrawable parentChildDrawable)
     {
-        return classDesc.createChildElementDrawable(domElement, this,parentChildDrawable, ctx);
+        return classDesc.createElementDrawable(domElement, this, parentChildDrawable, ctx);
     }
 
-    public void processChildElements(DOMElement domElemParent,ElementDrawableChild parentChildDrawable)
+    public void processChildElements(DOMElement domElemParent,ElementDrawable parentChildDrawable)
     {
         LinkedList<DOMElement> childDOMElemList = domElemParent.getChildDOMElementList();
         if (childDOMElemList == null) return;
@@ -197,7 +194,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         parentChildDrawable.initChildElementDrawableList(childDOMElemList.size());
         for (DOMElement childDOMElem : childDOMElemList)
         {
-            ElementDrawableChild childDrawable = inflateNextElement(childDOMElem,domElemParent,parentChildDrawable);
+            ElementDrawable childDrawable = inflateNextElement(childDOMElem,domElemParent,parentChildDrawable);
             parentChildDrawable.addChildElementDrawable(childDrawable);
         }
     }

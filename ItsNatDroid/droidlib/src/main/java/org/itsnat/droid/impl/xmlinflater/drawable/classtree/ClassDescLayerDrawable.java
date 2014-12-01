@@ -29,7 +29,10 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
     {
         // http://stackoverflow.com/questions/20120725/layerdrawable-programatically
 
-        ArrayList<ElementDrawable> itemList = inflaterDrawable.processRootChildElements(rootElem);
+        ElementDrawableRoot elementDrawableRoot = new ElementDrawableRoot();
+
+        inflaterDrawable.processChildElements(rootElem,elementDrawableRoot);
+        ArrayList<ElementDrawable> itemList = elementDrawableRoot.getChildElementDrawableList();
         Drawable[] drawableLayers = new Drawable[itemList.size()];
         for(int i = 0; i < itemList.size(); i++)
         {

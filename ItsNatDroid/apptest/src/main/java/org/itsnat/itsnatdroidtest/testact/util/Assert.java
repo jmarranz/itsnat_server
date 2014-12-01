@@ -233,6 +233,10 @@ public class Assert
         assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
         assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
 
+        Rect ar = new Rect(); Rect br = new Rect();
+        a.getPadding(ar); b.getPadding(br);
+        assertEquals(ar, br);
+
         Drawable.ConstantState sa = b.getConstantState();
         Drawable.ConstantState sb = b.getConstantState();
 

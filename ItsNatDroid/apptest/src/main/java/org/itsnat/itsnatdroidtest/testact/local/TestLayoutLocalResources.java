@@ -1,6 +1,8 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
+import android.graphics.drawable.ClipDrawable;
 import android.view.View;
+import android.widget.TextView;
 
 import org.itsnat.droid.InflatedLayout;
 import org.itsnat.itsnatdroidtest.R;
@@ -44,7 +46,11 @@ public class TestLayoutLocalResources extends TestLayoutLocalBase
 
     private static void initialConfiguration(TestActivity act, View rootView)
     {
+        TextView testClipDrawable = (TextView)rootView.findViewById(R.id.testClipDrawableId);
+        ((ClipDrawable)testClipDrawable.getBackground()).setLevel(5000); // La mitad se verá
 
+        TextView testClipDrawable2 = (TextView)rootView.findViewById(R.id.testClipDrawableId2);
+        ((ClipDrawable)testClipDrawable2.getBackground()).setLevel(5000); // La mitad se verá
     }
 
 

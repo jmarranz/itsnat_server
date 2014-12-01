@@ -7,6 +7,7 @@ import org.itsnat.droid.AttrDrawableInflaterListener;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
+import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
@@ -34,6 +35,9 @@ public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
     {
         return (ClassDescDrawable) getParentClassDesc();
     }
+
+    public abstract ElementDrawable createElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable,ElementDrawable parentChildDrawable, Context ctx);
+
 
     public static PageImpl getPageImpl(XMLInflaterDrawable xmlInflaterDrawable)
     {

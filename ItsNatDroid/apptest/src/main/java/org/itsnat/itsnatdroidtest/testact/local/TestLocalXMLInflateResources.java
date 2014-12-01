@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.widget.Button;
@@ -81,6 +82,37 @@ public class TestLocalXMLInflateResources
             assertNotNull((BitmapDrawable) compLayout.getBackground());
             assertEquals((BitmapDrawable)compLayout.getBackground(), (BitmapDrawable)parsedLayout.getBackground());
         }
+
+        childCount++;
+
+        // Test ClipDrawable attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "ClipDrawable (middle img)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((ClipDrawable) compLayout.getBackground());
+            assertEquals((ClipDrawable)compLayout.getBackground(), (ClipDrawable)parsedLayout.getBackground());
+        }
+
+        childCount++;
+
+        // Test ClipDrawable 2 attribs
+        {
+            final TextView compLayout = (TextView) comp.getChildAt(childCount);
+            final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
+
+            assertEquals(compLayout.getText(), "ClipDrawable 2 (half img)");
+            assertEquals(compLayout.getText(), parsedLayout.getText());
+
+            assertNotNull((ClipDrawable) compLayout.getBackground());
+            assertEquals((ClipDrawable)compLayout.getBackground(), (ClipDrawable)parsedLayout.getBackground());
+        }
+
+
+
 
         childCount++;
 

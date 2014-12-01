@@ -3,10 +3,11 @@ package org.itsnat.droid.impl.xmlinflater.drawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDescMgr;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescBitmapDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescClipDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChildBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItem;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescLayerDrawableItemBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescNinePatchDrawable;
 
 /**
@@ -28,8 +29,16 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
     @Override
     protected void initClassDesc()
     {
+        ClassDescElementDrawableChildBridge childBridge = new ClassDescElementDrawableChildBridge(this);
+        addClassDesc(childBridge);
+
         ClassDescBitmapDrawable bitmap = new ClassDescBitmapDrawable(this);
         addClassDesc(bitmap);
+
+        ClassDescClipDrawable clip = new ClassDescClipDrawable(this);
+        addClassDesc(clip);
+
+
 
         ClassDescNinePatchDrawable ninePatch = new ClassDescNinePatchDrawable(this);
         addClassDesc(ninePatch);
@@ -40,10 +49,8 @@ public class ClassDescDrawableMgr extends ClassDescMgr<ClassDescDrawable>
             ClassDescLayerDrawableItem itemLayer = new ClassDescLayerDrawableItem(this);
             addClassDesc(itemLayer);
 
-                ClassDescLayerDrawableItemBridge itemLayerBitmap = new ClassDescLayerDrawableItemBridge(this);
-                addClassDesc(itemLayerBitmap);
+                //ClassDescElementDrawableChildBridge itemLayerBitmap = new ClassDescElementDrawableChildBridge(this,"layer-list:item:*");
+                //addClassDesc(itemLayerBitmap);
 
     }
-
-
 }

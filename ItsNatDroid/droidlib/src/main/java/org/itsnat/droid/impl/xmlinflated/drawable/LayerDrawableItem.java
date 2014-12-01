@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LayerDrawableItem extends ElementDrawableChild
+public class LayerDrawableItem extends ElementDrawableChild implements ElementDrawableContainer
 {
     /*
     <item
