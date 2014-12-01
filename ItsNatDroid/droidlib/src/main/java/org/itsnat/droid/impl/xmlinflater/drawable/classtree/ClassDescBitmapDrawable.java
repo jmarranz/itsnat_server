@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.GravityUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -26,12 +27,12 @@ public class ClassDescBitmapDrawable extends ClassDescRootElementDrawable<Bitmap
     }
 
     @Override
-    public BitmapDrawable createRootDrawable(DOMElement rootElem,XMLInflaterDrawable inflaterDrawable,Context ctx)
+    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
 
         Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc, ctx, classMgr.getXMLInflateRegistry());
-        return new BitmapDrawable(ctx.getResources(),bitmap);
+        return new ElementDrawableRoot(new BitmapDrawable(ctx.getResources(),bitmap),null);
     }
 
     @Override

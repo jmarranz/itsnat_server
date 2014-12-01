@@ -5,7 +5,8 @@ import android.graphics.drawable.Drawable;
 
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
-import org.itsnat.droid.impl.xmlinflated.drawable.ChildElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItemBridge;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
@@ -29,14 +30,13 @@ public class ClassDescLayerDrawableItemBridge extends ClassDescChildElementDrawa
     }
 
     @Override
-    public ChildElementDrawable createChildElementDrawable(DOMElement domElement,XMLInflaterDrawable inflaterDrawable,ChildElementDrawable parentChildDrawable,Context ctx)
+    public ElementDrawableChild createChildElementDrawable(DOMElement domElement,XMLInflaterDrawable inflaterDrawable,ElementDrawableChild parentChildDrawable,Context ctx)
     {
         String name = domElement.getName();
         ClassDescRootElementDrawable classDescBridge = (ClassDescRootElementDrawable)getClassDescDrawableMgr().get(name);
+        ElementDrawableRoot childDrawable = classDescBridge.createRootElementDrawable(domElement, inflaterDrawable, ctx);
 
-        Drawable childDrawable = classDescBridge.createRootDrawable(domElement,inflaterDrawable,ctx);
-
-        return new LayerDrawableItemBridge(classDescBridge,(LayerDrawableItem)parentChildDrawable,childDrawable);
+        return new LayerDrawableItemBridge(classDescBridge,(LayerDrawableItem)parentChildDrawable,childDrawable.getDrawable());
     }
 
     @Override

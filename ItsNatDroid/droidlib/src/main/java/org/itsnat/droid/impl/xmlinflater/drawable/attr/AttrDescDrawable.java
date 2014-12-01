@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMAttrDynamic;
+import org.itsnat.droid.impl.dom.DOMAttrLocalResource;
 import org.itsnat.droid.impl.xmlinflater.AttrDesc;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
@@ -38,10 +39,10 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
             byte[] byteArray = (byte[])attrDyn.getResource();
             return DrawableUtil.createBitmap(byteArray);
         }
-        else
+        else if (attr instanceof DOMAttrLocalResource)
         {
             String attrValue = attr.getValue();
-            if (isResource(attrValue))
+            if (XMLInflateRegistry.isResource(attrValue))
             {
                 // http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android/4.0.3_r1/android/graphics/drawable/NinePatchDrawable.java#240
                 int resId = xmlInflateRegistry.getIdentifier(attrValue,ctx);
@@ -67,6 +68,7 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
 
             throw new ItsNatDroidException("Cannot process " + attrValue);
         }
+        else throw new ItsNatDroidException("Internal Error");
     }
 
 

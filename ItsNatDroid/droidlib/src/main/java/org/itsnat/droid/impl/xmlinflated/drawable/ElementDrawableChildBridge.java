@@ -5,11 +5,11 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElement
 /**
  * Created by jmarranz on 30/11/14.
  */
-public abstract class ChildElementDrawableBridge extends ChildElementDrawable
+public abstract class ElementDrawableChildBridge extends ElementDrawableChild
 {
     protected ClassDescRootElementDrawable classDescBridge;
 
-    protected ChildElementDrawableBridge(ClassDescRootElementDrawable classDescBridge)
+    protected ElementDrawableChildBridge(ClassDescRootElementDrawable classDescBridge)
     {
         this.classDescBridge = classDescBridge;
     }

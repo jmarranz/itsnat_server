@@ -7,21 +7,24 @@ import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElement
 /**
  * Created by jmarranz on 27/11/14.
  */
-public class LayerDrawableItemBridge extends ChildElementDrawableBridge
+public class LayerDrawableItemBridge extends ElementDrawableChildBridge
 {
-    protected LayerDrawableItem parentChildDrawable;
-
     public LayerDrawableItemBridge(ClassDescRootElementDrawable classDesc, LayerDrawableItem parentChildDrawable, Drawable drawable)
     {
         super(classDesc);
-        this.parentChildDrawable = parentChildDrawable;
+        setParentElementDrawable(parentChildDrawable);
 
         parentChildDrawable.setDrawable(drawable);
     }
 
+    public LayerDrawableItem getLayerDrawableItem()
+    {
+        return (LayerDrawableItem)getParentElementDrawable();
+    }
+
     public Drawable getDrawable()
     {
-        return parentChildDrawable.getDrawable();
+        return getLayerDrawableItem().getDrawable();
     }
 
 }

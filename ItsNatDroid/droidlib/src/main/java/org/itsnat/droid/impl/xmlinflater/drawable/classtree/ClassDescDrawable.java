@@ -8,7 +8,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.impl.browser.PageImpl;
 import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.drawable.ChildElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.ClassDesc;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -49,8 +49,8 @@ public abstract class ClassDescDrawable<Tdrawable> extends ClassDesc<Drawable>
     {
         if (draw instanceof Drawable)
             return (Drawable)draw;
-        else if (draw instanceof ChildElementDrawable)
-            return ((ChildElementDrawable)draw).getParentDrawable(); // Puede ser null si los elementos hijos se están procesando antes de crear el Drawable porque se necesitan para el constructor
+        else if (draw instanceof ElementDrawable)
+            return ((ElementDrawable)draw).getElementDrawableRoot().getDrawable(); // Puede ser null si los elementos hijos se están procesando antes de crear el Drawable porque se necesitan para el constructor
         return null; // Nunca debe pasar por aquí
     }
 

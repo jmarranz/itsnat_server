@@ -6,7 +6,8 @@ import android.graphics.drawable.LayerDrawable;
 
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
-import org.itsnat.droid.impl.xmlinflated.drawable.ChildElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.LayerDrawableItem;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
@@ -24,11 +25,11 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
     }
 
     @Override
-    public LayerDrawable createRootDrawable(DOMElement rootElem,XMLInflaterDrawable inflaterDrawable,Context ctx)
+    public ElementDrawableRoot createRootElementDrawable(DOMElement rootElem, XMLInflaterDrawable inflaterDrawable, Context ctx)
     {
         // http://stackoverflow.com/questions/20120725/layerdrawable-programatically
 
-        ArrayList<ChildElementDrawable> itemList = inflaterDrawable.processRootChildElements(rootElem);
+        ArrayList<ElementDrawable> itemList = inflaterDrawable.processRootChildElements(rootElem);
         Drawable[] drawableLayers = new Drawable[itemList.size()];
         for(int i = 0; i < itemList.size(); i++)
         {
@@ -41,13 +42,12 @@ public class ClassDescLayerDrawable extends ClassDescRootElementDrawable<LayerDr
         for(int i = 0; i < itemList.size(); i++)
         {
             LayerDrawableItem item = (LayerDrawableItem)itemList.get(i);
-            item.setParentDrawable(drawable); // Por si acaso aunque ya es tarde y no se necesita
 
             drawable.setId(i,item.getId());
             drawable.setLayerInset(i,item.getLeft(),item.getTop(),item.getRight(),item.getBottom());
         }
 
-        return drawable;
+        return new ElementDrawableRoot(drawable,itemList);
     }
 
     @Override

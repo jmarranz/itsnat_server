@@ -82,6 +82,13 @@ public abstract class XMLInflaterLayout extends XMLInflater
         }
     }
 
+    public ClassDescViewBased getClassDescViewBased(DOMView domView)
+    {
+        String viewName = domView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
+        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
+        return classDescViewMgr.get(viewName);
+    }
+
     private View inflateRootView(XMLDOMLayout domLayout)
     {
         DOMView rootDOMView = domLayout.getRootView();
@@ -99,35 +106,28 @@ public abstract class XMLInflaterLayout extends XMLInflater
 
     public View createRootViewObjectAndFillAttributes(DOMView rootDOMView,PendingPostInsertChildrenTasks pending)
     {
-        String viewName = rootDOMView.getName(); // viewName lo normal es que sea un nombre corto por ej RelativeLayout
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(viewName);
+        ClassDescViewBased classDesc = getClassDescViewBased(rootDOMView);
         View rootView = createViewObject(classDesc, rootDOMView,pending);
 
-        setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
+        getInflatedLayoutImpl().setRootView(rootView); // Lo antes posible porque los inline event handlers lo necesitan, es el root View del template, no el View.getRootView() pues una vez insertado en la actividad de alguna forma el verdadero root cambia
 
         fillAttributesAndAddView(rootView,classDesc,null, rootDOMView,pending);
 
         return rootView;
     }
 
-    public void setRootView(View rootView)
-    {
-        getInflatedLayoutImpl().setRootView(rootView);
-    }
-
     public View createViewObjectAndFillAttributesAndAdd(ViewGroup viewParent, DOMView domView, PendingPostInsertChildrenTasks pending)
     {
         // viewParent es null en el caso de parseo de fragment, por lo que NO tengas la tentación de llamar aquí
         // a setRootView(view); cuando viewParent es null "para reutilizar código"
-        ClassDescViewMgr classDescViewMgr = getInflatedLayoutImpl().getXMLInflateRegistry().getClassDescViewMgr();
-        ClassDescViewBased classDesc = classDescViewMgr.get(domView.getName());
-        View view = createViewObject(classDesc, domView,pending);
+        ClassDescViewBased classDesc = getClassDescViewBased(domView);
+        View view = createViewObject(classDesc,domView,pending);
 
         fillAttributesAndAddView(view,classDesc,viewParent, domView,pending);
 
         return view;
     }
+
 
     private View createViewObject(ClassDescViewBased classDesc,DOMView domView,PendingPostInsertChildrenTasks pending)
     {
