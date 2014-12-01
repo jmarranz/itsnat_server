@@ -11,13 +11,14 @@ import org.itsnat.droid.impl.dom.DOMAttr;
 import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.dom.drawable.XMLDOMDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawable;
+import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawable;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawablePage;
 import org.itsnat.droid.impl.xmlinflated.drawable.InflatedDrawableStandalone;
 import org.itsnat.droid.impl.xmlinflater.XMLInflater;
-import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescDrawable;
+import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescElementDrawableChild;
 import org.itsnat.droid.impl.xmlinflater.drawable.classtree.ClassDescRootElementDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.page.XMLInflaterDrawablePage;
 import org.itsnat.droid.impl.xmlinflater.drawable.stdalone.XMLInflaterDrawableStandalone;
@@ -165,7 +166,7 @@ public abstract class XMLInflaterDrawable extends XMLInflater
         String parentName = getFullName(domElementParent);
         String name = parentName + ":" + domElement.getName();
         ClassDescDrawableMgr classDescViewMgr = getInflatedDrawable().getXMLInflateRegistry().getClassDescDrawableMgr();
-        ClassDescDrawable classDesc = classDescViewMgr.get(name);
+        ClassDescElementDrawableChild classDesc = (ClassDescElementDrawableChild)classDescViewMgr.get(name);
         if (classDesc == null)
         {
             // name = parentName + ":*";
@@ -174,16 +175,16 @@ public abstract class XMLInflaterDrawable extends XMLInflater
             if (classDesc == null) throw new ItsNatDroidException("Not found descriptor: " + name);
         }
 
-        ElementDrawable childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
+        ElementDrawableChild childDrawable = createChildElementDrawable(classDesc, domElement, parentChildDrawable);
 
         fillAttributes(classDesc, childDrawable, domElement,ctx);
 
         return childDrawable;
     }
 
-    private ElementDrawable createChildElementDrawable(ClassDescDrawable classDesc,DOMElement domElement,ElementDrawable parentChildDrawable)
+    private ElementDrawableChild createChildElementDrawable(ClassDescElementDrawableChild classDesc,DOMElement domElement,ElementDrawable parentChildDrawable)
     {
-        return classDesc.createElementDrawable(domElement, this, parentChildDrawable, ctx);
+        return classDesc.createChildElementDrawable(domElement, this, parentChildDrawable, ctx);
     }
 
     public void processChildElements(DOMElement domElemParent,ElementDrawable parentChildDrawable)

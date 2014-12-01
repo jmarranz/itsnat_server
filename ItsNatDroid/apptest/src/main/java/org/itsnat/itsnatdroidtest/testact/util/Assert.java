@@ -244,6 +244,11 @@ public class Assert
         assertEquals((Drawable) TestUtil.getField(sa, clasz, "mDrawable"), (Drawable) TestUtil.getField(sb, clasz, "mDrawable"));
     }
 
+    public static void assertEquals(ColorDrawable a,ColorDrawable b)
+    {
+        assertEquals(a.getColor(),b.getColor());
+    }
+
     public static void assertEquals(GradientDrawable a,GradientDrawable b)
     {
         // No comparar getOpacity()

@@ -16,6 +16,17 @@ public class XMLDOMCache<T extends XMLDOM>
 
     protected Map<String,T> registryByMarkup = new HashMap<String, T>();
     protected TreeMap<Long,T> registryByTimestamp = new TreeMap<Long,T>(); // Recuerda que es un SortedMap de menor a mayor por defecto
+    protected boolean allowRepeatedPut = true; // Los métodos get y put están sincronizados para que haya coherencia siempre en las dos colecciones pero desde fuera permitimos no sincronizar el uso conjunto de get/put por lo que es raro pero posible que dos put se ejecuten al mismo tiempo (uno tras otro por la sincronización) registrando el mismo valor sin provocar error, no pasa nada quedará el último
+
+    public XMLDOMCache(boolean allowRepeatedPut)
+    {
+        this.allowRepeatedPut = allowRepeatedPut;
+    }
+
+    public XMLDOMCache()
+    {
+        this.allowRepeatedPut = true;
+    }
 
     public synchronized T get(String markup)
     {
@@ -47,8 +58,8 @@ public class XMLDOMCache<T extends XMLDOM>
         }
         T res;
         res = registryByMarkup.put(markup,xmlDOM);
-        if (res != null) throw new ItsNatDroidException("Internal Error");
+        if (!allowRepeatedPut && res != null) throw new ItsNatDroidException("Internal Error");
         res = registryByTimestamp.put(xmlDOM.getTimestamp(), xmlDOM); // No me puedo creer que un usuario cargue dos páginas en menos de 1ms
-        if (res != null) throw new ItsNatDroidException("Internal Error");
+        if (!allowRepeatedPut && res != null) throw new ItsNatDroidException("Internal Error");
     }
 }

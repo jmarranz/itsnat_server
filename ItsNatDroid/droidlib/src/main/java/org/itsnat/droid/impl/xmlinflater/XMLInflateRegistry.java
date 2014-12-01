@@ -70,7 +70,7 @@ public class XMLInflateRegistry
 
     public XMLDOMLayout getXMLDOMLayoutCache(String markup, String itsNatServerVersion, boolean loadingPage, boolean remotePageOrFrag,AssetManager assetManager)
     {
-        // Este método DEBE ser multihilo, layoutParsedCache ya lo es.
+        // Este método DEBE ser multihilo, el objeto domLayoutCache ya lo es.
         // No pasa nada si por una rarísima casualidad dos Layout idénticos hacen put, quedará el último, ten en cuenta que esto
         // es un caché.
 

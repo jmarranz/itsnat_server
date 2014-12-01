@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:text="ClipDrawable (middle img)"
+            android:text="ClipDrawable (half img)"
             android:textSize="20dp"
             android:background="@assets:drawable/res/drawable/test_clip_drawable.xml" />
 
@@ -62,6 +62,14 @@
             android:text="ClipDrawable 2 (half img)"
             android:textSize="20dp"
             android:background="@assets:drawable/res/drawable/test_clip_drawable_2.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="ColorDrawable (gray)"
+            android:textSize="20dp"
+            android:background="@assets:drawable/res/drawable/test_color_drawable.xml" />
 
         <TextView
             android:layout_width="match_parent"
