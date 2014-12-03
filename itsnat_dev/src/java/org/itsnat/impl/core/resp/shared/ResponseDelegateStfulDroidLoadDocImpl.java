@@ -143,8 +143,9 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
                     {
                         String src = ((ScriptWithSrc)script).getSrc();
                         if (resolver == null) resolver = getItsNatVariableResolverForScriptSrc();
-                        src = resolver.resolve(src);
-                        markup.append( "<script src=\"" + ((ScriptWithSrc)script).getSrc() + "\"></script>" );
+                        String src2 = resolver.resolve(src);
+                        if (src2 != null) src = src2;
+                        markup.append( "<script src=\"" + src + "\"></script>" );
                     }
                     else
                         markup.append( "<script><![CDATA[ " + script.getCode() + " ]]></script>" );
