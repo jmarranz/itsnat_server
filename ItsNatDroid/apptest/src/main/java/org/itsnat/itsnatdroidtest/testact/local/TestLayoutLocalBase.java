@@ -1,6 +1,7 @@
 package org.itsnat.itsnatdroidtest.testact.local;
 
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
@@ -94,6 +95,7 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
         InflatedLayout layout = inflateRequest
                 .setEncoding("UTF-8")
+                .setReferenceDensity(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
                 .setContext(act)

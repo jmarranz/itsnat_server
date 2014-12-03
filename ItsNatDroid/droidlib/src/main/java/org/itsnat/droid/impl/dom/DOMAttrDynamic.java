@@ -10,6 +10,7 @@ public class DOMAttrDynamic extends DOMAttr
 {
     protected String resType;
     protected String extension;
+    protected boolean ninePatch = false;
     protected String mime;
     protected String location;
     protected volatile Object resource;
@@ -38,6 +39,8 @@ public class DOMAttrDynamic extends DOMAttr
             if (mime == null)
                 throw new ItsNatDroidException("Unexpected extension: \"" + extension + "\" Remote resource: " + value);
             this.mime = mime;
+            if (MimeUtil.MIME_PNG.equals(mime) && value.endsWith(".9.png"))
+                this.ninePatch = true;
         }
         else
         {
@@ -56,6 +59,11 @@ public class DOMAttrDynamic extends DOMAttr
     public String getExtension()
     {
         return extension;
+    }
+
+    public boolean isNinePatch()
+    {
+        return ninePatch;
     }
 
     public String getLocation()

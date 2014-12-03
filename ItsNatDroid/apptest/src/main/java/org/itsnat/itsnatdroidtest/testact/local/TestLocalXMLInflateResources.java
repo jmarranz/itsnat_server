@@ -62,7 +62,7 @@ public class TestLocalXMLInflateResources
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getText(), "BitmapDrawable (image in center)");
+            assertEquals(compLayout.getText(), "BitmapDrawable (partial img in center)");
             assertEquals(compLayout.getText(), parsedLayout.getText());
 
             assertNotNull((BitmapDrawable) compLayout.getBackground());
@@ -77,7 +77,7 @@ public class TestLocalXMLInflateResources
             final TextView compLayout = (TextView) comp.getChildAt(childCount);
             final TextView parsedLayout = (TextView) parsed.getChildAt(childCount);
 
-            assertEquals(compLayout.getText(), "BitmapDrawable 2 (image repeated)");
+            assertEquals(compLayout.getText(), "BitmapDrawable 2 (partial img repeated)");
             assertEquals(compLayout.getText(), parsedLayout.getText());
 
             assertNotNull((BitmapDrawable) compLayout.getBackground());
@@ -125,10 +125,6 @@ public class TestLocalXMLInflateResources
             assertNotNull((ColorDrawable) compLayout.getBackground());
             assertEquals((ColorDrawable)compLayout.getBackground(), (ColorDrawable)parsedLayout.getBackground());
         }
-
-
-
-
 
 
         childCount++;

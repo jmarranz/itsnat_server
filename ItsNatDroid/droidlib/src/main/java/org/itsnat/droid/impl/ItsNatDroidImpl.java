@@ -10,7 +10,7 @@ import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.R;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
-import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.stdalone.InflateLayoutRequestStandaloneImpl;
 
 
 /**
@@ -49,7 +49,7 @@ public class ItsNatDroidImpl implements ItsNatDroid
     {
         // El modelo ItsNat está muy bien pero ofrecemos como alternativa que el propio programador se descargue sus layouts
         // y los gestione a su manera
-        return new InflateLayoutRequestImpl(this);
+        return new InflateLayoutRequestStandaloneImpl(this);
     }
 
     @Override

@@ -2,7 +2,7 @@
 <clip xmlns:android="http://schemas.android.com/apk/res/android"
         android:clipOrientation="horizontal"
         android:gravity="left">
-    <bitmap android:src="@assets:drawable/res/drawable/ic_launcher.png" />
+    <bitmap android:src="@assets:drawable/res/drawable/droid.png" />
 </clip>
 <!-- Se define en otro sitio el level por código -->
 

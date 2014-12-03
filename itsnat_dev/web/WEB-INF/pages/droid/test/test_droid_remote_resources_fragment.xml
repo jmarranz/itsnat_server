@@ -5,5 +5,5 @@
             android:layout_height="wrap_content"
             android:text="Test nine-patch (border must be green). Click me to remove"
             android:textSize="15dp"                
-            android:background="@remote:drawable/droid/res/drawable/nine-patch.xml" />
+            android:background="@remote:drawable/droid/res/drawable/test_nine_patch.xml" />
 </root>

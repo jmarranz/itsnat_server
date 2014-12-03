@@ -2,9 +2,6 @@ package org.itsnat.droid.impl.xmlinflater.drawable.classtree;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.NinePatch;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 
 import org.itsnat.droid.ItsNatDroidException;
@@ -13,6 +10,7 @@ import org.itsnat.droid.impl.dom.DOMElement;
 import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 import org.itsnat.droid.impl.xmlinflated.drawable.ElementDrawableRoot;
 import org.itsnat.droid.impl.xmlinflater.drawable.ClassDescDrawableMgr;
+import org.itsnat.droid.impl.xmlinflater.drawable.DrawableUtil;
 import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawable;
 import org.itsnat.droid.impl.xmlinflater.drawable.attr.AttrDescDrawableReflecMethodBoolean;
@@ -36,12 +34,10 @@ public class ClassDescNinePatchDrawable extends ClassDescRootElementDrawable<Nin
         DOMAttr attrSrc = rootElem.findDOMAttribute(InflatedXML.XMLNS_ANDROID, "src");
         if (attrSrc == null) throw new ItsNatDroidException("Missing src attribute in element " + rootElem.getName());
 
-        Bitmap bitmap = AttrDescDrawable.getBitmap(attrSrc, ctx, classMgr.getXMLInflateRegistry());
+        // No necesita escalar pues por definición es "flexible"
+        Bitmap bitmap = AttrDescDrawable.getBitmapNoScale(attrSrc,ctx, classMgr.getXMLInflateRegistry());
 
-        byte[] chunk = bitmap.getNinePatchChunk();
-        boolean result = NinePatch.isNinePatchChunk(chunk);
-        if (!result) throw new ItsNatDroidException("Expected a 9 patch png, put a valid 9 patch in /res/drawable folder, generate the .apk (/build/outputs/apk in Android Studio), decompress as a zip and copy the png file");
-        Drawable drawable = new NinePatchDrawable(ctx.getResources(),bitmap,chunk,new Rect(),"XML 9 patch");
+        NinePatchDrawable drawable = DrawableUtil.createNinePatchDrawable(bitmap,ctx.getResources());
         return new ElementDrawableRoot(drawable,null);
     }
 

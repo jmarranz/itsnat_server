@@ -52,6 +52,8 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
     @Override
     protected String addMarkupToTheEndOfDoc(String docMarkup, String newMarkup)
     {
+        if (newMarkup == null || "".equals(newMarkup)) return docMarkup; 
+        
         StringBuilder finalMarkup = new StringBuilder();
 
         int posRootTagEnd = docMarkup.lastIndexOf('<');
@@ -87,6 +89,33 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         return "itsNatDoc.init(\"" + stdSessionId + "\",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + errorMode + ",\"" + attachType + "\"," + eventsEnabled + ");\n"; // HACER
     }
     
+    private ItsNatVariableResolver getItsNatVariableResolverForScriptSrc()
+    {
+        // Esto es por intentar dar algo de customización a los scripts teniendo en cuenta que no son accesibles y sobre todo para hacer que un test funcione
+        
+        HttpServletRequest request = (HttpServletRequest)getResponseLoadDoc().getRequestLoadDoc().getItsNatServletRequest().getServletRequest();            
+        String scheme = request.getScheme();
+        String authType = request.getAuthType();
+        String host = request.getServerName();
+        int port = request.getServerPort();
+        String pathInfo = request.getPathInfo();
+        String pathTranslated = request.getPathTranslated();
+        String contextPath = request.getContextPath();
+        String queryString = request.getQueryString();
+
+        ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();                
+        ItsNatVariableResolver resolver = itsNatDoc.createItsNatVariableResolver(false);
+        resolver.setLocalVariable("scheme", scheme);
+        resolver.setLocalVariable("authType", authType);            
+        resolver.setLocalVariable("host", host);
+        resolver.setLocalVariable("port", port);
+        resolver.setLocalVariable("pathInfo", pathInfo);
+        resolver.setLocalVariable("pathTranslated", pathTranslated);
+        resolver.setLocalVariable("contextPath", contextPath);
+        resolver.setLocalVariable("queryString", queryString); 
+        return resolver;
+    }
+    
     @Override     
     protected String addRequiredMarkupToTheEndOfDoc(String docMarkup)       
     {
@@ -98,7 +127,9 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
         String markupStr = null;
         if (!scriptCodeList.isEmpty())
         {           
-            // Hay que tener en cuenta que los quitamos del DOM en el template pero como tenemos los scripts los enviamos "recreando" los script
+            // Hay que tener en cuenta que los quitamos del DOM en el template pero como tenemos los scripts los enviamos "recreando" los script                     
+            
+            ItsNatVariableResolver resolver = null;
             StringBuilder markup = new StringBuilder();             
             for(ScriptCode script : scriptCodeList)
             {
@@ -109,38 +140,19 @@ public class ResponseDelegateStfulDroidLoadDocImpl extends ResponseDelegateStful
                 else
                 {
                     if (script instanceof ScriptWithSrc)
+                    {
+                        String src = ((ScriptWithSrc)script).getSrc();
+                        if (resolver == null) resolver = getItsNatVariableResolverForScriptSrc();
+                        src = resolver.resolve(src);
                         markup.append( "<script src=\"" + ((ScriptWithSrc)script).getSrc() + "\"></script>" );
+                    }
                     else
                         markup.append( "<script><![CDATA[ " + script.getCode() + " ]]></script>" );
                 }                    
             }
-            
-            // Esto es por intentar dar algo de customización a los scripts teniendo en cuenta que no son accesibles y sobre todo para hacer que un test
-            // funcione.
-            HttpServletRequest request = (HttpServletRequest)getResponseLoadDoc().getRequestLoadDoc().getItsNatServletRequest().getServletRequest();            
-            String scheme = request.getScheme();
-            String authType = request.getAuthType();
-            String host = request.getServerName();
-            int port = request.getServerPort();
-            String pathInfo = request.getPathInfo();
-            String pathTranslated = request.getPathTranslated();
-            String contextPath = request.getContextPath();
-            String queryString = request.getQueryString();
-                        
-            ItsNatVariableResolver resolver = itsNatDoc.createItsNatVariableResolver(false);
-            resolver.setLocalVariable("scheme", scheme);
-            resolver.setLocalVariable("authType", authType);            
-            resolver.setLocalVariable("host", host);
-            resolver.setLocalVariable("port", port);
-            resolver.setLocalVariable("pathInfo", pathInfo);
-            resolver.setLocalVariable("pathTranslated", pathTranslated);
-            resolver.setLocalVariable("contextPath", contextPath);
-            resolver.setLocalVariable("queryString", queryString);            
-            
-            markupStr = resolver.resolve(markup.toString());
+            markupStr = markup.toString();
         }      
 
-        if (markupStr == null) return docMarkup;
         return addMarkupToTheEndOfDoc(docMarkup,markupStr);
     }    
     

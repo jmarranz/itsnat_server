@@ -98,7 +98,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:layout_marginTop=\"20dp\"  ");
         res.append("        android:text=\"Test nine-patch (border must be green)\"  ");
         res.append("        android:textSize=\"20dp\"  ");                
-        res.append("        android:background=\"@remote:drawable/droid/res/drawable/nine-patch.xml\" />  ");           
+        res.append("        android:background=\"@remote:drawable/droid/res/drawable/test_nine_patch.xml\" />  ");           
         
         res.append("    <script src=\"bs/test_script_loading.bs\" /> " );        
         res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/bs/test_script_loading_2.bs\" /> " );          
@@ -188,7 +188,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:layout_marginTop=\"20dp\"  ");
         res.append("        android:text=\"Test nine-patch (border must be green)\"  ");
         res.append("        android:textSize=\"20dp\"  ");                
-        res.append("        android:background=\"@remote:drawable/droid/res/drawable/nine-patch.xml\" />  ");         
+        res.append("        android:background=\"@remote:drawable/droid/res/drawable/test_nine_patch.xml\" />  ");         
 
         return res;
     }    

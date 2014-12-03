@@ -29,24 +29,24 @@ import java.util.List;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int referenceDensity,
                              AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                              Context ctx)
     {
-        super(inflatedXML,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
     }
 
-    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int referenceDensity,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         XMLInflaterLayout xmlInflaterLayout = null;
 
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
+            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,referenceDensity,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,referenceDensity,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         }
 
         inflatedLayout.setXMLInflaterLayout(xmlInflaterLayout); // Se necesita después para la inserción de fragments, cambio de atributos etc

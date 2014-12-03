@@ -27,9 +27,9 @@ public class XMLInflaterLayoutPage extends XMLInflaterLayout implements XMLInfla
 {
     protected PageImpl page;
 
-    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
+    public XMLInflaterLayoutPage(InflatedLayoutPageImpl inflatedXML,int referenceDensity,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx,PageImpl page)
     {
-        super(inflatedXML,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,referenceDensity,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         this.page = page;
     }
 

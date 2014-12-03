@@ -2,6 +2,7 @@ package org.itsnat.itsnatdroidtest.testact.remote;
 
 import android.graphics.drawable.Drawable;
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -253,6 +254,7 @@ public abstract class TestRemotePageBase implements OnPageLoadListener,OnPageLoa
         PageRequest pageRequest = droidBrowser.createPageRequest();
         pageRequest.setContext(act)
         .setSynchronous(TEST_SYNC_REQUESTS)
+        .setReferenceDensity(DisplayMetrics.DENSITY_XHIGH)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)

@@ -42,6 +42,7 @@ public class PageRequestImpl implements PageRequest
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
     protected HttpParams httpParams;
+    protected int referenceDensity = DisplayMetrics.DENSITY_XHIGH;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
@@ -49,6 +50,7 @@ public class PageRequestImpl implements PageRequest
     protected boolean sync = false;
     protected String url;
     protected String urlBase;
+
 
     public PageRequestImpl(ItsNatDroidBrowserImpl browser)
     {
@@ -69,6 +71,18 @@ public class PageRequestImpl implements PageRequest
     public PageRequest setContext(Context ctx)
     {
         this.ctx = ctx;
+        return this;
+    }
+
+    public int getReferenceDensity()
+    {
+        return referenceDensity;
+    }
+
+    @Override
+    public PageRequest setReferenceDensity(int referenceDensity)
+    {
+        this.referenceDensity = referenceDensity;
         return this;
     }
 
@@ -302,9 +316,7 @@ public class PageRequestImpl implements PageRequest
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
 
-        AttrLayoutInflaterListener inflateLayoutListener = getAttrLayoutInflaterListener();
-
-        PageImpl page = new PageImpl(this,httpParams,result,inflateLayoutListener);
+        PageImpl page = new PageImpl(this,httpParams,result);
         OnPageLoadListener pageListener = getOnPageLoadListener();
         if (pageListener != null) pageListener.onPageLoad(page);
     }

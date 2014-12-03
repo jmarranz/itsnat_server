@@ -12,8 +12,8 @@ import org.itsnat.droid.impl.xmlinflater.drawable.XMLInflaterDrawable;
  */
 public class XMLInflaterDrawableStandalone extends XMLInflaterDrawable
 {
-    public XMLInflaterDrawableStandalone(InflatedDrawableStandalone inflatedXML,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx)
+    public XMLInflaterDrawableStandalone(InflatedDrawableStandalone inflatedXML,int referenceDensity,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx)
     {
-        super(inflatedXML,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
+        super(inflatedXML,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
     }
 }

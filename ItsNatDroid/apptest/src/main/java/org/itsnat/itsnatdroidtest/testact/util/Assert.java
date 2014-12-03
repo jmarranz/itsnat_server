@@ -29,6 +29,7 @@ import java.util.Iterator;
  */
 public class Assert
 {
+    public static boolean executeAllTests = true;
 
     public static void assertPositive(int a)
     {
@@ -171,9 +172,12 @@ public class Assert
 
     public static void assertEquals(Bitmap a,Bitmap b)
     {
-        assertEquals(a.getByteCount(),b.getByteCount());
-        assertEquals(a.getWidth(),b.getWidth());
-        assertEquals(a.getHeight(),b.getHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getByteCount(), b.getByteCount());
+            assertEquals(a.getWidth(), b.getWidth());
+            assertEquals(a.getHeight(), b.getHeight());
+        }
     }
 
     public static void assertEquals(Drawable a,Drawable b)
@@ -221,8 +225,11 @@ public class Assert
     public static void assertEquals(BitmapDrawable a,BitmapDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
         assertEquals(a.getGravity(),b.getGravity());
         assertEquals(a.getBitmap(), b.getBitmap());
     }
@@ -230,8 +237,11 @@ public class Assert
     public static void assertEquals(ClipDrawable a,ClipDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
         Rect ar = new Rect(); Rect br = new Rect();
         a.getPadding(ar); b.getPadding(br);
@@ -252,8 +262,11 @@ public class Assert
     public static void assertEquals(GradientDrawable a,GradientDrawable b)
     {
         // No comparar getOpacity()
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
         Drawable.ConstantState sa = a.getConstantState();
         Drawable.ConstantState sb = b.getConstantState();
@@ -265,8 +278,11 @@ public class Assert
     public static void assertEquals(LayerDrawable a,LayerDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
         assertEquals(a.getNumberOfLayers(), b.getNumberOfLayers());
         Rect ar = new Rect(); Rect br = new Rect();
@@ -299,8 +315,11 @@ public class Assert
     public static void assertEquals(NinePatchDrawable a,NinePatchDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
         NinePatch a2 = (NinePatch) TestUtil.getField(a, "mNinePatch");
         NinePatch b2 = (NinePatch) TestUtil.getField(b, "mNinePatch");
@@ -310,8 +329,11 @@ public class Assert
     public static void assertEquals(RotateDrawable a,RotateDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
         assertEquals(a.getDrawable(), b.getDrawable());
     }
@@ -319,8 +341,11 @@ public class Assert
     public static void assertEquals(StateListDrawable a,StateListDrawable b)
     {
         assertEquals(a.getOpacity(), b.getOpacity());
-        assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
-        assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        //if (executeAllTests)
+        {
+            assertEquals(a.getIntrinsicWidth(), b.getIntrinsicWidth());
+            assertEquals(a.getIntrinsicHeight(), b.getIntrinsicHeight());
+        }
 
     /*
                 mStateListState/mStateSets

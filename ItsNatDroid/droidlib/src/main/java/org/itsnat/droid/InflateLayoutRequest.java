@@ -12,6 +12,7 @@ public interface InflateLayoutRequest
 {
     public InflateLayoutRequest setContext(Context ctx);
     public InflateLayoutRequest setEncoding(String encoding);
+    public InflateLayoutRequest setReferenceDensity(int density);
     public InflateLayoutRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);
     public InflateLayoutRequest setAttrDrawableInflaterListener(AttrDrawableInflaterListener inflateDrawableListener);
     public InflatedLayout inflate(InputStream input);

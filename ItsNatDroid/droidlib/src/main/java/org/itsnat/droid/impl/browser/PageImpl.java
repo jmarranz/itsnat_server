@@ -3,7 +3,6 @@ package org.itsnat.droid.impl.browser;
 import android.content.Context;
 
 import org.apache.http.params.HttpParams;
-import org.itsnat.droid.AttrLayoutInflaterListener;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDoc;
 import org.itsnat.droid.ItsNatDroidBrowser;
@@ -19,8 +18,8 @@ import org.itsnat.droid.impl.browser.serveritsnat.ItsNatDocImpl;
 import org.itsnat.droid.impl.browser.serveritsnat.ItsNatSessionImpl;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.util.UserDataImpl;
-import org.itsnat.droid.impl.xmlinflater.layout.InflateLayoutRequestImpl;
 import org.itsnat.droid.impl.xmlinflated.layout.InflatedLayoutPageImpl;
+import org.itsnat.droid.impl.xmlinflater.layout.page.InflateLayoutRequestPageImpl;
 
 import java.io.StringReader;
 import java.util.LinkedList;
@@ -52,27 +51,24 @@ public class PageImpl implements Page
 
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,PageRequestResult pageReqResult,AttrLayoutInflaterListener inflateLayoutListener)
+    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,PageRequestResult pageReqResult)
     {
         this.pageRequest = pageRequest.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         this.httpParams = httpParams != null ? httpParams.copy() : null;
         this.pageReqResult = pageReqResult;
 
         HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
-
         this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
-        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
-        InflateLayoutRequestImpl inflateLayoutRequest = new InflateLayoutRequestImpl(browser.getItsNatDroidImpl());
-        inflateLayoutRequest.setContext(pageRequest.getContext());
-        if (inflateLayoutListener != null) inflateLayoutRequest.setAttrLayoutInflaterListener(inflateLayoutListener);
+
+        InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(this);
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
-
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
         this.inflated = (InflatedLayoutPageImpl)inflateLayoutRequest.inflateLayoutInternal(domLayout, loadScriptArr, scriptList, this);
 
+        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         String loadScript = loadScriptArr[0];
 
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter

@@ -1,5 +1,6 @@
 package org.itsnat.itsnatdroidtest.testact.remote;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +43,7 @@ public class TestRemoteCore extends TestRemotePageBase
         PageRequest pageRequest = droidBrowser.createPageRequest();
         pageRequest.setContext(act)
         .setSynchronous(TEST_SYNC_REQUESTS)
+        .setReferenceDensity(DisplayMetrics.DENSITY_XHIGH)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)

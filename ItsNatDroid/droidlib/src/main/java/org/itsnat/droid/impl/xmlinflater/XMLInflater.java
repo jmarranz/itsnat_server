@@ -12,13 +12,15 @@ import org.itsnat.droid.impl.xmlinflated.InflatedXML;
 public abstract class XMLInflater
 {
     protected InflatedXML inflatedXML;
+    protected int referenceDensity;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected Context ctx;
 
-    protected XMLInflater(InflatedXML inflatedXML,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
+    protected XMLInflater(InflatedXML inflatedXML,int referenceDensity,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
     {
         this.inflatedXML = inflatedXML;
+        this.referenceDensity = referenceDensity;
         this.attrLayoutInflaterListener = attrLayoutInflaterListener;
         this.attrDrawableInflaterListener = attrDrawableInflaterListener;
         this.ctx = ctx;
@@ -27,6 +29,11 @@ public abstract class XMLInflater
     public InflatedXML getInflatedXML()
     {
         return inflatedXML;
+    }
+
+    public int getReferenceDensity()
+    {
+        return referenceDensity;
     }
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()

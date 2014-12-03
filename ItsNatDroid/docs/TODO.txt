@@ -1,7 +1,11 @@
 
-* Terminar BitmapDrawable
+* Hacer como parámetros en Page para InflateLayoutRequestPageImpl:
 
-* Borrar los settings de AndroidStudioBeta
+        String encoding = "UTF-8";
+        int referenceDensity = DisplayMetrics.DENSITY_XHIGH;
+
+
+* Hacer caché de assets:  assetManager.open(location)
 
 * El puente bridge seriespepito
 

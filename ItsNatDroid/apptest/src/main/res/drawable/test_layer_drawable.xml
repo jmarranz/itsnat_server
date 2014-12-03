@@ -24,7 +24,7 @@
         android:right="6dp"
         android:bottom="7dp"
         android:left="8dp">
-            <bitmap android:src="@drawable/ic_launcher"
+            <bitmap android:src="@drawable/droid"
                     android:gravity="center" />
     </item>
 

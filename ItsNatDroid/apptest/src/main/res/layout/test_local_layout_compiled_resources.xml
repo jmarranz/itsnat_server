@@ -31,17 +31,17 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
             android:layout_marginTop="20dp"
-            android:text="BitmapDrawable (image in center)"
+            android:text="BitmapDrawable (partial img in center)"
             android:textSize="20dp"
             android:background="@drawable/test_bitmap_drawable" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
             android:layout_marginTop="20dp"
-            android:text="BitmapDrawable 2 (image repeated)"
+            android:text="BitmapDrawable 2 (partial img repeated)"
             android:textSize="20dp"
             android:background="@drawable/test_bitmap_drawable_2" />
 

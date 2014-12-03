@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-        android:src="@assets:drawable/res/drawable/ic_launcher.png"
+        android:src="@assets:drawable/res/drawable/droid.png"
         android:antialias="true"
         android:dither="false"
-        android:filter="false"
+        android:filter="true"
         android:gravity="center"
         android:tileMode="disabled"
         android:tileModeX="disabled"

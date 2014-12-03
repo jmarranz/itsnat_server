@@ -19,7 +19,6 @@ import org.itsnat.itsnatdroidtest.R;
 
 public class TestActivity extends Activity implements ActionBar.TabListener
 {
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -43,6 +42,16 @@ public class TestActivity extends Activity implements ActionBar.TabListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+/*
+        Resources resources = getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        if (dm.densityDpi != 320)
+        {
+            Assert.executeAllTests = false; // Las imágenes están copiadas y definidas en densidad xdpi, con otra densidad son cambiadas y algunos test fallan
+            TestUtil.alertDialog(this, "Some internal tests are not executed because they're designed for density 320 dpi (xdpi) and your device is: " + dm.densityDpi);
+        }
+*/
 
         if (ItsNatDroidRoot.get() == null)
             ItsNatDroidRoot.init(getApplication());
