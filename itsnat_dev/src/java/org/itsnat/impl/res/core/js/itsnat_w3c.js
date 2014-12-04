@@ -235,7 +235,7 @@ function W3CKeyEventUtil()
         }
         url += "&itsnat_evt_charCode=" + charCode;
 
-        if (itsNatDoc.browser.isWebKit()||itsNatDoc.browser.isBlackBerryOld())
+        if (itsNatDoc.browser.isWebKit())
         {
             url += "&itsnat_evt_keyIdentifier=" + encodeURIComponent(evt.keyIdentifier);
             url += "&itsnat_evt_keyLocation=" + evt.keyLocation;
@@ -488,32 +488,13 @@ function W3CHTMLDocument()
     function setAttribute(elem,name,value)
     {
         this.W3CHTMLDocument_super_setAttribute(elem,name,value);
-        if (this.browser.isBlackBerryOld()) // Para evitar que las dos primeras veces se ignoren visualmente (curioso)
-        {
-          var style = elem.style;
-          var oldDisp = style.display;
-          style.display = "none";
-          style.display = oldDisp; // "Refresca" el elemento.
-        }
-        else if (this.browser.isMSIE9() && (name == "style") && (value == ""))
+        if (this.browser.isMSIE9() && (name == "style") && (value == ""))
             elem.style.cssText = "";
     }
 
     function removeAttribute(elem,name)
     {
-        if (this.browser.isBlackBerryOld())
-        {
-          if (name == "style") elem.style.cssText = "";
-          else
-          {
-              elem.removeAttribute(name);
-              var style = elem.style;
-              var oldDisp = style.display;
-              style.display = "none";
-              style.display = oldDisp;
-          }
-        }
-        else this.W3CHTMLDocument_super_removeAttribute(elem,name);
+        this.W3CHTMLDocument_super_removeAttribute(elem,name);
     }
 
 }

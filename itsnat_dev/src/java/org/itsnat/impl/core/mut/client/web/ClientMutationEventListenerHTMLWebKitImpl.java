@@ -16,15 +16,13 @@
 
 package org.itsnat.impl.core.mut.client.web;
 
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitS40;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ClientMutationEventListenerHTMLWebKitImpl extends ClientMutationEventListenerHTMLImpl
+public class ClientMutationEventListenerHTMLWebKitImpl extends ClientMutationEventListenerHTMLImpl
 {
     public ClientMutationEventListenerHTMLWebKitImpl(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
@@ -33,11 +31,7 @@ public abstract class ClientMutationEventListenerHTMLWebKitImpl extends ClientMu
 
     public static ClientMutationEventListenerHTMLWebKitImpl createClientMutationEventListenerHTMLWebKit(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        BrowserWebKit browser = (BrowserWebKit)clientDoc.getBrowserWeb();
-        if (browser instanceof BrowserWebKitS40)
-            return new ClientMutationEventListenerHTMLWebKitS40Impl(clientDoc);
-        else
-            return new ClientMutationEventListenerHTMLWebKitDefaultImpl(clientDoc);
+        return new ClientMutationEventListenerHTMLWebKitImpl(clientDoc);
     }
 
 }

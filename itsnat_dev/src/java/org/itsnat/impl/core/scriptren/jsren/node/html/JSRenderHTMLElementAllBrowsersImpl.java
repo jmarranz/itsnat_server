@@ -18,19 +18,15 @@ package org.itsnat.impl.core.scriptren.jsren.node.html;
 
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementAdobeSVGImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBatikImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBlackBerryOldImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitDefaultImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitS60Impl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementW3CImpl;
-import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -60,14 +56,12 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
         // W3C
         addBrowser(JSRenderHTMLElementAdobeSVGImpl.SINGLETON);
         addBrowser(JSRenderHTMLElementBatikImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementBlackBerryOldImpl.SINGLETON);
 
         addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
 
         addBrowser(JSRenderHTMLElementOperaImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementWebKitDefaultImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementWebKitS60Impl.SINGLETON);
+        addBrowser(JSRenderHTMLElementWebKitImpl.SINGLETON);
         
         addBrowser(JSRenderHTMLElementMSIE9Impl.SINGLETON);
     }

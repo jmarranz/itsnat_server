@@ -117,11 +117,6 @@ public abstract class BrowserWeb extends Browser
      */
     public abstract boolean canNativelyRenderOtherNSInXHTMLDoc();
     
-    /* Si al insertar un <script> no se ejecuta el código cuando dicho código se añade después del elemento, ocurría en navegadores muy antiguos, ya no, redefinir si vuelve a ocurrir */
-    public boolean isTextAddedToInsertedHTMLScriptNotExecuted()
-    {
-        return false; 
-    }                
     
     /* Un elemento <script> con código no es ejecutado cuando es insertado como tal
      * (incluído el código) ya sea el código insertado antes o después

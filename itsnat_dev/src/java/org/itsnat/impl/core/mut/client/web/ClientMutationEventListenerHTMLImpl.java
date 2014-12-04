@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.mut.client.web;
 
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
@@ -47,8 +46,6 @@ public abstract class ClientMutationEventListenerHTMLImpl extends ClientMutation
         BrowserWeb browser = clientDoc.getBrowserWeb();
         if (browser instanceof BrowserMSIEOld)
             return new ClientMutationEventListenerHTMLMSIEOldImpl(clientDoc);        
-        else if (browser instanceof BrowserBlackBerryOld)
-            return new ClientMutationEventListenerHTMLBlackBerryOldImpl(clientDoc);
         else if (browser instanceof BrowserWebKit)
             return ClientMutationEventListenerHTMLWebKitImpl.createClientMutationEventListenerHTMLWebKit(clientDoc);
         else if (browser instanceof BrowserGecko)

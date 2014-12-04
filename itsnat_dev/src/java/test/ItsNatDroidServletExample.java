@@ -11,11 +11,12 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import org.itsnat.core.CommMode;
+import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
+import org.itsnat.core.tmpl.ItsNatDroidDocumentTemplate;
 import test.droid.comp.TestDroidComponentsDocLoadListener;
 import test.droid.comp.TestDroidCreateItsNatComponentListener;
 import test.droid.core.TestDroidCoreDocLoadListener;
@@ -42,7 +43,9 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         super.init(config);
 
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
-        //ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();        
+        ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();        
+        
+        itsNatConfig.setBitmapDensityReference(320);
         
         itsNatServlet.addItsNatServletRequestListener(new TestDroidGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestDroidGlobalEventListener(itsNatServlet));
@@ -68,26 +71,29 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         
         docTemplate = registerDocument("test_droid_remote_resources","android/layout",pathPrefix,pages);        
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
         
         docTemplate = registerDocument("test_droid_remote_drawable","text/xml",pathPrefix,pages);        
         docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());              
-        
-        
+                
         
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
         
         // Stateless main
         
         docTemplate = registerDocument("test_droid_stateless_core_initial","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreInitialDocLoadListener());       
         docTemplate.setEventsEnabled(false);
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
         
         // Stateless to load fragment       
         docTemplate = registerDocument("test_droid_stateless_core_event","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreEventDocLoadListener());
         docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));        
         docTemplate.setEventsEnabled(false);
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
         
         // Components
         docTemplate = registerDocument("test_droid_components","android/layout",pathPrefix,pages); 
@@ -99,7 +105,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setJoystickMode(joystickMode);
         //docTemplate.setScriptingEnabled(false);
         //docTemplate.setEventsEnabled(false);        
-        
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
         
         
         

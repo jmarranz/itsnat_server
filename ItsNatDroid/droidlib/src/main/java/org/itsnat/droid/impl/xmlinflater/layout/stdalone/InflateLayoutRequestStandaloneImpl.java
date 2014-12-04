@@ -30,7 +30,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
 {
     protected Context ctx;
     protected String encoding = "UTF-8";
-    protected int referenceDensity = DisplayMetrics.DENSITY_XHIGH; // 320 (xhdpi), por ej el Nexus 4
+    protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH; // 320 (xhdpi), por ej el Nexus 4
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
     protected AttrDrawableInflaterListener attrDrawableInflaterListener;
 
@@ -60,15 +60,15 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     }
 
     @Override
-    public InflateLayoutRequest setReferenceDensity(int referenceDensity)
+    public InflateLayoutRequest setBitmapDensityReference(int bitmapDensityReference)
     {
-        this.referenceDensity = referenceDensity;
+        this.bitmapDensityReference = bitmapDensityReference;
         return this;
     }
 
-    public int getReferenceDensity()
+    public int getBitmapDensityReference()
     {
-        return referenceDensity;
+        return bitmapDensityReference;
     }
 
     public ItsNatDroidImpl getItsNatDroidImpl()
@@ -136,7 +136,7 @@ public class InflateLayoutRequestStandaloneImpl extends InflateLayoutRequestImpl
     {
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, domLayout,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, ctx);
-        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout,referenceDensity, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
+        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, bitmapDensityReference, attrLayoutInflaterListener,attrDrawableInflaterListener, ctx, page);
         xmlInflater.inflateLayout(loadScript, scriptList);
         return inflatedLayout;
     }

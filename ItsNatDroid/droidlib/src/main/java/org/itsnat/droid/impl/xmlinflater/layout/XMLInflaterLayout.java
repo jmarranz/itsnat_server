@@ -29,24 +29,24 @@ import java.util.List;
  */
 public abstract class XMLInflaterLayout extends XMLInflater
 {
-    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int referenceDensity,
+    public XMLInflaterLayout(InflatedLayoutImpl inflatedXML,int bitmapDensityReference,
                              AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,
                              Context ctx)
     {
-        super(inflatedXML,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
     }
 
-    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int referenceDensity,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterLayout createXMLInflaterLayout(InflatedLayoutImpl inflatedLayout,int bitmapDensityReference,AttrLayoutInflaterListener inflateLayoutListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         XMLInflaterLayout xmlInflaterLayout = null;
 
         if (inflatedLayout instanceof InflatedLayoutPageImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,referenceDensity,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
+            xmlInflaterLayout = new XMLInflaterLayoutPage((InflatedLayoutPageImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener,ctx,page);
         }
         else if (inflatedLayout instanceof InflatedLayoutStandaloneImpl)
         {
-            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,referenceDensity,inflateLayoutListener,attrDrawableInflaterListener,ctx);
+            xmlInflaterLayout = new XMLInflaterLayoutStandalone((InflatedLayoutStandaloneImpl)inflatedLayout,bitmapDensityReference,inflateLayoutListener,attrDrawableInflaterListener,ctx);
         }
 
         inflatedLayout.setXMLInflaterLayout(xmlInflaterLayout); // Se necesita después para la inserción de fragments, cambio de atributos etc

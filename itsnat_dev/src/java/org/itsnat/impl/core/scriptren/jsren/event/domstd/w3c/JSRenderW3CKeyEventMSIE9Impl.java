@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.event.domstd.w3c;
 
 import org.itsnat.core.event.ItsNatKeyEvent;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.event.client.dom.domstd.w3c.BlackBerryOldKeyEventImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CKeyboardEventSharedImpl;
 import org.w3c.dom.events.Event;
 
 /**
@@ -28,7 +28,8 @@ import org.w3c.dom.events.Event;
 public class JSRenderW3CKeyEventMSIE9Impl extends JSRenderW3CKeyboardEventImpl
 {
     public static final JSRenderW3CKeyEventMSIE9Impl SINGLETON = new JSRenderW3CKeyEventMSIE9Impl();
-
+    protected static final W3CKeyboardEventSharedImpl delegate = new W3CKeyboardEventSharedImpl();
+    
     /**
      * Creates a new instance of JSWebKitDefaultKeyEventRenderImpl
      */
@@ -43,7 +44,7 @@ public class JSRenderW3CKeyEventMSIE9Impl extends JSRenderW3CKeyboardEventImpl
 
     public String toKeyIdentifierByBrowser(int keyCode)
     {
-        return BlackBerryOldKeyEventImpl.toKeyIdentifier(keyCode);
+        return delegate.toKeyIdentifier(keyCode);
     }
 
     protected String getEventGroup(Event evt)

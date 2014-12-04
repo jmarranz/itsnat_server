@@ -154,8 +154,7 @@ public abstract class JSRenderHTMLElementImpl extends JSRenderElementImpl
     public boolean isTextAddedToInsertedScriptNotExecuted(Element script,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         // Sabemos sí o sí que que script es un HTMLScriptElement
-        BrowserWeb browser = clientDoc.getBrowserWeb();
-        return browser.isTextAddedToInsertedHTMLScriptNotExecuted();
+        return false;
     }
 
     @Override

@@ -95,7 +95,7 @@ public abstract class TestLayoutLocalBase implements AttrLayoutInflaterListener,
         InflateLayoutRequest inflateRequest = ItsNatDroidRoot.get().createInflateLayoutRequest();
         InflatedLayout layout = inflateRequest
                 .setEncoding("UTF-8")
-                .setReferenceDensity(DisplayMetrics.DENSITY_XHIGH) // 320
+                .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH) // 320
                 .setAttrLayoutInflaterListener(this)
                 .setAttrDrawableInflaterListener(this)
                 .setContext(act)

@@ -16,7 +16,7 @@ public class PageRequestResult
         this.domLayout = domLayout;
     }
 
-    public HttpRequestResultImpl getHttpRequestResult()
+    public HttpRequestResultImpl getHttpRequestResultImpl()
     {
         return httpReqResult;
     }

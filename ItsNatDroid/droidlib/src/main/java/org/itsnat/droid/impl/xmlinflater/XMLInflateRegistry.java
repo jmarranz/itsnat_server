@@ -467,7 +467,7 @@ public class XMLInflateRegistry
             if (attr instanceof DOMAttrRemote && page == null) throw new ItsNatDroidException("Unexpected"); // Si es remote hay page por medio
 
             ItsNatDroidImpl itsNatDroid = xmlInflater.getInflatedXML().getItsNatDroidImpl();
-            int referenceDensity = xmlInflater.getReferenceDensity();
+            int bitmapDensityReference = xmlInflater.getBitmapDensityReference();
             AttrLayoutInflaterListener attrLayoutInflaterListener = xmlInflater.getAttrLayoutInflaterListener();
             AttrDrawableInflaterListener attrDrawableInflaterListener = xmlInflater.getAttrDrawableInflaterListener();
 
@@ -478,14 +478,14 @@ public class XMLInflateRegistry
                 // Esperamos un drawable no una animación
                 XMLDOMDrawable xmlDOMDrawable = (XMLDOMDrawable) attrDyn.getResource();
                 InflatedDrawable inflatedDrawable = page != null ? new InflatedDrawablePage(itsNatDroid, xmlDOMDrawable, ctx) : new InflatedDrawableStandalone(itsNatDroid, xmlDOMDrawable, ctx);
-                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,referenceDensity,attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
+                XMLInflaterDrawable xmlInflaterDrawable = XMLInflaterDrawable.createXMLInflaterDrawable(inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener, attrDrawableInflaterListener, ctx, page);
                 return xmlInflaterDrawable.inflateDrawable();
             }
             else if (MimeUtil.isMIMEImage(resourceMime))
             {
                 byte[] byteArray = (byte[])attrDyn.getResource();
                 boolean expectedNinePatch = attrDyn.isNinePatch();
-                return DrawableUtil.createImageBasedDrawable(byteArray,referenceDensity,expectedNinePatch,ctx.getResources());
+                return DrawableUtil.createImageBasedDrawable(byteArray,bitmapDensityReference,expectedNinePatch,ctx.getResources());
             }
             else throw new ItsNatDroidException("Unsupported resource mime: " + resourceMime);
         }

@@ -18,9 +18,7 @@ package org.itsnat.impl.comp.inplace;
 
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
-import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
@@ -34,7 +32,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLOptionElement;
 
 /**
  *
@@ -72,15 +69,6 @@ public abstract class ItsNatCellEditorClientImpl
             Node nodeEditor = compEditor.getNode();
             EventTarget target = evt.getTarget();
             if (target == nodeEditor) return;
-
-            if ((target instanceof HTMLOptionElement) &&
-                (((Node)target).getParentNode() == nodeEditor))
-            {
-                // En BlackBerry un <option> es el target cuando una opción de un select es pulsada (curioso)
-                ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)((ItsNatEvent)evt).getClientDocument();
-                Browser browser = clientDoc.getBrowser();
-                if (browser instanceof BrowserBlackBerryOld) return;
-            }
 
             parent.stopCellEditing();
         }

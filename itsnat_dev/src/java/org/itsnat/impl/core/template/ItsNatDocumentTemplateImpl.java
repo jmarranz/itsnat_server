@@ -111,7 +111,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         MarkupSourceImpl markupSource = MarkupSourceImpl.createMarkupSource(source);
         if (NamespaceUtil.isStatefulMime(mime))
-            return new ItsNatStfulDocumentTemplateNormalImpl(name,mime,markupSource,servlet);
+            return ItsNatStfulDocumentTemplateNormalImpl.createItsNatStfulDocumentTemplateNormal(name,mime,markupSource,servlet);
         else
             return new ItsNatXMLDocumentTemplateImpl(name,mime,markupSource,servlet);
     }

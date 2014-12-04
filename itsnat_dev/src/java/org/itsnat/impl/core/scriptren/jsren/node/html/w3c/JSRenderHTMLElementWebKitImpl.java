@@ -17,15 +17,16 @@
 package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitS60;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class JSRenderHTMLElementWebKitImpl extends JSRenderHTMLElementW3CImpl
+public class JSRenderHTMLElementWebKitImpl extends JSRenderHTMLElementW3CImpl
 {
+    public static final JSRenderHTMLElementWebKitImpl SINGLETON = new JSRenderHTMLElementWebKitImpl();
+    
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
     public JSRenderHTMLElementWebKitImpl()
     {
@@ -52,10 +53,7 @@ public abstract class JSRenderHTMLElementWebKitImpl extends JSRenderHTMLElementW
 
     public static JSRenderHTMLElementWebKitImpl getJSRenderHTMLElementWebKit(BrowserWebKit browser)
     {
-        if (browser instanceof BrowserWebKitS60)
-            return JSRenderHTMLElementWebKitS60Impl.SINGLETON;
-        else
-            return JSRenderHTMLElementWebKitDefaultImpl.SINGLETON; // Los demás
+        return JSRenderHTMLElementWebKitImpl.SINGLETON; // Los demás
     }
 
     public String getCurrentStyleObject(String itsNatDocVar,String elemName,ClientDocumentStfulDelegateWebImpl clientDoc)

@@ -32,7 +32,7 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
         return getBitmap(attr,false,-1,ctx,xmlInflateRegistry);
     }
 
-    public static Bitmap getBitmap(DOMAttr attr,boolean scale,int referenceDensity,Context ctx,XMLInflateRegistry xmlInflateRegistry)
+    public static Bitmap getBitmap(DOMAttr attr,boolean scale,int bitmapDensityReference,Context ctx,XMLInflateRegistry xmlInflateRegistry)
     {
         if (attr instanceof DOMAttrDynamic)
         {
@@ -40,7 +40,7 @@ public abstract class AttrDescDrawable<Tdrawable> extends AttrDesc
             DOMAttrDynamic attrDyn = (DOMAttrDynamic)attr;
             byte[] byteArray = (byte[])attrDyn.getResource();
             Resources res = ctx.getResources();
-            return DrawableUtil.createBitmap(byteArray,scale,referenceDensity,res);
+            return DrawableUtil.createBitmap(byteArray,scale,bitmapDensityReference,res);
         }
         else if (attr instanceof DOMAttrLocalResource)
         {

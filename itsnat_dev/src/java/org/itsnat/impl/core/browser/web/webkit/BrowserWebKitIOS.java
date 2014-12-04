@@ -192,13 +192,6 @@ public class BrowserWebKitIOS extends BrowserWebKit
 //        return DOMUtilHTML.isHTMLSelectMultiple(elem); // Desde 2.2 (antes no se lanzaba el change)
     }
 
-    public boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem)
-    {
-        // Hasta iPhone 2.0 y 2.1 no se lanza el change
-        // Desde el iPhone 2.2 el problema es otro
-        return false; 
-    }
-
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // Ocurre al menos en elementos de formulario de tipo: HTMLTextArea, HTMLInputElement o HTMLSelectElement.

@@ -18,6 +18,7 @@ public class HttpRequestResultImpl implements HttpRequestResult
     private String encoding;
     private Header[] headerList;
     private String itsNatServerVersion;
+    private Integer bitmapDensityReference;
     private String responseText;
     private JSONObject responseJSONObject;
 
@@ -31,11 +32,18 @@ public class HttpRequestResultImpl implements HttpRequestResult
 
         Header[] itsNatServerVersionArr = getResponseHeaders("ItsNat-version");
         this.itsNatServerVersion = itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
+        Header[] bitmapDensityReferenceArr = getResponseHeaders("ItsNat-bitmapDensityReference");
+        this.bitmapDensityReference = bitmapDensityReferenceArr != null ? new Integer(bitmapDensityReferenceArr[0].getValue()) : null;
     }
 
     public String getItsNatServerVersion()
     {
         return itsNatServerVersion; // Si no es servida por ItsNat devuelve null
+    }
+
+    public Integer getBitmapDensityReference()
+    {
+        return bitmapDensityReference;
     }
 
     public boolean isStatusOK()

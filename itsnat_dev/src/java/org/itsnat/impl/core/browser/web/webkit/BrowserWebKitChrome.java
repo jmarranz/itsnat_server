@@ -74,10 +74,6 @@ public class BrowserWebKitChrome extends BrowserWebKit
         return true;
     }
 
-    public boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem)
-    {
-        return false;
-    }
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {

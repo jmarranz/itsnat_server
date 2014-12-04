@@ -20,7 +20,6 @@ import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.event.ItsNatKeyEvent;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -98,9 +97,7 @@ public abstract class JSRenderW3CEventImpl extends JSRenderItsNatDOMStdEventImpl
     public static String getViewPath(AbstractView view,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         BrowserWeb browser = clientDoc.getBrowserWeb();
-        if (browser instanceof BrowserBlackBerryOld)
-            return "null";  // Error tonto de BlackBerry 4.6, no admite el "window" de verdad
-        else if (browser instanceof BrowserBatik)
+        if (browser instanceof BrowserBatik)
             return "itsNatDoc.doc.defaultView"; // Esto es porque "window" es un objeto especial (WindowWrapper) definido por Batik que NO es un AbstractView pues hay que tener en cuenta que "document" es el objeto nativo DOM y por tanto createEvent crea un objeto nativo DOM que necesita AbstractView como parámetro
 
         return clientDoc.getNodeReference((Node)view,true,true);

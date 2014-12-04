@@ -18,13 +18,11 @@ package org.itsnat.impl.core.event.client.dom.domstd;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
-import org.itsnat.impl.core.event.client.dom.domstd.w3c.BlackBerryOldKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.GeckoKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.OperaKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CEventDefaultImpl;
@@ -91,8 +89,6 @@ public class ClientW3CEventFactory extends ClientItsNatDOMStdEventFactory
                     event = new WebKitKeyEventImpl(evtListener,request);
                 else if (browser instanceof BrowserOpera)
                     event = new OperaKeyEventImpl(evtListener,request);
-                else if (browser instanceof BrowserBlackBerryOld)
-                    event = new BlackBerryOldKeyEventImpl(evtListener,request);
                 else // Desconocido
                     event = new GeckoKeyEventImpl(evtListener,request);
                 break;

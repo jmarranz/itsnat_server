@@ -20,8 +20,6 @@ import org.itsnat.impl.core.*;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.core.ItsNatServletResponse;

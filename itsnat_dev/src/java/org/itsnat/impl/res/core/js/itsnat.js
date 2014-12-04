@@ -220,8 +220,6 @@ function Browser(type,subType)
     this.isWebKit = isWebKit;
     this.isOpera = isOpera;
     this.isOperaMini = isOperaMini;
-    this.isBlackBerryOld = isBlackBerryOld;
-    this.isBlackBerryOld5 = isBlackBerryOld5;
     this.isAdobeSVG = isAdobeSVG;
     this.isBatik = isBatik;
     this.isMSIE9 = isMSIE9;
@@ -236,8 +234,6 @@ function Browser(type,subType)
     function isWebKit() { return this.type == 3; }
     function isOpera() { return this.type == 4; }
     function isOperaMini() { return this.isOpera() && (this.subType == 2); }
-    function isBlackBerryOld() { return this.type == 5; }
-    function isBlackBerryOld5() { return this.isBlackBerryOld() && (this.subType >= 5); }
     function isAdobeSVG() { return this.type == 6; }
     function isBatik() { return this.type == 7; }
     function isMSIE9() { return this.type == 8; }
@@ -1242,7 +1238,7 @@ function Document()
 
         this.disabledEvents = false;
         this.pathResolver = this.createDOMPathResolver();
-        var useDelete = !this.browser.isBlackBerryOld5(); // En BB JDE v5.0 el delete borra otros elementos erroneamente
+        var useDelete = true; 
         this.nodeCacheById = new Map(useDelete);
         this.domListeners = new Map(useDelete);
         this.timerListeners = new Map(useDelete);

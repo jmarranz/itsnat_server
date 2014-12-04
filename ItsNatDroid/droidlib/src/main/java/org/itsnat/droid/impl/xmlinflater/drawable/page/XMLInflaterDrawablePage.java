@@ -16,9 +16,9 @@ public class XMLInflaterDrawablePage extends XMLInflaterDrawable implements XMLI
 {
     protected PageImpl page;
 
-    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedXML,int referenceDensity,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public XMLInflaterDrawablePage(InflatedDrawablePage inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
-        super(inflatedXML,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener, ctx);
         this.page = page;
     }
 

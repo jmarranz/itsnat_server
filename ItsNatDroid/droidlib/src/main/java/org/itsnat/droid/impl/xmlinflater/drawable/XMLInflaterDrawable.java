@@ -31,20 +31,20 @@ import java.util.LinkedList;
  */
 public abstract class XMLInflaterDrawable extends XMLInflater
 {
-    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int referenceDensity,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
+    protected XMLInflaterDrawable(InflatedDrawable inflatedXML,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener,Context ctx)
     {
-        super(inflatedXML,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+        super(inflatedXML,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
     }
 
-    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int referenceDensity,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
+    public static XMLInflaterDrawable createXMLInflaterDrawable(InflatedDrawable inflatedDrawable,int bitmapDensityReference,AttrLayoutInflaterListener attrLayoutInflaterListener,AttrDrawableInflaterListener attrDrawableInflaterListener, Context ctx,PageImpl page)
     {
         if (inflatedDrawable instanceof InflatedDrawablePage)
         {
-            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
+            return new XMLInflaterDrawablePage((InflatedDrawablePage)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx,page);
         }
         else if (inflatedDrawable instanceof InflatedDrawableStandalone)
         {
-            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,referenceDensity,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
+            return new XMLInflaterDrawableStandalone((InflatedDrawableStandalone)inflatedDrawable,bitmapDensityReference,attrLayoutInflaterListener,attrDrawableInflaterListener,ctx);
         }
         return null; // Internal Error
     }

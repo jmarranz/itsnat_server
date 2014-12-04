@@ -23,12 +23,31 @@ public class DrawableUtil
 {
     public static Bitmap createBitmapNoScale(byte[] byteArray,Resources res)
     {
-        return createBitmap(byteArray,false,-1,res); // Si scale es false, referenceDensity no se necesita
+        return createBitmap(byteArray,false,-1,res); // Si scale es false, bitmapDensityReference no se necesita
     }
 
-    public static Bitmap createBitmap(byte[] byteArray,boolean scale,int referenceDensity,Resources res)
+    public static Bitmap createBitmap(byte[] byteArray,boolean scale,int bitmapDensityReference,Resources res)
     {
-        // decodeByteArray NO escala las imágenes aunque se use BitmapFactory.Options
+        // bitmapDensityReference es necesario para escalar adecuadamente un bitmap (no nine patch)
+        // En ItsNat cuando los bitmaps son remotos no hay manera de elegir densidades por lo que
+        // las imágenes se definen con una densidad "que valga para todos los dispositivos",
+        // los prototipos de layouts por ej se pueden testear poniéndo las imágenes en la carpeta drawable-densidad que se
+        // quiera por ejemplo drawable-xhdpi (320 dpi), Android sabe de qué carpeta carga el bitmap y por tanto sabe
+        // qué densidad tiene la imagen original de acuerdo a la carpeta (Options.inDensity) y sabe
+        // si tiene que escalar o no según la densidad del dispositivo (Options.inTargetDensity)
+        // Eso mismo lo tiene que hacer ItsNat para que el resultado sea el mismo que en un layout
+        // compilado por ello hay que proporcional la densidad de referencia usada durante el diseño (Options.inDensity)
+
+
+        /*
+        http://developer.android.com/guide/practices/screens_support.html
+        ldpi (low) ~120dpi
+        mdpi (medium) ~160dpi
+        hdpi (high) ~240dpi
+        xhdpi (extra-high) ~320dpi
+        xxhdpi (extra-extra-high) ~480dpi
+        xxxhdpi (extra-extra-extra-high) ~640dpi
+        */
 
         // http://stackoverflow.com/questions/16773604/android-bitmap-scale-using-bitmapfactory-options
         // https://code.google.com/p/android/issues/detail?id=7538
@@ -46,10 +65,10 @@ public class DrawableUtil
             int bmpHeight = options.outHeight;
             */
             options.inScaled = true;
-            options.inDensity = referenceDensity;
+            options.inDensity = bitmapDensityReference;
             options.inTargetDensity = res.getDisplayMetrics().densityDpi;
         }
-
+        // decodeByteArray NO escala las imágenes aunque se use BitmapFactory.Options
         return BitmapFactory.decodeStream(new ByteArrayInputStream(byteArray), null, options);
     }
 
@@ -67,12 +86,12 @@ public class DrawableUtil
         }
     }
 
-    public static Drawable createImageBasedDrawable(byte[] byteArray,int referenceDensity,boolean expectedNinePatch,Resources res)
+    public static Drawable createImageBasedDrawable(byte[] byteArray,int bitmapDensityReference,boolean expectedNinePatch,Resources res)
     {
         if (expectedNinePatch)
             return createNinePatchDrawable(byteArray,res);
 
-        Bitmap bitmap = createBitmap(byteArray,true,referenceDensity,res);
+        Bitmap bitmap = createBitmap(byteArray,true,bitmapDensityReference,res);
 
         byte[] chunk = bitmap.getNinePatchChunk();
         boolean result = NinePatch.isNinePatchChunk(chunk);

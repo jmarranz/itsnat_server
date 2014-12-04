@@ -42,7 +42,7 @@ public class PageRequestImpl implements PageRequest
     protected ItsNatDroidBrowserImpl browser;
     protected Context ctx;
     protected HttpParams httpParams;
-    protected int referenceDensity = DisplayMetrics.DENSITY_XHIGH;
+    protected int bitmapDensityReference = DisplayMetrics.DENSITY_XHIGH;
     protected OnPageLoadListener pageListener;
     protected OnPageLoadErrorListener errorListener;
     protected AttrLayoutInflaterListener attrLayoutInflaterListener;
@@ -74,15 +74,15 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
-    public int getReferenceDensity()
+    public int getBitmapDensityReference()
     {
-        return referenceDensity;
+        return bitmapDensityReference;
     }
 
     @Override
-    public PageRequest setReferenceDensity(int referenceDensity)
+    public PageRequest setBitmapDensityReference(int bitmapDensityReference)
     {
-        this.referenceDensity = referenceDensity;
+        this.bitmapDensityReference = bitmapDensityReference;
         return this;
     }
 
@@ -240,7 +240,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this, result.getHttpRequestResult()); // Para poder recogerla desde fuera
+                errorListener.onError(ex, this, result.getHttpRequestResultImpl()); // Para poder recogerla desde fuera
                 return;
             }
             else
@@ -311,7 +311,7 @@ public class PageRequestImpl implements PageRequest
 
     public void processResponse(PageRequestResult result)
     {
-        HttpRequestResultImpl httpReqResult = result.getHttpRequestResult();
+        HttpRequestResultImpl httpReqResult = result.getHttpRequestResultImpl();
 
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);

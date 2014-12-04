@@ -61,7 +61,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, pageRequest,result.getHttpRequestResult()); // Para poder recogerla desde fuera
+                errorListener.onError(ex, pageRequest,result.getHttpRequestResultImpl()); // Para poder recogerla desde fuera
                 return;
             }
             else

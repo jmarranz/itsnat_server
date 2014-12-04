@@ -32,5 +32,5 @@ public class ResponseEventDelegateDroidImpl extends ResponseEventDelegateImpl
     {        
         response.writeResponse(code);
     }
-    
+
 }

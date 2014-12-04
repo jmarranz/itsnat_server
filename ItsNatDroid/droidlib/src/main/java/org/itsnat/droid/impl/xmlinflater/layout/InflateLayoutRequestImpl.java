@@ -30,7 +30,7 @@ public abstract class InflateLayoutRequestImpl
         return itsNatDroid;
     }
 
-    public abstract int getReferenceDensity();
+    public abstract int getBitmapDensityReference();
 
     public abstract String getEncoding();
 
@@ -45,7 +45,7 @@ public abstract class InflateLayoutRequestImpl
         Context ctx = getContext();
         InflatedLayoutImpl inflatedLayout = page != null ? new InflatedLayoutPageImpl(itsNatDroid, domLayout,ctx) :
                                                            new InflatedLayoutStandaloneImpl(itsNatDroid, domLayout, ctx);
-        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout,getReferenceDensity(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(), ctx, page);
+        XMLInflaterLayout xmlInflater = XMLInflaterLayout.createXMLInflaterLayout(inflatedLayout, getBitmapDensityReference(),getAttrLayoutInflaterListener(),getAttrDrawableInflaterListener(), ctx, page);
         xmlInflater.inflateLayout(loadScript, scriptList);
         return inflatedLayout;
     }

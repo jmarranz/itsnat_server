@@ -16,12 +16,15 @@
 
 package org.itsnat.impl.core.resp.norm.droid;
 
+import javax.servlet.http.HttpServletResponse;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.dom.domstd.OnUnloadListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalLoadDocImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalLoadStfulDocImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
+import org.itsnat.impl.core.servlet.http.ItsNatHttpServletResponseImpl;
+import org.itsnat.impl.core.template.ItsNatStfulDocumentTemplateNormalDroidImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.EventTarget;
 
@@ -60,4 +63,15 @@ public class ResponseNormalLoadDroidDocImpl extends ResponseNormalLoadStfulDocIm
         clientDoc.addEventListener((EventTarget)rootElem,"unload",OnUnloadListenerImpl.SINGLETON,false, clientDoc.getCommMode());        
     }
 
+    @Override
+    protected void prepareResponse()
+    {
+        super.prepareResponse();
+        
+        ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();         
+        ItsNatStfulDocumentTemplateNormalDroidImpl template = (ItsNatStfulDocumentTemplateNormalDroidImpl)itsNatDoc.getItsNatDocumentTemplateImpl();
+        
+        HttpServletResponse response = ((ItsNatHttpServletResponseImpl)getItsNatServletResponse()).getHttpServletResponse();
+        response.addHeader("ItsNat-bitmapDensityReference","" + template.getBitmapDensityReference()); 
+    }    
 }

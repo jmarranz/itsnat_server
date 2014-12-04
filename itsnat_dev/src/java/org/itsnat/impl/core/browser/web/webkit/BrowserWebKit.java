@@ -17,12 +17,10 @@
 package org.itsnat.impl.core.browser.web.webkit;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
-import org.itsnat.impl.core.browser.*;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLSelectElement;
 
 /**
    * De acuerdo con el sistema de versiones de WebKit
@@ -47,9 +45,7 @@ public abstract class BrowserWebKit extends BrowserW3C
     protected static final int SAFARIDESKTOP = 1;
     protected static final int IPHONE = 2;
     protected static final int ANDROID = 3;
-    protected static final int S60WEBKIT = 4;
     protected static final int GCHROME = 7;
-    protected static final int S40WEBKIT = 8;
     protected static final int BLACKBERRY = 12;
 
     protected int webKitVersion;
@@ -86,11 +82,7 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public static BrowserWebKit createBrowserWebKit(String userAgent)
     {
-        if (userAgent.indexOf("Series60") != -1)
-            return new BrowserWebKitS60(userAgent);
-        else if (userAgent.indexOf("Nokia6600s") != -1) // Hay que seguir la evolución de versiones de los S40 por si cambia Nokia6600s por otra cosa
-            return new BrowserWebKitS40(userAgent);
-        else if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
+        if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
             return new BrowserWebKitChrome(userAgent);                  
         else if (userAgent.indexOf("Android") != -1)
             return new BrowserWebKitAndroid(userAgent);
@@ -138,8 +130,6 @@ public abstract class BrowserWebKit extends BrowserW3C
      * WebKits antiguos pueden no soportarlo
      */
     public abstract boolean isXHRPostSupported();
-    /* Nota: elem puede ser null. */
-    public abstract boolean isChangeNotFiredHTMLSelectWithSizeOrMultiple(HTMLSelectElement elem);
 
 
     public boolean isReferrerReferenceStrong()

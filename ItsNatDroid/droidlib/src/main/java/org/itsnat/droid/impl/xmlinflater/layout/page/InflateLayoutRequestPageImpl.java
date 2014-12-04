@@ -33,12 +33,12 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 
     public String getEncoding()
     {
-        return page.getHttpRequestResult().getEncoding();
+        return page.getHttpRequestResultImpl().getEncoding();
     }
 
-    public int getReferenceDensity()
+    public int getBitmapDensityReference()
     {
-        return page.getPageRequestImpl().getReferenceDensity();
+        return page.getBitmapDensityReference();
     }
 
     public AttrLayoutInflaterListener getAttrLayoutInflaterListener()

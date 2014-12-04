@@ -21,7 +21,6 @@ import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserUnknown;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import java.io.Serializable;
 import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
@@ -92,8 +91,6 @@ public abstract class Browser implements Serializable
             return BrowserWebKit.createBrowserWebKit(userAgent);
         else if (BrowserOpera.isOpera(userAgent,itsNatRequest))
             return BrowserOpera.createBrowserOpera(userAgent);
-        else if (BrowserBlackBerryOld.isBlackBerryOld(userAgent))
-            return new BrowserBlackBerryOld(userAgent);
         else if (BrowserBatik.isBatik(userAgent))
             return new BrowserBatik(userAgent); 
         else // Desconocido (suponemos que es un robot)

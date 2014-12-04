@@ -35,6 +35,7 @@ public class ResponseDelegStfulLoadDocByBWebKitImpl extends ResponseDelegStfulLo
         return null;
     }
 
+    @Override
     public boolean getRevertJSChanges()
     {
         // Los navegadores WebKit rellenan los formularios con valores

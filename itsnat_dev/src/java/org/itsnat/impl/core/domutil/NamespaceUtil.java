@@ -169,8 +169,7 @@ public class NamespaceUtil
     {
         return ANDROID_NAMESPACE.equals(namespace); // Puede ser null
     }
-    
-    
+        
     public static boolean isStatefulMime(String mime)
     {
         return isHTMLorXHTMLMime(mime) || isOtherNSMime(mime) || isAndroidLayoutMime(mime);

@@ -49,9 +49,8 @@ public class BrowserOperaMobile extends BrowserOpera
 
     public static boolean isOperaMobile9(String userAgent)
     {
-        // "Opera Mobi" ya no está siempre, puede ser "Opera Tablet", el sistema operativo es el que decide, Android o S60
-        return (userAgent.indexOf("Android") != -1) ||
-               (userAgent.indexOf("S60") != -1);
+        // "Opera Mobi" ya no está siempre, puede ser "Opera Tablet", el sistema operativo es el que decide, Android
+        return (userAgent.indexOf("Android") != -1);
     }
 
     public boolean isMobile()

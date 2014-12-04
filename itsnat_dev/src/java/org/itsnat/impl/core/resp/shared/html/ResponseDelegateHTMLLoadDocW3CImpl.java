@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
@@ -59,8 +58,6 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
             return ResponseDelegateHTMLLoadDocWebKitImpl.createResponseDelegateLoadHTMLDocWebKit(responseParent);
         else if (browser instanceof BrowserOpera)
             return ResponseDelegateHTMLLoadDocOperaImpl.createResponseDelegateHTMLLoadDocOpera((BrowserOpera)browser, responseParent);
-        else if (browser instanceof BrowserBlackBerryOld)
-            return new ResponseDelegateHTMLLoadDocBlackBerryOld2Impl(responseParent);
         else
             return new ResponseDelegateHTMLLoadDocW3CDefaultImpl(responseParent);
     }

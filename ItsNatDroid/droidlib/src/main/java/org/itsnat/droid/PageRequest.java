@@ -10,7 +10,7 @@ import org.apache.http.params.HttpParams;
 public interface PageRequest
 {
     public PageRequest setContext(Context ctx);
-    public PageRequest setReferenceDensity(int density);
+    public PageRequest setBitmapDensityReference(int density);
     public PageRequest setOnPageLoadListener(OnPageLoadListener listener);
     public PageRequest setOnPageLoadErrorListener(OnPageLoadErrorListener listener);
     public PageRequest setAttrLayoutInflaterListener(AttrLayoutInflaterListener listener);

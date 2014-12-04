@@ -34,13 +34,14 @@ import bsh.NameSpace;
  */
 public class PageImpl implements Page
 {
-    protected HttpParams httpParams; // Los parámetros que se utilizarán en sucesivas requests desde la página
-    protected PageRequestResult pageReqResult;
-    protected PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
-    protected String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
-    protected InflatedLayoutPageImpl inflated;
-    protected String uniqueIdForInterpreter;
-    protected Interpreter interp;
+    protected final HttpParams httpParams; // Los parámetros que se utilizarán en sucesivas requests desde la página
+    protected final PageRequestResult pageReqResult;
+    protected final PageRequestImpl pageRequest; // Nos interesa únicamente para el reload, es un clone del original por lo que podemos tomar datos del mismo sin miedo a cambiarse
+    protected final String itsNatServerVersion;  // Si es null es que la página NO ha sido servida por ItsNat
+    protected final int bitmapDensityReference;
+    protected final InflatedLayoutPageImpl inflated;
+    protected final String uniqueIdForInterpreter;
+    protected final Interpreter interp;
     protected ItsNatDocImpl itsNatDoc = new ItsNatDocImpl(this);
     protected ItsNatSessionImpl itsNatSession;
     protected String clientId;
@@ -48,35 +49,36 @@ public class PageImpl implements Page
     protected OnServerStateLostListener stateLostListener;
     protected OnHttpRequestErrorListener httpReqErrorListener;
     protected UserDataImpl userData;
-
     protected boolean dispose;
 
-    public PageImpl(PageRequestImpl pageRequest,HttpParams httpParams,PageRequestResult pageReqResult)
+    public PageImpl(PageRequestImpl pageRequest, HttpParams httpParams, PageRequestResult pageReqResult)
     {
         this.pageRequest = pageRequest.clone(); // De esta manera conocemos como se ha creado pero podemos reutilizar el PageRequestImpl original
         this.httpParams = httpParams != null ? httpParams.copy() : null;
         this.pageReqResult = pageReqResult;
 
-        HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResult();
+        HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResultImpl();
         this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
+        Integer bitmapDensityReference = httpReqResult.getBitmapDensityReference(); // Sólo está definida en el caso de ItsNat server, por eso se puede pasar por el usuario también a través del PageRequest
+        this.bitmapDensityReference = bitmapDensityReference != null ? bitmapDensityReference : pageRequest.getBitmapDensityReference();
 
         InflateLayoutRequestPageImpl inflateLayoutRequest = new InflateLayoutRequestPageImpl(this);
 
         XMLDOMLayout domLayout = pageReqResult.getXMLDOMLayout();
         String[] loadScriptArr = new String[1];
         List<String> scriptList = new LinkedList<String>();
-        this.inflated = (InflatedLayoutPageImpl)inflateLayoutRequest.inflateLayoutInternal(domLayout, loadScriptArr, scriptList, this);
+        this.inflated = (InflatedLayoutPageImpl) inflateLayoutRequest.inflateLayoutInternal(domLayout, loadScriptArr, scriptList, this);
 
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
         String loadScript = loadScriptArr[0];
 
         this.uniqueIdForInterpreter = browser.getUniqueIdGenerator().generateId("i"); // i = interpreter
-        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter) ); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
+        this.interp = new Interpreter(new StringReader(""), System.out, System.err, false, new NameSpace(browser.getInterpreter().getNameSpace(), uniqueIdForInterpreter)); // El StringReader está copiado del código fuente de beanshell2 https://code.google.com/p/beanshell2/source/browse/branches/v2.1/src/bsh/Interpreter.java
 //long start = System.currentTimeMillis();
         try
         {
-            interp.set("itsNatDoc",itsNatDoc);
+            interp.set("itsNatDoc", itsNatDoc);
 
             StringBuilder methods = new StringBuilder();
             methods.append("alert(data){itsNatDoc.alert(data);}");
@@ -87,7 +89,7 @@ public class PageImpl implements Page
 
             if (!scriptList.isEmpty())
             {
-                for(String code : scriptList)
+                for (String code : scriptList)
                 {
                     interp.eval(code);
                 }
@@ -96,21 +98,31 @@ public class PageImpl implements Page
             if (loadScript != null) // El caso null es cuando se devuelve un layout sin script (layout sin eventos)
                 interp.eval(loadScript);
         }
-        catch (EvalError ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
-        catch (Exception ex) { throw new ItsNatDroidScriptException(ex,loadScript); }
+        catch (EvalError ex)
+        {
+            throw new ItsNatDroidScriptException(ex, loadScript);
+        }
+        catch (Exception ex)
+        {
+            throw new ItsNatDroidScriptException(ex, loadScript);
+        }
 
 //long end = System.currentTimeMillis();
 //System.out.println("LAPSE" + (end - start));
 
         if (getId() != null && itsNatDoc.isEventsEnabled()) // Es página generada por ItsNat y tiene al menos scripting enabled
             itsNatDoc.sendLoadEvent();
-        else
-            dispose(); // En el servidor
+        else dispose(); // En el servidor
     }
 
     public ItsNatDroidBrowserImpl getItsNatDroidBrowserImpl()
     {
         return pageRequest.getItsNatDroidBrowserImpl();
+    }
+
+    public PageRequestResult getPageRequestResult()
+    {
+        return pageReqResult;
     }
 
     public PageRequestImpl getPageRequestImpl()
@@ -133,7 +145,17 @@ public class PageImpl implements Page
     @Override
     public HttpRequestResult getHttpRequestResult()
     {
-        return pageReqResult.getHttpRequestResult();
+        return getHttpRequestResultImpl();
+    }
+
+    public HttpRequestResultImpl getHttpRequestResultImpl()
+    {
+        return pageReqResult.getHttpRequestResultImpl();
+    }
+
+    public int getBitmapDensityReference()
+    {
+        return bitmapDensityReference;
     }
 
     @Override

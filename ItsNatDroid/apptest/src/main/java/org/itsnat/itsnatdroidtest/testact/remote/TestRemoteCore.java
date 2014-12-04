@@ -43,7 +43,7 @@ public class TestRemoteCore extends TestRemotePageBase
         PageRequest pageRequest = droidBrowser.createPageRequest();
         pageRequest.setContext(act)
         .setSynchronous(TEST_SYNC_REQUESTS)
-        .setReferenceDensity(DisplayMetrics.DENSITY_XHIGH)
+        .setBitmapDensityReference(DisplayMetrics.DENSITY_XHIGH)
         .setOnPageLoadListener(this)
         .setOnPageLoadErrorListener(this)
         .setAttrLayoutInflaterListener(this)

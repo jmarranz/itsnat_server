@@ -19,7 +19,6 @@ package org.itsnat.impl.comp.layer;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
@@ -136,12 +135,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 
         if (browser.isMobile())
         {
-            if (browser instanceof BrowserBlackBerryOld)
-                return -1; // Leer notas en BrowserBlackBerryOld.tagNamesIgnoreZIndex
-            //else if (browser instanceof BrowserOperaMobile)
-            //    return -1; // No se porqué pero da error JavaScript a veces, quizás porque el posicionamiento absoluto da problemas (con y sin timer, pero al menos sin timer minimizamos problemas)
-            else
-                return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
+            return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
         }
         else return 500; // 250 10000
     }

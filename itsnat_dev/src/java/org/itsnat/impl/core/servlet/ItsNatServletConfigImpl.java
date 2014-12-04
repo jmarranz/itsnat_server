@@ -64,7 +64,8 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     protected boolean selectionOnComponentsUsesKeyboard = true;
     protected boolean joystickMode = false;
     protected boolean markupDrivenComponents = false;
-
+    protected int bitmapDensityReference = 320; // xhdpi
+    
     /** Creates a new instance of ItsNatServletConfigImpl */
     public ItsNatServletConfigImpl(ServletConfig servletConfig,ItsNatServletImpl servlet)
     {
@@ -452,4 +453,14 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.markupDrivenComponents = value;
     }
 
+    public int getBitmapDensityReference()
+    {
+        return bitmapDensityReference;
+    }
+
+    public void setBitmapDensityReference(int density)
+    {
+        checkIsAlreadyUsed();        
+        this.bitmapDensityReference = density;
+    }    
 }

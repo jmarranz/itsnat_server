@@ -16,8 +16,6 @@
 
 package org.itsnat.impl.comp.layer;
 
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserBlackBerryOld;
 import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
@@ -173,22 +171,12 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         code.append("    var style = elem.style;\n");
         code.append("    while(true)\n");
         code.append("    {\n");
-        if (browser instanceof BrowserBlackBerryOld)
-        {
-            code.append("  var currW = elem.offsetWidth + elem.offsetLeft*2;\n");
-            code.append("  var currH = elem.offsetHeight + elem.offsetTop*2;\n");
-            // BlackBerry no se entera de pequeños cambios y los offsetWidth/Height no cambian por eso hacemos una reducción mucho mayor y no he detectado parpadeo
-            code.append("  currW = parseInt((currW*3)/4);\n");
-            code.append("  currH = parseInt((currH*3)/4);\n");
-        }
-        else
-        {
-            code.append("  var currW = elem.scrollWidth;\n");
-            code.append("  var currH = elem.scrollHeight;\n");
-            code.append("  currW = parseInt((currW*49)/50);\n");
-            code.append("  currH = parseInt((currH*49)/50);\n");
-        }
 
+        code.append("      var currW = elem.scrollWidth;\n");
+        code.append("      var currH = elem.scrollHeight;\n");
+        code.append("      currW = parseInt((currW*49)/50);\n");
+        code.append("      currH = parseInt((currH*49)/50);\n");
+        
         code.append("      style.width =  currW + 'px';\n");
         code.append("      style.height = currH + 'px';\n");
 
@@ -204,18 +192,10 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         code.append("      maxW = Math.max(top1.scrollWidth,top2.scrollWidth);\n");
         code.append("      maxH = Math.max(top1.scrollHeight,top2.scrollHeight);\n");
     }
-    else if (browser instanceof BrowserBlackBerryOld)
-    {
-        code.append("      var top = itsNatDoc.doc.documentElement;\n");
-        code.append("      maxW = top.offsetWidth + top.offsetLeft*2;\n");
-        code.append("      maxH = top.offsetHeight + top.offsetTop*2;\n");
-    }
-    else
-    {
+
         code.append("      var top = itsNatDoc.doc.documentElement;\n");
         code.append("      maxW = top.scrollWidth;\n");
-        code.append("      maxH = top.scrollHeight;\n");
-    }
+        code.append("      maxH = top.scrollHeight;\n");    
 
         code.append("      if ((currW<maxW)&&(currH<maxH)) break; \n");
         code.append("    }\n");
