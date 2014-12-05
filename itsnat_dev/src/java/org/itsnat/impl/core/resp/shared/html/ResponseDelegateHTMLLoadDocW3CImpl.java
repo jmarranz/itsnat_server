@@ -23,7 +23,7 @@ import java.util.Set;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSAttributeW3CImpl;
@@ -56,8 +56,8 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
             return ResponseDelegateHTMLLoadDocGeckoImpl.createResponseDelegateHTMLLoadDocGecko((BrowserGecko)browser,responseParent);
         else if (browser instanceof BrowserWebKit)
             return ResponseDelegateHTMLLoadDocWebKitImpl.createResponseDelegateLoadHTMLDocWebKit(responseParent);
-        else if (browser instanceof BrowserOpera)
-            return ResponseDelegateHTMLLoadDocOperaImpl.createResponseDelegateHTMLLoadDocOpera((BrowserOpera)browser, responseParent);
+        else if (browser instanceof BrowserOperaOld)
+            return ResponseDelegateHTMLLoadDocOperaOldImpl.createResponseDelegateHTMLLoadDocOperaOld((BrowserOperaOld)browser, responseParent);
         else
             return new ResponseDelegateHTMLLoadDocW3CDefaultImpl(responseParent);
     }

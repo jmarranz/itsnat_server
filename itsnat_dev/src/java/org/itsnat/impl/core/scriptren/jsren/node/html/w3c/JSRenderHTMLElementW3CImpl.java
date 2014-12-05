@@ -21,7 +21,7 @@ import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
@@ -88,8 +88,8 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
             return JSRenderHTMLElementGeckoImpl.getJSRenderHTMLElementGeckoImpl((BrowserGecko)browser);
         else if (browser instanceof BrowserWebKit)
             return JSRenderHTMLElementWebKitImpl.getJSRenderHTMLElementWebKit((BrowserWebKit)browser);
-        else if (browser instanceof BrowserOpera)
-            return JSRenderHTMLElementOperaImpl.getJSRenderHTMLElementOpera((BrowserOpera)browser);
+        else if (browser instanceof BrowserOperaOld)
+            return JSRenderHTMLElementOperaOldImpl.getJSRenderHTMLElementOperaOld((BrowserOperaOld)browser);
         else if (browser instanceof BrowserMSIE9)
             return JSRenderHTMLElementMSIE9Impl.SINGLETON;
         else if (browser instanceof BrowserAdobeSVG)

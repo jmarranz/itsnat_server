@@ -29,28 +29,28 @@ import org.w3c.dom.html.HTMLElement;
 
  * @author jmarranz
  */
-public abstract class BrowserOpera extends BrowserW3C
+public abstract class BrowserOperaOld extends BrowserW3C
 {
-    public static final int OPERA_DESKTOP = 1;
-    public static final int OPERA_MINI = 2;
-    public static final int OPERA_MOBILE = 3;
+    public static final int OPERA_OLD_DESKTOP = 1;
+    public static final int OPERA_OLD_MINI = 2;
+    public static final int OPERA_OLD_MOBILE = 3;
 
     /** Creates a new instance of BrowserOpera */
-    public BrowserOpera(String userAgent)
+    public BrowserOperaOld(String userAgent)
     {
         super(userAgent);
 
-        this.browserType = OPERA;
+        this.browserType = OPERA_OLD;
     }
 
-    public static BrowserOpera createBrowserOpera(String userAgent)
+    public static BrowserOperaOld createBrowserOperaOld(String userAgent)
     {
-        if (BrowserOperaMini.isOperaMini(userAgent))
-            return new BrowserOperaMini(userAgent);
-        else if (BrowserOperaMobile.isOperaMobile9(userAgent))
-            return new BrowserOperaMobile(userAgent);
+        if (BrowserOperaOldMini.isOperaMini(userAgent))
+            return new BrowserOperaOldMini(userAgent);
+        else if (BrowserOperaOldMobile.isOperaMobile9(userAgent))
+            return new BrowserOperaOldMobile(userAgent);
         else
-            return new BrowserOperaDesktop(userAgent);
+            return new BrowserOperaOldDesktop(userAgent);
     }
 
     public static boolean isOpera(String userAgent,ItsNatServletRequestImpl itsNatRequest)

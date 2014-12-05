@@ -230,7 +230,7 @@ function W3CKeyEventUtil()
         if (evt.type == "keypress")
         {
             charCode = evt.charCode;
-            if (typeof charCode == "undefined") charCode = 0; // Opera y BlackBerryOld no tienen
+            if (typeof charCode == "undefined") charCode = 0; // OperaOld y BlackBerryOld no tienen
             if ((charCode == 0) && evt.itsnat_charCode) charCode = evt.itsnat_charCode; // WebKit y BlackBerryOld
         }
         url += "&itsnat_evt_charCode=" + charCode;

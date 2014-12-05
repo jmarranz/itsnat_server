@@ -35,16 +35,16 @@ import org.w3c.dom.html.HTMLElement;
  * 
  * @author jmarranz
  */
-public class BrowserOperaMobile extends BrowserOpera
+public class BrowserOperaOldMobile extends BrowserOperaOld
 {
     /**
      * Creates a new instance of BrowserOperaMobile
      */
-    public BrowserOperaMobile(String userAgent)
+    public BrowserOperaOldMobile(String userAgent)
     {
         super(userAgent);
 
-        this.browserSubType = OPERA_MOBILE;
+        this.browserSubType = OPERA_OLD_MOBILE;
     }
 
     public static boolean isOperaMobile9(String userAgent)

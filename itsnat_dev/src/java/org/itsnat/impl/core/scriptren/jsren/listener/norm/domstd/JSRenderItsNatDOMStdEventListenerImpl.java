@@ -19,8 +19,8 @@ package org.itsnat.impl.core.scriptren.jsren.listener.norm.domstd;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOldMini;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
@@ -50,10 +50,10 @@ public abstract class JSRenderItsNatDOMStdEventListenerImpl extends JSRenderItsN
 
         if ((currTarget instanceof Element) && SVGWebInfoImpl.isSVGRootElementProcessedBySVGWebFlash((Element)currTarget,clientDoc))
             return JSRenderItsNatDOMStdEventListenerSVGWebRootImpl.SINGLETON;        
-        else if (browser instanceof BrowserOpera)
+        else if (browser instanceof BrowserOperaOld)
         {
-            if (browser instanceof BrowserOperaMini)
-                return JSRenderItsNatDOMStdEventListenerOperaMiniImpl.SINGLETON;
+            if (browser instanceof BrowserOperaOldMini)
+                return JSRenderItsNatDOMStdEventListenerOperaOldMiniImpl.SINGLETON;
             else
                 return JSRenderItsNatDOMStdEventListenerDefaultImpl.SINGLETON;
         }

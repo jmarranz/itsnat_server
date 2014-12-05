@@ -218,13 +218,13 @@ function Browser(type,subType)
     this.isW3C = isW3C;
     this.isGecko = isGecko;
     this.isWebKit = isWebKit;
-    this.isOpera = isOpera;
-    this.isOperaMini = isOperaMini;
+    this.isOperaOld = isOperaOld;
+    this.isOperaOldMini = isOperaOldMini;
     this.isAdobeSVG = isAdobeSVG;
     this.isBatik = isBatik;
     this.isMSIE9 = isMSIE9;
 
-    /* UNKNOWN=0,MSIE_OLD=1,GECKO=2,WEBKIT=3,OPERA=4,BLACKBERRY_OLD=5,ADOBE_SVG=6,BATIK=7,MSIE_9=8 */
+    /* UNKNOWN=0,MSIE_OLD=1,GECKO=2,WEBKIT=3,OPERA_OLD=4,BLACKBERRY_OLD=5,ADOBE_SVG=6,BATIK=7,MSIE_9=8 */
     this.type = type;
     this.subType = subType;
 
@@ -232,8 +232,8 @@ function Browser(type,subType)
     function isW3C() { return !this.isMSIEOld(); }
     function isGecko() { return this.type == 2; }
     function isWebKit() { return this.type == 3; }
-    function isOpera() { return this.type == 4; }
-    function isOperaMini() { return this.isOpera() && (this.subType == 2); }
+    function isOperaOld() { return this.type == 4; }
+    function isOperaOldMini() { return this.isOperaOld() && (this.subType == 2); }
     function isAdobeSVG() { return this.type == 6; }
     function isBatik() { return this.type == 7; }
     function isMSIE9() { return this.type == 8; }
@@ -1726,7 +1726,7 @@ function Document()
         if (textNode != null)
         {
             if (textNode.nodeType != 3) textNode = null;  // 3 = Node.TEXT_NODE No es de texto, fue filtrado
-            else if (this.browser.isOperaMini())
+            else if (this.browser.isOperaOldMini())
             {
                 // Text.data es solo lectura => reinsertamos con el nuevo valor
                 parentNode.removeChild(textNode);

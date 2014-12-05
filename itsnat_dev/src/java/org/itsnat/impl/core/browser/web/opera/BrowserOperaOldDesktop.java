@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.browser.web.opera;
 
-import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -34,16 +33,16 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserOperaDesktop extends BrowserOpera
+public class BrowserOperaOldDesktop extends BrowserOperaOld
 {
     /**
      * Creates a new instance of BrowserOperaDesktop
      */
-    public BrowserOperaDesktop(String userAgent)
+    public BrowserOperaOldDesktop(String userAgent)
     {
         super(userAgent);
 
-        this.browserSubType = OPERA_DESKTOP;
+        this.browserSubType = OPERA_OLD_DESKTOP;
     }
 
     public boolean isMobile()

@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.NodeScriptRefImpl;
@@ -37,10 +37,10 @@ public abstract class JSRenderHTMLAttributeW3CImpl extends JSRenderHTMLAttribute
 
     public static JSRenderHTMLAttributeW3CImpl getJSRenderHTMLAttributeW3C(BrowserW3C browser)
     {
-        if (browser instanceof BrowserOpera)
+        if (browser instanceof BrowserOperaOld)
         {
-            if (browser instanceof BrowserOpera)
-                return JSRenderHTMLAttributeOperaImpl.SINGLETON;
+            if (browser instanceof BrowserOperaOld)
+                return JSRenderHTMLAttributeOperaOldImpl.SINGLETON;
             else return null; // No hay más
         }
         else

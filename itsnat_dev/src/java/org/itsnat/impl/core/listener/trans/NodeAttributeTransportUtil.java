@@ -19,7 +19,7 @@ package org.itsnat.impl.core.listener.trans;
 import org.itsnat.core.event.NodeAttributeTransport;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
@@ -54,7 +54,7 @@ public class NodeAttributeTransportUtil extends SingleParamTransportUtil
             // Ver notas NodeAllAttribTransportUtil
             ClientDocumentStfulImpl clientDoc = event.getClientDocumentStful();
             Browser browser = clientDoc.getBrowser();
-            boolean toLowerCase = (browser instanceof BrowserOpera) && request.getItsNatDocument().isMIME_HTML();
+            boolean toLowerCase = (browser instanceof BrowserOperaOld) && request.getItsNatDocument().isMIME_HTML();
             if (toLowerCase) name = name.toLowerCase();
             elem.removeAttribute(name);  // Si es null es que ha sido borrado en el cliente
         }

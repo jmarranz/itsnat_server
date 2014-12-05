@@ -22,9 +22,9 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
  *
  * @author jmarranz
  */
-public class ResponseDelegateHTMLLoadDocOperaMobileImpl extends ResponseDelegateHTMLLoadDocOperaImpl
+public class ResponseDelegateHTMLLoadDocOperaOldMobileImpl extends ResponseDelegateHTMLLoadDocOperaOldImpl
 {
-    public ResponseDelegateHTMLLoadDocOperaMobileImpl(ResponseLoadStfulDocumentValid response)
+    public ResponseDelegateHTMLLoadDocOperaOldMobileImpl(ResponseLoadStfulDocumentValid response)
     {
         super(response);
     }

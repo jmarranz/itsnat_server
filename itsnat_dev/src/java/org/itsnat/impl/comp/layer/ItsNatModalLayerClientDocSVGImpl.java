@@ -20,7 +20,7 @@ import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
@@ -146,7 +146,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
         BrowserWeb browser = clientDoc.getBrowserWeb();
         if ((browser instanceof BrowserGecko)||
-            (browser instanceof BrowserOpera)||
+            (browser instanceof BrowserOperaOld)||
             (browser instanceof BrowserAdobeSVG)|| // ASV 
             (browser instanceof BrowserBatik)) // En Batik applet no hay redimensionamiento porque no es normal cambiar las dimensiones del applet
             return -1; // No es necesario el redimensionamiento, se redimensiona automáticamente cuando cambia el cuadro (gracias a los valores "100%")

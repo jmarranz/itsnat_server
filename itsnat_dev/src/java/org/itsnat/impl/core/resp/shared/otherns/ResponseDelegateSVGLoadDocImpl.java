@@ -20,7 +20,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
@@ -50,8 +50,8 @@ public abstract class ResponseDelegateSVGLoadDocImpl extends ResponseDelegateOth
             return new ResponseDelegateSVGLoadDocAdobeSVGImpl(response);
         else if (browser instanceof BrowserBatik)
             return new ResponseDelegateSVGLoadDocBatikImpl(response);
-        else if (browser instanceof BrowserOpera)
-            return new ResponseDelegateSVGLoadDocOperaImpl(response);
+        else if (browser instanceof BrowserOperaOld)
+            return new ResponseDelegateSVGLoadDocOperaOldImpl(response);
         else
             return new ResponseDelegateSVGLoadDocDefaultImpl(response);
     }

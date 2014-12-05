@@ -22,11 +22,11 @@ import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLCellEditorClientOperaMiniImpl extends ItsNatCellEditorClientImpl
+public class ItsNatHTMLCellEditorClientOperaOldMiniImpl extends ItsNatCellEditorClientImpl
 {
-    protected static final ItsNatHTMLCellEditorClientOperaMiniImpl SINGLETON = new ItsNatHTMLCellEditorClientOperaMiniImpl();
+    protected static final ItsNatHTMLCellEditorClientOperaOldMiniImpl SINGLETON = new ItsNatHTMLCellEditorClientOperaOldMiniImpl();
 
-    public ItsNatHTMLCellEditorClientOperaMiniImpl()
+    public ItsNatHTMLCellEditorClientOperaOldMiniImpl()
     {
     }
 

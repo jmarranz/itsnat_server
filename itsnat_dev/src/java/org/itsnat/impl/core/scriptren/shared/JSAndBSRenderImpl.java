@@ -67,9 +67,7 @@ public class JSAndBSRenderImpl
     {
         if (browser instanceof BrowserWeb)
         {
-            /*if (browser instanceof BrowserOperaMobile)
-                return RELOAD_CODE_OperaMobile;
-            else*/ if (browser instanceof BrowserAdobeSVG)
+            if (browser instanceof BrowserAdobeSVG)
                 return JS_RELOAD_CODE_AdobeSVG;
             else
                 return JS_RELOAD_CODE_NORMAL;

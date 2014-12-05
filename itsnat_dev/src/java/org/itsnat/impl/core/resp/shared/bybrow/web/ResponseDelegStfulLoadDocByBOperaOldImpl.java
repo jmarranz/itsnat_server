@@ -31,16 +31,16 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public class ResponseDelegStfulLoadDocByBOperaImpl extends ResponseDelegStfulLoadDocByBW3CImpl
+public class ResponseDelegStfulLoadDocByBOperaOldImpl extends ResponseDelegStfulLoadDocByBW3CImpl
 {
-    public ResponseDelegStfulLoadDocByBOperaImpl(ResponseDelegateStfulWebLoadDocImpl parent)
+    public ResponseDelegStfulLoadDocByBOperaOldImpl(ResponseDelegateStfulWebLoadDocImpl parent)
     {
         super(parent);
     }
 
-    public static ResponseDelegStfulLoadDocByBOperaImpl createResponseDelegStfulLoadDocByBOpera(ResponseDelegateStfulWebLoadDocImpl parent)
+    public static ResponseDelegStfulLoadDocByBOperaOldImpl createResponseDelegStfulLoadDocByBOpera(ResponseDelegateStfulWebLoadDocImpl parent)
     {
-        return new ResponseDelegStfulLoadDocByBOperaImpl(parent);
+        return new ResponseDelegStfulLoadDocByBOperaOldImpl(parent);
     }
 
     public String getOnInitScriptContentCodeFixDOMCode()
@@ -88,7 +88,7 @@ public class ResponseDelegStfulLoadDocByBOperaImpl extends ResponseDelegStfulLoa
         Document doc = itsNatDoc.getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();
 
-        EventListener listener = new RewriteClientUIControlPropsOperaLoadListenerImpl(clientDoc);
+        EventListener listener = new RewriteClientUIControlPropsOperaOldLoadListenerImpl(clientDoc);
 
         int commMode;
         int syncDefaultMode = clientDoc.getCommMode();

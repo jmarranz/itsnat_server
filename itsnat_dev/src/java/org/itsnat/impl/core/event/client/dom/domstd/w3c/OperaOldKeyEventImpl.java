@@ -26,13 +26,13 @@ import org.w3c.dom.views.AbstractView;
  *
  * @author jmarranz
  */
-public class OperaKeyEventImpl extends W3CUIEventImpl implements ItsNatKeyEvent
+public class OperaOldKeyEventImpl extends W3CUIEventImpl implements ItsNatKeyEvent
 {
 
     /**
      * Creates a new instance of OperaKeyEventImpl
      */
-    public OperaKeyEventImpl(ItsNatDOMStdEventListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
+    public OperaOldKeyEventImpl(ItsNatDOMStdEventListenerWrapperImpl listenerWrapper,RequestNormalEventImpl request)
     {
         super(listenerWrapper,request);
     }

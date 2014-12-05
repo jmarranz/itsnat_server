@@ -44,15 +44,15 @@ import org.w3c.dom.html.HTMLElement;
 
  * @author jmarranz
  */
-public class BrowserOperaMini extends BrowserOpera
+public class BrowserOperaOldMini extends BrowserOperaOld
 {
 
     /** Creates a new instance of BrowserOperaMini */
-    public BrowserOperaMini(String userAgent)
+    public BrowserOperaOldMini(String userAgent)
     {
         super(userAgent);
 
-        this.browserSubType = OPERA_MINI;
+        this.browserSubType = OPERA_OLD_MINI;
     }
 
     public static boolean isOperaMini(String userAgent)

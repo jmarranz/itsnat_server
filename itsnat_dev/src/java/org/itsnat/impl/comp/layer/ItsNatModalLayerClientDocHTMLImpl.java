@@ -19,7 +19,7 @@ package org.itsnat.impl.comp.layer;
 import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.w3c.dom.Element;
@@ -105,7 +105,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
                  styleCode.append( "background:" + backgroundProp + "; " );
             else
             {
-                if (browser instanceof BrowserOpera)
+                if (browser instanceof BrowserOperaOld)
                 {
                     // El color transparente por sí solo no respeta el z-index, hay que "ayudar"
                     // Probado en Opera 9.63 y Mobile v9.5, 9.7 y 9.8 (la v10). Podemos arreglarlo con una imagen transparente.

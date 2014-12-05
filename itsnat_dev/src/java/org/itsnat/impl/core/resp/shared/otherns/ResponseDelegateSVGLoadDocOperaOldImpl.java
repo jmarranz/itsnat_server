@@ -17,27 +17,27 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
-import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaImpl;
+import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaOldImpl;
 import org.w3c.dom.Element;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseDelegateSVGLoadDocOperaImpl extends ResponseDelegateSVGLoadDocImpl
+public class ResponseDelegateSVGLoadDocOperaOldImpl extends ResponseDelegateSVGLoadDocImpl
 {
 
     /**
      * Creates a new instance of ResponseDelegateOtherNSLoadDocImpl
      */
-    public ResponseDelegateSVGLoadDocOperaImpl(ResponseLoadStfulDocumentValid response)
+    public ResponseDelegateSVGLoadDocOperaOldImpl(ResponseLoadStfulDocumentValid response)
     {
         super(response);
     }
 
-    public ResponseDelegStfulLoadDocByBOperaImpl getResponseDelegStfulLoadDocByBOpera()
+    public ResponseDelegStfulLoadDocByBOperaOldImpl getResponseDelegStfulLoadDocByBOpera()
     {
-        return (ResponseDelegStfulLoadDocByBOperaImpl)delegByBrowser;
+        return (ResponseDelegStfulLoadDocByBOperaOldImpl)delegByBrowser;
     }
 
     protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
@@ -47,6 +47,7 @@ public class ResponseDelegateSVGLoadDocOperaImpl extends ResponseDelegateSVGLoad
         rewriteClientHTMLUIControlProperties(elem,revertJSChanges,code);
     }
 
+    @Override
     public void dispatchRequestListeners()
     {
         super.dispatchRequestListeners();

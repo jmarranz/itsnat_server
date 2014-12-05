@@ -24,7 +24,7 @@ import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementAdo
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBatikImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaOldImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
@@ -59,7 +59,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
 
         addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
 
-        addBrowser(JSRenderHTMLElementOperaImpl.SINGLETON);
+        addBrowser(JSRenderHTMLElementOperaOldImpl.SINGLETON);
 
         addBrowser(JSRenderHTMLElementWebKitImpl.SINGLETON);
         

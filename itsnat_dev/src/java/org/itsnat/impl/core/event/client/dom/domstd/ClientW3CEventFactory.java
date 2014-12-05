@@ -19,12 +19,12 @@ package org.itsnat.impl.core.event.client.dom.domstd;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.event.DOMStdEventGroupInfo;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.GeckoKeyEventImpl;
-import org.itsnat.impl.core.event.client.dom.domstd.w3c.OperaKeyEventImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.w3c.OperaOldKeyEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CEventDefaultImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CEventImpl;
 import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CHTMLEventImpl;
@@ -87,8 +87,8 @@ public class ClientW3CEventFactory extends ClientItsNatDOMStdEventFactory
                     event = new GeckoKeyEventImpl(evtListener,request);
                 else if (browser instanceof BrowserWebKit)
                     event = new WebKitKeyEventImpl(evtListener,request);
-                else if (browser instanceof BrowserOpera)
-                    event = new OperaKeyEventImpl(evtListener,request);
+                else if (browser instanceof BrowserOperaOld)
+                    event = new OperaOldKeyEventImpl(evtListener,request);
                 else // Desconocido
                     event = new GeckoKeyEventImpl(evtListener,request);
                 break;

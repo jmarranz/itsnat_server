@@ -32,8 +32,30 @@ function init()
         elem.addEventListener("click",function() {alert("at link")},true);
     </script>
     
-
+    <div id="myDiv" style="width:500px">
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
+        Sed libero purus, nonummy et, viverra a, vestibulum eu, mauris. 
+        Quisque consectetuer venenatis elit. Etiam lorem lectus, 
+        lobortis malesuada, elementum quis, consequat at, eros. 
+        Ut scelerisque faucibus velit.
+    </div>
+    
+    
 <script>
+      
+    var div = document.getElementById("myDiv");
+   //alert(typeof div.style.webkitColumnWidth);     
+   //alert(typeof div.style.oColumnWidth);    
+   alert(typeof div.style.columnWidth);    
+    
+    div.style.webkitColumnCount = 2;
+    div.style.webkitColumnWidth = "20px";;   
+    div.style.webkitColumnGap = "100px";
+   
+    div.style.columnCount = 2;
+    div.style.columnWidth = "20px";;   
+    div.style.columnGap = "100px";   
+
    
     var elem = document.getElementById("pruebaId");
     function mostrar()

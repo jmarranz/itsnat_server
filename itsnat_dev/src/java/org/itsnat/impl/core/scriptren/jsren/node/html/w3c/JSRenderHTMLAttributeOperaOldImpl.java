@@ -26,12 +26,12 @@ import org.w3c.dom.html.HTMLOptionElement;
  *
  * @author jmarranz
  */
-public class JSRenderHTMLAttributeOperaImpl extends JSRenderHTMLAttributeW3CImpl
+public class JSRenderHTMLAttributeOperaOldImpl extends JSRenderHTMLAttributeW3CImpl
 {
-    public final static JSRenderHTMLAttributeOperaImpl SINGLETON = new JSRenderHTMLAttributeOperaImpl();
+    public final static JSRenderHTMLAttributeOperaOldImpl SINGLETON = new JSRenderHTMLAttributeOperaOldImpl();
 
     /** Creates a new instance of JSRenderHTMLAttributeOperaImpl */
-    public JSRenderHTMLAttributeOperaImpl()
+    public JSRenderHTMLAttributeOperaOldImpl()
     {
     }
 

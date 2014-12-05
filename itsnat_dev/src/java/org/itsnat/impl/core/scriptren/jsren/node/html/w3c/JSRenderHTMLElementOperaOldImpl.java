@@ -16,19 +16,19 @@
 
 package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3CImpl
+public class JSRenderHTMLElementOperaOldImpl extends JSRenderHTMLElementW3CImpl
 {
-    public static final JSRenderHTMLElementOperaImpl SINGLETON = new JSRenderHTMLElementOperaImpl();
+    public static final JSRenderHTMLElementOperaOldImpl SINGLETON = new JSRenderHTMLElementOperaOldImpl();
     
     /** Creates a new instance of JSMSIEHTMLElementRenderImpl */
-    public JSRenderHTMLElementOperaImpl()
+    public JSRenderHTMLElementOperaOldImpl()
     {
         // A partir de la lista de MSIE probados uno a uno
 
@@ -39,9 +39,9 @@ public class JSRenderHTMLElementOperaImpl extends JSRenderHTMLElementW3CImpl
          */        
     }
 
-    public static JSRenderHTMLElementOperaImpl getJSRenderHTMLElementOpera(BrowserOpera browser)
+    public static JSRenderHTMLElementOperaOldImpl getJSRenderHTMLElementOperaOld(BrowserOperaOld browser)
     {
-         return JSRenderHTMLElementOperaImpl.SINGLETON;
+         return JSRenderHTMLElementOperaOldImpl.SINGLETON;
     }
 
     @Override    

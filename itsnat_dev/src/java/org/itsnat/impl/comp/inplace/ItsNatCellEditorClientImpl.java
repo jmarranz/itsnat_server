@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.opera.BrowserOperaMini;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOldMini;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -47,8 +47,8 @@ public abstract class ItsNatCellEditorClientImpl
     {
         if (compEditor.getNode() instanceof HTMLElement)
         {
-            if (browser instanceof BrowserOperaMini)
-                return ItsNatHTMLCellEditorClientOperaMiniImpl.SINGLETON;
+            if (browser instanceof BrowserOperaOldMini)
+                return ItsNatHTMLCellEditorClientOperaOldMiniImpl.SINGLETON;
             else
                 return ItsNatCellEditorClientDefaultImpl.SINGLETON;
         }

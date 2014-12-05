@@ -15,11 +15,11 @@
 */
 package org.itsnat.impl.core.resp.shared.bybrow.web;
 
-import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaImpl;
+import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByBOperaOldImpl;
 import org.itsnat.impl.core.resp.shared.bybrow.web.ResponseDelegStfulLoadDocByWebBrowserImpl;
 import java.util.LinkedList;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.resp.shared.*;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
@@ -38,10 +38,10 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
     public static ResponseDelegStfulLoadDocByBW3CImpl createResponseDelegStfulLoadDocByBW3C(ResponseDelegateStfulWebLoadDocImpl parent)
     {
         Browser browser = parent.getClientDocumentStful().getBrowser();
-        if (browser instanceof BrowserOpera)
+        if (browser instanceof BrowserOperaOld)
         {
-            if (browser instanceof BrowserOpera)
-                return ResponseDelegStfulLoadDocByBOperaImpl.createResponseDelegStfulLoadDocByBOpera(parent);
+            if (browser instanceof BrowserOperaOld)
+                return ResponseDelegStfulLoadDocByBOperaOldImpl.createResponseDelegStfulLoadDocByBOpera(parent);
             else
                 return null; // No hay más
         }

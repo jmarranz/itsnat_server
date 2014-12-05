@@ -24,12 +24,12 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class JSRenderItsNatDOMStdEventListenerOperaMiniImpl extends JSRenderItsNatDOMStdEventListenerImpl
+public class JSRenderItsNatDOMStdEventListenerOperaOldMiniImpl extends JSRenderItsNatDOMStdEventListenerImpl
 {
-    public static final JSRenderItsNatDOMStdEventListenerOperaMiniImpl SINGLETON = new JSRenderItsNatDOMStdEventListenerOperaMiniImpl();
+    public static final JSRenderItsNatDOMStdEventListenerOperaOldMiniImpl SINGLETON = new JSRenderItsNatDOMStdEventListenerOperaOldMiniImpl();
 
     /** Creates a new instance of JSRenderItsNatDOMStdEventListenerImpl */
-    public JSRenderItsNatDOMStdEventListenerOperaMiniImpl()
+    public JSRenderItsNatDOMStdEventListenerOperaOldMiniImpl()
     {
     }
 

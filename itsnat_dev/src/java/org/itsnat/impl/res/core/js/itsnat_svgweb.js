@@ -415,7 +415,7 @@ function SVGWebW3CHTMLDocument()  // Usar como extension no como herencia
     this.getChildNode = getChildNode;
     function getChildNode(i,parentNode,validNode)
     {
-        if (this.isSVGWebNode(parentNode) && this.browser.isOpera()) // Soluciona algo pero en Opera funciona bastante mal
+        if (this.isSVGWebNode(parentNode) && this.browser.isOperaOld()) // Soluciona algo pero en Opera funciona bastante mal
         {
             var node = parentNode.firstChild;
             for(var j = 1; j < i + 1; j++) node = node.nextSibling;

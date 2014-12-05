@@ -26,11 +26,11 @@ import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
  *
  * @author jmarranz
  */
-public class ResponseLoadStfulDocumentValidFakeForOpera implements ResponseLoadStfulDocumentValid
+public class ResponseLoadStfulDocumentValidFakeForOperaOld implements ResponseLoadStfulDocumentValid
 {
     protected ClientDocumentStfulImpl clientDoc;
 
-    public ResponseLoadStfulDocumentValidFakeForOpera(ClientDocumentStfulImpl clientDoc)
+    public ResponseLoadStfulDocumentValidFakeForOperaOld(ClientDocumentStfulImpl clientDoc)
     {
         this.clientDoc = clientDoc;
     }

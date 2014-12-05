@@ -29,11 +29,11 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public class RewriteClientUIControlPropsOperaLoadListenerImpl implements EventListener,Serializable
+public class RewriteClientUIControlPropsOperaOldLoadListenerImpl implements EventListener,Serializable
 {
     protected ClientDocumentStfulImpl clientDoc;
 
-    public RewriteClientUIControlPropsOperaLoadListenerImpl(ClientDocumentStfulImpl clientDoc)
+    public RewriteClientUIControlPropsOperaOldLoadListenerImpl(ClientDocumentStfulImpl clientDoc)
     {
         this.clientDoc = clientDoc;
     }
@@ -59,7 +59,7 @@ public class RewriteClientUIControlPropsOperaLoadListenerImpl implements EventLi
 
         // Reconstuirmos así el objeto de utilidad response en fase load aunque ya no estamos en esa fase
         // y evitamos así problemas de serialización si memorizáramos el objeto original como un atributo (o por captura de contexto ocurre serialización indirecta)
-        ResponseLoadStfulDocumentValid response = new ResponseLoadStfulDocumentValidFakeForOpera(clientDoc);
+        ResponseLoadStfulDocumentValid response = new ResponseLoadStfulDocumentValidFakeForOperaOld(clientDoc);
         ResponseDelegateStfulWebLoadDocImpl responseDeleg = (ResponseDelegateStfulWebLoadDocImpl)ResponseDelegateStfulLoadDocImpl.createResponseDelegateStfulLoadDoc(response);
         code.append( responseDeleg.rewriteClientUIControlProperties(true) );
  

@@ -23,7 +23,7 @@ import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserUnknown;
 import org.itsnat.impl.core.browser.web.BrowserMSIE9;
 import java.io.Serializable;
-import org.itsnat.impl.core.browser.web.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -39,7 +39,7 @@ public abstract class Browser implements Serializable
     public static final int MSIE_OLD = 1;
     public static final int GECKO  = 2;
     public static final int WEBKIT = 3;  // Navegadores basados en WebKit
-    public static final int OPERA  = 4;
+    public static final int OPERA_OLD  = 4;
     public static final int BLACKBERRY_OLD = 5;
     public static final int ADOBE_SVG = 6;
     public static final int BATIK = 7;
@@ -89,8 +89,8 @@ public abstract class Browser implements Serializable
             return BrowserGecko.createBrowserGecko(userAgent,itsNatRequest);
         else if (BrowserWebKit.isWebKit(userAgent))
             return BrowserWebKit.createBrowserWebKit(userAgent);
-        else if (BrowserOpera.isOpera(userAgent,itsNatRequest))
-            return BrowserOpera.createBrowserOpera(userAgent);
+        else if (BrowserOperaOld.isOpera(userAgent,itsNatRequest))
+            return BrowserOperaOld.createBrowserOperaOld(userAgent);
         else if (BrowserBatik.isBatik(userAgent))
             return new BrowserBatik(userAgent); 
         else // Desconocido (suponemos que es un robot)
@@ -101,7 +101,7 @@ public abstract class Browser implements Serializable
     {
          // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
         return (userAgent.indexOf("MSIE") != -1) &&
-                !BrowserOpera.isOpera(userAgent,itsNatRequest);
+                !BrowserOperaOld.isOpera(userAgent,itsNatRequest);
     }
     
     public static int getMSIEVersion(String userAgent)

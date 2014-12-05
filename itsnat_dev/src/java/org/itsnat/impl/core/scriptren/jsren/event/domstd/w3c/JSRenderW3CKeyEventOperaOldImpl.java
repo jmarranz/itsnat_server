@@ -24,12 +24,12 @@ import org.w3c.dom.events.Event;
  *
  * @author jmarranz
  */
-public class JSRenderW3CKeyEventOperaImpl extends JSRenderW3CKeyEventImpl
+public class JSRenderW3CKeyEventOperaOldImpl extends JSRenderW3CKeyEventImpl
 {
-    public static final JSRenderW3CKeyEventOperaImpl SINGLETON = new JSRenderW3CKeyEventOperaImpl();
+    public static final JSRenderW3CKeyEventOperaOldImpl SINGLETON = new JSRenderW3CKeyEventOperaOldImpl();
 
     /** Creates a new instance of JSRenderW3CKeyEventOperaImpl */
-    public JSRenderW3CKeyEventOperaImpl()
+    public JSRenderW3CKeyEventOperaOldImpl()
     {
     }
 
