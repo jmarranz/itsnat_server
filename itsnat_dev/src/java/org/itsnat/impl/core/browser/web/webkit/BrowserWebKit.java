@@ -41,13 +41,15 @@ import org.w3c.dom.html.HTMLElement;
  */
 public abstract class BrowserWebKit extends BrowserW3C
 {
+    // SubType dentro de los WebKit:
     // Los números se alternan porque se han eliminado varios subtipos
     protected static final int SAFARIDESKTOP = 1;
     protected static final int IPHONE = 2;
     protected static final int ANDROID = 3;
     protected static final int GCHROME = 7;
     protected static final int BLACKBERRY = 12;
-
+    protected static final int OPERA = 13;
+    
     protected int webKitVersion;
 
     /** Creates a new instance of BrowserWebKit */
@@ -82,7 +84,9 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public static BrowserWebKit createBrowserWebKit(String userAgent)
     {
-        if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
+        if (userAgent.indexOf("OPR/") != -1) // Lo llamamos ANTES de Chrome porque Chrome se incluye en el user agent
+            return new BrowserWebKitOpera(userAgent);         
+        else if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
             return new BrowserWebKitChrome(userAgent);                  
         else if (userAgent.indexOf("Android") != -1)
             return new BrowserWebKitAndroid(userAgent);
@@ -90,6 +94,7 @@ public abstract class BrowserWebKit extends BrowserW3C
                  (userAgent.indexOf("iPhone") != -1) ||
                  (userAgent.indexOf("iPad") != -1))              
             return new BrowserWebKitIOS(userAgent);
+      
         else
         {
             int browserSubType;
@@ -107,29 +112,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         // Podría usarse "Safari" pero algún navegador antiguo no la tenía
         return (userAgent.indexOf("WebKit") != -1);
     }
-
-    /* Si soporta request síncronos el XMLHttpRequest
-     * No está soportado normalmente en WebKits antiguos, pues tardo tiempo en añadirse
-     * y quizas no hay un código compartido para todas las plataformas:
-        http://owb.sand-labs.org/pipermail/owb-dev/2007-November/000102.html
-        https://bugs.webkit.org/show_bug.cgi?id=17754
-        http://trac.webkit.org/projects/webkit/changeset/26875 (se ve el cambio de no implementado, notImplemented(), a una implementación, fecha: 2007-10-22)
-
-       No hay otra forma de insertar un script externo (el añadir un <script src=...> dinámicamente carga el archivo asíncronamente)
-     */
-    public abstract boolean isXHRSyncSupported();
-
-    public boolean canSendXHRSyncUnload()
-    {
-        // Se redefine en algún caso
-        return isXHRSyncSupported();
-    }
-
-    /* POST es siempre preferible por ejemplo
-     * para evitar posibles cacheos de la URL en el cliente.
-     * WebKits antiguos pueden no soportarlo
-     */
-    public abstract boolean isXHRPostSupported();
 
 
     public boolean isReferrerReferenceStrong()
@@ -220,5 +202,16 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }    
         
-    public abstract boolean isChangeEventNotFiredUseBlur(HTMLElement formElem);
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        // Se redefine en el caso de Chrome
+        return false; // Incluye el caso "file" que no está afectado por ésto, pero da igual
+    }        
+    
+    @Override
+    public boolean hasHTMLCSSOpacity()
+    {
+        return true;
+    }    
+
 }

@@ -88,9 +88,11 @@ public abstract class ItsNatCellEditorClientImpl
         Document doc = itsNatDoc.getDocument();
         Element nodeEditor = (Element)compEditor.getNode(); // Sólo admitimos elementos por ahora
 
+        // clientDoc.addCodeToSend("var nodeEditor = null;");
+        
         StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
-        codeListener.append( "try{" );
+        codeListener.append( "try{" );    
         codeListener.append( "var node = arguments.callee.nodeEditor;\n" );
         codeListener.append( "var target = event.getTarget();\n" );
         codeListener.append( "if (node == target) return;\n" ); // Es un click dirigido al propio elemento editándose.

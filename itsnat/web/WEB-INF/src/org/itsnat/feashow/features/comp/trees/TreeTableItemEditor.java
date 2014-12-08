@@ -29,11 +29,12 @@ public class TreeTableItemEditor implements ItsNatTreeCellEditor
 
     public TreeTableItemEditor(ItsNatTreeCellEditor defaultEditor)
     {
-        this.defaultEditor = defaultEditor;
+        this.defaultEditor = defaultEditor;        
     }
 
     public ItsNatComponent getTreeCellEditorComponent(ItsNatTree tree,int row, Object value, boolean isSelected, boolean expanded, boolean leaf, Element labelElem)
     {
+        labelElem.setAttribute("style","width:100%;height:100%"); // The editor fills the parent element   
         DefaultMutableTreeNode dataNode = (DefaultMutableTreeNode)value;
         this.currentItem = (TreeTableItem)dataNode.getUserObject();
         return defaultEditor.getTreeCellEditorComponent(tree,row,currentItem.getPrincipal(),isSelected,expanded,leaf,labelElem);

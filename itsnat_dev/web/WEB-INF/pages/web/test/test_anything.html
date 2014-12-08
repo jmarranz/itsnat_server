@@ -18,7 +18,7 @@ function init()
 </script>
 
 </head>
-<body onloadNO="init()" xmlns:itsnat="http://itsnat.org/itsnat"  itsnat:nocache="true">
+<body onloadNO="init()"  onbeforeunload="return 'salir'" xmlns:itsnat="http://itsnat.org/itsnat"  itsnat:nocache="true">
 
     <h1>Test Anything</h1>
 
@@ -43,10 +43,19 @@ function init()
     
 <script>
       
+
+      
     var div = document.getElementById("myDiv");
    //alert(typeof div.style.webkitColumnWidth);     
    //alert(typeof div.style.oColumnWidth);    
-   alert(typeof div.style.columnWidth);    
+   //alert(typeof div.style.columnWidth);    
+    
+      var func = function ()
+      {
+          div.innerHTML = arguments.callee.nodeEditor;
+      };
+      func.nodeEditor = "Hola";    
+      func();
     
     div.style.webkitColumnCount = 2;
     div.style.webkitColumnWidth = "20px";;   

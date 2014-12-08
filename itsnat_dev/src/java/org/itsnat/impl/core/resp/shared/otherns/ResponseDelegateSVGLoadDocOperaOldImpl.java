@@ -35,7 +35,7 @@ public class ResponseDelegateSVGLoadDocOperaOldImpl extends ResponseDelegateSVGL
         super(response);
     }
 
-    public ResponseDelegStfulLoadDocByBOperaOldImpl getResponseDelegStfulLoadDocByBOpera()
+    public ResponseDelegStfulLoadDocByBOperaOldImpl getResponseDelegStfulLoadDocByBOperaOld()
     {
         return (ResponseDelegStfulLoadDocByBOperaOldImpl)delegByBrowser;
     }
@@ -52,7 +52,7 @@ public class ResponseDelegateSVGLoadDocOperaOldImpl extends ResponseDelegateSVGL
     {
         super.dispatchRequestListeners();
 
-        getResponseDelegStfulLoadDocByBOpera().afterLoadRewriteClientUIControlProperties();
+        getResponseDelegStfulLoadDocByBOperaOld().afterLoadRewriteClientUIControlProperties();
     }
 
 }

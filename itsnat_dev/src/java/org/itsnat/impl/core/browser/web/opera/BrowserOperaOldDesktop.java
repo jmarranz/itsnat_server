@@ -19,10 +19,11 @@ package org.itsnat.impl.core.browser.web.opera;
 import org.w3c.dom.html.HTMLElement;
 
 /**
- * Soportado desde la versión 12.12
+ * Soportado desde la versión 12.17 que es la última pues parece que ya no se actualiza más
  *
  * Ejemplos user agent: (parece que "Presto" se introdujo en 9.6 según listado de botsvsbrowsers.com)
  *
+ *   Opera/9.80 (Windows NT 5.1) Presto/2.12.388 Version/12.17
      Opera/9.80 (Windows NT 5.1) Presto/2.12.388 Version/12.12
       
     Antiguas:

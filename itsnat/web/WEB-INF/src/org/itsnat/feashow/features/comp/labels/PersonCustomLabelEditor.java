@@ -46,7 +46,7 @@ public class PersonCustomLabelEditor extends AbstractCellEditor implements ItsNa
 
 
     public ItsNatComponent getLabelEditorComponent(ItsNatLabel label, Object value, Element labelElem)
-    {
+    {       
         ItsNatComponentManager compMgr = label.getItsNatComponentManager();
         ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();
         Document doc = itsNatDoc.getDocument();

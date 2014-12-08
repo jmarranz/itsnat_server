@@ -60,20 +60,6 @@ public class BrowserWebKitChrome extends BrowserWebKit
         return true;
     }
 
-    public boolean isXHRSyncSupported()
-    {
-        /* Si soporta request síncronos el XMLHttpRequest
-         * No está soportado normalmente en WebKits antiguos y algunas versiones móviles.
-         */
-        return true;
-    }
-
-
-    public boolean isXHRPostSupported()
-    {
-        return true;
-    }
-
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
@@ -83,11 +69,6 @@ public class BrowserWebKitChrome extends BrowserWebKit
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
     }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
@@ -105,6 +86,7 @@ public class BrowserWebKitChrome extends BrowserWebKit
         return (webKitVersion <= 525);        
     }
 
+    @Override
     public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
     {
         // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión

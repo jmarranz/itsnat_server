@@ -41,7 +41,7 @@ public abstract class ResponseDelegStfulLoadDocByBW3CImpl extends ResponseDelegS
         if (browser instanceof BrowserOperaOld)
         {
             if (browser instanceof BrowserOperaOld)
-                return ResponseDelegStfulLoadDocByBOperaOldImpl.createResponseDelegStfulLoadDocByBOpera(parent);
+                return ResponseDelegStfulLoadDocByBOperaOldImpl.createResponseDelegStfulLoadDocByBOperaOld(parent);
             else
                 return null; // No hay más
         }

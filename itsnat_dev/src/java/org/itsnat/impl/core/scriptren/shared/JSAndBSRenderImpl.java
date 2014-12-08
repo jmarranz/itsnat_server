@@ -54,7 +54,7 @@ public class JSAndBSRenderImpl
     // sí funcionan excepto cuando hay un #ref al final y window.history.go(0) recarga incondicionalmente.
     // Otra alternativa (peor) sería añadir un onmousedown al BODY el cual será pulsado
     // compulsivamente por el usuario y hará el reload.
-    // private static final String RELOAD_CODE_OperaMobile = RELOAD_CODE_NORMAL + " window.history.go(0); window.location = window.location; \n"; // Tres oportunidades para recargar
+    // private static final String RELOAD_CODE_OperaOldMobile = RELOAD_CODE_NORMAL + " window.history.go(0); window.location = window.location; \n"; // Tres oportunidades para recargar
 
     // En el caso de Adobe SVG Viewer el window.location.reload(true) es como
     // si hiciéramos un reload manual y no se recarga (se borra la pantalla)

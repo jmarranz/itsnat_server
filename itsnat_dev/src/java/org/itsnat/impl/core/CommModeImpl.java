@@ -49,17 +49,8 @@ public class CommModeImpl
         }
     }
 
-    public static int getCommMode(int commModeDeclared,Browser browser)
+    public static int getCommMode(int commModeDeclared)
     {
-        // Aunque esté declarado como síncrono es posible que
-        // no esté soportado, este método devuelve el modo efectivo usado
-        // por el cliente que es ASYNC_HOLD (usando además una capa de bloqueo)
-
-        if ((commModeDeclared == CommMode.XHR_SYNC) &&
-            (browser instanceof BrowserWebKit) &&
-            !((BrowserWebKit)browser).isXHRSyncSupported())
-                return CommMode.XHR_ASYNC_HOLD;
-
         return commModeDeclared;
     }
 

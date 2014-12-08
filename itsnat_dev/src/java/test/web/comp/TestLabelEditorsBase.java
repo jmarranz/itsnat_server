@@ -79,7 +79,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue("Any Text");
-        ItsNatHTMLInputText textInput = getComponentMgr().createItsNatHTMLInputText(null,null);
+        ItsNatHTMLInputText textInput = getComponentMgr().createItsNatHTMLInputText(null,null);     
         labelShared(1,label,textInput);
     }
 
@@ -87,7 +87,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue(Boolean.TRUE);
-        ItsNatHTMLInputCheckBox checkBox = getComponentMgr().createItsNatHTMLInputCheckBox(null,null);
+        ItsNatHTMLInputCheckBox checkBox = getComponentMgr().createItsNatHTMLInputCheckBox(null,null);          
         labelShared(2,label,checkBox);
     }
 
@@ -95,7 +95,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue(new Integer(3));
-        ItsNatHTMLSelectComboBox comboBox = itsNatDoc.getItsNatHTMLComponentManager().createItsNatHTMLSelectComboBox(null,null);
+        ItsNatHTMLSelectComboBox comboBox = itsNatDoc.getItsNatHTMLComponentManager().createItsNatHTMLSelectComboBox(null,null);      
         DefaultComboBoxModel model = (DefaultComboBoxModel)comboBox.getComboBoxModel();
         for(int i=0; i < 5; i++) model.addElement(new Integer(i));
         labelShared(3,label,comboBox);
@@ -105,7 +105,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue("Any \n Text");
-        ItsNatHTMLTextArea textArea = getComponentMgr().createItsNatHTMLTextArea(null,null);
+        ItsNatHTMLTextArea textArea = getComponentMgr().createItsNatHTMLTextArea(null,null);    
         labelShared(4,label,textArea);
     }
 
@@ -113,7 +113,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue(new Date());
-        ItsNatHTMLInputTextFormatted textInputFormatted = getComponentMgr().createItsNatHTMLInputTextFormatted(null,null);
+        ItsNatHTMLInputTextFormatted textInputFormatted = getComponentMgr().createItsNatHTMLInputTextFormatted(null,null);       
         labelShared(5,label,textInputFormatted);
     }
 
@@ -121,12 +121,13 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
     {
         ItsNatLabel label = getItsNatLabel(id);
         label.setValue(new Float(5.4));
-        ItsNatHTMLInputTextFormatted textInputFormatted = getComponentMgr().createItsNatHTMLInputTextFormatted(null,null);
+        ItsNatHTMLInputTextFormatted textInputFormatted = getComponentMgr().createItsNatHTMLInputTextFormatted(null,null);        
         labelShared(6,label,textInputFormatted);
     }
 
     public void labelShared(int i,ItsNatLabel label,ItsNatHTMLElementComponent compEditor)
     {
+        compEditor.getElement().setAttribute("style","width:100%;height:100%");
         ItsNatHTMLComponentManager componentMgr = itsNatDoc.getItsNatHTMLComponentManager();
         ItsNatLabelEditor editor = componentMgr.createDefaultItsNatLabelEditor(compEditor);
         label.setItsNatLabelEditor(editor);

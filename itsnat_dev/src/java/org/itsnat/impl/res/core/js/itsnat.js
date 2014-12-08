@@ -541,21 +541,10 @@ function EventMgr(itsNatDoc)
         this.itsNatDoc.fireEventMonitors(true,false,evt);
         var win = this.itsNatDoc.win;
         if (this.itsNatDoc.browser.isAdobeSVG()) win = window; // En ASV itsNatDoc.win es _window_impl que no tiene el ActiveXObject
-        var method = this.itsNatDoc.usePost ? "POST" : "GET";
+        var method = "POST";
         var servletPath = this.itsNatDoc.getServletPath();
         var commMode = evt.getListenerWrapper().getCommMode();
         var paramURL = evt.genParamURL();
-
-        if ((commMode == 1) && !this.itsNatDoc.xhrSyncSup) // XHR SYNC
-        {
-            // Simulamos "el bloqueo" en lo posible, no se da el caso de navegadores con SVG/XUL (solo HTML).
-            var body = this.itsNatDoc.getHTMLBody();
-            var layer = this.itsNatDoc.doc.createElement("div");
-            layer.setAttribute("style","position:absolute; z-index:999999; left:0; top:0; width:" + body.scrollWidth + "px; height:" + body.scrollHeight + "px; ");
-            body.appendChild(layer);
-            this.itsNatDoc.syncLayerTmp = layer;
-            commMode = 3; // XHR_ASYNC_HOLD
-        }
 
         if (commMode == 1) // XHR_SYNC
         {
@@ -1214,7 +1203,7 @@ function Document()
     this.removeGlobalEL = removeGlobalEL;
 
 
-    function init(doc,win,browserType,browserSubType,sessionToken,sessionId,clientId,servletPath,usePost,attachType,errorMode,xhrSyncSup,numScripts)
+    function init(doc,win,browserType,browserSubType,sessionToken,sessionId,clientId,servletPath,attachType,errorMode,numScripts)
     {
         // Mas attribs
         this.browser = new Browser(browserType,browserSubType);
@@ -1230,10 +1219,8 @@ function Document()
         this.sessionId = sessionId;
         this.clientId = clientId;
         this.servletPath = servletPath;
-        this.usePost = usePost;
         this.attachType = attachType;
         this.errorMode = errorMode;
-        this.xhrSyncSup = xhrSyncSup;
         this.evtMgr = new EventMgr(this);
 
         this.disabledEvents = false;

@@ -50,7 +50,7 @@ public class TestIFrameInsertion implements EventListener,Serializable
         {
             Document doc = itsNatDoc.getDocument();
             Element iframe = doc.createElement("iframe");
-            iframe.setAttribute("src","index.jsp");
+            iframe.setAttribute("src","index.html");
             iframe.setAttribute("style","border:solid 1px");
             div.appendChild(iframe);
         }

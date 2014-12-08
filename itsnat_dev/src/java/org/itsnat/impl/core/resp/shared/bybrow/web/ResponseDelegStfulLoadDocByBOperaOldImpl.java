@@ -38,7 +38,7 @@ public class ResponseDelegStfulLoadDocByBOperaOldImpl extends ResponseDelegStful
         super(parent);
     }
 
-    public static ResponseDelegStfulLoadDocByBOperaOldImpl createResponseDelegStfulLoadDocByBOpera(ResponseDelegateStfulWebLoadDocImpl parent)
+    public static ResponseDelegStfulLoadDocByBOperaOldImpl createResponseDelegStfulLoadDocByBOperaOld(ResponseDelegateStfulWebLoadDocImpl parent)
     {
         return new ResponseDelegStfulLoadDocByBOperaOldImpl(parent);
     }

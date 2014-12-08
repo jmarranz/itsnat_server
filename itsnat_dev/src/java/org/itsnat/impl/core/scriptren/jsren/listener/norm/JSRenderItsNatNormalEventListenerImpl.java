@@ -84,8 +84,10 @@ public abstract class JSRenderItsNatNormalEventListenerImpl extends JSRenderItsN
 
             String bindToCustomFunc = itsNatListener.getBindToCustomFunc();
             if ((bindToCustomFunc != null) && !bindToCustomFunc.equals(""))
-                code.append( "func." + bindToCustomFunc + ";\n" );
-
+            {
+                code.append( "func." + bindToCustomFunc + ";\n" );               
+            }
+            
             return "func";
         }
         else

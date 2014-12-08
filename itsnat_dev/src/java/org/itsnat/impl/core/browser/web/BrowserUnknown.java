@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**

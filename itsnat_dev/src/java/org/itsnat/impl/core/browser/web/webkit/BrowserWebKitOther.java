@@ -73,20 +73,6 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false;
     }
 
-    public boolean isXHRSyncSupported()
-    {
-        /* Si soporta request síncronos el XMLHttpRequest
-         * No está soportado normalmente en WebKits antiguos y algunas versiones móviles.
-         */
-        return true;
-    }
-
-
-    public boolean isXHRPostSupported()
-    {
-        return true;
-    }
-
 
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
@@ -96,11 +82,6 @@ public class BrowserWebKitOther extends BrowserWebKit
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
     }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
@@ -143,9 +124,5 @@ public class BrowserWebKitOther extends BrowserWebKit
         if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
         else return super.isCachedBackForwardExecutedScripts();
     }
-    
-    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
-    {
-        return false; // Cosa del Chrome
-    }          
+     
 }

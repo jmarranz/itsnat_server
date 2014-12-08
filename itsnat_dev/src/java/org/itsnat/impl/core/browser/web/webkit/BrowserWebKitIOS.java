@@ -153,15 +153,6 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return false;  // Curiosamente iPhone no soporta beforeunload en HTML (menos aun SVG que no lo soporta)
     }
 
-    public boolean isXHRSyncSupported()
-    {
-        return true;
-    }
-
-    public boolean isXHRPostSupported()
-    {
-        return true;
-    }
 
     public boolean ignoreChangeEventSelectMultiple(HTMLElement elem)
     {
@@ -209,11 +200,6 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return null;
     }
 
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
-
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         // La v2.0 (525.18.1) no soporta SVG
@@ -232,9 +218,5 @@ public class BrowserWebKitIOS extends BrowserWebKit
 
         return false;
     }
-    
-    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
-    {
-        return false; // Cosa del Chrome
-    }          
+
 }

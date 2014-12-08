@@ -89,7 +89,7 @@ public abstract class Browser implements Serializable
             return BrowserGecko.createBrowserGecko(userAgent,itsNatRequest);
         else if (BrowserWebKit.isWebKit(userAgent))
             return BrowserWebKit.createBrowserWebKit(userAgent);
-        else if (BrowserOperaOld.isOpera(userAgent,itsNatRequest))
+        else if (BrowserOperaOld.isOperaOld(userAgent,itsNatRequest)) // Llamar DESPUES de WebKit pues también soportamos Opera basado en WebKit cuyo user agent contiene la palabra Opera
             return BrowserOperaOld.createBrowserOperaOld(userAgent);
         else if (BrowserBatik.isBatik(userAgent))
             return new BrowserBatik(userAgent); 
@@ -101,7 +101,7 @@ public abstract class Browser implements Serializable
     {
          // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
         return (userAgent.indexOf("MSIE") != -1) &&
-                !BrowserOperaOld.isOpera(userAgent,itsNatRequest);
+                !BrowserOperaOld.isOperaOld(userAgent,itsNatRequest);
     }
     
     public static int getMSIEVersion(String userAgent)

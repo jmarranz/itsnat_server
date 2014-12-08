@@ -18,22 +18,24 @@ package org.itsnat.impl.core.browser.web.webkit;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLSelectElement;
 
 /*
  * Soportado desde 2.1.  NO SE CONSIDERA el Chrome para Android
  * 
- * User agents:
+ * User agent Android 4.0.3: 
+    Mozilla/5.0 (Linux; U; Android 4.0.3; en-us; Transformer TF101 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
+ * User agent Android 2.0:      
+    Mozilla/5.0 (Linux; U; Android 2.0; en-us; sdk Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17
+
+ * User agents ANTIGUOS:
 
     - Android desde Beta r1 (0.6) hasta v1.1 r1
         Beta r1 (0.6): Mozilla/5.0 (Linux; U; Android 0.6; en-us; generic) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2
         V1.0 r2:       Mozilla/5.0 (Linux; U; Android 1.0; en-us; generic) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2
         V1.1 r1:       Mozilla/5.0 (Linux; U; Android 1.0; en-us; generic) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2
         V1.5 r1:       Mozilla/5.0 (Linux; U; Android 1.5; en-us; sdk Build/CUPCAKE) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1
-        v1.6:
-        v2.0           Mozilla/5.0 (Linux; U; Android 2.0; en-us; sdk Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17
+        v1.6:         
 
         No hay versiones intermedias entre 1.1 y 1.5
         El navegador de la 1.1 parece idéntico al de la 1.0 y no hay forma de distinguirlo.
@@ -93,16 +95,6 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return true;
     }
 
-    public boolean isXHRSyncSupported()
-    {
-        return true;
-    }
-
-    public boolean isXHRPostSupported()
-    {
-        return true;
-    }
-
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
@@ -113,15 +105,11 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return tagNamesIgnoreZIndex;
     }
 
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
 
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         // http://caniuse.com/svg
-        return mainVersion >= 3; // SVG soportado.
+        return mainVersion >= 3; // SVG soportado desde la v3
     }
 
     public boolean isInsertedSVGScriptNotExecuted()
@@ -129,9 +117,5 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         // http://caniuse.com/svg        
         return mainVersion < 3; // No soporta SVG por debajo del 3
     }
-    
-    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
-    {
-        return false; // Cosa del Chrome
-    }        
+
 }

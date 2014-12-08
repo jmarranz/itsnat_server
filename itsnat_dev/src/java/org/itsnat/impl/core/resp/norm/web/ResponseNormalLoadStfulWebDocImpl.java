@@ -19,7 +19,6 @@ package org.itsnat.impl.core.resp.norm.web;
 import org.itsnat.core.CommMode;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -73,9 +72,7 @@ public abstract class ResponseNormalLoadStfulWebDocImpl extends ResponseNormalLo
                 target = (EventTarget)view;
                 if ( CommModeImpl.isXHRDefaultMode(clientDoc) &&
                      browser.hasBeforeUnloadSupport(itsNatDoc) &&
-                     itsNatDoc.isUseXHRSyncOnUnloadEvent() &&
-                     (!(browser instanceof BrowserWebKit) ||
-                      ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isXHRSyncSupported())) )
+                     itsNatDoc.isUseXHRSyncOnUnloadEvent())
                 {
                     // Si no se soporta el modo síncrono corremos el riesgo de que no se envíe el evento en el proceso de cerrado de la página
                     // lo cual normalmente ocurre en el evento "unload"
@@ -129,9 +126,7 @@ public abstract class ResponseNormalLoadStfulWebDocImpl extends ResponseNormalLo
         int defaultCommMode = clientDoc.getCommMode();
         if (CommModeImpl.isXHRMode(defaultCommMode))
         {
-            if (!itsNatDoc.isUseXHRSyncOnUnloadEvent() ||
-                ((browser instanceof BrowserWebKit) &&
-                 !((BrowserWebKit)browser).canSendXHRSyncUnload())) // Este problema no se ha estudiado para SVGUnLoad pero por si acaso también lo consideramos
+            if (!itsNatDoc.isUseXHRSyncOnUnloadEvent()) // Este problema no se ha estudiado para SVGUnLoad pero por si acaso también lo consideramos
                 commMode = CommMode.XHR_ASYNC;
             else
                 commMode = CommMode.XHR_SYNC;

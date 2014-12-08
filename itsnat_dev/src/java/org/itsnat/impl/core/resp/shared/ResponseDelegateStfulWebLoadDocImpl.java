@@ -439,15 +439,6 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
             attachType = ((ClientDocumentAttachedClientImpl)clientDoc).getAttachType();
         }
 
-        boolean usePost = true;
-        boolean xhrSyncSup = true;
-        if (browser instanceof BrowserWebKit)
-        {
-            BrowserWebKit webKit = (BrowserWebKit)browser;
-            usePost = webKit.isXHRPostSupported();
-            xhrSyncSup = webKit.isXHRSyncSupported();
-        }
-
         code.append( "\n");
         code.append( "var win = " + getWindowReference() + ";\n");
 
@@ -475,7 +466,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         }
 
         code.append( "var itsNatDoc = new itsnat." + getJavaScriptDocumentName() + "();\n" );
-        code.append( "itsNatDoc.init(document,win," + browserType + "," + browserSubType + ",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\"," + usePost + ",\"" + attachType + "\"," + errorMode + "," + xhrSyncSup + "," + prevScriptsToRemove + ");\n" );
+        code.append( "itsNatDoc.init(document,win," + browserType + "," + browserSubType + ",\"" + token + "\",\"" + sessionId + "\",\"" + clientId + "\",\"" + servletPath + "\",\"" + attachType + "\"," + errorMode + "," + prevScriptsToRemove + ");\n" );
 
         if (svgweb)
             code.append( "itsnat_extend_doc_svgweb(itsNatDoc);\n");

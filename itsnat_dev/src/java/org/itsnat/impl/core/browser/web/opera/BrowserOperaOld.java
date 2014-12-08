@@ -18,7 +18,6 @@ package org.itsnat.impl.core.browser.web.opera;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import java.util.Map;
-import org.itsnat.impl.core.browser.*;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
@@ -47,13 +46,13 @@ public abstract class BrowserOperaOld extends BrowserW3C
     {
         if (BrowserOperaOldMini.isOperaMini(userAgent))
             return new BrowserOperaOldMini(userAgent);
-        else if (BrowserOperaOldMobile.isOperaMobile9(userAgent))
+        else if (BrowserOperaOldMobile.isOperaOldMobile(userAgent))
             return new BrowserOperaOldMobile(userAgent);
         else
             return new BrowserOperaOldDesktop(userAgent);
     }
 
-    public static boolean isOpera(String userAgent,ItsNatServletRequestImpl itsNatRequest)
+    public static boolean isOperaOld(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
         return (userAgent.indexOf("Opera") != -1);
     }

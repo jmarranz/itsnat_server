@@ -21,6 +21,7 @@ import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.comp.text.ItsNatHTMLInputTextFormatted;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -32,6 +33,7 @@ public class DelegateHTMLInputTextEditorImpl extends DelegateHTMLElementComponen
     public DelegateHTMLInputTextEditorImpl(ItsNatHTMLInputText compEditor)
     {
         super(compEditor);
+        
     }
 
     public ItsNatHTMLInputText getItsNatHTMLInputText()

@@ -16,14 +16,16 @@
 
 package org.itsnat.impl.core.browser.web.opera;
 
-import java.util.Map;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 
 /**
- * A partir de la versión 12.10 (indicada en "Version/Num") que es la versión del emulador bajado el 28 de enero de 2012
+ * Ahora se llama Opera Mobile Classic pensada para Android 2.3
  * 
- * Ej. user agent: Opera/9.80 (Android 2.3.7; Linux; Opera Tablet/46154) Presto/2.11.355 Version/12.10
+ * Soportado partir de la versión 12.10 (indicada en "Version/Num") que es la versión del emulador bajado el 28 de enero de 2012 y según parece 
+ * ya está congelada para siempre
+ * 
+ * User agent: Opera/9.80 (Android 2.3.7; Linux; Opera Tablet/46154) Presto/2.11.355 Version/12.10
  * 
  * Más user-agents: http://www.useragentstring.com/pages/Opera%20Mobile/
  * 
@@ -38,7 +40,7 @@ import org.w3c.dom.html.HTMLElement;
 public class BrowserOperaOldMobile extends BrowserOperaOld
 {
     /**
-     * Creates a new instance of BrowserOperaMobile
+     * Creates a new instance of BrowserOperaOldMobile
      */
     public BrowserOperaOldMobile(String userAgent)
     {
@@ -47,7 +49,7 @@ public class BrowserOperaOldMobile extends BrowserOperaOld
         this.browserSubType = OPERA_OLD_MOBILE;
     }
 
-    public static boolean isOperaMobile9(String userAgent)
+    public static boolean isOperaOldMobile(String userAgent)
     {
         // "Opera Mobi" ya no está siempre, puede ser "Opera Tablet", el sistema operativo es el que decide, Android
         return (userAgent.indexOf("Android") != -1);
