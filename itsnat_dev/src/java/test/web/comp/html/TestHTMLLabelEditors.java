@@ -10,6 +10,7 @@
 package test.web.comp.html;
 
 import org.itsnat.comp.label.ItsNatHTMLLabel;
+import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import test.web.comp.TestLabelEditorsBase;
 
@@ -22,9 +23,9 @@ public class TestHTMLLabelEditors extends TestLabelEditorsBase
     /**
      * Creates a new instance of TestHTMLLabelEditors
      */
-    public TestHTMLLabelEditors(ItsNatHTMLDocument itsNatDoc)
+    public TestHTMLLabelEditors(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc)
     {
-        super(itsNatDoc);
+        super(request,itsNatDoc);
 
         labels = new ItsNatHTMLLabel[6];
 
@@ -33,6 +34,4 @@ public class TestHTMLLabelEditors extends TestLabelEditorsBase
                 "testItemEditorLabelId4","testItemEditorLabelId5","testItemEditorLabelId6"}
             );
     }
-
-
 }

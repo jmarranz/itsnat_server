@@ -9,10 +9,9 @@
 
 package test.web.comp.free;
 
-import java.beans.PropertyChangeListener;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.comp.label.ItsNatFreeLabel;
-import org.w3c.dom.events.EventListener;
+import org.itsnat.core.ItsNatServletRequest;
 import test.web.comp.TestLabelEditorsBase;
 
 /**
@@ -24,9 +23,9 @@ public class TestFreeLabelEditors extends TestLabelEditorsBase
     /**
      * Creates a new instance of TestHTMLLabelEditors
      */
-    public TestFreeLabelEditors(ItsNatHTMLDocument itsNatDoc)
+    public TestFreeLabelEditors(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc)
     {
-        super(itsNatDoc);
+        super(request,itsNatDoc);
 
         labels = new ItsNatFreeLabel[6];
 

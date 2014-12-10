@@ -66,11 +66,13 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
     protected Map<String,FeatureTreeNode> features = new HashMap<String,FeatureTreeNode>();
     protected BrowserAdaptor browserAdaptor;
     protected boolean joystickModePreferred;
-
+    protected boolean operaMini;
+    
     public FeatureShowcaseDocument(ItsNatServletRequest request)
     {
         this.itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
         this.joystickModePreferred = BrowserUtil.isJoystickModePreferred(request);
+        this.operaMini = BrowserUtil.isOperaMini(request);        
         this.requestURL = ((HttpServletRequest)request.getServletRequest()).getRequestURL().toString();
         
         EventListener global = new EventListenerSerial()
@@ -168,6 +170,11 @@ public class FeatureShowcaseDocument implements TreeSelectionListener,ItemListen
         return joystickModePreferred;
     }
 
+    public boolean isOperaMini()
+    {
+        return operaMini;
+    }
+    
     public ItsNatHTMLDocument getItsNatHTMLDocument()
     {
         return itsNatDoc;

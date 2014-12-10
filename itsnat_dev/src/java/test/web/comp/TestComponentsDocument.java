@@ -156,8 +156,8 @@ public class TestComponentsDocument
 
         new TestHTMLModalLayer(itsNatDoc);
 
-        new TestHTMLLabelEditors(itsNatDoc);
-        new TestFreeLabelEditors(itsNatDoc);
+        new TestHTMLLabelEditors(request,itsNatDoc);
+        new TestFreeLabelEditors(request,itsNatDoc);
         new TestFreeInclude(itsNatDoc);
         new TestFreeListCompound(itsNatDoc);
 

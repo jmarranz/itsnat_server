@@ -16,7 +16,13 @@
 
 package org.itsnat.impl.comp.inplace;
 
+import org.itsnat.comp.ItsNatComponent;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -31,9 +37,9 @@ public class ItsNatHTMLCellEditorClientOperaOldMiniImpl extends ItsNatCellEditor
     }
 
     @Override
-    public void registerEventListeners(ItsNatCellEditorImpl parent,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public void registerEventListeners(ItsNatCellEditorImpl compParent,ClientDocumentStfulDelegateWebImpl clientDocDeleg)
     {
-        super.registerEventListeners(parent,clientDoc);
+        super.registerEventListeners(compParent,clientDocDeleg);
 
         // Opera Mini por lo menos las versiones 4.0-4.2 no reciben clicks
         // a nivel de documento, por ello añadimos además el siguiente truco.
@@ -47,7 +53,7 @@ public class ItsNatHTMLCellEditorClientOperaOldMiniImpl extends ItsNatCellEditor
 
         StringBuilder code = new StringBuilder();
         String method = "operaMiniInitInplaceEditor";
-        if (!clientDoc.isClientMethodBounded(method))
+        if (!clientDocDeleg.isClientMethodBounded(method))
         {
             code.append( "var func = function (editor)" );
             code.append( "{" );
@@ -76,11 +82,18 @@ public class ItsNatHTMLCellEditorClientOperaOldMiniImpl extends ItsNatCellEditor
             code.append( "  editor.addEventListener('DOMNodeRemovedFromDocument',listener,false);" );
             code.append( "};" );
             code.append( "itsNatDoc." + method + " = func;\n" );
-            clientDoc.bindClientMethod(method);
+            clientDocDeleg.bindClientMethod(method);
         }
+        
+        ItsNatComponent compEditor = compParent.getCellEditorComponent();     
+        
+        Element nodeEditor = (Element)compEditor.getNode(); // Sólo admitimos elementos por ahora        
+        
+        code.append( "var nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true) + ";" );        
+        
         code.append( "itsNatDoc." + method + "(nodeEditor);\n" );
 
-        clientDoc.addCodeToSend(code.toString());
+        clientDocDeleg.addCodeToSend(code.toString());
 
         // No es necesario código de "desregistro" porque si el editor
         // se ha eliminado por otra vía el editor.dispatchEvent() no hace nada y el registro de DOMNodeRemovedFromDocument

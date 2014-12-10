@@ -450,4 +450,9 @@ public abstract class FeatureTreeNode
     {
         return featShowDoc.isJoystickModePreferred();
     }
+    
+    public boolean isOperaMini()
+    {
+        return featShowDoc.isOperaMini();
+    }    
 }

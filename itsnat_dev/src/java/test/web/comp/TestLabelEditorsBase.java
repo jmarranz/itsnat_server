@@ -19,11 +19,13 @@ import org.itsnat.comp.list.ItsNatHTMLSelectComboBox;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.comp.text.ItsNatHTMLInputTextFormatted;
 import org.itsnat.comp.text.ItsNatHTMLTextArea;
+import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLElement;
+import test.web.shared.BrowserUtil;
 import test.web.shared.TestBaseHTMLDocument;
 
 /**
@@ -32,12 +34,14 @@ import test.web.shared.TestBaseHTMLDocument;
  */
 public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implements EventListener,PropertyChangeListener
 {
+    protected boolean isOperaMini;
     protected ItsNatHTMLInputCheckBox useSingleClickComp;
     protected ItsNatLabel[] labels;
 
-    public TestLabelEditorsBase(ItsNatHTMLDocument itsNatDoc)
+    public TestLabelEditorsBase(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc)
     {
         super(itsNatDoc);
+        this.isOperaMini = BrowserUtil.isOperaMini(request);
     }
 
     public void load(String[] ids)
@@ -127,7 +131,7 @@ public abstract class TestLabelEditorsBase extends TestBaseHTMLDocument implemen
 
     public void labelShared(int i,ItsNatLabel label,ItsNatHTMLElementComponent compEditor)
     {
-        compEditor.getElement().setAttribute("style","width:100%;height:100%");
+        if (!isOperaMini) compEditor.getElement().setAttribute("style","width:100%;height:100%");
         ItsNatHTMLComponentManager componentMgr = itsNatDoc.getItsNatHTMLComponentManager();
         ItsNatLabelEditor editor = componentMgr.createDefaultItsNatLabelEditor(compEditor);
         label.setItsNatLabelEditor(editor);

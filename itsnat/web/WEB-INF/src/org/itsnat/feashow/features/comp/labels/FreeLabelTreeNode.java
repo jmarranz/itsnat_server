@@ -45,6 +45,8 @@ public class FreeLabelTreeNode extends FeatureTreeNode implements EventListener,
 
     public void startExamplePanel()
     {
+        isJoystickModePreferred();
+        
         ItsNatHTMLDocument itsNatDoc = (ItsNatHTMLDocument)getItsNatDocument();
         ItsNatHTMLComponentManager compMgr = itsNatDoc.getItsNatHTMLComponentManager();
 
@@ -102,7 +104,7 @@ public class FreeLabelTreeNode extends FeatureTreeNode implements EventListener,
 
     public void shared(int i,ItsNatFreeLabel comp,ItsNatComponent editorComp)
     {
-        ((Element)editorComp.getNode()).setAttribute("style","width:100%;height:100%"); // The editor fills the parent element    
+        if (!isOperaMini()) ((Element)editorComp.getNode()).setAttribute("style","width:100%;height:100%"); // The editor fills the parent element    
         ItsNatHTMLDocument itsNatDoc = (ItsNatHTMLDocument)getItsNatDocument();
         ItsNatHTMLComponentManager compMgr = itsNatDoc.getItsNatHTMLComponentManager();
         ItsNatLabelEditor editor = compMgr.createDefaultItsNatLabelEditor(editorComp);

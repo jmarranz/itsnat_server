@@ -35,7 +35,6 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.feashow.FeatureTreeNode;
 import org.itsnat.feashow.FreeTreeDecorator;
-import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -70,7 +69,7 @@ public class FreeTreeTableTreeNode extends FeatureTreeNode implements EventListe
         this.treeComp = (ItsNatFreeTree)compMgr.createItsNatComponentById("compId","freeTree",artifacts);
 
         treeComp.setItsNatTreeCellRenderer(new TreeTableItemRenderer(itsNatDoc));
-        treeComp.setItsNatTreeCellEditor(new TreeTableItemEditor(treeComp.getItsNatTreeCellEditor()));
+        treeComp.setItsNatTreeCellEditor(new TreeTableItemEditor(treeComp.getItsNatTreeCellEditor(),isOperaMini()));
 
         new FreeTreeDecorator(treeComp).bind();
 
