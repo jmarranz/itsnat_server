@@ -14,27 +14,10 @@ public class JProxyExampleDocument
 {
     protected ItsNatHTMLDocument itsNatDoc; // ItsNatHTMLDocument
     protected ItsNatHTMLInputText textInput; // ItsNatHTMLInputText
-    protected Element resultsElem; // Element   
-
-    public static class AuxMember 
-    { 
-        public static void log()
-        {
-            System.out.println(AuxMember.class.getName() + ": 13 " + AuxMember.class.getClassLoader().hashCode());
-        }        
-    }
-           
+    protected Element resultsElem; // Element             
     
     public JProxyExampleDocument(ItsNatServletRequest request,ItsNatHTMLDocument itsNatDoc,FalseDB db)
-    {
-        class AuxMemberInMethod 
-        { 
-            public void log()
-            {
-                System.out.println("JProxyExampleDocument.AuxMemberInMethod: 1 " + AuxMemberInMethod.class.getClassLoader().hashCode());
-            }        
-        }        
-        
+    {      
         this.itsNatDoc = itsNatDoc;
 
         if (db.getCityList().size() != 3) 
@@ -47,14 +30,12 @@ public class JProxyExampleDocument
 
        EventListener listener = new EventListener()
        {    
-            {
-                System.out.println("JProxyExampleDocument Anonymous Inner 21 " + this.getClass().getClassLoader().hashCode());
-            }
-           
+            @Override
             public void handleEvent(Event evt) 
             {
                 String text = textInput.getText(); 
-                resultsElem.setTextContent(text);
+                String comment = " ";
+                resultsElem.setTextContent(text + comment);
             }
         };
         
@@ -62,10 +43,5 @@ public class JProxyExampleDocument
         ((EventTarget)buttonElem).addEventListener("click",listener,false);
 
         this.resultsElem = doc.getElementById("resultsId");
-        
-        System.out.println("JProxyExampleDocument 1 " + this.getClass().getClassLoader().hashCode());        
-        new AuxMemberInMethod().log();
-        AuxMember.log();
-        JProxyExampleAux.log();
     }
 }

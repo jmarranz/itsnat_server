@@ -9,11 +9,12 @@
     <p>As of Java 1.6 a <a href="http://docs.oracle.com/javase/6/docs/api/javax/tools/JavaCompiler.html" target="_blank">Java compiler API</a> is exposed to end developers 
        and included in any JDK, in a standard Java EE web environment the compiler is accessible because the JDK is needed to recompile on the fly for instance JSPs</p>
     
-    <p>This opens the opportunity to make a hot class reload based on pure Java source code in a similar way to other dynamic languages...</p>
+    <p>This opens the opportunity to make a hot class reload based on pure Java source code in a similar way to other dynamic languages... fast and avoiding the tedious
+    context reload</p>
        
     <h2>So can I change Java source code and automatically reload it on the fly in runtime in production or development time?</h2>    
     
-    <h3>YES COURSE!</h3>
+    <h3>Yes!</h3>
     
     <p><a href="https://github.com/jmarranz/relproxy/" target="_blank">RelProxy</a> is a Java and Groovy hot class reloader library, in spite of it is a general purpose
         tool it was conceived to provide hot class reload to ItsNat.
@@ -34,7 +35,7 @@
     <div> You said: <span id="resultsId" style="color:red" itsnat:nocache="true"></span></div>   
     <br/>
     
-    <p>Note: try changing the source code in runtime (template and Java code) to modify the behavior of this example</p> 
+    <p>Note: try changing the source code in runtime (template and Java code) to modify the behavior of this example and reload this page</p> 
     
     <hr />    
     

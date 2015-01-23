@@ -22,10 +22,9 @@ public class JProxyExampleLoadListener implements ItsNatServletRequestListener
         this.db = db;
     }
 
+    @Override
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     { 
-        System.out.println("JProxyExampleLoadListener 10 " + this.getClass().getClassLoader().hashCode());
-        
         new inexp.jproxyex.JProxyExampleDocument(request,(ItsNatHTMLDocument)request.getItsNatDocument(),db);
     }
 }

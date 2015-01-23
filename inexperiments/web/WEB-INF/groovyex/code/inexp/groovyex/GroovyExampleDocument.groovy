@@ -12,9 +12,7 @@ class GroovyExampleDocument
 
     GroovyExampleDocument(itsNatDoc,db)
     {
-        this.itsNatDoc = itsNatDoc
-
-        println("GroovyExampleDocument 1");        
+        this.itsNatDoc = itsNatDoc      
         
         if (db.getCityList().size() != 3) 
             throw new RuntimeException("Unexpected");
@@ -26,7 +24,7 @@ class GroovyExampleDocument
         
         def buttonElem = doc.getElementById("buttonId")
         buttonElem.addEventListener("click", 
-             { Event evt -> def text = textInput.getText(); resultsElem.setTextContent(text); } as EventListener, false)
+             { Event evt -> def text = textInput.getText(); def comment = ""; resultsElem.setTextContent(text + comment); } as EventListener, false)
 
         this.resultsElem = doc.getElementById("resultsId")
     }
