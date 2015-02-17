@@ -6,6 +6,7 @@ import com.innowhere.relproxy.jproxy.JProxyCompilerListener;
 import com.innowhere.relproxy.jproxy.JProxyConfig;
 import com.innowhere.relproxy.jproxy.JProxyDiagnosticsListener;
 import com.innowhere.relproxy.jproxy.JProxyInputSourceFileExcludedListener;
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import javax.servlet.ServletContextListener;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
+import org.itsnat.core.ItsNatBoot;
 import test.AnyThingServlet;
 import test.ItsNatDroidServletExample;
 import test.ItsNatDroidServletNoItsNat;
@@ -117,6 +119,8 @@ public class JProxyServletContextListener implements ServletContextListener
             }
         };
         
+        JProxyScriptEngine engine = ItsNatBoot.get().getJProxyScriptEngine();
+        
         JProxyConfig jpConfig = JProxy.createJProxyConfig();
         jpConfig.setEnabled(true)
                 .setRelProxyOnReloadListener(proxyListener)
@@ -128,7 +132,7 @@ public class JProxyServletContextListener implements ServletContextListener
                 .setJProxyCompilerListener(compilerListener)                
                 .setJProxyDiagnosticsListener(diagnosticsListener);
         
-        JProxy.init(jpConfig);        
+        engine.init(jpConfig);        
         
     }
 
