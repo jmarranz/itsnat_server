@@ -21,12 +21,16 @@
     <li>Goodbye Symbian and old BlackBerries (< 6.0)
     </li>
     <li>Supported current Opera and Opera Mobile Android based on WebKit, old Operas based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported.
-    </li>    
+    </li>  
+    <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
+        and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
+        You must enable and configure it by using a ServletContextListener.
+    </li>
      <li>Added classes/interfaces
         <ul>
             <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>             
             <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>             
-        </ul>       
+        </ul>
     </li>    
      <li>Added methods
         <ul>

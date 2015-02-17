@@ -5,6 +5,7 @@ package test;
  * Created on 5 de octubre de 2006, 9:56
  */
 
+import test.shared.SharedInitContextConf;
 import test.web.shared.TestRemoteControlListener;
 import test.web.shared.TestGlobalRemoteControlListener;
 import test.web.shared.TestGlobalDocumentLoadListener;
@@ -134,7 +135,9 @@ public class ItsNatServletExample extends HttpServletWrapper
 
 
         docTemplate = registerDocument("test_core","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestCoreDocLoadListener());
+        TestCoreDocLoadListener listener = new TestCoreDocLoadListener();
+        docTemplate.addItsNatServletRequestListener(listener);
+        //docTemplate.removeItsNatServletRequestListener(listener);
         docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
         docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));
         //docTemplate.setReferrerEnabled(true);

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package test;
+package test.shared;
 
 import java.util.Date;
 import javax.servlet.ServletContext;

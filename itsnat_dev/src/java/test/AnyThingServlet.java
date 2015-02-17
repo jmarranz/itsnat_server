@@ -5,6 +5,7 @@
 
 package test;
 
+import test.shared.SharedInitContextConf;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
