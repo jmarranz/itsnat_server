@@ -1,47 +1,11 @@
 # Si ya fueron anyadidos la regla no se aplica, hay que hacer antes: git rm -cached file
 
 /bodadc
+/gae
 /GnuPlot
-
-/inexperiments/build
-/inexperiments/dist
-/inexperiments/nbproject/private/
-/inexperiments/ceylon_example/conf
-/inexperiments/ceylon_example/modules
-
 /insites
-
-/itsnat/build
-/itsnat/dist
-/itsnat/nbproject/private/
-
-/itsnat_dev/build
-/itsnat_dev/dist
-/itsnat_dev/nbproject/private/
-/itsnat_dev/docs
-/itsnat_dev/tmp
-
-
-/itsnat_spring/build
-/itsnat_spring/dist
-/itsnat_spring/nbproject/private/
-
 /itsnat_web
-
-/ItsNatBatikApplet/build
-/ItsNatBatikApplet/dist
-/ItsNatBatikApplet/nbproject/private/
-
 /itstagsme
 
-
-/spitut/build/
-/spitut/dist/
-/spitut/nbproject/private/
-
-
-/spitutstless/build/
-/spitutstless/dist/
-/spitutstless/nbproject/private/
 
 

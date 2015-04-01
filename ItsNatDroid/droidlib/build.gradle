@@ -5,7 +5,7 @@ android {
     buildToolsVersion '21.1.0'
 
     defaultConfig {
-        applicationId "org.itsnat.droid"
+        // applicationId "org.itsnat.droid"
         minSdkVersion 15
         targetSdkVersion 15
         versionCode 1
