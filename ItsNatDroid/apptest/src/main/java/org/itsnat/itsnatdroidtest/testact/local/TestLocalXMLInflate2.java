@@ -64,7 +64,7 @@ public class TestLocalXMLInflate2
     static
     {
         Class calendarClass1,calendarClass2;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
         {
             calendarClass1 = CalendarView.class;
             calendarClass2 = calendarClass1;
@@ -891,7 +891,7 @@ public class TestLocalXMLInflate2
 
     private static Object getCalendarObject(CalendarView view)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
             return view;
         else
             return calendarView_fieldDelegate.get(view);

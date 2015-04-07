@@ -5,7 +5,5 @@
         android:dither="false"
         android:filter="true"
         android:tileMode="repeat"
-        android:tileModeX="repeat"
-        android:tileModeY="repeat"
     />
 

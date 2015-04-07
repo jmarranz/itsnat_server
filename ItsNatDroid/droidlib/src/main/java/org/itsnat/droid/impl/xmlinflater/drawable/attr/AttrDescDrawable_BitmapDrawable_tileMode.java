@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by jmarranz on 30/04/14.
  */
-public class AttrDescDrawable_BitmapDrawable_tileModeXY extends AttrDescDrawable<BitmapDrawable>
+public class AttrDescDrawable_BitmapDrawable_tileMode extends AttrDescDrawable<BitmapDrawable>
 {
     public static final Map<String,Integer> valueMap = new HashMap<String,Integer>( 4 );
     static
@@ -25,7 +25,7 @@ public class AttrDescDrawable_BitmapDrawable_tileModeXY extends AttrDescDrawable
         valueMap.put("mirror",2);
     }
 
-    public AttrDescDrawable_BitmapDrawable_tileModeXY(ClassDescDrawable parent, String name)
+    public AttrDescDrawable_BitmapDrawable_tileMode(ClassDescDrawable parent, String name)
     {
         super(parent,name);
     }

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '21.1.0'
+    compileSdkVersion 15
+    buildToolsVersion '22.0.1'
 
     defaultConfig {
         applicationId "org.itsnat.itsnatdroidtest"

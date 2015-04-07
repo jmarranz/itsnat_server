@@ -36,7 +36,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescVi
         super(parent,name);
 
         Class datePickerClass1,datePickerClass2;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
             datePickerClass1 = parent.getDeclaredClass();
             datePickerClass2 = datePickerClass1;
@@ -99,7 +99,7 @@ public class AttrDescView_widget_DatePicker_endYear_startYear extends AttrDescVi
 
     private Object getDatePickerObject(View view)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
             return (DatePicker)view;
         else
             return fieldDelegate.get(view);

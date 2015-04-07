@@ -38,7 +38,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
         super(parent,name);
 
         Class datePickerClass1,datePickerClass2;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
             datePickerClass1 = parent.getDeclaredClass();
             datePickerClass2 = datePickerClass1;
@@ -114,7 +114,7 @@ public class AttrDescView_widget_DatePicker_maxDate_minDate extends AttrDescView
 
     private Object getDatePickerObject(DatePicker view)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
             return view;
         else
             return fieldDelegate.get(view);

@@ -163,26 +163,26 @@ public class ClassDescView_view_View extends ClassDescViewBased
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_above",RelativeLayout.ABOVE));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignBaseline",RelativeLayout.ALIGN_BASELINE));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignBottom",RelativeLayout.ALIGN_BOTTOM));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignEnd",RelativeLayout.ALIGN_END));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignEnd",RelativeLayout.ALIGN_END)); // API 17
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignLeft",RelativeLayout.ALIGN_LEFT));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentBottom", RelativeLayout.ALIGN_PARENT_BOTTOM));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentEnd", RelativeLayout.ALIGN_PARENT_END));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentEnd", RelativeLayout.ALIGN_PARENT_END)); // API 17
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentLeft", RelativeLayout.ALIGN_PARENT_LEFT));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentRight", RelativeLayout.ALIGN_PARENT_RIGHT));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentStart", RelativeLayout.ALIGN_PARENT_START));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentStart", RelativeLayout.ALIGN_PARENT_START)); // API 17
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_alignParentTop", RelativeLayout.ALIGN_PARENT_TOP));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignRight",RelativeLayout.ALIGN_RIGHT));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignStart",RelativeLayout.ALIGN_START));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignStart",RelativeLayout.ALIGN_START)); // API 17
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_alignTop",RelativeLayout.ALIGN_TOP));
         addAttrDesc(new AttrDescView_view_View_layout_alignWithParentIfMissing(this));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_below",RelativeLayout.BELOW));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_centerHorizontal",RelativeLayout.CENTER_HORIZONTAL));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_centerInParent",RelativeLayout.CENTER_IN_PARENT));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byBoolean(this,"layout_centerVertical",RelativeLayout.CENTER_VERTICAL));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toEndOf",RelativeLayout.END_OF));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toEndOf",RelativeLayout.END_OF));  // API 17
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toLeftOf",RelativeLayout.LEFT_OF));
         addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toRightOf",RelativeLayout.RIGHT_OF));
-        addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toStartOf",RelativeLayout.START_OF));
+        //addAttrDesc(new AttrDescView_view_View_layout_rellayout_byId(this,"layout_toStartOf",RelativeLayout.START_OF));  // API 17
 
         // Debidos a TableRow.LayoutParams
         addAttrDesc(new AttrDescView_view_View_layout_span(this));

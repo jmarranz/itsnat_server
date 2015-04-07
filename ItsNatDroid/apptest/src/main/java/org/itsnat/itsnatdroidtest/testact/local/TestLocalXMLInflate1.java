@@ -415,7 +415,7 @@ public class TestLocalXMLInflate1
             assertEquals((Drawable) TestUtil.getField(compLayout, "mDrawable"), (Drawable) TestUtil.getField(parsedLayout, "mDrawable"));
 
             // android:tint (no tiene método get)
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) // LOLLIPOP = 21
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP) // LOLLIPOP = 21
             {
                 // No hay manera de comparar dos PorterDuffColorFilter, si no define el hint devuelve null por lo que algo es algo
                 assertNotNull(((PorterDuffColorFilter) TestUtil.getField(compLayout, "mColorFilter"))); // 0x55eeee55
@@ -765,7 +765,7 @@ public class TestLocalXMLInflate1
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
             assertEquals(compTf.getStyle(),parsedTf.getStyle());
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
                 assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
             else // A partir de Lollipop (level 21) es un long
                 assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));
@@ -895,7 +895,7 @@ public class TestLocalXMLInflate1
             Typeface parsedTf = parsedLayout.getTypeface();
             assertEquals(compTf.getStyle(),BOLD | ITALIC);
             assertEquals(compTf.getStyle(),parsedTf.getStyle());
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
                 assertEquals((Integer)TestUtil.getField(compTf,"native_instance"),(Integer)TestUtil.getField(parsedTf,"native_instance"));
             else // A partir de Lollipop (level 21) es un long
                 assertEquals((Long)TestUtil.getField(compTf,"native_instance"),(Long)TestUtil.getField(parsedTf,"native_instance"));

@@ -38,7 +38,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
         super(parent,name);
 
         Class calendarClass1,calendarClass2;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
             calendarClass1 = parent.getDeclaredClass();
             calendarClass2 = calendarClass1;
@@ -102,7 +102,7 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
 
     private Object getCalendarObject(CalendarView view)
     {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
             return view;
         else
             return fieldDelegate.get(view);
