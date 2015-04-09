@@ -1,4 +1,4 @@
-
+﻿
 * Hacer como parámetros en Page para InflateLayoutRequestPageImpl:
 
         String encoding = "UTF-8";
@@ -89,7 +89,7 @@ concretos pues ya sabemos acceder a los mismos, por ejemplo, sabemos hacer: mTex
 * Subir el jar a Maven Central
 
     http://jedicoder.blogspot.com.es/2011/11/automated-gradle-project-deployment-to.html
-    https://github.com/raycoarana/roborouter/blob/master/gradle-mvn-push.gradle
+    https://github.com/raycoarana/roborouter/blob/master/scripts/gradle-mvn-push.gradle
 
 * En el ejemplo de test probar a usar un Toolbar en vez del ActionBar que está deprecated
 

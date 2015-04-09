@@ -2,7 +2,8 @@
 /local.properties
 # http://stackoverflow.com/questions/11968531/what-to-gitignore-from-the-idea-folder
 /.idea/workspace.xml
-/.idea/libraries/support_v13_19_1_0.xml
-/.idea/libraries/support_v4_19_1_0.xml
+/.idea/tasks.xml
+/.idea/*.iws
+/.idea/libraries
 /build
 
