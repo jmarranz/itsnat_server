@@ -48,34 +48,34 @@ ItsNat Droid client has several levels of interoperatibility:
 2. Built-in "page" system similar to the web paradigm of page, instead an HTML page you download an Android layout in XML form. By using a simple API you can download remote native
  Android layouts from ANY web server and be able of doing Single Page Interface with Android layouts.
 
-Take a look to this very simple and raw example of a SPI application web server agnostic.
+   Take a look to this very simple and raw example of a SPI application web server agnostic.
 
-As you can see <script> elements containing Beanshell scripts are an extension to Android layouts. There are some other extensions like using the "id" standard attribute as
+   As you can see &lt;script&gt; elements containing Beanshell scripts are an extension to Android layouts. There are some other extensions like using the "id" standard attribute as
 alternative to android:id (valid also)
 
 3. Total integration with ItsNat server.
 
-Yes, Android layout is a XML format so can be managed as DOM by ItsNat server. Everything is said, you can programming server centric stateful or stateless Android applications
-the same way you're used with ItsNat Web. This is not totally new for you because ItsNat Web already supports raw XML, XUL and SVG layouts including events. The main difference
-is you send Beanshell code instead JavaScript in your <script> elements and addCodeToSend() APIs, and Android client events may be sent to server converted to DOM events
-(you decide what events are processed in server side).
+  Yes, Android layout is a XML format so can be managed as DOM by ItsNat server. Everything is said, you can programming server centric stateful or stateless Android applications
+  the same way you're used with ItsNat Web. This is not totally new for you because ItsNat Web already supports raw XML, XUL and SVG layouts including events. The main difference
+  is you send Beanshell code instead JavaScript in your <script> elements and addCodeToSend() APIs, and Android client events may be sent to server converted to DOM events
+  (you decide what events are processed in server side).
 
-For instance (layout and layout fragment) in a web server:
+  For instance (layout and layout fragment) in a web server:
 
-https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core.xml
-https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core_fragment.xml
+  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core.xml
+  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/web/WEB-INF/pages/droid/test/test_droid_core_fragment.xml
 
-Some server side code snippets manipulating layouts:
+  Some server side code snippets manipulating layouts:
 
-https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
-https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionUsingAPI.java
-https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidToDOM.java
+  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionInnerXML.java
+  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidFragmentInsertionUsingAPI.java
+  https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/droid/core/TestDroidToDOM.java
 
-Do you remember the powerful Remote Control capability of ItsNat Web? Yes you can do the same with Android, another Android device can be monitor an Android layout of another
-device (with permission of course), most of non-web stuff of ItsNat server is supported.
+  Do you remember the powerful Remote Control capability of ItsNat Web? Yes you can do the same with Android, another Android device can be monitor an Android layout of another
+  device (with permission of course), most of non-web stuff of ItsNat server is supported.
 
-There is no "ItsNat modes" (web/Android) in ItsNat server, Android layouts can coexist in the same web application with Web layouts, the main difference is when an Android layout
-(registered with MIME android/layout) is requested  ItsNat manages this type with some differences regarding to web layouts (all of them using JavaScript).
+  There is no "ItsNat modes" (web/Android) in ItsNat server, Android layouts can coexist in the same web application with Web layouts, the main difference is when an Android layout
+  (registered with MIME android/layout) is requested  ItsNat manages this type with some differences regarding to web layouts (all of them using JavaScript).
 
 
 On development
