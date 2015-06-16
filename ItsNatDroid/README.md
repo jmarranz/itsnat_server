@@ -48,7 +48,8 @@ ItsNat Droid client has several levels of interoperatibility:
 2. Built-in "page" system similar to the web paradigm of page, instead an HTML page you download an Android layout in XML form. By using a simple API you can download remote native
  Android layouts from ANY web server and be able of doing Single Page Interface with Android layouts.
 
-   Take a look to this very simple and raw example of a SPI application web server agnostic.
+   Take a look to this [very simple and raw example](https://github.com/jmarranz/itsnat/blob/development/itsnat_dev/src/java/test/ItsNatDroidServletNoItsNat.java) of a SPI application web server agnostic.
+
 
    As you can see &lt;script&gt; elements containing Beanshell scripts are an extension to Android layouts. There are some other extensions like using the "id" standard attribute as
 alternative to android:id (valid also)
