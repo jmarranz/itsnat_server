@@ -21,23 +21,18 @@ import java.io.InputStream;
  */
 public class DrawableUtil
 {
-    public static Bitmap createBitmapNoScale(byte[] byteArray,Resources res)
-    {
-        return createBitmap(byteArray,false,-1,res); // Si scale es false, bitmapDensityReference no se necesita
-    }
-
     public static Bitmap createBitmap(byte[] byteArray,boolean scale,int bitmapDensityReference,Resources res)
     {
         // bitmapDensityReference es necesario para escalar adecuadamente un bitmap (no nine patch)
         // En ItsNat cuando los bitmaps son remotos no hay manera de elegir densidades por lo que
-        // las imágenes se definen con una densidad "que valga para todos los dispositivos",
+        // las imágenes se definen con una densidad concreta "que valga para todos los dispositivos",
         // los prototipos de layouts por ej se pueden testear poniéndo las imágenes en la carpeta drawable-densidad que se
         // quiera por ejemplo drawable-xhdpi (320 dpi), Android sabe de qué carpeta carga el bitmap y por tanto sabe
         // qué densidad tiene la imagen original de acuerdo a la carpeta (Options.inDensity) y sabe
         // si tiene que escalar o no según la densidad del dispositivo (Options.inTargetDensity)
         // Eso mismo lo tiene que hacer ItsNat para que el resultado sea el mismo que en un layout
-        // compilado por ello hay que proporcional la densidad de referencia usada durante el diseño (Options.inDensity)
-
+        // compilado por ello hay que proporcionar la densidad de referencia usada durante el diseño (Options.inDensity)
+        // para que el escalado se haga en memoria de forma programática por parte de ItsNat Droid
 
         /*
         http://developer.android.com/guide/practices/screens_support.html
@@ -89,7 +84,7 @@ public class DrawableUtil
     public static Drawable createImageBasedDrawable(byte[] byteArray,int bitmapDensityReference,boolean expectedNinePatch,Resources res)
     {
         if (expectedNinePatch)
-            return createNinePatchDrawable(byteArray,res);
+            return createNinePatchDrawable(byteArray,bitmapDensityReference,res);
 
         Bitmap bitmap = createBitmap(byteArray,true,bitmapDensityReference,res);
 
@@ -98,7 +93,6 @@ public class DrawableUtil
         if (result)
         {
             // Raro pero resulta que es un NinePatch (raro porque lo normal es que se especifique la extensión .9.png)
-            bitmap = createBitmapNoScale(byteArray,res); // No es necesario escalar pues por definición es "flexible", Android no escala, si quitamos esta línea fallarán los tests de drawable compilado vs dynamic
             return createNinePatchDrawable(bitmap,res);
         }
         else
@@ -107,9 +101,9 @@ public class DrawableUtil
         }
     }
 
-    public static NinePatchDrawable createNinePatchDrawable(byte[] byteArray,Resources res)
+    public static NinePatchDrawable createNinePatchDrawable(byte[] byteArray,int bitmapDensityReference,Resources res)
     {
-        Bitmap bitmap = createBitmapNoScale(byteArray,res); // No es necesario escalar pues por definición es "flexible", Android no escala, si pasamos scale = true fallarán los tests de drawable compilado vs dynamic
+        Bitmap bitmap = createBitmap(byteArray,true,bitmapDensityReference,res);
         return createNinePatchDrawable(bitmap,res);
     }
 
