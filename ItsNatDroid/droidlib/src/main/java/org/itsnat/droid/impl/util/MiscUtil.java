@@ -10,7 +10,8 @@ import java.util.Map;
  */
 public class MiscUtil
 {
-    public static final int LOLLIPOP = 21; // 21 == Build.VERSION_CODES.LOLLIPOP
+    public static final int LOLLIPOP = 21; // 21 == Build.VERSION_CODES.LOLLIPOP  (5.0.1)
+    public static final int LOLLIPOP_MR1 = 22;  // 22 == Build.VERSION_CODES.LOLLIPOP_MR1 (5.1.1)
 
     private static final Map<String,Class> mapClasses = new HashMap<String,Class>();
 

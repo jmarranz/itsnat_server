@@ -63,21 +63,30 @@ public class TestLocalXMLInflate2
 
     static
     {
-        Class calendarClass1,calendarClass2;
+        // Ver la clase AttrDescView_widget_CalendarView_maxDate_minDate
+        Class calendarClassWithCurrentLocale,calendarClassWithParseDate,calendarClassWithMaxMinDate;
         if (Build.VERSION.SDK_INT < TestUtil.LOLLIPOP)
         {
-            calendarClass1 = CalendarView.class;
-            calendarClass2 = calendarClass1;
+            calendarClassWithCurrentLocale = CalendarView.class;
+            calendarClassWithParseDate = calendarClassWithCurrentLocale;
         }
         else // Lollipop
         {
             calendarView_fieldDelegate = new FieldContainer<Object>(CalendarView.class, "mDelegate");
-            calendarClass1 = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
-            calendarClass2 = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+            calendarClassWithCurrentLocale = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
+            if (Build.VERSION.SDK_INT == MiscUtil.LOLLIPOP) // 21 (5.0)
+            {
+                calendarClassWithParseDate = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+            }
+            else // 22 en adelante (+5.1)
+            {
+                calendarClassWithParseDate = calendarClassWithCurrentLocale; // parseDate está ya en $AbstractCalendarViewDelegate
+            }
+
         }
 
-        calendarView_fieldCurrentLocale = new FieldContainer<Locale>(calendarClass1, "mCurrentLocale");
-        calendarView_methodParseDate = new MethodContainer<Boolean>(calendarClass2,"parseDate",new Class[]{String.class,Calendar.class});
+        calendarView_fieldCurrentLocale = new FieldContainer<Locale>(calendarClassWithCurrentLocale, "mCurrentLocale");
+        calendarView_methodParseDate = new MethodContainer<Boolean>(calendarClassWithParseDate,"parseDate",new Class[]{String.class,Calendar.class});
 
     }
 
@@ -643,8 +652,9 @@ public class TestLocalXMLInflate2
             assertEquals(compLayout.isIconfiedByDefault(),parsedLayout.isIconfiedByDefault());
 
             // Test android:imeOptions
-            TextView compQueryTextView = (TextView)TestUtil.getField(compLayout,"mQueryTextView");
-            TextView parsedQueryTextView = (TextView)TestUtil.getField(parsedLayout,"mQueryTextView");
+            String fieldName = Build.VERSION.SDK_INT <= TestUtil.LOLLIPOP ? "mQueryTextView" : "mSearchSrcTextView";
+            TextView compQueryTextView = (TextView)TestUtil.getField(compLayout,fieldName);
+            TextView parsedQueryTextView = (TextView)TestUtil.getField(parsedLayout,fieldName);
             assertEquals(compQueryTextView.getImeOptions(), EditorInfo.IME_ACTION_GO|EditorInfo.IME_ACTION_SEARCH);
             assertEquals(compQueryTextView.getImeOptions(),parsedQueryTextView.getImeOptions());
 

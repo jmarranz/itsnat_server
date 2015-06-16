@@ -37,28 +37,40 @@ public class AttrDescView_widget_CalendarView_maxDate_minDate extends AttrDescVi
     {
         super(parent,name);
 
-        Class calendarClass1,calendarClass2;
+        Class calendarClassWithCurrentLocale,calendarClassWithParseDate,calendarClassWithMaxMinDate;
         if (Build.VERSION.SDK_INT < MiscUtil.LOLLIPOP)
         {
-            calendarClass1 = parent.getDeclaredClass();
-            calendarClass2 = calendarClass1;
+            calendarClassWithCurrentLocale = parent.getDeclaredClass(); // CalendarView
+            calendarClassWithParseDate = calendarClassWithCurrentLocale;
+            calendarClassWithMaxMinDate = calendarClassWithCurrentLocale;
         }
         else // Lollipop
         {
             this.fieldDelegate = new FieldContainer<Object>(parent.getDeclaredClass(), "mDelegate");
-            calendarClass1 = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
-            calendarClass2 = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+            calendarClassWithCurrentLocale = MiscUtil.resolveClass(CalendarView.class.getName() + "$AbstractCalendarViewDelegate");
+            if (Build.VERSION.SDK_INT == MiscUtil.LOLLIPOP) // 21 (5.0)
+            {
+                calendarClassWithParseDate = MiscUtil.resolveClass(CalendarView.class.getName() + "$LegacyCalendarViewDelegate");
+                calendarClassWithMaxMinDate = calendarClassWithParseDate;
+            }
+            else // 22 en adelante (+5.1)
+            {
+                // mDelegate puede ser un objeto android.widget.CalendarViewLegacyDelegate o android.widget.CalendarViewMaterialDelegate (ambas clases autónomas) dependiendo
+                // de un  MODE_HOLO o MODE_MATERIAL, NO SOPORTAMOS por ahora MODE_MATERIAL por lo que se creará un CalendarViewLegacyDelegate
+                calendarClassWithParseDate = calendarClassWithCurrentLocale; // parseDate está ya en $AbstractCalendarViewDelegate
+                calendarClassWithMaxMinDate = MiscUtil.resolveClass("android.widget.CalendarViewLegacyDelegate"); // CalendarViewLegacyDelegate no está ya embebida en CalendarView, es autónoma
+            }
         }
 
-        this.fieldCurrentLocale = new FieldContainer<Locale>(calendarClass1, "mCurrentLocale");
-        this.methodParseDate = new MethodContainer<Boolean>(calendarClass2,"parseDate",new Class[]{String.class,Calendar.class});
+        this.fieldCurrentLocale = new FieldContainer<Locale>(calendarClassWithCurrentLocale, "mCurrentLocale");
+        this.methodParseDate = new MethodContainer<Boolean>(calendarClassWithParseDate,"parseDate",new Class[]{String.class,Calendar.class});
 
         String fieldName = null;
         if ("maxDate".equals(name))
             fieldName = "mMaxDate";
         else if ("minDate".equals(name))
             fieldName = "mMinDate";
-        this.fieldMaxMinDate = new FieldContainer<Calendar>(calendarClass2,fieldName);
+        this.fieldMaxMinDate = new FieldContainer<Calendar>(calendarClassWithMaxMinDate,fieldName);
     }
 
     public void setAttribute(View view, DOMAttr attr, XMLInflaterLayout xmlInflaterLayout, Context ctx, OneTimeAttrProcess oneTimeAttrProcess, PendingPostInsertChildrenTasks pending)
