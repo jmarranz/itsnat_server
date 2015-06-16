@@ -1,9 +1,9 @@
 
  LICENSES
 
-* ItsNat Framework
+* ItsNat Server Framework
 ---------------------------------------------------
- The ItsNat Framework is licensed under the terms of the 
+ The ItsNat Server Framework is licensed under the terms of the 
  GNU Lesser General Public License v3 (LGPL v3)
 
  See the file "fw_src/ITSNAT_LICENSE.txt" for more details.
