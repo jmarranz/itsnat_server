@@ -124,6 +124,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        HttpFileCache httpFileCache = browser.getHttpFileCache();
 
         // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
@@ -137,7 +138,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
+            result = HttpUtil.httpPost(url, httpFileCache, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
         }
         catch (Exception ex)
         {
@@ -156,7 +157,7 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public void requestAsync()
     {
         String url = getFinalURL();
-        HttpActionGenericAsyncTask postTask = new HttpActionGenericAsyncTask(this,method,url, httpParamsRequest, paramList, listener,errorListener,errorMode,overrideMime);
+        HttpActionGenericAsyncTask postTask = new HttpActionGenericAsyncTask(this,method,url, paramList, listener,errorListener,errorMode,overrideMime);
         postTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 

@@ -9,8 +9,6 @@
 
 * El puente bridge seriespepito
 
-* Probar en ICS (level 15)
-
 * Evitar el uso de Activity o Context en la salida de los AsyncTask, revisar el uso de Activity en TestRemotePageBase
 
 * Pensar el Last-Modified y el cacheo para evitar descargar recursos que no han cambiado

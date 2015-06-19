@@ -9,6 +9,7 @@ import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
 import org.itsnat.droid.impl.browser.HttpConfig;
+import org.itsnat.droid.impl.browser.HttpFileCache;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.ItsNatDroidBrowserImpl;
@@ -46,6 +47,7 @@ public class EventSender
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        HttpFileCache httpFileCache = browser.getHttpFileCache();
 
         // No hace falta clonar porque es síncrona la llamada
         HttpContext httpContext = browser.getHttpContext();
@@ -59,7 +61,7 @@ public class EventSender
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params,null);
+            result = HttpUtil.httpPost(servletPath,httpFileCache, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params,null);
         }
         catch (Exception ex)
         {

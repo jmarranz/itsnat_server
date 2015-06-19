@@ -27,7 +27,9 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
     public HttpGetPageAsyncTask(PageRequestImpl pageRequest, String url, HttpParams httpParamsRequest)
     {
-        ItsNatDroidImpl itsNatDroid = pageRequest.getItsNatDroidBrowserImpl().getItsNatDroidImpl();
+        ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
+        ItsNatDroidImpl itsNatDroid = browser.getItsNatDroidImpl();
+
         this.itsNatDroid = itsNatDroid;
         this.pageRequest = pageRequest;
         this.url = url;
@@ -42,7 +44,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        HttpRequestResultImpl result = HttpUtil.httpGet(url, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, null, null);
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(url,httpConfig.httpFileCache, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, null, null);
 
         PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase,httpConfig,xmlInflateRegistry,assetManager);
         return pageReqResult;
@@ -61,7 +63,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
             OnPageLoadErrorListener errorListener = pageRequest.getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, pageRequest,result.getHttpRequestResultImpl()); // Para poder recogerla desde fuera
+                errorListener.onError(ex, pageRequest,result.getHttpRequestResultOKImpl()); // Para poder recogerla desde fuera
                 return;
             }
             else

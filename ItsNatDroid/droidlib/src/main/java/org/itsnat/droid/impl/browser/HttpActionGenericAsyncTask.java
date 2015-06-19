@@ -1,7 +1,6 @@
 package org.itsnat.droid.impl.browser;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.params.HttpParams;
 import org.itsnat.droid.HttpRequestResult;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
@@ -27,7 +26,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected String overrideMime;
 
 
-    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, HttpParams httpParamsRequest, List<NameValuePair> params, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
+    public HttpActionGenericAsyncTask(GenericHttpClientImpl parent,String method, String url, List<NameValuePair> params, OnHttpRequestListener listener, OnHttpRequestErrorListener errorListener, int errorMode, String overrideMime)
     {
         PageImpl page = parent.getPageImpl();
 
@@ -42,9 +41,9 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.overrideMime = overrideMime;
     }
 
-    protected HttpRequestResultImpl executeInBackground() throws Exception
+    protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpAction(method,url, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, params,overrideMime);
+        return HttpUtil.httpAction(method,url, httpConfig.httpFileCache, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, params,overrideMime);
     }
 
     @Override

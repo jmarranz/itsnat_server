@@ -4,6 +4,7 @@ import org.apache.http.NameValuePair;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.OnEventErrorListener;
 import org.itsnat.droid.impl.browser.HttpConfig;
+import org.itsnat.droid.impl.browser.HttpFileCache;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
 import org.itsnat.droid.impl.browser.PageImpl;
@@ -21,6 +22,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
     protected EventSender eventSender;
     protected EventGenericImpl evt;
     protected String servletPath;
+    protected HttpFileCache httpFileCache;
     protected HttpConfig httpConfig;
     protected List<NameValuePair> params;
 
@@ -33,6 +35,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
         this.eventSender = eventSender;
         this.evt = evt;
         this.servletPath = servletPath;
+        this.httpFileCache = page.getItsNatDroidBrowserImpl().getHttpFileCache();
         this.httpConfig = new HttpConfig(page);
         httpConfig.setTimeout(timeout);
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
@@ -40,7 +43,7 @@ public class HttpPostEventAsyncTask extends ProcessingAsyncTask<HttpRequestResul
 
     protected HttpRequestResultImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpPost(servletPath,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, params,null);
+        return HttpUtil.httpPost(servletPath, httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, params,null);
     }
 
     @Override

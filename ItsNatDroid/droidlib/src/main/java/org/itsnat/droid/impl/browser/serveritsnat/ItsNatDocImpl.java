@@ -702,7 +702,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
         if (idObj.length == 2) path = (String)idObj[1];
 
         if ((id == null) && (path == null)) return null; // raro
-        if (path == null) return getNodeCached(id); // Debe estar en la cache
+        if (path == null) return getNodeCached(id); // Debe estar en la httpFileCache
         else
         {
             // si parentNode es null caso de path absoluto, si no, path relativo
@@ -727,7 +727,7 @@ public class ItsNatDocImpl implements ItsNatDoc,ItsNatDocPublic
 
     private void addNodeCache2(String id,Node node)
     {
-        if (id == null) return; // si id es null cache desactivado
+        if (id == null) return; // si id es null httpFileCache desactivado
         nodeCacheById.put(id,node);
         View view = node.getView();
         ItsNatViewImpl itsNatView = getItsNatViewImpl(view);

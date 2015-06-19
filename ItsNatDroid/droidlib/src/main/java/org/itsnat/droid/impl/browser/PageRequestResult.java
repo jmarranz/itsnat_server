@@ -7,16 +7,16 @@ import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
  */
 public class PageRequestResult
 {
-    protected HttpRequestResultImpl httpReqResult;
+    protected HttpRequestResultOKImpl httpReqResult;
     protected XMLDOMLayout domLayout;
 
-    public PageRequestResult(HttpRequestResultImpl httpReqResult,XMLDOMLayout domLayout)
+    public PageRequestResult(HttpRequestResultOKImpl httpReqResult,XMLDOMLayout domLayout)
     {
         this.httpReqResult = httpReqResult;
         this.domLayout = domLayout;
     }
 
-    public HttpRequestResultImpl getHttpRequestResultImpl()
+    public HttpRequestResultOKImpl getHttpRequestResultOKImpl()
     {
         return httpReqResult;
     }

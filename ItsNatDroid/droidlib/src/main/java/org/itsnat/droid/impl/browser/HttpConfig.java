@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class HttpConfig
 {
+    public HttpFileCache httpFileCache;
     public HttpContext httpContext;
     public HttpParams httpParamsRequest;
     public HttpParams httpParamsDefault;
@@ -27,11 +28,14 @@ public class HttpConfig
     {
         ItsNatDroidBrowserImpl browser = pageRequest.getItsNatDroidBrowserImpl();
 
+        HttpFileCache httpFileCache = browser.getHttpFileCache();
         HttpContext httpContext = browser.getHttpContext();
+        HttpParams httpParamsRequest = pageRequest.getHttpParams();
         HttpParams httpParamsDefault = browser.getHttpParams();
         Map<String, String> httpHeaders = pageRequest.createHttpHeaders();
         boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
+        this.httpFileCache = httpFileCache;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest != null ? httpParamsRequest.copy() : null;
         this.httpParamsDefault = httpParamsDefault != null ? httpParamsDefault.copy() : null;

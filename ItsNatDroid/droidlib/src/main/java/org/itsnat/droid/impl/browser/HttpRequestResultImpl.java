@@ -3,52 +3,59 @@ package org.itsnat.droid.impl.browser;
 import org.apache.http.Header;
 import org.apache.http.StatusLine;
 import org.itsnat.droid.HttpRequestResult;
+import org.itsnat.droid.ItsNatDroidException;
+import org.itsnat.droid.impl.util.IOUtil;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
  * Created by jmarranz on 16/07/14.
  */
-public class HttpRequestResultImpl implements HttpRequestResult
+public abstract class HttpRequestResultImpl implements HttpRequestResult
 {
-    private byte[] responseByteArray;
+    private String url;
+    protected byte[] responseByteArray;
     private StatusLine status;
     private String mimeType;
     private String encoding;
     private Header[] headerList;
-    private String itsNatServerVersion;
-    private Integer bitmapDensityReference;
-    private String responseText;
-    private JSONObject responseJSONObject;
+    protected String responseText;
 
-    public HttpRequestResultImpl(Header[] headerList,byte[] responseByteArray,StatusLine status, String mimeType, String encoding)
+
+    protected HttpRequestResultImpl(String url,Header[] headerList,InputStream input,StatusLine status, String mimeType, String encoding)
     {
+        this.url = url;
         this.headerList = headerList;
-        this.responseByteArray = responseByteArray;
         this.status = status;
         this.mimeType = mimeType;
         this.encoding = encoding;
-
-        Header[] itsNatServerVersionArr = getResponseHeaders("ItsNat-version");
-        this.itsNatServerVersion = itsNatServerVersionArr != null ? itsNatServerVersionArr[0].getValue() : null;
-        Header[] bitmapDensityReferenceArr = getResponseHeaders("ItsNat-bitmapDensityReference");
-        this.bitmapDensityReference = bitmapDensityReferenceArr != null ? new Integer(bitmapDensityReferenceArr[0].getValue()) : null;
     }
 
-    public String getItsNatServerVersion()
+    public static HttpRequestResultImpl createHttpRequestResult(String url,HttpFileCache httpFileCache,Header[] headerList,InputStream input,StatusLine status, String mimeType, String encoding)
     {
-        return itsNatServerVersion; // Si no es servida por ItsNat devuelve null
+        if (isStatusOK(status))
+            return new HttpRequestResultOKImpl(url,httpFileCache,headerList,input,status,mimeType,encoding);
+        else
+            return new HttpRequestResultFailImpl(url,headerList,input,status,mimeType,encoding);
     }
 
-    public Integer getBitmapDensityReference()
+    public String getUrl()
     {
-        return bitmapDensityReference;
+        return url;
     }
+
 
     public boolean isStatusOK()
     {
-        return getStatusLine().getStatusCode() == 200;
+        return isStatusOK(status);
+    }
+
+    public static boolean isStatusOK(StatusLine status)
+    {
+        return status.getStatusCode() == 200;
     }
 
     @Override
@@ -99,29 +106,7 @@ public class HttpRequestResultImpl implements HttpRequestResult
     @Override
     public String getResponseText()
     {
-        /*
-        if (responseText == null)
-        {
-            // Esto es porque el MIME está mal, si está bien la conversión a texto se hace en el hilo de la request que es lo mejor
-            this.responseText = ValueUtil.toString(responseByteArray,getEncoding());
-        }
-        */
         return responseText;
     }
 
-    public void setResponseText(String responseText)
-    {
-        this.responseText = responseText;
-    }
-
-    @Override
-    public JSONObject getResponseJSONObject()
-    {
-        return responseJSONObject;
-    }
-
-    public void setResponseJSONObject(JSONObject responseJSONObject)
-    {
-        this.responseJSONObject = responseJSONObject;
-    }
 }

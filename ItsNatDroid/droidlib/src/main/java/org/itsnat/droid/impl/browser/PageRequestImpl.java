@@ -25,7 +25,6 @@ import org.itsnat.droid.impl.dom.layout.DOMScriptRemote;
 import org.itsnat.droid.impl.dom.layout.XMLDOMLayout;
 import org.itsnat.droid.impl.domparser.layout.XMLDOMLayoutParserPage;
 import org.itsnat.droid.impl.util.MimeUtil;
-import org.itsnat.droid.impl.util.ValueUtil;
 import org.itsnat.droid.impl.xmlinflater.XMLInflateRegistry;
 
 import java.net.SocketTimeoutException;
@@ -141,6 +140,11 @@ public class PageRequestImpl implements PageRequest
         return this;
     }
 
+    public HttpParams getHttpParams()
+    {
+        return httpParams;
+    }
+
     public boolean isSynchronous()
     {
         return sync;
@@ -170,6 +174,8 @@ public class PageRequestImpl implements PageRequest
     {
         return urlBase;
     }
+
+
 
     public Map<String,String> createHttpHeaders()
     {
@@ -214,11 +220,6 @@ public class PageRequestImpl implements PageRequest
         // No hace falta clonar porque es síncrono el método
 
         HttpConfig httpConfig = new HttpConfig(this);
-        httpConfig.httpContext = browser.getHttpContext();
-        httpConfig.httpParamsRequest = this.httpParams;
-        httpConfig.httpParamsDefault = browser.getHttpParams();
-        httpConfig.httpHeaders = createHttpHeaders();
-        httpConfig.sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
 
         XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
 
@@ -227,7 +228,7 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult result = null;
         try
         {
-            HttpRequestResultImpl httpReqResult = HttpUtil.httpGet(url,httpConfig.httpContext,httpConfig.httpParamsRequest,
+            HttpRequestResultOKImpl httpReqResult = HttpUtil.httpGet(url,httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,
                     httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,null,null);
 
             AssetManager assetManager = getContext().getResources().getAssets();
@@ -240,7 +241,7 @@ public class PageRequestImpl implements PageRequest
             OnPageLoadErrorListener errorListener = getOnPageLoadErrorListener();
             if (errorListener != null)
             {
-                errorListener.onError(ex, this, result.getHttpRequestResultImpl()); // Para poder recogerla desde fuera
+                errorListener.onError(ex, this, result.getHttpRequestResultOKImpl()); // Para poder recogerla desde fuera
                 return;
             }
             else
@@ -255,23 +256,16 @@ public class PageRequestImpl implements PageRequest
 
     private void executeAsync(String url)
     {
-        HttpParams httpParamsRequest = this.httpParams;
+        HttpParams httpParamsRequest = getHttpParams();
 
         HttpGetPageAsyncTask task = new HttpGetPageAsyncTask(this,url,httpParamsRequest);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR); // Con execute() a secas se ejecuta en un "pool" de un sólo hilo sin verdadero paralelismo
     }
 
-    public static PageRequestResult processHttpRequestResult(HttpRequestResultImpl result,
+    public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
                                        String pageURLBase,HttpConfig httpConfig,
                                        XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager) throws Exception
     {
-        if (!result.isStatusOK())
-        {
-            // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
-            result.setResponseText(ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()));
-            throw new ItsNatDroidServerResponseException(result);
-        }
-
         String markup = result.getResponseText();
         String itsNatServerVersion = result.getItsNatServerVersion();
         XMLDOMLayout domLayout = xmlInflateRegistry.getXMLDOMLayoutCache(markup, itsNatServerVersion, true, true, assetManager);
@@ -302,7 +296,8 @@ public class PageRequestImpl implements PageRequest
         LinkedList<DOMAttrRemote> attrRemoteList = domLayout.getDOMAttrRemoteList();
         if (attrRemoteList != null)
         {
-            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry,assetManager);
+            HttpFileCache httpFileCache = result.getHttpFileCache();
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpFileCache,httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList);
         }
 
@@ -311,7 +306,7 @@ public class PageRequestImpl implements PageRequest
 
     public void processResponse(PageRequestResult result)
     {
-        HttpRequestResultImpl httpReqResult = result.getHttpRequestResultImpl();
+        HttpRequestResultOKImpl httpReqResult = result.getHttpRequestResultOKImpl();
 
         if (!MimeUtil.MIME_ANDROID_LAYOUT.equals(httpReqResult.getMimeType()))
             throw new ItsNatDroidServerResponseException("Expected " + MimeUtil.MIME_ANDROID_LAYOUT + " MIME in Content-Type:" + httpReqResult.getMimeType(),httpReqResult);
@@ -340,7 +335,7 @@ public class PageRequestImpl implements PageRequest
     private static String downloadScript(String src,String pageURLBase,HttpConfig httpConfig) throws SocketTimeoutException
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,MimeUtil.MIME_BEANSHELL);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 }

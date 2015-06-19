@@ -49,7 +49,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected List<HttpRequestResultImpl> executeInBackground() throws Exception
     {
         HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
+                new HttpResourceDownloader(pageURLBase, httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
         List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
         resDownloader.downloadResources(attrRemoteList,resultList);
         return resultList;

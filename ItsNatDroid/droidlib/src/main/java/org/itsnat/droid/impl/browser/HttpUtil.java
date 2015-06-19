@@ -82,17 +82,17 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static HttpRequestResultImpl httpGet(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpGet(String url,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("GET",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
+        return httpAction("GET",url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
     }
 
-    public static HttpRequestResultImpl httpPost(String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpPost(String url,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("POST",url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
+        return httpAction("POST",url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
     }
 
-    public static HttpRequestResultImpl httpAction(String method,String url, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpFileCache httpFileCache,HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
@@ -146,7 +146,7 @@ public class HttpUtil
         }
 
         HttpResponse response = execute(httpClient,httpUriRequest,httpContext,httpHeaders);
-        return processResponse(response,overrideMime);
+        return processResponse(url,httpFileCache,response,overrideMime);
     }
 
     private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException
@@ -156,8 +156,8 @@ public class HttpUtil
             // Para evitar cacheados (en el caso de GET) por si acaso
             // http://stackoverflow.com/questions/49547/making-sure-a-web-page-is-not-cached-across-all-browsers
             httpUriRequest.setHeader("If-Modified-Since","Wed, 15 Nov 1995 00:00:00 GMT");
-            httpUriRequest.setHeader("Cache-Control","no-store,no-cache,must-revalidate");
-            httpUriRequest.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+            httpUriRequest.setHeader("Cache-Control","no-store,no-httpFileCache,must-revalidate");
+            httpUriRequest.setHeader("Pragma", "no-httpFileCache"); // HTTP 1.0.
             httpUriRequest.setHeader("Expires","0"); // Proxies.
 
             for(Map.Entry<String,String> header : httpHeaders.entrySet())
@@ -168,6 +168,7 @@ public class HttpUtil
             }
 
             HttpResponse response = httpClient.execute(httpUriRequest, httpContext);
+
             return response;
         }
         catch(SocketTimeoutException ex)
@@ -178,12 +179,14 @@ public class HttpUtil
         catch(IOException ex) { throw new ItsNatDroidException(ex); }
     }
 
-    private static HttpRequestResultImpl processResponse(HttpResponse response,String overrideMime)
+    private static HttpRequestResultOKImpl processResponse(String url,HttpFileCache httpFileCache,HttpResponse response,String overrideMime)
     {
         // Get hold of the response entity
         HttpEntity entity = response.getEntity();
         // If the response does not enclose an entity, there is no need
         // to worry about connection release
+
+        if (entity == null) throw new ItsNatDroidException("Unexpected"); // null es muy raro incluso en caso de error
 
         StatusLine status = response.getStatusLine();
 
@@ -194,44 +197,21 @@ public class HttpUtil
 
         if (!ValueUtil.isEmpty(overrideMime)) mimeTypeRes[0] = overrideMime;
 
-        byte[] contentArr = null;
+        Header[] headers = response.getAllHeaders();
 
-        if (entity != null) // null es muy raro incluso con error
+        InputStream input = null;
+        try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200) porque obtenemos el texto del error
+        catch (IOException ex) { throw new ItsNatDroidException(ex); }
+
+        HttpRequestResultImpl result = HttpRequestResultImpl.createHttpRequestResult(url,httpFileCache,headers, input, status, mimeTypeRes[0], encodingRes[0]);
+
+
+        if (result instanceof HttpRequestResultFailImpl)
         {
-            InputStream input = null;
-            try { input = entity.getContent(); } // Interesa incluso cuando hay error (statusCode != 200)
-            catch (IOException ex) { throw new ItsNatDroidException(ex); }
-            contentArr = IOUtil.read(input);
-        }
-
-        HttpRequestResultImpl result = new HttpRequestResultImpl(response.getAllHeaders(),contentArr,status,mimeTypeRes[0],encodingRes[0]);
-
-        if (result.isStatusOK())
-        {
-            // Intentamos hacer procesos de conversión/parsing aquí para aprovechar el multinúcleo y evitar usar el hilo UI
-            String mimeType = result.getMimeType();
-            if (MimeUtil.MIME_ANDROID_LAYOUT.equals(mimeType) ||
-                MimeUtil.MIME_BEANSHELL.equals(mimeType) ||
-                MimeUtil.MIME_JSON.equals(mimeType) ||
-                mimeType.startsWith("text/"))
-            {
-                result.setResponseText( ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()) );
-
-                if (MimeUtil.MIME_JSON.equals(mimeType))
-                {
-                    try { result.setResponseJSONObject( new JSONObject(result.getResponseText() ) ); }
-                    catch (JSONException ex) { throw new ItsNatDroidServerResponseException(ex, result); }
-                }
-            }
-        }
-        else
-        {
-            // Normalmente será el texto del error que envía el servidor, por ejemplo el stacktrace
-            result.setResponseText( ValueUtil.toString(result.getResponseByteArray(), result.getEncoding()) );
             throw new ItsNatDroidServerResponseException(result);
         }
 
-        return result;
+        return (HttpRequestResultOKImpl)result;
     }
 
     private static void getMimeTypeEncoding(HttpResponse response, String[] mimeType, String[] encoding)

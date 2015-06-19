@@ -3,6 +3,7 @@ package org.itsnat.droid;
 import android.content.Context;
 
 import org.apache.http.params.HttpParams;
+import org.itsnat.droid.impl.browser.HttpFileCache;
 
 /**
  * Created by jmarranz on 4/06/14.
@@ -17,4 +18,6 @@ public interface ItsNatDroidBrowser
     public void setMaxPagesInSession(int maxPages);
     public boolean isSSLSelfSignedAllowed();
     public void setSSLSelfSignedAllowed(boolean enable);
+    public long getFileCacheMaxSize();
+    public void setFileCacheMaxSize(long size);
 }

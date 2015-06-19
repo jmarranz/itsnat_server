@@ -15,5 +15,4 @@ public interface HttpRequestResult
     public Header[] getResponseHeaders(String name);
     public byte[] getResponseByteArray();
     public String getResponseText();
-    public JSONObject getResponseJSONObject();
 }

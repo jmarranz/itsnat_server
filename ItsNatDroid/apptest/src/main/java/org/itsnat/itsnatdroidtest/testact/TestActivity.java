@@ -56,6 +56,7 @@ public class TestActivity extends Activity implements ActionBar.TabListener
         if (ItsNatDroidRoot.get() == null)
             ItsNatDroidRoot.init(getApplication());
         this.droidBrowser = ItsNatDroidRoot.get().createItsNatDroidBrowser();
+        droidBrowser.setFileCacheMaxSize(10*1024);
 
         Intent intent = getIntent();
 

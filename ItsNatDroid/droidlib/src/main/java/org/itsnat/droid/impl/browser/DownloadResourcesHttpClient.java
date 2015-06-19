@@ -46,6 +46,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
+        HttpFileCache httpFileCache = browser.getHttpFileCache();
 
         // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
@@ -65,7 +66,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         try
         {
             HttpResourceDownloader resDownloader =
-                    new HttpResourceDownloader(url,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
+                    new HttpResourceDownloader(url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList,resultList);
         }
         catch (Exception ex)

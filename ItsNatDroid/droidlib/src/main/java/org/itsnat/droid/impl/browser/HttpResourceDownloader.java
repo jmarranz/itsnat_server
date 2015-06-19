@@ -21,6 +21,7 @@ import java.util.Map;
 public class HttpResourceDownloader
 {
     protected final String pageURLBase;
+    protected final HttpFileCache httpFileCache;
     protected final HttpContext httpContext;
     protected final HttpParams httpParamsRequest;
     protected final HttpParams httpParamsDefault;
@@ -29,9 +30,10 @@ public class HttpResourceDownloader
     protected final XMLInflateRegistry xmlInflateRegistry;
     protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public HttpResourceDownloader(String pageURLBase,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
+        this.httpFileCache = httpFileCache;
         this.httpContext = httpContext;
         this.httpParamsRequest = httpParamsRequest;
         this.httpParamsDefault = httpParamsDefault;
@@ -94,7 +96,7 @@ public class HttpResourceDownloader
                 {
                     String resourceMime = attr.getResourceMime();
                     String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
-                    HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
+                    HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpFileCache, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
                     processHttpRequestResultResource(url, attr, resultResource, resultList);
                 }
                 catch (Exception ex)

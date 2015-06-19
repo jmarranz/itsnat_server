@@ -39,6 +39,8 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     protected MapLight<String,ItsNatSessionImpl> sessionList = new MapLight<String, ItsNatSessionImpl>();
     protected int maxPagesInSession = 5;
     protected boolean sslSelfSignedAllowed = false; // Sólo poner a true en pruebas de desarrollo
+    protected long fileCacheMaxSize = 100 * 1024; // 100Kb
+    protected HttpFileCache httpFileCache = new HttpFileCache(fileCacheMaxSize);
 
     public ItsNatDroidBrowserImpl(ItsNatDroidImpl parent)
     {
@@ -187,5 +189,21 @@ public class ItsNatDroidBrowserImpl implements ItsNatDroidBrowser
     public void setSSLSelfSignedAllowed(boolean enable)
     {
         this.sslSelfSignedAllowed = enable;
+    }
+
+    public long getFileCacheMaxSize()
+    {
+        return fileCacheMaxSize;
+    }
+
+    public void setFileCacheMaxSize(long size)
+    {
+        this.fileCacheMaxSize = size;
+        this.httpFileCache.setMaxCacheSize(fileCacheMaxSize);
+    }
+
+    public HttpFileCache getHttpFileCache()
+    {
+        return httpFileCache;
     }
 }

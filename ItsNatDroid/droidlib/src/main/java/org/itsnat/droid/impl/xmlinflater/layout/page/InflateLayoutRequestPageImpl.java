@@ -33,7 +33,7 @@ public class InflateLayoutRequestPageImpl extends InflateLayoutRequestImpl
 
     public String getEncoding()
     {
-        return page.getHttpRequestResultImpl().getEncoding();
+        return page.getHttpRequestResultOKImpl().getEncoding();
     }
 
     public int getBitmapDensityReference()

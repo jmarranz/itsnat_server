@@ -57,7 +57,7 @@ public class PageImpl implements Page
         this.httpParams = httpParams != null ? httpParams.copy() : null;
         this.pageReqResult = pageReqResult;
 
-        HttpRequestResultImpl httpReqResult = pageReqResult.getHttpRequestResultImpl();
+        HttpRequestResultOKImpl httpReqResult = pageReqResult.getHttpRequestResultOKImpl();
         this.itsNatServerVersion = httpReqResult.getItsNatServerVersion();
 
         Integer bitmapDensityReference = httpReqResult.getBitmapDensityReference(); // Sólo está definida en el caso de ItsNat server, por eso se puede pasar por el usuario también a través del PageRequest
@@ -145,12 +145,12 @@ public class PageImpl implements Page
     @Override
     public HttpRequestResult getHttpRequestResult()
     {
-        return getHttpRequestResultImpl();
+        return getHttpRequestResultOKImpl();
     }
 
-    public HttpRequestResultImpl getHttpRequestResultImpl()
+    public HttpRequestResultOKImpl getHttpRequestResultOKImpl()
     {
-        return pageReqResult.getHttpRequestResultImpl();
+        return pageReqResult.getHttpRequestResultOKImpl();
     }
 
     public int getBitmapDensityReference()
