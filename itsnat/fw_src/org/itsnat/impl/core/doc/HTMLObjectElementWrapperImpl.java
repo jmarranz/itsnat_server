@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.doc;
 
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.w3c.dom.Attr;

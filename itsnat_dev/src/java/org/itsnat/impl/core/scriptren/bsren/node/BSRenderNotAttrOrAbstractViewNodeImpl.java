@@ -74,6 +74,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
     
     public abstract Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc);
 
+    @Override
     public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String newNodeCode = createNodeCode(newNode,clientDoc);

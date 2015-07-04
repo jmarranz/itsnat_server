@@ -23,8 +23,6 @@ import org.itsnat.core.http.ItsNatHttpSession;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
@@ -35,26 +33,14 @@ import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 public class ItsNatHttpServletRequestImpl extends ItsNatServletRequestImpl implements ItsNatHttpServletRequest
 {
 
-    /**
-     * Creates a new instance of ItsNatHttpServletRequestImpl
-     */
-    public ItsNatHttpServletRequestImpl(ItsNatServletImpl servlet,HttpServletRequest request,HttpServletResponse response)
+    public ItsNatHttpServletRequestImpl(ItsNatServletImpl servlet,HttpServletRequest request,HttpServletResponse response,ItsNatHttpSessionImpl itsnatSession)
     {
         super(servlet,request,response);
-
-        this.itsnatSession = ItsNatHttpSessionImpl.getItsNatHttpSession(this);
-    }
-
-    public ItsNatHttpServletRequestImpl(ItsNatServletImpl servlet,HttpServletRequest request,HttpServletResponse response,
-            ItsNatHttpSessionImpl itsnatSession)
-    {
-        super(servlet,request,response);
-
-        if (itsnatSession == null) throw new ItsNatException("INTERNAL ERROR");
         
-        this.itsnatSession = itsnatSession; 
+        // Si la sesión es null la cargará de-serializándola o creará una nueva etc
+        this.itsnatSession = itsnatSession == null ? ItsNatHttpSessionImpl.getItsNatHttpSession(this) : itsnatSession; 
     }
-
+    
     public ItsNatHttpSession getItsNatHttpSession()
     {
         return getItsNatHttpSessionImpl();

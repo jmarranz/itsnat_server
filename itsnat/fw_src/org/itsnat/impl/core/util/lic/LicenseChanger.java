@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.itsnat.impl.core.util.IOUtil;
 
 /**
  *
@@ -148,26 +149,14 @@ public class LicenseChanger
         return type;
     }
 
-    public static byte[] readNewLicense() throws Exception
+    public static byte[] readNewLicense()
     {
         InputStream input = LicenseChanger.class.getResourceAsStream("LICENSE.txt");
         return readFile(input);
     }
 
-    public static byte[] readFile(InputStream input) throws Exception
+    public static byte[] readFile(InputStream input) 
     {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-
-        byte[] buffer = new byte[10*1024];
-        int res;
-        while((res = input.read(buffer)) != -1)
-        {
-            output.write(buffer, 0, res);
-        }
-
-        input.close();
-        output.close();
-
-        return output.toByteArray();
+        return IOUtil.readInputStream(input);
     }
 }

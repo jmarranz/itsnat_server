@@ -36,12 +36,6 @@ public class CustomParamTransportUtil extends SingleParamTransportUtil
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        CustomParamTransport item = (CustomParamTransport)param;
-        return "    event.setExtraParam(\"" + item.getName() + "\"," + item.getScriptCode() + ");\n";
-    }
-
     public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {
         // Nada que hacer

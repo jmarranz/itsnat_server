@@ -34,6 +34,7 @@ public class EventSupportItsNatFixed extends EventSupport
         super(n);
     }
 
+    @Override
     protected void fireEventListeners(NodeEventTarget node,
                                       AbstractEvent e,
                                       EventListenerList.Entry[] listeners,

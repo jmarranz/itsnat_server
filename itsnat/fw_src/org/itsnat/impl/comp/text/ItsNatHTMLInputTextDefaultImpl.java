@@ -18,7 +18,7 @@ package org.itsnat.impl.comp.text;
 
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -29,7 +29,7 @@ public class ItsNatHTMLInputTextDefaultImpl extends ItsNatHTMLInputTextImpl impl
 {
 
     /** Creates a new instance of ItsNatHTMLInputTextDefaultImpl */
-    public ItsNatHTMLInputTextDefaultImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputTextDefaultImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

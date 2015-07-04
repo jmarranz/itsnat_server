@@ -31,7 +31,6 @@ import org.xml.sax.InputSource;
  */
 public class ItsNatXMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTemplateVersionImpl
 {
-    protected DocumentFragment templateDocFragment;
 
     /**
      * Creates a new instance of ItsNatXMLDocFragmentTemplateVersionImpl
@@ -40,33 +39,20 @@ public class ItsNatXMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTe
     {
         super(docTemplate,source,timeStamp,request,response);
 
-        // El nodo padre puede ser cualquiera, por ejemplo <root>
-        // son los nodos hijos los que constituyen el fragmento
-        // Hay que recordar que tras el crear el DocumentFragment el root queda vacío.
-        this.templateDocFragment = extractChildrenToDocFragment(getDocument().getDocumentElement());
-
         this.templateDoc = null; // Para que no se vuelva a usar y para salvar memoria
     }
 
-    public DocumentFragment loadDocumentFragment(MarkupContainerImpl target)
+    public Element getContainerElement()
     {
-        return loadDocumentFragment(templateDocFragment,target);
-    }
-
-    public DocumentFragment loadDocumentFragmentByIncludeTag(MarkupContainerImpl target,Element includeElem)
-    {
-        return loadDocumentFragment(target);
+        // El nodo padre puede ser cualquiera, por ejemplo <root>
+        // son los nodos hijos los que constituyen el fragmento
+        // Hay que recordar que tras el crear el DocumentFragment el root queda vacío.        
+        return getDocument().getDocumentElement();       
     }    
 
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new XMLTemplateVersionDelegateImpl(this);
     }
-    
-    public void cleanDOMPattern()
-    {
-        super.cleanDOMPattern();
 
-        this.templateDocFragment = null;
-    }
 }

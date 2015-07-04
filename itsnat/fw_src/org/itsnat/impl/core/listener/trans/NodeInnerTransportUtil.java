@@ -46,12 +46,6 @@ public class NodeInnerTransportUtil extends SingleParamTransportUtil
         return "itsnat_node_inner";
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        NodeInnerTransport item = (NodeInnerTransport)param;
-        String name = item.getName();
-        return "  event.getUtil().transpNodeInner(event,\"" + name + "\");\n";
-    }
 
     public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {

@@ -16,11 +16,11 @@
 
 package org.itsnat.impl.comp.layer;
 
-import org.itsnat.impl.comp.mgr.ItsNatHTMLDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatHTMLDocComponentManagerImpl;
 import org.itsnat.comp.layer.ItsNatModalLayer;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -51,9 +51,10 @@ public class ItsNatModalLayerHTMLImpl extends ItsNatModalLayerImpl implements It
         return "black";
     }
 
-    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulImpl clientDoc)
+    @Override
+    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
         if (ItsNatModalLayerClientDocHTMLEverCleanImpl.isEverCleanNeeded(browser))
             return new ItsNatModalLayerClientDocHTMLEverCleanImpl(this,clientDoc);
         else

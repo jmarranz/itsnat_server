@@ -16,10 +16,12 @@
 
 package org.itsnat.impl.core.clientdoc;
 
+import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatAttachedClientEvent;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.WaitForEventListenerImpl;
 import org.w3c.dom.events.EventListener;
@@ -48,6 +50,8 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         this.waitDocTimeout = waitDocTimeout;
     }
 
+    public abstract String getAttachType();
+    
     public void registerInSession()
     {
         getItsNatSessionImpl().registerClientDocumentAttachedClient(this);
@@ -72,21 +76,28 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
     {
         if (canReceiveALLNormalEvents()) return true;
 
-        // Aunque sea read only los eventos para WaitForEventListenerImpl
-        // pueden ser recibidos.
-        // A día de hoy sólo son necesarios con SVGWeb
-        return SVGWebInfoImpl.isSVGWebEnabled(this);
+        if (getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)
+        {
+            // Aunque sea read only los eventos para WaitForEventListenerImpl
+            // pueden ser recibidos.
+            // A día de hoy sólo son necesarios con SVGWeb
+             return SVGWebInfoImpl.isSVGWebEnabled((ClientDocumentStfulDelegateWebImpl)getClientDocumentStfulDelegate());
+        }
+        else return false; // No estoy seguro
     }
 
     public boolean canReceiveNormalEvents(EventListener listener)
     {
         if (canReceiveALLNormalEvents()) return true; // Como puede recibir todos los eventos el listener del parámetro está incluido sea cual sea
 
-        // Es read only
-        // A lo mejor puede recibir eventos via el listener WaitForEventListenerImpl
-        // relacionado con SVGWeb
-        if (!SVGWebInfoImpl.isSVGWebEnabled(this)) return false; // SVGWebInfo desactivado
-
+        if (getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)
+        {
+            // Es read only
+            // A lo mejor puede recibir eventos via el listener WaitForEventListenerImpl
+            // relacionado con SVGWeb
+            if (!SVGWebInfoImpl.isSVGWebEnabled((ClientDocumentStfulDelegateWebImpl)getClientDocumentStfulDelegate())) return false; // SVGWebInfo desactivado
+        }
+        
         // Aunque sea read only hacemos una excepción con los WaitForEventListenerImpl
         // porque vienen a ser eventos "de servicio"
         // A día de hoy sólo son necesarios con SVGWeb
@@ -134,7 +145,7 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         // Evitamos así también "volver atrás" en el caso de REFRESH.
         if ((this.phase == ItsNatAttachedClientEvent.UNLOAD) &&
             (this.phase != phase))
-                throw new ItsNatException("INTERNARL ERROR"); // return;
+                throw new ItsNatException("INTERNAL ERROR"); // return;
 
         this.phase = phase;
     }

@@ -56,6 +56,7 @@ import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.toggle.ItsNatButtonGroupImpl;
 import org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl;
+import org.itsnat.impl.comp.factory.FactoryItsNatFreeComponentImpl;
 import org.itsnat.impl.comp.factory.button.normal.FactoryItsNatFreeButtonNormalDefaultImpl;
 import org.itsnat.impl.comp.factory.button.normal.FactoryItsNatFreeButtonNormalLabelImpl;
 import org.itsnat.impl.comp.factory.button.toggle.FactoryItsNatFreeCheckBoxDefaultImpl;
@@ -94,37 +95,38 @@ import org.w3c.dom.Node;
  */
 public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentManager,Serializable
 {
-    protected static final Map<String,FactoryItsNatComponentImpl> FACTORIES = new HashMap<String,FactoryItsNatComponentImpl>(); // No sincronizamos porque va a ser siempre usada en modo lectura
+    protected static final Map<String,FactoryItsNatFreeComponentImpl> FREE_FACTORIES = new HashMap<String,FactoryItsNatFreeComponentImpl>(); // No sincronizamos porque va a ser siempre usada en modo lectura
     static
     {
-        addFactory(FactoryItsNatFreeButtonNormalDefaultImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeButtonNormalLabelImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeCheckBoxDefaultImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeCheckBoxLabelImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeComboBoxImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeIncludeImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeLabelImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeListMultSelImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeRadioButtonDefaultImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeRadioButtonLabelImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeTableImpl.SINGLETON);
-        addFactory(FactoryItsNatFreeTreeImpl.SINGLETON);
-        addFactory(FactoryItsNatModalLayerImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeButtonNormalDefaultImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeButtonNormalLabelImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeCheckBoxDefaultImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeCheckBoxLabelImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeComboBoxImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeIncludeImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeLabelImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeListMultSelImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeRadioButtonDefaultImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeRadioButtonLabelImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeTableImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatFreeTreeImpl.SINGLETON);
+        addFreeFactory(FactoryItsNatModalLayerImpl.SINGLETON);
     }
 
-    protected static void addFactory(FactoryItsNatComponentImpl factory)
+    protected static void addFreeFactory(FactoryItsNatFreeComponentImpl factory)
     {
-        FACTORIES.put(factory.getKey(),factory);
+        FREE_FACTORIES.put(factory.getKey(),factory);
     }
 
-    protected static FactoryItsNatComponentImpl getFactoryItsNatComponentStatic(String compName)
+    protected static FactoryItsNatFreeComponentImpl getFactoryItsNatFreeComponentStatic(String compType)
     {
-        return FACTORIES.get(compName);
+        return FREE_FACTORIES.get(compType);
     }
 
     protected FactoryItsNatComponentImpl getFactoryItsNatComponent(Element elem,String compType)
     {
-        return getFactoryItsNatComponentStatic(compType);
+        if (compType == null) return null;
+        return getFactoryItsNatFreeComponentStatic(compType);
     }
 
     protected ItsNatDocumentImpl itsNatDoc;
@@ -849,7 +851,7 @@ public abstract class ItsNatDocComponentManagerImpl implements ItsNatComponentMa
         return value.equals("false");
     }
 
-    public static boolean declaredAsComponent(Element element)
+    public static boolean declaredWithCompTypeAttribute(Element element)
     {
         String type = getCompTypeAttribute(element);
         return (type != null);

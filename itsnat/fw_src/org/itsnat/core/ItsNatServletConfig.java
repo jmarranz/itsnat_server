@@ -628,5 +628,22 @@ public interface ItsNatServletConfig extends ItsNatUserData
      */
     public void setMarkupDrivenComponents(boolean value);
 
+    
+    /**
+     * Returns the bitmap density reference to be used in Android client to render bitmaps in Android layouts.
+     *
+     * <p>The default value is defined by {@link org.itsnat.core.ItsNatServletConfig#getClientErrorMode()}</p>
+     *
+     * @return the default bitmap density reference. 320 (xhdpi) by default.
+     * @see #setBitmapDensityReference(int)
+     */
+    public int getBitmapDensityReference();
 
+    /**
+     * Sets the bitmap density reference to be used in Android client to render bitmaps in Android layouts.
+     *
+     * @param density the new density.
+     * @see #getBitmapDensityReference()
+     */
+    public void setBitmapDensityReference(int density);    
 }

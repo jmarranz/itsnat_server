@@ -16,8 +16,8 @@
 
 package org.itsnat.impl.comp.layer;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderElementImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
 
@@ -27,7 +27,7 @@ import org.w3c.dom.Element;
  */
 public class ItsNatModalLayerClientDocXULImpl extends ItsNatModalLayerClientDocImpl
 {
-    public ItsNatModalLayerClientDocXULImpl(ItsNatModalLayerXULImpl parentComp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocXULImpl(ItsNatModalLayerXULImpl parentComp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(parentComp,clientDoc);
     }

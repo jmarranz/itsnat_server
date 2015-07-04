@@ -27,7 +27,7 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatHTMLFormCompValueBasedImpl;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
 import org.itsnat.impl.comp.button.ItsNatHTMLFormCompButtonSharedImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
@@ -54,7 +54,7 @@ public abstract class ItsNatHTMLButtonImpl extends ItsNatHTMLFormCompValueBasedI
     protected ItsNatHTMLFormCompButtonSharedImpl htmlButtonDeleg = new ItsNatHTMLFormCompButtonSharedImpl(this);
 
     /** Creates a new instance of ItsNatHTMLButtonImpl */
-    public ItsNatHTMLButtonImpl(HTMLButtonElement element, NameValue[] artifacts, ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLButtonImpl(HTMLButtonElement element, NameValue[] artifacts, ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element, artifacts, componentMgr);
     }
@@ -154,12 +154,12 @@ public abstract class ItsNatHTMLButtonImpl extends ItsNatHTMLFormCompValueBasedI
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         if (!htmlButtonDeleg.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public Object createDefaultModelInternal()

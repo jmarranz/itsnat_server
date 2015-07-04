@@ -18,8 +18,10 @@ package org.itsnat.impl.core.markup.parse;
 
 import org.apache.batik.dom.GenericDocumentType;
 import org.apache.xerces.xni.Augmentations;
+import org.apache.xerces.xni.QName;
 import org.apache.xerces.xni.XNIException;
 import org.itsnat.impl.core.domimpl.DocumentImpl;
+import org.w3c.dom.Attr;
 
 /**
  *
@@ -31,6 +33,7 @@ public class XercesXMLDOMParserImpl extends org.apache.xerces.parsers.DOMParser
     {
     }
 
+    @Override
     public void xmlDecl(String version, String encoding, String standalone,
                         Augmentations augs) throws XNIException
     {
@@ -38,6 +41,7 @@ public class XercesXMLDOMParserImpl extends org.apache.xerces.parsers.DOMParser
         batikDoc.setXMLDec(version,encoding,standalone);
     }
 
+    @Override
     public void doctypeDecl(String root,String publicId,String systemId,Augmentations augs) throws XNIException
     {
         DocumentImpl batikDoc = (DocumentImpl)getDocument();
@@ -45,4 +49,5 @@ public class XercesXMLDOMParserImpl extends org.apache.xerces.parsers.DOMParser
         docType.setOwnerDocument(batikDoc);
         batikDoc.setDoctype(docType);
     }
+       
 }

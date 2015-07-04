@@ -17,13 +17,13 @@
 package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerLoadMarkupImpl;
-import org.itsnat.impl.core.resp.ResponseJavaScript;
+import org.itsnat.impl.core.resp.ResponseScript;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseAttachedServerLoadMarkupScriptImpl extends ResponseAttachedServerLoadMarkupImpl implements ResponseJavaScript
+public class ResponseAttachedServerLoadMarkupScriptImpl extends ResponseAttachedServerLoadMarkupImpl implements ResponseScript
 {
 
     /** Creates a new instance of ResponseNormalLoadDocImpl */

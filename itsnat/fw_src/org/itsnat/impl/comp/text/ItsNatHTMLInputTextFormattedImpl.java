@@ -26,7 +26,7 @@ import java.util.Date;
 import javax.swing.event.DocumentEvent;
 import org.itsnat.comp.text.ItsNatFormattedTextField.ItsNatFormatterFactory;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -47,7 +47,7 @@ public class ItsNatHTMLInputTextFormattedImpl extends ItsNatHTMLInputTextImpl im
     /**
      * Creates a new instance of ItsNatHTMLInputTextFormattedImpl
      */
-    public ItsNatHTMLInputTextFormattedImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputTextFormattedImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 
@@ -178,7 +178,7 @@ public class ItsNatHTMLInputTextFormattedImpl extends ItsNatHTMLInputTextImpl im
         return formatter.stringToValue(str,this);
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("focus"))
@@ -186,7 +186,7 @@ public class ItsNatHTMLInputTextFormattedImpl extends ItsNatHTMLInputTextImpl im
         else if (type.equals("blur"))
             setHasFocus(false);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
 

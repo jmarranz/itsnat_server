@@ -23,45 +23,33 @@ import org.itsnat.core.CometNotifier;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatTimer;
 import org.itsnat.core.event.CodeToSendListener;
-import org.itsnat.core.event.CustomParamTransport;
-import org.itsnat.core.event.ItsNatContinueEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.script.ScriptUtil;
 import org.itsnat.impl.comp.iframe.HTMLIFrameFileUploadImpl;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.comet.NormalCometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatTimerImpl;
-import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.event.EventListenerInternal;
-import org.itsnat.impl.core.jsren.JSScriptUtilFromClientImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderNodeImpl;
 import org.itsnat.impl.core.listener.CometTaskEventListenerWrapper;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatContinueEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatTimerEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
-import org.itsnat.impl.core.mut.client.ClientMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.path.DOMPathResolver;
-import org.itsnat.impl.core.path.NodeLocationImpl;
-import org.itsnat.impl.core.path.NodeLocationWithParentImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatContinueEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.CometTaskRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatAsyncTaskRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatContinueEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.registry.ItsNatNormalCometTaskRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatTimerEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatContinueEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatTimerEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatUserEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.itsnat.impl.core.util.UniqueIdGenIntList;
-import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
@@ -73,25 +61,19 @@ import org.w3c.dom.events.EventTarget;
  */
 public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 {
-    protected ItsNatStfulDocumentImpl itsNatDoc;
+    protected ItsNatStfulDocumentImpl itsNatDoc;   
     protected CodeToSendRegistryImpl codeToSend = new CodeToSendRegistryImpl(this);
     protected String scriptLoadCode;
-    protected NodeCacheRegistryImpl nodeCache;
     protected ItsNatTimerEventListenerRegistryImpl timerListenerRegistry;
     protected ItsNatContinueEventListenerRegistryImpl continueListenerRegistry;
     protected ItsNatAsyncTaskRegistryImpl asyncTaskRegistry;
-    protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
     protected ItsNatUserEventListenerRegistryImpl userListenerRegistry;
     protected Set<NormalCometNotifierImpl> cometNotifiers;
     protected ItsNatNormalCometTaskRegistryImpl cometTaskRegistry;
-    protected Set<String> clientCodeMethodSet;
-    protected ClientMutationEventListenerStfulImpl mutationListener;
-    protected DelegateClientDocumentStfulImpl delegate;
-    protected DOMPathResolver pathResolver;
-    protected SVGWebInfoImpl svgWebInfo;
-    protected MapUniqueId<HTMLIFrameFileUploadImpl> fileUploadsMap;
-    protected JSScriptUtilFromClientImpl jsScriptUtil;
-    protected LinkedList<EventListener> globalDomEventListeners;
+    protected ClientDocumentStfulDelegateImpl delegate;
+
+    protected ScriptUtil scriptUtil;
+    protected LinkedList<EventListener> globalEventListeners;
 
     
     /** Creates a new instance of ClientDocumentStfulImpl */
@@ -100,12 +82,8 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         super(browser,session);
 
         this.itsNatDoc = itsNatDoc; // NO puede ser nulo.
-        this.pathResolver = DOMPathResolver.createDOMPathResolver(this);
-        this.mutationListener = ClientMutationEventListenerStfulImpl.createClientMutationEventListenerStful(this);
-        
-        // A día de hoy sólo los documentos HTML y SVG generan JavaScript necesario para mantener un caché de nodos en el cliente
-        if (itsNatDoc.isNodeCacheEnabled())
-            this.nodeCache = new NodeCacheRegistryImpl(this);
+        this.delegate = ClientDocumentStfulDelegateImpl.createClientDocumentStfulDelegate(this);        
+
     }
     
     public UniqueIdGenIntList getUniqueIdGenerator()
@@ -113,19 +91,10 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getItsNatDocumentImpl().getUniqueIdGenerator();
     }
 
-    public SVGWebInfoImpl getSVGWebInfo()
-    {
-        return svgWebInfo;
-    }
 
-    public void setSVGWebInfo(boolean forceFlash,int metaForceFlashPos)
-    {
-        this.svgWebInfo = new SVGWebInfoImpl(this,forceFlash,metaForceFlashPos);
-    }
 
-    public DelegateClientDocumentStfulImpl getDelegateClientDocumentStful()
+    public ClientDocumentStfulDelegateImpl getClientDocumentStfulDelegate()
     {
-        if (delegate == null) this.delegate = DelegateClientDocumentStfulImpl.createDelegateClientDocumentStful(this);
         return delegate;
     }
 
@@ -139,7 +108,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return itsNatDoc;
     }
 
-    public boolean canReceiveNormalEvents(ItsNatDOMEventListenerWrapperImpl evtListener)
+    public boolean canReceiveNormalEvents(ItsNatNormalEventListenerWrapperImpl evtListener)
     {
         if (evtListener instanceof ItsNatDOMEventStatelessListenerWrapperImpl)
             return true; // Es una excepción
@@ -176,10 +145,6 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         itsNatDoc.normalEventReceived(this);
     }
 
-    public ClientMutationEventListenerStfulImpl getClientMutationEventListenerStful()
-    {
-        return mutationListener;
-    }
 
     public CodeToSendRegistryImpl getCodeToSendRegistry()
     {
@@ -231,162 +196,10 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         getCodeToSendRegistry().removeCodeToSendListener(listener);
     }
 
-    public DOMPathResolver getDOMPathResolver()
-    {
-        return pathResolver;
-    }
 
-    public boolean isNodeCacheEnabled()
-    {
-        return nodeCache != null;
-    }
 
-    public NodeCacheRegistryImpl getNodeCacheRegistry()
-    {
-        return nodeCache; // puede ser null (no caché)
-    }
 
-    public String getCachedNodeId(Node node)
-    {
-        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
-        if (cacheNode == null) return null;
-        return cacheNode.getId(node);
-    }
-
-    public String removeNodeFromCache(Node node)
-    {
-        NodeCacheRegistryImpl cacheNode = getNodeCacheRegistry();
-        if (cacheNode == null)
-            return null;
-        return cacheNode.removeNode(node);
-    }
-
-    public String removeNodeFromCacheAndSendCode(Node node)
-    {    
-        String oldId = removeNodeFromCache(node);
-        if (oldId == null) return null;
-         // Estaba cacheado
-        addCodeToSend( JSRenderNodeImpl.removeNodeFromCache(oldId) );          
-        return oldId;
-    }
-
-    public Node getNodeFromPath(String pathStr,Node topParent)
-    {
-        return getDOMPathResolver().getNodeFromPath(pathStr,topParent);
-    }
-
-    public Node getNodeFromStringPathFromClient(String pathStr,boolean cacheIfPossible)
-    {
-        if (pathStr.equals("null"))
-            return null;
-
-        NodeCacheRegistryImpl nodeCache = getNodeCacheRegistry();
-
-        // El pathStr es generado por el navegador
-        if (pathStr.startsWith("id:"))
-        {
-            // Formato: id:idvalue
-            String id = pathStr.substring("id:".length());
-            return nodeCache.getNodeById(id); // La caché debe estar activado sí o sí
-        }
-        else
-        {
-            // Nodo no cacheado
-            Node node;
-            String path;
-            Node parent;
-            String parentId;
-
-            if (pathStr.startsWith("pid:"))
-            {
-                // El nodo no está cacheado pero el padre sí.
-                // Formato: pid:idparent:pathrel
-                int posSepPath = pathStr.lastIndexOf(':');
-                parentId = pathStr.substring("pid:".length(),posSepPath);
-                path = pathStr.substring(posSepPath + 1);
-                // La caché debe estar activada sí o sí
-                parent = nodeCache.getNodeById(parentId);  // parent no puede ser null
-                if (parent == null) throw new ItsNatException("INTERNAL ERROR");
-            }
-            else
-            {
-                // Formato: pathabs
-                path = pathStr;
-                parent = null;
-                parentId = null;
-            }
-
-            node = getNodeFromPath(path,parent);
-
-            // En teoría node ha de encontrarse pues existe en el cliente
-            // pero hay un caso en el que sí que puede ser null
-            // y aun así ser tolerable y es el caso en el que en el servidor el nodo (y algunos padres)
-            // no esté porque está cacheado porque está en un subárbol estático
-            // Es el caso por ejemplo de listener asociado a un elemento
-            // cuyos hijos son estáticos y cacheados en el servidor, el currentTarget
-            // no es nulo pero sí puede ser el nodo "target" que puede ser un nodo
-            // bajo el currentTarget cacheado en el servidor. El método getTarget()
-            // devolverá nulo lo cual puede ser aceptable (el programador
-            // deberá investigar que la causa es que en el servidor no está por ser cacheado).
-            if (node == null) return null;
-
-            if (cacheIfPossible && (nodeCache != null))
-            {
-                // Intentamos guardar en la caché y enviamos al cliente, así mejoramos el rendimiento
-                // Hay que tener en cuenta que el nodo no está cacheado en el cliente
-                // pero quizás al resolver otra referencia anteriormente que apunta al mismo
-                // nodo es posible que ya lo hayamos cacheado en el servidor, por lo que
-                // evitamos un intento de cachear de nuevo (pues da error).
-                String id = nodeCache.getId(node);
-                if (id != null) return node; // Ya fue cacheado
-
-                id = nodeCache.addNode(node);  // node no puede ser null
-                if (id != null) // Si es null es que el nodo no es cacheable o la caché está bloqueada
-                {
-                    NodeLocationWithParentImpl nodeLoc = NodeLocationWithParentImpl.getNodeLocationWithParent(node,id,path,parent,parentId,true,this);
-                    addCodeToSend( JSRenderNodeImpl.addNodeToCache(nodeLoc) );
-                }
-            }
-
-            return node;
-        }
-    }
-
-    public NodeLocationImpl getNodeLocation(Node node,boolean cacheIfPossible)
-    {
-        return NodeLocationImpl.getNodeLocation(this,node,cacheIfPossible);
-    }
-
-    public NodeLocationImpl getRefNodeLocationInsertBefore(Node newNode,Node nextSibling)
-    {
-        return NodeLocationImpl.getRefNodeLocationInsertBefore(this, newNode, nextSibling);
-    }
-
-    public NodeLocationImpl getNodeLocationRelativeToParent(Node node)
-    {
-        return NodeLocationImpl.getNodeLocationRelativeToParent(this, node);
-    }
-
-    public String getRelativeStringPathFromNodeParent(Node child)
-    {
-        return getDOMPathResolver().getRelativeStringPathFromNodeParent(child);
-    }
-
-    public String getStringPathFromNode(Node node)
-    {
-        return getDOMPathResolver().getStringPathFromNode(node);
-    }
-
-    public String getStringPathFromNode(Node node,Node topParent)
-    {
-        return getDOMPathResolver().getStringPathFromNode(node,topParent);
-    }
-
-    public Node getNextSiblingInClientDOM(Node node)
-    {
-        return getDOMPathResolver().getNextSiblingInClientDOM(node);        
-    }
-    
+   
     public String getScriptLoadCode()
     {
         if (scriptLoadCode == null)
@@ -401,10 +214,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         this.scriptLoadCode = code;
     }
 
-    public String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull)
-    {
-        return JSRenderNodeImpl.getNodeReference(node,cacheIfPossible,errIfNull,this);
-    }
+
 
     public boolean hasContinueEventListeners()
     {
@@ -432,13 +242,13 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addContinueEventListener(EventTarget target,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         // El propio request no será el encargado de esperar a que termine el proceso background
         // aunque podría, sino un nuevo request, así permitimos que el hilo que registra la tarea
         // no necesariamente es un hilo request y además permitimos fácilmente que puedan añadirse varias
         // tareas de este tipo en el mismo request. Finalmente: así encaja el modelo de event-listener con los demás tipos de eventos
-        getContinueEventListenerRegistry().addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getContinueEventListenerRegistry().addContinueEventListener(target,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatContinueEventListenerWrapperImpl removeContinueEventListener(String id)
@@ -508,9 +318,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addAsynchronousTask(Runnable task,boolean lockDoc,int maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addAsynchronousTask(Runnable task,boolean lockDoc,int maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getAsyncTaskRegistry().addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getAsyncTaskRegistry().addAsynchronousTask(task,lockDoc,maxWait,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatAsyncTaskEventListenerWrapperImpl removeAsynchronousTask(String id)
@@ -556,31 +366,26 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
-            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         else
-            addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            delegate.addPlatformEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
-    {
-        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
-    }
-
-    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (useCapture) throw new ItsNatException("Capturing is not allowed for this type:" + type,this);
 
         if (ItsNatUserEventListenerWrapperImpl.isUserType(type))
         {
             String name = ItsNatUserEventListenerWrapperImpl.getNameFromType(type,false);
-            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
         else if (ItsNatContinueEventListenerWrapperImpl.isContinueType(type))
         {
-            addContinueEventListener(nodeTarget,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addContinueEventListener(nodeTarget,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
         else // itsnat:timer, itsnat:asynctask o itsnat:comet
             throw new ItsNatException("This method is not allowed to register this event listener type:" + type,this);
@@ -593,32 +398,19 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
     {
-        getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
+        delegate.addMutationEventListener(nodeTarget,mutationListener,useCapture);
     }
 
-    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToListener);
+        delegate.addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
     {
-        getDOMStdEventListenerRegistry().removeMutationEventListener(target,listener,useCapture,true);
+        delegate.removeMutationEventListener(target,listener,useCapture);
     }
 
-    public boolean hasDOMStdEventListeners()
-    {
-        if (domStdListenerRegistry == null)
-            return false;
-        return !domStdListenerRegistry.isEmpty();
-    }
-
-    public ItsNatDOMStdEventListenerRegistryImpl getDOMStdEventListenerRegistry()
-    {
-        if (domStdListenerRegistry == null) // Evita instanciar si no se usa, caso de servir XML
-            this.domStdListenerRegistry = new ItsNatDOMStdEventListenerRegistryImpl(getItsNatStfulDocument(),this);
-        return domStdListenerRegistry;
-    }
 
     public void removeEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
@@ -630,13 +422,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             removeDOMExtEventListener(target,type,listener,useCapture,updateClient);
         else
-            removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
+            delegate.removePlatformEventListener(target,type,listener,useCapture,updateClient);
     }
 
-    public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
-    {
-        getDOMStdEventListenerRegistry().removeItsNatDOMStdEventListener(target,type,listener,useCapture,updateClient);
-    }
 
     public void removeDOMExtEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
@@ -651,25 +439,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
             throw new ItsNatException("This method is not allowed to unregister this event listener type:" + type,this);
     }
 
-    public int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient)
-    {
-        if (!hasDOMStdEventListeners()) return 0;
 
-        return getDOMStdEventListenerRegistry().removeAllItsNatDOMStdEventListeners(target,updateClient);
-    }
-
-    public ItsNatDOMStdEventListenerWrapperImpl getDOMStdEventListenerById(String listenerId)
-    {
-        ItsNatDOMStdEventListenerWrapperImpl listener = null;
-
-        if (hasDOMStdEventListeners())
-            listener = getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
-
-        if (listener == null)
-            listener = itsNatDoc.getDOMStdEventListenerById(listenerId);
-
-        return listener;
-    }
 
     public boolean hasUserEventListeners()
     {
@@ -695,9 +465,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         addUserEventListener(target,name,listener,getCommMode(),null,null,getEventTimeout(), null);
     }
 
-    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatUserEventListenerWrapperImpl getUserEventListenerById(String listenerId)
@@ -732,41 +502,41 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public boolean hasGlobalEventListenerListeners()
     {
-        if (globalDomEventListeners == null)
+        if (globalEventListeners == null)
             return false;
-        return !globalDomEventListeners.isEmpty();
+        return !globalEventListeners.isEmpty();
     }     
     
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
-        if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList<EventListener>();
-        return globalDomEventListeners;
+        if (globalEventListeners == null)
+            this.globalEventListeners = new LinkedList<EventListener>();
+        return globalEventListeners;
     }
 
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
-        if (globalDomEventListeners == null)
+        if (globalEventListeners == null)
             return;
-        list.addAll(globalDomEventListeners);
+        list.addAll(globalEventListeners);
     }
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(index,listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.remove(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.remove(listener);
     }
 
 
@@ -784,7 +554,12 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public CometNotifier createCometNotifier(int commMode,long eventTimeout)
     {
-        return new NormalCometNotifierImpl(commMode,eventTimeout,this);
+        return createCometNotifier(commMode,null,null,eventTimeout);
+    }    
+    
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)
+    {
+        return new NormalCometNotifierImpl(commMode,extraParams,preSendCode,eventTimeout,this);
     }
 
     public boolean hasCometNotifiers()
@@ -818,9 +593,9 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return cometTaskRegistry;
     }
 
-    public void addCometTask(NormalCometNotifierImpl notifier)
+    public void addCometTask(NormalCometNotifierImpl notifier,ParamTransport[] extraParams,String preSendCode)
     {
-        getCometTaskRegistry().addCometTask(notifier);
+        getCometTaskRegistry().addCometTask(notifier,extraParams,preSendCode);
     }
 
     public CometTaskEventListenerWrapper removeCometTask(String id)
@@ -828,39 +603,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         return getCometTaskRegistry().removeCometTask(id);
     }
 
-    public boolean hasClientMethodBound()
-    {
-        if (clientCodeMethodSet == null) return false;
-        return !clientCodeMethodSet.isEmpty();
-    }
 
-    public Set<String> getClientMethodBoundSet()
-    {
-        if (clientCodeMethodSet == null)
-            this.clientCodeMethodSet = new HashSet<String>();
-        return clientCodeMethodSet;
-    }
-
-    public boolean isClientMethodBounded(String methodName)
-    {
-        if (clientCodeMethodSet == null)
-            return false;
-        return clientCodeMethodSet.contains(methodName);
-    }
-
-    public void bindClientMethod(String methodName)
-    {
-        Set<String> methods = getClientMethodBoundSet();
-        boolean res = methods.add(methodName);
-        if (!res) throw new ItsNatException("INTERNAL ERROR",this); // Se supone que antes de registrar se pregunta, evitamos así usar un mismo nombre para diferentes fines
-    }
-/*
-    public void bindClientMethod(String methodName,String code)
-    {
-        bindClientMethod(methodName);
-        addCodeToSend(code);
-    }
-*/
     @Override
     protected void setInvalidInternal()
     {
@@ -883,21 +626,25 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         {
             // Evitamos así que un timer pendiente nos provoque un error en el cliente
             ItsNatTimerEventListenerRegistryImpl registry = getItsNatTimerEventListenerRegistry();
-            registry.removeAllItsNatDOMEventListeners(true);
+            registry.removeAllItsNatNormalEventListeners(true);
         }
 
-        if (hasHTMLIFrameFileUploads())
+        if (getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)
         {
-            // Estos objetos están también registrados en otras colecciones,
-            // no tienen sentido con un cliente invalidado.
-            MapUniqueId<HTMLIFrameFileUploadImpl> map = getHTMLIFrameFileUploadMap();
-            HTMLIFrameFileUploadImpl[] array = map.toArray(new HTMLIFrameFileUploadImpl[map.size()]);
-            for(int i = 0; i < array.length; i++)
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)getClientDocumentStfulDelegate();
+            if (clientDocDeleg.hasHTMLIFrameFileUploads())
             {
-                HTMLIFrameFileUploadImpl fileUp = array[i];
-                fileUp.dispose(); // Se quita solo de las listas
+                // Estos objetos están también registrados en otras colecciones,
+                // no tienen sentido con un cliente invalidado.
+                MapUniqueId<HTMLIFrameFileUploadImpl> map = clientDocDeleg.getHTMLIFrameFileUploadMap();
+                HTMLIFrameFileUploadImpl[] array = map.toArray(new HTMLIFrameFileUploadImpl[map.size()]);
+                for(int i = 0; i < array.length; i++)
+                {
+                    HTMLIFrameFileUploadImpl fileUp = array[i];
+                    fileUp.dispose(); // Se quita solo de las listas
+                }
+                map.clear(); // Por si acaso
             }
-            map.clear(); // Por si acaso
         }
     }
 
@@ -942,89 +689,15 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
 
     public boolean dispatchEvent(EventTarget target,Event evt,int commMode,long eventTimeout) throws EventException
     {
-        final ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
-        if (Thread.holdsLock(itsNatDoc))
-            throw new ItsNatException("Document must be unlocked in this call",this);
-        if (this != itsNatDoc.getEventDispatcherClientDocByThread())
-            throw new ItsNatException("This thread is not an event dispatcher thread");
-
-        ((EventInternal)evt).checkInitializedEvent();
-        ((EventInternal)evt).setTarget(target);
-
-        final long evtDispMaxWait = itsNatDoc.getEventDispatcherMaxWait();
-        final boolean[] monitor = new boolean[1];
-
-        synchronized(itsNatDoc)
-        {
-            JSRenderNodeImpl.addCodeDispatchEvent(target,evt,"res",this);
-
-            EventListener listener = new EventListenerInternal()
-            {
-                public void handleEvent(Event evt)
-                {
-                    ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;
-                    // El hilo que ejecuta este método es un hilo request/response
-                    monitor[0] = Boolean.getBoolean((String)contEvt.getExtraParam("itsnat_res"));
-                    synchronized(monitor)
-                    {
-                        monitor.notifyAll(); // Desbloquea el hilo dispatcher de eventos
-                    }
-                    itsNatDoc.lockThread(evtDispMaxWait); // Bloquea el hilo del request/response para una posible siguiente llamada a dispatchEvent
-                }
-            };
-            CustomParamTransport param = new CustomParamTransport("itsnat_res","res");
-            addContinueEventListener(null,listener,commMode,new ParamTransport[]{param},null,eventTimeout);
-
-            itsNatDoc.notifyAll();  // Desbloquea el hilo del request/response para que se envíe el código al browser
-        }
-
-        synchronized(monitor)
-        {
-            // Bloqueamos el hilo dispatcher de eventos esperando la respuesta del navegador
-            try { monitor.wait(evtDispMaxWait); } catch(InterruptedException ex) { throw new ItsNatException(ex,this); }
-        }
-
-        return monitor[0];
+        return getClientDocumentStfulDelegate().dispatchEvent(target, evt, commMode, eventTimeout);
     }
 
-    public boolean hasHTMLIFrameFileUploads()
-    {
-        if (fileUploadsMap == null) return false;
-        return !fileUploadsMap.isEmpty();
-    }
-    
-    public MapUniqueId<HTMLIFrameFileUploadImpl> getHTMLIFrameFileUploadMap()
-    {
-        if (fileUploadsMap == null)
-            this.fileUploadsMap = new MapUniqueId<HTMLIFrameFileUploadImpl>(getUniqueIdGenerator()); // Así ahorramos memoria si no se usa
-        return fileUploadsMap;
-    }
-
-    public HTMLIFrameFileUploadImpl getHTMLIFrameFileUploadImpl(String id)
-    {
-        if (fileUploadsMap == null) return null; // RARO
-        return getHTMLIFrameFileUploadMap().get(id);
-    }
-
-    public void addHTMLIFrameFileUploadImpl(HTMLIFrameFileUploadImpl upload)
-    {
-        getHTMLIFrameFileUploadMap().put(upload);
-    }
-
-    public void removeHTMLIFrameFileUploadImpl(HTMLIFrameFileUploadImpl upload)
-    {
-        getHTMLIFrameFileUploadMap().remove(upload);
-    }
 
     public ScriptUtil getScriptUtil()
     {
-        return getJSScriptUtilFromClientImpl();
+        if (scriptUtil == null)
+            this.scriptUtil = getClientDocumentStfulDelegate().createScriptUtil();
+        return scriptUtil;
     }
-    
-    public JSScriptUtilFromClientImpl getJSScriptUtilFromClientImpl()
-    {
-        if (jsScriptUtil == null)
-            this.jsScriptUtil = new JSScriptUtilFromClientImpl(this);
-        return jsScriptUtil;
-    }
+
 }

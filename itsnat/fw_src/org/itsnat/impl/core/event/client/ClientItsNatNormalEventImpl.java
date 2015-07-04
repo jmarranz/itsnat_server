@@ -16,19 +16,27 @@
 
 package org.itsnat.impl.core.event.client;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ItsNatNormalEvent;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.event.EventInternal;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.util.MiscUtil;
+import org.w3c.dom.Node;
+import org.w3c.dom.events.EventTarget;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent
+public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStfulImpl implements ItsNatNormalEvent,EventInternal
 {
     protected ItsNatNormalEventListenerWrapperImpl listenerWrapper;
-
+    protected boolean stopPropagation = false;
+    protected boolean preventDefault = false;
+    
     /**
      * Creates a new instance of ClientItsNatNormalEventImpl
      */
@@ -39,6 +47,16 @@ public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStful
         this.listenerWrapper = listenerWrapper;
     }
 
+    public void checkInitializedEvent()
+    {
+        // Está bien formado porque viene del cliente.
+    }
+
+    public void setTarget(EventTarget target)
+    {
+        if (getTarget() != target) throw new ItsNatException("Event target cannot be changed");
+    }    
+    
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return (ClientDocumentStfulImpl)getClientDocumentImpl();
@@ -72,4 +90,95 @@ public abstract class ClientItsNatNormalEventImpl extends ClientItsNatEventStful
     {
         return getNormalEventListenerWrapper().getType();
     }
+
+    public void stopPropagation()
+    {
+        this.stopPropagation = true;
+    }
+
+    public boolean getStopPropagation()
+    {
+        return stopPropagation;
+    }
+
+    public void preventDefault()
+    {
+        this.preventDefault = true;
+    }
+
+    public boolean getPreventDefault()
+    {
+        return preventDefault;
+    }
+
+    public EventTarget getCurrentTarget()
+    {
+        return getNormalEventListenerWrapper().getCurrentTarget();
+    }
+
+    public long getTimeStamp()
+    {
+        // El parámetro timeStamp lo enviamos a medida en el cliente, por una parte porque el Event de MSIE
+        // no lo soporta, por otra parte porque en Chrome Event.timeStamp es erróneo pues no es un entero
+        // es una fecha como cadena, finalmente porque hay eventos propios (extensiones) de ItsNat que
+        // implementan Event y que si queremos simular este atributo es mejor generar el valor
+        // en el cliente y enviarlo al servidor y no generarlo con un System.currentTimeMillis()
+        // pues los eventos pueden encolarse en el cliente y estar un tiempo significativo "atrapados"
+        // si se genera en el servidor el timeStamp quedará falseado
+        return getParameterLong("timeStamp");
+    }    
+    
+    public static String getParameter(RequestNormalEventImpl request,String name)
+    {
+        name = "itsnat_evt_" + name;
+        String param = request.getAttrOrParam(name);
+        if (param == null)
+            throw new ItsNatException(name + " parameter is not specified",request.getItsNatServletRequest());
+        return param;
+    }
+
+    public String getParameter(String name)
+    {
+        return getParameter(getRequestNormalEvent(),name);
+    }
+
+    public boolean getParameterBoolean(String name)
+    {
+        // Usamos getBooleanRelaxed que no provoca error si por ejemplo
+        // el parámetro es "undefined".
+        return MiscUtil.getBooleanRelaxed(getParameter(name));
+    }
+
+    public short getParameterShort(String name)
+    {
+        return Short.parseShort(getParameter(name));
+    }
+
+    public int getParameterInt(String name)
+    {
+        return Integer.parseInt(getParameter(name));
+    }
+
+    public long getParameterLong(String name)
+    {
+        return Long.parseLong(getParameter(name));
+    }
+
+    public float getParameterFloat(String name)
+    {
+        return Float.parseFloat(getParameter(name));
+    }    
+    
+    public Node getParameterNode(String name)
+    {
+        return getParameterNode(name,true);
+    }
+
+    public Node getParameterNode(String name,boolean cacheIfPossible)
+    {
+        String path = getParameter(name);
+        ClientDocumentStfulDelegateImpl clientDoc = getClientDocumentStful().getClientDocumentStfulDelegate();
+        return clientDoc.getNodeFromStringPathFromClient(path,cacheIfPossible);
+    }
+    
 }

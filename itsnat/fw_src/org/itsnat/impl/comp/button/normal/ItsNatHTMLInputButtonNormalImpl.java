@@ -23,7 +23,7 @@ import javax.swing.ButtonModel;
 import javax.swing.DefaultButtonModel;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -35,7 +35,7 @@ public abstract class ItsNatHTMLInputButtonNormalImpl extends ItsNatHTMLInputBut
     /**
      * Creates a new instance of ItsNatHTMLInputButtonDefaultImpl
      */
-    public ItsNatHTMLInputButtonNormalImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputButtonNormalImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }

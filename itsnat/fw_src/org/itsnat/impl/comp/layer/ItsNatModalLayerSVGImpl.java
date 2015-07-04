@@ -18,11 +18,9 @@ package org.itsnat.impl.comp.layer;
 
 import org.itsnat.comp.layer.ItsNatModalLayer;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatSVGDocComponentManagerImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatSVGDocComponentManagerImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -52,7 +50,8 @@ public class ItsNatModalLayerSVGImpl extends ItsNatModalLayerImpl implements Its
         return "black";
     }
 
-    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulImpl clientDoc)
+    @Override    
+    public ItsNatModalLayerClientDocImpl createItsNatModalLayerClientDoc(ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return new ItsNatModalLayerClientDocSVGImpl(this,clientDoc);
     }

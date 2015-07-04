@@ -27,15 +27,15 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatHTMLElementComponentImpl;
 import org.itsnat.impl.comp.button.ItsNatButtonInternal;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocDefaultImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLAnchorElement;
@@ -49,19 +49,19 @@ public abstract class ItsNatHTMLAnchorImpl extends ItsNatHTMLElementComponentImp
     protected ItsNatButtonSharedImpl buttonDelegate = createItsNatButtonShared();
 
     /** Creates a new instance of ItsNatHTMLAnchorImpl */
-    public ItsNatHTMLAnchorImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLAnchorImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }
 
-    public ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc()
+    public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
-        return new ItsNatCompDOMListenersByDocDefaultImpl(this);
+        return new ItsNatCompNormalEventListenersByDocDefaultImpl(this);
     }
 
-    public ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        return new ItsNatCompDOMListenersByClientDefaultImpl(this,clientDoc);
+        return new ItsNatCompNormalEventListenersByClientDefaultImpl(this,clientDoc);
     }
 
     public ItsNatButtonSharedImpl getItsNatButtonShared()
@@ -145,12 +145,12 @@ public abstract class ItsNatHTMLAnchorImpl extends ItsNatHTMLElementComponentImp
         // Nada que hacer
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         if (!buttonDelegate.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void blur()

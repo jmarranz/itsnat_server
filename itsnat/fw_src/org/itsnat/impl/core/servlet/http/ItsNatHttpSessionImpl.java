@@ -42,7 +42,6 @@ public abstract class ItsNatHttpSessionImpl extends ItsNatSessionImpl implements
     protected ItsNatHttpSessionImpl(HttpSession session,ItsNatServletContextImpl context,Browser browser)
     {
         super(context,browser);
-
         this.session = session; // No es null
         this.idObj = context.getUniqueIdGenerator().generateUniqueId(session,"ss"); // ss = session
     }

@@ -458,9 +458,9 @@ public class ItsNatHTMLFormTextCompSharedImpl extends ItsNatHTMLFormCompChangeBa
     }
 
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
 
         String type = evt.getType();
         if (type.equals("keyup"))

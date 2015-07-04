@@ -44,6 +44,11 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
             throw new ItsNatException("Communication mode must be pure synchronous in Comet");
     }
 
+    public String getAttachType()
+    {
+        return "attach_comet";
+    }
+    
     public void startAttachedClient()
     {
         this.attachClientCometNotifier = new AttachedClientCometNotifierImpl(this);
@@ -58,7 +63,7 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
 
     public void addAttachedClientCometTask(AttachedClientCometNotifierImpl notifier)
     {
-        getAttachedClientCometTaskRegistry().addCometTask(notifier);
+        getAttachedClientCometTaskRegistry().addCometTask(notifier,null,null);
     }
 
     public CometTaskEventListenerWrapper removeAttachedClientCometTask(String id)
@@ -66,6 +71,7 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
         return getAttachedClientCometTaskRegistry().removeCometTask(id);
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();
@@ -74,11 +80,13 @@ public class ClientDocumentAttachedClientCometImpl extends ClientDocumentAttache
             attachClientCometNotifier.stop();
     }
 
+    @Override
     public void normalEventReceivedInDocument()
     {
         super.normalEventReceivedInDocument();
 
-        attachClientCometNotifier.notifyClient();
+        if (attachClientCometNotifier != null) // Por si se llamara este método antes de startAttachedClient()
+            attachClientCometNotifier.notifyClient();
     }
 
     public String getRefreshMethod()

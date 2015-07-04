@@ -24,7 +24,7 @@ import org.itsnat.comp.button.ItsNatButtonGroup;
 import org.itsnat.comp.button.toggle.ItsNatHTMLInputRadio;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.ItsNatButtonSharedImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -38,7 +38,7 @@ public class ItsNatHTMLInputRadioImpl extends ItsNatHTMLInputButtonToggleImpl im
     /**
      * Creates a new instance of ItsNatHTMLInputRadioImpl
      */
-    public ItsNatHTMLInputRadioImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputRadioImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

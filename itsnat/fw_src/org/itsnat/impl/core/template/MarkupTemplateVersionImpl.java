@@ -22,7 +22,6 @@ import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Iterator;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
@@ -71,7 +70,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         this.timeStamp = timeStamp;
 
         this.templateDelegate = createMarkupTemplateVersionDelegate();
-        this.templateDoc = parseDocument(source,markupTemplate.getMarkupParser()); // No hay problema de usar el parser compartido por todas las versiones pues la construcción de versiones se hace en monohilo
+        this.templateDoc = parseDocumentOrFragment(source,markupTemplate.getMarkupParser(),false); // No hay problema de usar el parser compartido por todas las versiones pues la construcción de versiones se hace en monohilo
 
         // Podemos considerar el templateDoc patrón de como thread-safe en sólo lectura (recorriendo)
         // porque en Batik DOM las colecciones de atributos y childNodes se crean
@@ -90,7 +89,6 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     public static void writeObject(MarkupTemplateVersionImpl templateVersion,ObjectOutputStream out) throws IOException
     {
         MarkupTemplateImpl.writeObject(templateVersion.getMarkupTemplate(), out);
-     
     }
 
     public static String[] readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
@@ -139,19 +137,20 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
         templateDelegate.normalizeDocument(getDocument());
     }
 
-    public DOMRenderImpl createNodeDOMRender(Document doc)
+           
+    public DOMRenderImpl createNodeDOMRender(Document doc,boolean nodeOnlyRender)
     {
         // Sirve para serializar nodos concretos no el documento completo
-        return DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),true);
+        return DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),nodeOnlyRender);
     }
 
-    public Document parseDocument(String code,XercesDOMParserWrapperImpl parser)
+    public Document parseDocumentOrFragment(String code,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
         StringReader reader = new StringReader(code);
-        return parseDocument(new InputSource(reader),parser);
+        return parseDocumentOrFragment(new InputSource(reader),parser,isFragment);
     }
 
-    public Document parseDocument(InputSource input,XercesDOMParserWrapperImpl parser)
+    public Document parseDocumentOrFragment(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
         String encoding = getEncoding();
         input.setEncoding(encoding);
@@ -475,6 +474,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     {
         // atributo itsnat:nocache
         String nocache = elem.getAttributeNS(NamespaceUtil.ITSNAT_NAMESPACE,"nocache");
+        
         return "true".equals(nocache);
     }
 
@@ -514,7 +514,7 @@ public abstract class MarkupTemplateVersionImpl extends MarkupContainerImpl impl
     protected void doCacheDocument()
     {
         Document docTemplate = getDocument();
-        DOMRenderImpl nodeRender = createNodeDOMRender(docTemplate);
+        DOMRenderImpl nodeRender = createNodeDOMRender(docTemplate,true);
 
         Element rootElem = docTemplate.getDocumentElement();
         LinkedList<Node> cacheableChildren = new LinkedList<Node>();

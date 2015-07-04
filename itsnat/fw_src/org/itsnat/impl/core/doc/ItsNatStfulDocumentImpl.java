@@ -41,15 +41,12 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.event.CodeToSendEventImpl;
 import org.itsnat.impl.core.event.CodeToSendListenersImpl;
-import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
-import org.itsnat.impl.core.event.server.domstd.ServerItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.jsren.JSScriptUtilFromDocImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMExtEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatUserEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.event.server.ServerItsNatNormalEventImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMExtEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatUserEventListenerWrapperImpl;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerStfulImpl;
-import org.itsnat.impl.core.registry.ItsNatDOMStdEventListenerRegistryImpl;
-import org.itsnat.impl.core.registry.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.registry.dom.domext.ItsNatUserEventListenerRegistryImpl;
+import org.itsnat.impl.core.scriptren.shared.ScriptUtilImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
@@ -72,15 +69,14 @@ import org.w3c.dom.events.EventTarget;
  */
 public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 {
-    protected JSScriptUtilFromDocImpl jsScriptUtil;
-    protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;
+    protected ScriptUtilImpl scriptUtil;
     protected ItsNatUserEventListenerRegistryImpl userListenerRegistry;
     protected boolean enabledSendCode = true;
     protected WeakSetImpl<ClientDocumentAttachedClientImpl> clientDocAttachedSet; // No se utilizan ids (pues pueden ser generados por otras sesiones), se utiliza la identidad del objeto
     protected int commMode;
     protected long eventTimeout;
     protected CodeToSendListenersImpl codeToSendListeners;
-    protected LinkedList<EventListener> globalDomEventListeners;
+    protected LinkedList<EventListener> globalNormalEventListeners;
     protected LinkedList<ItsNatAttachedClientEventListener> attachedClientListeners;
     protected LinkedList<ItsNatServletRequestListener> referrerRequestListeners;
     protected transient ThreadLocal<ClientDocumentStfulImpl> evtDispThreadLocal = new ThreadLocal<ClientDocumentStfulImpl>();
@@ -124,7 +120,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         return (DocMutationEventListenerStfulImpl)mutationListener;
     }
 
-    public boolean canRenderAndSendMutationJSCode()
+    public boolean canRenderAndSendMutationCode()
     {
         boolean loading = isLoading();
         return !loading || (loading && !isFastLoadMode());
@@ -154,14 +150,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public ScriptUtil getScriptUtil()
     {
-        return getJSScriptUtilFromDocImpl();
-    }
-
-    public JSScriptUtilFromDocImpl getJSScriptUtilFromDocImpl()
-    {
-        if (jsScriptUtil == null)
-            this.jsScriptUtil = new JSScriptUtilFromDocImpl(this);
-        return jsScriptUtil;
+        if (scriptUtil == null)
+            this.scriptUtil = ScriptUtilImpl.createScriptUtilFromDoc(this);
+        return scriptUtil;
     }
 
     public int getCommMode()
@@ -223,66 +214,37 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         addEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,null);
     }
 
-    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
-            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addDOMExtEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         else
-            addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addPlatformEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addDOMStdEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
-    {
-        getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
-    }
+    public abstract void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc);
 
-    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addDOMExtEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         if (useCapture) throw new ItsNatException("Capturing is not allowed for this type:" + type,this);
 
         if (ItsNatUserEventListenerWrapperImpl.isUserType(type))
         {
             String name = ItsNatUserEventListenerWrapperImpl.getNameFromType(type,false);
-            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+            addUserEventListener(nodeTarget,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
         }
         else // itsnat:continue, itsnat:timer, itsnat:asynctask o itsnat:comet
             throw new ItsNatException("This method is not allowed to register this event listener type:" + type,this);
     }
 
-    public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
-    {
-        getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
-    }
 
     public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout)
     {
         addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,null);
     }
 
-    public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToListener)
-    {
-        getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToListener);
-    }
-
-    public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
-    {
-        getDOMStdEventListenerRegistry().removeMutationEventListener(target,listener,useCapture,true);
-    }
-
-    public boolean hasDOMStdEventListeners()
-    {
-        if (domStdListenerRegistry == null)
-            return false;
-        return !domStdListenerRegistry.isEmpty();
-    }
-
-    public ItsNatDOMStdEventListenerRegistryImpl getDOMStdEventListenerRegistry()
-    {
-        if (domStdListenerRegistry == null) // Evita instanciar si no se usa, caso de servir XML
-            this.domStdListenerRegistry = new ItsNatDOMStdEventListenerRegistryImpl(this,null);
-        return domStdListenerRegistry;
-    }
-
+    public abstract void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc);
+    
     public void removeEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
         removeEventListener(target,type,listener,useCapture,true);
@@ -293,14 +255,12 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         if (ItsNatDOMExtEventListenerWrapperImpl.isExtensionType(type))
             removeDOMExtEventListener(target,type,listener,useCapture,updateClient);
         else
-            removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
+            removePlatformEventListener(target,type,listener,useCapture,updateClient);
     }
 
-    public void removeDOMStdEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
-    {
-        getDOMStdEventListenerRegistry().removeItsNatDOMStdEventListener(target,type,listener,useCapture,updateClient);
-    }
-
+    public abstract void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient);
+    public abstract int removeAllPlatformEventListeners(EventTarget target,boolean updateClient);
+    
     public void removeDOMExtEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         if (useCapture) return; // Como no puede haber listeners registrados capturing no hacemos nada
@@ -314,19 +274,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
             throw new ItsNatException("This method is not allowed to unregister this event listener type:" + type,this);
     }
 
-    public int removeAllDOMStdEventListeners(EventTarget target,boolean updateClient)
-    {
-        if (!hasDOMStdEventListeners()) return 0;
 
-        return getDOMStdEventListenerRegistry().removeAllItsNatDOMStdEventListeners(target,updateClient);
-    }
-
-    public ItsNatDOMStdEventListenerWrapperImpl getDOMStdEventListenerById(String listenerId)
-    {
-        if (!hasDOMStdEventListeners()) return null;
-
-        return getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
-    }
 
     public boolean hasUserEventListeners()
     {
@@ -352,9 +300,9 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         addUserEventListener(target,name,listener,getCommMode(),null,null,getEventTimeout(), null);
     }
 
-    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target,String name,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        getUserEventListenerRegistry().addItsNatUserEventListener(target,name,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
     public ItsNatUserEventListenerWrapperImpl getUserEventListenerById(String listenerId)
@@ -431,15 +379,16 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
         if (clientDoc.canReceiveSOMENormalEvents()) // Con este chequeo nos ahorramos llamadas inútiles
         {
-            if (hasDOMStdEventListeners())
-                getDOMStdEventListenerRegistry().renderItsNatDOMEventListeners(clientDoc);
+            renderPlatformEventListeners(clientDoc);
             if (hasUserEventListeners())
-                getUserEventListenerRegistry().renderItsNatDOMEventListeners(clientDoc);
+                getUserEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);
         }
 
         getItsNatStfulComponentManager().addClientDocumentAttachedClient(clientDoc);
     }
 
+    public abstract void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc);
+    
     public void removeClientDocumentAttachedClient(ClientDocumentAttachedClientImpl clientDoc)
     {
         clientDoc.setInvalid();
@@ -614,46 +563,46 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public boolean hasGlobalEventListenerListeners()
     {
-        if (globalDomEventListeners == null)
+        if (globalNormalEventListeners == null)
             return false;
-        return !globalDomEventListeners.isEmpty();
+        return !globalNormalEventListeners.isEmpty();
     }    
     
     public LinkedList<EventListener> getGlobalEventListenerList()
     {
-        if (globalDomEventListeners == null)
-            this.globalDomEventListeners = new LinkedList<EventListener>();
-        return globalDomEventListeners;
+        if (globalNormalEventListeners == null)
+            this.globalNormalEventListeners = new LinkedList<EventListener>();
+        return globalNormalEventListeners;
     }
 
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
-        if (globalDomEventListeners == null)
+        if (globalNormalEventListeners == null)
             return;
-        list.addAll(globalDomEventListeners);
+        list.addAll(globalNormalEventListeners);
     }
 
     public void addEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(listener);
     }
 
     public void addEventListener(int index,EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.add(index,listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.add(index,listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> globalDomEventListeners = getGlobalEventListenerList();
-        globalDomEventListeners.remove(listener);
+        LinkedList<EventListener> globalEventListeners = getGlobalEventListenerList();
+        globalEventListeners.remove(listener);
     }
 
     public Event createEvent(String eventType) throws DOMException
     {
-        return ServerItsNatDOMEventImpl.createServerDOMEvent(eventType,this);
+        return ServerItsNatNormalEventImpl.createServerNormalEvent(eventType,this);
     }
 
     public void lockThread(long maxWait)
@@ -684,7 +633,7 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
 
     public boolean dispatchEventLocally(EventTarget target,Event evt) throws EventException
     {
-        return ServerItsNatDOMStdEventImpl.dispatchEventLocally(target,evt);
+        return ServerItsNatNormalEventImpl.dispatchEventLocally(target,evt);
     }
 
     public long getEventDispatcherMaxWait()
@@ -709,11 +658,12 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         getClientDocumentStfulOwner().getItsNatSessionImpl().cleanExcessClientDocumentAttachedClients(this); // Lo hacemos efectivo ya mismo
     }
 
+    /*
     public ThreadLocal<ClientDocumentStfulImpl> getEventDispatcherThreadLocal()
     {
         return evtDispThreadLocal;
     }
-
+*/
     public ClientDocumentStfulImpl getEventDispatcherClientDocByThread()
     {
         return evtDispThreadLocal.get();

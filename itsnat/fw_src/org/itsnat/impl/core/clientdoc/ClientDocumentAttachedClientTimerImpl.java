@@ -19,7 +19,8 @@ package org.itsnat.impl.core.clientdoc;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.attachcli.JSAndBSRenderItsNatAttachedClientTimerEventListenerImpl;
 
 /**
  *
@@ -38,6 +39,11 @@ public class ClientDocumentAttachedClientTimerImpl extends ClientDocumentAttache
         this.interval = interval;
     }
 
+    public String getAttachType()
+    {
+        return "attach_timer";
+    }    
+    
     public void startAttachedClient()
     {
         this.listener = new ItsNatAttachedClientTimerEventListenerWrapperImpl(this);
@@ -53,11 +59,12 @@ public class ClientDocumentAttachedClientTimerImpl extends ClientDocumentAttache
         return interval;
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();
 
-        addCodeToSend("itsNatDoc.stopAttachTimerRefresh();");
+        addCodeToSend(JSAndBSRenderItsNatAttachedClientTimerEventListenerImpl.stopAttachTimerRefresh()); 
     }
 
     public String getRefreshMethod()

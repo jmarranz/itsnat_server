@@ -37,7 +37,7 @@ import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventCometImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventNotRefreshImpl;
 import org.itsnat.impl.core.event.client.ItsNatAttachedClientEventTimerImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientEventListenerUtil;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientEventListenerUtil;
 import org.itsnat.impl.core.req.RequestLoadDocImpl;
 import org.itsnat.impl.core.req.shared.RequestDelegateLoadDocImpl;
 import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClient;

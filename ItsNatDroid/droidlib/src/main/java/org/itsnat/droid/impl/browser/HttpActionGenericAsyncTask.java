@@ -18,7 +18,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
     protected GenericHttpClientImpl parent;
     protected String method;
     protected String url;
-    protected HttpConfig httpConfig;
+    protected HttpRequestData httpRequestData;
     protected List<NameValuePair> params;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
@@ -33,7 +33,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
         this.parent = parent;
         this.method = method;
         this.url = url;
-        this.httpConfig = new HttpConfig(page);
+        this.httpRequestData = new HttpRequestData(page);
         this.params = new ArrayList<NameValuePair>(params); // hace una copia, los NameValuePair son de sólo lectura por lo que no hay problema compartirlos en hilos
         this.listener = listener;
         this.errorListener = errorListener;
@@ -43,7 +43,7 @@ public class HttpActionGenericAsyncTask extends ProcessingAsyncTask<HttpRequestR
 
     protected HttpRequestResultOKImpl executeInBackground() throws Exception
     {
-        return HttpUtil.httpAction(method,url, httpConfig.httpFileCache, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, params,overrideMime);
+        return HttpUtil.httpAction(method,url, httpRequestData, params,overrideMime);
     }
 
     @Override

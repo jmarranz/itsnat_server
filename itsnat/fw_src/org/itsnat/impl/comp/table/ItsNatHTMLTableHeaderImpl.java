@@ -24,6 +24,7 @@ import org.itsnat.comp.table.ItsNatHTMLTableHeaderUI;
 import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLElement;
@@ -80,14 +81,14 @@ public class ItsNatHTMLTableHeaderImpl extends ItsNatTableHeaderImpl implements 
         return null;
     }
 
-    public ItsNatStfulDocComponentManagerImpl getItsNatStfulDocComponentManager()
+    public ItsNatStfulWebDocComponentManagerImpl getItsNatStfulWebDocComponentManager()
     {
-        return (ItsNatStfulDocComponentManagerImpl)componentMgr;
+        return (ItsNatStfulWebDocComponentManagerImpl)componentMgr;
     }
 
     public ItsNatHTMLComponentManager getItsNatHTMLComponentManager()
     {
-        return getItsNatStfulDocComponentManager();
+        return getItsNatStfulWebDocComponentManager();
     }
 
     public ItsNatHTMLElementComponentUI getItsNatHTMLElementComponentUI()

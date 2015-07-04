@@ -46,16 +46,11 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
     {
         PageImpl page = getPageImpl();
         ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-        HttpFileCache httpFileCache = browser.getHttpFileCache();
 
         // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        HttpParams httpParamsRequest = this.httpParamsRequest;
-        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
-        //List<NameValuePair> params = this.paramList;
+
+        HttpRequestData httpRequestData = new HttpRequestData(page);
 
         XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
 
@@ -66,7 +61,7 @@ public class DownloadResourcesHttpClient extends GenericHttpClientBaseImpl
         try
         {
             HttpResourceDownloader resDownloader =
-                    new HttpResourceDownloader(url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
+                    new HttpResourceDownloader(url,httpRequestData,xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList,resultList);
         }
         catch (Exception ex)

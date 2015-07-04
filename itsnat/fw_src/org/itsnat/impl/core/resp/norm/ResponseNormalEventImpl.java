@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.resp.norm;
 
+import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.resp.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
@@ -37,6 +38,16 @@ public class ResponseNormalEventImpl extends ResponseEventStfulImpl implements R
         super(request);
 
         this.listener = listener;
+        
+        if ((listener != null) &&
+             !getClientDocumentStful().canReceiveNormalEvents(listener))
+        {
+            // Chequeo de seguridad para evitar que clientes de control remoto
+            // envíen eventos cuando no están autorizados (son read only por ejemplo). En teoría no se envió
+            // código JavaScript para ello (registro de listener) pero un malicioso usuario
+            // podría intentarlo enviando requests AJAX "a pelo".
+            throw new ItsNatException("Security violation attempt");
+        }        
     }
 
     public ClientDocumentStfulImpl getClientDocumentStful()

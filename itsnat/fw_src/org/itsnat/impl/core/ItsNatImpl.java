@@ -16,9 +16,12 @@
 
 package org.itsnat.impl.core;
 
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
+import com.innowhere.relproxy.jproxy.JProxyScriptEngineFactory;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import javax.script.ScriptEngine;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +41,7 @@ public class ItsNatImpl implements ItsNat
     protected final Map<String,ItsNatServletImpl> servletsByName = new HashMap<String,ItsNatServletImpl>();
     protected final Map<String,Object> features = Collections.synchronizedMap(new HashMap<String,Object>());
     protected final ItsNatUserDataImpl userData = new ItsNatUserDataImpl(true);
+    protected JProxyScriptEngine jProxyEngine = null;   
     // YA NO SE USA: protected static final boolean oldXerces = calcOldXerces(); // tras el primer valor no cambia
 
     /**
@@ -188,4 +192,16 @@ public class ItsNatImpl implements ItsNat
         return userData.getUserValueNames();
     }
 
+    public JProxyScriptEngine getJProxyScriptEngine()
+    {
+        if (jProxyEngine == null) jProxyEngine = (JProxyScriptEngine)JProxyScriptEngineFactory.create().getScriptEngine(); 
+        return jProxyEngine;
+    }
+    
+    public JProxyScriptEngine getJProxyScriptEngineIfConfigured()
+    {
+        if (jProxyEngine == null || !jProxyEngine.isEnabled())
+            return null;
+        return jProxyEngine;
+    }    
 }

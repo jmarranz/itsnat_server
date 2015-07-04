@@ -44,9 +44,9 @@ function W3CDOMEvent(evt,listener)
     this.getTarget = function () { return this.getNativeEvent().target; };
 }
 
-function getW3CEventUtil(typeCode)
+function getW3CEventUtil(eventGroupCode)
 {
-    switch(typeCode)
+    switch(eventGroupCode)
     {
         case 0: return itsnat.W3CEventUtil_SINGLETON; // DOMStdEventTypeInfo.UNKNOWN_EVENT
         case 1: return itsnat.W3CUIEventUtil_SINGLETON; // UI_EVENT
@@ -230,12 +230,12 @@ function W3CKeyEventUtil()
         if (evt.type == "keypress")
         {
             charCode = evt.charCode;
-            if (typeof charCode == "undefined") charCode = 0; // Opera y BlackBerryOld no tienen
+            if (typeof charCode == "undefined") charCode = 0; // OperaOld y BlackBerryOld no tienen
             if ((charCode == 0) && evt.itsnat_charCode) charCode = evt.itsnat_charCode; // WebKit y BlackBerryOld
         }
         url += "&itsnat_evt_charCode=" + charCode;
 
-        if (itsNatDoc.browser.isWebKit()||itsNatDoc.browser.isBlackBerryOld())
+        if (itsNatDoc.browser.isWebKit())
         {
             url += "&itsnat_evt_keyIdentifier=" + encodeURIComponent(evt.keyIdentifier);
             url += "&itsnat_evt_keyLocation=" + evt.keyLocation;
@@ -286,8 +286,8 @@ function W3CDocument()
     this.setInnerXML = setInnerXML;
     this.setInnerXMLMSIE9 = setInnerXMLMSIE9;
     this.importNodeMSIE9 = importNodeMSIE9;
-    this.addDOMEventListener2 = addDOMEventListener2;
-    this.removeDOMEventListener2 = removeDOMEventListener2;
+    this.addDOMEL2 = addDOMEL2;
+    this.removeDOMEL2 = removeDOMEL2;
     this.addEventListener = addEventListener;
     this.removeEventListener = removeEventListener;
     this.addAttachUnloadListener2 = addAttachUnloadListener2;
@@ -372,7 +372,7 @@ function W3CDocument()
         }
     }
 
-    function addDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function addDOMEL2(listenerWrapper,node,type,useCapture)
     {
         var w3cHandler = function(evt) { arguments.callee.listenerWrapper.dispatchEvent(evt); };
         w3cHandler.listenerWrapper = listenerWrapper;
@@ -381,7 +381,7 @@ function W3CDocument()
         this.addEventListener(node,type,w3cHandler,useCapture);
     }
 
-    function removeDOMEventListener2(listenerWrapper,node,type,useCapture)
+    function removeDOMEL2(listenerWrapper,node,type,useCapture)
     {
         this.removeEventListener(node,type,listenerWrapper.w3cHander,useCapture);
     }
@@ -488,32 +488,13 @@ function W3CHTMLDocument()
     function setAttribute(elem,name,value)
     {
         this.W3CHTMLDocument_super_setAttribute(elem,name,value);
-        if (this.browser.isBlackBerryOld()) // Para evitar que las dos primeras veces se ignoren visualmente (curioso)
-        {
-          var style = elem.style;
-          var oldDisp = style.display;
-          style.display = "none";
-          style.display = oldDisp; // "Refresca" el elemento.
-        }
-        else if (this.browser.isMSIE9() && (name == "style") && (value == ""))
+        if (this.browser.isMSIE9() && (name == "style") && (value == ""))
             elem.style.cssText = "";
     }
 
     function removeAttribute(elem,name)
     {
-        if (this.browser.isBlackBerryOld())
-        {
-          if (name == "style") elem.style.cssText = "";
-          else
-          {
-              elem.removeAttribute(name);
-              var style = elem.style;
-              var oldDisp = style.display;
-              style.display = "none";
-              style.display = oldDisp;
-          }
-        }
-        else this.W3CHTMLDocument_super_removeAttribute(elem,name);
+        this.W3CHTMLDocument_super_removeAttribute(elem,name);
     }
 
 }

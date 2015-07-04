@@ -20,7 +20,7 @@ import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLElement;
 
@@ -52,32 +52,33 @@ public abstract class FactoryItsNatHTMLComponentImpl extends FactoryItsNatCompon
         return getKey(getLocalName(),getCompType());
     }
 
-    public boolean declaredAsHTMLComponent(Element element)
+    public boolean mustBeCreatedAutoBuildMode(Element element)
+    {
+        return declaredAsHTMLWithComponentAttribute(element);
+    }
+
+    public boolean declaredAsHTMLWithComponentAttribute(Element element)
     {
         if (isFormControl()) // Un elemento tipo form control puede ser un componente por sí mismo sin necesidad de indicarlo en el markup salvo que en el markup se diga lo contrario
             return !ItsNatDocComponentManagerImpl.explicitIsNotComponentAttribute(element);
         else
             return ItsNatDocComponentManagerImpl.isComponentAttribute(element); // Hay que marcar porque no se añade por defecto
     }
-
-    protected boolean mustBeCreatedAutoBuildMode(Element element)
-    {
-        // En modo auto-build el que manda es la existencia del atributo isComponent
-
-        return declaredAsHTMLComponent(element);
-    }
-
+        
+    
     public ItsNatComponent createItsNatComponent(Element element,String compType,NameValue[] artifacts,boolean autoBuildMode,boolean execCreateFilters,ItsNatDocComponentManagerImpl compMgr)
     {
         // Si no es modo auto-build nos da igual lo que el diga el markup, es el caso de orden explícita de creación de componente (si se puede)
+        // Ver el manual para entender esto que sólo afecta a HTML aunque parezca genérico
         if (autoBuildMode && !mustBeCreatedAutoBuildMode(element))
             return null;
 
-        ItsNatStfulDocComponentManagerImpl stfulCompMgr = (ItsNatStfulDocComponentManagerImpl)compMgr;
+        ItsNatStfulWebDocComponentManagerImpl stfulCompMgr = (ItsNatStfulWebDocComponentManagerImpl)compMgr;
         return createItsNatHTMLComponent((HTMLElement)element,compType,artifacts,execCreateFilters,stfulCompMgr);
-    }
+    }        
 
-    protected abstract ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr);
+
+    protected abstract ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr);
 
 
     public abstract String getLocalName();

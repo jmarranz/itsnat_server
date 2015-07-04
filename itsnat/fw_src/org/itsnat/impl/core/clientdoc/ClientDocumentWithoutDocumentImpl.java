@@ -118,6 +118,11 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)    
+    {
+        throw new ItsNatException("Not supported in this context");
+    }    
+            
     public void startEventDispatcherThread(Runnable task)
     {
         throw new ItsNatException("Not supported in this context");
@@ -188,7 +193,7 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
-    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }
@@ -213,7 +218,7 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
-    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }
@@ -223,7 +228,7 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
-    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }

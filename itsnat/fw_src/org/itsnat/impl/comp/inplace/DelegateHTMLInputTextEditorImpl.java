@@ -21,6 +21,7 @@ import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.comp.text.ItsNatHTMLInputTextFormatted;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -32,6 +33,7 @@ public class DelegateHTMLInputTextEditorImpl extends DelegateHTMLElementComponen
     public DelegateHTMLInputTextEditorImpl(ItsNatHTMLInputText compEditor)
     {
         super(compEditor);
+        
     }
 
     public ItsNatHTMLInputText getItsNatHTMLInputText()
@@ -53,7 +55,9 @@ public class DelegateHTMLInputTextEditorImpl extends DelegateHTMLElementComponen
         String text = value.toString();
         ItsNatHTMLInputText compEditor = getItsNatHTMLInputText();
         HTMLInputElement inputElem = compEditor.getHTMLInputElement();
-        DOMUtilInternal.setAttribute(inputElem,"size",String.valueOf(text.length() + 1)); // El + 1 es para evitar el 0 en caso de cadena nula
+        int size = text.length();
+        if (size <= 3) size = size + (4 - size); // Es muy pequeño es para evitar que sea de al menos 4 chars
+        DOMUtilInternal.setAttribute(inputElem,"size",String.valueOf(size)); 
     }
 
     public void setValue(Object value)

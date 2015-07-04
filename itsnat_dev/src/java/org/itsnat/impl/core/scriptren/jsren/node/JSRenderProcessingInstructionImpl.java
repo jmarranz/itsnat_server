@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.jsren.node;
 
+import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
@@ -33,10 +34,13 @@ public class JSRenderProcessingInstructionImpl extends JSRenderNotChildrenNodeIm
     {
     }
 
+    @Override
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        // No funciona en MSIE 8, con innerHTML sí pero 
         ProcessingInstruction nodeProcInst = (ProcessingInstruction)node;
-        return "itsNatDoc.doc.createProcessingInstruction(\"" + nodeProcInst.getTarget() + "\",\"" + nodeProcInst.getData() + "\")";
+        Browser browser = clientDoc.getClientDocumentStful().getBrowser();
+        return "itsNatDoc.doc.createProcessingInstruction(\"" + nodeProcInst.getTarget() + "\"," + toTransportableStringLiteral(nodeProcInst.getData(),true,browser) + ")";
     }
 
 }

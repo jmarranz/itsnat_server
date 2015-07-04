@@ -16,12 +16,13 @@
 
 package org.itsnat.impl.core.template;
 
+import org.itsnat.impl.core.template.droid.ItsNatStfulDroidDocumentTemplateVersionImpl;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.markup.parse.XercesDOMParserWrapperImpl;
-import org.itsnat.impl.core.template.html.ItsNatHTMLDocumentTemplateVersionImpl;
-import org.itsnat.impl.core.template.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.html.ItsNatHTMLDocumentTemplateVersionImpl;
+import org.itsnat.impl.core.template.web.otherns.ItsNatOtherNSDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -48,6 +49,8 @@ public abstract class ItsNatStfulDocumentTemplateVersionImpl extends ItsNatDocum
             return new ItsNatHTMLDocumentTemplateVersionImpl(docTemplate,source,timeStamp,request,response);
         else if (docTemplate.isMIME_OTHERNS())
             return ItsNatOtherNSDocumentTemplateVersionImpl.createItsNatOtherNSDocumentTemplateVersion(docTemplate, source, timeStamp,request,response);
+        if (docTemplate.isMIME_ANDROID_LAYOUT())
+            return new ItsNatStfulDroidDocumentTemplateVersionImpl(docTemplate,source,timeStamp,request,response);        
         else
             return null; // No ocurre nunca.
     }
@@ -71,7 +74,7 @@ public abstract class ItsNatStfulDocumentTemplateVersionImpl extends ItsNatDocum
         String docCode = wrapBodyAsDocument(fragCode);
 
         XercesDOMParserWrapperImpl parser = itsNatDoc.getMarkupParser();
-        Document doc = parseDocument(docCode,parser);
+        Document doc = parseDocumentOrFragment(docCode,parser,true);
         templateDelegate.normalizeDocument(doc);
 
         Element body = getBodyParentElement(doc);

@@ -1,4 +1,6 @@
 org.itsnat.comp
+org.itsnat.comp.android.view
+org.itsnat.comp.android.widget
 org.itsnat.comp.button
 org.itsnat.comp.button.normal
 org.itsnat.comp.button.toggle
@@ -13,6 +15,7 @@ org.itsnat.comp.tree
 org.itsnat.core
 org.itsnat.core.domutil
 org.itsnat.core.event
+org.itsnat.core.event.droid
 org.itsnat.core.html
 org.itsnat.core.http
 org.itsnat.core.script

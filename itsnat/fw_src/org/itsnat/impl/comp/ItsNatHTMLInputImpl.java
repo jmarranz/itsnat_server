@@ -18,11 +18,11 @@ package org.itsnat.impl.comp;
 
 import org.itsnat.comp.ItsNatHTMLInput;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLFormElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -37,7 +37,7 @@ public abstract class ItsNatHTMLInputImpl extends ItsNatHTMLFormCompValueBasedIm
     /**
      * Creates a new instance of ItsNatHTMLInputImpl
      */
-    public ItsNatHTMLInputImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

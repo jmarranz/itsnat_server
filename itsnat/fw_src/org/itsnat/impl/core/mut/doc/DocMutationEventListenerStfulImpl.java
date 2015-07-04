@@ -23,6 +23,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.doc.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.domimpl.ElementDocContainer;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
 import org.itsnat.impl.core.domimpl.deleg.DelegateNodeImpl;
@@ -65,10 +66,12 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            ClientMutationEventListenerStfulImpl mutListener = clientDoc.getClientMutationEventListenerStful();
+            //if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue;
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            ClientMutationEventListenerStfulImpl mutListener = clientDocDeleg.getClientMutationEventListenerStful();
 
             mutListener.beforeRenderAndSendMutationCode(mutEvent);
-            if (mutListener.canRenderAndSendMutationJSCode()) // Si es false es que seguramente estamos en fase carga y fast load
+            if (mutListener.canRenderAndSendMutationCode()) // Si es false es que seguramente estamos en fase carga y fast load
             {
                 // Cuidado: pre and post métodos sólo se llaman si se genera código de la mutación
                 mutListener.preRenderAndSendMutationCode(mutEvent);
@@ -160,6 +163,7 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
                 }
             }
         }
+        
     }
 
     protected void processTreeCleanEventListeners(Node node,ClientDocumentImpl[] allClients)
@@ -185,13 +189,13 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
 
         ItsNatStfulDocumentImpl itsNatDoc = getItsNatStfulDocument();
         int count = 0;
-        count += itsNatDoc.removeAllDOMStdEventListeners(eventTarget,true);
+        count += itsNatDoc.removeAllPlatformEventListeners(eventTarget,true);
         count += itsNatDoc.removeAllUserEventListeners(eventTarget,true);
 
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            count += clientDoc.removeAllDOMStdEventListeners(eventTarget, true);
+            count += clientDoc.getClientDocumentStfulDelegate().removeAllPlatformEventListeners(eventTarget, true);
             count += clientDoc.removeAllUserEventListeners(eventTarget, true);
             count += clientDoc.removeAllTimerEventListeners(eventTarget, true);
             count += clientDoc.removeAllContinueEventListeners(eventTarget, true);
@@ -353,8 +357,10 @@ public abstract class DocMutationEventListenerStfulImpl extends DocMutationEvent
         for(int i = 0; i < allClients.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)allClients[i];
-            ClientMutationEventListenerStfulImpl mutListener = clientDoc.getClientMutationEventListenerStful();
-            mutListener.removeAllChild(node); // Se eliminan en el cliente
+            ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+            ClientMutationEventListenerStfulImpl mutListener = clientDocDeleg.getClientMutationEventListenerStful();            
+            
+            mutListener.removeAllChildNodes(node); // Se eliminan en el cliente
         }
 
         // Se supone que el nodo está vacío en el servidor pues no dejamos insertar hasta que haya reconexión

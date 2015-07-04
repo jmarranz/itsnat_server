@@ -18,8 +18,8 @@ package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 
 /**
  *
@@ -41,7 +41,7 @@ public class ResponseNormalEventErrorLostSessionImpl extends ResponseNormalEvent
         {
             ClientDocumentImpl clientDoc = request.getClientDocument();
             Browser browser = clientDoc.getBrowser();
-            getItsNatServletResponse().addCodeToSend(OnLoadBackForwardListenerImpl.getReloadCode(browser));
+            getItsNatServletResponse().addCodeToSend(JSAndBSRenderImpl.getReloadCode(browser));
         }
 
     }

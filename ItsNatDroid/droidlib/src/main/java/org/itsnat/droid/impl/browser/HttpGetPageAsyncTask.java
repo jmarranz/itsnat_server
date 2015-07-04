@@ -20,7 +20,7 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
     protected final PageRequestImpl pageRequest;
     protected final String url;
     protected final String pageURLBase;
-    protected final HttpConfig httpConfig;
+    protected final HttpRequestData httpRequestData;
     protected final XMLInflateRegistry xmlInflateRegistry;
     protected final AttrDrawableInflaterListener attrDrawableInflaterListener;
     protected final AssetManager assetManager;
@@ -39,14 +39,14 @@ public class HttpGetPageAsyncTask extends ProcessingAsyncTask<PageRequestResult>
         this.assetManager = pageRequest.getContext().getAssets();
 
         // Hay que tener en cuenta que estos objetos se acceden en multihilo
-        this.httpConfig = new HttpConfig(pageRequest);
+        this.httpRequestData = new HttpRequestData(pageRequest);
     }
 
     protected PageRequestResult executeInBackground() throws Exception
     {
-        HttpRequestResultOKImpl result = HttpUtil.httpGet(url,httpConfig.httpFileCache, httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, null, null);
+        HttpRequestResultOKImpl result = HttpUtil.httpGet(url, httpRequestData,null, null);
 
-        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase,httpConfig,xmlInflateRegistry,assetManager);
+        PageRequestResult pageReqResult = PageRequestImpl.processHttpRequestResult(result,pageURLBase, httpRequestData,xmlInflateRegistry,assetManager);
         return pageReqResult;
     }
 

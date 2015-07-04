@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.core.template;
 
+import com.innowhere.relproxy.jproxy.JProxy;
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
 import java.text.DateFormat;
@@ -111,7 +113,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         MarkupSourceImpl markupSource = MarkupSourceImpl.createMarkupSource(source);
         if (NamespaceUtil.isStatefulMime(mime))
-            return new ItsNatStfulDocumentTemplateNormalImpl(name,mime,markupSource,servlet);
+            return ItsNatStfulDocumentTemplateNormalImpl.createItsNatStfulDocumentTemplateNormal(name,mime,markupSource,servlet);
         else
             return new ItsNatXMLDocumentTemplateImpl(name,mime,markupSource,servlet);
     }
@@ -432,23 +434,25 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return requestListeners.iterator();
     }
 
-
     public void addItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
+        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();
+        
         LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
-        requestListeners.add(listener);
+        requestListeners.add(jProxy == null? listener : jProxy.create(listener,ItsNatServletRequestListener.class));
     }
 
     public void removeItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
+        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+        
         LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
-        requestListeners.remove(listener);
+        requestListeners.remove(jProxy == null? listener : jProxy.create(listener,ItsNatServletRequestListener.class)); // Ver el manual de RelProxy sobre el uso de equals y proxies
     }
-
 
     public LinkedList<ItsNatAttachedClientEventListener> getItsNatAttachedClientEventListenerList()
     {
@@ -469,16 +473,20 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
+        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();          
+        
         LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
-        attachedEventListeners.add(listener);
+        attachedEventListeners.add(jProxy == null ? listener : jProxy.create(listener,ItsNatAttachedClientEventListener.class));
     }
 
     public void removeItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
+        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+        
         LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
-        attachedEventListeners.remove(listener);
+        attachedEventListeners.remove(jProxy == null ? listener : jProxy.create(listener,ItsNatAttachedClientEventListener.class));
     }
 
     public boolean hasGlobalEventListenerListeners()

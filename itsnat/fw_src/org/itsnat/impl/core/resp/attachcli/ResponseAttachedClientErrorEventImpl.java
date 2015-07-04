@@ -20,6 +20,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientErrorImpl;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClient;
 import org.itsnat.impl.core.req.attachcli.RequestAttachedClientEventImpl;
 import org.itsnat.impl.core.resp.ResponseEventStfulImpl;
+import org.itsnat.impl.core.scriptren.shared.listener.attachcli.JSAndBSRenderItsNatAttachedClientTimerEventListenerImpl;
 
 /**
  *
@@ -49,7 +50,8 @@ public abstract class ResponseAttachedClientErrorEventImpl extends ResponseEvent
 
     public void processEvent()
     {
-        itsNatResponse.addCodeToSend("try{ document.getItsNatDoc().stopAttachTimerRefresh(); } catch(e) { }"); // Por si hubiera un timer, para que pare, si no hay timer (Comet) no hace nada
+        
+        itsNatResponse.addCodeToSend(JSAndBSRenderItsNatAttachedClientTimerEventListenerImpl.stopAttachTimerRefreshTryCatch()); // Por si hubiera un timer, para que pare, si no hay timer (Comet) no hace nada, válido para JS y Beanshell
 
         processGlobalListeners();
     }

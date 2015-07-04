@@ -27,6 +27,7 @@ import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.core.UseGZip;
 import org.itsnat.impl.core.*;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 
 /**
  *
@@ -63,7 +64,8 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     protected boolean selectionOnComponentsUsesKeyboard = true;
     protected boolean joystickMode = false;
     protected boolean markupDrivenComponents = false;
-
+    protected int bitmapDensityReference = 320; // xhdpi
+    
     /** Creates a new instance of ItsNatServletConfigImpl */
     public ItsNatServletConfigImpl(ServletConfig servletConfig,ItsNatServletImpl servlet)
     {
@@ -75,11 +77,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         ItsNatImpl itsNat = servlet.getItsNatImpl();
         this.servletContext = itsNat.getItsNatServletContext(servletConfig.getServletContext());
 
-        cacheDOMNodesByMime.put("text/html",Boolean.TRUE);
-        cacheDOMNodesByMime.put("application/xhtml+xml",Boolean.TRUE);
-        cacheDOMNodesByMime.put("image/svg+xml",Boolean.TRUE);
-        cacheDOMNodesByMime.put("application/vnd.mozilla.xul+xml",Boolean.TRUE);
-        cacheDOMNodesByMime.put("text/xml",Boolean.FALSE); // No tiene mucho sentido cachear nodos pues si generamos un XML todo seguramente será contenido generado y nada estático
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_HTML,Boolean.TRUE);
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_XHTML,Boolean.TRUE);
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_SVG,Boolean.TRUE);
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_XUL,Boolean.TRUE);
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_XML,Boolean.FALSE); // No tiene mucho sentido cachear nodos pues si generamos un XML todo seguramente será contenido generado y nada estático
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_ANDROID_LAYOUT, Boolean.FALSE); // No es imaginable rollos de texto etc cacheables
+        
     }
 
     public ServletConfig getServletConfig()
@@ -449,4 +453,14 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.markupDrivenComponents = value;
     }
 
+    public int getBitmapDensityReference()
+    {
+        return bitmapDensityReference;
+    }
+
+    public void setBitmapDensityReference(int density)
+    {
+        checkIsAlreadyUsed();        
+        this.bitmapDensityReference = density;
+    }    
 }

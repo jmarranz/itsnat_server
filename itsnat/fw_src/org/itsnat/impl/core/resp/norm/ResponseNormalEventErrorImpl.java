@@ -18,7 +18,7 @@ package org.itsnat.impl.core.resp.norm;
 
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.ClientDocumentWithoutDocumentDefaultImpl;
-import org.itsnat.impl.core.event.client.ClientDOMEventErrorImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventErrorImpl;
 import org.itsnat.impl.core.event.client.ClientItsNatEventStatelessCustomAndDocTemplateNotFoundImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.itsnat.impl.core.req.norm.RequestNormal;
@@ -68,7 +68,7 @@ public abstract class ResponseNormalEventErrorImpl extends ResponseEventStfulImp
 
         if (itsNatServlet.hasGlobalEventListenerListeners()) // No miramos más pues sabemos que no hay documento y el ClientDocument es temporal y el programador no tuvo la oportunidad de registrar listeners 
         {
-            ClientDOMEventErrorImpl evt = new ClientDOMEventErrorImpl(getRequestNormalEvent());
+            ClientItsNatNormalEventErrorImpl evt = new ClientItsNatNormalEventErrorImpl(getRequestNormalEvent());
             EventListenerUtil.handleEventIncludingGlobalListeners(null,evt);
         }         
         

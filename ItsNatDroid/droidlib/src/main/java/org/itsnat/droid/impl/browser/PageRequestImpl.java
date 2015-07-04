@@ -219,7 +219,7 @@ public class PageRequestImpl implements PageRequest
     {
         // No hace falta clonar porque es síncrono el método
 
-        HttpConfig httpConfig = new HttpConfig(this);
+        HttpRequestData httpRequestData = new HttpRequestData(this);
 
         XMLInflateRegistry xmlInflateRegistry = browser.getItsNatDroidImpl().getXMLInflateRegistry();
 
@@ -228,11 +228,10 @@ public class PageRequestImpl implements PageRequest
         PageRequestResult result = null;
         try
         {
-            HttpRequestResultOKImpl httpReqResult = HttpUtil.httpGet(url,httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,
-                    httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,null,null);
+            HttpRequestResultOKImpl httpReqResult = HttpUtil.httpGet(url,httpRequestData,null,null);
 
             AssetManager assetManager = getContext().getResources().getAssets();
-            result = processHttpRequestResult(httpReqResult,pageURLBase,httpConfig,xmlInflateRegistry,assetManager);
+            result = processHttpRequestResult(httpReqResult,pageURLBase, httpRequestData,xmlInflateRegistry,assetManager);
         }
         catch(Exception ex)
         {
@@ -263,7 +262,7 @@ public class PageRequestImpl implements PageRequest
     }
 
     public static PageRequestResult processHttpRequestResult(HttpRequestResultOKImpl result,
-                                       String pageURLBase,HttpConfig httpConfig,
+                                       String pageURLBase,HttpRequestData httpRequestData,
                                        XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager) throws Exception
     {
         String markup = result.getResponseText();
@@ -285,7 +284,7 @@ public class PageRequestImpl implements PageRequest
                     if (script instanceof DOMScriptRemote)
                     {
                         DOMScriptRemote scriptRemote = (DOMScriptRemote) script;
-                        String code = downloadScript(scriptRemote.getSrc(),pageURLBase,httpConfig);
+                        String code = downloadScript(scriptRemote.getSrc(),pageURLBase, httpRequestData);
                         scriptRemote.setCode(code);
                     }
                 }
@@ -297,7 +296,7 @@ public class PageRequestImpl implements PageRequest
         if (attrRemoteList != null)
         {
             HttpFileCache httpFileCache = result.getHttpFileCache();
-            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpFileCache,httpConfig.httpContext, httpConfig.httpParamsRequest, httpConfig.httpParamsDefault, httpConfig.httpHeaders, httpConfig.sslSelfSignedAllowed, xmlInflateRegistry,assetManager);
+            HttpResourceDownloader resDownloader = new HttpResourceDownloader(pageURLBase,httpRequestData, xmlInflateRegistry,assetManager);
             resDownloader.downloadResources(attrRemoteList);
         }
 
@@ -332,10 +331,10 @@ public class PageRequestImpl implements PageRequest
         return request;
     }
 
-    private static String downloadScript(String src,String pageURLBase,HttpConfig httpConfig) throws SocketTimeoutException
+    private static String downloadScript(String src,String pageURLBase,HttpRequestData httpRequestData) throws SocketTimeoutException
     {
         src = HttpUtil.composeAbsoluteURL(src,pageURLBase);
-        HttpRequestResultImpl result = HttpUtil.httpGet(src,httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed, null,MimeUtil.MIME_BEANSHELL);
+        HttpRequestResultImpl result = HttpUtil.httpGet(src, httpRequestData, null,MimeUtil.MIME_BEANSHELL);
         return result.getResponseText();
     }
 }

@@ -55,6 +55,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         super(NamespaceUtil.XHTML_NAMESPACE,name, owner);
     }
 
+    @Override
     public Node newNode()
     {
         return newHTMLElement();
@@ -112,6 +113,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         setAttribute("title",title);
     }
 
+    @Override
     public String getId()
     {
         // getId() ya está definido en una clase más arriba, ponemos esto por simetría
@@ -137,6 +139,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         return null;
     }
 
+    @Override
     public String getTextContent()
     {
         // Consideramos que puede haber comentarios (raro)
@@ -153,6 +156,7 @@ public abstract class HTMLElementImpl extends ElementNSImpl implements HTMLEleme
         return text.toString();
     }
 
+    @Override
     public void setTextContent( String text )
     {
         Node child = getFirstChild();

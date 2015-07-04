@@ -19,7 +19,7 @@ package org.itsnat.impl.core.req.attachcli;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientTimerEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientTimerEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.attachcli.ResponseAttachedClientEventImpl;
 
 /**

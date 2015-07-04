@@ -14,37 +14,46 @@
 
 <h2>ItsNat - Release Notes</h2>
 
-<h3>Version 2.0</h3>
+
+<h3>Version 1.5</h3>
 <ul>
-    <li>Added ItsNat Droid support!! 
-    </li>
-    <li>Goodbye Symbian and old BlackBerries (< 6.0)
-    </li>
-    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Operas based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported.
+    <li>Goodbye Symbian, old BlackBerries (< 6.0) and Internet Explorer 6/7
+    </li>  
+    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Operas based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported, the 
+        only reason is because Opera Mini is still a supported browser by Opera and is based on Presto.
     </li>  
     <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
         and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
         You must enable and configure it by using a ServletContextListener.
     </li>
-     <li>Added classes/interfaces
+    <li>Preliminar support of ItsNat Droid. It is experimental do not use (not documented).
         <ul>
-            <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>             
-            <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>             
-        </ul>
-    </li>    
-     <li>Added methods
-        <ul>
-            <li>ItsNatServletConfig.getBitmapDensityReference()</li>             
-            <li>ItsNatServletConfig.setBitmapDensityReference(int)</li>
-            <li>ItsNatDroidDocumentTemplate.getBitmapDensityReference()</li>             
-            <li>ItsNatDroidDocumentTemplate.setBitmapDensityReference(int)</li>            
-            <li>ItsNatDroidDocumentTemplate is implemented by ItsNatDocumentTemplate objects registered with mime android/layout</li>
+            <li>Added classes/interfaces
+               <ul>
+                   <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>             
+                   <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>             
+               </ul>
+            </li>
+            <li>Added methods
+               <ul>
+                   <li>ItsNatServletConfig.getBitmapDensityReference()</li>             
+                   <li>ItsNatServletConfig.setBitmapDensityReference(int)</li>
+                   <li>ItsNatDroidDocumentTemplate.getBitmapDensityReference()</li>             
+                   <li>ItsNatDroidDocumentTemplate.setBitmapDensityReference(int)</li>            
+                   <li>ItsNatDroidDocumentTemplate is implemented by ItsNatDocumentTemplate objects registered with mime android/layout</li>
+               </ul>
+            </li>
         </ul>
     </li>
-    <li>Minor bug fixes and improvements
+    <li>Some bug fixes and improvements
     </li>    
+    <li>
+    <li>Feature Showcase:
+        <ul>
+            <li>Fixed some SVG example</li>
+        </ul>     
+    </li>
 </ul>
-
 
 <h3>Version 1.3.1</h3>
 <ul>

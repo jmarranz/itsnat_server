@@ -17,6 +17,7 @@
 package org.itsnat.impl.core.resp.shared.otherns;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
@@ -59,7 +60,8 @@ public class ResponseDelegateXULLoadDocImpl extends ResponseDelegateOtherNSLoadD
 
         if (NamespaceUtil.isXULElement(elem))
         {
-            ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+            ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();            
+            //ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
 
             String localName = elem.getLocalName();
             if ("button".equals(localName))

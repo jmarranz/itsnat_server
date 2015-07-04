@@ -123,22 +123,15 @@ public class GenericHttpClientImpl extends GenericHttpClientBaseImpl implements 
     public HttpRequestResult requestSync()
     {
         PageImpl page = getPageImpl();
-        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-        HttpFileCache httpFileCache = browser.getHttpFileCache();
-
-        // No hace falta clonar porque es síncrona la llamada
         String url = getFinalURL();
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        HttpParams httpParamsRequest = this.httpParamsRequest;
-        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+
+        HttpRequestData httpRequestData = new HttpRequestData(page);
         List<NameValuePair> params = this.paramList;
 
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(url, httpFileCache, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, params,overrideMime);
+            result = HttpUtil.httpPost(url, httpRequestData, params,overrideMime);
         }
         catch (Exception ex)
         {

@@ -18,11 +18,11 @@ package org.itsnat.impl.comp;
 
 import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.event.server.ServerItsNatDOMEventImpl;
+import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLElement;
 
@@ -67,7 +67,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
     public boolean isChangeEvent(Event evt)
     {
         String type = evt.getType();
-        if ((evt instanceof ServerItsNatDOMEventImpl) && type.equals("blur"))
+        if ((evt instanceof ServerItsNatDOMStdEventImpl) && type.equals("blur"))
             return false; // Al ser generado desde el servidor, el programador deberá lanzar primero el change y luego el blur, es decir, hacerlo BIEN, hay que tener en cuenta que con el evento del blur no habrá un parámetro "value" con el texto
 
         ClientDocumentImpl clientDoc = (ClientDocumentImpl)((ItsNatEvent)evt).getClientDocument();
@@ -80,7 +80,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         comp.enableEventListener("change");
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl clientListeners)
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl clientListeners)
     {
         if (isBlurIsChangeEvent(clientListeners.getClientDocument()))
         {
@@ -89,7 +89,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         }
     }
 
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         if (isChangeEvent(evt))
         {
@@ -130,7 +130,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // se define dos veces.
 
         HTMLElement elem = comp.getHTMLElement();
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
         if (browser.isBlurBeforeChangeEvent(elem)) 
             return true;
         else if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))

@@ -17,7 +17,7 @@
 package org.itsnat.impl.comp.button.normal;
 
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLAnchorElement;
 
 /**
@@ -28,7 +28,7 @@ public class ItsNatHTMLAnchorDefaultImpl extends ItsNatHTMLAnchorImpl
 {
 
     /** Creates a new instance of ItsNatHTMLAnchorDefaultImpl */
-    public ItsNatHTMLAnchorDefaultImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLAnchorDefaultImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

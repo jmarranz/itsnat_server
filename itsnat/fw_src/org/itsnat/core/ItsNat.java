@@ -16,6 +16,7 @@
 
 package org.itsnat.core;
 
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import javax.servlet.Servlet;
 
 /**
@@ -67,4 +68,14 @@ public interface ItsNat extends ItsNatUserData
      * @see org.itsnat.core.http.HttpServletWrapper#init(javax.servlet.ServletConfig)
      */
     public ItsNatServlet createItsNatServlet(Servlet servlet);
+    
+    /**
+     * Gets a not configured <code>JProxyScriptEngine</code> object to be used for hot class reloading in development or production time.
+     * 
+     * <p>The returned object is ever the same.</p>
+     * <p>See <a href="https://github.com/jmarranz/relproxy/">RelProxy project</a> for more info.</p>
+     * 
+     * @return returns a not configured <code>JProxyScriptEngine</code> object.
+     */
+    public JProxyScriptEngine getJProxyScriptEngine();   
 }

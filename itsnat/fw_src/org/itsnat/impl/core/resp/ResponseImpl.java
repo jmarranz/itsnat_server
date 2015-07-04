@@ -20,14 +20,15 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import javax.servlet.ServletResponse;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.UseGZip;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.droid.BrowserDroid;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.req.RequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletResponseImpl;
 
@@ -169,9 +170,13 @@ public abstract class ResponseImpl
     protected void setResponseContentType()
     {
         String mime;
-        if (this instanceof ResponseJavaScript)
+        if (this instanceof ResponseScript)
         {
-             mime = "text/javascript";
+            Browser browser = getBrowser();
+            if (browser instanceof BrowserDroid)
+                mime = NamespaceUtil.MIME_BEANSHELL; 
+            else
+                mime = NamespaceUtil.MIME_JAVASCRIPT;
         }
         else
         {
@@ -179,7 +184,7 @@ public abstract class ResponseImpl
             if (itsNatDoc != null)
                 mime = itsNatDoc.getMIME();
             else
-                mime = "text/html";
+                mime = NamespaceUtil.MIME_HTML;
         }
 
         String encoding = getEncoding();
@@ -207,12 +212,12 @@ public abstract class ResponseImpl
             int useGZipConfig = itsNatDoc.getUseGZip();
             if (useGZipConfig != UseGZip.NONE)
             {
-                if (this instanceof ResponseJavaScript)
+                if (this instanceof ResponseScript)
                 {
                     if (UseGZip.isScriptUsingGZip(useGZipConfig))
                     {
                         useGZip = true;
-                        if (((ResponseJavaScript)this).isLoadByScriptElement() &&
+                        if (((ResponseScript)this).isLoadByScriptElement() &&
                              (getClientDocument().getBrowser() instanceof BrowserMSIEOld))
                             useGZip = false; // Porque en el MSIE (v6) da problemas, por ejemplo si se comprime no se carga el script externo inmediatamente (por lo menos antes de ejecutar el handler onload de la página el cual puede necesitar registrar un monitor de eventos) y fallará en la primera carga por ejemplo el registro de un monitor de eventos en el onload  (luego el script se cachea y no hay problema), y falla en los modos SCRIPT y SCRIPT_HOLD
                     }

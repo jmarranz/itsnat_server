@@ -20,13 +20,14 @@ import java.io.Serializable;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.ItsNatHTMLElementComponent;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.comp.mgr.ItsNatHTMLDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatHTMLDocComponentManagerImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
-import org.itsnat.impl.comp.mgr.ItsNatXULDocComponentManagerImpl;
-import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.comp.mgr.web.ItsNatXULDocComponentManagerImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -57,7 +58,7 @@ public abstract class DelegateComponentEditorImpl implements Serializable
             if (compMgr instanceof ItsNatHTMLDocComponentManagerImpl)
             {
                 // Lo más normal es que el editor vaya a un elemento HTML
-                return new DelegateHTMLInputTextEditorImpl(compMgr.createItsNatHTMLInputText(null,null));
+                return new DelegateHTMLInputTextEditorImpl(((ItsNatHTMLDocComponentManagerImpl)compMgr).createItsNatHTMLInputText(null,null));
             }
             else if (compMgr instanceof ItsNatXULDocComponentManagerImpl)
             {
@@ -89,14 +90,16 @@ public abstract class DelegateComponentEditorImpl implements Serializable
         for(int i = 0; i < allClient.length; i++)
         {
             ClientDocumentStfulImpl clientDoc = allClient[i];
-            Browser browser = clientDoc.getBrowser();
+            if (!(clientDoc.getClientDocumentStfulDelegate() instanceof ClientDocumentStfulDelegateWebImpl)) continue; // Por si acaso
+            ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+            BrowserWeb browser = clientDocDeleg.getBrowserWeb();
             if (clientDoc.isSendCodeEnabled() && !render.isFocusOrBlurMethodWrong("focus",elem,browser))
             {
                 // Sólo generamos la llamada a focus() si es procesada correctamente
                 // si no lo es el usuario tendrá que pulsar el elemento, no pasa nada por ello
                 // En esos casos no tiene sentido enviar un evento focus "manualmente" pues ya lo hará el usuario
                 // cuando pulse elemento así evitamos enviar dos eventos focus.
-                String code = JSRenderMethodCallImpl.getCallFormControlFocusBlurCodeDefault(elem, "focus", true, clientDoc);
+                String code = JSRenderMethodCallImpl.getCallFormControlFocusBlurCodeDefault(elem, "focus", true, clientDocDeleg);
                 clientDoc.addCodeToSend( code );
             }
         }

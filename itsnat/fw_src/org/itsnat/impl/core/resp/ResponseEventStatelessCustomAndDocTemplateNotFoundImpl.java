@@ -25,7 +25,7 @@ import org.itsnat.impl.core.servlet.ItsNatServletImpl;
  *
  * @author jmarranz
  */
-public class ResponseEventStatelessCustomAndDocTemplateNotFoundImpl extends ResponseImpl implements ResponseJavaScript
+public class ResponseEventStatelessCustomAndDocTemplateNotFoundImpl extends ResponseImpl implements ResponseScript
 {
     protected ResponseEventDelegateImpl delegate;
     
@@ -33,8 +33,8 @@ public class ResponseEventStatelessCustomAndDocTemplateNotFoundImpl extends Resp
     public ResponseEventStatelessCustomAndDocTemplateNotFoundImpl(RequestEventStatelessImpl request)
     {
         super(request);
-        
-        this.delegate = new ResponseEventDelegateImpl(this);        
+    
+        this.delegate = ResponseEventDelegateImpl.createResponseEventDelegate(this);  
     }
 
     public RequestEventStatelessImpl getRequestEventStatelessImpl()

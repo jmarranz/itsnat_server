@@ -25,15 +25,12 @@ import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.text.ItsNatTextComponentUI;
 import org.itsnat.comp.text.ItsNatTextFieldUI;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditListener;
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLInputElement;
@@ -50,7 +47,7 @@ public abstract class ItsNatHTMLInputTextBasedImpl extends ItsNatHTMLInputImpl i
     /**
      * Creates a new instance of ItsNatHTMLInputTextBasedImpl
      */
-    public ItsNatHTMLInputTextBasedImpl(HTMLInputElement element, NameValue[] artifacts, ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputTextBasedImpl(HTMLInputElement element, NameValue[] artifacts, ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element, artifacts, componentMgr);
 
@@ -83,6 +80,7 @@ public abstract class ItsNatHTMLInputTextBasedImpl extends ItsNatHTMLInputImpl i
         return changeBasedDelegate;
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -90,18 +88,20 @@ public abstract class ItsNatHTMLInputTextBasedImpl extends ItsNatHTMLInputImpl i
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    @Override
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl normalEventListeners)
     {
-        super.enableEventListenersByClient(domListeners);
+        super.enableEventListenersByClient(normalEventListeners);
 
-        changeBasedDelegate.enableEventListenersByClient(domListeners);
+        changeBasedDelegate.enableEventListenersByClient(normalEventListeners);
     }
 
-    public void processDOMEvent(Event evt)
+    @Override
+    public void processNormalEvent(Event evt)
     {
-        changeBasedDelegate.processDOMEvent(evt);
+        changeBasedDelegate.processNormalEvent(evt);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void handleEventOnChange(Event evt)

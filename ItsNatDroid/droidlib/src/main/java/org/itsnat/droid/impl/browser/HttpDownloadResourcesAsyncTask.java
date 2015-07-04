@@ -23,7 +23,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected DownloadResourcesHttpClient parent;
     protected String method;
     protected String pageURLBase;
-    protected HttpConfig httpConfig;
+    protected HttpRequestData httpRequestData;
     protected OnHttpRequestListener listener;
     protected OnHttpRequestErrorListener errorListener;
     protected int errorMode;
@@ -38,7 +38,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
         this.parent = parent;
         this.method = method;
         this.pageURLBase = pageURLBase;
-        this.httpConfig = new HttpConfig(page);
+        this.httpRequestData = new HttpRequestData(page);
         this.listener = listener;
         this.errorListener = errorListener;
         this.errorMode = errorMode;
@@ -49,7 +49,7 @@ public class HttpDownloadResourcesAsyncTask extends ProcessingAsyncTask<List<Htt
     protected List<HttpRequestResultImpl> executeInBackground() throws Exception
     {
         HttpResourceDownloader resDownloader =
-                new HttpResourceDownloader(pageURLBase, httpConfig.httpFileCache,httpConfig.httpContext,httpConfig.httpParamsRequest,httpConfig.httpParamsDefault,httpConfig.httpHeaders,httpConfig.sslSelfSignedAllowed,xmlInflateRegistry,assetManager);
+                new HttpResourceDownloader(pageURLBase,httpRequestData,xmlInflateRegistry,assetManager);
         List<HttpRequestResultImpl> resultList = new LinkedList<HttpRequestResultImpl>();
         resDownloader.downloadResources(attrRemoteList,resultList);
         return resultList;

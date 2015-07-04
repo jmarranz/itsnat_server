@@ -16,15 +16,16 @@
 
 package org.itsnat.impl.core.resp.norm;
 
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestDOMEventStatelessImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
+public class ResponseDOMEventStatelessImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseDOMEventStatelessImpl(RequestDOMEventStatelessImpl request,ItsNatDOMEventStatelessListenerWrapperImpl listener)
@@ -36,8 +37,9 @@ public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
     public void processEvent()    
     {
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        clientDoc.getNodeCacheRegistry().clearCache(); // Elimina los nodos cacheados en la fase de carga, lo que cuenta es la fase del evento pues es la que devuelve el JavaScript que se envía al cliente
-        clientDoc.addCodeToSend("document.getItsNatDoc().clearNodeCache(); try{ \n");          
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();
+        clientDocDeleg.getNodeCacheRegistry().clearCache(); // Elimina los nodos cacheados en la fase de carga, lo que cuenta es la fase del evento pues es la que devuelve el JavaScript que se envía al cliente
+        clientDoc.addCodeToSend("itsNatDoc.clearNodeCache(); try{ \n");          
         try
         {
             super.processEvent();
@@ -45,7 +47,7 @@ public class ResponseDOMEventStatelessImpl extends ResponseDOMEventImpl
         finally
         {
             // Pase lo que pase lo dejamos limpito  
-            clientDoc.addCodeToSend("\n }finally{ document.getItsNatDoc().clearNodeCache(); }");              
+            clientDoc.addCodeToSend("\n }finally{ itsNatDoc.clearNodeCache(); }");              
         }      
     }
     

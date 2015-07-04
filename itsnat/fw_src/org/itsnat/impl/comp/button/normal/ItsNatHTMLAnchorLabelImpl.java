@@ -19,7 +19,7 @@ package org.itsnat.impl.comp.button.normal;
 import org.itsnat.comp.button.normal.ItsNatHTMLAnchorLabel;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.domutil.ElementRenderer;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
 import org.w3c.dom.html.HTMLAnchorElement;
 
@@ -33,7 +33,7 @@ public class ItsNatHTMLAnchorLabelImpl extends ItsNatHTMLAnchorImpl implements I
     protected Object value;
 
     /** Creates a new instance of ItsNatHTMLAnchorLabelImpl */
-    public ItsNatHTMLAnchorLabelImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLAnchorLabelImpl(HTMLAnchorElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

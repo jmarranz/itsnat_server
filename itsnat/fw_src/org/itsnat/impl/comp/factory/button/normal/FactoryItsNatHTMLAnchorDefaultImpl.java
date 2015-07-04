@@ -21,6 +21,7 @@ import org.itsnat.comp.button.normal.ItsNatHTMLAnchor;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.normal.ItsNatHTMLAnchorDefaultImpl;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLElement;
 
@@ -39,7 +40,7 @@ public class FactoryItsNatHTMLAnchorDefaultImpl extends FactoryItsNatHTMLAnchorI
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLAnchorDefault((HTMLAnchorElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -49,7 +50,7 @@ public class FactoryItsNatHTMLAnchorDefaultImpl extends FactoryItsNatHTMLAnchorI
         return null;
     }
 
-    public ItsNatHTMLAnchor createItsNatHTMLAnchorDefault(HTMLAnchorElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLAnchor createItsNatHTMLAnchorDefault(HTMLAnchorElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLAnchor comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

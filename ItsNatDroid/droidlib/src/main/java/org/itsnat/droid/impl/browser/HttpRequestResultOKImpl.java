@@ -27,7 +27,7 @@ public class HttpRequestResultOKImpl extends HttpRequestResultImpl
 
     public HttpRequestResultOKImpl(String url,HttpFileCache httpFileCache,Header[] headerList,InputStream input, StatusLine status, String mimeType, String encoding)
     {
-        super(url,headerList, input, status, mimeType, encoding);
+        super(url,headerList, status, mimeType, encoding);
 
         // Tomcat v6 devuelve por ejemplo:
         // Last-Modified: Wed, 10 Jun 2015 19:48:47 GMT

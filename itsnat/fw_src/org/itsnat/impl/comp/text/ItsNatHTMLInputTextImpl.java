@@ -18,7 +18,7 @@ package org.itsnat.impl.comp.text;
 
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -31,12 +31,12 @@ public abstract class ItsNatHTMLInputTextImpl extends ItsNatHTMLInputTextBasedIm
     /**
      * Creates a new instance of ItsNatHTMLInputTextBasedImpl
      */
-    public ItsNatHTMLInputTextImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputTextImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
     }
 
-    public static ItsNatHTMLInputText newItsNatHTMLInputText(HTMLInputElement element,String compType,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public static ItsNatHTMLInputText newItsNatHTMLInputText(HTMLInputElement element,String compType,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         if (compType == null)
             return componentMgr.createItsNatHTMLInputText(element,artifacts);

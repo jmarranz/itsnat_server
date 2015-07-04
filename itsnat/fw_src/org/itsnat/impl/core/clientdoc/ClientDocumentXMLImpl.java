@@ -106,6 +106,11 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)    
+    {
+        throw new ItsNatException("Not supported in this context");
+    }        
+    
     public boolean isScriptingEnabled()
     {
         return false;
@@ -206,7 +211,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
 
-    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }
@@ -231,7 +236,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
     
-    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToListener)
+    public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }
@@ -241,7 +246,7 @@ public class ClientDocumentXMLImpl extends ClientDocumentImpl
         // Ignorado
     }
 
-    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToListener)
+    public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         // Ignorado
     }

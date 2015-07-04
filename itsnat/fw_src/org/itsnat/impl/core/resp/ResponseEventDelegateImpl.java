@@ -19,18 +19,15 @@ package org.itsnat.impl.core.resp;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import javax.servlet.ServletRequest;
-import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderImpl;
+import org.itsnat.impl.core.browser.droid.BrowserDroid;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseEventDelegateImpl
+public abstract class ResponseEventDelegateImpl
 {
     protected ResponseImpl response;
     protected String scriptId = null; // Sólo es no nulo en los modos SCRIPT y SCRIPT_HOLD
@@ -43,6 +40,16 @@ public class ResponseEventDelegateImpl
         this.scriptId = servRequest.getParameter("itsnat_script_evt_id");
     }
 
+    public static ResponseEventDelegateImpl createResponseEventDelegate(ResponseImpl response)
+    {
+        Browser browser = response.getClientDocument().getBrowser();
+        if (browser instanceof BrowserWeb)
+            return new ResponseEventDelegateWebImpl(response);
+        else if (browser instanceof BrowserDroid)
+            return new ResponseEventDelegateDroidImpl(response);
+        return null;
+    }
+    
     protected void processResponseOnException(RuntimeException ex) 
     {
         if (isScriptOrScriptHoldMode())
@@ -83,62 +90,8 @@ public class ResponseEventDelegateImpl
         return (scriptId != null);
     }
 
-    public void sendPendingCode(String code,boolean error)
-    {
-        if (isScriptOrScriptHoldMode())
-        {
-            // Modos SCRIPT y SCRIPT_HOLD
-
-            Browser browser = response.getClientDocument().getBrowser();
-
-            StringBuilder codeBuff = new StringBuilder();
-
-            codeBuff.append("var elem = document.getElementById(\"" + scriptId + "\");\n"); // elem es el <script> cargador del script
-            codeBuff.append("if (elem != null)"); // elem puede ser null cuando hay un timeout en el cliente y se ha eliminado el <script> y por alguna razón (extraña) se ha cargado y ejecutado el script (REVISAR)
-            codeBuff.append("{\n");
-
-            codeBuff.append("  elem.executed = true;\n");
-            if (error)
-            {
-                codeBuff.append("  elem.error = true;\n");
-                codeBuff.append("  elem.code = " + JSRenderImpl.toTransportableStringLiteral(code,browser) + ";\n");
-            }
-            else
-            {
-                if (browser instanceof BrowserMSIEOld)
-                {
-                    // Esto es porque al eliminar en el cliente el <script> la función JavaScript
-                    // contenida se invalida
-                    codeBuff.append("  elem.code = " + JSRenderImpl.toTransportableStringLiteral(code,browser) + ";\n");
-                }
-                else
-                {
-                    codeBuff.append("  elem.code = function (event,itsNatDoc)\n"); // Los mismos parámetros que processRespValid
-                    codeBuff.append("   {\n");
-                    codeBuff.append( code );
-                    codeBuff.append("   };\n");
-                }
-            }
-
-            codeBuff.append("}\n");
-
-            code = codeBuff.toString();
-        }
-
-        if (code.length() == 0)
-        {   // Este caso obviamente sólo se dará en eventos AJAX
-            // por si acaso lo hacemos también con eventos SCRIPT
-            ClientDocumentImpl clientDoc = response.getClientDocument();
-            Browser browser = clientDoc.getBrowser();
-            if ((browser instanceof BrowserWebKit) &&
-                ((BrowserWebKit)browser).isAJAXEmptyResponseFails())
-            {
-                code = "          ";
-            }
-        }
-        
-        response.writeResponse(code);
-    }
+    public abstract void sendPendingCode(String code,boolean error);
+    
 
     public boolean isLoadByScriptElement()
     {

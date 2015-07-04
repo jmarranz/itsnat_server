@@ -28,9 +28,10 @@ import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.impl.core.ItsNatUserDataImpl;
-import org.itsnat.impl.core.browser.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.doc.ItsNatHTMLDocumentImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -56,21 +57,21 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
 {
     protected ItsNatHTMLIFrameImpl comp;
     protected HTMLInputElement inputElem;
-    protected ClientDocumentStfulImpl clientDoc;
+    protected ClientDocumentStfulDelegateWebImpl clientDoc;
     protected UniqueId idObj;
     protected LinkedList<ItsNatServletRequestListener> requestListeners;
     protected boolean receiving = false;
     protected boolean disposed = false;
     protected boolean processed = false;
 
-    public HTMLIFrameFileUploadImpl(ItsNatHTMLIFrameImpl comp,HTMLInputElement inputElem,ClientDocumentStfulImpl clientDoc)
+    public HTMLIFrameFileUploadImpl(ItsNatHTMLIFrameImpl comp,HTMLInputElement inputElem,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(true); // Sincronizamos pues este objeto es normalmente accedido por al menos dos hilos
 
         this.comp = comp;
         this.inputElem = inputElem;
         this.clientDoc = clientDoc;
-        this.idObj = clientDoc.getUniqueIdGenerator().generateUniqueId("ifur"); // ifur = IFrame File Upload Request
+        this.idObj = clientDoc.getClientDocumentStful().getUniqueIdGenerator().generateUniqueId("ifur"); // ifur = IFrame File Upload Request
 
         if (!DOMUtilHTML.isHTMLInputFile(inputElem))
             throw new ItsNatException("Expected an <input type='file'> element");
@@ -118,7 +119,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
             code.append("var form = itsNatDoc.doc.createElementNS(\"" + NamespaceUtil.XHTML_NAMESPACE + "\",\"form\");\n"); // No probado
         code.append("itsNatDoc.setAttribute(form,\"method\",\"post\");\n");
         code.append("itsNatDoc.setAttribute(form,\"enctype\",\"multipart/form-data\");\n");
-        if (clientDoc.getBrowser() instanceof BrowserMSIEOld)
+        if (clientDoc.getBrowserWeb() instanceof BrowserMSIEOld)
             code.append("form.encoding = \"multipart/form-data\";\n"); // El atributo enctype es ignorado
 
         code.append("itsNatDoc.setAttribute(form,\"action\"," + getActionURL() + ");\n");
@@ -151,7 +152,7 @@ public class HTMLIFrameFileUploadImpl extends ItsNatUserDataImpl
 
     public ClientDocument getClientDocument()
     {
-        return clientDoc;
+        return clientDoc.getClientDocumentStful();
     }
 
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()

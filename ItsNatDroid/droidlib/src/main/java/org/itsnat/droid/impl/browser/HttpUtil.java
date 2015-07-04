@@ -82,25 +82,25 @@ public class HttpUtil
         return new DefaultHttpClient(httpParams);
     }
 
-    public static HttpRequestResultOKImpl httpGet(String url,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpGet(String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("GET",url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
+        return httpAction("GET",url,httpRequestData,paramList,overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpPost(String url,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpPost(String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
-        return httpAction("POST",url,httpFileCache,httpContext,httpParamsRequest,httpParamsDefault,httpHeaders,sslSelfSignedAllowed,paramList,overrideMime);
+        return httpAction("POST",url,httpRequestData,paramList,overrideMime);
     }
 
-    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpFileCache httpFileCache,HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault,Map<String,String> httpHeaders,boolean sslSelfSignedAllowed,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
+    public static HttpRequestResultOKImpl httpAction(String method,String url,HttpRequestData httpRequestData,List<NameValuePair> paramList,String overrideMime) throws SocketTimeoutException
     {
         URI uri;
         try { uri = new URI(url); }
         catch (URISyntaxException ex) { throw new ItsNatDroidException(ex); }
 
-        HttpParams httpParams = getHttpParams(httpParamsRequest, httpParamsDefault);
+        HttpParams httpParams = getHttpParams(httpRequestData.httpParamsRequest, httpRequestData.httpParamsDefault);
 
-        HttpClient httpClient = createHttpClient(uri.getScheme(),sslSelfSignedAllowed,httpParams);
+        HttpClient httpClient = createHttpClient(uri.getScheme(),httpRequestData.sslSelfSignedAllowed,httpParams);
 
         HttpUriRequest httpUriRequest = null;
 
@@ -145,8 +145,8 @@ public class HttpUtil
             else throw new ItsNatDroidException("Unsupported HTTP method: " + method);
         }
 
-        HttpResponse response = execute(httpClient,httpUriRequest,httpContext,httpHeaders);
-        return processResponse(url,httpFileCache,response,overrideMime);
+        HttpResponse response = execute(httpClient,httpUriRequest,httpRequestData.httpContext,httpRequestData.httpHeaders);
+        return processResponse(url,httpRequestData.httpFileCache,response,overrideMime);
     }
 
     private static HttpResponse execute(HttpClient httpClient,HttpUriRequest httpUriRequest,HttpContext httpContext,Map<String,String> httpHeaders) throws SocketTimeoutException

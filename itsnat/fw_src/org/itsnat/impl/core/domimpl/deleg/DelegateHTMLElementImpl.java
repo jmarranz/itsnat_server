@@ -18,7 +18,7 @@ package org.itsnat.impl.core.domimpl.deleg;
 
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domimpl.html.HTMLElementImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 
 /**
  *

@@ -21,7 +21,7 @@ import org.itsnat.comp.button.toggle.ItsNatHTMLInputCheckBox;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.button.toggle.ItsNatHTMLInputCheckBoxImpl;
 import org.itsnat.impl.comp.factory.FactoryItsNatHTMLInputImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -38,7 +38,7 @@ public class FactoryItsNatHTMLInputCheckBoxImpl extends FactoryItsNatHTMLInputIm
     {
     }
 
-    public ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element,String compType,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    protected ItsNatHTMLElementComponent createItsNatHTMLComponent(HTMLElement element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         return createItsNatHTMLInputCheckBox((HTMLInputElement)element,artifacts,execCreateFilters,compMgr);
     }
@@ -53,7 +53,7 @@ public class FactoryItsNatHTMLInputCheckBoxImpl extends FactoryItsNatHTMLInputIm
         return null;
     }
 
-    public ItsNatHTMLInputCheckBox createItsNatHTMLInputCheckBox(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDocComponentManagerImpl compMgr)
+    public ItsNatHTMLInputCheckBox createItsNatHTMLInputCheckBox(HTMLInputElement element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulWebDocComponentManagerImpl compMgr)
     {
         ItsNatHTMLInputCheckBox comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);

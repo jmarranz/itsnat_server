@@ -20,15 +20,14 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.BrowserW3C;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKit;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
+import org.itsnat.impl.core.browser.web.BrowserW3C;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSAttributeW3CImpl;
-import org.itsnat.impl.core.jsren.dom.node.otherns.JSRenderOtherNSElementW3CImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSAttributeW3CImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.res.core.js.LoadScriptImpl;
 import org.w3c.dom.Attr;
@@ -57,10 +56,8 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
             return ResponseDelegateHTMLLoadDocGeckoImpl.createResponseDelegateHTMLLoadDocGecko((BrowserGecko)browser,responseParent);
         else if (browser instanceof BrowserWebKit)
             return ResponseDelegateHTMLLoadDocWebKitImpl.createResponseDelegateLoadHTMLDocWebKit(responseParent);
-        else if (browser instanceof BrowserOpera)
-            return ResponseDelegateHTMLLoadDocOperaImpl.createResponseDelegateHTMLLoadDocOpera((BrowserOpera)browser, responseParent);
-        else if (browser instanceof BrowserBlackBerryOld)
-            return new ResponseDelegateHTMLLoadDocBlackBerryOld2Impl(responseParent);
+        else if (browser instanceof BrowserOperaOld)
+            return ResponseDelegateHTMLLoadDocOperaOldImpl.createResponseDelegateHTMLLoadDocOperaOld((BrowserOperaOld)browser, responseParent);
         else
             return new ResponseDelegateHTMLLoadDocW3CDefaultImpl(responseParent);
     }
@@ -95,7 +92,7 @@ public abstract class ResponseDelegateHTMLLoadDocW3CImpl extends ResponseDelegat
         if (!clientDoc.isSendCodeEnabled())
             return null; // Hay que generar código, aunque no ahora, por lo que no vale la pena esto si no se puede enviar código
 
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
         if (!browser.canNativelyRenderOtherNSInXHTMLDoc())
             return null; // Si no puede renderizar por ejemplo SVG no vale la pena esto
 

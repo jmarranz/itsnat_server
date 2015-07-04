@@ -16,14 +16,15 @@
 
 package org.itsnat.impl.core.registry;
 
+import org.itsnat.impl.core.listener.dom.domext.AsyncTaskImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
 import java.io.Serializable;
-import org.itsnat.impl.core.listener.domext.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
-import org.itsnat.impl.core.listener.ItsNatDOMEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -32,7 +33,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatAsyncTaskRegistryImpl implements Serializable
+public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl implements Serializable
 {
     protected MapUniqueId<ItsNatAsyncTaskEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;
@@ -52,29 +53,30 @@ public class ItsNatAsyncTaskRegistryImpl implements Serializable
         return clientDoc.getItsNatStfulDocument();
     }
 
-    public ItsNatAsyncTaskEventListenerWrapperImpl createAsyncTaskEventListenerWrapper(AsyncTaskImpl taskContainer,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public ItsNatAsyncTaskEventListenerWrapperImpl createAsyncTaskEventListenerWrapper(AsyncTaskImpl taskContainer,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
-        return new ItsNatAsyncTaskEventListenerWrapperImpl(clientDoc,(AsyncTaskImpl)taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        return new ItsNatAsyncTaskEventListenerWrapperImpl(clientDoc,(AsyncTaskImpl)taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
-    public void addAsynchronousTask(Runnable task,boolean lockDoc,long maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToListener)
+    public void addAsynchronousTask(Runnable task,boolean lockDoc,long maxWait,EventTarget element,EventListener listener,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         // Usar por ejemplo cuando una tarea
         // va a ser muy larga pero no es deseable que esté bloqueado durante la tarea (lockDoc = false)
         // y dicha tarea modifica el documento
         // por lo que hay que recoger los cambios, dichos cambios se recogerán
         // a través de un evento generado automáticamente al volver al cliente y asíncrono.
-        if (!ItsNatDOMEventListenerWrapperImpl.canAddItsNatDOMEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc))
+        if (!ItsNatNormalEventListenerWrapperImpl.canAddItsNatNormalEventListenerWrapper(listener,getItsNatStfulDocument(), clientDoc))
             return;
 
         AsyncTaskImpl taskContainer = new AsyncTaskImpl(task,lockDoc,maxWait,clientDoc);
-        ItsNatAsyncTaskEventListenerWrapperImpl evtListener = createAsyncTaskEventListenerWrapper(taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToListener);
+        ItsNatAsyncTaskEventListenerWrapperImpl evtListener = createAsyncTaskEventListenerWrapper(taskContainer,element,listener,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
 
         tasks.put(evtListener);
 
         taskContainer.start();
 
-        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(evtListener,clientDoc);
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();        
+        addItsNatEventListenerCode(evtListener,clientDocDeleg);        
     }
 
     public ItsNatAsyncTaskEventListenerWrapperImpl removeAsynchronousTask(String id)

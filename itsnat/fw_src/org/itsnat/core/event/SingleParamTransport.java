@@ -31,7 +31,7 @@ package org.itsnat.core.event;
  */
 public abstract class SingleParamTransport extends ParamTransport
 {
-    private String name;
+    private final String name;
 
     /**
      * Creates a new instance ready to transport a client value with the specified name

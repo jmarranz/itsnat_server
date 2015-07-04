@@ -22,7 +22,6 @@ import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.req.RequestEventStatelessImpl;
-import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
 
 /**

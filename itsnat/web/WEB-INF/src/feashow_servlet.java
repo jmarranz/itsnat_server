@@ -83,7 +83,7 @@ public class feashow_servlet extends HttpServletWrapper
         //itsNatCtx.setSessionExplicitSerialize(false);
         
         itsNatConfig.setMaxOpenClientsByDocument(5); // To avoid abusive users in remote/view control
-        itsNatConfig.setClientErrorMode(ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS); // ClientErrorMode.NOT_CATCH_ERRORS, SHOW_SERVER_AND_CLIENT_ERRORS
+        itsNatConfig.setClientErrorMode(ClientErrorMode.NOT_CATCH_ERRORS); // ClientErrorMode.NOT_CATCH_ERRORS, SHOW_SERVER_AND_CLIENT_ERRORS
         itsNatConfig.setEventTimeout(10*60*1000); // 10 minutes
         itsNatConfig.setDefaultDateFormat(DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.US));
         itsNatConfig.setDefaultNumberFormat(NumberFormat.getInstance(Locale.US));

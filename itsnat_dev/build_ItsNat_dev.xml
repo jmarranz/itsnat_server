@@ -2,8 +2,8 @@
 <project basedir="." default="deploy_to_distribute" name="ItsNat_dev">
 
     <property file="conf/conf.properties"/>
-    <property name="java.source.version" value="1.4" />
-    <property name="java.target.version" value="1.4" />
+    <property name="java.source.version" value="1.6" />
+    <property name="java.target.version" value="1.6" />
 
     <path id="classPath">
         <pathelement location="${program.web.WEB-INF.lib}/nekohtml.jar"/>
@@ -12,8 +12,9 @@
         <pathelement location="${program.web.WEB-INF.lib}/xml-apis.jar"/>
         <pathelement location="${program.web.WEB-INF.lib}/batik-dom.jar"/>
         <pathelement location="${program.web.WEB-INF.lib}/batik-util.jar"/>
-        <pathelement location="${program.web.WEB-INF.lib}/batik-xml.jar"/>
-        <pathelement location="${program.lib}/servlet-api.jar"/>
+        <pathelement location="${program.web.WEB-INF.lib}/batik-xml.jar"/>        
+        <pathelement location="${program.web.WEB-INF.lib}/relproxy-0.8.5.jar"/>
+        <pathelement location="${program.lib}/servlet-api.jar"/>        
     </path>
 
     <property name="distribution_project" value="${program}/../itsnat" />

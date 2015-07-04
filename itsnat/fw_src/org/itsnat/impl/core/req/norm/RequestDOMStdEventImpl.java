@@ -18,8 +18,10 @@ package org.itsnat.impl.core.req.norm;
 
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.event.client.domstd.ClientItsNatDOMStdEventImpl;
-import org.itsnat.impl.core.listener.domstd.ItsNatDOMStdEventListenerWrapperImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.ClientItsNatDOMStdEventImpl;
+import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDOMStdEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
@@ -27,7 +29,7 @@ import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
  *
  * @author jmarranz
  */
-public class RequestDOMStdEventImpl extends RequestDOMEventImpl
+public class RequestDOMStdEventImpl extends RequestNormalEventImpl
 {
     public RequestDOMStdEventImpl(int evtType,ItsNatServletRequestImpl itsNatRequest)
     {
@@ -36,7 +38,8 @@ public class RequestDOMStdEventImpl extends RequestDOMEventImpl
 
     public ResponseNormalEventImpl createResponseNormalEvent(String listenerId,ClientDocumentStfulImpl clientDoc)
     {
-        ItsNatDOMStdEventListenerWrapperImpl listener = clientDoc.getDOMStdEventListenerById(listenerId);
+        ClientDocumentStfulDelegateWebImpl clientDocDeleg = (ClientDocumentStfulDelegateWebImpl)clientDoc.getClientDocumentStfulDelegate();
+        ItsNatDOMStdEventListenerWrapperImpl listener = clientDocDeleg.getDOMStdEventListenerById(listenerId);
 
         // Puede ocurrir que sea nulo, por ejemplo cuando en el cliente se emiten dos eventos
         // seguidos (ej. change y blur en un <input>) y enviados asíncronamente y al procesar uno de ellos y eliminar en el servidor el listener del otro
@@ -48,7 +51,7 @@ public class RequestDOMStdEventImpl extends RequestDOMEventImpl
 
     public boolean isLoadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
         if (eventType.equals("load") || 
             eventType.equals("DOMContentLoaded") ||
             eventType.equals("SVGLoad")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload
@@ -59,7 +62,7 @@ public class RequestDOMStdEventImpl extends RequestDOMEventImpl
 
     public boolean isUnloadEvent()
     {
-        String eventType = ClientItsNatDOMStdEventImpl.getParameter(this,"type");
+        String eventType = ClientItsNatNormalEventImpl.getParameter(this,"type");
         if (eventType.equals("unload") || 
             eventType.equals("beforeunload") ||
             eventType.equals("SVGUnload")) // beforeunload es por si se usa en un futuro como alternativa (cancelable) al unload

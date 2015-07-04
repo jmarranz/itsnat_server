@@ -17,8 +17,10 @@
 package org.itsnat.impl.core.resp.norm;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.listener.domstd.OnLoadBackForwardListenerImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.listener.dom.domstd.OnLoadBackForwardListenerImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
+import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 
 /**
  *
@@ -74,7 +76,7 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
         RequestNormalEventImpl request = getRequestNormalEvent();
         Browser browser = getClientDocumentWithoutDocumentDefault().getBrowser();
 
-        if (browser.isCachedBackForwardExecutedScripts())
+        if (browser instanceof BrowserWeb && ((BrowserWeb)browser).isCachedBackForwardExecutedScripts())
         {
             // Esperamos "con seguridad" el evento especial load/DOMContentLoaded marcado con "itsnat_check_reload"
             // con la finalidad de recargar la página, cualquier otro evento lo ignoraremos (no reload)
@@ -128,6 +130,6 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
     public void sendReload()
     {
         Browser browser = getClientDocumentWithoutDocumentDefault().getBrowser();
-        getItsNatServletResponse().addCodeToSend(OnLoadBackForwardListenerImpl.getReloadCode(browser));
+        getItsNatServletResponse().addCodeToSend(JSAndBSRenderImpl.getReloadCode(browser));
     }
 }

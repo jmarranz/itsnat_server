@@ -8,7 +8,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.itsnat.droid.ItsNatDroidException;
 import org.itsnat.droid.ItsNatDroidServerResponseException;
-import org.itsnat.droid.impl.browser.HttpConfig;
+import org.itsnat.droid.impl.browser.HttpRequestData;
 import org.itsnat.droid.impl.browser.HttpFileCache;
 import org.itsnat.droid.impl.browser.HttpRequestResultImpl;
 import org.itsnat.droid.impl.browser.HttpUtil;
@@ -46,22 +46,14 @@ public class EventSender
     {
         ItsNatDocImpl itsNatDoc = getItsNatDocImpl();
         PageImpl page = itsNatDoc.getPageImpl();
-        ItsNatDroidBrowserImpl browser = page.getItsNatDroidBrowserImpl();
-        HttpFileCache httpFileCache = browser.getHttpFileCache();
 
-        // No hace falta clonar porque es síncrona la llamada
-        HttpContext httpContext = browser.getHttpContext();
-        HttpParams httpParamsRequest = page.getHttpParams();
-        httpParamsRequest = httpParamsRequest != null ? httpParamsRequest : new BasicHttpParams();
-        HttpConfig.setTimeout(timeout,httpParamsRequest);
-        HttpParams httpParamsDefault = browser.getHttpParams();
-        Map<String,String> httpHeaders = page.getPageRequestImpl().createHttpHeaders();
-        boolean sslSelfSignedAllowed = browser.isSSLSelfSignedAllowed();
+        HttpRequestData httpRequestData = new HttpRequestData(page);
+        httpRequestData.setTimeout(timeout);
 
         HttpRequestResultImpl result = null;
         try
         {
-            result = HttpUtil.httpPost(servletPath,httpFileCache, httpContext, httpParamsRequest, httpParamsDefault,httpHeaders,sslSelfSignedAllowed, params,null);
+            result = HttpUtil.httpPost(servletPath,httpRequestData, params,null);
         }
         catch (Exception ex)
         {

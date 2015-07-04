@@ -1,9 +1,8 @@
 
-
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:test="http://foo/foo">
-<head>
 
+<head>    
 <title>Test SVG in HTML/XHTML with Adobe SVG Viewer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <!-- ISO-8859-1 -->
 <meta http-equiv="Expires" content="0" />
@@ -11,15 +10,29 @@
 </head>
 <body xmlns:itsnat="http://itsnat.org/itsnat" itsnat:nocache="true" >
 
+<!-- Nota: el NO poner <!DOCTYPE ...> indica el modo quirsk mode necesario para el Adobe SVG Viewer-->   
+    
+    
 <h3>Test SVG in HTML/XHTML with Adobe SVG Viewer (and native SVG browsers)</h3>
 
 
 <span id="objectContainerId" style="margin:30px">
     <span style="display:none;">
         <object id="AdobeSVG" classid="clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2"></object>
+        <?import namespace="svg" urn="http://www.w3.org/2000/svg" implementation="#AdobeSVG"?>
     </span>
-    <span> <?import namespace="svg" urn="http://www.w3.org/2000/svg" implementation="#AdobeSVG"?> </span>
 </span>
+
+<!--
+<script>
+    //var pi = document.createProcessingInstruction("import","namespace=\"svg\" urn=\"http://www.w3.org/2000/svg\" implementation=\"#AdobeSVG\"");
+    var span = document.createElement("span");
+    document.getElementById("objectContainerId").appendChild(span);
+    span.innerHTML = "<?import namespace=\"svg\" urn=\"http://www.w3.org/2000/svg\" implementation=\"#AdobeSVG\"?>";
+    alert(document.getElementById("objectContainerId").innerHTML);
+    alert("BIEN PERO QUITAR ESTO");    
+</script>
+-->
 
 <span id="objectContainerReferenceId" />
 

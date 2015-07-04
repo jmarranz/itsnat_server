@@ -25,9 +25,9 @@ import org.itsnat.impl.comp.layer.ItsNatModalLayerHTMLImpl;
 import org.itsnat.impl.comp.layer.ItsNatModalLayerSVGImpl;
 import org.itsnat.impl.comp.layer.ItsNatModalLayerXULImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
-import org.itsnat.impl.comp.mgr.ItsNatHTMLDocComponentManagerImpl;
-import org.itsnat.impl.comp.mgr.ItsNatSVGDocComponentManagerImpl;
-import org.itsnat.impl.comp.mgr.ItsNatXULDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatHTMLDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatSVGDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatXULDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
 /**

@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -16,13 +16,14 @@
 
 package org.itsnat.impl.core.template;
 
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ItsNatStfulDocumentTemplateNormalImpl extends ItsNatStfulDocumentTemplateImpl
+public abstract class ItsNatStfulDocumentTemplateNormalImpl extends ItsNatStfulDocumentTemplateImpl
 {
     /** Creates a new instance of ItsNatStfulDocumentTemplateImpl */
     public ItsNatStfulDocumentTemplateNormalImpl(String name,String mime,MarkupSourceImpl source,ItsNatServletImpl servlet)
@@ -30,6 +31,14 @@ public class ItsNatStfulDocumentTemplateNormalImpl extends ItsNatStfulDocumentTe
         super(name,mime,source,servlet);
     }
 
+    public static ItsNatStfulDocumentTemplateNormalImpl createItsNatStfulDocumentTemplateNormal(String name,String mime,MarkupSourceImpl markupSource,ItsNatServletImpl servlet)
+    {
+        if (NamespaceUtil.isAndroidLayoutMime(mime))
+            return new ItsNatStfulDocumentTemplateNormalDroidImpl(name,mime,markupSource,servlet);  
+        else
+            return new ItsNatStfulDocumentTemplateNormalWebImpl(name,mime,markupSource,servlet);  
+    }
+    
     public MarkupTemplateDelegateImpl createMarkupTemplateDelegate(MarkupSourceImpl source)
     {
         return new MarkupTemplateNormalDelegateImpl(this,source);

@@ -18,12 +18,13 @@ package org.itsnat.impl.core.comet;
 
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.EventListenerInternal;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
-import org.itsnat.impl.core.event.client.domext.ClientItsNatNormalCometEventImpl;
+import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatNormalCometEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -35,12 +36,14 @@ import org.w3c.dom.events.EventListener;
 public class NormalCometNotifierImpl extends CometNotifierImpl
 {
     protected long eventTimeout;
-    protected LinkedList<EventListener> domEventListeners;
+    protected LinkedList<EventListener> normalEventListeners;
     protected EventListener listenerDispatcher;
     protected int commMode;
+    protected ParamTransport[] extraParams;
+    protected String preSendCode;
 
     /** Creates a new instance of NormalCometNotifierImpl */
-    public NormalCometNotifierImpl(int commMode,long eventTimeout,ClientDocumentStfulImpl clientDoc)
+    public NormalCometNotifierImpl(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,ClientDocumentStfulImpl clientDoc)
     {
         super(true,clientDoc); // userDataSync es true porque el CometNotifier típicamente será usado por hilos "background"
 
@@ -50,6 +53,8 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
             throw new ItsNatException("Communication transport mode must be pure asynchronous");
 
         this.commMode = commMode;
+        this.extraParams = extraParams;
+        this.preSendCode = preSendCode;
         this.eventTimeout = eventTimeout;
 
         this.listenerDispatcher = new EventListenerInternal()
@@ -69,7 +74,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         };
 
         clientDoc.addCometNotifier(this);
-        clientDoc.addCometTask(this);
+        clientDoc.addCometTask(this,extraParams,preSendCode);
     }
 
     public int getCommMode()
@@ -79,7 +84,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
 
     public void addCometTask()
     {
-        getClientDocumentStful().addCometTask(this);
+        getClientDocumentStful().addCometTask(this,extraParams,preSendCode);
     }
 
     public long getEventTimeout()
@@ -87,6 +92,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         return eventTimeout;
     }
 
+    @Override
     public void stopInternal()
     {
         super.stopInternal();
@@ -106,23 +112,23 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
 
     public boolean hasEventListenerListeners()
     {
-        if (domEventListeners == null)
+        if (normalEventListeners == null)
             return false;
-        return !domEventListeners.isEmpty();
+        return !normalEventListeners.isEmpty();
     }
 
     public LinkedList<EventListener> getEventListenerList()
     {
         // No sincronizamos porque sólo debe usarse con el documento sincronizado
         // es decir en requests web.
-        if (domEventListeners == null)
-            this.domEventListeners = new LinkedList<EventListener>();
-        return domEventListeners;
+        if (normalEventListeners == null)
+            this.normalEventListeners = new LinkedList<EventListener>();
+        return normalEventListeners;
     }
 
     public boolean getEventListenerList(ItsNatEventListenerChainImpl<EventListener> chain)
     {
-        return chain.addFirstListenerList(domEventListeners); // Puede ser null
+        return chain.addFirstListenerList(normalEventListeners); // Puede ser null
     }
 
     public void addEventListener(EventListener listener)
@@ -131,13 +137,13 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         // se haría de la misma forma que se hace en ItsNatComponentImpl, es decir
         // compartidos por todos los listeners, pues todos son despachados con el mismo evento-request.
 
-        LinkedList<EventListener> domEventListeners = getEventListenerList();
-        domEventListeners.add(listener);
+        LinkedList<EventListener> normalEventListeners = getEventListenerList();
+        normalEventListeners.add(listener);
     }
 
     public void removeEventListener(EventListener listener)
     {
-        LinkedList<EventListener> domEventListeners = getEventListenerList();
-        domEventListeners.remove(listener);
+        LinkedList<EventListener> normalEventListeners = getEventListenerList();
+        normalEventListeners.remove(listener);
     }
 }

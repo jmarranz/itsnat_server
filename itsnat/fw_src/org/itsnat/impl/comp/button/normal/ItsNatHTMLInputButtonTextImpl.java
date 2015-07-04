@@ -20,7 +20,7 @@ import java.io.Serializable;
 import org.itsnat.comp.button.ItsNatButtonLabel;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.domutil.ElementRenderer;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -36,7 +36,7 @@ public abstract class ItsNatHTMLInputButtonTextImpl extends ItsNatHTMLInputButto
     /**
      * Creates a new instance of ItsNatHTMLInputButtonTextImpl
      */
-    public ItsNatHTMLInputButtonTextImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputButtonTextImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

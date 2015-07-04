@@ -36,6 +36,7 @@ public class ElementNSDefaultImpl extends ElementNSImpl
         super(nsURI, name, owner);
     }
 
+    @Override
     protected Node newNode()
     {
         return new ElementNSDefaultImpl();

@@ -29,7 +29,7 @@ import javax.swing.event.EventListenerList;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ItsNatEvent;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLSelectElement;
@@ -46,7 +46,7 @@ public class ItsNatHTMLSelectComboBoxImpl extends ItsNatHTMLSelectImpl implement
     /**
      * Creates a new instance of ItsNatHTMLSelectComboBoxImpl
      */
-    public ItsNatHTMLSelectComboBoxImpl(HTMLSelectElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLSelectComboBoxImpl(HTMLSelectElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 

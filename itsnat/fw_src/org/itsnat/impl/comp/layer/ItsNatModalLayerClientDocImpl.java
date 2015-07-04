@@ -19,10 +19,9 @@ package org.itsnat.impl.comp.layer;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderElementImpl;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -32,9 +31,9 @@ import org.w3c.dom.Element;
 public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 {
     protected ItsNatModalLayerImpl parentComp;
-    protected ClientDocumentStfulImpl clientDoc;
+    protected ClientDocumentStfulDelegateWebImpl clientDoc;
 
-    public ItsNatModalLayerClientDocImpl(ItsNatModalLayerImpl parentComp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocImpl(ItsNatModalLayerImpl parentComp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         this.parentComp = parentComp;
         this.clientDoc = clientDoc;
@@ -45,7 +44,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
         return parentComp;
     }
 
-    public ClientDocumentStfulImpl getClientDocumentStful()
+    public ClientDocumentStfulDelegateWebImpl getClientDocumentStfulDelegateWeb()
     {
         return clientDoc;
     }
@@ -100,12 +99,12 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
             reverseBodyElements = bodyElementsBefore.toArray(reverseBodyElements);
         }
 
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
         StringBuilder code = new StringBuilder();
         for(int i = 0; i < reverseBodyElements.length; i++ )
         {
             Element elem = reverseBodyElements[i];
-            JSRenderElementImpl render = JSRenderElementImpl.getJSElementRender(elem,clientDoc);
+            JSRenderElementImpl render = JSRenderElementImpl.getJSRenderElement(elem,clientDoc);
             String elemRef = clientDoc.getNodeReference(elem,true,true);
             // No usar el nombre "elem" por si acaso porque es usado por el modal layer
             code.append("var elem = " + elemRef + ";\n");
@@ -116,7 +115,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 
     protected void renderShowHide(Element elem,String elemVarName,boolean hide,StringBuilder code,JSRenderElementImpl render)
     {
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
         if (hide)
         {
             code.append(render.getBackupAndSetStyleProperty(elemVarName,"display","none",clientDoc));
@@ -132,16 +131,11 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
         // Los navegadores móviles no tienen redimensionamiento de la ventana, sin embargo el tamaño de la página puede
         // verse afectado por lo que se ponga encima de los layers modales. Por tanto es deseable
         // la actualización por timer pero no es necesario forzar porque son máquinas poco potentes.
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
 
         if (browser.isMobile())
         {
-            if (browser instanceof BrowserBlackBerryOld)
-                return -1; // Leer notas en BrowserBlackBerryOld.tagNamesIgnoreZIndex
-            //else if (browser instanceof BrowserOperaMobile)
-            //    return -1; // No se porqué pero da error JavaScript a veces, quizás porque el posicionamiento absoluto da problemas (con y sin timer, pero al menos sin timer minimizamos problemas)
-            else
-                return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
+            return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
         }
         else return 500; // 250 10000
     }

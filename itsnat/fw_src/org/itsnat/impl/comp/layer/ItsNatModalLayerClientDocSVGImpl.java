@@ -16,14 +16,14 @@
 
 package org.itsnat.impl.comp.layer;
 
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserAdobeSVG;
-import org.itsnat.impl.core.browser.BrowserBatik;
-import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserBatik;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
-import org.itsnat.impl.core.jsren.dom.node.JSRenderElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.JSRenderElementImpl;
 import org.w3c.dom.Element;
 
 /**
@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
  */
 public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocImpl
 {
-    public ItsNatModalLayerClientDocSVGImpl(ItsNatModalLayerSVGImpl parentComp,ClientDocumentStfulImpl clientDoc)
+    public ItsNatModalLayerClientDocSVGImpl(ItsNatModalLayerSVGImpl parentComp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(parentComp,clientDoc);
     }
@@ -67,7 +67,7 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
             styleCode.append("fill:" + background + ";");
         code.append( "elem.setAttribute('style','" + styleCode.toString() + "');\n" );
 
-        if (clientDoc.getBrowser() instanceof BrowserBatik)
+        if (clientDoc.getBrowserWeb() instanceof BrowserBatik)
         {
             // En Batik el <rect> a nivel de markup debe tener definido obligatoriamente el width
             // y el height, al ser insertado via DOM no da error pero el estado es incorrecto
@@ -143,10 +143,10 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
         int timeout = super.getTimeout();
         if (timeout <= 0) return -1;
 
-        ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
+        ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
+        BrowserWeb browser = clientDoc.getBrowserWeb();
         if ((browser instanceof BrowserGecko)||
-            (browser instanceof BrowserOpera)||
+            (browser instanceof BrowserOperaOld)||
             (browser instanceof BrowserAdobeSVG)|| // ASV 
             (browser instanceof BrowserBatik)) // En Batik applet no hay redimensionamiento porque no es normal cambiar las dimensiones del applet
             return -1; // No es necesario el redimensionamiento, se redimensiona automáticamente cuando cambia el cuadro (gracias a los valores "100%")
@@ -174,8 +174,8 @@ public class ItsNatModalLayerClientDocSVGImpl extends ItsNatModalLayerClientDocI
             String localName = elem.getLocalName();
             if (localName.equals("script")) return;
 
-            ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-            Browser browser = clientDoc.getBrowser();
+            ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
+            BrowserWeb browser = clientDoc.getBrowserWeb();
             if (browser instanceof BrowserAdobeSVG)
             {
                 // El <foreignObject> tampoco tiene objeto style en ASV3

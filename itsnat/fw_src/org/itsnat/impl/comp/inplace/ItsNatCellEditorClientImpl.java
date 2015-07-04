@@ -18,23 +18,20 @@ package org.itsnat.impl.comp.inplace;
 
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
-import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserBlackBerryOld;
-import org.itsnat.impl.core.browser.BrowserGecko;
-import org.itsnat.impl.core.browser.opera.BrowserOperaMini;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitIOS;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOldMini;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLOptionElement;
 
 /**
  *
@@ -50,8 +47,8 @@ public abstract class ItsNatCellEditorClientImpl
     {
         if (compEditor.getNode() instanceof HTMLElement)
         {
-            if (browser instanceof BrowserOperaMini)
-                return ItsNatHTMLCellEditorClientOperaMiniImpl.SINGLETON;
+            if (browser instanceof BrowserOperaOldMini)
+                return ItsNatHTMLCellEditorClientOperaOldMiniImpl.SINGLETON;
             else
                 return ItsNatCellEditorClientDefaultImpl.SINGLETON;
         }
@@ -73,15 +70,6 @@ public abstract class ItsNatCellEditorClientImpl
             EventTarget target = evt.getTarget();
             if (target == nodeEditor) return;
 
-            if ((target instanceof HTMLOptionElement) &&
-                (((Node)target).getParentNode() == nodeEditor))
-            {
-                // En BlackBerry un <option> es el target cuando una opción de un select es pulsada (curioso)
-                ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)((ItsNatEvent)evt).getClientDocument();
-                Browser browser = clientDoc.getBrowser();
-                if (browser instanceof BrowserBlackBerryOld) return;
-            }
-
             parent.stopCellEditing();
         }
     }
@@ -90,20 +78,19 @@ public abstract class ItsNatCellEditorClientImpl
     {
     }
 
-    public void registerEventListeners(ItsNatCellEditorImpl compParent,ClientDocumentStfulImpl clientDoc)
+    public void registerEventListeners(ItsNatCellEditorImpl compParent,ClientDocumentStfulDelegateWebImpl clientDocDeleg)
     {
         ItsNatComponent compEditor = compParent.getCellEditorComponent();
 
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = clientDocDeleg.getBrowserWeb();
+        ClientDocumentStfulImpl clientDoc = clientDocDeleg.getClientDocumentStful();
         ItsNatStfulDocumentImpl itsNatDoc = (ItsNatStfulDocumentImpl)clientDoc.getItsNatDocument();
         Document doc = itsNatDoc.getDocument();
         Element nodeEditor = (Element)compEditor.getNode(); // Sólo admitimos elementos por ahora
-
-        clientDoc.addCodeToSend("var nodeEditor = " + clientDoc.getNodeReference(nodeEditor,true,true) + ";\n");
-
+       
         StringBuilder codeListener = new StringBuilder();
         codeListener.append( "event.setMustBeSent(false);\n" ); // Sirve para evitar que se envíe el evento click, ya se envía un evento blur
-        codeListener.append( "try{" );
+        codeListener.append( "try{" );    
         codeListener.append( "var node = arguments.callee.nodeEditor;\n" );
         codeListener.append( "var target = event.getTarget();\n" );
         codeListener.append( "if (node == target) return;\n" ); // Es un click dirigido al propio elemento editándose.
@@ -113,12 +100,13 @@ public abstract class ItsNatCellEditorClientImpl
         // haya fijado el foco manualmente. En dichos casos (focus() no ejecutado) se envía un evento "blur" que asegura que el editor se quita
         // aunque el control no haya tenido nunca el foco (ni por focus() ni pulsando el usuario).
         JSRenderMethodCallImpl render = JSRenderMethodCallImpl.getJSRenderMethodCall(nodeEditor);
-        codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDoc));
+        codeListener.append(render.getCallBlurFocusFormControlCode(nodeEditor,"node","blur",clientDocDeleg));
         codeListener.append( "}catch(e){}\n" ); // el try/catch es por si el nodo se hubiera eliminado antes y el evento está pendiente todavía
 
-        String bindToListener = "nodeEditor = nodeEditor";
-
-        clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
+        String bindToCustomFunc = "nodeEditor = " + clientDocDeleg.getNodeReference(nodeEditor,true,true);
+        
+        
+        clientDoc.addEventListener((EventTarget)doc,"click", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToCustomFunc);
 
         if (browser instanceof BrowserWebKitIOS)
         {
@@ -139,7 +127,7 @@ public abstract class ItsNatCellEditorClientImpl
             // http://www.sitepen.com/blog/2008/07/10/touching-and-gesturing-on-the-iphone/
             // http://rossboucher.com/2008/08/19/iphone-touch-events-in-javascript/
             // http://developer.yahoo.com/yui/3/event/
-            clientDoc.addEventListener((EventTarget)doc,"touchend", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToListener);
+            clientDoc.addEventListener((EventTarget)doc,"touchend", compParent, true,clientDoc.getCommMode(),null, codeListener.toString(),clientDoc.getEventTimeout(),bindToCustomFunc);
         }
     }
 

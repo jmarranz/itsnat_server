@@ -18,6 +18,7 @@ package org.itsnat.impl.core.markup.parse;
 
 import org.itsnat.core.ItsNatException;
 import org.apache.xerces.parsers.DOMParser;
+import org.apache.xerces.parsers.SAXParser;
 import org.itsnat.impl.core.domimpl.otherns.OtherNSDocumentImpl;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
@@ -32,11 +33,12 @@ public class XercesXMLDOMParserWrapperImpl extends XercesDOMParserWrapperImpl
     /**
      * Creates a new instance of XercesXMLDOMParserWrapperImpl
      */
-    public XercesXMLDOMParserWrapperImpl()
+    public XercesXMLDOMParserWrapperImpl(boolean namespacesFeature)
     {
         try
         {
-            parser.setFeature(NAMESPACES_FEATURE_ID, DEFAULT_NAMESPACES);
+            parser.setFeature(NAMESPACES_FEATURE_ID, namespacesFeature);            
+            
             parser.setFeature(SCHEMA_VALIDATION_FEATURE_ID, DEFAULT_SCHEMA_VALIDATION);
             parser.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, DEFAULT_SCHEMA_FULL_CHECKING);
             parser.setFeature(DYNAMIC_VALIDATION_FEATURE_ID, DEFAULT_DYNAMIC_VALIDATION);
@@ -44,8 +46,9 @@ public class XercesXMLDOMParserWrapperImpl extends XercesDOMParserWrapperImpl
             parser.setFeature(DEFAULT_LOAD_DTD_GRAMMAR_ID, DEFAULT_LOAD_DTD_GRAMMAR);
             parser.setFeature(DEFAULT_LOAD_EXTERNAL_DTD_ID, DEFAULT_LOAD_EXTERNAL_DTD);
 
-            parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",
-                    OtherNSDocumentImpl.class.getName());
+          
+            
+            parser.setProperty("http://apache.org/xml/properties/dom/document-class-name",OtherNSDocumentImpl.class.getName());
 
             //XMLDocumentFilter[] filters = { new NekoBatikDocumentFilterImpl() };
             //parser.setProperty("http://cyberneko.org/html/properties/filters", filters);

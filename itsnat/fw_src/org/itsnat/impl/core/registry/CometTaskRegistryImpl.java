@@ -18,10 +18,11 @@ package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ParamTransport;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.comet.CometNotifierImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.listener.JSRenderItsNatEventListenerImpl;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.MapUniqueId;
 
@@ -29,7 +30,7 @@ import org.itsnat.impl.core.util.MapUniqueId;
  *
  * @author jmarranz
  */
-public abstract class CometTaskRegistryImpl implements Serializable
+public abstract class CometTaskRegistryImpl extends EventListenerRegistryImpl implements Serializable
 {
     protected MapUniqueId<ItsNatEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;
@@ -49,22 +50,24 @@ public abstract class CometTaskRegistryImpl implements Serializable
         return clientDoc.getItsNatStfulDocument();
     }
 
-    public abstract CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer);
+    public abstract CometTaskEventListenerWrapper createCometTaskEventListenerWrapper(CometTaskImpl taskContainer,ParamTransport[] extraParams,String preSendCode);
 
     public abstract boolean canAddItsNatEventListener(CometNotifierImpl notifier);
 
-    public void addCometTask(CometNotifierImpl notifier)
+    public void addCometTask(CometNotifierImpl notifier,ParamTransport[] extraParams,String preSendCode)
     {
         // Se supone que ItsNatDocument está sincronizado (bloqueado por este hilo)
         if (!canAddItsNatEventListener(notifier))
             return;
 
         CometTaskImpl taskContainer = new CometTaskImpl(notifier);
-        ItsNatEventListenerWrapperImpl listener = (ItsNatEventListenerWrapperImpl)createCometTaskEventListenerWrapper(taskContainer);
+        ItsNatEventListenerWrapperImpl listener = (ItsNatEventListenerWrapperImpl)createCometTaskEventListenerWrapper(taskContainer,extraParams,preSendCode);
 
         tasks.put(listener);
 
-        JSRenderItsNatEventListenerImpl.addItsNatEventListenerCode(listener,clientDoc);
+        
+        ClientDocumentStfulDelegateImpl clientDocDeleg = clientDoc.getClientDocumentStfulDelegate();        
+        addItsNatEventListenerCode(listener,clientDocDeleg);       
     }
 
     public CometTaskEventListenerWrapper removeCometTask(String id)

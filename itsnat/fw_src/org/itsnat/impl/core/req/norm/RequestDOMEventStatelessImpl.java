@@ -19,7 +19,7 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatDOMEventStatelessListenerWrapperImpl;
 import org.itsnat.impl.core.req.RequestEventStatelessImpl;
 import org.itsnat.impl.core.resp.norm.ResponseDOMEventStatelessImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;

@@ -47,8 +47,7 @@ import org.itsnat.impl.core.util.UniqueIdGenIntList;
  *
  * @author jmarranz
  */
-public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl
-                        implements ItsNatSession,HasUniqueId
+public abstract class ItsNatSessionImpl extends ItsNatUserDataImpl  implements ItsNatSession,HasUniqueId
 {
     public static final Comparator<ClientDocumentStfulOwnerImpl> COMPARATOR_STFUL_OWNER = new LastRequestComparator<ClientDocumentStfulOwnerImpl>();    
     public static final Comparator<ClientDocumentAttachedClientImpl> COMPARATOR_ATTACHED_CLIENTS = new LastRequestComparator<ClientDocumentAttachedClientImpl>();

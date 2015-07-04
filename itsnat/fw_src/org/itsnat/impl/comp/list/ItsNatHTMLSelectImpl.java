@@ -28,10 +28,10 @@ import javax.swing.event.ListDataEvent;
 import org.itsnat.comp.list.ItsNatListStructure;
 import org.itsnat.comp.list.ItsNatHTMLSelectUI;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.jsren.JSRenderMethodCallImpl;
+import org.itsnat.impl.core.scriptren.jsren.JSRenderMethodCallImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -53,7 +53,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
     /**
      * Creates a new instance of ItsNatHTMLSelectImpl
      */
-    public ItsNatHTMLSelectImpl(HTMLSelectElement selectElem, NameValue[] artifacts, ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLSelectImpl(HTMLSelectElement selectElem, NameValue[] artifacts, ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(selectElem, artifacts, componentMgr);
 
@@ -62,6 +62,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         setItsNatListCellRenderer(componentMgr.createDefaultItsNatListCellRenderer());
     }
 
+    @Override
     public void init()
     {
         changeBasedDelegate.init();
@@ -69,6 +70,7 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         super.init();
     }
 
+    @Override
     public void enableEventListenersByDoc()
     {
         super.enableEventListenersByDoc();
@@ -76,18 +78,20 @@ public abstract class ItsNatHTMLSelectImpl extends ItsNatHTMLFormComponentImpl i
         changeBasedDelegate.enableEventListenersByDoc();
     }
 
-    public void enableEventListenersByClient(ItsNatCompDOMListenersByClientImpl domListeners)
+    @Override
+    public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl evtListeners)
     {
-        super.enableEventListenersByClient(domListeners);
+        super.enableEventListenersByClient(evtListeners);
 
-        changeBasedDelegate.enableEventListenersByClient(domListeners);
+        changeBasedDelegate.enableEventListenersByClient(evtListeners);
     }
 
-    public void processDOMEvent(Event evt)
+    @Override
+    public void processNormalEvent(Event evt)
     {
-        changeBasedDelegate.processDOMEvent(evt);
+        changeBasedDelegate.processNormalEvent(evt);
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void postHandleEventOnChange(Event evt)

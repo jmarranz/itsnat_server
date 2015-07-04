@@ -45,6 +45,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         getDelegateNode();
     }
 
+    @Override
     protected Node newNode()
     {
         return new AttrNSImpl();
@@ -83,6 +84,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         delegate.setInternalMode(mode);
     }
 
+    @Override
     public void fireDOMNodeInsertedIntoDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -97,6 +99,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedFromDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -111,6 +114,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         }
     }
 
+    @Override
     public void fireDOMCharacterDataModifiedEvent(String oldv,String newv)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -125,6 +129,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         }
     }
 
+    @Override
     public void fireDOMSubtreeModifiedEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -139,6 +144,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         }
     }
 
+    @Override
     public void fireDOMNodeInsertedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -153,6 +159,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -170,6 +177,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
 
     // Métodos de EventTarget
 
+    @Override
     public boolean dispatchEvent(Event evt) throws EventException
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -179,6 +187,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
             return delegate.dispatchEventRemote(evt);
     }
 
+    @Override
     public void addEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -188,6 +197,7 @@ public class AttrNSImpl extends GenericAttrNS implements ItsNatNodeWithChildInte
             delegate.addEventListenerRemote(type,listener,useCapture);
     }
 
+    @Override
     public void removeEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();

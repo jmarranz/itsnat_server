@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.opera.BrowserOpera;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
@@ -44,11 +44,6 @@ public class NodeAllAttribTransportUtil extends ParamTransportUtil
     {
     }
 
-    public String getCodeToSend(ParamTransport param)
-    {
-        return "  event.getUtil().transpAllAttrs(event);\n";
-    }
-
     public void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)
     {
         syncWithServer(request,event);
@@ -70,7 +65,7 @@ public class NodeAllAttribTransportUtil extends ParamTransportUtil
             // pero Opera en mayúsculas.            
             ClientDocumentImpl clientDoc = request.getClientDocument();
             Browser browser = clientDoc.getBrowser();
-            boolean toLowerCase = (browser instanceof BrowserOpera) && request.getItsNatDocument().isMIME_HTML();
+            boolean toLowerCase = (browser instanceof BrowserOperaOld) && request.getItsNatDocument().isMIME_HTML();
             Map<String,String> remoteAttribs = new HashMap<String,String>();
             for(int i = 0; i < attrNum; i++)
             {

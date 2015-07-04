@@ -39,6 +39,7 @@ public class OtherNSDocumentImpl extends DocumentImpl
         super(dt, impl);
     }
 
+    @Override
     protected Node newNode()
     {
         return new OtherNSDocumentImpl(null,getImplementation());

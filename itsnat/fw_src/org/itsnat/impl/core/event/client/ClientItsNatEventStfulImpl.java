@@ -19,7 +19,6 @@ package org.itsnat.impl.core.event.client;
 import javax.servlet.ServletRequest;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.req.RequestStfulDocument;
@@ -39,17 +38,10 @@ public abstract class ClientItsNatEventStfulImpl extends ItsNatEventImpl
         super(request);
     }
 
+    @Override
     public int getCommMode()
     {
-        // Una cosa el sync mode declarado y otra el efectivo pues
-        // es posible que el browser no soporte AJAX síncrono por ejemplo
-        // utilizando entonces un modo asíncrono.
-        // Hay que tener en cuenta que este método es público, el usuario
-        // podrá preguntar por este método el modo usado, puede ser útil
-        // al usuario por ejemplo para saber si puede cancelar un form
-        // parando el evento etc.
-        ClientDocumentImpl clientDoc = getClientDocumentImpl();
-        return CommModeImpl.getCommMode(getCommModeDeclared(),clientDoc.getBrowser());
+        return CommModeImpl.getCommMode(getCommModeDeclared());
     }
 
     public abstract int getCommModeDeclared();
@@ -59,6 +51,7 @@ public abstract class ClientItsNatEventStfulImpl extends ItsNatEventImpl
         return (RequestStfulDocument)getSource();
     }
 
+    @Override    
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
     {
         return getRequestStfulDocument().getItsNatStfulDocument();

@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.mut.doc;
 
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatXMLDocumentImpl;
 import org.w3c.dom.events.MutationEvent;

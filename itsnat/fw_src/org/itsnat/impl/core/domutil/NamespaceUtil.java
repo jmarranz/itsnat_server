@@ -30,19 +30,32 @@ import org.w3c.dom.ProcessingInstruction;
  */
 public class NamespaceUtil
 {
+    // Namespaces
     public static final String XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace"; // Sin "/" al final
     public static final String XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";
     public static final String XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
     public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
     public static final String XUL_NAMESPACE = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
     public static final String ITSNAT_NAMESPACE = "http://itsnat.org/itsnat";
-
+    public static final String ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android";
+            
+    // MIMES
+    public static final String MIME_HTML = "text/html";
+    public static final String MIME_XHTML = "application/xhtml+xml";
+    public static final String MIME_SVG = "image/svg+xml";    
+    public static final String MIME_XUL = "application/vnd.mozilla.xul+xml";      
+    public static final String MIME_XML = "text/xml";    
+    public static final String MIME_ANDROID_LAYOUT = "android/layout";
+    public static final String MIME_JAVASCRIPT = "text/javascript";   
+    public static final String MIME_BEANSHELL = "text/beanshell";   // Inventado obviamente  
+    
+    
     public static final int XML   = 0;
     public static final int HTML  = 1;
     public static final int XHTML = 2;
     public static final int SVG   = 3;
     public static final int XUL   = 4;
-
+    public static final int ANDROID_LAYOUT = 5;
 
     public static boolean isXMLNamespace(String namespaceURI)
     {
@@ -152,17 +165,22 @@ public class NamespaceUtil
         return ITSNAT_NAMESPACE.equals(namespace); // Puede ser null
     }
 
+    public static boolean isAndroidNamespace(String namespace)
+    {
+        return ANDROID_NAMESPACE.equals(namespace); // Puede ser null
+    }
+        
     public static boolean isStatefulMime(String mime)
     {
-        return isHTMLorXHTMLMime(mime) || isOtherNSMime(mime);
+        return isHTMLorXHTMLMime(mime) || isOtherNSMime(mime) || isAndroidLayoutMime(mime);
     }
 
     public static boolean isHTMLorXHTMLMime(String mime)
     {
         // http://www.w3.org/TR/xhtml-media-types/
         // http://www.xml.com/pub/a/2003/03/19/dive-into-xml.html
-        return (mime.equals("text/html") ||
-                mime.equals("application/xhtml+xml"));
+        return (isHTMLMime(mime) ||
+                isXHTMLMime(mime));
     }
 
     public static boolean isOtherNSMime(String mime)
@@ -172,25 +190,70 @@ public class NamespaceUtil
 
     public static boolean isXHTMLMime(String mime)
     {
-        return mime.equals("application/xhtml+xml");
+        return mime.equals(MIME_XHTML);
     }
 
     public static boolean isHTMLMime(String mime)
     {
-        return mime.equals("text/html");
+        return mime.equals(MIME_HTML);
     }
 
     public static boolean isSVGMime(String mime)
     {
-        return mime.equals("image/svg+xml");
+        return mime.equals(MIME_SVG);
     }
 
     public static boolean isXULMime(String mime)
     {
         // "text/xul" y "text/x-xul" son ignorados por FireFox como XUL remoto
-        return mime.equals("application/vnd.mozilla.xul+xml");
+        return mime.equals(MIME_XUL);
     }
 
+    public static boolean isAndroidLayoutMime(String mime)
+    {
+        return mime.equals(MIME_ANDROID_LAYOUT); 
+    }    
+    
+    public static boolean isMIME_XHTML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XHTML;
+    }
+
+    public static boolean isMIME_HTML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.HTML;
+    }
+
+    public static boolean isMIME_HTML_or_XHTML(int namespaceOfMIME)
+    {
+         return isMIME_HTML(namespaceOfMIME) || isMIME_XHTML(namespaceOfMIME);
+    }
+
+    public static boolean isMIME_OTHERNS(int namespaceOfMIME)
+    {
+         return isMIME_SVG(namespaceOfMIME) || isMIME_XUL(namespaceOfMIME);
+    }
+
+    public static boolean isMIME_SVG(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.SVG;
+    }
+
+    public static boolean isMIME_XUL(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XUL;
+    }
+
+    public static boolean isMIME_XML(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.XML;
+    }
+    
+    public static boolean isMIME_ANDROID_LAYOUT(int namespaceOfMIME)
+    {
+         return namespaceOfMIME == NamespaceUtil.ANDROID_LAYOUT;
+    }        
+    
     public static int getNamespaceCode(String mime)
     {
         if (isHTMLorXHTMLMime(mime))
@@ -204,6 +267,7 @@ public class NamespaceUtil
         {
             if (isSVGMime(mime)) return SVG;
             else if (isXULMime(mime)) return XUL;
+            if (isAndroidLayoutMime(mime)) return ANDROID_LAYOUT;
             else return XML;
         }
     }
@@ -216,6 +280,7 @@ public class NamespaceUtil
             case XHTML: return XHTML_NAMESPACE;
             case SVG:   return SVG_NAMESPACE;
             case XUL:   return XUL_NAMESPACE;
+            case ANDROID_LAYOUT: return ANDROID_NAMESPACE;
         }
         return null;
     }

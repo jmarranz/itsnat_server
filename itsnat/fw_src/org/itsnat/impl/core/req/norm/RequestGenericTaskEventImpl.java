@@ -19,10 +19,10 @@ package org.itsnat.impl.core.req.norm;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.listener.GenericTaskImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
-import org.itsnat.impl.core.listener.domext.ItsNatNormalCometEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatNormalCometEventListenerWrapperImpl;
 import org.itsnat.impl.core.resp.norm.ResponseGenericTaskEventImpl;
 import org.itsnat.impl.core.resp.norm.ResponseNormalEventImpl;
 
@@ -90,11 +90,13 @@ public class RequestGenericTaskEventImpl extends RequestDOMExtEventImpl
         }
     }
 
+    @Override
     public boolean isLoadEvent()
     {
         return false;
     }
 
+    @Override
     public boolean isUnloadEvent()
     {
         return false;

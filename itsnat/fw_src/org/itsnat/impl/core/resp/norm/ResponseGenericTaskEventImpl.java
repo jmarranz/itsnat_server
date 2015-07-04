@@ -16,14 +16,14 @@
 
 package org.itsnat.impl.core.resp.norm;
 
-import org.itsnat.impl.core.listener.domext.ItsNatGenericTaskEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.dom.domext.ItsNatGenericTaskEventListenerWrapperImpl;
 import org.itsnat.impl.core.req.norm.RequestGenericTaskEventImpl;
 
 /**
  *
  * @author jmarranz
  */
-public class ResponseGenericTaskEventImpl extends ResponseDOMEventImpl
+public class ResponseGenericTaskEventImpl extends ResponseNormalEventImpl
 {
     /** Creates a new instance of ResponseNormalEventImpl */
     public ResponseGenericTaskEventImpl(RequestGenericTaskEventImpl request,ItsNatGenericTaskEventListenerWrapperImpl listener)

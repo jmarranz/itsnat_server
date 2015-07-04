@@ -46,7 +46,7 @@ public class HttpFileCache
 
     public synchronized void put(FileCached file)
     {
-        FileCached oldFile = mapByUrl.get(file.getUrl()); // La intención es eliminarlo no necesitamos actualizar el LastAccessTimestamp y registrarlo y por tanto no llamamos a get(url)
+        FileCached oldFile = mapByUrl.get(file.getUrl()); // La intencion es eliminarlo no necesitamos actualizar el LastAccessTimestamp y registrarlo y por tanto no llamamos a get(url)
         if (oldFile != null)
             removeInternal(oldFile); // asi aseguramos que dos put a la vez con el mismo FileCached solo inserten un FileCached no dos
 

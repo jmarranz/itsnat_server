@@ -25,7 +25,7 @@ public abstract class HttpRequestResultImpl implements HttpRequestResult
     protected String responseText;
 
 
-    protected HttpRequestResultImpl(String url,Header[] headerList,InputStream input,StatusLine status, String mimeType, String encoding)
+    protected HttpRequestResultImpl(String url,Header[] headerList,StatusLine status, String mimeType, String encoding)
     {
         this.url = url;
         this.headerList = headerList;

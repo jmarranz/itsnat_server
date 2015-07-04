@@ -18,7 +18,7 @@ package org.itsnat.impl.comp.list;
 
 import org.itsnat.impl.comp.ItsNatHTMLFormCompChangeBasedSharedImpl;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.webkit.BrowserWebKitIOS;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 
 /**

@@ -19,6 +19,7 @@ package org.itsnat.impl.core.req;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 
 /**
@@ -75,7 +76,7 @@ public abstract class RequestAlreadyLoadedDocImpl extends RequestImpl implements
             clientDoc = getClientDocumentStfulById(clientId);
             
             if (clientDoc == null) // Cliente no encontrado
-            {
+            { 
                 processClientDocumentNotFound(clientId);
                 return;
             }

@@ -19,7 +19,7 @@ package org.itsnat.impl.core.clientdoc;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.listener.ItsNatAttachedClientNotRefreshEventListenerWrapperImpl;
+import org.itsnat.impl.core.listener.attachcli.ItsNatAttachedClientNotRefreshEventListenerWrapperImpl;
 
 /**
  *
@@ -35,6 +35,11 @@ public class ClientDocumentAttachedClientNotRefreshImpl extends ClientDocumentAt
         super(readOnly,commMode,eventTimeout,waitDocTimeout,browser,session,itsNatDoc);
     }
 
+    public String getAttachType()
+    {
+        return "attach_none";
+    }    
+    
     public void startAttachedClient()
     {
         this.listener = new ItsNatAttachedClientNotRefreshEventListenerWrapperImpl(this);

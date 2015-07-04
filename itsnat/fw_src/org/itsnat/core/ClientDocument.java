@@ -180,6 +180,18 @@ public interface ClientDocument extends ItsNatUserData
     public CometNotifier createCometNotifier(int commMode,long eventTimeout);
 
     /**
+     * Creates a COMET notifier bound to this client and to the server document associated.
+     *
+     * @param commMode the communication mode, must be pure asynchronous.
+     * @param extraParams optional client to server data transport and synchronization rules. May be null.
+     * @param preSendCode custom JavaScript code to execute before an event of this listener type is fired. May be null.      
+     * @param eventTimeout the timeout for any event used to notify the client. If negative no timeout is defined.
+     * @return a new COMET notifier.
+     * @see CommMode
+     */
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout);    
+    
+    /**
      * Executes the specified task in a new thread, this code is ready to
      * call <code>EventTarget.dispatchEvent(Event)</code> or
      * {@link #dispatchEvent(EventTarget,Event,int,long)}
@@ -206,6 +218,7 @@ public interface ClientDocument extends ItsNatUserData
      *
      * @param target the event target DOM object.
      * @param evt the DOM event to send to target.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      * @see #dispatchEvent(EventTarget,Event,int,long)
      */
     public boolean dispatchEvent(EventTarget target,Event evt) throws EventException;
@@ -229,6 +242,7 @@ public interface ClientDocument extends ItsNatUserData
      * @param evt the DOM event to send to target.
      * @param commMode communication mode.
      * @param eventTimeout the timeout of the event when asynchronous. If negative no timeout is defined.
+     * @return The return value is false if at least one of the event handlers which handled this event called Event.preventDefault(). Otherwise it returns true.
      * @see ItsNatDocument#dispatchEvent(EventTarget,Event)
      * @see #startEventDispatcherThread(Runnable code)
      */

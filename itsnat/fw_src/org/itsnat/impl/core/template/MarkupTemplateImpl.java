@@ -71,7 +71,7 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
 
         this.delegate = createMarkupTemplateDelegate(source);
 
-        this.parser = createMarkupParser(encoding);
+        this.parser = createMarkupParser();
     }
 
     public abstract MarkupTemplateDelegateImpl createMarkupTemplateDelegate(MarkupSourceImpl source);
@@ -81,48 +81,53 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
         return parser; // Usar en monohilo
     }
 
-    protected XercesDOMParserWrapperImpl createMarkupParser(String defaultEncoding)
+    protected XercesDOMParserWrapperImpl createMarkupParser()
     {
-        return XercesDOMParserWrapperImpl.createXercesDOMParserWrapper(isMIME_HTML_or_XHTML(),defaultEncoding);
-    }
-
+        return XercesDOMParserWrapperImpl.createXercesDOMParserWrapper(namespaceOfMIME,encoding);
+    }    
+    
     public abstract boolean isDocFragment();
 
 
     public boolean isMIME_XHTML()
     {
-         return namespaceOfMIME == NamespaceUtil.XHTML;
+         return NamespaceUtil.isMIME_XHTML(namespaceOfMIME);
     }
 
     public boolean isMIME_HTML()
     {
-         return namespaceOfMIME == NamespaceUtil.HTML;
+         return NamespaceUtil.isMIME_HTML(namespaceOfMIME);
     }
 
     public boolean isMIME_HTML_or_XHTML()
     {
-         return isMIME_HTML() || isMIME_XHTML();
+         return NamespaceUtil.isMIME_HTML_or_XHTML(namespaceOfMIME);
     }
 
     public boolean isMIME_OTHERNS()
     {
-         return isMIME_SVG() || isMIME_XUL();
+         return NamespaceUtil.isMIME_OTHERNS(namespaceOfMIME);
     }
 
     public boolean isMIME_SVG()
     {
-         return namespaceOfMIME == NamespaceUtil.SVG;
+         return NamespaceUtil.isMIME_SVG(namespaceOfMIME);
     }
 
     public boolean isMIME_XUL()
     {
-         return namespaceOfMIME == NamespaceUtil.XUL;
+         return NamespaceUtil.isMIME_XUL(namespaceOfMIME);
     }
 
     public boolean isMIME_XML()
     {
-         return namespaceOfMIME == NamespaceUtil.XML;
+         return NamespaceUtil.isMIME_XML(namespaceOfMIME);
     }
+    
+    public boolean isMIME_ANDROID_LAYOUT()
+    {
+         return NamespaceUtil.isMIME_ANDROID_LAYOUT(namespaceOfMIME);
+    }    
 
     public String getNamespace()
     {

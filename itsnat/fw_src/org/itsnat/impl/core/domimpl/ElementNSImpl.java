@@ -118,6 +118,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         delegate.setInternalMode(mode);
     }
 
+    @Override
     public void fireDOMSubtreeModifiedEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -132,6 +133,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMNodeInsertedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -146,6 +148,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedEvent(Node node)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -160,6 +163,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMNodeInsertedIntoDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -174,6 +178,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMNodeRemovedFromDocumentEvent()
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -188,6 +193,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMCharacterDataModifiedEvent(String oldv,String newv)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -202,6 +208,7 @@ public abstract class ElementNSImpl extends GenericElementNS
         }
     }
 
+    @Override
     public void fireDOMAttrModifiedEvent(String name, Attr node, String oldv,
                                          String newv, short change)
     {
@@ -219,6 +226,7 @@ public abstract class ElementNSImpl extends GenericElementNS
 
     // Métodos de EventTarget
 
+    @Override
     public boolean dispatchEvent(Event evt) throws EventException
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -228,6 +236,7 @@ public abstract class ElementNSImpl extends GenericElementNS
             return delegate.dispatchEventRemote(evt);
     }
 
+    @Override
     public void addEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();
@@ -237,6 +246,7 @@ public abstract class ElementNSImpl extends GenericElementNS
             delegate.addEventListenerRemote(type,listener,useCapture);
     }
 
+    @Override
     public void removeEventListener(String type, EventListener listener, boolean useCapture)
     {
         DelegateNodeImpl delegate = getDelegateNode();

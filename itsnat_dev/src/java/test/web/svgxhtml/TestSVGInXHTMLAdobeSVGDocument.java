@@ -124,6 +124,7 @@ public class TestSVGInXHTMLAdobeSVGDocument implements EventListener
         this.circleList = egm.createElementList(circleListElem,false);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         EventTarget target = evt.getTarget();

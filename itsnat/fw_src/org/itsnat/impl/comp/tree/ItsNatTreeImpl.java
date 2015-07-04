@@ -42,12 +42,12 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.*;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientJoystickImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocJoystickImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystick;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientJoystickImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocJoystickImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersJoystick;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersJoystickSharedImpl;
 import org.itsnat.impl.comp.listener.JoystickModeComponent;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
@@ -105,14 +105,14 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         this.structure = structure != null ? structure : (ItsNatTreeStructure)getDeclaredStructure(ItsNatTreeStructure.class);
     }
 
-    public ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc()
+    public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
-        return new ItsNatCompDOMListenersByDocJoystickImpl(this);
+        return new ItsNatCompNormalEventListenersByDocJoystickImpl(this);
     }
 
-    public ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
-        return new ItsNatCompDOMListenersByClientJoystickImpl(this,clientDoc);
+        return new ItsNatCompNormalEventListenersByClientJoystickImpl(this,clientDoc);
     }
 
     @Override
@@ -153,34 +153,34 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public boolean isJoystickMode()
     {
-        return getItsNatCompDOMListenersByDocJoystick().isJoystickEnabled();
+        return getItsNatCompNormalEventListenersByDocJoystick().isJoystickEnabled();
     }
 
     public void setJoystickMode(boolean value)
     {
-        getItsNatCompDOMListenersByDocJoystick().setJoystickEnabled(value);
+        getItsNatCompNormalEventListenersByDocJoystick().setJoystickEnabled(value);
     }
 
     /* Esté método se hará público en el futuro */
     public boolean isJoystickMode(ClientDocument clientDoc)
     {
-        return getItsNatCompDOMListenersByClientJoystick((ClientDocumentImpl)clientDoc).isJoystickEnabled();
+        return getItsNatCompNormalEventListenersByClientJoystick((ClientDocumentImpl)clientDoc).isJoystickEnabled();
     }
 
     /* Esté método se hará público en el futuro */
     public void setJoystickMode(ClientDocument clientDoc,boolean value)
     {
-        getItsNatCompDOMListenersByClientJoystick((ClientDocumentImpl)clientDoc).setJoystickEnabled(value);
+        getItsNatCompNormalEventListenersByClientJoystick((ClientDocumentImpl)clientDoc).setJoystickEnabled(value);
     }
 
-    public ItsNatCompDOMListenersByDocJoystickImpl getItsNatCompDOMListenersByDocJoystick()
+    public ItsNatCompNormalEventListenersByDocJoystickImpl getItsNatCompNormalEventListenersByDocJoystick()
     {
-        return (ItsNatCompDOMListenersByDocJoystickImpl)domListenersByDoc;
+        return (ItsNatCompNormalEventListenersByDocJoystickImpl)normalEventListenersByDoc;
     }
 
-    public ItsNatCompDOMListenersByClientJoystickImpl getItsNatCompDOMListenersByClientJoystick(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientJoystickImpl getItsNatCompNormalEventListenersByClientJoystick(ClientDocumentImpl clientDoc)
     {
-        return (ItsNatCompDOMListenersByClientJoystickImpl)getItsNatCompDOMListenersByClient(clientDoc);
+        return (ItsNatCompNormalEventListenersByClientJoystickImpl)getItsNatCompNormalEventListenersByClient(clientDoc);
     }
 
     @Override
@@ -570,7 +570,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         String type = evt.getType();
         if (type.equals("click") || type.equals("dblclick") || type.equals("mouseup"))
@@ -620,7 +620,7 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
             }
         }
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public void selectTreeNode(ItsNatTreeCellUI nodeInfo, Event evt)
@@ -1042,8 +1042,8 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
 
     public void removeInternalEventListenerJoystickModeChildNodes(TreePath parentPath)
     {
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         ItsNatTreeUI compUI = getItsNatTreeUIImpl();
@@ -1053,51 +1053,51 @@ public abstract class ItsNatTreeImpl extends ItsNatElementComponentImpl implemen
         rowCount--; // porque el propio padre no se cuenta (no se elimina).
         Element[] elemList = getContentElementList(fromRow,fromRow + rowCount - 1);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void addInternalEventListenerJoystickMode()
     {
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList();
 
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void removeInternalEventListenerJoystickMode()
     {
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList();
 
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void addInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList(index,parentPath);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public void removeInternalEventListenerJoystickMode(int index,TreePath parentPath)
     {
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(this);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(this);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element[] elemList = getContentElementList(index,parentPath);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, elemList);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, elemList);
     }
 
     public boolean isEnabled()

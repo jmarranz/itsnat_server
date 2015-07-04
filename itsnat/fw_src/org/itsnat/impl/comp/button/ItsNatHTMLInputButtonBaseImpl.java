@@ -22,7 +22,7 @@ import org.itsnat.comp.button.ItsNatButtonUI;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatHTMLInputImpl;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.html.HTMLInputElement;
@@ -39,7 +39,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
     /**
      * Creates a new instance of ItsNatHTMLInputButtonBaseImpl
      */
-    public ItsNatHTMLInputButtonBaseImpl(HTMLInputElement element, NameValue[] artifacts, ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputButtonBaseImpl(HTMLInputElement element, NameValue[] artifacts, ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element, artifacts, componentMgr);
     }
@@ -121,7 +121,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
     }
 
     @Override
-    public void processDOMEvent(Event evt)
+    public void processNormalEvent(Event evt)
     {
         // Evento click al menos
         // Redefinir para cada tipo de botón si es necesario
@@ -129,7 +129,7 @@ public abstract class ItsNatHTMLInputButtonBaseImpl extends ItsNatHTMLInputImpl 
         if (!htmlButtonDeleg.handleEvent(evt))
             return;
 
-        super.processDOMEvent(evt);
+        super.processNormalEvent(evt);
     }
 
     public ParamTransport[] getInternalParamTransports(String type,ClientDocumentImpl clientDoc)

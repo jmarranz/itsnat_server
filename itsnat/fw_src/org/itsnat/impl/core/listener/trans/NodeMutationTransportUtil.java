@@ -18,7 +18,7 @@ package org.itsnat.impl.core.listener.trans;
 
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.client.domstd.w3c.W3CMutationEventImpl;
+import org.itsnat.impl.core.event.client.dom.domstd.w3c.W3CMutationEventImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.event.client.ClientItsNatNormalEventImpl;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
@@ -43,11 +43,6 @@ public class NodeMutationTransportUtil extends ParamTransportUtil
      */
     public NodeMutationTransportUtil()
     {
-    }
-
-    public String getCodeToSend(ParamTransport param)
-    {
-        return null;
     }
 
     public void syncServerBeforeDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event)

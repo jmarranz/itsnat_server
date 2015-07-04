@@ -22,6 +22,7 @@ import org.itsnat.comp.label.ItsNatHTMLLabel;
 import org.itsnat.comp.ItsNatHTMLElementComponentUI;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Node;
 import org.w3c.dom.html.HTMLElement;
@@ -42,7 +43,7 @@ public class ItsNatHTMLLabelImpl extends ItsNatLabelImpl implements ItsNatHTMLLa
     /**
      * Creates a new instance of ItsNatHTMLLabelImpl
      */
-    public ItsNatHTMLLabelImpl(HTMLLabelElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLLabelImpl(HTMLLabelElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 
@@ -66,7 +67,7 @@ public class ItsNatHTMLLabelImpl extends ItsNatLabelImpl implements ItsNatHTMLLa
         HTMLLabelElement element = getHTMLLabelElement();
         String compId = element.getHtmlFor();
 
-        ItsNatStfulDocComponentManagerImpl compMgr = getItsNatStfulDocComponentManager();
+        ItsNatStfulDocComponentManagerImpl compMgr = getItsNatStfulWebDocComponentManager();
         return (ItsNatHTMLFormComponent)compMgr.findItsNatComponentById(compId);
     }
 
@@ -77,12 +78,12 @@ public class ItsNatHTMLLabelImpl extends ItsNatLabelImpl implements ItsNatHTMLLa
 
     public ItsNatHTMLComponentManager getItsNatHTMLComponentManager()
     {
-        return getItsNatStfulDocComponentManager();
+        return getItsNatStfulWebDocComponentManager();
     }
 
-    public ItsNatStfulDocComponentManagerImpl getItsNatStfulDocComponentManager()
+    public ItsNatStfulWebDocComponentManagerImpl getItsNatStfulWebDocComponentManager()
     {
-        return (ItsNatStfulDocComponentManagerImpl)componentMgr;
+        return (ItsNatStfulWebDocComponentManagerImpl)componentMgr;
     }
 
     public Node createDefaultNode()

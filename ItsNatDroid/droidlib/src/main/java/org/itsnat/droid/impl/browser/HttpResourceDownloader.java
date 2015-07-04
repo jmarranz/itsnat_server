@@ -21,24 +21,14 @@ import java.util.Map;
 public class HttpResourceDownloader
 {
     protected final String pageURLBase;
-    protected final HttpFileCache httpFileCache;
-    protected final HttpContext httpContext;
-    protected final HttpParams httpParamsRequest;
-    protected final HttpParams httpParamsDefault;
-    protected final Map<String,String> httpHeaders;
-    protected final boolean sslSelfSignedAllowed;
+    protected final HttpRequestData httpRequestData;
     protected final XMLInflateRegistry xmlInflateRegistry;
     protected final AssetManager assetManager;
 
-    public HttpResourceDownloader(String pageURLBase,HttpFileCache httpFileCache, HttpContext httpContext, HttpParams httpParamsRequest, HttpParams httpParamsDefault, Map<String, String> httpHeaders, boolean sslSelfSignedAllowed, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
+    public HttpResourceDownloader(String pageURLBase,HttpRequestData httpRequestData, XMLInflateRegistry xmlInflateRegistry,AssetManager assetManager)
     {
         this.pageURLBase = pageURLBase;
-        this.httpFileCache = httpFileCache;
-        this.httpContext = httpContext;
-        this.httpParamsRequest = httpParamsRequest;
-        this.httpParamsDefault = httpParamsDefault;
-        this.httpHeaders = httpHeaders;
-        this.sslSelfSignedAllowed = sslSelfSignedAllowed;
+        this.httpRequestData = httpRequestData;
         this.xmlInflateRegistry = xmlInflateRegistry;
         this.assetManager = assetManager;
     }
@@ -96,7 +86,7 @@ public class HttpResourceDownloader
                 {
                     String resourceMime = attr.getResourceMime();
                     String url = HttpUtil.composeAbsoluteURL(attr.getLocation(), urlBase);
-                    HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpFileCache, httpContext, httpParamsRequest, httpParamsDefault, httpHeaders, sslSelfSignedAllowed, null, resourceMime);
+                    HttpRequestResultImpl resultResource = HttpUtil.httpGet(url, httpRequestData, null, resourceMime);
                     processHttpRequestResultResource(url, attr, resultResource, resultList);
                 }
                 catch (Exception ex)

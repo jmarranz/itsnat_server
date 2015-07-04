@@ -37,7 +37,7 @@ import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.*;
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.BrowserUnknown;
+import org.itsnat.impl.core.browser.web.BrowserUnknown;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.domimpl.ItsNatDocumentInternal;
 import org.itsnat.impl.core.domutil.ElementGroupManagerImpl;
@@ -302,24 +302,19 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
 
     public DOMRenderImpl getDOMRenderForNodes()
     {
-        if (nodeRender == null) this.nodeRender = docTemplateVersion.createNodeDOMRender(doc);
+        if (nodeRender == null) this.nodeRender = docTemplateVersion.createNodeDOMRender(doc,true);
         return nodeRender;
     }
 
     public XercesDOMParserWrapperImpl getMarkupParser()
     {
-        if (parser == null) this.parser = docTemplateVersion.createMarkupParser(getEncoding()); // Creamos un parser propio porque no es multihilo (no puede ser compartido a nivel de template)
+        if (parser == null) this.parser = docTemplateVersion.createMarkupParser(); // Creamos un parser propio porque no es multihilo (no puede ser compartido a nivel de template)
         return parser;
-    }
-
-    public Document parseDocument(String code)
-    {
-        return docTemplateVersion.parseDocument(code,getMarkupParser());
     }
 
     public String serializeDocument(Document doc,boolean resCachedNodes)
     {
-        DOMRenderImpl docRender = DOMRenderImpl.createDOMRender(doc,getMIME(),getEncoding(),false);
+        DOMRenderImpl docRender = docTemplateVersion.createNodeDOMRender(doc,false);
         return serializeDocument(doc,docRender,resCachedNodes);
     }
 
@@ -340,10 +335,6 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return docTemplateVersion.getItsNatServlet();
     }
 
-    public boolean isMIME_XHTML()
-    {
-        return getItsNatDocumentTemplateVersion().isMIME_XHTML();
-    }
 
     public boolean isMIME_HTML()
     {
@@ -401,7 +392,7 @@ public abstract class ItsNatDocumentImpl extends MarkupContainerImpl implements 
         return doc;
     }
 
-    public String getBindToListener()
+    public String getBindToCustomFunc()
     {
         return null; // Por defecto.
     }

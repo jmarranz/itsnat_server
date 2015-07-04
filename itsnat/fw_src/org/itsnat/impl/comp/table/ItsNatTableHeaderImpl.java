@@ -29,10 +29,10 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.*;
 import org.itsnat.impl.comp.list.ListSelectionModelMgrImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByClientImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersByDocImpl;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystick;
-import org.itsnat.impl.comp.listener.ItsNatCompDOMListenersJoystickSharedImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersJoystick;
+import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersJoystickSharedImpl;
 import org.itsnat.impl.comp.mgr.ItsNatDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.w3c.dom.Element;
@@ -65,12 +65,12 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
         setItsNatTableHeaderCellRenderer(componentMgr.createDefaultItsNatTableHeaderCellRenderer());
     }
 
-    public ItsNatCompDOMListenersByDocImpl createItsNatCompDOMListenersByDoc()
+    public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
         return null;
     }
 
-    public ItsNatCompDOMListenersByClientImpl createItsNatCompDOMListenersByClient(ClientDocumentImpl clientDoc)
+    public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
         return null;
     }
@@ -273,72 +273,72 @@ public abstract class ItsNatTableHeaderImpl extends ItsNatElementComponentImpl i
     public void addInternalEventListenerJoystickMode(int index,Element elem)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        if (normalEventListeners.isEmpty())
             return;
 
         Element contentElem = tableComp.getItsNatTableStructure().getHeaderColumnContentElement(this, index, elem);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, contentElem);
     }
 
     public void addInternalEventListenerJoystickMode(int index)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        if (normalEventListeners.isEmpty())
             return;
 
-        addInternalEventListenerJoystickMode(domListeners,index);
+        addInternalEventListenerJoystickMode(normalEventListeners,index);
     }
 
     public void removeInternalEventListenerJoystickMode(int index)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        if (normalEventListeners.isEmpty())
             return;
 
-        removeInternalEventListenerJoystickMode(domListeners,index);
+        removeInternalEventListenerJoystickMode(normalEventListeners,index);
     }
 
-    public void addInternalEventListenerJoystickMode(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,int index)
+    public void addInternalEventListenerJoystickMode(ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners,int index)
     {
         ItsNatTableHeaderUI compUI = getItsNatTableHeaderUI();
         Element contentElem = compUI.getContentElementAt(index);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.addEventListenerJoystick(domListeners, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.addEventListenerJoystick(normalEventListeners, contentElem);
     }
 
-    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompDOMListenersJoystick> domListeners,int index)
+    public void removeInternalEventListenerJoystickMode(ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners,int index)
     {
         ItsNatTableHeaderUI compUI = getItsNatTableHeaderUI();
         Element contentElem = compUI.getContentElementAt(index);
 
-        ItsNatCompDOMListenersJoystickSharedImpl.removeEventListenerJoystick(domListeners, contentElem);
+        ItsNatCompNormalEventListenersJoystickSharedImpl.removeEventListenerJoystick(normalEventListeners, contentElem);
     }
 
 
     public void addInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        if (normalEventListeners.isEmpty())
             return;
 
         for(int i = fromIndex; i <= toIndex; i++)
-            addInternalEventListenerJoystickMode(domListeners,i);
+            addInternalEventListenerJoystickMode(normalEventListeners,i);
     }
 
     public void removeInternalEventListenerJoystickMode(int fromIndex,int toIndex)
     {
         ItsNatTableImpl tableComp = getItsNatTableImpl();
-        ArrayList<ItsNatCompDOMListenersJoystick> domListeners = ItsNatCompDOMListenersJoystickSharedImpl.getMustAddRemove(tableComp);
-        if (domListeners.isEmpty())
+        ArrayList<ItsNatCompNormalEventListenersJoystick> normalEventListeners = ItsNatCompNormalEventListenersJoystickSharedImpl.getMustAddRemove(tableComp);
+        if (normalEventListeners.isEmpty())
             return;
 
         for(int i = fromIndex; i <= toIndex; i++)
-            removeInternalEventListenerJoystickMode(domListeners,i);
+            removeInternalEventListenerJoystickMode(normalEventListeners,i);
     }
 
     public boolean isEnabled()

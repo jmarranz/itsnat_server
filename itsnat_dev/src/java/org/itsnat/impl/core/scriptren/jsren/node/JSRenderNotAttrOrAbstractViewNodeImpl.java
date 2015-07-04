@@ -17,11 +17,9 @@
 package org.itsnat.impl.core.scriptren.jsren.node;
 
 import org.itsnat.core.ItsNatDOMException;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.RenderNotAttrOrAbstractViewNode;
 import org.w3c.dom.Comment;
@@ -76,6 +74,7 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
     
     public abstract Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc);
 
+    @Override
     public String getAppendCompleteChildNode(Node parent,Node newNode,String parentVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String newNodeCode = createNodeCode(newNode,clientDoc);

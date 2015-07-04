@@ -37,6 +37,7 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
     public static final int EVENT_TYPE_ATTACH_COMET = 8;
     public static final int EVENT_TYPE_ATTACH_NOT_REFRESH = 9;
     public static final int EVENT_TYPE_STATELESS = 10;
+    public static final int EVENT_TYPE_DROID = 11;
     
     public RequestEventStfulImpl(ItsNatServletRequestImpl itsNatRequest)
     {
@@ -50,6 +51,7 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
         switch(evtType)
         {
             case EVENT_TYPE_DOMSTD:
+            case EVENT_TYPE_DROID:
             case EVENT_TYPE_TIMER:
             case EVENT_TYPE_CONTINUE:
             case EVENT_TYPE_USER:
@@ -72,6 +74,8 @@ public abstract class RequestEventStfulImpl extends RequestAlreadyLoadedDocImpl
     {
         if ("domstd".equals(value))
             return EVENT_TYPE_DOMSTD;
+        else if ("droid".equals(value))
+            return EVENT_TYPE_DROID;        
         else if ("timer".equals(value))
             return EVENT_TYPE_TIMER;
         else if ("asyncret".equals(value))

@@ -52,8 +52,6 @@ public abstract class ParamTransportUtil
         return null;
     }
 
-    public abstract String getCodeToSend(ParamTransport param);
-
     public abstract void syncServerBeforeDispatch(ParamTransport param,RequestNormalEventImpl request,ClientItsNatNormalEventImpl event);
     public abstract void syncServerAfterDispatch(ParamTransport param, RequestNormalEventImpl request,ClientItsNatNormalEventImpl event);
 

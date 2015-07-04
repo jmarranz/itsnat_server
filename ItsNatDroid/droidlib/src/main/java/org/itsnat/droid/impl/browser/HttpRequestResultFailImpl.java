@@ -14,7 +14,7 @@ public class HttpRequestResultFailImpl extends HttpRequestResultImpl
 {
     public HttpRequestResultFailImpl(String url,Header[] headerList,InputStream input, StatusLine status, String mimeType, String encoding)
     {
-        super(url,headerList, input, status, mimeType, encoding);
+        super(url,headerList, status, mimeType, encoding);
 
         // Normalmente sera el texto del error que envia el servidor, por ejemplo el stacktrace
         this.responseByteArray = IOUtil.read(input);

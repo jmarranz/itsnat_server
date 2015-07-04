@@ -16,8 +16,10 @@
 
 package org.itsnat.impl.core.markup.parse;
 
+import java.io.IOException;
 import org.apache.xerces.parsers.DOMParser;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.xml.sax.*;
 import org.w3c.dom.*;
 
@@ -95,12 +97,14 @@ public abstract class XercesDOMParserWrapperImpl implements ErrorHandler
         }
     }
 
-    public static XercesDOMParserWrapperImpl createXercesDOMParserWrapper(boolean htmlOrXhtml,String defaultEncoding)
+    public static XercesDOMParserWrapperImpl createXercesDOMParserWrapper(int namespaceOfMIME,String defaultEncoding)
     {
-        if (htmlOrXhtml)
+        if (NamespaceUtil.isMIME_HTML_or_XHTML(namespaceOfMIME))
             return new NekoHTMLDOMParserWrapperImpl(defaultEncoding);
+        else if (NamespaceUtil.isMIME_ANDROID_LAYOUT(namespaceOfMIME))
+            return new XercesXMLDOMParserWrapperImpl(true); // Antes se pasaba false pero a causa de una interpretación errónea, cuando esté claro y consolidado se puede quitar esta condición 
         else
-            return new XercesXMLDOMParserWrapperImpl();
+            return new XercesXMLDOMParserWrapperImpl(true);
     }
 
     public abstract DOMParser createParser();
@@ -111,7 +115,11 @@ public abstract class XercesDOMParserWrapperImpl implements ErrorHandler
         {
             parser.parse(input);
         }
-        catch(Exception ex)
+        catch(SAXException ex)
+        {
+            throw new ItsNatException(ex);
+        }
+        catch (IOException ex)
         {
             throw new ItsNatException(ex);
         }

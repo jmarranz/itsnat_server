@@ -75,19 +75,6 @@ public class NodePropertyTransport extends SingleParamTransport
         this(name,attName,true);
     }
 
-    private NodePropertyTransport(String name,String attName,boolean sync)
-    {
-        // No hacemos público este constructor pues si se especifica el nombre del atributo
-        // como diferente a la propiedad es que queremos sincronizar seguro.
-        super(name,sync);
-
-        this.attName = attName;
-
-        this.type = null;
-
-        this.javaSetMethodName = null;
-    }
-
     /**
      * Creates a new instance ready to transport the node property with the specified name
      * and synchronize it at the server side as an attribute. The synchronization is
@@ -102,13 +89,7 @@ public class NodePropertyTransport extends SingleParamTransport
      */
     public NodePropertyTransport(String name,Class<?> type)
     {
-        super(name,true);
-
-        this.type = type;
-
-        String javaMethodName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        this.javaSetMethodName = "set" + javaMethodName;
-        this.attName = null;
+        this(name,type,buildJavaSetMethodName(name));
     }
 
     /**
@@ -131,7 +112,25 @@ public class NodePropertyTransport extends SingleParamTransport
         this.javaSetMethodName = javaSetMethodName;
         this.attName = null;
     }
+   
+    private NodePropertyTransport(String name,String attName,boolean sync)
+    {
+        // No hacemos público este constructor pues si se especifica el nombre del atributo
+        // como diferente a la propiedad es que queremos sincronizar seguro.
+        super(name,sync);
 
+        this.attName = attName;
+
+        this.type = null;
+        this.javaSetMethodName = null;
+    }    
+    
+    private static String buildJavaSetMethodName(String name)
+    {
+        String javaMethodName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
+        return "set" + javaMethodName;
+    }
+    
     /**
      * Returns the attribute name.
      *

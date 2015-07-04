@@ -18,7 +18,7 @@ package org.itsnat.impl.comp.text;
 
 import org.itsnat.comp.text.ItsNatHTMLInputHidden;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
+import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.w3c.dom.html.HTMLInputElement;
 
 /**
@@ -30,7 +30,7 @@ public class ItsNatHTMLInputHiddenImpl  extends ItsNatHTMLInputTextBasedImpl imp
 {
 
     /** Creates a new instance of ItsNatHTMLInputTextImpl */
-    public ItsNatHTMLInputHiddenImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulDocComponentManagerImpl componentMgr)
+    public ItsNatHTMLInputHiddenImpl(HTMLInputElement element,NameValue[] artifacts,ItsNatStfulWebDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
 
