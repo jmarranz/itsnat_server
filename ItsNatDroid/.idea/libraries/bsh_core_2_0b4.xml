@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="bsh-core-2.0b4">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/droidlib/libs/bsh-core-2.0b4.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

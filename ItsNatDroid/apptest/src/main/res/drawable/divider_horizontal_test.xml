@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
-    <!-- Un simple color no vale. http://stackoverflow.com/questions/15128652/how-to-add-vertical-divider-to-a-horizontal-linearlayout -->
-    <size android:height="1dp"/>
-    <solid android:color="#ff0000"/>
-    <stroke android:width="0.9dp" /> <!-- para el equals entre GradientDrawable -->
-</shape>

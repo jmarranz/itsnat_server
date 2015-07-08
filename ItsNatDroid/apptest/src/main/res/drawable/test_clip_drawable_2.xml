@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<clip xmlns:android="http://schemas.android.com/apk/res/android"
-      android:clipOrientation="horizontal"
-      android:gravity="left">
-    <bitmap android:src="@drawable/droid" />
-</clip>
-<!-- Se define en otro sitio el level por código -->

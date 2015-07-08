@@ -1,8 +1,0 @@
-
- No funciona la compilación de archivos individual en NetBeans (F9 o menu). Yo creo
-que es porque el archivo plugin.jar se incluye desde el JDK 1.4 y quizás se lia el NetBeans al calcular dependencias.
-
-
-
-
- 

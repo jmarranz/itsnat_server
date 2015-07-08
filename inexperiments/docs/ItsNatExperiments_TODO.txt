@@ -1,4 +1,0 @@
-
-* Licensing
-
-* Try to make it IE Pocket 6 compatible.

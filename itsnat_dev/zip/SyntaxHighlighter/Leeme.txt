@@ -1,6 +1,0 @@
-
-http://code.google.com/p/syntaxhighlighter/
-
-SyntaxHighlighter is here to help a developer/coder to post code snippets online with ease and have it look pretty. It's 100% Java Script based and it doesn't care what you have on your server.
-
-En el .jar hay una versión "descomprimida" de los archivos JavaScript

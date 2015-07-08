@@ -1,6 +1,0 @@
-
- Los trozos de código fuente se obtienen usando el "Print to HTML" del NetBeans, 
-cargando dicho archivo con el Internet Explorer y copiando el texto sobre el Word,
-Word admite pegar HTML obtenido seleccionando desde la ventana del Internet Explorer.
-
-
