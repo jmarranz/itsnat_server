@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.itsnat</groupId>
+    <artifactId>itsnat_server</artifactId>
+    <version>1.4</version>
+    <packaging>jar</packaging>
+    
+    <name>ItsNat Server</name>
+    <description>ItsNat : Natural AJAX. Component Based Java Web Application Framework</description>
+    <url>http://www.itsnat.org</url>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE v3</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.en.html</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Jose Maria Arranz</name>
+            <email>jmarranz@innowhere.com</email>
+            <organization>Innowhere Software</organization>
+            <organizationUrl>http://www.itsnat.org</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:jmarranz/itsnat_server.git</connection>
+        <developerConnection>scm:git:git@github.com:jmarranz/itsnat_server.git</developerConnection>
+        <url>git@github.com:jmarranz/itsnat_server.git</url>
+    </scm>    
+    
+    
+    <dependencies>
+            
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.5</version>
+          <scope>provided</scope>
+        </dependency>    
+    
+        <dependency>
+            <groupId>com.innowhere</groupId>
+            <artifactId>relproxy</artifactId>
+            <version>0.8.5</version>
+            <type>jar</type>
+        </dependency>    
+    
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-dom</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-xml</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-util</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>serializer</artifactId>
+            <version>2.7.1</version>
+        </dependency>    
+    
+    </dependencies>    
+    
+    <build>
+      <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.0.2</version>
+              <configuration>
+                <source>1.6</source>
+                <target>1.6</target>
+                <encoding>${project.build.sourceEncoding}</encoding>
+              </configuration>
+            </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-resources-plugin</artifactId>
+              <version>2.4.3</version>
+              <configuration>
+                  <encoding>${project.build.sourceEncoding}</encoding>
+              </configuration>
+          </plugin>
+          
+            <plugin> <!-- execute with source:jar -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.4</version>              
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+
+            <plugin> <!-- execute with javadoc:jar -->
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.10.1</version>
+              <executions>
+                <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                </execution>                
+              </executions>
+              <configuration>
+                  <author>true</author>
+                  <version>true</version>
+                  <windowtitle>ItsNat Server v${project.version}</windowtitle>                  
+                  <doctitle>ItsNat Server v${project.version}</doctitle>                  
+                  <bottom><![CDATA[Copyright © Innowhere Software, Jose Maria Arranz Santamaria.]]></bottom>
+                  <excludePackageNames>org.itsnat.impl</excludePackageNames>                      
+              </configuration>
+            </plugin>          
+          
+          
+      </plugins>    
+    </build>
+    <properties>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+    </properties>
+</project>

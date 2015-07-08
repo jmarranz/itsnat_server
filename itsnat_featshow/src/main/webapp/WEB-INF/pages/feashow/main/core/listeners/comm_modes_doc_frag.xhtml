@@ -1,0 +1,48 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>ItsNat provides five communication modes for events:
+    <ol>
+        <li>AJAX Synchronous <br /><br />
+            In this mode the browser is locked
+            until the event sent to the server returns.
+            <br /><br />
+        </li>
+        <li>AJAX Asynchronous <br /><br />
+            In this mode the event is sent
+            asynchronously, the browser can fire and send
+            to the server new events.
+            <br /><br />
+        </li>
+        <li>AJAX Asynchronous-Hold <br /><br />
+            Is provided by ItsNat, in this mode
+            the event is sent to the server asynchronously (the browser is not locked)
+            but any new event fired to be sent to the server is queued as a FIFO,
+            when the first event returns the first queued event is
+            sent to the server (applying its synchronization rule).
+            This mode is very interesting because offers synchronous/predictable
+            behavior with no browser locks.
+        </li>
+        <li>SCRIPT <br /><br />
+            In this mode auxiliary SCRIPT elements are used for events,
+            this type of communication is essentially asynchronous.
+            <br /><br />
+        </li>
+        <li>SCRIPT Hold<br /><br />
+            This mode is based on SCRIPT elements but using the same technique of
+            AJAX Asynchronous-Hold to provide a synchronous/predictable
+            behavior with no browser locks.
+            <br /><br />
+        </li>
+    </ol>
+
+</div>
+
+</body>
+</html>

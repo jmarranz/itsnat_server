@@ -1,0 +1,84 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:itsnat="http://itsnat.org/itsnat">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <title>TEST: AUTO SYNC FORMS</title>
+
+    </head>
+
+    <body itsnat:nocache="true" >
+
+        <h2>TEST: AUTO SYNC FORMS</h2>
+
+        <div>
+            <input id="inputTextId" type="text" value="First Value" />
+            <button id="changeInputTextId">Change From Server</button>
+            <button id="removeInputTextId">Remove From Server</button>
+        </div>
+        <br />
+        <div>
+<textarea cols="10" rows="4" id="textAreaId">First
+  Value</textarea>
+            <button id="changeTextAreaId">Change From Server</button>
+            <button id="removeTextAreaId">Remove From Server</button>
+        </div>
+        <br />
+        <div>
+            <select id="selMulId" multiple="multiple" size="4">
+                <option>Zero</option>
+                <option selected="selected">One</option>
+                <option>Two</option>
+                <option selected="selected">Three</option>
+            </select>
+            <button id="changeItemSelMulId">Change Item From Server</button>
+            <button id="addItemSelMulId">Add Items From Server</button>
+            <button id="removeItemSelMulId">Remove Items From Server</button>
+            <button id="selItemSelMulId">Change Selections From Server</button>
+        </div>
+
+        <br />
+        <div>
+            <select id="selComboId">
+                <option>Zero</option>
+                <option selected="selected">One</option>
+                <option>Two</option>
+                <option>Three</option>
+            </select>
+            <button id="addItemSelComboId">Add Items From Server</button>
+            <button id="removeItemSelComboId">Remove Items From Server</button>
+            <button id="selItemSelComboId">Change Selection From Server</button>
+        </div>
+
+        <br />
+        <div>
+            <input id="checkBoxId" type="checkbox" checked="checked" value="ON" /> &nbsp;
+            <button id="changeCheckBoxId">Change Check Box From Server</button>
+        </div>
+
+        <br />
+        <div>
+            <input id="radioId1" name="radioEx" type="radio" value="ON" /> &nbsp;
+            <input id="radioId2" name="radioEx" type="radio" checked="checked" value="ON" />  &nbsp;
+            <button id="changeRadioId">Change Radio From Server</button>
+        </div>
+
+
+        <br /><br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=event_timeoutut}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="index.html">Return</a>
+        <br />
+        <div id="logId" />
+    </body>
+</html>

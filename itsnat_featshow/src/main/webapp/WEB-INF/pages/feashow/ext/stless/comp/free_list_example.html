@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"  xmlns:itsnat="http://itsnat.org/itsnat">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>ItsNat Stateless Free List</title>
+    <script>
+    function sendEventStateless(action,userEvt)
+    {
+        userEvt.setExtraParam('itsnat_doc_name','feashow.ext.stless.comp.freeListExample');      
+        userEvt.setExtraParam('action',action);          
+        document.getItsNatDoc().dispatchEventStateless(userEvt,3 /*XHR_ASYNC_HOLD*/, 1000000);
+    }    
+    
+    function getCurrentSelection()
+    {
+        var currentSelection = [];
+        var table = document.getElementById("compId");
+        var rows = table.rows;
+        for(var i = 0; i < rows.length; i++)
+        {
+            var row = rows[i];
+            var cell = row.cells[0];
+            if (cell.getAttribute("selected") == "true")
+                currentSelection.push(i);
+        }  
+        return currentSelection;
+    }
+    
+    function getIndexOfItem(elem)
+    {
+        var table = document.getElementById("compId");
+        var rows = table.rows;
+        for(var i = 0; i < rows.length; i++)
+        {
+            var row = rows[i];
+            var cell = row.cells[0];
+            if (elem == cell)
+                return i;
+        }          
+        return -1;
+    }
+    
+    function removeSelected()
+    {   
+        var userEvt = document.getItsNatDoc().createEventStateless();              
+        var currentSelection = getCurrentSelection();        
+        if (currentSelection.length > 0)
+            userEvt.setExtraParam('currentSelection',currentSelection);
+        
+        sendEventStateless("remove",userEvt); 
+    }    
+    
+    function select(elem)
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless(); 
+        var currentSelection = getCurrentSelection();   
+        if (currentSelection.length > 0) 
+            userEvt.setExtraParam('currentSelection',currentSelection);        
+        
+        var index = getIndexOfItem(elem);        
+        var selected = (elem.getAttribute("selected") == "true");      
+        userEvt.setExtraParam('index',index);         
+        userEvt.setExtraParam('selected',selected);   
+        
+        sendEventStateless("select",userEvt);
+    }
+    
+    function insertOrUpdate(action)
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless(); 
+        var inputElem = document.getElementById("itemId");
+        var posElem = document.getElementById("posId");        
+        userEvt.setExtraParam('name',inputElem.value);        
+        userEvt.setExtraParam('index',posElem.value);         
+        sendEventStateless(action,userEvt);         
+    }
+    
+    function update()
+    {
+        insertOrUpdate("update");      
+    }        
+    
+    function insert()
+    {
+        insertOrUpdate("insert");        
+    }        
+    
+    function reset()
+    {
+        var userEvt = document.getItsNatDoc().createEventStateless(); 
+        sendEventStateless("reset",userEvt);        
+    }  
+
+    </script>     
+</head>
+<body style="margin:20px">
+
+    <div itsnat:nocache="true">  
+  
+        <table border="1px" cellspacing="0" cellpadding="5px">  
+            <tbody id="compId">  
+                <tr><td onclick="select(this)"><b>Cell/Row Pattern</b></td></tr>  
+            </tbody>  
+        </table>  
+  
+        <input type="button" value="Remove Selected" onclick="removeSelected()" />  
+        <br /><br />  
+        <span>  
+            <input id="itemId" type="text" size="15" value="" />  
+            Pos: <input id="posId" type="text" value="" size="4" />  
+            <br /><br />  
+            <input type="button" value="Update" onclick="update()"/>  
+            <input type="button" value="Insert" onclick="insert()"/>  
+        </span>  
+
+        <br /><br />
+        <hr />
+        <input type="button" value="Reset Example" onclick="reset()"  /> 
+        
+        <br /><br />  
+
+    </div> 
+</body>
+</html>

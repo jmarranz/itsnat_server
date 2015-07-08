@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="deploy_to_distribute" name="itsnat_server" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+    <path id="maven-ant-tasks.classpath" path="ant/maven-ant-tasks-2.1.3.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+             uri="antlib:org.apache.maven.artifact.ant"
+             classpathref="maven-ant-tasks.classpath" />    
+    
+    <property file="conf/conf_local.properties"/>  <!-- just defines the property: maven_folder -->
+    <property file="conf/conf.properties"/>
+
+    <property name="program_jar_name_prefix" value="itsnat_server" />    
+    
+    <property name="distribution_folder" value="${program}/../${program_jar_name_prefix}_dist_tmp" />
+    <property name="zip_dist_folder" value="${distribution_folder}/zip_dist" />
+    <property name="maven_dist_folder" value="${distribution_folder}/maven_dist" />    
+    <property name="pom" value="${program}/pom.xml" />       
+    <property name="distribution_zip" value="${distribution_folder}/ItsNat_Server_dist_${program.version}.zip" />    
+    
+    <target name="deploy_to_distribute" depends="deploy_binaries,deploy_manual,deploy_javadoc,deploy_sources,deploy_pom,deploy_ItsNatBatikApplet" >  
+
+        <echo message="DO NOT FORGET TO CHANGE version num in conf.properties, ItsNatImpl.getVersion() and Manual (and date)" />
+
+        <copy file="${program}/ITSNAT_SERVER_LICENSE.txt" todir="${zip_dist_folder}/" />
+        <copy file="${program}/RELEASE_NOTES.html" todir="${zip_dist_folder}/" />        
+        <copy file="${program}/RELEASE_NOTES_OLD.html" todir="${zip_dist_folder}/" />              
+          
+        <delete file="${distribution_zip}" />
+        <zip basedir="${zip_dist_folder}" destfile="${distribution_zip}" />            
+    </target>
+
+    <target name="deploy_binaries"> 
+
+        <property name="program_jar_name" value="${program_jar_name_prefix}-${program.version}.jar" />
+        <property name="program_jar_path" value="${program.target}/${program_jar_name}" />  
+
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="clean"/>
+        </artifact:mvn>
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="compile"/>
+        </artifact:mvn>                  
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="jar:jar"/>
+        </artifact:mvn>        
+        
+        <property name="zip_dist_folder_lib" value="${zip_dist_folder}/lib" />
+        <delete dir="${zip_dist_folder_lib}" />
+        
+        <copy file="${program.target}/${program_jar_name}" todir="${zip_dist_folder_lib}" preservelastmodified="true"   />   
+
+        <!-- Para subir a Maven Central/JCenter -->
+        <delete file="${maven_dist_folder}/${program_jar_name}" />        
+        <copy file="${program_jar_path}" todir="${maven_dist_folder}" preservelastmodified="true"   /> 
+
+    </target>
+
+    <target name="deploy_manual">
+        <echo message="Reference Manual MUST BE MANUALLY GENERATED from Word document to PDF and HTML filtered" />
+        <property name="program_docs_src" value="${program}/docs_src" />
+        <property name="zip_dist_folder_docs_manual" value="${zip_dist_folder}/docs/manual" />
+        
+        <copy file="${program_docs_src}/itsnat_server_manual.pdf" todir="${zip_dist_folder_docs_manual}" preservelastmodified="true"   />
+        <copy file="${program_docs_src}/itsnat_server_manual.htm" todir="${zip_dist_folder_docs_manual}" preservelastmodified="true"   />
+        
+        <property name="zip_dist_folder_docs_manual_archivos" value="${zip_dist_folder_docs_manual}/itsnat_server_manual_archivos" />        
+        <delete dir="${zip_dist_folder_docs_manual_archivos}" />
+        <copy todir="${zip_dist_folder_docs_manual_archivos}" >
+            <fileset dir="${program_docs_src}/itsnat_server_manual_archivos" />
+        </copy>
+    </target>
+
+
+    <target name="deploy_javadoc">
+        <property name="javadoc_jar" value="${program_jar_name_prefix}-${program.version}-javadoc.jar" />              
+        <property name="javadoc_jar_path" value="${program.target}/${javadoc_jar}" />         
+        <property name="javadoc_dir_target" value="${zip_dist_folder}/docs/javadoc" />
+                
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="clean"/> <!-- necesario, la mierda del Maven genera el javadoc encima de lo que ya hubiera pudiendo mezclarse con archivos anteriores -->
+        </artifact:mvn>        
+        
+        <delete dir="${javadoc_dir_target}" />        
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="javadoc:jar"/>
+        </artifact:mvn>            
+        <unzip src="${javadoc_jar_path}" dest="${javadoc_dir_target}"/>
+          
+        <!-- Para subir a Maven Central/JCenter -->
+        <delete file="${maven_dist_folder}/${javadoc_jar}" />        
+        <copy file="${javadoc_jar_path}" todir="${maven_dist_folder}" preservelastmodified="true"   />        
+    </target>
+    
+    <target name="deploy_sources">
+        <!-- Para subir a Maven Central/JCenter -->               
+                       
+        <property name="sources_jar" value="${program_jar_name_prefix}-${program.version}-sources.jar" />              
+        <property name="sources_jar_path" value="${program.target}/${sources_jar}" />                
+                
+        <property name="test_sources_jar" value="${program_jar_name_prefix}-${program.version}-test-sources.jar" />              
+        <property name="test_sources_jar_path" value="${program.target}/${test_sources_jar}" />        
+        
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="clean"/> <!-- necesario, la mierda del Maven genera los sources encima de lo que ya hubiera pudiendo mezclarse con archivos anteriores -->
+        </artifact:mvn>                
+                
+        <!-- Sources sin test -->                
+                
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="source:jar"/>
+        </artifact:mvn>            
+          
+        <delete file="${maven_dist_folder}/${sources_jar}" />        
+        <copy file="${sources_jar_path}" todir="${maven_dist_folder}" preservelastmodified="true"   />        
+        
+        <!-- Source de los tests -->
+                
+        <artifact:mvn pom="${pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="source:test-jar"/>
+        </artifact:mvn>            
+          
+        <!-- NO HAY   
+        <delete file="${maven_dist_folder}/${test_sources_jar}" />        
+        <copy file="${test_sources_jar_path}" todir="${maven_dist_folder}" preservelastmodified="true"   />        
+        -->
+    </target>    
+    
+    <target name="deploy_pom">
+        <!-- Para subir a Maven Central/JCenter --> 
+
+        <property name="pom_source_path" value="${program}/pom.xml" />  
+        <property name="pom_target_path" value="${maven_dist_folder}/${program_jar_name_prefix}-${program.version}.pom" /> 
+                       
+        <delete file="${pom_target_path}" />
+        <copy file="${pom_source_path}" tofile="${pom_target_path}" preservelastmodified="true"   />        
+    </target>    
+    
+    <target name="deploy_ItsNatBatikApplet">
+
+        <property name="ItsNatBatikApplet_source_folder" value="${program}/../ItsNatBatikApplet" />  
+        <property name="ItsNatBatikApplet_target_folder" value="${zip_dist_folder}/ItsNatBatikApplet" /> 
+                       
+        <ant antfile="${ItsNatBatikApplet_source_folder}/build.xml" target="clean" inheritAll="false" />
+        <ant antfile="${ItsNatBatikApplet_source_folder}/build.xml" target="jar" inheritAll="false" />        
+                
+                
+        <delete dir="${ItsNatBatikApplet_target_folder}" />
+        <copy todir="${ItsNatBatikApplet_target_folder}" >
+            <fileset dir="${ItsNatBatikApplet_source_folder}" />
+        </copy>        
+     
+    </target>    
+    
+    <target name="deploy_itsnat_featshow">
+
+        <property name="itsnat_featshow_source_folder" value="${program}/../itsnat_featshow" />  
+        <property name="itsnat_featshow_source_pom" value="${itsnat_featshow_source_folder}/pom.xml" />        
+        <property name="itsnat_featshow_target_folder" value="${zip_dist_folder}/itsnat_featshow" /> 
+        
+        <artifact:mvn pom="${itsnat_featshow_source_pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="clean"/> 
+        </artifact:mvn>        
+        
+        <delete dir="${itsnat_featshow_target_folder}" />        
+        <artifact:mvn pom="${itsnat_featshow_source_pom}" mavenHome="${maven_folder}" fork="true"> <!-- fork="true" is needed: https://netbeans.org/bugzilla/show_bug.cgi?format=multiple&id=47645 -->
+            <arg value="install"/> 
+        </artifact:mvn>                  
+
+        <delete dir="${itsnat_featshow_target_folder}" />
+        <copy todir="${itsnat_featshow_target_folder}" >
+            <fileset dir="${itsnat_featshow_source_folder}" />
+        </copy>        
+     
+    </target>    
+    
+</project>

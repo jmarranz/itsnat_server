@@ -1,0 +1,34 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>An <code>ElementListFree</code> object helps to manage the attached markup as
+       an indexed DOM Element list ignoring other nodes like text nodes.
+    </p>
+    <p>This utility object is created calling an <code>ElementGroupManager.createElementListFree</code> method
+    with two modes, master and slave.
+    </p>
+    <ul>
+        <li>
+        In master mode the utility object must the only way
+        to add, change or remove elements of the list (methods like <code>Node.appendChild</code> cannot be used),
+        this mode is the fastest.
+        </li>
+        <br />
+        <li>In slave mode the attached DOM element list can be modified (add, change or remove elements) using
+        W3C DOM methods too, the utility list ever manifests the
+        current DOM subtree state. This mode is the slowest.
+        </li>
+    </ul>
+    <p>An interesting feature is the <code>java.util.List</code> implementation
+        including iterators, <code>java.util.Collections</code> methods such as <code>sort</code>, <code>shuffle</code>
+        or <code>rotate</code> can be used.
+    </p>
+</div>
+
+</body>
+</html>

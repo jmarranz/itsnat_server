@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ItsNat - RELEASE NOTES</title>
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <style type="text/css">
+        h2 { color: #ED752A; }
+        h3 { color: #95A22C; }
+        li { padding: 5px; }
+    </style>
+</head>
+<body style="background-color:white;">
+
+<h2>ItsNat - Release Notes</h2>
+
+
+<h3>Version 1.5</h3>
+<ul>
+    <li>Goodbye Symbian, old BlackBerries (< 6.0) and Internet Explorer 6/7
+    </li>  
+    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Operas based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported, the 
+        only reason is because Opera Mini is still a supported browser by Opera and is based on Presto.
+    </li>  
+    <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
+        and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
+        You must enable and configure it by using a ServletContextListener.
+    </li>
+    <li>Preliminar support of ItsNat Droid. It is experimental do not use (not documented).
+        <ul>
+            <li>Added classes/interfaces
+               <ul>
+                   <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>             
+                   <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>             
+               </ul>
+            </li>
+            <li>Added methods
+               <ul>
+                   <li>ItsNatServletConfig.getBitmapDensityReference()</li>             
+                   <li>ItsNatServletConfig.setBitmapDensityReference(int)</li>
+                   <li>ItsNatDroidDocumentTemplate.getBitmapDensityReference()</li>             
+                   <li>ItsNatDroidDocumentTemplate.setBitmapDensityReference(int)</li>            
+                   <li>ItsNatDroidDocumentTemplate is implemented by ItsNatDocumentTemplate objects registered with mime android/layout</li>
+               </ul>
+            </li>
+        </ul>
+    </li>
+    <li>Some bug fixes and improvements
+    </li>    
+    <li>
+    <li>Feature Showcase:
+        <ul>
+            <li>Fixed some SVG example</li>
+        </ul>     
+    </li>
+</ul>
+
+<h3>Version 1.3.1</h3>
+<ul>
+    <li>Fixed bugs: 
+        <ul>
+            <li>Regression: &lt;script&gt; elements in plain text are not correctly managed in some cases</li>             
+        </ul>
+    </li>
+    <li>Feature Showcase:
+        <ul>
+            <li>Fixed a bug removing data in "Stateless Free List Example" example</li>
+        </ul>
+    </li>    
+</ul>
+
+<h3>Version 1.3</h3>
+<ul>
+    <li>New stateless mode</li>    
+    <li>Updated to Java 1.5 (source and binary) as minimum (compiled with Oracle JDK 1.6), generics have been added to some public method</li>
+    <li>Added methods
+        <ul>
+            <li>ItsNatDocument.isCreatedByStatelessEvent()</li>             
+            <li>ItsNatEvent.getExtraParamMultiple(String)</li>
+        </ul>       
+    </li>
+    <li>Fixed bugs: 
+        <ul>
+            <li>Sent data is not decoded with UTF-8 (regression introduced when GAE was supported)</li> 
+            <li>SVGWeb doesn't work in MSIE 8 (because SVGWeb works different in MSIE 8)</li>
+            <li>ItsNatDocument.getAttributeNames() returns values instead of names</li>
+            <li>ElementTable.setTableValues(List&lt;List&lt;Object&gt;&gt;) provided data is not correctly copied</li> 
+            <li>ElementTable.setTableValues(Object[][] values) provided data is not correctly copied</li>             
+        </ul>
+    </li>
+    <li>Removed support of many old browsers.</li>    
+    <li>Feature Showcase:
+        <ul>
+            <li>Added two examples working in stateless mode</li>
+            <li>Fixed some SVG example</li>
+            <li>Fixed a bug launching servlets (both must define the same values in <code>ItsNatServletContext</code></li>
+            <li>Improved scripts to upload the application to GAE</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Version 1.2</h3>
+<ul>
+    <li>CHANGED LICENSE TO BUSINESS FRIENDLY LGPL v3 !!</li>
+    <li>Added methods:
+        <ul>
+            <li>ItsNatServletConfig.isUseSyncXHROnUnloadEvent()</li>
+            <li>ItsNatServletConfig.setUseSyncXHROnUnloadEvent(boolean)</li>
+            <li>ItsNatDocumentTemplate.isUseSyncXHROnUnloadEvent()</li>
+            <li>ItsNatDocumentTemplate.setUseSyncXHROnUnloadEvent(boolean)</li>
+        </ul>
+    </li>
+    <li>Added to Reference Manual: "5.1.2.23 Communication mode of internal unload event"</li>
+</ul>
+
+<h3>Version 1.1.2</h3>
+<ul>
+    <li>Fixed an important bug on JavaScript generation (usually MSIE v6-8 is affected),
+        UPGRADE RECOMMENDED.
+    </li>
+    <li>Interface <code>ItsNatHTMLDocFragmentTemplate</code> moved to <code>org.itsnat.core.tmpl</code>
+        package.
+    </li>
+    <li>Session is discarded when something goes wrong on serialization (session replication enabled),
+        this allows a new ItsNat session is created and you have some option to avoid the problem
+        (for instance attached clients do not work fine when session replication is enabled in Google App Engine).
+    </li>
+    <li>Fixed bug: <code>NumberFormat</code> and <code>DateFormat</code> shared objects specified
+        in <code>ItsNatDocumentTemplate</code> or <code>ItsNatServletConfig</code> are now cloned
+        per <code>ItsNatDocument</code> because they are not thread safe and cannot be shared
+        between documents.
+    </li>
+    <li>Added methods:
+        <ul>
+            <li><code>ItsNatDocFragmentTemplate.loadDocumentFragment(ItsNatDocument,ItsNatServletRequest,ItsNatServletResponse)</code></li>
+            <li><code>ItsNatHTMLDocFragmentTemplate.loadDocumentFragmentHead(ItsNatDocument,ItsNatServletRequest,ItsNatServletResponse)</code></li>
+            <li><code>ItsNatHTMLDocFragmentTemplate.loadDocumentFragmentBody(ItsNatDocument,ItsNatServletRequest,ItsNatServletResponse)</code></li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Version 1.1.1</h3>
+<ul>
+    <li>Very improved support of session replication (<code>ItsNatServletContext.setSessionReplicationCapable(boolean)</code>
+        set to true), for instance in Google App Engine (GAE):
+        <ul>
+            <li>Memory leaks have been fixed because the cleaner thread (CleanerThread) of Batik cannot be
+                launched in GAE. ItsNat NO LONGER needs this cleaner thread and is not launched anymore.
+            </li>
+            <li>Data size on serialization has been heavily reduced in some cases (many partial page changes
+                with attribute ids). Batik management of elements with ids has been fully changed
+                avoiding unnecessary cached elements (serialized alongside the session).
+            </li>
+            <li>New methods:
+                <ul>
+                    <li>ItsNatServletContext.isSessionSerializeCompressed()</li>
+                    <li>ItsNatServletContext.setSessionSerializeCompressed(boolean)</li>                    
+                    <li>ItsNatServletContext.isSessionExplicitSerialize()</li>
+                    <li>ItsNatServletContext.setSessionExplicitSerialize(boolean)</li>
+                </ul>
+            </li>
+            <li>Workaround for a bug of <code>javax.swing.text.AbstractDocument</code> (this error is still present in Java 1.6),
+                registered <code>DocumentListener</code> and <code>UndoableEditListener</code> listeners are not serialized.
+                This class is used as default data model of text components.
+            </li>
+            <li>Fixed: <code>NameValue</code> is not serializable.</li>
+            <li>Fixed problems in applications with two or more ItsNat based servlets.</li>
+            <li>Fixed other bugs.</li>
+        </ul>
+        If you are using session replication, upgrading is strongly recommended.
+    </li>
+    <li>Added method: <code>ItsNatInclude.includeFragment(String)</code></li>
+    <li>Supported SVGWeb 2010-02-03 "Lurker Above" (previous versions deprecated).
+    </li>
+    <li>Fixed bug: XHTML namespace and another different namespace declared in HTML element causes reinsertion of this element.</li>
+    <li>Fixed bug: SVGWeb does not work in attached clients in full remote control mode (SVGWeb recently changed to SVGLoad instead load
+        event to notify when it is ready).
+    </li>
+    <li>Fixed regression introduced by version 1.1 in Pocket IE: fail accessing attributes and
+        content of HEAD element.
+    </li>
+    <li>Reference Manual: "2.6.3 Session management" and "2.6.4 Google Application Engine support" have
+        been rewritten because in spite of some limitations, session replication is now a first class
+        citizen in ItsNat.
+    </li>
+    <li>Feature Showcase:
+        <ul>
+            <li>Fixed a bug launching servlets (both must define the same values in <code>ItsNatServletContext</code></li>
+            <li>Improved scripts to upload the application to GAE</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Version 1.1</h3>
+<ul>
+    <li>New feature "Disconnect Nodes from Client": this feature, complementary to node caching in templates to save server memory,
+        allows removing nodes in server but not in client saving server memory, the client DOM subtree
+        can be changed freely. Use this technique when you need to render in some way a DOM subtree
+        (of course in server) and not going to be changed anymore.
+        Disconnection is reversible (client is again in sync with server) calling <code>ItsNatDocument.reconnectChildNodesToClient(Node)</code>
+        or adding a child node to the node which content was disconnected.
+        <br /><br />
+        New Methods:
+        <ul>
+            <li>ItsNatDocument.disconnectChildNodesFromClient(Node)</li>
+            <li>ItsNatDocument.reconnectChildNodesToClient(Node)</li>
+            <li>ItsNatDocument.isDisconnectedChildNodesFromClient(Node)</li>
+        </ul>
+        <br />
+        Feature Showcase: Added "Core/Extreme Mashups/Disconnect Nodes from Client" example.
+    </li>
+
+    <li>Added tolerance to intrusive nodes inserted alongside HEAD and BODY elements by non-ItsNat JS libraries (usually browser extensions).
+        In previous version of ItsNat, extraneous elements were automatically removed.
+    </li>
+    <li>Added tolerance to intrusive nodes inserted in the end of HEAD and BODY elements by non-ItsNat JS libraries
+        (usually browser extensions and other JS libraries).
+        In previous version of ItsNat, only one element introduced by FireBug was ignored.
+    </li>
+    <li>Improved speed in server when detecting whether innerHTML can be used generating JavaScript code
+        (notably when inserting big subtrees).
+    </li>
+    <li>BlackBerry Browser of JDE 6.0 (Torch 9800) is officially supported in spite of it worked on v1.0.
+        This new browser is now WebKit based very different to previous versions.
+    </li>
+    <li>Supported SVGWeb 2010-08-10 (Owlephant), previous version deprecated. ItsNat also adds a workaround
+        for a SVGWeb bug (event listeners are not correctly removed in removeEventListener).
+    </li>
+    <li>Fixed bug (regression): events in Batik applet are not working.
+    </li>
+    <li>Workaround for a Chrome bug: Event.timeStamp is not an integer in Chrome.
+    </li>
+    <li>Reference Manual:
+        <ul>
+            <li>Added "6.23 SAVING SERVER MEMORY: DISCONNECTED NODES".</li>
+            <li>Because of improved tolerance to DOM modifications in client by non-ItsNat JavaScript
+                code, the chapter "6.42	EXTERNAL JAVASCRIPT LIBRARIES AND BROWSER EXTENSIONS" has
+                been rewritten.
+            </li>
+        </ul>
+    </li>
+</ul>
+
+
+</body>
+</html>

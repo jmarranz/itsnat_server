@@ -1,0 +1,12 @@
+/target/
+/docs_internal/
+/zip/
+
+/conf/conf_local.properties
+
+# excluimos los formatos generados a partir del Word (html y pdf)
+/docs_src/itsnat_server_manual.htm
+/docs_src/itsnat_server_manual_archivos/
+/docs_src/itsnat_server_manual.pdf
+/docs_src/Leeme.txt
+/docs_src/comparar.bat

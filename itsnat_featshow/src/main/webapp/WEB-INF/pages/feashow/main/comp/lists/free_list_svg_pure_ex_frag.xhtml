@@ -1,0 +1,33 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true">
+        <p>Use a browser with native SVG and &lt;foreignObject&gt; support including XHTML forms (FireFox 3.5 or upper recommended)
+        </p>
+
+        <h5 id="warningId" style="display:none;">Only works with a browser or SVG plugin with &lt;foreignObject&gt; support</h5>
+
+        <a id="linkId" href="feashow_servlet?itsnat_doc_name=feashow.ext.comp.lists.freeListSVGPureExample" target="_blank">
+            Launch stand alone
+        </a>
+        <br /><br />
+        <iframe id="frameId" width="550" height="450" src="?itsnat_doc_name=feashow.ext.comp.lists.freeListSVGPureExample"></iframe>
+
+        <script type="text/javascript">
+        var iframe = document.getElementById("frameId");
+        if (isMSIEOld() || isBlackBerryOld()) // BlackBerry Crashes
+        {
+            document.getElementById("warningId").removeAttribute("style");
+            document.getElementById("linkId").style.display = "none";
+            iframe.style.display = "none";
+            iframe.src="";
+        }
+        </script>
+
+    </div>
+</body>
+</html>

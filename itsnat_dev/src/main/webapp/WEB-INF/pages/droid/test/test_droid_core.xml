@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    onload="load(event)"
+    onunload="unload(event)" >
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TEST CORE"
+            android:textSize="25dp"
+            android:background="#00ff00">
+        </TextView>
+
+        <Button
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK" />
+
+        <Button
+                android:id="@id/buttonReload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_reload" />
+
+        <!-- Just a test comment (will be filtered) -->
+
+        <script><![CDATA[ toast("LOADING \n(OK testing on load <script> )"); ]]></script>
+        <script src="bs/test_script_loading.bs" />
+        <script src="${scheme}://${host}:${port}${contextPath}/bs/test_script_loading_2.bs" />
+        
+        <!-- Test load event inline -->
+        <TextView id="testLoadInlineHandlerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="load inline handler: " />
+
+        <script><![CDATA[ void load(event) { var view = itsNatDoc.findViewByXMLId("testLoadInlineHandlerId"); view.setText(view.getText() + "OK"); } ]]></script>        
+       
+        <!-- Test load event listener -->       
+        <TextView id="testLoadListenerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="load listener: " />        
+          
+        <!-- Test unload event -->
+        <TextView id="testUnloadInlineHandlerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="unload inline handler: " />         
+        
+        <script><![CDATA[ void unload(event) { var view = itsNatDoc.findViewByXMLId("testUnloadInlineHandlerId"); view.setText(view.getText() + "OK"); } ]]></script>
+
+        <!-- Test unload event listener -->       
+        <TextView id="testUnloadListenerId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="unload listener: " /> 
+
+        <!-- Test event timeout -->
+        <Button id="testTimeoutId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test event timeout (reload after)" />
+
+
+        <!-- Test server exception -->
+        <Button id="testServerExceptionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test server exception (reload after)" />
+
+        <!-- Test client exception -->
+        <Button id="testClientExceptionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test client exception (reload after)" />
+
+        <!-- Test inline handler (onclick) -->
+        <Button 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test inline handler (onclick)" 
+                onclick="alert(&quot;on&quot; + event.getType() + &quot; OK&quot;);"/>
+
+        <!-- Test native listeners -->
+        <Button id="testNativeListenersId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test native listeners" />
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="OK if almost 2 touch and 1 click event info are shown" />
+
+        <!-- Test style attr and dynamic insertion -->
+        <Button id="testStyleAttrId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test style attr and dynamic insertion" />
+
+        <TextView id="testStyleAttrHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test custom view insertion -->
+        <Button id="testCustomViewInsertionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test custom view insertion" />
+
+        <TextView id="testCustomViewInsertionHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test view tree insertion -->
+        <Button id="testViewTreeInsertionId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test view tree insertion" />
+
+        <TextView id="testViewTreeInsertionHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test view tree removing -->
+        <Button id="testViewTreeRemovingId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test view tree removing" />
+
+        <TextView id="testViewTreeRemovingHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Fragment Insertion using InnerXML -->
+        <Button id="testFragmentInsertionInnerXMLId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion by setInnerXML" />
+
+        <TextView id="testFragmentInsertionInnerXMLHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Fragment Insertion using API -->
+        <Button id="testFragmentInsertionUsingAPIId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fragment Insertion by DOM API" />
+
+        <TextView id="testFragmentInsertionUsingAPIHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <!-- Test insertion using toDOM(String) -->
+        <Button id="testToDOMId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test insertion using toDOM(String)" />
+
+        <TextView id="testToDOMHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
+        <!-- Test ScriptUtil -->
+        <Button id="testScriptUtilId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test ScriptUtil (getCallMethodCode and getNodeReference)" />
+
+        <TextView id="testScriptUtilHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Touch Events -->
+        <Button id="testTouchEventId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Touch Events" />
+
+
+        <!-- Test Event Pre Send code -->
+        <Button id="testEventPreSendId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Event Pre Send code" />
+
+            <TextView id="testEventPreSend_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>        
+        
+
+        <!-- Test Event Param Transport -->
+        <Button id="testEventParamTransportId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Event Param Transport" />
+
+            <TextView id="testEventParamTransport_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>              
+        
+        <!-- Test Event Capture -->
+        <Button id="testEventCaptureId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Event Capture" />
+
+            <FrameLayout id="eventCaptureParentId"
+                android:layout_width="250dp"
+                android:layout_height="100dp"
+                android:background="#dd0000"
+                android:visibility="gone">                
+            
+                <TextView id="eventCaptureChildId"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:text="Click Here (shown first PARENT then CHILD msg)"
+                    android:background="#00dd00">
+                </TextView>
+            </FrameLayout>
+
+ 
+        <!-- Test Continue Event Listener -->
+        <Button id="testContinueEvtListenerId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Continue Event Listener" />
+
+
+        <!-- Test User Event -->
+        <Button id="testUserEventId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test User Event" />
+
+        <TextView id="testUserEventHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+
+        <!-- Test Async Task -->
+        <Button id="testAsyncTaskId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Async Task (click twice, wait 3 sec)" />
+
+            <TextView id="testAsyncTask_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>
+
+
+        <!-- Test Timer -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+            <Button id="testTimerAddId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Timer" />
+
+            <CheckBox id="testTimerFixedRateId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fixed Rate" />
+
+            <Button id="testTimerRemoveId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remove Timer" />
+        </LinearLayout>
+
+        <TextView id="testTimer_text_Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="">
+        </TextView>
+
+        <!-- Test Comet -->
+        <Button id="testCometNotifierId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Comet start/stop" />
+
+            <TextView id="testCometNotifier_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>
+
+
+        <!-- Test Keyboard Input -->
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            <EditText id="testKeyboardInputEditId"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:hint="áéíñ"/>
+
+            <Button id="testKeyboardInputProcessId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Test Keyboard Input" />
+
+        </LinearLayout>
+
+        <TextView id="testKeyboardInput_text_Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="">
+        </TextView>
+
+        <!-- Test Global Listeners -->
+        <Button id="testGlobalListenersId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Global Listeners" />
+
+
+        <!-- Test Fire Event From Server With Browser -->
+        <Button id="testFireEventInServerWithBrowserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fire Event From Server With Browser" />
+
+            <TextView id="testFireEventInServerWithBrowser_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>
+
+        <TextView id="testFireEventInServerWithBrowserHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Fire Event From Server No Browser -->
+        <Button id="testFireEventInServerNoBrowserId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Fire Event From Server No Browser" />
+
+            <TextView id="testFireEventInServerNoBrowser_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>
+
+        <TextView id="testFireEventInServerNoBrowserHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+        <!-- Test Disconnect Node -->
+        <Button id="testDisconnectNodeId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Disconnect Node" />
+
+            <LinearLayout id="testDisconnectNodeContainerId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView id="testDisconnectNodeText_1_Id"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Text 1 connected to Server"
+                    android:background="#ffdddd" />
+
+                <TextView id="testDisconnectNodeText_2_Id"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:text="Text 2 connected to Server"
+                        android:background="#00dd00" />
+
+            </LinearLayout>
+
+
+        <!-- Test Referrer -->
+        <Button id="testReferrerId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Referrer" />
+
+            <TextView id="testReferrer_text_Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="">
+            </TextView>
+
+    </LinearLayout>
+</ScrollView>

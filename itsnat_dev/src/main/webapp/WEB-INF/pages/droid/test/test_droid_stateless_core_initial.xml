@@ -1,0 +1,157 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+       
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TEST STATELESS CORE"
+            android:textSize="25dp" 
+            android:background="#00ff00">
+        </TextView> 
+
+        <Button
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BACK" />   
+         
+        <Button 
+                android:id="@id/buttonReload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_reload" />         
+                  
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Event Custom"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp"
+            onclick="sendEventStatelessCustom()">
+        </TextView>
+        <script>
+        import org.itsnat.droid.CommMode;   // Only one is needed, script elements are finally joined in declaration order       
+            
+        void sendEventStatelessCustom()
+        {
+            var evt = itsNatDoc.createEventStateless();
+            evt.setExtraParam("model",android.os.Build.MODEL);   
+            itsNatDoc.dispatchEventStateless(evt,CommMode.XHR_ASYNC_HOLD, 1000000);
+        }
+        </script>
+
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Event Document Template not found"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp"
+            onclick="sendEventStatelessBadTemplateName()">
+        </TextView>
+        <script>            
+        void sendEventStatelessBadTemplateName()
+        {
+            var evt = itsNatDoc.createEventStateless();
+            evt.setExtraParam("model",android.os.Build.MODEL);   
+            evt.setExtraParam("itsnat_doc_name","test_droid_core_stateless_event_WRONG_NAME");             
+            itsNatDoc.dispatchEventStateless(evt,CommMode.XHR_ASYNC_HOLD, 1000000);
+        }
+        </script>
+
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Event Custom Added Template In Event"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp"
+            onclick="sendEventStatelessCustomAddedTemplateInEvent()">
+        </TextView>
+        <script>           
+        void sendEventStatelessCustomAddedTemplateInEvent()
+        {
+            var evt = itsNatDoc.createEventStateless();
+            evt.setExtraParam("model",android.os.Build.MODEL);   
+            evt.setExtraParam("itsnat_doc_name_second_opportunity","test_droid_stateless_core_event");        
+            itsNatDoc.dispatchEventStateless(evt,CommMode.XHR_ASYNC_HOLD, 1000000);
+        }
+        </script>
+
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Stateless Event"
+            android:textSize="20dp"
+            android:textColor="#0000ff"    
+            android:layout_marginTop="10dp"
+            onclick="sendEventStateless()">
+        </TextView>
+        <script>
+        void sendEventStateless()
+        {
+            var evt = itsNatDoc.createEventStateless();  
+            evt.setExtraParam("itsnat_doc_name","test_droid_stateless_core_event");            
+            itsNatDoc.dispatchEventStateless(evt,CommMode.XHR_ASYNC_HOLD, 1000000);
+        }
+        </script>
+
+        <!-- Anidamos con varios FrameLayouts para testear el buen funcionamiento de itsnat:locById -->
+        <LinearLayout id="testElemContainerId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:visibility="invisible"> 
+    
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">                             
+                    <FrameLayout id="testElemId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">            
+                    </FrameLayout>
+            </FrameLayout>
+            
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">                        
+                <TextView id="testElem_text_Id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="">
+                </TextView>   
+            </FrameLayout>
+                   
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">        
+                <Button 
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CLEAR TEST"                
+                    onclick="clearTest()">
+                </Button>
+            </FrameLayout>         
+            
+        </LinearLayout>
+       
+        <script>
+        void clearTest()
+        {
+            var testElem = itsNatDoc.findViewByXMLId("testElemContainerId");
+            testElem.setVisibility(View.INVISIBLE);            
+        }
+        </script>
+       
+    </LinearLayout>
+</ScrollView>        
+        

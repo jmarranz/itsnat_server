@@ -1,0 +1,31 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>Components can be fully declared on markup and automatically
+    built with a single call to <code>ItsNatComponentManager.buildItsNatComponents(Node)</code>,
+    </p>
+
+    <p>This method traverses the specified subtree creating the components declared explicitly (with <code>itsnat:compType</code> attribute)
+        or implicitly (a &lt;button&gt; element has an implicit component, <code>ItsNatHTMLButton</code>),
+        registering these component objects into the framework.
+        Later these components can be queried with calls to <code>ItsNatComponentManager.findItsNatComponentById(String)</code>
+        or <code>ItsNatComponentManager.findItsNatComponent(Node)</code>.
+    </p>
+
+    <p>Form based elements have built-in components and usually
+    do not need extra information.
+    </p>
+
+    <p>Automatic component build can be specified globally
+    with methods: <code>ItsNatServletConfig.setAutoBuildComponents(boolean)</code>
+    and <code>DocumentTemplage.setAutoBuildComponents(boolean)</code>.
+    </p>
+</div>
+
+</body>
+</html>

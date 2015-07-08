@@ -1,0 +1,62 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>As Internet Explorer (6,7,8) has not W3C mutation events, ItsNat provides
+    alternatives way to synchronize the server DOM when the browser DOM changes
+    valid on MSIE and W3C based.
+    </p>
+
+    <ul>
+        <li><p>Autosync Attributes:</p>
+            <p>This example shows how to automatically update a changed attribute on client
+            in the server.
+            </p>
+
+            <p>Passing a <code>NodeAttributeTransport</code> parameter to the method
+            <code>ItsNatDocument.addEventListener</code> commands ItsNat to
+            transport the current specified client attribute value when the client event
+            is fired, this value is updated automatically in the server, removing or creating
+            the attribute if necessary.
+            </p>
+
+            <p>The <code>NodeAllAttribTransport</code> alternative takes a snapshot of the
+               attributes of the specified element.
+            </p>
+        </li>
+        <li><p>Autosync the Content (Inner) of a Node:</p>
+            <p>Similar to <code>NodeAllAttribTransport</code> the class
+                <code>NodeInnerTransport</code> is used to update the server node content (inner)
+                with the current content of the client counterpart.
+            </p>
+        </li>
+        <li><p>Autosync a Node Completely</p>
+            <p><code>NodeCompleteTransport</code> is used to update a server node
+                with the current state of the client counterpart, content and attributes.
+                Is the sum of the behavior of <code>NodeAllAttribTransport</code>
+                and <code>NodeInnerTransport</code> classes.
+            </p>
+        </li>
+        <li><p>Autosync Node Properties</p>
+            <p>JavaScript DOM distinguishes between attributes and properties,
+                some attributes have counterpart properties; property and attribute values may be different
+                for instance the attribute/property "value".
+                Java W3C DOM does not distinguish between attributes and properties,
+                properties ever are saved as attributes.
+            </p>
+
+            <p>Similar to <code>NodeAttributeTransport</code> the class
+                <code>NodePropertyTransport</code> is used to update a server node property/attribute
+                with the current value of the specified client property counterpart.
+            </p>
+        </li>
+
+    </ul>
+
+</div>
+</body>
+</html>

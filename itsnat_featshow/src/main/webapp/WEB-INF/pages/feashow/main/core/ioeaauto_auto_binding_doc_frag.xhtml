@@ -1,0 +1,35 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>If the data loaded by an &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt; or &lt;applet&gt; is a markup document loaded from ItsNat,
+        you can access this document in server by calling <code>HTMLIFrameElement.getContentDocument()</code>,
+        <code>HTMLObjectElement.getContentDocument()</code> or the ItsNat defined interfaces and methods
+        <code>ItsNatHTMLEmbedElement.getContentDocument()</code> and <code>ItsNatHTMLAppletElement.getContentDocument()</code>.
+        The returned object (if non-null) grants you access to the child document.
+    </p>
+    <p>In the child <code>ItsNatDocument</code> the parent document is obtained calling
+        <code>ItsNatDocument.getParentItsNatDocument()</code> (returns null if the parent document is not bound).
+    </p>
+    <p>The document loaded by an iframe/object/embed/applet element is automatically bound to the parent in server only if the <code>src</code>
+        attribute in the case of iframe and embed, <code>data</code> in object or a special "src" parameter in applet, matches in server the following pattern:
+    </p>
+    <p><code>?itsnat_doc_name=<i>someDocTemplateName</i>&<i>otherparams</i>...#<i>optionalref</i></code>
+    </p>
+    <p>or when the URL is absolute and the host and path (until the query string) are the same as the URL of the container page.
+    </p>
+    <p>Iframe/object/embed/applet elements bound to the parent document can be remote viewed/controlled
+        through the parent.
+    </p>
+    <p>Some examples of the Feature Showcase use iframe elements, most of them
+        are automatically bound to the parent and can be remote viewed/controlled.
+    </p>
+</div>
+
+</body>
+</html>

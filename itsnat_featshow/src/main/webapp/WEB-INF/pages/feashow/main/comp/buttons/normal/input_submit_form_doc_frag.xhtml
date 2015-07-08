@@ -1,0 +1,31 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>In this example the submit button is contained by a form, now
+        a submit sends the form leaving the page. This an opportunity
+        to show how an event can be cancelled in the server calling
+        <code>org.w3c.dom.events.Event.preventDefault()</code>.
+    </p>
+    <p>The cancellation only works in AJAX synchronous mode because the
+        cancellation only is possible inside the client event processing
+        immediately after the event is fired, this is not an ItsNat limitation
+        is a limitation of browsers.
+        To send/receive button clicks in AJAX synchronous mode the call
+        <code>ItsNatComponent.setEventListenerParams(...,CommMode.XHR_SYNC,...)</code> sets the
+        communication mode to AJAX synchronous (by default the Feature Showcase mode
+        is <code>CommMode.XHR_ASYNC_HOLD</code> a deterministic variation of the asynchronous mode).
+    </p>
+    <p>Some browsers (usually based on old WebKit versions) do not support
+       synchronous AJAX.
+    </p>
+    <p>The same is applied to &lt;input&gt; buttons with type "reset" inside forms.
+    </p>
+</div>
+
+</body>
+</html>

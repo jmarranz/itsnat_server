@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+    <servlet>
+        <servlet-name>ItsNatServletExample</servlet-name>
+        <servlet-class>test.ItsNatServletExample</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AnyThingServlet</servlet-name>
+        <servlet-class>test.AnyThingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ItsNatDroidServletExample</servlet-name>
+        <servlet-class>test.ItsNatDroidServletExample</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ItsNatDroidServletNoItsNat</servlet-name>
+        <servlet-class>test.ItsNatDroidServletNoItsNat</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ItsNatServletExample</servlet-name>
+        <url-pattern>/ItsNatServletExample</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItsNatServletExample</servlet-name>
+        <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AnyThingServlet</servlet-name>
+        <url-pattern>/AnyThingServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItsNatDroidServletExample</servlet-name>
+        <url-pattern>/ItsNatDroidServletExample</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItsNatDroidServletNoItsNat</servlet-name>
+        <url-pattern>/ItsNatDroidServletNoItsNat</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>
+            index.html
+        </welcome-file>
+    </welcome-file-list>
+    
+   <listener>
+	<listener-class>
+             test.shared.JProxyServletContextListener 
+        </listener-class>
+   </listener>  
+       
+</web-app>

@@ -1,0 +1,25 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>Normal buttons has not permanent state (selection state exactly),
+    the <code>javax.swing.ButtonModel</code> model automatically
+    notifies when the button is pressed and released, when a button "click" cycle
+    completes an <code>java.awt.event.ActionEvent</code> is fired by the button model,
+    a listener to this event is the usual way to "do something when the button is clicked".
+    </p>
+    <p>By default ItsNat minimizes the client-server communication and sends one DOM "click" event
+        to the server when the user "clicks" a button, this event is converted to the pressed-released sequence in one "shot"
+        in the button model. This behaviour can be changed to distinguish when the user pressed and released the button as
+        two separated events.
+    </p>
+    <p>All "normal" buttons implement the interface <code>ItsNatButtonNormal</code>
+    </p>
+</div>
+
+</body>
+</html>

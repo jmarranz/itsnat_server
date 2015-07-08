@@ -1,0 +1,26 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>In this case the browser is not used to dispatch events, Java W3C DOM events are directly dispatched
+    to the server listeners following the W3C DOM Events standard. These events simulate user actions performed
+    in the server based "Java Web Browser".
+    </p>
+
+    <p>The code is almost the same as the previous example (using the browser)
+    because required events are the same, but there are differences:
+    no special threads and document locks are needed, a normal servlet-request thread may be used and events
+    are ever dispatched synchronously (no timeouts, communication modes, waits etc needed).
+    </p>
+
+    <p>There is no visual change in this example because the city list is cleared
+        after the test returning again to an empty list (the starting point).
+    </p>
+</div>
+
+</body>
+</html>

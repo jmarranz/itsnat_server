@@ -1,0 +1,2 @@
+
+toast("LOADING \n(OK testing on load <script src=\"...\"> )");

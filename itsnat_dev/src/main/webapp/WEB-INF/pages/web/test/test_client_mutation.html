@@ -1,0 +1,100 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+        <title>TESTS CLIENT MUTATION</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> <!-- ISO-8859-1 -->
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="pragma" content="no-cache" />
+  </head>
+  <body itsnat:nocache="true" xmlns:itsnat="http://itsnat.org/itsnat">
+        <h2>TESTS CLIENT MUTATION (only W3C Browsers)</h2>
+
+        <p>Ver consola en el servidor o ver por ctrl remoto</p>
+        <p>Safari 3.0 no emite DOMAttrModified y emite dos eventos DOMNodeRemoved erróneamente.
+            <a href="http://lists.webkit.org/pipermail/webkit-dev/2007-July/002067.html">Enlace</a></p>
+
+        <a href="javascript:;" id="linkToAddAttrClient" onclick="linkToAddAttrClient(event)">Add Attr on Client and Sync server (set style with red color)</a>
+        <script type="text/javascript">
+            function linkToAddAttrClient(evt)
+            {
+                evt.target.setAttribute("style","color:red;");
+            }
+        </script>
+
+        <br /><br />
+
+        <a href="javascript:;" id="linkToUpdateAttrClient" onclick="linkToUpdateAttrClient(event)" style="color:blue;" >Change Attr on Client and Sync server (set style with red color)</a>
+        <script type="text/javascript">
+            function linkToUpdateAttrClient(evt)
+            {
+                evt.target.setAttribute("style","color:red;");
+            }
+        </script>
+        <br /><br />
+
+        <a href="javascript:;" id="linkToRemoveAttrClient" onclick="linkToRemoveAttrClient(event)" style="color:red;" >Remove Attr on Client and Sync server (remove style with red color)</a>
+        <script type="text/javascript">
+            function linkToRemoveAttrClient(evt)
+            {
+                evt.target.removeAttribute("style");
+            }
+        </script>
+        <br /><br />
+
+        <a href="javascript:;" id="linkToAddNodeClient" onclick="linkToAddNodeClient(event)">Insert Node on Client and Sync server</a>
+        <script type="text/javascript">
+            function linkToAddNodeClient(evt)
+            {
+                var newNode = document.createElement("span");
+                newNode.setAttribute("style","color:red;");
+                newNode.appendChild(document.createTextNode(" New text ! # $ & '( ) + , / : ; = ? @ á"));
+                evt.target.insertBefore(newNode,evt.target.firstChild);
+            }
+        </script>
+        <br /><br />
+
+        <a href="javascript:;" id="linkToAddNodeClient2" onclick="linkToAddNodeClient2(event)">Append Node on Client and Sync server</a>
+        <script type="text/javascript">
+            function linkToAddNodeClient2(evt)
+            {
+                var newNode = document.createElement("span");
+                newNode.setAttribute("style","color:red;");
+                newNode.appendChild(document.createTextNode(" New text "));
+                evt.target.appendChild(newNode);
+            }
+        </script>
+        <br /><br />
+
+        <a href="javascript:;" id="linkToRemoveNodeClient" onclick="linkToRemoveNodeClient(event)">Remove Node on Client and Sync server: <span>This node is removed</span></a>
+        <script type="text/javascript">
+            function linkToRemoveNodeClient(evt)
+            {
+                var link = evt.currentTarget;
+                // Usamos currentTarget para asegurar que es el link porque si hacemos click en el span el evt.target es el span
+                link.removeChild(link.lastChild);
+            }
+        </script>
+        <br /><br />
+
+        <a href="javascript:;" id="linkToChangeDataClient" onclick="linkToChangeDataClient(event)">Change Text Node on Client and Sync server</a>
+        <script type="text/javascript">
+            function linkToChangeDataClient(evt)
+            {
+                evt.target.firstChild.data = "Text Node Changed";
+            }
+        </script>
+
+        <br /><br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+        <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+        <br />
+        <a href="index.html">Return</a>
+  </body>
+</html>

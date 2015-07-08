@@ -1,0 +1,181 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true" id="compGroupId">
+
+    <p>Note: this example does nothing functional</p>
+    <ul>
+        <li>
+            <p>Normal Buttons:</p>
+            <div>
+                <input type="button" id="inputButtonId" value="Input Button (replaced)" /><br />
+                <input type="image" id="inputImageId" src="img/book.png"  value="" /><br />
+                <input type="submit" id="inputSubmitId" value="Input Submit (replaced)" /><br />
+                <input type="reset" id="inputResetId" value="Input Reset (replaced)" /><br />
+                <button id="buttonId">Button</button><br />
+                <button id="buttonLabelId" itsnat:compType="buttonLabel">Button With Label (replaced)</button><br />
+                <a itsnat:isComponent="true" id="anchorId" href="javascript:void(0)">Anchor</a><br />
+                <a itsnat:isComponent="true" id="anchorLabelId" itsnat:compType="buttonLabel" href="javascript:void(0)">Anchor With Label</a><br />
+                <span itsnat:compType="freeButtonNormal" id="freeButtonNormalId">Free Button Normal</span><br />
+                <span itsnat:compType="freeButtonNormalLabel" id="freeButtonNormalLabelId">Free Button Normal Label (replaced)</span><br />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Toggle Buttons:</p>
+            <div>
+                <input type="checkbox" id="inputCheckBoxId" value="" /><br />
+                <input type="radio" id="inputRadioButtonId" value="" /><br />
+                <span itsnat:compType="freeCheckBox" id="freeCheckBoxId">Free Check Box</span><br />
+                <span itsnat:compType="freeCheckBoxLabel" id="freeCheckBoxLabelId">Free Check Box Label (replaced)</span><br />
+                <span itsnat:compType="freeRadioButton" id="freeRadioButtonId">Free Radio Button</span><br />
+                <span itsnat:compType="freeRadioButtonLabel" id="freeRadioButtonLabelId">Free Radio Button Label (replaced)</span><br />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Text Fields:</p>
+            <div>
+                <input type="text" id="inputTextId" size="20" value="" /><br />
+                <input type="password" id="inputPasswordId" size="20" value="" /><br />
+                <input type="hidden" id="inputHiddenId" size="20" value="" /><br />
+                <input type="file" id="inputFileId" size="20" /><br />
+                <input type="text" itsnat:compType="formattedTextField" id="inputTextFormattedId" size="20" value="" /><br />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Text Area:</p>
+            <div>
+                <textarea id="textAreaId" cols="10" rows="3"  /><br />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Labels:</p>
+            <div>
+                <label itsnat:isComponent="true" id="labelId">Label</label><br />
+                <span itsnat:compType="freeLabel" id="freeLabelId">Free Label</span><br />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Lists:</p>
+            <div>
+                <select id="selectComboId"><option>Option 1</option></select><br />
+
+                <br />
+                <select multiple="multiple" id="selectListId"><option>Option 1</option></select><br />
+
+                <div itsnat:compType="freeComboBox" id="freeComboBoxId">
+                    <p style="border:1px solid;">Option 1</p>
+                </div>
+
+                <div itsnat:compType="freeListMultSel" id="freeListId">
+                    <p style="border:1px solid;">Option 1</p>
+                </div>
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Tables:</p>
+            <div>
+                <table itsnat:isComponent="true" id="tableId" border="1px" cellspacing="0">
+                    <tbody>
+                        <tr><td>Cell<td></tr>
+                    </tbody>
+                </table>
+
+                <div itsnat:compType="freeTable" id="freeTableId">
+                    <div style="border: 1px solid; margin-top: 10px;">
+                        <div style="border: 1px solid;">Cell</div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Trees:</p>
+            <div>
+                <table>
+                    <tbody itsnat:compType="freeTree" id="freeTreeId">
+                    <tr>
+                        <td><span><img src="img/tree/tree_node_expanded.gif" /><img src="img/tree/tree_folder_open.gif" /><span>Label</span></span>
+                            <table style="margin:0 0 0 15px;" >
+                                <tbody/>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <tbody itsnat:compType="freeTree" itsnat:rootless="true" id="freeTreeRootlessId">
+                    <tr>
+                        <td><span><img src="img/tree/tree_node_expanded.gif" /><img src="img/tree/tree_folder_open.gif" /><span>Label</span></span>
+                            <table style="margin:0 0 0 15px;" >
+                                <tbody/>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table border="1px" cellspacing="0" cellpadding="5px">
+                    <tbody itsnat:compType="freeTree" itsnat:treeTable="true" id="freeTreeTableId">
+                        <tr>
+                            <td><img src="img/tree/tree_node_expanded.gif" /><img src="img/tree/tree_folder_close.gif" /><span>Label</span></td>
+                            <td>Other content</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Form</p>
+            <form id="formId" />
+        </li>
+
+        <li>
+            <p>Free Include</p>
+            <div itsnat:compType="freeInclude" id="freeIncludeId" />
+        </li>
+
+        <li>
+            <p>Custom Component:</p>
+            <div itsnat:compType="login" id="customCompId">
+                User: <input type="text" id="userId" value="User" size="5"  />
+                Password: <input type="password" id="passwordId" value="Password" size="5" />
+                <input type="button" id="validateId" value="Login" />
+            </div>
+            <br />
+        </li>
+
+        <li>
+            <p>Using artifacts</p>
+
+            <table border="1px" cellspacing="0" cellpadding="5px">
+                <tbody itsnat:compType="freeListMultSel" itsnat:useStructure="cityCustomStruc" id="listCustomStructureId">
+                    <tr><td>City:</td><td><b>Name</b></td></tr>
+                </tbody>
+            </table>
+        </li>
+    </ul>
+
+
+    </div>
+</body>
+</html>

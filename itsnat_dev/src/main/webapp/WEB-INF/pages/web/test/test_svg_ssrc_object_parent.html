@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <title>Test SVG Bound to Parent: OBJECT with Savarese Plugin</title>
+</head>
+<body xmlns:itsnat="http://itsnat.org/itsnat" itsnat:nocache="true">
+    <h1>Test SVG Bound to Parent: OBJECT with Savarese Plugin</h1>
+
+    <p>Selected Circle: <span id="circleSelectedId">none</span>
+    </p>
+    <p>Radio: <input id="radioId" type="text" size="5" />
+    </p>
+    <p>
+       <input id="updateId" type="button" value="Update" />
+    </p>
+
+    <object id="containerSVGId" classidNO="CLSID:1339B54C-3453-11D2-93B9-000000000000" type="image/svg+xml" style="width:400px; height:180px;"
+            data="?itsnat_doc_name=test_svg_bound_savarese"
+            src="?itsnat_doc_name=test_svg_bound_savarese">
+        <param name="src" value="?itsnat_doc_name=test_svg_bound_savarese" />
+    </object>
+
+    <script>
+        var func = function()
+        {
+            window.setTimeout(arguments.callee,100);
+            var elem = document.getElementById("containerSVGId");
+            var url;
+            try{ url = elem.LocationURL; }catch(e){ return; } // If error not loaded yet or not Ssrc plugin
+            if (!url) return; // Unloading
+            var pos = url.indexOf('#'); // #p=n,c=n
+            var state = url.charAt(pos + 3);
+            if (state == 'y')
+            {
+                url = url.substring(0,pos + 3) + 'n' + url.substring(pos + 4);
+                elem.Navigate(url);
+                document.getItsNatDoc().fireUserEvent(null,'update_svg');
+            }
+        };
+        func();
+    </script>
+
+    <br /><br />
+    <button id="reinsertId">Reinsert</button>
+    <button id="changeURLId">Change URL</button>
+
+    <br /><br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="index.html">Return</a>
+    <br /><br />
+
+    <script>
+        function test()
+        {
+            var elem = document.getElementById("containerSVGId");
+            alert(elem.LocationURL);
+            // elem.setSrc("?itsnat_doc_name=test_svg_bound");
+            //elem.src = elem.src + " ";
+            elem.Navigate(elem.LocationURL + " ");
+            alert("BIEN");
+        }
+        // document.onclick = test;
+    </script>
+
+</body>
+</html>
+

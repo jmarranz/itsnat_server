@@ -1,0 +1,35 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p><code>ItsNatTree</code> components leverage the DOM utility <code>ElementTree</code>
+        adding a data model, <code>javax.swing.tree.TreeModel</code>, a tree node selection system
+        and in-place editing similar to labels. Almost single tree node is needed
+        as pattern (trees are all "free" because there is no HTML &lt;tree&gt; tag).
+    </p>
+    <p>The selection system uses <code>javax.swing.tree.TreeSelectionModel</code>
+        objects and no selection decoration is defined by default. The Feature Showcase
+        defines a class <code>FreeTreeDecorator</code> reused by the tree examples
+        (this class is not part of ItsNat Framework use it as you want).
+    </p>
+    <p>Node expansion and collapsing is supported by the component as a response
+        of mouse events but there is no visual impact by default, the component
+        fires <code>javax.swing.event.TreeExpansionEvent</code> events
+        to registered <code>TreeWillExpandListener</code> calling
+        <code>ItsNatTree.addTreeWillExpandListener</code> and
+        to registered <code>TreeExpansionListener</code> listeners
+        calling <code>ItsNatTree.addTreeExpansionListener</code> listeners
+        if expansion/collapsing was not vetoed. Again the
+        <code>FreeTreeDecorator</code> class is used to expand and collapse tree nodes.
+    </p>
+    <p>Tree components support rootless and tree-tables and they are
+        supported by the <code>FreeTreeDecorator</code>.
+    </p>
+</div>
+
+</body>
+</html>

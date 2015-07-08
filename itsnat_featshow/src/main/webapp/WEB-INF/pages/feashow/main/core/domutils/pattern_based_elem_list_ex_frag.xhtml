@@ -1,0 +1,44 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true">
+
+        <p>List with an HTML element pattern:</p>
+        <ul id="elementListId">
+            <li><i>Element Pattern</i></li>
+        </ul>
+
+        <p>List using a table:</p>
+        <table border="1px" cellpadding="5px">
+            <tbody id="elementListId2">
+                <tr><td>Element Pattern</td></tr>
+            </tbody>
+        </table>
+
+        <p>List using a custom renderer:</p>
+        <ul id="elementListId3">
+            <li>Element Pattern</li>
+        </ul>
+
+        <p>List using a complex custom structure and the previous custom renderer:</p>
+        <table border="1px" cellpadding="5px">
+            <tbody id="elementListId4">
+                <tr>
+                    <td>
+                        <table border="1px" cellpadding="5px">
+                            <tbody>
+                                <tr><td>Element Pattern</td></tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+</html>

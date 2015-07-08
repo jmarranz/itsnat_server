@@ -1,0 +1,30 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>By default any button component listens "click" events, to separate
+        the press and release phases we can disable the "click" events calling
+        <code>ItsNatComponent.disableEventListener</code> and enable
+        "mousedown" and "mouseup" event types calling
+        <code>ItsNatComponent.enableEventListener</code> or directly
+        adding a listener calling <code>ItsNatComponent.addEventListener</code>,
+        the internal button behavior is updated accordingly.
+    </p>
+    <p>You can enable the "mouseover" and "mouseout" events registering listeners with
+        <code>ItsNatComponent.addEventListener</code>.
+        When the mouse enters into the button area, a Swing ChangeEvent
+        is fired and button "rollover" state is set to true.
+        These events are not recommended in ItsNat (server side processing) because of very much events and net traffic,
+        use client side code (JavaScript) or CSS instead.
+    </p>
+    <p>The DOM event "mousemove" can be listened too but the component
+        does nothing specific.
+    </p>
+</div>
+
+</body>
+</html>

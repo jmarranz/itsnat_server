@@ -1,0 +1,184 @@
+<?xml version="1.0" ?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<!-- Comentario para fastidiar -->
+
+<svg  version="1.1" width="100%" height="100%"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:itsnat="http://itsnat.org/itsnat"
+    itsnat:nocache="true">
+
+    <text x="25" y="30" font-family="Verdana" font-size="17" >
+    TESTS CLIENT MUTATION
+    </text>
+
+    <text x="25" y="60" font-family="Verdana" font-size="13" >
+    Ver consola en el servidor o ver por ctrl remoto
+    </text>
+
+    <text x="25" y="80" font-family="Verdana" font-size="13" >
+        Safari 3.0 no emite DOMAttrModified y emite dos eventos DOMNodeRemoved erróneamente. ASV v3 no soporta mutation events (ASV v6 sí).
+    </text>
+
+    <text id="linkToAddAttrClient" onclick="linkToAddAttrClient(evt)" x="25" y="110" font-family="Verdana" font-size="16">
+        Add Attr on Client and Sync server (set style with red color)
+    </text>
+    <script>
+        function linkToAddAttrClient(evt)
+        {
+            evt.target.setAttribute("fill","red");
+        }
+    </script>
+
+    <text id="linkToUpdateAttrClient" onclick="linkToUpdateAttrClient(evt)" x="25" y="140" font-family="Verdana" font-size="16" fill="blue" >
+        Change Attr on Client and Sync server (set fill with red color)
+    </text>
+    <script>
+        function linkToUpdateAttrClient(evt)
+        {
+            evt.target.setAttribute("fill","red");
+        }
+    </script>
+
+    <text id="linkToRemoveAttrClient" onclick="linkToRemoveAttrClient(evt)" x="25" y="160" font-family="Verdana" font-size="16" fill="blue" >
+        Remove Attr on Client and Sync server (remove fill with blue color)
+    </text>
+    <script>
+        function linkToRemoveAttrClient(evt)
+        {
+            evt.target.removeAttribute("fill");
+        }
+    </script>
+
+    <text id="linkToAddNodeClient" onclick="linkToAddNodeClient(evt)" x="25" y="200" font-family="Verdana" font-size="16" fill="blue" >
+        Insert Node on Client and Sync server
+    </text>
+    <script><![CDATA[
+        function linkToAddNodeClient(evt)
+        {
+            var elem = evt.target;
+            var newNode = elem.cloneNode(true);
+            newNode.setAttribute("y","180");
+            newNode.removeAttribute("fill");
+            newNode.removeChild(newNode.firstChild);
+            newNode.appendChild(document.createTextNode(" New text ! # $ & '( ) + , / : ; = ? @ á"));
+            var parentNode = elem.parentNode;
+            parentNode.insertBefore(newNode,elem);
+        }
+    ]]></script>
+
+    <text id="linkToAddNodeClient2" onclick="linkToAddNodeClient2(evt)" x="25" y="240" font-family="Verdana" font-size="16" fill="blue" >
+        Append Node on Client and Sync server
+    </text>
+        <g id="linkToAddNodeClient2_Ref"></g>
+    <script><![CDATA[
+        function linkToAddNodeClient2(evt)
+        {
+            var elem = evt.target;
+            var newNode = elem.cloneNode(true);
+            newNode.removeAttribute("id");
+            newNode.removeAttribute("fill");
+            newNode.removeAttribute("onclick");
+            newNode.setAttribute("y","220");
+            newNode.firstChild.data = " New text ! # $ & '( ) + , / : ; = ? @ á";
+            var parentNode = document.getElementById("linkToAddNodeClient2_Ref");
+            parentNode.appendChild(newNode);
+        }
+    ]]></script>
+
+    <text id="linkToRemoveNodeClient" onclick="linkToRemoveNodeClient(evt)" x="25" y="260" font-family="Verdana" font-size="16" fill="blue" >
+        Remove Node on Client and Sync server:
+    </text>
+        <text id="linkToRemoveNodeClientRef" x="45" y="280" font-family="Verdana" font-size="16" >
+            This node is removed
+        </text>
+    <script>
+        function linkToRemoveNodeClient(evt)
+        {
+            var elem = document.getElementById("linkToRemoveNodeClientRef");
+            elem.parentNode.removeChild(elem);
+        }
+    </script>
+
+
+    <text id="linkToChangeDataClient" onclick="linkToChangeDataClient(evt)" x="25" y="310" font-family="Verdana" font-size="16" fill="blue" >
+        Change Text Node on Client and Sync server
+    </text>
+    <script>
+        function linkToChangeDataClient(evt)
+        {
+            evt.target.firstChild.data = "Text Node Changed";
+        }
+    </script>
+
+    <a xlink:href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=1000&amp;itsnat_syncmode=${syncModeRemCtrl}&amp;itsnat_ajaxtimeout=${ajaxTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">
+      <text x="25" y="340" font-family="Verdana" font-size="16" fill="blue" >
+        Remote Control Timer
+      </text>
+    </a>
+
+    <a xlink:href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=timer&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_refresh_interval=1000&amp;itsnat_syncmode=${syncModeRemCtrl}&amp;itsnat_ajaxtimeout=${ajaxTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_readonly=false" target="_blank">
+      <text x="230" y="340" font-family="Verdana" font-size="16" fill="blue" >
+        Full Control
+      </text>
+    </a>
+
+    <a xlink:href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_syncmode=${syncModeRemCtrl}&amp;itsnat_ajaxtimeout=${ajaxTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">
+      <text x="25" y="360" font-family="Verdana" font-size="16" fill="blue" >
+        Remote Control Comet
+      </text>
+    </a>
+
+    <a xlink:href="${servletURL}?itsnat_action=attach_client&amp;itsnat_refresh_method=comet&amp;itsnat_session_id=${sessionId}&amp;itsnat_doc_id=${docId}&amp;itsnat_syncmode=${syncModeRemCtrl}&amp;itsnat_ajaxtimeout=${ajaxTimeout}&amp;itsnat_wait_doc_timeout=${waitDocTimeout}&amp;itsnat_readonly=false" target="_blank">
+      <text x="230" y="360" font-family="Verdana" font-size="16" fill="blue" >
+        Full Control
+      </text>
+    </a>
+
+    <a xlink:href="index.html">
+      <text x="25" y="380" font-family="Verdana" font-size="18" fill="blue" >
+        Return
+      </text>
+    </a>
+
+<script>
+function mostrar(node)
+{
+    var i = 0;
+    var str = "";
+    for(var name in node)
+    {
+      str += name + "-";
+      //try { str += typeof node[name]; } catch(e) { }
+      str += " \n";
+      if (i == 20)
+      {
+        alert(str);
+        str = "";
+        i = 0;
+      }
+      i++;
+    }
+    alert(str);
+}
+
+    function test()
+    {
+        var script = document.createElementNS("http://www.w3.org/2000/svg","script");
+        script.setAttribute("type","text/ecmascript");
+        script.appendChild(document.createCDATASection("alert('HOLA');"));
+        document.documentElement.appendChild(script);
+        //mostrar(script);
+        eval("alert('HOLA');");
+        alert("FIN " + document.documentElement.lastChild.firstChild.data);
+    }
+
+    window.addEventListener("load",test,false);
+</script>
+
+</svg>
+
+

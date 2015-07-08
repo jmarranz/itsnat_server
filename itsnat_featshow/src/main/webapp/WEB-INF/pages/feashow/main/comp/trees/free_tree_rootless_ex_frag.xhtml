@@ -1,0 +1,39 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+    <div itsnat:nocache="true">
+
+        <p>Desktop: Shift/Ctrl buttons can be used to select/unselect. Mobile: keyboard is not needed for selection. Double click to edit in place a label (<input id="useSingleClickId" type="checkbox" />use single click).</p>
+
+        <ul id="compId" style="list-style-type: none; margin-top:0px; margin-left:0; padding-left:0;">
+            <li style="padding:1px"><span><img src="img/tree/tree_node_expanded.gif" /><img src="img/tree/tree_folder_open.gif" /><span><b>Label</b></span></span>
+                <ul style="list-style-type: none;"></ul>
+            </li>
+        </ul>
+
+        <input id="removeId" type="button" value="Remove Selected" />
+        <br /><br />
+        <span>
+            <input id="itemId" type="text" size="15" value="" />
+            Row: <input id="posId" type="text" value="" size="4" />
+            <input id="updateId" type="button" value="Update" />
+        </span>
+        <br /><br />
+        <span>
+            <input id="insertBeforeId" type="button" value="Insert Before" />
+            <input id="insertAfterId" type="button" value="Insert After" />
+            <input id="insertChildId" type="button" value="Insert Child" />
+            <br /><br />
+            <input id="joystickModeId" type="checkbox" />Joystick Mode
+        </span>
+
+        <br /><br />
+        <itsnat:include name="feashow.util.log" />
+
+    </div>
+</body>
+</html>

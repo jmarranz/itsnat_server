@@ -1,0 +1,27 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+
+    <p>W3C DOM Event Listeners are registered to listen browser DOM events,
+    these client events are sent to the server and converted to Java W3C Events.
+    The client DOM Element involved is the symmetric to the
+    server DOM Element used to register the listener, ItsNat uses an identification
+    system to locate both elements. This identification uses a smart client/server cache system
+    faster than an XPath approach.
+    </p>
+
+    <p>To register a DOM Event Listener use <code>org.dom.events.EventTarget.addEventListener(String,EventListener,String)</code>
+        or <code>ItsNatDocument.addEventListener(...)</code> methods.
+        By default <code>EventTarget.addEventListener(String,EventListener,String)</code>
+        works in "remote" mode (<code>ItsNatNode.isInternalMode()</code> returns false).
+    </p>
+
+</div>
+
+</body>
+</html>

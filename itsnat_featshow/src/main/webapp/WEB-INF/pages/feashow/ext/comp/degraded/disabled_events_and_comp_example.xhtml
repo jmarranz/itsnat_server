@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Disabled Events &amp; Components</title>
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="pragma" content="no-cache" />
+</head>
+<body style="margin:20px; background-color:white;">
+
+    <h2>Disabled Events &amp; Components</h2>
+
+    <p>Shift/Ctrl buttons can be used to select/unselect</p>
+    <form name="form" action="" method="get" >
+        <select id="listId" name="list" multiple="multiple" size="5" style="width:200px;" onchange="submitSelection(this)"></select>
+        <input type="submit" value="Remove Selected" onclick="setAction(this,'remove')" />
+        <br /><br />
+        <input id="itemId" name="item" type="text" size="15" value="" />
+        Pos: <input id="posId" name="pos" type="text" value="" size="4" />
+        <input type="submit" value="Update" onclick="setAction(this,'update')" />
+        <input type="submit" value="Insert" onclick="setAction(this,'insert')" />
+
+        <input type="hidden" name="itsnat_doc_name" value="feashow.ext.comp.degraded.disabledEventsAndCompExample" />
+        <input type="hidden" name="action" value="" />
+        <input type="hidden" name="selected" value="" />
+    </form>
+
+    <script type="text/javascript">
+    //<![CDATA[
+        function setAction(elem,value)
+        {
+            elem.form.elements['action'].value = value;
+        }
+
+        function setSelected(form)
+        {
+            var options = form.elements['list'].options;
+            var selected = "";
+            for(var i = 0; i < options.length; i++)
+            {
+                if (options[i].selected)
+                {
+                    if (selected != "") selected += ',';
+                    selected += i;
+                }
+            }
+            form.elements['selected'].value = selected;
+            return true;
+        }
+
+        function submitSelection(elem)
+        {
+            setAction(elem,"selection");
+            var form = elem.form;
+            setSelected(form);
+            setAction(elem,"selection");
+            form.submit(); // onsubmit is not called (is called using UI)
+        }
+    //]]>
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>ItsNat automatically locks (synchronizes) the <code>ItsNatDocument</code>
+        object during event processes, this prevents other asynchronous events
+        to modify the server document and dependent objects concurrently, so the
+        server user code may be thread unsafe with no problem.
+    </p>
+    <p>The drawback of this approach is asynchronous long server tasks, the recommended
+        technique is to execute this long task using a different (or new) thread
+        to avoid locking the server document during long time.
+    </p>
+
+    <p>ItsNat helps to notify the client when an asynchronous long task finishes,
+        registering the <code>Runnable</code> object to execute in a new thread
+        calling <code>ClientDocument.addAsynchronousTask</code>, of course using AJAX or SCRIPT elements
+        behind the scenes. When the long task finishes any DOM node tree change or JavaScript
+        added to send to the client (calling <code>ItsNatDocument.addCodeToSend</code>)
+        is returned to the client automatically.
+    </p>
+
+</div>
+
+</body>
+</html>

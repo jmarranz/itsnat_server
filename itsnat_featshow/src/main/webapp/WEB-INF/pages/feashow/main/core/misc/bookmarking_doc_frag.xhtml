@@ -1,0 +1,94 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div class="explanation">
+    <h5>Bookmarking</h5>
+
+    <p>Events fired by the server can be used for bookmarking an AJAX application,
+        because user actions can be simulated to transport the application to the
+        desired state when the initial page is being loaded.
+    </p>
+    <p>A user defined permalink system can be defined in your application,
+        This type of custom url specify the page to load and the desired initial state.
+    </p>
+    <p>If these custom urls or bookmarks are present in the page as links (named permalinks) the
+    user can save the application state as a normal URL, and search engines
+    can use these links to traverse an AJAX application without using AJAX (ignoring JavaScript).
+    </p>
+    <p>This example shows three ways of bookmarking:</p>
+    <ol>
+        <li><b>Direct</b>
+            <p>No events are fired by the server, normal code is used in the load phase to bring the application
+               to the desired state before the page is initially showed to the user
+               (for instance modifying directly the server DOM tree etc).
+               This option is Google/Search engine "friendly" (is supposed the page is in "fast mode").
+            </p>
+        </li>
+        <li><b>Events fired by server using the browser</b>
+            <p>In this case, user actions are fully simulated.
+            This option does not work with search engines because most of them
+            do not understand JavaScript (AJAX is needed).
+            </p>
+        </li>
+        <li><b>Events fired by server Not using the browser</b>
+            <p>This option is faster than previous because the browser is not used
+            and there is no network latency. This option is Google/Search engine "friendly" too
+            because no JavaScript is needed (executed in the browser) to receive events
+            by the server based listeners (is supposed the page is in "fast mode").
+            </p>
+        </li>
+    </ol>
+
+    <h5>More about search engines</h5>
+
+    <p>The Feature Showcase is an example of how an ItsNat based AJAX application
+        can be traversed by Google or any other search engine. Two methods of processing bookmarks/permalinks
+        can be used, "direct" and "server-events without browser" (page ever in "fast mode").
+        Direct method is used in the Feature Showcase. Permalinks are defined
+        in the feature nodes and in tabs (the small <a class="tabPermalink" href="javascript:void(0)">p</a>).
+    </p>
+    <p>ItsNat automatically detects when the user leaves a page sending an AJAX event
+        destroying the <code>ItsNatDocument</code> in server, this is not possible with search engines because JavaScript
+        is ignored.
+    </p>
+    <p>
+        This is not a problem because ItsNat does not keep the document "alive" in the server
+        if the user-agent string of the bot is not recognized by ItsNat as a normal browser
+        (of course a bot can be hidden as a normal browser), the document is invalidated (and removed from server)
+        after loading if the browser is not supported/recognized by ItsNat.
+    </p>
+    <p>
+        This avoid tons of orphan document objects in the server (only cleared when the session expires)
+        when a bot traverses the Feature Showcase (or any ItsNat based application using the same approach of bookmarking).
+        If the bot accepts cookies the limit impossed by
+        <code>ItsNatServletContext.setMaxOpenDocumentsBySession(int)</code> is applied too.
+    </p>
+
+    <p>How the Feature Showcase is indexed by search engines:</p>
+    <ul>
+        <li><a href="http://www.google.com/search?q=site:www.innowhere.com/itsnat" target="_blank">Google</a></li>
+        <li><a href="http://search.yahoo.com/search?p=site:www.innowhere.com/itsnat" target="_blank">Yahoo</a></li>
+        <li><a href="http://search.live.com/results.aspx?q=site:innowhere.com/itsnat" target="_blank">Microsoft</a></li>
+    </ul>
+
+    <p>Note: in the Feature Showcase permalinks are normal links defined only for this task, but any "AJAX" link can be a permalink when the JavaScript is disabled, for instance when a bot loads the page:</p>
+
+    &lt;a href="permalink" onclick="return false;"&gt;This AJAX Link Is a permalink too&lt;/a&gt;
+
+    <p>ItsNat can add a server listener (using AJAX) to this link with no problem because onXXX methods are not used (ItsNat uses addEventListener or attachEvent).
+    When a bot traverses the page the link (href) is followed but in a normal browser with JavaScript enabled the "return false" statement
+    disables normal behaviour (page navigation).
+    </p>
+
+    <p>ItsNat also supports SCRIPT communication modes for events, all said before can be applied
+        to these modes.
+    </p>
+</div>
+
+</body>
+</html>

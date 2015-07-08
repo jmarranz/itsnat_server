@@ -1,0 +1,60 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+</head>
+<body>
+
+<div itsnat:nocache="true">
+    <p >Use a browser with native SVG support or MSIE with Adobe SVG Viewer
+        <a href="http://www.adobe.com/svg/viewer/install/" target="_blank">v3.0</a> plugin.
+    </p>
+
+    <a id="loadQuirksModeId" href="feashow_servlet?itsnat_doc_name=feashow.main&feature=feashow.core.otherns.svgInHTMLMimeASV.ex&compatMode=quirks" style="display:none">
+        This example needs Quirks Mode. Click here to load in Quirks Mode
+    </a>
+    <p id="loadCompatModeId" style="display:none">This example needs Quirks Mode (current mode).
+        <a href="feashow_servlet?itsnat_doc_name=feashow.main&feature=feashow.core.otherns.svgInHTMLMimeASV.code" >
+            Click here to continue in Standards Mode
+        </a>
+    </p>
+    <br /><br />
+
+    <script>
+        //if (navigator.appName.indexOf("Internet Explorer") != -1)
+        if (isMSIEOld())
+        {
+            var elem;
+            if (document.compatMode != "BackCompat")
+                elem = document.getElementById("loadQuirksModeId");
+            else
+                elem = document.getElementById("loadCompatModeId");
+            elem.style.display = "";
+        }
+    </script>
+
+    <span style="display:none;">
+        <object id="AdobeSVG" classid="clsid:78156a80-c6a1-4bbf-8e6a-3cd390eeb4e2"></object>
+        <span><?import namespace="svg" urn="http://www.w3.org/2000/svg" implementation="#AdobeSVG"?></span>
+    </span>
+
+
+    <svg:svg id="svgId" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" width="350px" height="170px" style="margin:0px; border: red 1px solid;">
+        <svg:g id="circleListId">
+          <svg:circle cx="60" cy="60" r="50" fill="#ff0000" stroke="#000000" stroke-width="2px"/>
+        </svg:g>
+        <svg:text id="textId" x="70" y="150" font-size="18">(Time)</svg:text>
+    </svg:svg>
+
+    <br />
+    <a id="addCircleId" href="javascript:;">Add Circle</a>&nbsp;
+    <a id="removeCircleId" href="javascript:;">Remove Circle</a>&nbsp;
+    <a id="biggerCircleId" href="javascript:;">Bigger Circle</a>&nbsp;
+    <a id="smallerCircleId" href="javascript:;">Smaller Circle</a>
+    <br /><br />
+
+    <itsnat:include name="feashow.util.log" />
+
+</div>
+</body>
+</html>

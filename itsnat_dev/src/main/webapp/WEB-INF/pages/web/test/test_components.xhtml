@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<!-- <!DOCTYPE html> -->
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> Este DOCTYPE pone en Quirks Mode al MSIE -->
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> -->
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> -->
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> -->
+<!-- Comment will be removed -->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:itsnat="http://itsnat.org/itsnat">
+  <head>
+        <title>TEST: COMPONENTS</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!--<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />-->
+        <meta http-equiv="Expires" content="0" />
+        <meta http-equiv="pragma" content="no-cache" />
+
+        <itsnat:include name="test_html_fragment_fragment" />
+
+        <style type="text/css">
+            .freebox
+            {
+                border: 1px solid;
+                width: 100px;
+            }
+
+            .freeboxLi
+            {
+                display:inline;
+                border: 1px solid;
+                width: 100px;
+            }
+
+            LI
+            {
+                list-style-type:none;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function EventMonitor()
+            {
+                this.before = before;
+                this.after = after;
+
+                this.count = 0;
+
+                function before(evt)
+                {
+                    if (this.count == 0)
+                    {
+                        if (document.body) // En XHTML y Safari document no es HTMLDocument
+                        {
+                            var style = document.body.style;
+                            if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
+                                style.cursor = "wait";
+                        }
+                    }
+
+                    this.count++;
+                }
+
+                function after(evt,timeout)
+                {
+                    this.count--;
+
+                    if (this.count == 0)
+                    {
+                        if (document.body) // En XHTML y Safari document no es HTMLDocument
+                        {
+                            var style = document.body.style;
+                            if (typeof style.cursor != "undefined") // No lo soporta algún navegador móvil antiguo, quizás ya si todos
+                                style.cursor = "";
+                        }
+                    }
+
+                    if (timeout) alert("Event Timeout!");
+                }
+            }
+
+            function init()
+            {
+                var monitor = new EventMonitor();
+                var itsNatDoc = document.getItsNatDoc();
+                itsNatDoc.addEventMonitor(monitor);
+             }
+        </script>
+  </head>
+  <body onload="init();">
+
+    <h2>TEST: COMPONENTS</h2>
+
+    <table width="100%">
+        <tr>  <!-- Esta tabla sirve para testear el añadido de TBODY automático antes del TR y ver si los node paths funcionan -->
+            <td>
+                <label id="labelId" for="selectIdCombo" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label>
+                <span id="freeLabelId" itsnat:compType="freeLabel" ><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></span>
+
+                <select id="selectIdCombo" name="" style="width:100px;">
+                    <option>Item 1</option>
+                    <option>Item 2</option>
+                </select>
+
+                <select id="selectIdComboSize" name="" style="width:100px;" size="5">
+                    <option>Item 1</option>
+                    <option>Item 2</option>
+                </select>
+
+                <!-- <input id="buttonId" type="button" value="Add" /> -->
+                <select id="selectIdMultiple" name="" multiple="multiple" size="5" style="width:100px;">
+                    <option>Item 1</option>
+                    <option>Item 2</option>
+                </select>
+
+                <input id="inputButtonId" type="button" value="Initial Text (will be changed)" />
+                <input id="checkboxId" type="checkbox" value="ON" />
+                <input id="radioId1" type="radio" name="groupTest" value="A" />
+                <input id="radioId2" type="radio" name="groupTest" value="B" />
+                <input id="radioId3" type="radio" name="groupTest" value="B" />
+                <br />
+                <textarea id="textAreaId" cols="10" rows="3">Initial Value textarea (will be changed)</textarea>
+                <input id="textFieldId" type="text"  value="Initial Value (will be changed)" />
+                <input id="textFormattedFieldId" itsnat:compType="formattedTextField" type="text" value="Initial Value (will be changed)" />
+                <input id="textFormattedWithFactoryFieldId" itsnat:compType="formattedTextField" type="text" value="Initial Value (will be changed)" />
+                <br />
+                <input id="hiddenInputId" type="hidden" value="Initial Value (will be changed)" />
+                <input id="fileInputId" type="file" value=""  /> <!-- No definimos un value="inicial" porque sólo admite poner el valor a través del GUI por el usuario, cosa de los navegadores por seguridad (para que sin que el usuario se de cuenta se subieran archivos a través de formularios ocultos por parte de webs malotas -->
+                <input id="passwordInputId" type="password" value="Initial Value (will be changed)" />
+                <br />
+                <input id="fileUploadInputId" type="file" /><iframe name="fileUpload" src="about:blank" id="fileUploadIFrameId" itsnat:isComponent="true" /><button id="fileUploadButtonId">Upload File</button>
+
+            <form id="formId" name="formId" action="#" >
+                <input id="imageButtonId" type="image" src="img/address-book-new.png" value="" />
+                <input id="submitButtonId" type="submit" value="Initial Value (will be changed)" />
+                <input id="resetButtonId" type="reset" value="Initial Value (will be changed)" />
+                <input type="submit" itsnat:isComponent="false" value="Submit (canceled by the form elem)"  />
+                <input type="reset" itsnat:isComponent="false" value="Reset (canceled by the form elem)" />
+                <input id="resetFromServerId" type="button" value="Reset called from server" />
+            </form>
+                <button id="buttonId" type="button">Test Button <img src="img/address-book-new.png" /></button>
+                <button id="buttonLabelId" type="button" itsnat:compType="buttonLabel" type="button" >Test Button With Label (MODIFICAR) <img src="img/address-book-new.png" /></button>
+
+                <input id="testBlurFocusSelectId" type="button" value="TestBlurFocusSelect" />
+                <input id="testJSFromServerId" type="button" value="TestJSFromServer" />
+                <br /><br />
+                <a href="javascript:void(0)" id="anchorId" itsnat:isComponent="true"><b>Link as Normal Button</b></a> &nbsp;
+                <a href="javascript:void(0)" id="anchorLabelId" itsnat:compType="buttonLabel" itsnat:isComponent="true"><b>Link as Normal Button With Label (MODIFICAR)</b></a> &nbsp;
+                <br /><br />
+                <span id="freeButtonNormalId" itsnat:compType="freeButtonNormal" style="border:solid 1px;" onmousedown="this.style.color='red'" onmouseup="this.style.color=''" onmouseout="this.style.color=''"><b>Free Elem as Normal Button</b></span>
+                <span id="freeButtonNormalLabelId" itsnat:compType="freeButtonNormalLabel" style="border:solid 1px;" onmousedown="this.style.color='red'" onmouseup="this.style.color=''" onmouseout="this.style.color=''"><b>Free Elem as Normal Button With Label (MODIFICAR)</b></span>
+                <br /><br />
+                <span id="freeCheckBoxId" itsnat:compType="freeCheckBox" style="border:solid 1px;" ><b>Free Elem as Check Box</b></span> &nbsp;
+                <span id="freeCheckBoxLabelId" itsnat:compType="freeCheckBoxLabel" style="border:solid 1px;" ><b>Free Elem as Check Box With Label (MODIFICAR)</b></span> &nbsp;
+
+                <br /><br />
+                <span id="freeRadioId1" itsnat:compType="freeRadioButton" style="border:solid 1px;" ><b>Free Elem as Radio 1</b></span> &nbsp;
+                <span id="freeRadioId2" itsnat:compType="freeRadioButton" style="border:solid 1px;" ><b>Free Elem as Radio 2</b></span> &nbsp;
+                <span id="freeRadioId3" itsnat:compType="freeRadioButton" style="border:solid 1px;" ><b>Free Elem as Radio 3</b></span> &nbsp;
+
+                <br /><br />
+                <span id="freeRadioLabelId1" itsnat:compType="freeRadioButtonLabel" style="border:solid 1px;" ><b>Free Elem as Radio with Label 1 (MODIFICAR)</b></span> &nbsp;
+                <span id="freeRadioLabelId2" itsnat:compType="freeRadioButtonLabel" style="border:solid 1px;" ><b>Free Elem as Radio with Label 2 (MODIFICAR)</b></span> &nbsp;
+                <span id="freeRadioLabelId3" itsnat:compType="freeRadioButtonLabel" style="border:solid 1px;" ><b>Free Elem as Radio with Label 3 (MODIFICAR)</b></span> &nbsp;
+
+                <br /><br />
+                <table border="1px" cellspacing="0px" cellpadding="5px">
+                    <tr id="freeComboId" itsnat:compType="freeComboBox">
+                        <td>
+                            <b>Item 1</b>
+                        </td>
+                    </tr>
+                </table>
+                <br /><br />
+
+                <table border="1px" cellspacing="1px">
+                    <tbody id="freeListMultipleId" itsnat:compType="freeListMultSel">
+                        <tr><td><b>Item 1</b></td></tr>
+                    </tbody>
+                </table>
+                <button id="addItemFreeListId" type="button">Add Item</button>
+                <button id="removeItemFreeListId" type="button">Remove Item</button>
+                <input  id="joystickModeFreeListId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <table border="1px" cellspacing="1px" id="tableId" itsnat:isComponent="true">
+                    <thead>
+                        <tr> <td><i>Head 1</i></td> <td><i>Head 1</i></td> </tr>
+                    </thead>
+                    <tbody>
+                        <tr> <td><b>Item 1,1</b></td> <td><b>Item 1,2</b></td> </tr>
+                    </tbody>
+                </table>
+                <button id="addRowTableId" type="button">Add Row</button>
+                <button id="removeRowTableId" type="button">Remove Row</button>
+                <input  id="joystickModeTableId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <table border="1px" cellspacing="1px" id="tableNoHeaderId" itsnat:isComponent="true">
+                    <tbody>
+                        <tr> <td><b>Item 1,1</b></td> <td><b>Item 1,2</b></td> </tr>
+                    </tbody>
+                </table>
+                <button id="addRowTableNoHeaderId" type="button">Add Row</button>
+                <button id="removeRowTableNoHeaderId" type="button">Remove Row</button>
+                <input  id="joystickModeTableNoHeaderId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <table id="tableId2" itsnat:useStructure="tableComplexStructure" itsnat:isComponent="true"  border="1px" cellpadding="5px" cellspacing="0">
+                    <thead>
+                        <tr><td><i>Column pattern</i></td></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <table border="1px" cellpadding="5px" cellspacing="0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <table border="1px" cellpadding="5px" cellspacing="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><b>Item 1,1</b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>... Item 1,2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="addRowTableId2" type="button">Add Row</button>
+                <button id="removeRowTableId2" type="button">Remove Row</button>
+                <input  id="joystickModeTableId2" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <div id="freeTableId" itsnat:compType="freeTable">
+                    <div><span class="freebox"><i>Head 1</i></span><span class="freebox"><i>Head 2</i></span></div>
+                    <div>
+                        <div><span class="freebox"><b>Item 1,1</b></span><span class="freebox"><b>Item 1,2</b></span></div>
+                    </div>
+                </div>
+                <button id="addRowFreeTableId" type="button">Add Row</button>
+                <button id="removeRowFreeTableId" type="button">Remove Row</button>
+                <input  id="joystickModeFreeTableId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <div id="freeTableId2" itsnat:compType="freeTable">
+                    <ul><li class="freeboxLi"><i>Head 1</i></li><li class="freeboxLi"><i>Head 2</i></li></ul>
+                    <div>
+                        <ul><li class="freeboxLi"><b>Item 1,1</b></li><li class="freeboxLi"><b>Item 1,2</b></li></ul>
+                    </div>
+                </div>
+                <button id="addRowFreeTableId2" type="button">Add Row</button>
+                <button id="removeRowFreeTableId2" type="button">Remove Row</button>
+                <input  id="joystickModeFreeTableId2" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <div id="freeTreeId" itsnat:compType="freeTree">
+                    <span>
+                        <span><img src="img/tree/tree_node_expanded.gif"/><img src="img/tree/tree_folder_close.gif"/><span><b>Item content</b></span></span>
+                        <ul>
+                            <li><span><img src="img/tree/tree_node_expanded.gif"/><img src="img/tree/tree_folder_close.gif"/><span><b>Item content</b></span></span>
+                                <ul></ul></li>
+                        </ul>
+                    </span>
+                </div>
+                <br />
+
+                <button id="addNodeFreeTreeId" type="button">Add Tree Node</button>
+                <button id="removeNodeFreeTreeId" type="button">Remove Tree Node</button>
+                <button id="reloadFreeTreeId" type="button">Reload Tree Test</button>
+                <input  id="joystickModeFreeTreeId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <!-- Test de Tree con <table> como container -->
+                <table cellspacing="1px" border="1px">
+                    <tbody id="freeTreeId2" itsnat:compType="freeTree"  >
+                        <tr>
+                            <td>
+                                <span><img src="img/tree/tree_node_expanded.gif"/><img src="img/tree/tree_folder_close.gif"/><span><b>Item content</b></span></span>
+                                <table style="margin:0 0 0 15px;" cellspacing="1px" border="1px">
+                                    <tbody></tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <button id="addNodeFreeTreeId2" type="button">Add Tree Node</button>
+                <button id="removeNodeFreeTreeId2" type="button">Remove Tree Node</button>
+                <button id="reloadFreeTreeId2" type="button">Reload Tree Test</button>
+                <input  id="joystickModeFreeTreeId2" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <div id="freeTreeRootlessId" itsnat:compType="freeTree" itsnat:rootless="true">
+                    <span>
+                        <span><img src="img/tree/tree_node_expanded.gif"/><img src="img/tree/tree_folder_close.gif"/><span><b>Item content</b></span></span>
+                        <ul>
+                            <li><span><img src="img/tree/tree_node_expanded.gif"/><img src="img/tree/tree_folder_close.gif"/><span><b>Item content</b></span></span>
+                                <ul></ul></li>
+                        </ul>
+                    </span>
+                </div>
+                <br />
+
+                <button id="addNodeFreeTreeRootlessId" type="button">Add Tree Node</button>
+                <button id="removeNodeFreeTreeRootlessId" type="button">Remove Tree Node</button>
+                <button id="reloadFreeTreeRootlessId" type="button">Reload Tree Test</button>
+                <input  id="joystickModeFreeTreeRootlessId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                <!-- Test de TreeTable -->
+                <table cellspacing="1px" border="1px">
+                    <tbody id="freeTreeTableId" itsnat:treeTable="true" itsnat:compType="freeTree">
+                        <tr>
+                            <td>
+                                <img src="img/tree/tree_node_expanded.gif" />
+                                <img src="img/tree/tree_folder_close.gif" />
+                                <span><b>Item content</b></span>
+                            </td>
+                            <td>Other content</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <button id="addNodeFreeTreeTableId" type="button">Add Tree Node</button>
+                <button id="removeNodeFreeTreeTableId" type="button">Remove Tree Node</button>
+                <button id="reloadFreeTreeTableId" type="button">Reload Tree Test</button>
+                <input  id="joystickModeFreeTreeTableId" type="checkbox" />Joystick Mode
+
+                <br /><br />
+                Editing in place using free labels (double or single click):<br />
+                <table border="1">
+                    <tbody>
+                    <tr><td>Element</td><td>HTML Label</td><td>Free Label</td></tr>
+                    <tr>
+                        <td>Input text:</td>
+                        <td><label id="testItemEditorLabelId1" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>  
+                        <td id="testItemEditorFreeId1" itsnat:compType="freeLabel"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    <tr>
+                        <td>Check box:</td>
+                        <td><label id="testItemEditorLabelId2" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>
+                        <td id="testItemEditorFreeId2" itsnat:compType="freeLabel"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    <tr>
+                        <td>Combo box:</td>
+                        <td><label id="testItemEditorLabelId3" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>
+                        <td id="testItemEditorFreeId3" itsnat:compType="freeLabel"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    <tr>
+                        <td>Text area:</td>
+                        <td><label id="testItemEditorLabelId4" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>
+                        <td id="testItemEditorFreeId4" itsnat:compType="freeLabel"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    <tr>
+                        <td>Input formatted <br />text (date):</td>
+                        <td><label id="testItemEditorLabelId5" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>
+                        <td id="testItemEditorFreeId5" itsnat:compType="freeLabel"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    <tr>
+                        <td>Input formatted <br />text (number):</td>
+                        <td><label id="testItemEditorLabelId6" itsnat:isComponent="true"><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></label></td>
+                        <td id="testItemEditorFreeId6" itsnat:compType="freeLabel" ><img src="img/address-book-new.png" /><b>Label Text (must be modified)</b></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p><input id="testItemEditorSingleClickId" type="checkbox" />Use single click </p>  &nbsp;
+
+                <br /><br />
+                <button id="testEventListenerChainId" type="button">Test Event Listener Chain</button>
+                <button id="componentGCTestId" type="button">Test Component Garbage Collector</button>
+                <p id="componentGCTestId2" style="display:none;"></p>
+                <br />
+                <button id="testModalLayerId" type="button">Test Modal Layer</button>
+                &nbsp; <input id="cleanModeId1" type="checkbox" value="ON" /> First Use Clean Mode
+                &nbsp; <input id="cleanModeId2" type="checkbox" value="ON" /> Second Use Clean Mode
+                <br />
+                <input id="addRemoveIncludeId" type="button" value="Add/Remove Include" />
+                Before Include-<span id="freeIncludeId" itsnat:compType="freeInclude" />-After Include
+                <br />
+                <br />
+                <table border="1px" cellspacing="1px">
+                    <tbody id="freeListCompoundId" itsnat:compType="freeListMultSel">
+                        <tr>
+                            <td>
+                                <div>First Name: <input id="${firstNameId}" type="text" value="(FirstName)" /></div><div>Last Name: <input id="${lastNameId}" type="text" value="(LastName)" /></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button id="addItemFreeListCompoundId" type="button">Add Item</button>
+                <button id="removeItemFreeListCompoundId" type="button">Remove Item</button>
+
+            </td>
+        </tr>
+    </table>
+
+    <br /><br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Timer</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=timer&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_refresh_interval=1000&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control Comet</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=comet&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}" target="_blank">Remote Control No Refresh</a> &nbsp;
+    <a href="${servletURL}?itsnat_action=attach_client&itsnat_refresh_method=none&itsnat_session_id=${sessionId}&itsnat_doc_id=${docId}&itsnat_comm_mode=${commModeRemCtrl}&itsnat_event_timeout=${eventTimeout}&itsnat_wait_doc_timeout=${waitDocTimeout}&itsnat_read_only=false" target="_blank">Full Control</a>
+    <br />
+    <a href="index.html">Return</a>
+    <br />
+
+    <p id="logId" />
+
+  </body>
+</html>

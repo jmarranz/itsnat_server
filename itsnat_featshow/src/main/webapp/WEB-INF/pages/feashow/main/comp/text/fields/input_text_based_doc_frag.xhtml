@@ -1,0 +1,27 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>HTML &lt;input type="text"&gt;, &lt;input type="password"&gt;
+       and &lt;input type="file"&gt; elements can be attached to
+       <code>ItsNatHTMLInputText</code>, <code>ItsNatHTMLInputPassword</code>
+       and <code>ItsNatHTMLInputFile</code> components respectively.
+    </p>
+    <p>Any change to the text field in the client is notified to the server accordingly,
+       the property "value" in server is updated and the component data model is updated and notified.
+       If the component data model in server is updated the client is updated too.
+    </p>
+
+    <p>The calls <code>ItsNatHTMLInput.focus()</code> and <code>ItsNatHTMLInput.select()</code>
+        used in this example are the remote versions of the W3C DOM <code>HTMLInputElement</code>
+        <code>focus</code> and <code>select</code> methods (in Batik DOM these methods are dummy) they send to the client
+        the input element <code>focus()</code> and <code>select()</code> calls.
+    </p>
+</div>
+
+</body>
+</html>
