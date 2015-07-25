@@ -23,83 +23,30 @@ import org.apache.xml.serialize.ElementState;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.HTMLSerializer;
 import org.apache.xml.serialize.HTMLdtd;
-import org.itsnat.core.ItsNatException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 /**
- *
+ * http://grepcode.com/file/repo1.maven.org/maven2/xerces/xercesImpl/2.8.1/org/apache/xml/serialize/HTMLSerializer.java
+ * 
  * @author jmarranz
  */
-public class ItsNatXercesHTMLSerializerOld extends HTMLSerializer
+public abstract class ItsNatXercesHTMLSerializerOld extends HTMLSerializer
 {
-    protected boolean docFragment;
-    protected boolean doingComment;
-    protected boolean doingContent;
-
     protected String fUserXHTMLNamespace = null; // Es privado en la clase base, su valor debe ser null
     protected boolean _xhtml; // Es privado en la clase base, lo necesitamos porque redefinimos un método
 
-    public ItsNatXercesHTMLSerializerOld(boolean xhtml,Writer writer, OutputFormat format,boolean docFragment)
+    public ItsNatXercesHTMLSerializerOld(/*boolean xhtml,*/ Writer writer, OutputFormat format)
     {
-        super(xhtml,format);
-
-        // Aunque admite serialización para XHTML, no es suficientemente correcta
-        // usar sólo para serializar HTML
-        if (xhtml) throw new ItsNatException("INTERNAL ERROR");
+        super(false,format);
+ 
+        // if (xhtml) throw new ItsNatException("INTERNAL ERROR");
 
         setOutputCharStream(writer);
-        this.docFragment = docFragment;
 
-        this._xhtml = xhtml;
-    }
-
-    /**
-     * La razón de este método y de los métodos comment() y content()
-     * es la siguiente:
-     * Cuando se serializa un comentario en solitario se usa el método
-     * que usa un DocFragment, el problema es que en este caso
-     * isDocumentState() devuelve true erróneamente ejecutándose
-       de forma indeseada el siguiente código en el método comment():
-
-       if ( isDocumentState() ) {
-            if ( _preRoot == null )
-                _preRoot = new Vector();
-            _preRoot.addElement( fStrBuffer.toString() );
-        }  else ...
-
-        El devolver false en isDocumentState() no es la solución pues
-        el método content() que es ejecutado durante comment() y ANTES
-        del código anterior, necesita que isDocumentState() devuelva true
-        para funcionar correctamente.
-        Por tanto detectamos que hemos entrado en el proceso del comentario
-        y que ya hemos llamado a content() en ese caso isDocumentState()
-        devuelve false.
-     */
-    protected boolean isDocumentState()
-    {
-        if (docFragment && doingComment && !doingContent)
-            return false;
-        return super.isDocumentState();
-    }
-
-    public void comment( String text )
-        throws IOException
-    {
-        this.doingComment = true;
-        super.comment(text);
-        this.doingComment = false;
-    }
-
-    protected ElementState content()
-        throws IOException
-    {
-        this.doingContent = true;
-        ElementState state = super.content();
-        this.doingContent = false;
-        return state;
+        this._xhtml = false; // Aunque admite serialización para XHTML, no es suficientemente correcta, usar sólo para serializar HTML
     }
 
     /* Redefinimos este método totalmente porque no tenemos más remedio, para
@@ -108,6 +55,7 @@ public class ItsNatXercesHTMLSerializerOld extends HTMLSerializer
 
      * Otros dos métodos startElement que hacen algo similar al parecer no son llamados.
      */
+    @Override
     protected void serializeElement( Element elem )
         throws IOException
     {
@@ -123,6 +71,7 @@ public class ItsNatXercesHTMLSerializerOld extends HTMLSerializer
 
         tagName = elem.getTagName();
         state = getElementState();
+                
         if ( isDocumentState() ) {
             // If this is the root element handle it differently.
             // If the first root element in the document, serialize
@@ -258,6 +207,83 @@ public class ItsNatXercesHTMLSerializerOld extends HTMLSerializer
         }
     }
 
+    // Redefinimos porque tenemos que soportar bien HTML 5 DOCTYPE: <!DOCTYPE html> 
+    @Override
+    protected void startDocument( String rootTagName )
+      throws IOException
+    {
+        StringBuffer buffer;
+        // Not supported in HTML/XHTML, but we still have to switch
+        // out of DTD mode.
+        _printer.leaveDTD();
+        if ( ! _started ) {
+            
+            // jmarranz to support HTML 5 DOCTYPE
+            boolean HTML5_support = true;
+            if (HTML5_support && _docTypePublicId == null && _docTypeSystemId == null && !_xhtml)         
+            {
+                _printer.printText( "<!DOCTYPE html>" );
+                _printer.breakLine();                
+            } // end jmarranz
+            else
+            {
+                // If the public and system identifiers were not specified
+                // in the output format, use the appropriate ones for HTML
+                // or XHTML.
+                if ( _docTypePublicId == null && _docTypeSystemId == null ) {
+                    if ( _xhtml ) {
+                        _docTypePublicId = HTMLdtd.XHTMLPublicId;
+                        _docTypeSystemId = HTMLdtd.XHTMLSystemId;
+                    } else {
+                        _docTypePublicId = HTMLdtd.HTMLPublicId;
+                        _docTypeSystemId = HTMLdtd.HTMLSystemId;
+                    }
+                }
+                if ( ! _format.getOmitDocumentType() ) {
+                    // XHTML: If public identifier and system identifier
+                    //  specified, print them, else print just system identifier
+                    // HTML: If public identifier specified, print it with
+                    //  system identifier, if specified.
+                    // XHTML requires that all element names are lower case, so the
+                    // root on the DOCTYPE must be 'html'. - mrglavas
+                    if ( _docTypePublicId != null && ( ! _xhtml || _docTypeSystemId != null )  ) {
+                        if (_xhtml) {
+                            _printer.printText( "<!DOCTYPE html PUBLIC " );
+                        }
+                        else {
+                            _printer.printText( "<!DOCTYPE HTML PUBLIC " );
+                        }
+                        printDoctypeURL( _docTypePublicId );
+                        if ( _docTypeSystemId != null ) {
+                            if ( _indenting ) {
+                                _printer.breakLine();
+                                _printer.printText( "                      " );
+                            } else
+                            _printer.printText( ' ' );
+                            printDoctypeURL( _docTypeSystemId );
+                        }
+                        _printer.printText( '>' );
+                        _printer.breakLine();
+                    } else if ( _docTypeSystemId != null ) {
+                        if (_xhtml) {
+                            _printer.printText( "<!DOCTYPE html SYSTEM " );
+                        }
+                        else {
+                            _printer.printText( "<!DOCTYPE HTML SYSTEM " );
+                        }
+                        printDoctypeURL( _docTypeSystemId );
+                        _printer.printText( '>' );
+                        _printer.breakLine();
+                    }
+                }
+            }
+        }
+        _started = true;
+        // Always serialize these, even if not te first root element.
+        serializePreRoot();
+    }
+    
+    
     public static boolean isEmptyTag(String tagName)
     {
         boolean res = HTMLdtd.isEmptyTag( tagName );

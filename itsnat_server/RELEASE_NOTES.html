@@ -17,11 +17,12 @@
 
 <h3>Version 1.5</h3>
 <ul>
-    <li>Goodbye Symbian, old BlackBerries (< 6.0) and Internet Explorer 6/7
+    <li>Goodbye Symbian, old BlackBerries (< 6.0) and Internet Explorer 6/7, IE 8 is still supported.
     </li>  
-    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Operas based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported, the 
-        only reason is because Opera Mini is still a supported browser by Opera and is based on Presto.
-    </li>  
+    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Opera browsers based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) are still supported, the 
+        only reason is because Opera Mini is still a supported browser by Opera company and is based on Presto.
+    </li>
+    <li>HTML 5 DOCTYPE is detected in a page template and now is correctly shown in rendered page.</li>    
     <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
         and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
         You must enable and configure it by using a ServletContextListener.
@@ -45,12 +46,13 @@
             </li>
         </ul>
     </li>
-    <li>Some bug fixes and improvements
+    <li>Bug fixes and improvements
     </li>    
     <li>
     <li>Feature Showcase:
         <ul>
-            <li>Fixed some SVG example</li>
+            <li>Fixed some SVG examples</li>
+            <li>Use of HTML 5 DOCTYPE of text/html served pages examples</li>            
         </ul>     
     </li>
 </ul>

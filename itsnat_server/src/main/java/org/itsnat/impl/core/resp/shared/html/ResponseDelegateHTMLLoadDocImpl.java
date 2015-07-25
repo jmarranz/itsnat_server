@@ -58,6 +58,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
 
     /**
      * Creates a new instance of ResponseDelegateHTMLLoadDocImpl
+     * @param responseParent
      */
     public ResponseDelegateHTMLLoadDocImpl(ResponseLoadStfulDocumentValid responseParent)
     {
@@ -73,6 +74,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
             return ResponseDelegateHTMLLoadDocW3CImpl.createResponseDelegateHTMLLoadDocW3C((BrowserW3C)browser,responseParent);
     }
 
+    @Override
     public ClientDocumentStfulDelegateWebImpl getClientDocumentStfulDelegateWeb()    
     {
         return (ClientDocumentStfulDelegateWebImpl)getClientDocumentStfulDelegate();
@@ -84,16 +86,19 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         return (ItsNatHTMLDocumentImpl)clientDoc.getItsNatDocument();
     }
 
+    @Override
     public String getJavaScriptMIME()
     {
         return NamespaceUtil.MIME_JAVASCRIPT;
     }
 
+    @Override
     public void setScriptURLAttribute(Element scriptElem,String url)
     {
         DOMUtilInternal.setAttribute(scriptElem,"src",url);
     }
 
+    @Override
     public void setScriptContent(Element scriptElem,String code)
     {
         ItsNatHTMLDocumentImpl itsNatDoc = getItsNatHTMLDocument();
@@ -104,6 +109,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
             scriptElem.appendChild(doc.createCDATASection(code));
     }
 
+    @Override
     public String addMarkupToTheEndOfDoc(String docMarkup,String scriptsMarkup)
     {
         StringBuilder finalMarkup = new StringBuilder();
@@ -120,11 +126,13 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         return finalMarkup.toString();
     }
 
+    @Override
     public String getDocumentNamespace()
     {
         return NamespaceUtil.XHTML_NAMESPACE;
     }
 
+    @Override
     protected void rewriteClientUIControlProperties(Element elem,boolean revertJSChanges,StringBuilder code)
     {
         // Obviamente los documentos XHTML contienen elementos XHTML :)
@@ -313,6 +321,7 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         }
     }
 
+    @Override
     protected void rewriteClientHTMLTextAreaProperties(HTMLTextAreaElement elem,StringBuilder code)
     {
         // Se redefine en el caso de Opera 9 Desktop

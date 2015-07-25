@@ -1,6 +1,6 @@
 News
 ======
-- Nov 16 2014 ItsNat Droid is a new project inside ItsNat, [more info](https://groups.google.com/forum/#!topic/itsnat/13nl0P12J_s).
+- Nov 16 2014 ItsNat Droid is a new project inside ItsNat, [more info](https://github.com/jmarranz/itsnat_droid).
 
 
 ItsNat
@@ -125,8 +125,7 @@ The standard servlet method "init" is used to configure ItsNat and to add an Its
 Create a new XHTML file with name "core_example.xhtml" in a new folder "WEB-INF/pages/manual/", this folder name and location is not mandatory. This file is a ItsNat template, as you can see is pure XHTML (HTML is supported too):
 
 ```
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 

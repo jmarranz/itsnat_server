@@ -19,8 +19,6 @@ package org.itsnat.impl.core.markup.render;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.ItsNatException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Writer;
 import org.apache.xml.serialize.DOMSerializer;
 import org.apache.xml.serialize.LineSeparator;
@@ -73,7 +71,7 @@ public class DOMRenderXercesOldImpl extends DOMRenderImpl
         return format;
     }
 
-    public DOMSerializer getDOMSerializer(Writer out,boolean docFragment)
+    public DOMSerializer getDOMSerializer(Writer out,int nodeType)
     {
         // Estos métodos de serialización están deprecated, las alternativas son:
         // Xalan, el del JDK 1.4 (Xalan?), o W3C DOM Level 3 Load & Save
@@ -81,16 +79,29 @@ public class DOMRenderXercesOldImpl extends DOMRenderImpl
         // no serializa bien cuando el documento es servidor como text/html
 
         if (mime.equals("text/html"))
-            return new ItsNatXercesHTMLSerializerOld(false,out,format,docFragment);
+        {
+            switch(nodeType)
+            {
+                case Node.DOCUMENT_NODE:
+                    return new ItsNatXercesHTMLSerializerOldDocument(out,format);
+                case Node.ELEMENT_NODE:
+                    return new ItsNatXercesHTMLSerializerOldSingleElement(out,format);                    
+                case Node.DOCUMENT_FRAGMENT_NODE:
+                    return new ItsNatXercesHTMLSerializerOldDocFragment(out,format);                    
+                default:
+                    return new ItsNatXercesHTMLSerializerOldDocFragment(out,format); 
+            }
+        }   
         //else if (mime.equals("application/xhtml+xml"))
         //    return new ItsNatXercesHTMLSerializerOld(true,out,format,docFragment);
         else
             throw new ItsNatException("INTERNAL ERROR"); // No usamos XMLSerializer
     }
 
+    @Override
     public void serializeDocument(Document doc,Writer out)
     {
-        DOMSerializer serializer = getDOMSerializer(out,false);
+        DOMSerializer serializer = getDOMSerializer(out,Node.DOCUMENT_NODE);
 
         try
         {
@@ -102,18 +113,19 @@ public class DOMRenderXercesOldImpl extends DOMRenderImpl
         }
     }
 
+    @Override
     public void serializeNode(Node node, Writer out)
     {
         try
         {
             if (node.getNodeType() == Node.ELEMENT_NODE)
             {
-                DOMSerializer serializer = getDOMSerializer(out,false);
+                DOMSerializer serializer = getDOMSerializer(out,Node.ELEMENT_NODE);
                 serializer.serialize((Element)node);
             }
             else
             {
-                DOMSerializer serializer = getDOMSerializer(out,true);
+                DOMSerializer serializer = getDOMSerializer(out,Node.DOCUMENT_FRAGMENT_NODE);
                 DocumentFragment docFrag = node.getOwnerDocument().createDocumentFragment();
                 // Tenemos que clonar porque la inserción en el fragmento eliminaría el nodo del documento
                 docFrag.appendChild(node.cloneNode(true));

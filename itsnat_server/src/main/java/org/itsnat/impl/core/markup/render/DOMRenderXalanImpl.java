@@ -71,11 +71,13 @@ public class DOMRenderXalanImpl extends DOMRenderJAXPBaseImpl
         }
     }
 
+    @Override
     public void serializeDocument(Document doc,Writer out)
     {
         serializeNode(doc,out);
     }
 
+    @Override
     public void serializeNode(Node node,Writer out)
     {
         DOMSerializer serializer = getDOMSerializer(out);

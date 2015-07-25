@@ -9,6 +9,6 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  
-(C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen.
+(C) 2007-present Jose Maria Arranz Santamaria, Spanish citizen.
 
 
