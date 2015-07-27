@@ -31,7 +31,7 @@ public class comp_ex_servlet extends HttpServletWrapper
 
         // Default configuration is valid.
 
-        ItsNatDocumentTemplate docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example","text/html", pathPrefix + "comp_example.xhtml");
+        ItsNatDocumentTemplate docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example","text/html", pathPrefix + "comp_example.html");
         docTemplate.addItsNatServletRequestListener(new CompExampleLoadListener());
     }
 }

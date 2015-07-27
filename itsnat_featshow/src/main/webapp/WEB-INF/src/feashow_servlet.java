@@ -274,9 +274,9 @@ public class feashow_servlet extends HttpServletWrapper
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
         ItsNatDocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example",   "text/html", pathPrefix + "core_example.xhtml");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example",   "text/html", pathPrefix + "core_example.html");
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml",  pathPrefix + "xml_example.xml");
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix + "comp_example.xhtml");        
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix + "comp_example.html");        
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example", "text/xml",  pathPrefix + "stless_example.html");
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml",  pathPrefix + "stless_example_event_receiver.html");        
         

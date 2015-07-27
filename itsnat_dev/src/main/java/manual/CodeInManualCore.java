@@ -142,7 +142,7 @@ public class CodeInManualCore
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
         ItsNatDocumentTemplate docTemplate;
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example","text/html",
- 			pathPrefix + "comp_example.xhtml");
+ 			pathPrefix + "comp_example.html");
     }
 
     public static void Pattern_based_view_manipulation_using_DOM_utilities()
@@ -576,7 +576,7 @@ public class CodeInManualCore
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
         ItsNatDocFragmentTemplate fragTemplate;
-        fragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.core.htmlFragExample","text/html",pathPrefix + "fragment_example.xhtml");
+        fragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.core.htmlFragExample","text/html",pathPrefix + "fragment_example.html");
 
         fragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.core.xmlFragExample","text/xml",pathPrefix + "fragment_example.xml");
     }

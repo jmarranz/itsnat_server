@@ -1270,7 +1270,7 @@ button.addEventListener("click", listener);
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
         ItsNatDocumentTemplate docTemplate;
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example","text/html",
-                          pathPrefix + "comp_example.xhtml");
+                          pathPrefix + "comp_example.html");
         // ...
         docTemplate.addCreateItsNatComponentListener(new LoginCreationItsNatComponentListener());
     }

@@ -68,7 +68,7 @@ public class servlet extends HttpServletWrapper
         pathPrefix += "/WEB-INF/pages/manual/";
 
         ItsNatDocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example","text/html", pathPrefix + "core_example.xhtml");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example","text/html", pathPrefix + "core_example.html");
         docTemplate.addItsNatServletRequestListener(new CoreExampleLoadListener());
 
         docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml", pathPrefix + "xml_example.xml");
