@@ -49,6 +49,13 @@
         
         <copy file="${program.target}/${program_jar_name}" todir="${zip_dist_folder_lib}" preservelastmodified="true"   />   
 
+        <property name="zip_dist_folder_gae" value="${zip_dist_folder}/gae" />
+        <delete dir="${zip_dist_folder_gae}" />
+                
+        <copy todir="${zip_dist_folder_gae}" >
+            <fileset dir="${program}/gae" />
+        </copy>        
+        
         <!-- Para subir a Maven Central/JCenter -->
         <delete file="${maven_dist_folder}/${program_jar_name}" />        
         <copy file="${program_jar_path}" todir="${maven_dist_folder}" preservelastmodified="true"   /> 
