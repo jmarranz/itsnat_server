@@ -212,6 +212,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
         //((EventTarget)circleListElem).removeEventListener("click",listener,false);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         EventTarget currTarget = evt.getCurrentTarget();

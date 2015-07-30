@@ -21,7 +21,7 @@ function itsnat_fix_svgweb(win,msieOld,metaPos)
         };
         this.appendChild(node,parentNode);
         parentNode.appendChild = oldFunc;
-    }
+    };
 
     // SVGWeb en los eventos load y SVGLoad captura las excepciones lanzadas y el mensaje lo pasa a console.log(msg) pero la funcion por defecto
     // no hace nada por lo que no vemos el error.

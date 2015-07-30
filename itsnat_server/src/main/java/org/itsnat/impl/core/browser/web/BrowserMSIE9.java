@@ -17,12 +17,17 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 
 /**
  * http://msdn.microsoft.com/en-us/ie/ff468705.aspx
+ * 
+ * http://www.useragentstring.com/pages/Internet%20Explorer/
+ * 
+ * IE 11 puede tener por primera vez un user agent que NO INCLUYE "MSIE", pero si incluye "Trident":
+ *      Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko
+        Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko
  * 
  * @author jmarranz
  */
@@ -30,7 +35,7 @@ public class BrowserMSIE9 extends BrowserW3C
 {
     protected int version; // Por ahora no lo usamos, será 9 o mayor (futuras versiones
 
-    /** Creates a new instance of BrowserUnknown */
+    /** Creates a new instance of BrowserMSIE9 */
     public BrowserMSIE9(String userAgent,int version)
     {
         super(userAgent);
@@ -39,67 +44,80 @@ public class BrowserMSIE9 extends BrowserW3C
         this.version = version;
     }
 
+    @Override
     public boolean isMobile()
     {
         return false;
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         return true;  // Estudiar aunque true es la opción más segura
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         return false;
     }
 
+    @Override
     public boolean isDOMContentLoadedSupported()
     {
         return true;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
          // ESTUDIAR, esta es la opción más conservadora, copiado de MSIE < 9
         return DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
     
+    @Override
     public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public boolean hasHTMLCSSOpacity()
     {
         return true;
     }
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true; 
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return true; // Revisar en la versión final de IE 9
     }
 
+    @Override
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         return true; // Revisar en la versión final de IE 9
     }
 
+    @Override
     public boolean isClientWindowEventTarget()
     {
         return true;

@@ -77,7 +77,7 @@ public abstract class Browser implements Serializable
 
         if (BrowserDroid.isBrowserDroid(userAgent))
             return new BrowserDroid(userAgent);
-        else if (isMSIE(userAgent,itsNatRequest))
+        else if (isMSIE(userAgent,itsNatRequest))  //  MSIE 11 incluye "like Gecko" por lo que tenemos que evaluar ANTES de Gecko
         {
             int version = getMSIEVersion(userAgent);
             if (version < 9)
@@ -99,25 +99,50 @@ public abstract class Browser implements Serializable
 
     public static boolean isMSIE(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
-         // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
-        return (userAgent.indexOf("MSIE") != -1) &&
+        // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
+        // IE 11 tiene algún user agent SIN MSIE pero con Trident
+        // http://www.useragentstring.com/pages/Internet%20Explorer/
+        return (userAgent.contains("MSIE") || userAgent.contains("Trident")) &&
                 !BrowserOperaOld.isOperaOld(userAgent,itsNatRequest);
     }
     
     public static int getMSIEVersion(String userAgent)
     {
-        try
+        if (userAgent.contains("MSIE "))
         {
-            // Se espera MSIE M.m
-            // nos interesa sólo M
-            int start = userAgent.indexOf("MSIE ") + "MSIE ".length();
-            int end = userAgent.indexOf('.',start);
-            return Integer.parseInt(userAgent.substring(start, end));
+            try
+            {
+                // Se espera MSIE M.m
+                // nos interesa sólo M
+                int start = userAgent.indexOf("MSIE ") + "MSIE ".length();
+                int end = userAgent.indexOf('.',start);
+                return Integer.parseInt(userAgent.substring(start, end));
+            }
+            catch(Exception ex)
+            {
+                // Por si cambia Microsoft el patrón
+                return 8; // La versión mínima soportada
+            }
         }
-        catch(Exception ex)
+        else if (userAgent.contains("Trident")) // Caso de IE 11 con este user agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko
         {
-            // Por si cambia Microsoft el patrón
-            return 6; // La versión mínima soportada
+            try
+            {
+                // Se espera rv:M.n
+                // nos interesa sólo M
+                int start = userAgent.indexOf("rv:") + "rv:".length();
+                int end = userAgent.indexOf('.',start);
+                return Integer.parseInt(userAgent.substring(start, end));
+            }
+            catch(Exception ex)
+            {
+                // Por si cambia Microsoft el patrón
+                return 8; // La versión mínima soportada
+            }            
+        }
+        else
+        {
+            return 8; // La versión mínima soportada
         }
     }
 
