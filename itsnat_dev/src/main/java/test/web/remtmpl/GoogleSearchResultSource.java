@@ -18,11 +18,13 @@ import org.itsnat.core.tmpl.TemplateSource;
  */
 public class GoogleSearchResultSource implements TemplateSource
 {
+    @Override
     public boolean isMustReload(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return true;
     }
 
+    @Override
     public InputStream getInputStream(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         String query = request.getServletRequest().getParameter("q");
@@ -30,13 +32,14 @@ public class GoogleSearchResultSource implements TemplateSource
         try
         {
             query = java.net.URLEncoder.encode(query,"UTF-8");
-            URL url = new URL("https://www.google.com/search?q=" + query + "&gws_rd=ssl"); // https://www.google.com/search?q=ItsNat&gws_rd=ssl
+            URL url = new URL("http://www.google.com/search?q=" + query); // "&gws_rd=cr&ei=Glu6VcGtK8P2UPOro8gL"    + "&gws_rd=ssl" // https://www.google.com/search?q=ItsNat&gws_rd=ssl
             URLConnection conn = url.openConnection();
 
             HttpServletRequest httpRequest = (HttpServletRequest)request.getServletRequest();
             String userAgent = httpRequest.getHeader("User-Agent");
             conn.setRequestProperty("User-Agent", userAgent);
 
+            
             // Notas sobre cómo especificar un proxy, usuario, password etc
             // http://www.javaworld.com/javaworld/javatips/jw-javatip42.html
             // http://www.javaworld.com/javaworld/javatips/jw-javatip47.html

@@ -44,11 +44,11 @@ public class GoogleResultTemplateSource implements TemplateSource
             URL url = new URL("http://www.google.com/search?q=" + query);
             URLConnection conn = url.openConnection();
 
-            //HttpServletRequest httpRequest = (HttpServletRequest)request.getServletRequest();
-            //String userAgent = httpRequest.getHeader("User-Agent");
-            //conn.setRequestProperty( "User-Agent", userAgent);
+            HttpServletRequest httpRequest = (HttpServletRequest)request.getServletRequest();
+            String userAgent = httpRequest.getHeader("User-Agent");
+            conn.setRequestProperty( "User-Agent", userAgent);
              
-            conn.setRequestProperty( "User-Agent", "Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)");
+            //conn.setRequestProperty( "User-Agent", "Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)");
 
             return conn.getInputStream();
         }

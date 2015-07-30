@@ -19,8 +19,6 @@ import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.css.CSSStyleDeclaration;
-import org.w3c.dom.css.ElementCSSInlineStyle;
 import org.w3c.dom.html.HTMLAnchorElement;
 import org.w3c.dom.html.HTMLImageElement;
 import org.w3c.dom.html.HTMLInputElement;
@@ -41,41 +39,31 @@ public class RemoteTemplateResultDocument implements Serializable
 
     public void load()
     {
+        // This is the result, Google detects something is "weird":
+        
+        /*
+        <html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"><title>302 Moved</title></head><body>
+        <h1>302 Moved</h1>
+        The document has moved
+        <a HREF="https://www.google.es/search?q=ItsNat&gws_rd=cr,ssl&ei=Cl66VaXSForvUNHeu-AE">here</a>.
+
+        </body></html>        
+        */
+        
         Document doc = itsNatDoc.getDocument();
-       
-        HTMLInputElement inputSearch = null;
-        NodeList list = doc.getElementsByTagName("input");
-        int len = list.getLength();
-        for(int i = 0; i < len; i++)
-        {
-            HTMLInputElement input = (HTMLInputElement)list.item(i);
-            String type = input.getType();
-            if ("text".equals(type)) { inputSearch = input; break; }
-        }
 
+        Element body = (Element)doc.getElementsByTagName("body").item(0);        
+        
+        Element a = (Element)doc.getElementsByTagName("a").item(0);        
+        a.setAttribute("target","_blank"); // Because a Google page cannot be inside a <iframe>
+        
         Element div = doc.createElement("div");
-        div.setAttribute("style","font-size:25px;");
-        div.appendChild(doc.createTextNode("End of demo. Yes I know, is a clone far of perfect :)"));
-        inputSearch.getParentNode().insertBefore(div, inputSearch);
-
-        list = doc.getElementsByTagName("a");
-        len = list.getLength();
-        for(int i = 0; i < len; i++)
-        {
-            HTMLAnchorElement elem = (HTMLAnchorElement)list.item(i);
-            String href = elem.getHref();
-            if (!href.startsWith("http:"))
-                elem.setHref("http://www.google.com" + href);
-        }
-
-        list = doc.getElementsByTagName("img");
-        len = list.getLength();
-        for(int i = 0; i < len; i++)
-        {
-            HTMLImageElement elem = (HTMLImageElement)list.item(i);
-            String src = elem.getSrc();
-            if (!src.startsWith("http:"))
-                elem.setSrc("http://www.google.com" + src);
-        }
+        div.setAttribute("style","font-size:20px; margin-top:20px");
+        div.appendChild(doc.createTextNode("This is the answer of Google, really. Yes I know, is a clone of a search far of perfect, Google tries to make things hard :) "));
+        body.appendChild(div);
+        div = doc.createElement("div");
+        div.setAttribute("style","font-size:20px; margin-top:20px");        
+        div.appendChild(doc.createTextNode("End of ItsNat Remote Template demo."));        
+        body.appendChild(div);       
     }
 }

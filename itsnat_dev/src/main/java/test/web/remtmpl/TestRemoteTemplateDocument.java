@@ -101,6 +101,7 @@ public class TestRemoteTemplateDocument implements EventListener,Serializable
         ((EventTarget)link).addEventListener("click", this,false);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         Document doc = itsNatDoc.getDocument();

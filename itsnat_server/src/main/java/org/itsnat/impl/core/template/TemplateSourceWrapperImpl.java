@@ -15,10 +15,7 @@
 */
 package org.itsnat.impl.core.template;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.tmpl.TemplateSource;
@@ -37,24 +34,28 @@ public class TemplateSourceWrapperImpl extends MarkupSourceImpl
         this.templateSource = templateSource;
     }
 
+    @Override
     public long getCurrentTimestamp(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         // El timestamp es irrelevante en este tipo de source
         return 0;
     }
 
+    @Override
     public boolean isMustReload(long currentTimestamp,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         // El timestamp es irrelevante en este tipo de source
         return templateSource.isMustReload(request, response);
     }
 
+    @Override
     public InputSource createInputSource(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         InputStream stream = templateSource.getInputStream(request, response);
         return new InputSource(stream);
     }
 
+    @Override
     public Object getSource()
     {
         return templateSource;
