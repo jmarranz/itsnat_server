@@ -36,14 +36,19 @@ public class JProxyServletContextListener implements ServletContextListener
         
         ServletContext context = sce.getServletContext();
         
-        String realPath = context.getRealPath("/");
-        String inputPath = realPath + "../../src/java/"; // NetBeans /build/... dir
+        String realPath = context.getRealPath("/"); // NetBeans Maven: /target/itsnat-dev-1.0-SNAPSHOT/ dir
+        String inputPath = realPath + "../../src/main/java/"; 
              
-        if (!new File(inputPath).exists()) 
+        if (new File(inputPath).exists()) 
+        {
+            System.out.println("RelProxy to be enabled, development mode detected");
+        }
+        else
         {
             System.out.println("RelProxy disabled, production mode detected");
-            return;
+            return;            
         }
+        
         
         JProxyInputSourceFileExcludedListener excludedListener = new JProxyInputSourceFileExcludedListener()
         {

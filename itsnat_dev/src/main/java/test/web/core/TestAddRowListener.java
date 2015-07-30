@@ -42,6 +42,7 @@ public class TestAddRowListener implements EventListener,Serializable
         itsNatDoc.setUserValue("rows",new Integer(0));
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         ItsNatDOMStdEvent itsNatEvent = (ItsNatDOMStdEvent)evt;

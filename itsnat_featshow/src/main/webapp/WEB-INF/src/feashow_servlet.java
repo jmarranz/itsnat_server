@@ -200,11 +200,11 @@ public class feashow_servlet extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new RemCtrlReqRejectedLoadListener());
         docTemplate.setScriptingEnabled(false);
 
-        docTemplate = getItsNatHttpServlet().registerItsNatDocumentTemplate("feashow.ext.core.misc.remoteTemplateExample","text/html","http://www.google.com");
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("feashow.ext.core.misc.remoteTemplateExample","text/html","http://www.google.com");
         docTemplate.addItsNatServletRequestListener(new RemoteTemplateDocLoadListener());
         docTemplate.setOnLoadCacheStaticNodes(false);
 
-        docTemplate = getItsNatHttpServlet().registerItsNatDocumentTemplate("feashow.ext.core.misc.remoteTemplateExampleResult","text/html",new GoogleResultTemplateSource());
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("feashow.ext.core.misc.remoteTemplateExampleResult","text/html",new GoogleResultTemplateSource());
         docTemplate.addItsNatServletRequestListener(new RemoteTemplateResultDocLoadListener());
         docTemplate.setOnLoadCacheStaticNodes(false);
         docTemplate.setEventsEnabled(false);
@@ -274,16 +274,15 @@ public class feashow_servlet extends HttpServletWrapper
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
         ItsNatDocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example",   "text/html", pathPrefix + "core_example.html");
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml",  pathPrefix + "xml_example.xml");
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix + "comp_example.html");        
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example", "text/xml",  pathPrefix + "stless_example.html");
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml",  pathPrefix + "stless_example_event_receiver.html");        
+        docTemplate = registerItsNatDocumentTemplate("manual.core.example", "text/html", pathPrefix, "core_example.html");
+        docTemplate = registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml",  pathPrefix, "xml_example.xml");
+        docTemplate = registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix, "comp_example.html");        
+        docTemplate = registerItsNatDocumentTemplate("manual.stless.example", "text/xml",  pathPrefix, "stless_example.html");
+        docTemplate = registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml", pathPrefix, "stless_example_event_receiver.html");        
         
         ItsNatDocFragmentTemplate docFragTemplate;
-        docFragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.core.xmlFragExample","text/xml",pathPrefix + "xml_fragment_example.xml");
-        docFragTemplate = itsNatServlet.registerItsNatDocFragmentTemplate("manual.stless.example.fragment","text/xml",pathPrefix + "stless_example_fragment.html"); 
-
+        docFragTemplate = registerItsNatDocFragmentTemplate("manual.core.xmlFragExample","text/xml",pathPrefix, "xml_fragment_example.xml");
+        docFragTemplate = registerItsNatDocFragmentTemplate("manual.stless.example.fragment","text/xml",pathPrefix, "stless_example_fragment.html"); 
     }
 
     public Properties loadProperties(String path)
@@ -306,16 +305,30 @@ public class feashow_servlet extends HttpServletWrapper
     {
         String relPath = paths.getProperty(name);
         if (relPath == null) throw new RuntimeException("Not found in properties file:" + name);
-        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, pathPrefix + relPath);
+        return registerItsNatDocumentTemplate(name,mime,pathPrefix,relPath);
     }
 
+    public ItsNatDocumentTemplate registerItsNatDocumentTemplate(String name,String mime,String pathPrefix,String relPath)
+    {
+        String path = pathPrefix + relPath;
+        if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
+        return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, path);
+    }    
+    
     public ItsNatDocFragmentTemplate registerItsNatDocFragmentTemplate(String name,String mime,String pathPrefix,Properties paths)
     {
         String relPath = paths.getProperty(name);
         if (relPath == null) throw new RuntimeException("Not found in properties file:" + name);
-        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + relPath);
+        return registerItsNatDocFragmentTemplate(name,mime,pathPrefix,relPath);
     }
 
+    public ItsNatDocFragmentTemplate registerItsNatDocFragmentTemplate(String name,String mime,String pathPrefix,String relPath)
+    {
+        String path = pathPrefix + relPath;
+        if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
+        return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, path);
+    }    
+    
     public ItsNatDocumentTemplate registerItsNatDocumentTemplateAttachedServer(String name,String mime)
     {
         return getItsNatHttpServlet().registerItsNatDocumentTemplateAttachedServer(name,mime);
