@@ -86,6 +86,13 @@ ItsNat provides many more (core) features:
 
 As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
 
+### Repository of Open Source Examples
+
+Take a look here:
+
+https://github.com/jmarranz/itsnat_server_examples_web
+
+
 ### Hello World
 
 1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat" .
