@@ -1,0 +1,7 @@
+
+Original based on svgweb-2011-02-03-Lurker-Above, modified to correct detection of IE 11
+
+NO USAR es un intento fallido de usar IE 11, no merece la pena, SVGWeb está ABANDONADO e IE 11 se separa mucho de IE 8, attachEvent por ejemplo ya no existe.
+
+
+
