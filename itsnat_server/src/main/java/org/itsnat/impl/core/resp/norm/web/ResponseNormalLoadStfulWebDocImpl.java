@@ -18,7 +18,8 @@ package org.itsnat.impl.core.resp.norm.web;
 
 import org.itsnat.core.CommMode;
 import org.itsnat.impl.core.CommModeImpl;
-import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.BrowserSVGPlugin;
+import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
@@ -60,14 +61,14 @@ public abstract class ResponseNormalLoadStfulWebDocImpl extends ResponseNormalLo
         Document doc = itsNatDoc.getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();
         ClientDocumentStfulImpl clientDoc = getClientDocumentStful();
-        Browser browser = clientDoc.getBrowser();
+        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
 
         if (isReferrerEnabled())
         {
             EventTarget target;
             String eventType;
             int commMode;
-            if (browser.isClientWindowEventTarget())
+            if (!(browser instanceof BrowserSVGPlugin))
             {
                 target = (EventTarget)view;
                 if ( CommModeImpl.isXHRDefaultMode(clientDoc) &&
@@ -133,7 +134,7 @@ public abstract class ResponseNormalLoadStfulWebDocImpl extends ResponseNormalLo
         }
         else commMode = defaultCommMode; // Caso SCRIPT o SCRIPT_HOLD, siempre asíncronos
 
-        if (browser.isClientWindowEventTarget())
+        if (!(browser instanceof BrowserSVGPlugin))
         {
             target = (EventTarget)view;
             eventType = "unload";

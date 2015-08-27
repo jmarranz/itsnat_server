@@ -18,9 +18,14 @@ package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLTextImpl;
+import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -29,6 +34,20 @@ import org.w3c.dom.html.HTMLElement;
  */
 public abstract class BrowserWeb extends Browser
 {
+    public static final int UNKNOWN  = 0;  // Robots, nuevos navegadores etc
+    public static final int MSIE_OLD = 1;
+    public static final int GECKO  = 2;
+    public static final int WEBKIT = 3;  // Navegadores basados en WebKit
+    public static final int OPERA_OLD  = 4;
+    public static final int BLACKBERRY_OLD = 5; // NO SE USA YA
+    public static final int ADOBE_SVG = 6;
+    public static final int BATIK = 7;
+    public static final int MSIE_9 = 8;
+   
+    
+    protected int browserType;
+    protected int browserSubType = -1; // Hay alguno que no tiene subtipos    
+    
     protected transient JSRenderHTMLElementImpl jsRenderHtmlElement;
     protected transient JSRenderHTMLTextImpl jsRenderHtmlText;
     protected transient JSRenderHTMLAttributeImpl jsRenderHtmlAttr;
@@ -37,6 +56,100 @@ public abstract class BrowserWeb extends Browser
     {
         super(userAgent);
     }
+    
+    public static BrowserWeb createBrowserWeb(String userAgent,ItsNatServletRequestImpl itsNatRequest)
+    {
+        // Enorme lista de user-agents:
+        // http://www.botsvsbrowsers.com/category/
+
+        // http://en.wikipedia.org/wiki/User_agent
+        // http://www.useragentstring.com/pages/useragentstring.php
+        // http://web.archive.org/web/20061217053523/http://en.wikipedia.org/wiki/User_agent
+        // http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones
+        // http://mobileopera.com/reference/ua
+        // http://www.zytrax.com/tech/web/mobile_ids.html
+        // http://www.smartphonemag.com/cms/blogs/3/an_updated_list_of_mobile_user_agents
+        // http://forums.thoughtsmedia.com/f323/updated-list-mobile-user-agents-89045.html (más claro)
+
+        if (isMSIE(userAgent,itsNatRequest))  //  MSIE 11 incluye "like Gecko" por lo que tenemos que evaluar ANTES de Gecko
+        {
+            int version = getMSIEVersion(userAgent);
+            if (version < 9)
+                return BrowserMSIEOld.createBrowserMSIEOld(userAgent,itsNatRequest,version);
+            else
+                return new BrowserMSIE9(userAgent,version);
+        }
+        else if (BrowserGecko.isGecko(userAgent,itsNatRequest))
+            return BrowserGecko.createBrowserGecko(userAgent,itsNatRequest);
+        else if (BrowserWebKit.isWebKit(userAgent))
+            return BrowserWebKit.createBrowserWebKit(userAgent);
+        else if (BrowserOperaOld.isOperaOld(userAgent,itsNatRequest)) // Llamar DESPUES de WebKit pues también soportamos Opera basado en WebKit cuyo user agent contiene la palabra Opera
+            return BrowserOperaOld.createBrowserOperaOld(userAgent);
+        else if (BrowserBatik.isBatik(userAgent))
+            return new BrowserBatik(userAgent); 
+        else // Desconocido (suponemos que es un robot)
+            return new BrowserUnknown(userAgent);
+    }    
+    
+    public static boolean isMSIE(String userAgent,ItsNatServletRequestImpl itsNatRequest)
+    {
+        // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
+        // IE 11 tiene algún user agent SIN MSIE pero con Trident
+        // http://www.useragentstring.com/pages/Internet%20Explorer/
+        return (userAgent.contains("MSIE") || userAgent.contains("Trident")) &&
+                !BrowserOperaOld.isOperaOld(userAgent,itsNatRequest);
+    }
+    
+    public static int getMSIEVersion(String userAgent)
+    {
+        if (userAgent.contains("MSIE "))
+        {
+            try
+            {
+                // Se espera MSIE M.m
+                // nos interesa sólo M
+                int start = userAgent.indexOf("MSIE ") + "MSIE ".length();
+                int end = userAgent.indexOf('.',start);
+                return Integer.parseInt(userAgent.substring(start, end));
+            }
+            catch(Exception ex)
+            {
+                // Por si cambia Microsoft el patrón
+                return 8; // La versión mínima soportada
+            }
+        }
+        else if (userAgent.contains("Trident")) // Caso de IE 11 con este user agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko
+        {
+            try
+            {
+                // Se espera rv:M.n
+                // nos interesa sólo M
+                int start = userAgent.indexOf("rv:") + "rv:".length();
+                int end = userAgent.indexOf('.',start);
+                return Integer.parseInt(userAgent.substring(start, end));
+            }
+            catch(Exception ex)
+            {
+                // Por si cambia Microsoft el patrón
+                return 8; // La versión mínima soportada
+            }            
+        }
+        else
+        {
+            return 8; // La versión mínima soportada
+        }
+    }
+    
+    
+    public int getTypeCode()
+    {
+        return browserType;
+    }
+
+    public int getSubTypeCode()
+    {
+        return browserSubType;
+    }    
     
     public abstract boolean isMobile();   
     
@@ -69,6 +182,15 @@ public abstract class BrowserWeb extends Browser
     {
         this.jsRenderHtmlAttr = jsRenderHtmlAttr;
     }    
+    
+    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
+    {
+        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado        
+        // En SVG no existe conceptualmente, es más propio de HTML aunque en XUL está también soportado
+        // En Opera y BlackBerryOld se redefine porque no se soporta nunca
+        return ! (itsNatDoc instanceof ItsNatSVGDocumentImpl);
+    }      
+     
     
     public abstract boolean isDOMContentLoadedSupported();    
     
@@ -103,6 +225,7 @@ public abstract class BrowserWeb extends Browser
     
     /**
      * Si hay elementos que ignoran el zIndex y recibe eventos.
+     * @return 
      */
     public abstract Map<String,String[]> getHTMLFormControlsIgnoreZIndex();   
     

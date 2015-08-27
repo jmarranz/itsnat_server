@@ -54,7 +54,7 @@ public abstract class BrowserOperaOld extends BrowserW3C
 
     public static boolean isOperaOld(String userAgent,ItsNatServletRequestImpl itsNatRequest)
     {
-        return (userAgent.indexOf("Opera") != -1);
+        return (userAgent.contains("Opera"));
     }
 
     @Override
@@ -74,12 +74,6 @@ public abstract class BrowserOperaOld extends BrowserW3C
         // Opera Mini: sólo tiene Back
         return true;
     }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return true;
-    }
-    
 
     public boolean isDOMContentLoadedSupported()
     {

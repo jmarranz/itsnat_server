@@ -52,7 +52,7 @@ public class BrowserOperaOldMobile extends BrowserOperaOld
     public static boolean isOperaOldMobile(String userAgent)
     {
         // "Opera Mobi" ya no está siempre, puede ser "Opera Tablet", el sistema operativo es el que decide, Android
-        return (userAgent.indexOf("Android") != -1);
+        return (userAgent.contains("Android"));
     }
 
     public boolean isMobile()

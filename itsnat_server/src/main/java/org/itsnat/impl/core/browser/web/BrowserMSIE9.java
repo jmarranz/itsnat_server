@@ -117,9 +117,4 @@ public class BrowserMSIE9 extends BrowserW3C
         return true; // Revisar en la versión final de IE 9
     }
 
-    @Override
-    public boolean isClientWindowEventTarget()
-    {
-        return true;
-    }
 }

@@ -73,7 +73,7 @@ public class BrowserGecko extends BrowserW3C
     {
         // Los navegadores WebKit incluyen en userAgent la palabra Gecko.
         // No usamos la palabra "FireFox" para soportar Mozilla y Camino también
-        return (userAgent.indexOf("Gecko") != -1) &&
+        return (userAgent.contains("Gecko")) &&
                 !BrowserWebKit.isWebKit(userAgent);
     }
 
@@ -95,11 +95,6 @@ public class BrowserGecko extends BrowserW3C
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true; // SVG y MathML al menos
-    }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return true;
     }
     
     public boolean isReferrerReferenceStrong()

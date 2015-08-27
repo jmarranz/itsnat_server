@@ -73,7 +73,7 @@ public class BrowserMSIEOld extends BrowserWeb
         // http://blogs.msdn.com/iemobile/archive/2006/08/03/Detecting_IE_Mobile.aspx
         // Sólo está soportado IE Mobile 6 (Windows Mobile 6 y 6.1)
 
-        if (userAgent.indexOf("MSIEMobile") != -1) // Modo "mobile" de IE Mobile 6. 
+        if (userAgent.contains("MSIEMobile")) // Modo "mobile" de IE Mobile 6. 
             return new BrowserMSIEOld(userAgent,version,true);
         else
         {
@@ -111,10 +111,6 @@ public class BrowserMSIEOld extends BrowserWeb
         return false; // Por poner algo, no soporta SVG
     }
     
-    public boolean isClientWindowEventTarget()
-    {
-        return true;
-    }
     
     @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)

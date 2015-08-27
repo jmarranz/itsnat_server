@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.template;
 
-import com.innowhere.relproxy.jproxy.JProxy;
 import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletConfigImpl;
@@ -126,16 +125,19 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
             throw new ItsNatException("This MIME " + mime + " is not recognized as stateful and stateless is not valid in attached server mode");
     }
 
+    @Override
     public boolean isDocFragment()
     {
         return false;
     }
 
+    @Override
     public int getCommMode()
     {
         return commMode;
     }
 
+    @Override
     public void setCommMode(int commMode)
     {
         checkIsAlreadyUsed();
@@ -143,110 +145,130 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         this.commMode = commMode;
     }
 
+    @Override
     public long getEventTimeout()
     {
         return eventTimeout;
     }
 
+    @Override
     public void setEventTimeout(long timeout)
     {
         checkIsAlreadyUsed();
         this.eventTimeout = timeout;
     }
 
+    @Override
     public int getUseGZip()
     {
         return useGZip;
     }
 
+    @Override
     public void setUseGZip(int value)
     {
         checkIsAlreadyUsed();
         this.useGZip = value;
     }
 
+    @Override
     public boolean isFastLoadMode()
     {
         return fastLoadMode;
     }
 
+    @Override
     public void setFastLoadMode(boolean fastLoadMode)
     {
         checkIsAlreadyUsed();
         this.fastLoadMode = fastLoadMode;
     }
 
+    @Override
     public boolean isLoadScriptInline()
     {
         return loadScriptInline;
     }
 
+    @Override
     public void setLoadScriptInline(boolean value)
     {
         checkIsAlreadyUsed();
         this.loadScriptInline = value;
     }
 
+    @Override
     public boolean isNodeCacheEnabled()
     {
         return nodeCacheEnabled;
     }
 
+    @Override
     public void setNodeCacheEnabled(boolean nodeCacheEnabled)
     {
         checkIsAlreadyUsed();
         this.nodeCacheEnabled = nodeCacheEnabled;
     }
 
+    @Override
     public boolean isAutoBuildComponents()
     {
         return autoBuildComponents;
     }
 
+    @Override
     public void setAutoBuildComponents(boolean autoBuildComponents)
     {
         checkIsAlreadyUsed();
         this.autoBuildComponents = autoBuildComponents;
     }
 
+    @Override
     public DateFormat getDefaultDateFormat()
     {
         return dateFormat;
     }
 
+    @Override
     public void setDefaultDateFormat(DateFormat dateFormat)
     {
         checkIsAlreadyUsed();
         this.dateFormat = dateFormat;
     }
 
+    @Override
     public NumberFormat getDefaultNumberFormat()
     {
         return numberFormat;
     }
 
+    @Override
     public void setDefaultNumberFormat(NumberFormat numberFormat)
     {
         checkIsAlreadyUsed();
         this.numberFormat = numberFormat;
     }
 
+    @Override
     public long getEventDispatcherMaxWait()
     {
         return evtDispMaxWait;
     }
 
+    @Override
     public void setEventDispatcherMaxWait(long wait)
     {
         checkIsAlreadyUsed();
         this.evtDispMaxWait = wait;
     }
 
+    @Override
     public int getMaxOpenClientsByDocument()
     {
         return maxOpenClients;
     }
 
+    @Override
     public void setMaxOpenClientsByDocument(int value)
     {
         checkIsAlreadyUsed();
@@ -254,11 +276,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         this.maxOpenClients = value;
     }
 
+    @Override
     public boolean isReferrerEnabled()
     {
         return referrerEnabled;
     }
 
+    @Override
     public void setReferrerEnabled(boolean enabled)
     {
         checkIsAlreadyUsed();
@@ -266,33 +290,39 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     }
 
 
+    @Override
     public boolean isReferrerPushEnabled()
     {
         return referrerPushEnabled;
     }
 
+    @Override
     public void setReferrerPushEnabled(boolean referrerPushEnabled)
     {
         checkIsAlreadyUsed();
         this.referrerPushEnabled = referrerPushEnabled;
     }
 
+    @Override
     public boolean isEventsEnabled()
     {
         return eventsEnabled;
     }
 
+    @Override
     public void setEventsEnabled(boolean enabled)
     {
         checkIsAlreadyUsed();
         this.eventsEnabled = enabled;
     }
 
+    @Override
     public boolean isScriptingEnabled()
     {
         return scriptEnabled;
     }
 
+    @Override
     public void setScriptingEnabled(boolean enabled)
     {
         checkIsAlreadyUsed();
@@ -305,11 +335,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         }
     }
 
+    @Override
     public boolean isAutoCleanEventListeners()
     {
         return autoCleanEventListeners;
     }
 
+    @Override
     public void setAutoCleanEventListeners(boolean enable)
     {
         checkIsAlreadyUsed();
@@ -317,11 +349,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         this.autoCleanEventListeners = enable;
     }
 
+    @Override
     public boolean isUseXHRSyncOnUnloadEvent()
     {
         return useXHRSyncOnUnloadEvent;
     }
 
+    @Override
     public void setUseXHRSyncOnUnloadEvent(boolean enable)
     {
         checkIsAlreadyUsed();
@@ -337,66 +371,78 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         this.autoCleanEventListeners = enable;
     }
 
+    @Override
     public boolean isUsePatternMarkupToRender()
     {
         return usePatternMarkupToRender;
     }
 
+    @Override
     public void setUsePatternMarkupToRender(boolean usePatternMarkupToRender)
     {
         checkIsAlreadyUsed();
         this.usePatternMarkupToRender = usePatternMarkupToRender;
     }
 
+    @Override
     public boolean isSelectionOnComponentsUsesKeyboard()
     {
         return selectionOnComponentsUsesKeyboard;
     }
 
+    @Override
     public void setSelectionOnComponentsUsesKeyboard(boolean value)
     {
         checkIsAlreadyUsed();
         this.selectionOnComponentsUsesKeyboard = value;
     }
 
+    @Override
     public boolean isJoystickMode()
     {
         return joystickMode;
     }
 
+    @Override
     public void setJoystickMode(boolean value)
     {
         checkIsAlreadyUsed();
         this.joystickMode = value;
     }
 
+    @Override
     public boolean isMarkupDrivenComponents()
     {
         return markupDrivenComponents;
     }
 
+    @Override
     public void setMarkupDrivenComponents(boolean value)
     {
         checkIsAlreadyUsed();
         this.markupDrivenComponents = value;
     }
 
+    @Override
     public boolean isDebugMode()
     {
         return debugMode;
     }
 
+    @Override
     public void setDebugMode(boolean debugMode)
     {
         checkIsAlreadyUsed();
         this.debugMode = debugMode;
     }
 
+    @Override
     public int getClientErrorMode()
     {
         return clientErrorMode;
     }
 
+    @Override
     public void setClientErrorMode(int mode)
     {
         checkIsAlreadyUsed();
@@ -434,6 +480,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return requestListeners.iterator();
     }
 
+    @Override
     public void addItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -444,6 +491,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         requestListeners.add(jProxy == null? listener : jProxy.create(listener,ItsNatServletRequestListener.class));
     }
 
+    @Override
     public void removeItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -469,6 +517,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         list.addAll(attachedEventListeners);
     }
 
+    @Override
     public void addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -479,6 +528,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         attachedEventListeners.add(jProxy == null ? listener : jProxy.create(listener,ItsNatAttachedClientEventListener.class));
     }
 
+    @Override
     public void removeItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -511,6 +561,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         list.addAll(domEventListeners);
     }
 
+    @Override
     public void addEventListener(EventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -519,6 +570,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         domEventListeners.add(listener);
     }
 
+    @Override
     public void removeEventListener(EventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -546,6 +598,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return createCompListeners.iterator();
     }
 
+    @Override
     public void addCreateItsNatComponentListener(CreateItsNatComponentListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -554,6 +607,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         list.add(listener);
     }
 
+    @Override
     public void removeCreateItsNatComponentListener(CreateItsNatComponentListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
@@ -575,6 +629,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return artifacts;
     }
 
+    @Override
     public Object getArtifact(String name)
     {
         if (!hasArtifacts()) return null;
@@ -583,6 +638,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return artifacts.get(name);
     }
 
+    @Override
     public void registerArtifact(String name,Object value)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
@@ -591,6 +647,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         artifacts.put(name,value);
     }
 
+    @Override
     public Object removeArtifact(String name)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
@@ -599,6 +656,7 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         return artifacts.remove(name);
     }
 
+    @Override
     public Object getArtifact(String name,boolean cascade)
     {
         Object artif = getArtifact(name);

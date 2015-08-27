@@ -18,7 +18,6 @@ package org.itsnat.impl.core.browser.web.webkit;
 
 import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLSelectElement;
 
 /*
  *  Safari y BlackBerry y desconocidos
@@ -56,7 +55,6 @@ public class BrowserWebKitOther extends BrowserWebKit
 
     public boolean isMobile()
     {
-        if (browserSubType == BLACKBERRY) return true;
         return false;
     }
 
@@ -66,8 +64,6 @@ public class BrowserWebKitOther extends BrowserWebKit
         {
             case SAFARIDESKTOP :
                 return true;
-            case BLACKBERRY:
-                return false;
         }
 
         return false;
@@ -94,35 +90,10 @@ public class BrowserWebKitOther extends BrowserWebKit
         switch(browserSubType)
         {
             case SAFARIDESKTOP:
-            case BLACKBERRY:
-                // El simulador del JDE 5.0 9800 renderiza SVG pero NO se ejecutan los <script>
-                // imagino que cuando se active JavaScript funcionará correctamente pues la versión
-                // primera del WebKit no es nada antigua (534.1+)
                 return false;
         }
 
         return false; // Por si se me pasa algún navegador
-    }
-
-    @Override
-    public boolean isReferrerReferenceStrong()
-    {
-        if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
-        else return super.isReferrerReferenceStrong();
-    }
-    
-    @Override
-    public boolean isCachedBackForward()
-    {
-        if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
-        else return super.isCachedBackForward();
-    }
-
-    @Override
-    public boolean isCachedBackForwardExecutedScripts()
-    {
-        if (browserSubType == BLACKBERRY) return true; // Idem que las BlackBerryOld 
-        else return super.isCachedBackForwardExecutedScripts();
     }
      
 }

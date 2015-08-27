@@ -104,8 +104,4 @@ public class BrowserUnknown extends BrowserW3C
         return false; // Por poner algo
     }
 
-    public boolean isClientWindowEventTarget()
-    {
-        return true; // Por poner algo
-    }
 }

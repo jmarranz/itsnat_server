@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -36,7 +35,7 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserAdobeSVG extends BrowserW3C
+public class BrowserAdobeSVG extends BrowserW3C implements BrowserSVGPlugin
 {
     /**
      * Creates a new instance of BrowserAdobeSVG
@@ -111,10 +110,5 @@ public class BrowserAdobeSVG extends BrowserW3C
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         return true;
-    }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return false;
     }
 }

@@ -46,7 +46,7 @@ public class BrowserWebKitChrome extends BrowserWebKit
     {
         super(userAgent,GCHROME);
         
-        this.android = (userAgent.indexOf("Android") != -1);
+        this.android = (userAgent.contains("Android"));
     }
 
     public boolean isMobile()

@@ -17,7 +17,6 @@
 package org.itsnat.impl.core.browser.droid;
 
 import org.itsnat.impl.core.browser.Browser;
-import static org.itsnat.impl.core.browser.Browser.DROID;
 
 
 
@@ -34,8 +33,6 @@ public class BrowserDroid extends Browser
     public BrowserDroid(String userAgent)
     {
         super(userAgent);
-
-        this.browserType = DROID;
     }
 
     public static boolean isBrowserDroid(String userAgent)
@@ -46,14 +43,10 @@ public class BrowserDroid extends Browser
         return userAgent.contains("ItsNatDroidBrowser");
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         return true;
-    }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return true; // Por poner algo
     }
     
     @Override

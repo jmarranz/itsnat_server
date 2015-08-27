@@ -40,6 +40,7 @@ public class ResponseNormalEventErrorLostClientDocImpl extends ResponseNormalEve
         this.lostClientId = lostClientId;
     }
 
+    @Override
     public void processEvent()
     {
         // Antes hemos comprobado que no es un evento unload y que la sesión

@@ -16,6 +16,8 @@
 
 package org.itsnat.impl.core.scriptren.jsren.listener.attachcli;
 
+import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.BrowserSVGPlugin;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.listener.ItsNatEventListenerWrapperImpl;
@@ -45,11 +47,13 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
         return null;
     }
 
+    @Override
     public String addItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return addItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
     }
 
+    @Override
     public String removeItsNatEventListenerCodeClient(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         return removeItsNatEventListenerCodeInherit(itsNatListener,clientDoc);
@@ -61,7 +65,8 @@ public abstract class JSRenderItsNatAttachedClientEventListenerImpl extends JSRe
 
         String nodeRefForUnload;
         String unloadType;
-        if (clientDoc.getBrowser().isClientWindowEventTarget())
+        Browser browser = clientDoc.getBrowser();
+        if (!(browser instanceof BrowserSVGPlugin))
         {
             nodeRefForUnload = "itsNatDoc.win";
             unloadType = "unload";

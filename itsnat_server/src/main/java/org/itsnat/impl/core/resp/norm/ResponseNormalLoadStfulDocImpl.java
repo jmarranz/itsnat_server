@@ -70,6 +70,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return null;
     }
 
+    @Override
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return (ClientDocumentStfulImpl)getClientDocument();
@@ -80,6 +81,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         return (ClientDocumentStfulOwnerImpl)getClientDocument();
     }
 
+    @Override
     public ItsNatStfulDocumentImpl getItsNatStfulDocument()
     {
         return (ItsNatStfulDocumentImpl)getRequestNormalLoadDoc().getItsNatDocument();

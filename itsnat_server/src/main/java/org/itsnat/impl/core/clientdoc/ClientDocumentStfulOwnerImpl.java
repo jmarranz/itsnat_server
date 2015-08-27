@@ -35,26 +35,31 @@ public class ClientDocumentStfulOwnerImpl extends ClientDocumentStfulImpl
         super(itsNatDoc,browser,itsNatSession);
     }
 
+    @Override
     public boolean isScriptingEnabled()
     {
         return getItsNatStfulDocument().isScriptingEnabled();
     }
 
+    @Override
     public boolean isEventsEnabled()
     {
         return getItsNatStfulDocument().isEventsEnabled();
     }
 
+    @Override
     public boolean canReceiveALLNormalEvents()
     {
         return isEventsEnabled(); // Si AJAX está desactivado el documento no se guardará en la sesión (tampoco el cliente) por tanto no habrá eventos posibles
     }
 
+    @Override
     public boolean canReceiveNormalEvents(EventListener listener)
     {
         return canReceiveALLNormalEvents(); // O todos o ninguno.
     }
 
+    @Override
     public boolean canReceiveSOMENormalEvents()
     {
         return canReceiveALLNormalEvents(); // O todos o ninguno.
@@ -85,6 +90,7 @@ public class ClientDocumentStfulOwnerImpl extends ClientDocumentStfulImpl
         }
     }
 
+    @Override
     public void registerInSession()
     {
         getItsNatSessionImpl().registerClientDocumentStfulOwner(this); // Pasa a ser accesible el documento (aunque no se puede tocar por otros hilos hasta que se libere el lock)

@@ -57,7 +57,7 @@ public class BrowserOperaOldMini extends BrowserOperaOld
 
     public static boolean isOperaMini(String userAgent)
     {
-        return (userAgent.indexOf("Opera Mini") != -1);
+        return (userAgent.contains("Opera Mini"));
     }
 
     public boolean isMobile()

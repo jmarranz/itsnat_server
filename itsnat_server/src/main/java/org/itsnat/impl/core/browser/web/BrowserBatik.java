@@ -27,7 +27,7 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserBatik extends BrowserW3C
+public class BrowserBatik extends BrowserW3C implements BrowserSVGPlugin
 {
 
     /** Creates a new instance of BrowserUnknown */
@@ -40,7 +40,7 @@ public class BrowserBatik extends BrowserW3C
 
     public static boolean isBatik(String userAgent)
     {
-        return (userAgent.indexOf("Batik") != -1);
+        return (userAgent.contains("Batik"));
     }
 
     public boolean isMobile()
@@ -106,11 +106,6 @@ public class BrowserBatik extends BrowserW3C
     {
         // No se ejecuta de ninguna forma
         return true;
-    }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return false; // No en Batik applet.
     }
 
     public boolean isNeededAbsoluteURL()

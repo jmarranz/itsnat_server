@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.*;
 import org.itsnat.impl.core.browser.Browser;
+import org.itsnat.impl.core.browser.web.BrowserSVGPlugin;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
@@ -115,6 +116,7 @@ public class ItsNatCompNormalEventListenersJoystickSharedImpl
             // Tenemos que delegar el proceso a después de la carga
             EventListener listener = new EventListenerInternal()
             {
+                @Override
                 public void handleEvent(Event evt)
                 {
                     addInternalEventListenerJoystick2(listeners,clientDoc,type, useCapture, commMode, extraParams, preSendCode, eventTimeout,bindToCustomFunc);
@@ -125,7 +127,7 @@ public class ItsNatCompNormalEventListenersJoystickSharedImpl
             Browser browser = clientDoc.getBrowser();
             EventTarget target;
             String eventType;
-            if (browser.isClientWindowEventTarget())
+            if (!(browser instanceof BrowserSVGPlugin))
             {
                 target = (EventTarget)((DocumentView)doc).getDefaultView();
                 eventType = "load";
@@ -155,7 +157,7 @@ public class ItsNatCompNormalEventListenersJoystickSharedImpl
             Browser browser = clientDoc.getBrowser();
             EventTarget target;
             String eventType;
-            if (browser.isClientWindowEventTarget())
+            if (!(browser instanceof BrowserSVGPlugin))
             {
                 target = (EventTarget)((DocumentView)doc).getDefaultView();
                 eventType = "load";

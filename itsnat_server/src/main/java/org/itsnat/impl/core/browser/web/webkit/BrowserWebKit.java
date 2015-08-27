@@ -47,7 +47,6 @@ public abstract class BrowserWebKit extends BrowserW3C
     protected static final int IPHONE = 2;
     protected static final int ANDROID = 3;
     protected static final int GCHROME = 7;
-    protected static final int BLACKBERRY = 12;
     protected static final int OPERA = 13;
     
     protected int webKitVersion;
@@ -84,24 +83,20 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public static BrowserWebKit createBrowserWebKit(String userAgent)
     {
-        if (userAgent.indexOf("OPR/") != -1) // Lo llamamos ANTES de Chrome porque Chrome se incluye en el user agent
+        if (userAgent.contains("OPR/")) // Lo llamamos ANTES de Chrome porque Chrome se incluye en el user agent
             return new BrowserWebKitOpera(userAgent);         
-        else if (userAgent.indexOf("Chrome") != -1) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
+        else if (userAgent.contains("Chrome")) // Debe chequearse antes que "Android" porque incluimos el Chrome de Android
             return new BrowserWebKitChrome(userAgent);                  
-        else if (userAgent.indexOf("Android") != -1)
+        else if (userAgent.contains("Android"))
             return new BrowserWebKitAndroid(userAgent);
-        else if ((userAgent.indexOf("iPod") != -1) ||
-                 (userAgent.indexOf("iPhone") != -1) ||
-                 (userAgent.indexOf("iPad") != -1))              
+        else if ((userAgent.contains("iPod")) ||
+                 (userAgent.contains("iPhone")) ||
+                 (userAgent.contains("iPad")))              
             return new BrowserWebKitIOS(userAgent);
       
         else
         {
-            int browserSubType;
-            if (userAgent.indexOf("BlackBerry") != -1) 
-                browserSubType = BLACKBERRY;
-            else
-                browserSubType = SAFARIDESKTOP; // Safari Destkop o WebKit desconocido (suponemos Safari desktop)
+            int browserSubType = SAFARIDESKTOP; // Safari Destkop o WebKit desconocido (suponemos Safari desktop)
 
             return new BrowserWebKitOther(userAgent,browserSubType);
         }
@@ -110,7 +105,7 @@ public abstract class BrowserWebKit extends BrowserW3C
     public static boolean isWebKit(String userAgent)
     {
         // Podría usarse "Safari" pero algún navegador antiguo no la tenía
-        return (userAgent.indexOf("WebKit") != -1);
+        return (userAgent.contains("WebKit"));
     }
 
 
@@ -123,13 +118,11 @@ public abstract class BrowserWebKit extends BrowserW3C
 
     public boolean isCachedBackForward()
     {
-        // Pero en BlackBerry se redefine
         return false;
     }
 
     public boolean isCachedBackForwardExecutedScripts()
     {
-        // Pero en BlackBerry se redefine
         return false;
     }
 
@@ -146,6 +139,7 @@ public abstract class BrowserWebKit extends BrowserW3C
     public abstract boolean hasBeforeUnloadSupportHTML();
 
 
+    @Override
     public boolean isDOMContentLoadedSupported()
     {
         // Se propuso para Mac desde 420+ : https://bugs.webkit.org/show_bug.cgi?id=5122
@@ -159,9 +153,10 @@ public abstract class BrowserWebKit extends BrowserW3C
         //    Safari,iPhone
         // Navegadores que NO han llegado a 525 : S40WebKit ya veremos si se cumple esta regla del 525.
         // Los demás navegadores (Android, Chrome, SWTWebKit) parten de WebKit superior a 525.
-        return webKitVersion >= 525;
+        return true;
     }
 
+    @Override
     public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
     {
         // Caso S60WEBKIT antiguos con WebKit 413 (en WebKit 525 funciona ya bien),
@@ -171,7 +166,7 @@ public abstract class BrowserWebKit extends BrowserW3C
         // Consideramos el 420 como el primer WebKit sin este "fallo" pues
         // todos los demás navegadores soportados funcionan bien y tienen el 420 o mayor
 
-        return (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
+        return false; // (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
    
@@ -180,11 +175,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         // Cuando la inserción del script funciona funciona bien
         // en los dos casos (añadiendo antes el código o después de insertado el elemento <script>).
         return isInsertedSVGScriptNotExecuted();
-    }
-
-    public boolean isClientWindowEventTarget()
-    {
-        return true;
     }
     
     public boolean isAJAXEmptyResponseFails()

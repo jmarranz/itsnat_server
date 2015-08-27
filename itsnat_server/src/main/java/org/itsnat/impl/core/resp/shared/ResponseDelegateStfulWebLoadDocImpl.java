@@ -23,12 +23,9 @@ import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.BrowserSVGPlugin;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientCometImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientNotRefreshImpl;
-import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientTimerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
@@ -100,7 +97,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
             ParamTransport[] extraParam = OnLoadBackForwardListenerImpl.createExtraParams();
             String eventType;
             EventTarget target;
-            if (browser.isClientWindowEventTarget())
+            if (!(browser instanceof BrowserSVGPlugin))
             {
                 if (browser.isDOMContentLoadedSupported())
                     eventType = "DOMContentLoaded";
@@ -217,15 +214,15 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         StringBuilder code = new StringBuilder();
 
         Browser browser = getClientDocumentStful().getBrowser();
-        boolean enclosing = browser.isFunctionEnclosingByBracketSupported();
 
-        if (enclosing)
-            code.append("(function(){\n");
+        // (function(){ ... })(); útil por ejemplo
+        // para evitar memory leaks en MSIE_OLD y evitar variables globales si estamos dentro de un <script>        
+        
+        code.append("(function(){\n");
 
         code.append( getInitScriptContentCode(prevScriptsToRemove) + "\n" );
 
-        if (enclosing)
-            code.append("})();"); // Así la propia función tampoco no es global
+        code.append("})();"); // Así la propia función tampoco no es global
 
         Element scriptElem = createScriptElement(prevScriptsToRemove);
 
@@ -266,6 +263,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
     
 
     
+    @Override
     protected void rewriteClientUIControlProperties()
     {
         // Tratamos de revertir las acciones del usuario antes de se cargue el
@@ -415,6 +413,7 @@ public abstract class ResponseDelegateStfulWebLoadDocImpl extends ResponseDelega
         return "window";
     }    
     
+    @Override
     protected String getInitDocumentScriptCode(final int prevScriptsToRemove)
     {
         ClientDocumentStfulDelegateWebImpl clientDocDelegate = getClientDocumentStfulDelegateWeb();
