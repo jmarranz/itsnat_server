@@ -18,9 +18,7 @@ package org.itsnat.impl.core.browser.web.webkit;
 
 import java.util.Map;
 import static org.itsnat.impl.core.browser.web.webkit.BrowserWebKit.GCHROME;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLSelectElement;
 
 /*
  *
@@ -75,23 +73,8 @@ public class BrowserWebKitChrome extends BrowserWebKit
         return null;
     }
 
-    @Override
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        return true;
-    }
-    
-    @Override
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        // Ni la versión 3 (3.1 WebKit 525.13) al menos de Safari desktop ni el Chrome 1.0 (WebKit 525.19)
-        // ejecutan el texto dentro de <script> SVG, ni dentro del <script>
-        // antes de insertar, ni añadido después.
-        // Sin embargo en Chrome 2.0 (WebKit 530) y Safari 4 (531.9) funciona bien en ambos casos,
-        // luego devolvemos false (no hacer nada).
-        return (webKitVersion <= 525);        
-    }
 
+    /*
     @Override
     public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
     {
@@ -99,5 +82,6 @@ public class BrowserWebKitChrome extends BrowserWebKit
         // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
         // el evento change. Ocurre en el ejemplo de input text del Feature Showcase
         return false; // DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
-    }    
+    } 
+    */
 }

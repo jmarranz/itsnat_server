@@ -59,6 +59,7 @@ public class BrowserWebKitOther extends BrowserWebKit
         return false;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupportHTML()
     {
         switch(browserSubType)
@@ -71,30 +72,16 @@ public class BrowserWebKitOther extends BrowserWebKit
     }
 
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
-    }
-
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        return true;
-    }
-    
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        switch(browserSubType)
-        {
-            case SAFARIDESKTOP:
-                return false;
-        }
-
-        return false; // Por si se me pasa algún navegador
     }
      
 }

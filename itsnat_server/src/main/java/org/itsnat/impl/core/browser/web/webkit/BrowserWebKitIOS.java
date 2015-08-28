@@ -207,25 +207,4 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return null;
     }
 
-    @Override
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        // La v2.0 (525.18.1) no soporta SVG
-        // La 2.1 ya lo soporta aunque la versión del
-        // WebKit no cambia 
-
-        return true;
-    }
-
-    @Override
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        // La v2.0 (525.18.1) no soporta SVG
-        // La 2.1 ya lo soporta aunque la versión del
-        // WebKit no cambia (¿no fue incluído?)
-        // Hasta la v3 la ejecución del <script> no se hace
-
-        return false;
-    }
-
 }

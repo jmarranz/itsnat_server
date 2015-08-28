@@ -63,19 +63,5 @@ public class BrowserWebKitOpera extends BrowserWebKit
     {
         return null;
     }
-
-
-
-    @Override
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        return false;
-    }
     
 }

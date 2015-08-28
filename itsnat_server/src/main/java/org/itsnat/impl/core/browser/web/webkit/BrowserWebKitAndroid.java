@@ -111,19 +111,4 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         return tagNamesIgnoreZIndex;
     }
 
-
-    @Override
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        // http://caniuse.com/svg
-        return true; // mainVersion >= 3; // SVG soportado desde la v3
-    }
-
-    @Override
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        // http://caniuse.com/svg        
-        return false; // mainVersion < 3; // No soporta SVG por debajo del 3
-    }
-
 }

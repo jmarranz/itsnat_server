@@ -131,6 +131,8 @@ public abstract class BrowserWebKit extends BrowserW3C
     @Override
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
+        
+        
         // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
         if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
             return hasBeforeUnloadSupportHTML();
@@ -182,11 +184,37 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }    
         
+    /*
     public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
     {
         // Se redefine en el caso de Chrome
         return false; // Incluye el caso "file" que no está afectado por ésto, pero da igual
     }        
+*/
 
+    @Override
+    public boolean canNativelyRenderOtherNSInXHTMLDoc()
+    {
+        // http://caniuse.com/svg
+        
+        // Android:  SVG es soportado desde la v3
+        // iOS: la v2.0 (525.18.1) no soporta SVG, la 2.1 ya lo soporta aunque la versión del WebKit no cambia
+        return true; 
+    }    
+    
+    @Override
+    public boolean isInsertedSVGScriptNotExecuted()
+    {
+        // Ver notas en canNativelyRenderOtherNSInXHTMLDoc()
 
+        // iOS: Hasta la v3 la ejecución del <script> no se hace
+        
+        // Safary y Chrome: ni la versión 3 (3.1 WebKit 525.13) al menos de Safari desktop ni el Chrome 1.0 (WebKit 525.19)
+        // ejecutan el texto dentro de <script> SVG, ni dentro del <script>
+        // antes de insertar, ni añadido después.
+        // Sin embargo en Chrome 2.0 (WebKit 530) y Safari 4 (531.9) funciona bien en ambos casos,
+        // luego devolvemos false (no hacer nada).        
+        
+        return false;
+    }    
 }
