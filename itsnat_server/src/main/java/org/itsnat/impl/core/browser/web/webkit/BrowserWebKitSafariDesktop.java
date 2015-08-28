@@ -23,7 +23,9 @@ import org.w3c.dom.html.HTMLElement;
  *  Safari y desconocidos
  *
  *
- * User agents:
+ * User agents: 
+
+    Mac OS/X Mountain Lion:  Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/536.30.1 (KHTML, like Gecko) Version/6.0.5 Safari/536.30.1
 
 *   Antiguos:
         - Safari 3.0.4 Mac (AppleWebKit/523.15.1) Safari 2.x no está soportado.
@@ -36,7 +38,7 @@ import org.w3c.dom.html.HTMLElement;
             Mozilla/5.0 (Windows; U; Windows NT 5.1; es-ES) AppleWebKit/528.16 (KHTML, like Gecko) Version/4.0 Safari/528.16
 
 
-*   Modernos:
+*   Modernos (BlackBerry YA NO ESTA SOPORTADO):
 * 
 *   - Safari 5.1.7  
 *       Windows: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2
@@ -46,11 +48,12 @@ import org.w3c.dom.html.HTMLElement;
         Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en-GB) AppleWebKit/534.1+ (KHTML, like Gecko) Version/6.0.0.141 Mobile Safari/534.1+
  */
 
-public class BrowserWebKitOther extends BrowserWebKit
+public class BrowserWebKitSafariDesktop extends BrowserWebKit
 {
-    public BrowserWebKitOther(String userAgent,int browserSubType)
+    
+    public BrowserWebKitSafariDesktop(String userAgent)
     {
-        super(userAgent,browserSubType);
+        super(userAgent,SAFARIDESKTOP);
     }
 
     @Override
@@ -62,15 +65,8 @@ public class BrowserWebKitOther extends BrowserWebKit
     @Override
     public boolean hasBeforeUnloadSupportHTML()
     {
-        switch(browserSubType)
-        {
-            case SAFARIDESKTOP :
-                return true;
-        }
-
-        return false;
+        return true;
     }
-
 
     @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)

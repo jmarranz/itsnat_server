@@ -89,12 +89,12 @@ public abstract class BrowserWebKit extends BrowserW3C
                  (userAgent.contains("iPhone")) ||
                  (userAgent.contains("iPad")))              
             return new BrowserWebKitIOS(userAgent);
-      
+        else if (userAgent.contains("Mac OS X"))
+            return new BrowserWebKitSafariDesktop(userAgent);
         else
         {
-            int browserSubType = SAFARIDESKTOP; // Safari Destkop o WebKit desconocido (suponemos Safari desktop)
-
-            return new BrowserWebKitOther(userAgent,browserSubType);
+            // Safari Destkop o WebKit desconocido (suponemos Safari desktop)
+            return new BrowserWebKitSafariDesktop(userAgent);
         }
     }
 
