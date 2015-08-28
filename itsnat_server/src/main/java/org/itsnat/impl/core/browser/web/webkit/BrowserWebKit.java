@@ -17,9 +17,6 @@
 package org.itsnat.impl.core.browser.web.webkit;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
-import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.w3c.dom.html.HTMLElement;
 
 /**
    * De acuerdo con el sistema de versiones de WebKit
@@ -127,20 +124,6 @@ public abstract class BrowserWebKit extends BrowserW3C
     {
         return false;
     }
-
-    @Override
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
-    {
-        
-        
-        // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado
-        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
-            return hasBeforeUnloadSupportHTML();
-        else
-            return false; // Caso de SVG
-    }
-    
-    public abstract boolean hasBeforeUnloadSupportHTML();
 
 
     @Override

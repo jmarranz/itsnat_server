@@ -46,6 +46,12 @@ public class BrowserUnknown extends BrowserW3C
     }
 
     @Override
+    public boolean hasBeforeUnloadSupportHTML()
+    {
+        return false;
+    }     
+    
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // Si es un robot evitamos guardar referencias fuertes.

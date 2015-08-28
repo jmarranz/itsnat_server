@@ -21,6 +21,7 @@ import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
@@ -186,11 +187,14 @@ public abstract class BrowserWeb extends Browser
     public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
     {
         // El evento beforeunload fue introducido por MSIE, no es W3C, por tanto en SVG (cuando es soportado) es ignorado        
-        // En SVG no existe conceptualmente, es más propio de HTML aunque en XUL está también soportado
-        // En Opera y BlackBerryOld se redefine porque no se soporta nunca
-        return ! (itsNatDoc instanceof ItsNatSVGDocumentImpl);
+        // En SVG no existe conceptualmente, es más propio de HTML aunque en XUL está también soportado        
+        if (itsNatDoc instanceof ItsNatHTMLDocumentImpl)
+            return hasBeforeUnloadSupportHTML();
+        else
+            return false; // Caso de SVG        
     }      
-     
+    
+    public abstract boolean hasBeforeUnloadSupportHTML();    
     
     public abstract boolean isDOMContentLoadedSupported();    
     

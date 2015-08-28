@@ -20,7 +20,7 @@ import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
 
 /*
- *  Safari y BlackBerry y desconocidos
+ *  Safari y desconocidos
  *
  *
  * User agents:

@@ -99,4 +99,10 @@ public abstract class BrowserSVGPlugin extends BrowserW3C
         // No se ejecuta de ninguna forma        
         return true;
     }    
+    
+    @Override
+    public boolean hasBeforeUnloadSupportHTML()
+    {
+        return false; // Esto es sólo SVG
+    }    
 }

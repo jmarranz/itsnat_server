@@ -58,7 +58,7 @@ public abstract class BrowserOperaOld extends BrowserW3C
     }
 
     @Override
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
+    public boolean hasBeforeUnloadSupportHTML()
     {
         return false; // Tampoco en HTML
     }

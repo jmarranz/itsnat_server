@@ -108,9 +108,8 @@ public class BrowserMSIEOld extends BrowserWeb
         return false; // Por poner algo, no soporta SVG
     }
     
-    
     @Override
-    public boolean hasBeforeUnloadSupport(ItsNatStfulDocumentImpl itsNatDoc)
+    public boolean hasBeforeUnloadSupportHTML()
     {
         // Nota: el evento beforeunload se emite **siempre** cuando se pulsa un link
         // aunque tengamos en el href="javascript:;" o "javascript:void(0)" o "javascript:return false;"
@@ -122,8 +121,8 @@ public class BrowserMSIEOld extends BrowserWeb
         // 1) Poniendo un href="#" con el consabido problema de movimiento de la página (scroll) al ppio
         // 2) Añadiendo un onclick="return false;" que evite el proceso del href (y antes evita el beforeunload)
         // De todas formas este es un problema menor
-        return super.hasBeforeUnloadSupport(itsNatDoc);
-    }
+        return true;
+    }   
 
     @Override
     public boolean isReferrerReferenceStrong()

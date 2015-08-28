@@ -52,6 +52,12 @@ public class BrowserMSIE9 extends BrowserW3C
     }
 
     @Override
+    public boolean hasBeforeUnloadSupportHTML()
+    {
+        return true;
+    }     
+    
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         return true;  // Estudiar aunque true es la opción más segura

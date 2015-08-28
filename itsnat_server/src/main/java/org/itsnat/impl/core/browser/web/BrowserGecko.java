@@ -81,6 +81,12 @@ public class BrowserGecko extends BrowserW3C
     }
 
     @Override
+    public boolean hasBeforeUnloadSupportHTML()
+    {
+        return true;
+    }       
+    
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false; 
