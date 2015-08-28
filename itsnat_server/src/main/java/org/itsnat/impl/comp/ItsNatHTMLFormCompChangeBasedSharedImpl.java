@@ -57,7 +57,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         }
         else if (type.equals("blur"))
         {
-            if (isBlurLikeChangeEvent(clientDoc)) return true; // Nunca se ejecuta
+            if (isBlurLikeChangeEvent(clientDoc)) return true; 
             else return false;
         }
 
@@ -141,8 +141,8 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // que de error (valor rechazado) pero al menos el blur ha puesto el valor bueno, o bien el valor
         // se define dos veces.
 
-        //HTMLElement elem = comp.getHTMLElement();
-        //BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
+        HTMLElement elem = comp.getHTMLElement();
+        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
         /* if (browser.isBlurBeforeChangeEvent(elem)) 
             return true;
         */
@@ -150,10 +150,9 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión
         // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
         // el evento change. Ocurre en el ejemplo de input text del Feature Showcase        
-        /*
+        
         if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))           
             return true;
-        */
         
         return false;
     }

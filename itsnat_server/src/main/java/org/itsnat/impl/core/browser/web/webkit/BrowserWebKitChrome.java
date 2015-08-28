@@ -74,14 +74,4 @@ public class BrowserWebKitChrome extends BrowserWebKit
     }
 
 
-    /*
-    @Override
-    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
-    {
-        // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión
-        // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
-        // el evento change. Ocurre en el ejemplo de input text del Feature Showcase
-        return false; // DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
-    } 
-    */
 }

@@ -17,6 +17,8 @@
 package org.itsnat.impl.core.browser.web.webkit;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
+import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.w3c.dom.html.HTMLElement;
 
 /**
    * De acuerdo con el sistema de versiones de WebKit
@@ -167,14 +169,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }    
         
-    /*
-    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
-    {
-        // Se redefine en el caso de Chrome
-        return false; // Incluye el caso "file" que no está afectado por ésto, pero da igual
-    }        
-*/
-
     @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
@@ -200,4 +194,16 @@ public abstract class BrowserWebKit extends BrowserW3C
         
         return false;
     }    
+    
+    public boolean isChangeEventNotFiredUseBlur(HTMLElement formElem)
+    {
+        // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión
+        // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
+        // el evento change, sólo ocurre la primera vez. Ocurre en el ejemplo de input text del Feature Showcase
+        // Incluye el caso "file" que no está afectado por ésto, pero da igual
+        // Aunque lo hemos detectado en Chrome, el caso es que parece un fallo del WebKit pues existe en el Safari del iPhone y de Mac OS X 
+        // y UC Browser Windows(fecha: 28-8-2015 Chrome es AppleWebKit/537.36, Safari Mac 536.30.1, Safari iPhone 537.51.2)
+        return DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
+    } 
+
 }

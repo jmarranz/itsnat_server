@@ -37,6 +37,10 @@ public class TestRemoteControlListener implements ItsNatAttachedClientEventListe
         this.refreshMsg = refreshMsg;
     }
 
+    public TestRemoteControlListener() // Necesario para RelProxy
+    {
+    }    
+    
     public void handleEvent(ItsNatAttachedClientEvent event)
     {
         //ItsNatDocument itsNatDoc = event.getItsNatDocument();
