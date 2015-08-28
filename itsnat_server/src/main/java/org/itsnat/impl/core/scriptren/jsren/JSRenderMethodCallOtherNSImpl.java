@@ -30,6 +30,7 @@ public class JSRenderMethodCallOtherNSImpl extends JSRenderMethodCallImpl
 {
     public static final JSRenderMethodCallOtherNSImpl SINGLETON = new JSRenderMethodCallOtherNSImpl();
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,Element elem,BrowserWeb browser)
     {
         // Por ahora sólo se han detectado problemas en elementos HTML y en documentos HTML

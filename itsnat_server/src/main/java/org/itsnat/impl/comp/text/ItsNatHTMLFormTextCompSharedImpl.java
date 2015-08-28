@@ -116,11 +116,6 @@ public class ItsNatHTMLFormTextCompSharedImpl extends ItsNatHTMLFormCompChangeBa
         return (ItsNatHTMLFormTextComponentInternal)comp;
     }
 
-    public boolean isIgnoreChangeEvent(ClientDocumentImpl clientDoc)
-    {
-        return false;
-    }
-
     public void bindDataModel()
     {
         // A partir de ahora los cambios los repercutimos en el DOM por eventos

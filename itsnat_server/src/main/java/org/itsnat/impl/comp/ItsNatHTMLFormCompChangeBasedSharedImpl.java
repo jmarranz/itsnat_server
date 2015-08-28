@@ -52,12 +52,12 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
     {
         if (type.equals("change"))
         {
-            if (isIgnoreChangeEvent(clientDoc)) return false;
+            if (isIgnoreChangeEvent(clientDoc)) return false; // Nunca se ejecuta
             else return true;
         }
         else if (type.equals("blur"))
         {
-            if (isBlurIsChangeEvent(clientDoc)) return true;
+            if (isBlurLikeChangeEvent(clientDoc)) return true; // Nunca se ejecuta
             else return false;
         }
 
@@ -82,7 +82,7 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
 
     public void enableEventListenersByClient(ItsNatCompNormalEventListenersByClientImpl clientListeners)
     {
-        if (isBlurIsChangeEvent(clientListeners.getClientDocument()))
+        if (isBlurLikeChangeEvent(clientListeners.getClientDocument()))
         {
             ItsNatHTMLFormComponentImpl comp = getItsNatHTMLFormComponent();
             comp.enableEventListener("blur",clientListeners);
@@ -110,11 +110,23 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         }
     }
 
-    public boolean isBlurIsChangeEvent(ClientDocumentImpl clientDoc)
+    public boolean isBlurLikeChangeEvent(ClientDocumentImpl clientDoc)
     {
+        // ESTO ES ANTIGUO YA NO APLICA EN NAVEGADORES MODERNOS:                
+        
         // En el caso de blur lanzado antes que el change hacemos que
         // el blur sea como un change actualizando el servidor
         // desde el cliente.
+        
+        // Es el caso de FireFox 2.0 y S60WEBKIT antiguos con WebKit 413 (en WebKit 525 funciona ya bien),
+        // quizás se deba a que el WebKit es muy antiguo, 413 y 417 respectivamente y se decidió cambiarlo después.
+        // Además S60WEBKIT lanza 2 blurs cuando debe ser uno sólo
+        // El S40WebKit no tiene este problema pues empieza en 420
+        // Consideramos el 420 como el primer WebKit sin este "fallo" pues
+        // todos los demás navegadores soportados funcionan bien y tienen el 420 o mayor
+
+        // En resumen: (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);        
+        
         // Esto es muy útil en componentes editores "inplace"
         // pues el blur da la orden de quitar el elemento del árbol (se quitaría sin actualizar el servidor evitando lanzar el change).
         // Este problema ocurre (o nos importa) en <textarea> y en <input type="text|password|file"> (y en un caso especial de <select>),
@@ -129,15 +141,26 @@ public abstract class ItsNatHTMLFormCompChangeBasedSharedImpl implements Seriali
         // que de error (valor rechazado) pero al menos el blur ha puesto el valor bueno, o bien el valor
         // se define dos veces.
 
-        HTMLElement elem = comp.getHTMLElement();
-        BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
-        if (browser.isBlurBeforeChangeEvent(elem)) 
+        //HTMLElement elem = comp.getHTMLElement();
+        //BrowserWeb browser = (BrowserWeb)clientDoc.getBrowser();
+        /* if (browser.isBlurBeforeChangeEvent(elem)) 
             return true;
-        else if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))
+        */
+        
+        // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión
+        // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
+        // el evento change. Ocurre en el ejemplo de input text del Feature Showcase        
+        /*
+        if ((browser instanceof BrowserWebKit) && ((BrowserWebKit)browser).isChangeEventNotFiredUseBlur(elem))           
             return true;
+        */
+        
         return false;
     }
 
-    public abstract boolean isIgnoreChangeEvent(ClientDocumentImpl clientDoc);
+    public boolean isIgnoreChangeEvent(ClientDocumentImpl clientDoc)
+    {
+        return false; // Hubo muchas movidas hace tiempo, dejamos este resto por si acaso
+    }
 
 }

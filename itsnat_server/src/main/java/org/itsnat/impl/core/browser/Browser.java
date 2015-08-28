@@ -64,6 +64,7 @@ public abstract class Browser implements Serializable
      */
     public boolean isNeededAbsoluteURL()
     {
+        // Se redefine en un par de casos
         return false;
     }
  

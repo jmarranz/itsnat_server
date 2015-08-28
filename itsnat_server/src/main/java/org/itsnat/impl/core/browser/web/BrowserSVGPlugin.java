@@ -15,12 +15,88 @@
 */
 package org.itsnat.impl.core.browser.web;
 
+import java.util.Map;
+import org.w3c.dom.html.HTMLElement;
+
 /**
  * Se usa porque algunos plugins SVG no admiten eventos load/unload en window
  * 
  * @author jmarranz
  */
-public interface BrowserSVGPlugin 
+public abstract class BrowserSVGPlugin extends BrowserW3C
 {
+    public BrowserSVGPlugin(String userAgent)
+    {
+        super(userAgent);   
+    }
     
+    @Override
+    public boolean isMobile()
+    {
+        return false;
+    }    
+    
+    @Override
+    public boolean isReferrerReferenceStrong()
+    {
+        // No funciona la navegación desde el SVG por lo que nos
+        // da igual los referrers.
+        return false;
+    }   
+    
+    @Override
+    public boolean isCachedBackForward()
+    {
+        // No hay back/forward
+        return false;
+    }
+
+    @Override
+    public boolean isCachedBackForwardExecutedScripts()
+    {
+        // No hay back/forward
+        return false;
+    }
+    
+    @Override
+    public boolean isDOMContentLoadedSupported()
+    {
+        // window ni siquiera es EventTarget en Batik applet        
+        return false;
+    }    
+    
+    @Override
+    public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
+    {
+        return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
+    }    
+    
+    @Override
+    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
+    {
+        // No se reconoce XHTML embebido.
+        return null;
+    }    
+    
+
+    @Override
+    public boolean canNativelyRenderOtherNSInXHTMLDoc()
+    {
+        return false; // Renderiza SVG pero no el propio XHTML.
+    }    
+    
+    @Override
+    public boolean isInsertedSVGScriptNotExecuted()
+    {
+        // No se ejecuta de ninguna forma
+        // En ASV (ambas v3 y v6) no funciona ni insertado antes ni después
+        return true;
+    }
+
+    @Override
+    public boolean isTextAddedToInsertedSVGScriptNotExecuted()
+    {
+        // No se ejecuta de ninguna forma        
+        return true;
+    }    
 }

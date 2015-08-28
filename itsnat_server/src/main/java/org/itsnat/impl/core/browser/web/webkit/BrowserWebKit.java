@@ -19,7 +19,6 @@ package org.itsnat.impl.core.browser.web.webkit;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -109,6 +108,7 @@ public abstract class BrowserWebKit extends BrowserW3C
     }
 
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // El nuevo documento siempre se carga antes de que el anterior se destruya
@@ -116,11 +116,13 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         return false;
@@ -153,23 +155,11 @@ public abstract class BrowserWebKit extends BrowserW3C
         //    Safari,iPhone
         // Navegadores que NO han llegado a 525 : S40WebKit ya veremos si se cumple esta regla del 525.
         // Los demás navegadores (Android, Chrome, SWTWebKit) parten de WebKit superior a 525.
-        return true;
+        return true; // El mundo antiguo ha quedado atrás
     }
 
+  
     @Override
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        // Caso S60WEBKIT antiguos con WebKit 413 (en WebKit 525 funciona ya bien),
-        // quizás se deba a que el WebKit es muy antiguo, 413 y 417 respectivamente y se decidió cambiarlo después.
-        // Además S60WEBKIT lanza 2 blurs cuando debe ser uno sólo
-        // El S40WebKit no tiene este problema pues empieza en 420
-        // Consideramos el 420 como el primer WebKit sin este "fallo" pues
-        // todos los demás navegadores soportados funcionan bien y tienen el 420 o mayor
-
-        return false; // (webKitVersion < 420) && DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
-    }
-
-   
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         // Cuando la inserción del script funciona funciona bien
@@ -187,7 +177,7 @@ public abstract class BrowserWebKit extends BrowserW3C
         // y  nos "curamos en salud"
         // Nota: estas pruebas se han hecho en modo compresión con Gzip
 
-        if (webKitVersion <= 420) return true; // Por si acaso
+        // if (webKitVersion <= 420) return true; // Por si acaso
 
         return false;
     }    
@@ -197,11 +187,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         // Se redefine en el caso de Chrome
         return false; // Incluye el caso "file" que no está afectado por ésto, pero da igual
     }        
-    
-    @Override
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }    
+
 
 }

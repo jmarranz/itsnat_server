@@ -84,28 +84,25 @@ public class BrowserMSIEOld extends BrowserWeb
         }
     }
 
+    @Override
     public boolean isMobile()
     {
         return (browserSubType == MSIE_MOBILE);
     }    
     
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        // IE Mobile no tiene blur pero cuando lo tenga lo lógico
-        // es que se comporte como su hermano mayor.
-        return false;
-    }
-
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return false; // No soporta SVG por ejemplo.
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false; // Por poner algo, no soporta SVG
     }    
 
+    @Override
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         return false; // Por poner algo, no soporta SVG
@@ -128,6 +125,7 @@ public class BrowserMSIEOld extends BrowserWeb
         return super.hasBeforeUnloadSupport(itsNatDoc);
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // Aunque el back/forward NO está cacheado en el cliente
@@ -142,21 +140,25 @@ public class BrowserMSIEOld extends BrowserWeb
         return true;
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         return false;
     }
 
+    @Override    
     public boolean isDOMContentLoadedSupported()
     {
         return false;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // Tanto las versiones 6,7 y 8 ignoran la llamada focus() en los casos de input de texto y textarea
@@ -170,6 +172,7 @@ public class BrowserMSIEOld extends BrowserWeb
         return version;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         if (version < 7) // Incluso el IE Mobile (WM 6.1.4) tiene el problema de los select no ocultables
@@ -178,9 +181,4 @@ public class BrowserMSIEOld extends BrowserWeb
             return null;
     }
 
-    public boolean hasHTMLCSSOpacity()
-    {
-        // Tiene opacidad aunque no sea la propiedad CSS "opacity"
-        return true;
-    }    
 }

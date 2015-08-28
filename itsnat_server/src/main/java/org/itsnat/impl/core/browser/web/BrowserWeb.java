@@ -74,7 +74,7 @@ public abstract class BrowserWeb extends Browser
         if (isMSIE(userAgent,itsNatRequest))  //  MSIE 11 incluye "like Gecko" por lo que tenemos que evaluar ANTES de Gecko
         {
             int version = getMSIEVersion(userAgent);
-            if (version < 9)
+            if (version <= 8)
                 return BrowserMSIEOld.createBrowserMSIEOld(userAgent,itsNatRequest,version);
             else
                 return new BrowserMSIE9(userAgent,version);
@@ -207,13 +207,7 @@ public abstract class BrowserWeb extends Browser
      * De todas formas aunque no se use está bien para caracterizar bien al navegador
      */
     public abstract boolean isCachedBackForward();
-    
-    /*
-     * Algunos navegadores (ej. FireFox 2.0 y S60WebKit) lanzan el blur antes del change
-     * cuando abandonamos un text/password box o textarea que ha sido cambiado.
-     */
-    public abstract boolean isBlurBeforeChangeEvent(HTMLElement formElem);    
-    
+      
 
     /* Si el método focus() y/o blur() no debe ser llamado (y enviar eventos de forma alternativa)
      * o bien porque es ignorado o bien porque es problemático. El contexto de test es el edit inplace
@@ -229,10 +223,6 @@ public abstract class BrowserWeb extends Browser
      */
     public abstract Map<String,String[]> getHTMLFormControlsIgnoreZIndex();   
     
-    /* Si soporta opacidad aunque no sea a través de CSS opacity (caso de MSIE_OLD 6+)
-     * Sólo tiene sentido en documentos X/HTML.
-     */
-    public abstract boolean hasHTMLCSSOpacity();
     
     /* Si es capaz de renderizar nativamente markup con namespace no X/HTML, por ejemplo SVG, MathML
      * Si la respuesta es true equivale a preguntar si soporta SVG pues al menos es siempre SVG

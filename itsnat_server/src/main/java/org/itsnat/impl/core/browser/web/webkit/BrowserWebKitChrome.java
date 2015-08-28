@@ -49,33 +49,39 @@ public class BrowserWebKitChrome extends BrowserWebKit
         this.android = (userAgent.contains("Android"));
     }
 
+    @Override
     public boolean isMobile()
     {
         if (android) return true;
         return false;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupportHTML()
     {
         return true;
     }
 
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true;
     }
     
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         // Ni la versión 3 (3.1 WebKit 525.13) al menos de Safari desktop ni el Chrome 1.0 (WebKit 525.19)
@@ -92,6 +98,6 @@ public class BrowserWebKitChrome extends BrowserWebKit
         // Se ha detectado en la versión más actual de Chrome tanto en desktop como en Android en Julio de 2013, concretamente en desktop la versión
         // es 28.0.1500.72  y en Android  28.0.1500.94, que en un input text insertado via AJAX con un texto inicial, el eliminar TODO el texto (y perder el foco) NO dispara
         // el evento change. Ocurre en el ejemplo de input text del Feature Showcase
-        return DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
+        return false; // DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
     }    
 }

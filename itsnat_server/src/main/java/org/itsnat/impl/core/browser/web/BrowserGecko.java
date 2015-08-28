@@ -18,9 +18,6 @@ package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
-import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
@@ -77,65 +74,66 @@ public class BrowserGecko extends BrowserW3C
                 !BrowserWebKit.isWebKit(userAgent);
     }
 
+    @Override
     public boolean isMobile()
     {
         return false;
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false; 
     }
 
+    @Override
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         return false;
     }
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true; // SVG y MathML al menos
     }
     
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // El nuevo documento siempre se carga antes de que el anterior se destruya
         return false;
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         return false;
     }
 
+    @Override
     public boolean isDOMContentLoadedSupported()
     {
         return true;
     }
 
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        return false; // Desde FireFox 3.0
-    }
-
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
 
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
 
 }

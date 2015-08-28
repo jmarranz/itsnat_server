@@ -63,40 +63,39 @@ public abstract class BrowserOperaOld extends BrowserW3C
         return false; // Tampoco en HTML
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // El back/forward está cacheado en el cliente.
         return true;
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         // Opera Mini: sólo tiene Back
         return true;
     }
 
+    @Override
     public boolean isDOMContentLoadedSupported()
     {
         return true;
     }
 
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        // Opera Mini no lanza el evento blur, pero si lo hiciera
-        // lo haría como sus "hermanos".
-        return false;
-    }
-
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true; // Soporta SVG al menos.
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false;
     }
 
+    @Override
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         // En Opera 9 desktop el texto del script se ejecuta si
@@ -109,11 +108,8 @@ public abstract class BrowserOperaOld extends BrowserW3C
         return true;
     }    
     
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }    
     
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         // En teoría todos los elementos no ignoran el z-index, sin embargo

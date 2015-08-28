@@ -55,16 +55,19 @@ public class BrowserOperaOldMobile extends BrowserOperaOld
         return (userAgent.contains("Android"));
     }
 
+    @Override
     public boolean isMobile()
     {
         return true;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         return true;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // La llamada a focus() es ignorada en los input type=text, suponemos lo mismo en "password" y "file"

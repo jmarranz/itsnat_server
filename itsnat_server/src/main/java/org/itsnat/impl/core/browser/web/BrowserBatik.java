@@ -27,7 +27,7 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserBatik extends BrowserW3C implements BrowserSVGPlugin
+public class BrowserBatik extends BrowserSVGPlugin 
 {
 
     /** Creates a new instance of BrowserUnknown */
@@ -43,71 +43,8 @@ public class BrowserBatik extends BrowserW3C implements BrowserSVGPlugin
         return (userAgent.contains("Batik"));
     }
 
-    public boolean isMobile()
-    {
-        return false;
-    }
 
-    public boolean isReferrerReferenceStrong()
-    {
-        return false;
-    }
-
-    public boolean isCachedBackForward()
-    {
-        // No hay back/forward
-        return false;
-    }
-
-    public boolean isCachedBackForwardExecutedScripts()
-    {
-        // No hay back/forward
-        return false;
-    }
-
-    public boolean isDOMContentLoadedSupported()
-    {
-        // window ni siquiera es EventTarget en Batik applet
-        return false;
-    }
-
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
-    }
-
-    public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
-    {
-        return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
-    }
-
-    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
-    {
-        return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        return false; // Por poner algo, Batik no renderiza HTML embebido en SVG
-    }
-
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        return false; // Por poner algo, Batik no renderiza documentos HTML
-    }
-
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        // No se ejecuta de ninguna forma
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedSVGScriptNotExecuted()
-    {
-        // No se ejecuta de ninguna forma
-        return true;
-    }
-
+    @Override
     public boolean isNeededAbsoluteURL()
     {
         // El XMLHttpRequest lo necesita

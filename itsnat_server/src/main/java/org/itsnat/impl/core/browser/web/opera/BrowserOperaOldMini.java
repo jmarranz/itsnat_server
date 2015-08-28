@@ -60,17 +60,20 @@ public class BrowserOperaOldMini extends BrowserOperaOld
         return (userAgent.contains("Opera Mini"));
     }
 
+    @Override
     public boolean isMobile()
     {
         return true;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         // Cuando se hace un Back ni siquiera se ejecuta el load
         return false;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // El focus() se procesa (se genera evento) el problema es que el blur creo que no se lanza

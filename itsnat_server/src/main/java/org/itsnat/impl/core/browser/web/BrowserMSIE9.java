@@ -17,10 +17,11 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
-import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.w3c.dom.html.HTMLElement;
 
 /**
+ * IE 9 y superiores
+ * 
  * http://msdn.microsoft.com/en-us/ie/ff468705.aspx
  * 
  * http://www.useragentstring.com/pages/Internet%20Explorer/
@@ -78,7 +79,7 @@ public class BrowserMSIE9 extends BrowserW3C
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
          // ESTUDIAR, esta es la opción más conservadora, copiado de MSIE < 9
-        return DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
+        return false; // DOMUtilHTML.isHTMLTextAreaOrInputTextBox(formElem);
     }
 
     @Override
@@ -87,17 +88,6 @@ public class BrowserMSIE9 extends BrowserW3C
         return null;
     }
     
-    @Override
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
 
     @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()

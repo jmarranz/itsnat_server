@@ -39,23 +39,27 @@ public class BrowserUnknown extends BrowserW3C
         this.browserType = UNKNOWN;
     }
 
+    @Override
     public boolean isMobile()
     {
         return false;
     }
 
+    @Override
     public boolean isReferrerReferenceStrong()
     {
         // Si es un robot evitamos guardar referencias fuertes.
         return false;
     }
 
+    @Override
     public boolean isCachedBackForward()
     {
         // Es un robot, nos da igual.
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         // Si es un robot no tendrá mucho sentido hablar de back/forward
@@ -63,42 +67,39 @@ public class BrowserUnknown extends BrowserW3C
         return false;
     }
 
+    @Override    
     public boolean isDOMContentLoadedSupported()
     {
         // Nos da igual pues no hay eventos.
         return false;
     }
 
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        return false; // Es el comportamiento más normal (aunque realmente nos da igual)
-    }
-
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
 
-    public boolean hasHTMLCSSOpacity()
-    {
-        return true;
-    }
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         return true; // Por poner algo.
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         return false; // Por poner algo
     }
 
+    @Override
     public boolean isTextAddedToInsertedSVGScriptNotExecuted()
     {
         return false; // Por poner algo

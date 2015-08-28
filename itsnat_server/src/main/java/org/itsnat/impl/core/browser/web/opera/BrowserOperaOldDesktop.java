@@ -46,11 +46,13 @@ public class BrowserOperaOldDesktop extends BrowserOperaOld
         this.browserSubType = OPERA_OLD_DESKTOP;
     }
 
+    @Override
     public boolean isMobile()
     {
         return false;
     }
 
+    @Override
     public boolean isCachedBackForwardExecutedScripts()
     {
         // Hagas lo que hagas Opera 9 no recarga la página ante un back/forward
@@ -62,6 +64,7 @@ public class BrowserOperaOldDesktop extends BrowserOperaOld
         return true;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;

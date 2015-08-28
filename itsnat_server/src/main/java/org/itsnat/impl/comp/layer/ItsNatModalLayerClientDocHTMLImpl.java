@@ -46,6 +46,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         return clientDoc.getDelegateClientDocumentStful();
     }    
 */    
+    @Override
     public void initModalLayer()
     {
         ClientDocumentStfulDelegateWebImpl clientDoc = getClientDocumentStfulDelegateWeb();
@@ -59,15 +60,14 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         // La no definición de la propiedad background supone usar los valores
         // por defecto, y lo normal es que background-color sea "transparent" por defecto.
         String backgroundProp;
-        if ( (background != null) &&
-             (browser.hasHTMLCSSOpacity() || (opacity >= (float)0.5)) )
+        if ( (background != null) && (opacity >= (float)0.5))
             backgroundProp = background;
         else
         {
             if (background == null) // Transparente (valor por defecto normal)
             {
-                // Vemos qué casos el fondo transparente no es válido
-                if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserMSIE9))
+                // Vemos qué casos el fondo transparente no es válido             
+                if ((browser instanceof BrowserMSIEOld) /*||(browser instanceof BrowserMSIE9)*/) // Al parecer el MSIE 9 tenía este problema pero en el 11 no y consideramos el IE 9 en vias de extinción considerando el más moderno y Windows 7 admite IE 11
                 {
                     // El fondo transparente ignora el z-index, los elementos por debajo son pulsables,
                     // evitamos así esto.
@@ -89,17 +89,16 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             StringBuilder styleCode = new StringBuilder();
             styleCode.append( "position:absolute; top:0px; left:0px; width:1px; height:1px; margin:0px; padding:0px; border:0px; " ); // border:1px red solid; para testear
             styleCode.append( "z-index:" + zIndex + "; " );
-            if (browser.hasHTMLCSSOpacity()) // Evitamos poner la opacidad si no se soporta, por ej. en Opera Mobile 9.7 beta hay un bug que hace que se oculte el nodo si opacity < 1
-            {
-                styleCode.append( "opacity:" + opacity + "; " );
 
-                if (browser instanceof BrowserMSIEOld)
-                {
-                    // Por script sería: http://msdn.microsoft.com/en-us/library/ms532847(VS.85).aspx#Scripting_Filters
-                    int opInt = (int)(100*opacity);
-                    styleCode.append( "filter:alpha(opacity=" + opInt + "); " ); // Equivale en CSS a: filter:alpha(opacity=" + opInt + ") La sintaxis:  elem.style.filter.opacity = .. sólo funciona si el filtro ya está presente
-                }
+            styleCode.append( "opacity:" + opacity + "; " );
+
+            if (browser instanceof BrowserMSIEOld)
+            {
+                // Por script sería: http://msdn.microsoft.com/en-us/library/ms532847(VS.85).aspx#Scripting_Filters
+                int opInt = (int)(100*opacity);
+                styleCode.append( "filter:alpha(opacity=" + opInt + "); " ); // Equivale en CSS a: filter:alpha(opacity=" + opInt + ") La sintaxis:  elem.style.filter.opacity = .. sólo funciona si el filtro ya está presente
             }
+
 
             if (backgroundProp != null)
                  styleCode.append( "background:" + backgroundProp + "; " );

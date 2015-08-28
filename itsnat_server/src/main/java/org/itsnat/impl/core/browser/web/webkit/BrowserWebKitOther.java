@@ -53,6 +53,7 @@ public class BrowserWebKitOther extends BrowserWebKit
         super(userAgent,browserSubType);
     }
 
+    @Override
     public boolean isMobile()
     {
         return false;

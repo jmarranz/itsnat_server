@@ -35,7 +35,7 @@ import org.w3c.dom.html.HTMLElement;
  *
  * @author jmarranz
  */
-public class BrowserAdobeSVG extends BrowserW3C implements BrowserSVGPlugin
+public class BrowserAdobeSVG extends BrowserSVGPlugin
 {
     /**
      * Creates a new instance of BrowserAdobeSVG
@@ -47,68 +47,4 @@ public class BrowserAdobeSVG extends BrowserW3C implements BrowserSVGPlugin
         this.browserType = ADOBE_SVG;
     }
 
-    public boolean isMobile()
-    {
-        return false;
-    }
-
-    public boolean isReferrerReferenceStrong()
-    {
-        // No funciona la navegación desde el SVG por lo que nos
-        // da igual los referrers.
-        return false;
-    }
-
-    public boolean isCachedBackForward()
-    {
-        return false;
-    }
-
-    public boolean isCachedBackForwardExecutedScripts()
-    {
-        return false;
-    }
-
-    public boolean isDOMContentLoadedSupported()
-    {
-        return false;
-    }
-
-    public boolean isBlurBeforeChangeEvent(HTMLElement formElem)
-    {
-        return false;
-    }
-
-    public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
-    {
-        return false;
-    }
-
-    public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
-    {
-        // No reconoce XHTML embebido.
-        return null;
-    }
-
-    public boolean hasHTMLCSSOpacity()
-    {
-        // Sólo SVG
-        return false;
-    }
-
-    public boolean canNativelyRenderOtherNSInXHTMLDoc()
-    {
-        return false; // Renderiza SVG pero no el propio XHTML.
-    }
-
-    public boolean isInsertedSVGScriptNotExecuted()
-    {
-        // En ASV (ambas v3 y v6) no funciona ni insertado antes ni después
-        return true;
-    }
-
-    public boolean isTextAddedToInsertedSVGScriptNotExecuted()
-    {
-        return true;
-    }
 }

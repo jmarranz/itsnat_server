@@ -75,6 +75,7 @@ public class JSRenderMethodCallHTMLImpl extends JSRenderMethodCallImpl
         return code.toString();
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,Element elem,BrowserWeb browser)
     {
         return browser.isFocusOrBlurMethodWrong(methodName,(HTMLElement)elem);

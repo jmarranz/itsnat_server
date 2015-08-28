@@ -18,13 +18,14 @@ package org.itsnat.impl.core.browser.web.webkit;
 
 import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
-import org.w3c.dom.html.HTMLSelectElement;
 
 /*
 
-  Soportado desde el Safari del iOS 6.1
- 
-  User agents:
+  Soportado desde el Safari del iOS 7.1
+  Mozilla/5.0 (iPhone; CPU iPhone OS 7_1 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D167 Safari/9537.53 
+
+
+  User agents antiguos:
 
    Mozilla/5.0 (iPad; CPU OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25  
    Mozilla/5.0 (iPhone; CPU iPhone OS 6_1 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B141 Safari/8536.25 
@@ -138,22 +139,25 @@ public class BrowserWebKitIOS extends BrowserWebKit
         }
         catch(Exception ex) // Caso de user agent de formato desconocido
         {
-            this.iPhoneMainVersion = 6;
+            this.iPhoneMainVersion = 7;
             this.iPhoneSubVersion =  1;
         }
     }
 
+    @Override
     public boolean isMobile()
     {
         return true;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupportHTML()
     {
         return false;  // Curiosamente iPhone no soporta beforeunload en HTML (menos aun SVG que no lo soporta)
     }
 
 
+    /*
     public boolean ignoreChangeEventSelectMultiple(HTMLElement elem)
     {
         // El iPhone es terrible en cuanto al funcionamiento del select multiple
@@ -182,7 +186,9 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return false;
 //        return DOMUtilHTML.isHTMLSelectMultiple(elem); // Desde 2.2 (antes no se lanzaba el change)
     }
+    */
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         // Ocurre al menos en elementos de formulario de tipo: HTMLTextArea, HTMLInputElement o HTMLSelectElement.
@@ -195,11 +201,13 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return true;  // En todos los elementos form
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return null;
     }
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         // La v2.0 (525.18.1) no soporta SVG
@@ -209,6 +217,7 @@ public class BrowserWebKitIOS extends BrowserWebKit
         return true;
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         // La v2.0 (525.18.1) no soporta SVG

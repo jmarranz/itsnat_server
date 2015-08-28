@@ -25,10 +25,12 @@ import org.w3c.dom.html.HTMLElement;
  * 
  * User agent Android 4.0.3: 
     Mozilla/5.0 (Linux; U; Android 4.0.3; en-us; Transformer TF101 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
- * User agent Android 2.0:      
-    Mozilla/5.0 (Linux; U; Android 2.0; en-us; sdk Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17
+
 
  * User agents ANTIGUOS:
+
+    - Android 2.0:      
+    Mozilla/5.0 (Linux; U; Android 2.0; en-us; sdk Build/ECLAIR) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Mobile Safari/530.17
 
     - Android desde Beta r1 (0.6) hasta v1.1 r1
         Beta r1 (0.6): Mozilla/5.0 (Linux; U; Android 0.6; en-us; generic) AppleWebKit/525.10+ (KHTML, like Gecko) Version/3.0.4 Mobile Safari/523.12.2
@@ -80,42 +82,48 @@ public class BrowserWebKitAndroid extends BrowserWebKit
         }
         catch(Exception ex) // Caso de user agent de formato desconocido
         {
-            this.mainVersion = 2;
+            this.mainVersion = 4;
             //this.subVersion =  0;
         }
     }
 
+    @Override
     public boolean isMobile()
     {
         return true;
     }
 
+    @Override
     public boolean hasBeforeUnloadSupportHTML()
     {
         return true;
     }
 
+    @Override
     public boolean isFocusOrBlurMethodWrong(String methodName,HTMLElement formElem)
     {
         return false;
     }
 
+    @Override
     public Map<String,String[]> getHTMLFormControlsIgnoreZIndex()
     {
         return tagNamesIgnoreZIndex;
     }
 
 
+    @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {
         // http://caniuse.com/svg
-        return mainVersion >= 3; // SVG soportado desde la v3
+        return true; // mainVersion >= 3; // SVG soportado desde la v3
     }
 
+    @Override
     public boolean isInsertedSVGScriptNotExecuted()
     {
         // http://caniuse.com/svg        
-        return mainVersion < 3; // No soporta SVG por debajo del 3
+        return false; // mainVersion < 3; // No soporta SVG por debajo del 3
     }
 
 }

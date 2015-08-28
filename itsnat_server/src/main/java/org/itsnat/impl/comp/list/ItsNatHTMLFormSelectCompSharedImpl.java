@@ -17,9 +17,6 @@
 package org.itsnat.impl.comp.list;
 
 import org.itsnat.impl.comp.ItsNatHTMLFormCompChangeBasedSharedImpl;
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.webkit.BrowserWebKitIOS;
-import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 
 /**
  *
@@ -32,19 +29,4 @@ public class ItsNatHTMLFormSelectCompSharedImpl extends ItsNatHTMLFormCompChange
         super(comp);
     }
 
-
-    public boolean isIgnoreChangeEvent(ClientDocumentImpl clientDoc)
-    {
-        Browser browser = clientDoc.getBrowser();
-        return ( (browser instanceof BrowserWebKitIOS) &&
-                 ((BrowserWebKitIOS)browser).ignoreChangeEventSelectMultiple(comp.getHTMLElement())); // Siempre devuelve false pero lo mantenemos por si tenemos que recuperarlo pues no lo tengo claro del todo
-    }
-
-    public boolean isBlurIsChangeEvent(ClientDocumentImpl clientDoc)
-    {
-        if (super.isBlurIsChangeEvent(clientDoc))
-            return true;
-
-        return isIgnoreChangeEvent(clientDoc);
-    }
 }
