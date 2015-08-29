@@ -21,7 +21,7 @@ import java.util.Map;
 import org.w3c.dom.html.HTMLElement;
 
 /*
- * Soportado desde 2.1.  NO SE CONSIDERA el Chrome para Android
+ * Soportado desde 4.0.3.  Es el stock browser, NO SE CONSIDERA el Chrome para Android
  * 
  * User agent Android 4.0.3: 
     Mozilla/5.0 (Linux; U; Android 4.0.3; en-us; Transformer TF101 Build/IML74K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30
@@ -51,12 +51,13 @@ public class BrowserWebKitAndroid extends BrowserWebKit
     private static final Map<String,String[]> tagNamesIgnoreZIndex = new HashMap<String,String[]>();
     static
     {
-        // Verificado hasta la v2 incluida:
+        // Verificado hasta la v4.0.3 incluida:
+        // En versiones previas a la 4 podrían ser accesibles algunos, en la 4 no ignoran el z-index pero podemos pincharlos y se resaltan (seleccionan)
+        // y aunque ignoran los eventos queda feo. Visto en los modal layers.
         tagNamesIgnoreZIndex.put("select",null);
-        tagNamesIgnoreZIndex.put("input",new String[]{"text","password","file","checkbox","radio"});
-        // El caso de INPUT checkbox y radio es especial, no ignoran el z-index pero podemos llegar a ellos usando el cursor
-        // y aunque ignoran los eventos queda feo. Con "button" no ocurre.
+        tagNamesIgnoreZIndex.put("input",new String[]{"text","password","file","checkbox","radio","button"});
         tagNamesIgnoreZIndex.put("textarea",null);
+        tagNamesIgnoreZIndex.put("button",null);        
     }
 
     public BrowserWebKitAndroid(String userAgent)
