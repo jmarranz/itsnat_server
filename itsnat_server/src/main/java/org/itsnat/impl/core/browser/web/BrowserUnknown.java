@@ -17,6 +17,8 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -111,4 +113,9 @@ public class BrowserUnknown extends BrowserW3C
         return false; // Por poner algo
     }
 
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return null; // Por poner algo
+    }    
 }

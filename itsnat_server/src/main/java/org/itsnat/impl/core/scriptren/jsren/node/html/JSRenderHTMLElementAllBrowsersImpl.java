@@ -18,14 +18,14 @@ package org.itsnat.impl.core.scriptren.jsren.node.html;
 
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
+import org.itsnat.impl.core.browser.web.BrowserBatik;
+import org.itsnat.impl.core.browser.web.BrowserGecko;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
+import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementAdobeSVGImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBatikImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementGeckoImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaOldImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementW3CImpl;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.w3c.dom.Element;
@@ -51,19 +51,19 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
     public JSRenderHTMLElementAllBrowsersImpl()
     {
         // MSIE Old
-        addBrowser(JSRenderHTMLElementMSIEOldImpl.SINGLETON);
+        addBrowser(BrowserMSIEOld.getJSRenderHTMLElementSingletonStatic());
 
         // W3C
-        addBrowser(JSRenderHTMLElementAdobeSVGImpl.SINGLETON);
-        addBrowser(JSRenderHTMLElementBatikImpl.SINGLETON);
+        addBrowser(BrowserAdobeSVG.getJSRenderHTMLElementSingletonStatic());
+        addBrowser(BrowserBatik.getJSRenderHTMLElementSingletonStatic());
 
-        addBrowser(JSRenderHTMLElementGeckoImpl.SINGLETON);
+        addBrowser(BrowserGecko.getJSRenderHTMLElementSingletonStatic());
 
-        addBrowser(JSRenderHTMLElementOperaOldImpl.SINGLETON);
+        addBrowser(BrowserOperaOld.getJSRenderHTMLElementSingletonStatic());
 
-        addBrowser(JSRenderHTMLElementWebKitImpl.SINGLETON);
+        addBrowser(BrowserWebKit.getJSRenderHTMLElementSingletonStatic());
         
-        addBrowser(JSRenderHTMLElementMSIE9Impl.SINGLETON);
+        addBrowser(BrowserMSIE9.getJSRenderHTMLElementSingletonStatic());
     }
 
     private void addBrowser(JSRenderHTMLElementImpl renderer)

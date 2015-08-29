@@ -18,9 +18,9 @@ package org.itsnat.impl.core.browser.web.opera;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaOldImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.w3c.dom.html.HTMLElement;
 
 /**
   En Opera el unload no se dispara siempre y onbeforeunload no está definido
@@ -128,4 +128,15 @@ public abstract class BrowserOperaOld extends BrowserW3C
 
         return null;
     }    
+    
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementOperaOldImpl.SINGLETON; 
+    }        
 }

@@ -22,7 +22,6 @@ import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.doc.web.ItsNatHTMLDocumentImpl;
-import org.itsnat.impl.core.doc.web.ItsNatSVGDocumentImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLAttributeImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLTextImpl;
@@ -243,5 +242,9 @@ public abstract class BrowserWeb extends Browser
     
     /* Idem para SVG que isTextAddedToInsertedHTMLScriptNotExecuted()
        En el caso de Opera 9 es necesario por ejemplo */
-    public abstract boolean isTextAddedToInsertedSVGScriptNotExecuted();    
+    public abstract boolean isTextAddedToInsertedSVGScriptNotExecuted(); 
+    
+    /* Este método NUNCA se llama. La única razón de este método es para que cuando creamos una nueva familia de Browsers al obligar a implementarlo tengamos la 
+    seguridad de que hemos considerado el alcance de innerHTML, y añadir el nuevo singleton a JSRenderHTMLElementAllBrowsersImpl */
+    public abstract JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton();
 }

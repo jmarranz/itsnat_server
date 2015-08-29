@@ -16,8 +16,9 @@
 
 package org.itsnat.impl.core.browser.web;
 
-import java.util.Map;
-import org.w3c.dom.html.HTMLElement;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBatikImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementOperaOldImpl;
 
 /**
  * En un applet Batik el user agent es configurable pero el que propone
@@ -50,4 +51,16 @@ public class BrowserBatik extends BrowserSVGPlugin
         // El XMLHttpRequest lo necesita
         return true;
     }
+    
+
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementBatikImpl.SINGLETON; 
+    }    
 }

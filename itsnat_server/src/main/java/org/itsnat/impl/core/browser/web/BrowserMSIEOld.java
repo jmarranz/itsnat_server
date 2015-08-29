@@ -18,8 +18,10 @@ package org.itsnat.impl.core.browser.web;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementBatikImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
@@ -180,4 +182,14 @@ public class BrowserMSIEOld extends BrowserWeb
             return null;
     }
 
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementMSIEOldImpl.SINGLETON; 
+    }    
 }

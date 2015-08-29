@@ -18,6 +18,9 @@ package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementGeckoImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.w3c.dom.html.HTMLElement;
 
@@ -141,5 +144,14 @@ public class BrowserGecko extends BrowserW3C
         return null;
     }
 
-
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementGeckoImpl.SINGLETON; 
+    }    
 }

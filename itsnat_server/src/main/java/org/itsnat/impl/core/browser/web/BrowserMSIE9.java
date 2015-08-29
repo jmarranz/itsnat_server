@@ -17,6 +17,9 @@
 package org.itsnat.impl.core.browser.web;
 
 import java.util.Map;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -113,4 +116,14 @@ public class BrowserMSIE9 extends BrowserW3C
         return true; // Revisar en la versión final de IE 9
     }
 
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementMSIE9Impl.SINGLETON; 
+    }      
 }

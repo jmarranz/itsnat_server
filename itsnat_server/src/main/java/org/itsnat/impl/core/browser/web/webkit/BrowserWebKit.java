@@ -18,6 +18,9 @@ package org.itsnat.impl.core.browser.web.webkit;
 
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLElementMSIEOldImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
@@ -206,4 +209,15 @@ public abstract class BrowserWebKit extends BrowserW3C
         return DOMUtilHTML.isHTMLInputTextBox(formElem); // Incluye el caso "file" que no está afectado por ésto, pero da igual
     } 
 
+
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementWebKitImpl.SINGLETON; 
+    }      
 }

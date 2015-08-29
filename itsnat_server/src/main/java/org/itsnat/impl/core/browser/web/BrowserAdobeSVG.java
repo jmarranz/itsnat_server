@@ -16,8 +16,9 @@
 
 package org.itsnat.impl.core.browser.web;
 
-import java.util.Map;
-import org.w3c.dom.html.HTMLElement;
+import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementAdobeSVGImpl;
+import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementGeckoImpl;
 
 /**
   Adobe SVG Viewer Plug-in desde la v3 (ASV3) incluida la v6 beta. Lo llamamos ASV para abreviar
@@ -46,5 +47,15 @@ public class BrowserAdobeSVG extends BrowserSVGPlugin
 
         this.browserType = ADOBE_SVG;
     }
-
+   
+    @Override
+    public JSRenderHTMLElementImpl getJSRenderHTMLElementSingleton() 
+    {
+        return getJSRenderHTMLElementSingletonStatic(); 
+    }    
+    
+    public static JSRenderHTMLElementImpl getJSRenderHTMLElementSingletonStatic() 
+    {
+        return JSRenderHTMLElementAdobeSVGImpl.SINGLETON; 
+    }       
 }
