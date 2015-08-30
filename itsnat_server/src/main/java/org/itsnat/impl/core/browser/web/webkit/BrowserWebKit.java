@@ -114,7 +114,6 @@ public abstract class BrowserWebKit extends BrowserW3C
     public boolean isReferrerReferenceStrong()
     {
         // El nuevo documento siempre se carga antes de que el anterior se destruya
-        // salvo en BlackBerry (se redefine)
         return false;
     }
 
@@ -148,14 +147,6 @@ public abstract class BrowserWebKit extends BrowserW3C
         return true; // El mundo antiguo ha quedado atrás
     }
 
-  
-    @Override
-    public boolean isTextAddedToInsertedSVGScriptNotExecuted()
-    {
-        // Cuando la inserción del script funciona funciona bien
-        // en los dos casos (añadiendo antes el código o después de insertado el elemento <script>).
-        return isInsertedSVGScriptNotExecuted();
-    }
     
     public boolean isAJAXEmptyResponseFails()
     {
@@ -172,6 +163,14 @@ public abstract class BrowserWebKit extends BrowserW3C
         return false;
     }    
         
+    @Override
+    public boolean isTextAddedToInsertedSVGScriptNotExecuted()
+    {
+        // Cuando la inserción del script funciona funciona bien
+        // en los dos casos (añadiendo antes el código o después de insertado el elemento <script>).
+        return isInsertedSVGScriptNotExecuted();
+    }    
+    
     @Override
     public boolean canNativelyRenderOtherNSInXHTMLDoc()
     {

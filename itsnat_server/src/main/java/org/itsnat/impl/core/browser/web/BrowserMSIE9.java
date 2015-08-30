@@ -19,11 +19,16 @@ package org.itsnat.impl.core.browser.web;
 import java.util.Map;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementMSIE9Impl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.w3c.JSRenderHTMLElementWebKitImpl;
 import org.w3c.dom.html.HTMLElement;
 
 /**
  * IE 9 y superiores
+ * 
+ * IE 11 user agent (no tiene MSIE):
+ *  Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+ * 
+ * Edge User Agent (no tiene ni MSIE ni Trident, como se puede ver desde la v12):
+ *  Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10240
  * 
  * http://msdn.microsoft.com/en-us/ie/ff468705.aspx
  * 

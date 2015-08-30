@@ -95,13 +95,17 @@ public abstract class BrowserWeb extends Browser
     {
         // Opera en algunas versiones (algún Opera 9.x por ejemplo) incluye la palabra "MSIE", excluimos esos casos
         // IE 11 tiene algún user agent SIN MSIE pero con Trident
+        // IE Edge no tiene ni MSIE ni Trident (cuidado porque contiene AppleWebKit, Gecko, Safari etc)
         // http://www.useragentstring.com/pages/Internet%20Explorer/
-        return (userAgent.contains("MSIE") || userAgent.contains("Trident")) &&
-                !BrowserOperaOld.isOperaOld(userAgent,itsNatRequest);
+        return ( (userAgent.contains("MSIE") && !BrowserOperaOld.isOperaOld(userAgent,itsNatRequest)) || 
+                  userAgent.contains("Trident") || 
+                  userAgent.contains("Edge"));
+                
     }
     
     public static int getMSIEVersion(String userAgent)
     {
+        // http://www.useragentstring.com/pages/Internet%20Explorer/
         if (userAgent.contains("MSIE "))
         {
             try
@@ -133,6 +137,22 @@ public abstract class BrowserWeb extends Browser
                 // Por si cambia Microsoft el patrón
                 return 8; // La versión mínima soportada
             }            
+        }
+        else if (userAgent.contains("Edge"))        
+        {
+            try
+            {
+                // Se espera al final Edge/M.n
+                // nos interesa sólo M
+                int start = userAgent.indexOf("Edge/") + "Edge/".length();
+                int end = userAgent.indexOf('.',start);
+                return Integer.parseInt(userAgent.substring(start, end));
+            }
+            catch(Exception ex)
+            {
+                // Por si cambia Microsoft el patrón
+                return 8; // La versión mínima soportada
+            }                        
         }
         else
         {
