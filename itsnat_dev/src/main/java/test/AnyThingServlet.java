@@ -23,6 +23,7 @@ import test.web.anything.TestAnythingDocLoadListener;
  */
 public class AnyThingServlet extends HttpServletWrapper
 {
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);
@@ -30,8 +31,6 @@ public class AnyThingServlet extends HttpServletWrapper
         int maxOpenClientsByDocument = 4; // incluye el owner
         
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
-
-        SharedInitContextConf.init(getServletContext(), itsNatServlet);
 
         ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
         itsNatConfig.setMaxOpenClientsByDocument(maxOpenClientsByDocument);

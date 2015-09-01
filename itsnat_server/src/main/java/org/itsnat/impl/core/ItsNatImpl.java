@@ -21,13 +21,13 @@ import com.innowhere.relproxy.jproxy.JProxyScriptEngineFactory;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import javax.script.ScriptEngine;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.ItsNatServlet;
+import org.itsnat.core.ItsNatServletContext;
 import org.itsnat.impl.core.servlet.ItsNatServletContextImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletImpl;
 import org.itsnat.impl.core.servlet.http.ItsNatHttpServletImpl;
@@ -51,12 +51,19 @@ public class ItsNatImpl implements ItsNat
     {
     }
 
+    @Override
     public String getVersion()
     {
         return "1.4";
     }
 
-    public ItsNatServletContextImpl getItsNatServletContext(ServletContext context)
+    @Override
+    public ItsNatServletContext getItsNatServletContext(ServletContext context)
+    {
+        return getItsNatServletContextImpl(context);
+    }    
+    
+    public ItsNatServletContextImpl getItsNatServletContextImpl(ServletContext context)
     {
         ItsNatServletContextImpl itsNatContext =
                 (ItsNatServletContextImpl)context.getAttribute("itsnat_servlet_context");

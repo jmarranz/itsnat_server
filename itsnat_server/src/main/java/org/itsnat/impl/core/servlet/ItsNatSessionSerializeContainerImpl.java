@@ -81,7 +81,7 @@ public class ItsNatSessionSerializeContainerImpl implements Serializable
             // La serialización será errónea pero así conseguimos que la de-serializaciòn
             // sea errónea también y se pueda recrear la sesión, de otra manera se queda
             // atascada la aplicación con una sesión errónea indefinidamente
-            showError(ex,false);
+            showError(ex,true);
         }
     }
 

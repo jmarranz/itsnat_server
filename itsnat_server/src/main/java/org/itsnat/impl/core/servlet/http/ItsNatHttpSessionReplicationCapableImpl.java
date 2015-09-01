@@ -124,7 +124,7 @@ public class ItsNatHttpSessionReplicationCapableImpl extends ItsNatHttpSessionIm
         catch(Exception ex)
         {
             // Evitamos guardar en la sesión (si el error ocurrió al serializar)
-            ItsNatSessionSerializeContainerImpl.showError(ex,false);
+            ItsNatSessionSerializeContainerImpl.showError(ex,true);
         }
     }
 

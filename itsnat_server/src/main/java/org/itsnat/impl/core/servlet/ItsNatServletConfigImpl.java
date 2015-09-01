@@ -75,7 +75,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.servlet = servlet;
 
         ItsNatImpl itsNat = servlet.getItsNatImpl();
-        this.servletContext = itsNat.getItsNatServletContext(servletConfig.getServletContext());
+        this.servletContext = itsNat.getItsNatServletContextImpl(servletConfig.getServletContext());
 
         cacheDOMNodesByMime.put(NamespaceUtil.MIME_HTML,Boolean.TRUE);
         cacheDOMNodesByMime.put(NamespaceUtil.MIME_XHTML,Boolean.TRUE);

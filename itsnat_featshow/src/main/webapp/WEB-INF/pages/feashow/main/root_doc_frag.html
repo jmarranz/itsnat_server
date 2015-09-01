@@ -29,24 +29,21 @@
     <p>ItsNat virtually supports 100% of browser market including mobile devices with AJAX support (previous versions may work):</p>
 
     <ul>
-        <li>Desktop Browsers:<br /><br />
-            Google Chrome, FireFox, Internet Explorer v6,7,8,
-            Internet Explorer v9, Opera 12.12+, Safari 5.1.7+.
+        <li>Desktop Browsers:<br /><br /> 
+            Google Chrome, FireFox, Internet Explorer v8+ including Edge (v12), Opera 12.12+ (WebKit based), Safari 6.0.5+.
             <br /><br />
         </li>
         <li>Mobile Browsers: <br /><br />
-            Android 2.1+, BlackBerry JDE 4.6+ (Flip, Bold, Storm... including JDE 6.0 Torch), 
-             IE Mobile 6 (since Windows Mobile 6.1.4),
-            iPhone/iPad/iPod iOS 6.1+, 
-            Opera Mini 4.x, Opera Mobile 12.12+, S60WebKit (since S60 5th v1), S40WebKit (since S40 6th)
+            Android 4.0.3+, iPhone/iPad/iPod iOS 7.1+, Opera Mini (still based on Presto), Opera Mobile (WebKit based).
             <br /><br />
         </li>
-        <li>SVG plugins: <br /><br />
+        <li>SVG plugins (very useful for Internet Explorer 8): <br /><br />
             Adobe SVG Viewer v3, Savarese Ssrc SVG (adds XUL to MSIE too), SVGWeb,
             and <a href="http://xmlgraphics.apache.org/batik/" target="_blank">Batik</a> as applet.
         </li>
     </ul>
-
+    
+    
     <h5>How ItsNat works</h5>
 
     <p>When the Java user code modifies the server DOM tree this modification is detected
@@ -78,6 +75,10 @@
     as pure text not DOM.
     </p>
 
+    <p>As of ItsNat 1.3, a new <b>stateless</b> mode has been added, in this mode session is not used in server,many ItsNat features of stateful can still be used in 
+        this stateless mode.
+    </p>
+    
     <h5>Core features</h5>
 
     <p>These are the basics, ItsNat provides many more things: client to server synchronization, web-continuations (continue events),

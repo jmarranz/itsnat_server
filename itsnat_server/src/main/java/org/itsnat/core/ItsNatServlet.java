@@ -77,6 +77,7 @@ public interface ItsNatServlet
      * Returns the ItsNat application context this ItsNat servlet belongs to.
      *
      * @return the context object.
+     * @see ItsNat#getItsNatServletContext(javax.servlet.ServletContext) 
      */
     public ItsNatServletContext getItsNatServletContext();
 

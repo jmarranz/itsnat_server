@@ -16,6 +16,12 @@
 
 package org.itsnat.impl.core.clientdoc;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatContinueEvent;
@@ -43,7 +49,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public abstract class ClientDocumentStfulDelegateImpl
+public abstract class ClientDocumentStfulDelegateImpl implements Serializable
 {
     protected ClientDocumentStfulImpl clientDoc;
     protected ClientMutationEventListenerStfulImpl mutationListener; 
@@ -70,7 +76,7 @@ public abstract class ClientDocumentStfulDelegateImpl
         else
             return null;
     }
-    
+        
     public int getCommMode()
     {
         return clientDoc.getCommMode();

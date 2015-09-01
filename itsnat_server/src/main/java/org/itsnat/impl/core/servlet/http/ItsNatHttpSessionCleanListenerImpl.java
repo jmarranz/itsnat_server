@@ -53,7 +53,7 @@ public class ItsNatHttpSessionCleanListenerImpl implements HttpSessionBindingLis
         HttpSession session = event.getSession();
 
         ItsNatImpl itsNat = (ItsNatImpl)ItsNatBoot.get();
-        ItsNatServletContextImpl itsNatContext = itsNat.getItsNatServletContext(session.getServletContext());
+        ItsNatServletContextImpl itsNatContext = itsNat.getItsNatServletContextImpl(session.getServletContext());
 
         ItsNatSessionImpl itsNatSession = itsNatContext.getItsNatSessionByStandardId(session.getId());
         if (itsNatSession == null) return; // Por si acaso

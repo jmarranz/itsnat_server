@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.scriptren.shared;
 
+import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocStfulTask;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
@@ -28,7 +29,7 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public class JSAndBSScriptUtilFromDocSharedImpl
+public class JSAndBSScriptUtilFromDocSharedImpl implements Serializable
 {
     protected ScriptUtilImpl scriptUtil;
     protected ItsNatStfulDocumentImpl itsNatDoc;

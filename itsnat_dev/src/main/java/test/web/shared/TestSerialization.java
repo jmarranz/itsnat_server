@@ -19,6 +19,7 @@ import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.servlet.ItsNatSessionObjectInputStream;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
+import test.shared.TestSerializationConfig;
 
 /**
  * Este test sirve para testear que los elementos de ItsNat son serializables
@@ -29,11 +30,11 @@ import org.w3c.dom.events.EventListener;
  */
 public class TestSerialization implements Serializable,EventListener
 {
-    public static boolean enable = false; // Este test produce una enorme pérdida de rendimiento
+
 
     public TestSerialization(ItsNatServletRequest request)
     {
-        if (!enable) return;
+        if (!TestSerializationConfig.enable) return;
 
         testSerialization(request);
 
@@ -84,6 +85,7 @@ public class TestSerialization implements Serializable,EventListener
         }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         testSerialization( ((ItsNatEvent)evt).getItsNatServletRequest() );

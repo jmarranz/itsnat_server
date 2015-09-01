@@ -6,29 +6,25 @@
 package test.web.shared;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import org.itsnat.impl.core.servlet.ItsNatSessionObjectOutputStream;
 
 /**
  *
  * @author jmarranz
  */
-public class DebuggingObjectOutputStream extends ObjectOutputStream
+public class DebuggingObjectOutputStream extends ItsNatSessionObjectOutputStream // ItsNatSessionObjectInputStream es INTERNO DE ITSNAT sólo usar para estas pruebas
 {
-    protected static boolean showInfo = true;
+    static
+    {
+        showInfo = true;
+    }
 
     public DebuggingObjectOutputStream(OutputStream out) throws IOException
     {
         super(out);
 
-        enableReplaceObject(true);
-
         if (showInfo) System.out.println("Created DebuggingObjectOutputStream");
     }
 
-    protected Object replaceObject(Object obj) throws IOException
-    {
-        if (showInfo && (obj != null)) System.out.println("Serializing: " + obj.getClass());
-	return obj;
-    }
 }

@@ -25,6 +25,7 @@ import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.UseGZip;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
+import test.shared.TestSerializationConfig;
 import test.web.asyncforms.TestAutoSyncFormsDocLoadListener;
 import test.web.cache.TestCacheLoadDocListener;
 import test.web.clientmut.TestClientMutationDocLoadListener;
@@ -54,7 +55,6 @@ import test.web.remtmpl.GoogleSearchResultSource;
 import test.web.remtmpl.TestRemoteTemplateDocLoadListener;
 import test.web.remtmpl.TestRemoteTemplateResultDocLoadListener;
 import test.web.stateless.core.TestStatelessCoreTemplateLevelEventListener;
-import test.web.shared.TestSerialization;
 import test.web.svg.TestSVGAttachServerLauncherDocLoadListener;
 import test.web.svg.TestSVGDocLoadListener;
 import test.web.svgweb.TestSVGWebDocLoadListener;
@@ -94,11 +94,9 @@ public class ItsNatServletExample extends HttpServletWrapper
         int maxOpenClientsByDocument = 4; // incluye el owner
         boolean joystickMode = false;
 
-        TestSerialization.enable = false;
+        TestSerializationConfig.enable = false; // Al estar en shared funciona con RelProxy pues no se recarga
         
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
-
-        SharedInitContextConf.init(getServletContext(), itsNatServlet);
         
         ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
         

@@ -11,4 +11,4 @@ http://code.google.com/p/googleappengine/issues/detail?id=1370
 To avoid this annoying problem, the class org.apache.batik.dom.AbstractDocument (the "offending" class)
 has been modified removing all problematic XPath dependencies.
 
-Use the modified jar file lib/batik-dom-gae.jar with the new AbstractDocument class instead of batik-dom.jar in GAE.
+Use the modified jar file lib/batik-dom-1.7-gae.jar with the new AbstractDocument class instead of batik-dom.jar or batik-dom-1.7.jar in GAE.

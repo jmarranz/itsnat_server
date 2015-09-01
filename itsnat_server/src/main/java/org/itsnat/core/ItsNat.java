@@ -18,6 +18,7 @@ package org.itsnat.core;
 
 import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import javax.servlet.Servlet;
+import javax.servlet.ServletContext;
 
 /**
  * Is the root interface of the ItsNat infrastructure. It works as a root factory
@@ -40,6 +41,15 @@ public interface ItsNat extends ItsNatUserData
      */
     public String getVersion();
 
+    /**
+     * Returns the ItsNat application context wrapper of the provided ServletContext.
+     *
+     * @param context the ServletContext of the web application 
+     * @return the context object.
+     * @see ItsNatServlet#getItsNatServletContext(javax.servlet.ServletContext) 
+     */    
+    public ItsNatServletContext getItsNatServletContext(ServletContext context);   
+    
     /**
      * Returns the feature value of given name.
      *

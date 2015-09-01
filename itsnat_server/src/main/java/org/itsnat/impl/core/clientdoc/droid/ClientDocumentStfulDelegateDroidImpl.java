@@ -51,11 +51,13 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
         return (BrowserDroid)clientDoc.getBrowser();
     }    
     
+    @Override
     public ScriptUtil createScriptUtil()    
     {
         return new BSScriptUtilFromClientImpl(this);
     }
 
+    @Override
     protected String getCodeDispatchEvent(EventTarget target,Event evt,String varResName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return BSRenderNodeImpl.getCodeDispatchEvent(target,evt,"res",this);
@@ -93,6 +95,7 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
         return droidEvtListenerRegistry;
     }       
     
+    @Override
     public void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         addDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
@@ -114,6 +117,7 @@ public class ClientDocumentStfulDelegateDroidImpl extends ClientDocumentStfulDel
         removeDroidEventListener(target,type,listener,useCapture,updateClient);
     }
 
+    @Override
     public int removeAllPlatformEventListeners(EventTarget target,boolean updateClient)    
     {
         return removeAllDroidEventListeners(target,updateClient);

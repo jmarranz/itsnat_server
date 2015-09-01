@@ -48,9 +48,7 @@
     </welcome-file-list>
     
    <listener>
-	<listener-class>
-             test.shared.JProxyServletContextListener 
-        </listener-class>
+	<listener-class>test.shared.CustomServletContextListener </listener-class>
    </listener>  
        
 </web-app>

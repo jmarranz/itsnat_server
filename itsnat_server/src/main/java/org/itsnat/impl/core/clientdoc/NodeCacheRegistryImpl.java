@@ -54,7 +54,7 @@ public class NodeCacheRegistryImpl implements Serializable
     {
         this.clientDoc = clientDoc;
     }
-
+    
     public ClientDocumentStfulImpl getClientDocumentStful()
     {
         return clientDoc.getClientDocumentStful();

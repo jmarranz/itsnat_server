@@ -17,6 +17,7 @@ import javax.servlet.ServletContextListener;
 import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
+import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatBoot;
 import test.AnyThingServlet;
 import test.ItsNatDroidServletExample;
@@ -27,18 +28,29 @@ import test.ItsNatServletExample;
  *
  * @author jmarranz
  */
-public class JProxyServletContextListener implements ServletContextListener
+public class CustomServletContextListener implements ServletContextListener
 {
     @Override
     public void contextInitialized(ServletContextEvent sce)
     {
-        System.out.println("ServletContextListener contextInitialized");
-        
+        System.out.println("CustomServletContextListener contextInitialized");
+                       
+        ItsNat itsNat = ItsNatBoot.get();
         ServletContext context = sce.getServletContext();
+        
+        SharedInitContextConf.init(context,itsNat);        
         
         String realPath = context.getRealPath("/"); // NetBeans Maven: /target/itsnat-dev-1.0-SNAPSHOT/ dir
         String inputPath = realPath + "../../src/main/java/"; 
              
+        boolean gaeEnabled = context.getServerInfo().startsWith("Google App Engine");
+        if (gaeEnabled) 
+        {
+            // En GAE ni siquiera se puede hacer un new File(inputPath).exists() pues GAE detecta un intento de acceder a directorios superiores
+            System.out.println("WARNING: MOST OF EXAMPLES ARE NOT GOING TO WORK IN GOOGLE APP ENGINE IF SESSION SERIALIZATION IS ENABLED BECAUSE STACK SIZE IS TOO SMALL AND SERIALIZING A SINGLE NODE (LIKE IN NodeCacheRegistryImpl) USUALLY SERIALIZES A LOT OF RELATED NODES CONSUMING A LOT OF STACK MEMORY (EXPECTED StackOverflowException). OTHER PROBLEMS ARE RESTRICTED CLASSES");
+            return; 
+        }
+        
         if (new File(inputPath).exists()) 
         {
             System.out.println("RelProxy to be enabled, development mode detected");
@@ -60,8 +72,6 @@ public class JProxyServletContextListener implements ServletContextListener
                 if (file.isDirectory())
                 {
                     return absPath.endsWith(File.separatorChar + "manual") || 
-                           absPath.endsWith(File.separatorChar + "org") ||
-                           absPath.endsWith(File.separatorChar + "test" + File.separatorChar + "org") ||
                            absPath.endsWith(File.separatorChar + "test" + File.separatorChar + "shared");
                 }
                 else
@@ -144,7 +154,7 @@ public class JProxyServletContextListener implements ServletContextListener
     @Override
     public void contextDestroyed(ServletContextEvent sce)
     {
-        System.out.println("ServletContextListener contextDestroyed");
+        System.out.println("CustomServletContextListener contextDestroyed");
         JProxy.stop();
     }
     

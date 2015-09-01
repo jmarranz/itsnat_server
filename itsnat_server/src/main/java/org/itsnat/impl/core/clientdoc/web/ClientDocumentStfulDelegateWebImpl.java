@@ -44,7 +44,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDelegateImpl
 {
-    protected Set<String> clientCodeMethodSet;    
+    protected HashSet<String> clientCodeMethodSet;    
     protected SVGWebInfoImpl svgWebInfo;
     protected MapUniqueId<HTMLIFrameFileUploadImpl> fileUploadsMap;              
     protected ItsNatDOMStdEventListenerRegistryImpl domStdListenerRegistry;     
@@ -65,11 +65,13 @@ public class ClientDocumentStfulDelegateWebImpl extends ClientDocumentStfulDeleg
         return (BrowserWeb)clientDoc.getBrowser();
     }
     
+    @Override
     public String getNodeReference(Node node,boolean cacheIfPossible,boolean errIfNull)
     {
         return JSRenderNodeImpl.getNodeReference(node,cacheIfPossible,errIfNull,this);
     }    
     
+    @Override
     public ScriptUtil createScriptUtil()
     {
         return new JSScriptUtilFromClientImpl(this);

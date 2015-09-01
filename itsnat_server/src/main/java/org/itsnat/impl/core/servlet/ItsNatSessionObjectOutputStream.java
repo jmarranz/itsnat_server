@@ -39,6 +39,7 @@ public class ItsNatSessionObjectOutputStream extends ObjectOutputStream
         }
     }
 
+    @Override
     protected Object replaceObject(Object obj) throws IOException
     {
         if (obj != null) System.out.println("Serializing: " + obj.getClass());
