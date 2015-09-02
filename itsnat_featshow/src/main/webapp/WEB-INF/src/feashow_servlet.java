@@ -66,6 +66,7 @@ import org.itsnat.manual.core.CoreExampleLoadListener;
 
 public class feashow_servlet extends HttpServletWrapper
 {
+    @Override
     public void init(ServletConfig config) throws ServletException
     {
         super.init(config);

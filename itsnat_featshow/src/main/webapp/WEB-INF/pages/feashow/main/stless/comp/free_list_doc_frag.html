@@ -2,6 +2,7 @@
 <html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
 </head>
 <body>
 
@@ -10,7 +11,7 @@
        template for the initial load and for processing stateless events.
     </p>
     <p>Data is got from a "false database" of an index ordered city list based in user session. We use user session just to avoid collisions with other users
-       to simulate "data which nobody is accessing but you in this moment" typical of any application/site backed with persistent data.
+       to simulate "I'm managing my own persistent data and nobody is accessing my data but me in this moment" typical of any application/site backed with persistent data.
        Excluding this false database making use of user session, this example is pure stateless, and replacing the data base with a real database
        it could be executed in a farm of servlet containers with no sharing of session state.
     </p>
