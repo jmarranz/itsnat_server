@@ -34,21 +34,25 @@ public class MarkupSourceStringMarkupImpl extends MarkupSourceImpl implements Se
         this.markupCode = markupCode;
     }
 
+    @Override
     public long getCurrentTimestamp(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return System.currentTimeMillis(); // Sólo se llama una sola vez
     }
 
+    @Override
     public boolean isMustReload(long currentTimestamp,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return true; // Yo creo que valdría lanzar una excepción (estudiar)
     }
 
+    @Override
     public InputSource createInputSource(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return new InputSource(new StringReader(markupCode));
     }
 
+    @Override
     public Object getSource()
     {
         return null;

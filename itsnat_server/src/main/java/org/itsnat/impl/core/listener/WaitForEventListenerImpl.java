@@ -16,18 +16,16 @@
 
 package org.itsnat.impl.core.listener;
 
-import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class WaitForEventListenerImpl implements EventListener,Serializable
+public class WaitForEventListenerImpl implements EventListenerSerializableInternal
 {
     protected Element elem;
     protected String type;
@@ -38,6 +36,7 @@ public class WaitForEventListenerImpl implements EventListener,Serializable
         this.type = type;
     }
 
+    @Override
     public int hashCode()
     {
         int hash = 7;
@@ -46,6 +45,7 @@ public class WaitForEventListenerImpl implements EventListener,Serializable
         return hash;
     }
 
+    @Override
     public boolean equals(Object obj)
     {
         if (super.equals(obj))
@@ -67,6 +67,7 @@ public class WaitForEventListenerImpl implements EventListener,Serializable
         return type;
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         ClientDocumentStfulImpl clientDoc = (ClientDocumentStfulImpl)((ItsNatEvent)evt).getClientDocument();

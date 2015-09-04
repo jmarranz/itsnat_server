@@ -16,17 +16,16 @@
 
 package org.itsnat.impl.core.listener.dom.domstd;
 
-import java.io.Serializable;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class OnUnloadListenerImpl implements EventListener,Serializable
+public class OnUnloadListenerImpl implements EventListenerSerializableInternal
 {
     public static final OnUnloadListenerImpl SINGLETON = new OnUnloadListenerImpl();
 
@@ -37,6 +36,7 @@ public class OnUnloadListenerImpl implements EventListener,Serializable
     {
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // Marcamos el documento como inválido pues el usuario se sale de la página

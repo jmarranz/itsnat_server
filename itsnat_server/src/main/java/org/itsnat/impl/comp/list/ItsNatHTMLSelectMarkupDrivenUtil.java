@@ -19,17 +19,16 @@ package org.itsnat.impl.comp.list;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import org.itsnat.impl.comp.ItsNatHTMLFormCompMarkupDrivenUtil;
 import javax.swing.ListModel;
 import org.itsnat.core.ItsNatDOMException;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.html.HTMLOptionElement;
 import org.w3c.dom.html.HTMLSelectElement;
@@ -38,7 +37,7 @@ import org.w3c.dom.html.HTMLSelectElement;
  *
  * @author jmarranz
  */
-public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListener,Serializable  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
+public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListenerSerializableInternal  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
 {
     public ItsNatHTMLSelectMarkupDrivenUtil(ItsNatHTMLSelectImpl comp)
     {
@@ -87,6 +86,7 @@ public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCom
         return item;
     }
 
+    @Override
     public void preSetDefaultDataModel(Object dataModel)
     {
         HTMLSelectElement select = getItsNatHTMLSelect().getHTMLSelectElement();
@@ -101,6 +101,7 @@ public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCom
         }
     }
 
+    @Override
     public void initialSyncUIWithDataModel()
     {
         HTMLSelectElement elem = getItsNatHTMLSelect().getHTMLSelectElement();
@@ -108,6 +109,7 @@ public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCom
         ((ItsNatNodeInternal)elem).addEventListenerInternal("DOMNodeRemoved",this, false); // Para elementos opción eliminados
     }
 
+    @Override
     public void dispose()
     {
         HTMLSelectElement elem = getItsNatHTMLSelect().getHTMLSelectElement();
@@ -133,6 +135,7 @@ public abstract class ItsNatHTMLSelectMarkupDrivenUtil extends ItsNatHTMLFormCom
         }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         ItsNatHTMLSelectImpl comp = getItsNatHTMLSelect();

@@ -21,7 +21,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
-import org.itsnat.comp.list.ItsNatListUI;
 
 /**
  *

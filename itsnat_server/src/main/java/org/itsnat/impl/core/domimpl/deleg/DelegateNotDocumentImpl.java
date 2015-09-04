@@ -32,6 +32,7 @@ public abstract class DelegateNotDocumentImpl extends DelegateNodeImpl
         super(node);
     }
 
+    @Override
     public boolean isInternalMode()
     {
         DelegateDocumentImpl docDeleg = getDelegateDocument(); // No suponemos null, caso raro
@@ -43,6 +44,7 @@ public abstract class DelegateNotDocumentImpl extends DelegateNodeImpl
             return internalMode.booleanValue();
     }
 
+    @Override
     public ItsNatDocumentImpl getItsNatDocument()
     {
         DelegateDocumentImpl docDeleg = getDelegateDocument();
@@ -50,6 +52,7 @@ public abstract class DelegateNotDocumentImpl extends DelegateNodeImpl
         return docDeleg.getItsNatDocument();
     }
 
+    @Override
     public DelegateDocumentImpl getDelegateDocument()
     {
         Document doc = node.getOwnerDocument();
@@ -57,6 +60,7 @@ public abstract class DelegateNotDocumentImpl extends DelegateNodeImpl
         return ((ItsNatDocumentInternal)doc).getDelegateDocument();
     }
 
+    @Override
     public boolean isMutationEventInternal()
     {
         DelegateDocumentImpl docDeleg = getDelegateDocument();
@@ -64,6 +68,7 @@ public abstract class DelegateNotDocumentImpl extends DelegateNodeImpl
         return docDeleg.isMutationEventInternal();
     }
 
+    @Override
     public void setMutationEventInternal(boolean value)
     {
         DelegateDocumentImpl docDeleg = getDelegateDocument();

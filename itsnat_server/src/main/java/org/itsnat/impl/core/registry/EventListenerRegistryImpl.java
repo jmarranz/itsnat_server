@@ -16,6 +16,7 @@
 
 package org.itsnat.impl.core.registry;
 
+import java.io.Serializable;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
@@ -30,7 +31,7 @@ import org.itsnat.impl.core.scriptren.jsren.listener.JSRenderItsNatEventListener
  *
  * @author jmarranz
  */
-public abstract class EventListenerRegistryImpl
+public abstract class EventListenerRegistryImpl implements Serializable
 {
     
     public static void addItsNatEventListenerCode(ItsNatEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateImpl clientDoc)

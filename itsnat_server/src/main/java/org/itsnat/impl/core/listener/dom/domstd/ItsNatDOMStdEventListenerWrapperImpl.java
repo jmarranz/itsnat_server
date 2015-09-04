@@ -61,11 +61,13 @@ public class ItsNatDOMStdEventListenerWrapperImpl extends ItsNatNormalEventListe
         this.eventGroupCode = DOMStdEventGroupInfo.getEventGroupCode(type);  // type no cambia por lo que no hay problema de "sincronización". Obtenerlo de una vez es mejor pues hay que buscar en una colección
     }
 
+    @Override
     public int getCommModeDeclared()
     {
         return commMode;
     }
 
+    @Override
     public String getType()
     {
         return type;

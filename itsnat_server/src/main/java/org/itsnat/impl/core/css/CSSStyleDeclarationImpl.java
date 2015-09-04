@@ -47,6 +47,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         this.parent = parent;
     }
 
+    @Override
     public String getCssText()
     {
         rebuild();
@@ -54,6 +55,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         return this.cssText;
     }
 
+    @Override
     public void setCssText(String cssText) throws DOMException
     {
         DOMUtilInternal.setAttribute(parent,"style",cssText); // Actualizamos por sistema pues puede haber cambiado el atributo aunque no sea por aquí
@@ -67,6 +69,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         return propertyMap.get(propertyName);
     }
 
+    @Override
     public String getPropertyValue(String propertyName)
     {
         CSSPropertyImpl property = getPropertyObject(propertyName);
@@ -74,6 +77,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         return property.getCssTextSourceCode(false).toString();
     }
 
+    @Override
     public CSSValue getPropertyCSSValue(String propertyName)
     {
         // Deberíamos devolver null si es una propiedad "shorthand" pero
@@ -84,6 +88,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         return property.getCSSValue();
     }
 
+    @Override
     public String removeProperty(String propertyName) throws DOMException
     {
         propertyName = propertyName.toLowerCase();
@@ -116,6 +121,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         setCssText(this.cssText);
     }
 
+    @Override
     public String getPropertyPriority(String propertyName)
     {
         return ""; // NO soportamos !important
@@ -143,6 +149,7 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         }
     }
 
+    @Override
     public void setProperty(String propertyName, String value, String priority) throws DOMException
     {
         // Ignoramos la prioridad (!important) no la soportamos
@@ -163,17 +170,20 @@ public abstract class CSSStyleDeclarationImpl implements CSSStyleDeclaration,Ser
         }
     }
 
+    @Override
     public int getLength()
     {
         return propertyList.size();
     }
 
+    @Override
     public String item(int index)
     {
         CSSPropertyImpl currProperty = propertyList.get(index);
         return currProperty.getCssTextSourceCode().toString();
     }
 
+    @Override
     public CSSRule getParentRule()
     {
         // Sólo soportamos propiedades CSS declaradas en atributos style de elementos

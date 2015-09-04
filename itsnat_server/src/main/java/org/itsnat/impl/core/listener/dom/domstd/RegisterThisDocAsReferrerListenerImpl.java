@@ -16,19 +16,18 @@
 
 package org.itsnat.impl.core.listener.dom.domstd;
 
-import java.io.Serializable;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class RegisterThisDocAsReferrerListenerImpl implements EventListener,Serializable
+public class RegisterThisDocAsReferrerListenerImpl implements EventListenerSerializableInternal
 {
     public static final RegisterThisDocAsReferrerListenerImpl SINGLETON = new RegisterThisDocAsReferrerListenerImpl();
 

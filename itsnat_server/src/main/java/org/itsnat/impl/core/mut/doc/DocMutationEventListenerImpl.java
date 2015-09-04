@@ -16,22 +16,21 @@
 
 package org.itsnat.impl.core.mut.doc;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.MutationEvent;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class DocMutationEventListenerImpl implements EventListener,Serializable
+public abstract class DocMutationEventListenerImpl implements EventListenerSerializableInternal
 {
     protected ItsNatDocumentImpl itsNatDoc;
     protected MapListImpl<Node,BeforeAfterMutationRenderListener> beforeAfterListeners;

@@ -151,8 +151,8 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
 
     public static class Pair implements Serializable
     {
-        private EventListener listener;
-        private ItsNatNormalEventListenerWrapperImpl listenerWrapper; // puede ser null en el caso de búsqueda
+        private final EventListener listener;
+        private final ItsNatNormalEventListenerWrapperImpl listenerWrapper; // puede ser null en el caso de búsqueda
 
         public Pair(EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
         {
@@ -177,7 +177,8 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
             if (res) return true;
             if (other == null) return false;
             // El listenerWrapper no cuenta pues puede ser null
-            return listener == ((Pair)other).listener;
+            // listener no puede ser null, pero puede ser un Proxy creado por JProxy, no usar ==
+            return listener.equals(((Pair)other).listener);
         }
 
         @Override

@@ -28,7 +28,6 @@ import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.web.ItsNatStfulWebDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.servlet.ItsNatServletRequestImpl;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLElement;
 import org.w3c.dom.html.HTMLFormElement;
 
@@ -36,7 +35,7 @@ import org.w3c.dom.html.HTMLFormElement;
  *
  * @author jmarranz
  */
-public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementComponentImpl implements ItsNatHTMLFormComponent,EventListener
+public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementComponentImpl implements ItsNatHTMLFormComponent
 {
     protected ItsNatHTMLForm formComp;
     protected boolean uiEnabled = true; // Lo usan los componentes que pueden ser "markup driven"
@@ -50,11 +49,13 @@ public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementCompo
         super(element,artifacts,componentMgr);
     }
 
+    @Override
     public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
     {
         return new ItsNatCompNormalEventListenersByDocDefaultImpl(this);
     }
 
+    @Override
     public ItsNatCompNormalEventListenersByClientImpl createItsNatCompNormalEventListenersByClient(ClientDocumentImpl clientDoc)
     {
         return new ItsNatCompNormalEventListenersByClientDefaultImpl(this,clientDoc);
@@ -82,6 +83,7 @@ public abstract class ItsNatHTMLFormComponentImpl extends ItsNatHTMLElementCompo
 
     public abstract HTMLFormElement getHTMLFormElement();
 
+    @Override
     public ItsNatHTMLForm getItsNatHTMLForm()
     {
         HTMLFormElement formElem = getHTMLFormElement(); // puede ser null (el elemento puede no estar dentro de un <form>

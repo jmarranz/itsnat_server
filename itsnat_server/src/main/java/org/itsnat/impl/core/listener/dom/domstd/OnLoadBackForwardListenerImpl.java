@@ -16,21 +16,20 @@
 
 package org.itsnat.impl.core.listener.dom.domstd;
 
-import java.io.Serializable;
 import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.req.norm.RequestNormalEventImpl;
 import org.itsnat.impl.core.scriptren.shared.JSAndBSRenderImpl;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
+public class OnLoadBackForwardListenerImpl implements EventListenerSerializableInternal
 {
     protected boolean loaded = false;
 
@@ -51,6 +50,7 @@ public class OnLoadBackForwardListenerImpl implements EventListener,Serializable
         return request.isLoadEvent() && (request.getAttrOrParam("itsnat_check_reload") != null);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // En Opera 9 este listener tiene la finalidad

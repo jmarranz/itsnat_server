@@ -486,9 +486,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
         JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();
+        if (jProxy != null)
+        {
+            listener = jProxy.create(listener,ItsNatServletRequestListener.class);
+        }
         
         LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
-        requestListeners.add(jProxy == null? listener : jProxy.create(listener,ItsNatServletRequestListener.class));
+        requestListeners.add(listener);
     }
 
     @Override
@@ -497,9 +501,13 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
         JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+        if (jProxy != null)
+        {
+            listener = jProxy.create(listener,ItsNatServletRequestListener.class);
+        }        
         
         LinkedList<ItsNatServletRequestListener> requestListeners = getItsNatServletRequestListenerList();
-        requestListeners.remove(jProxy == null? listener : jProxy.create(listener,ItsNatServletRequestListener.class)); // Ver el manual de RelProxy sobre el uso de equals y proxies
+        requestListeners.remove(listener); // Ver el manual de RelProxy sobre el uso de equals y proxies
     }
 
     public LinkedList<ItsNatAttachedClientEventListener> getItsNatAttachedClientEventListenerList()

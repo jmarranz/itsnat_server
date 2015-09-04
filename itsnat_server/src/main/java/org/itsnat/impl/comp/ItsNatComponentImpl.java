@@ -43,6 +43,7 @@ import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.mut.doc.BeforeAfterMutationRenderListener;
 import org.itsnat.impl.core.mut.doc.DocMutationEventListenerImpl;
+import org.itsnat.impl.core.listener.EventListenerInternal;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -52,7 +53,7 @@ import org.w3c.dom.events.MutationEvent;
  *
  * @author jmarranz
  */
-public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements ItsNatComponentInternal,EventListener,BeforeAfterMutationRenderListener
+public abstract class ItsNatComponentImpl extends ItsNatUserDataImpl implements ItsNatComponentInternal,EventListenerInternal,BeforeAfterMutationRenderListener
 {
     protected ItsNatDocComponentManagerImpl componentMgr;
     protected Map<String,Object> artifacts;

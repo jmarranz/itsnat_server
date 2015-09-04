@@ -40,6 +40,7 @@ public class MarkupSourceLocalFileImpl extends MarkupSourceFromFileImpl
         else this.url = "file:" + path;
     }
 
+    @Override
     public long getCurrentTimestamp(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         // Es multihilo
@@ -48,17 +49,20 @@ public class MarkupSourceLocalFileImpl extends MarkupSourceFromFileImpl
         return file.lastModified();
     }
 
+    @Override
     public boolean isMustReload(long oldTimestamp,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         long currentTimeStamp = getCurrentTimestamp(request,response);
         return (currentTimeStamp > oldTimestamp);
     }
 
+    @Override
     public InputSource createInputSource(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return new InputSource(url);
     }
 
+    @Override
     public Object getSource()
     {
         return url;

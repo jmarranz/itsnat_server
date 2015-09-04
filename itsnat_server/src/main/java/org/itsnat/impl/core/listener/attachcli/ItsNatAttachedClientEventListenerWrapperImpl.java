@@ -50,11 +50,13 @@ public abstract class ItsNatAttachedClientEventListenerWrapperImpl extends ItsNa
         return clientDoc;
     }
 
+    @Override
     public int getCommModeDeclared()
     {
         return clientDoc.getCommModeDeclared();
     }
 
+    @Override
     public long getEventTimeout()
     {
         return clientDoc.getEventTimeout();

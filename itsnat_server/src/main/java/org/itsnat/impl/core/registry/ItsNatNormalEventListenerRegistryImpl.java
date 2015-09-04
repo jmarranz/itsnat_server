@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.registry;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Map;
 import org.itsnat.core.ItsNatException;
@@ -27,7 +26,7 @@ import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapUniqueId;
 import org.w3c.dom.Node;
@@ -41,7 +40,7 @@ import org.w3c.dom.views.DocumentView;
  *
  * @author jmarranz
  */
-public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListenerRegistryImpl implements Serializable
+public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListenerRegistryImpl
 {
     protected ItsNatStfulDocumentImpl itsNatDoc;
     protected ClientDocumentStfulImpl clientDocTarget; // Si es null es que el registro es a nivel de documento y pertenece a todos los clientes
@@ -207,7 +206,7 @@ public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListene
         if (svgWebNodes != null)
         {
             final LinkedList<ItsNatNormalEventListenerWrapperImpl> svgWebNodes2 = svgWebNodes;
-            EventListener listener = new EventListenerInternal()
+            EventListener listener = new EventListenerSerializableInternal()
             {
                 public void handleEvent(Event evt)
                 {

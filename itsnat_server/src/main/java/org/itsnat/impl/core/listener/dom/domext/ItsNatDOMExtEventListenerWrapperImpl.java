@@ -36,6 +36,7 @@ public abstract class ItsNatDOMExtEventListenerWrapperImpl extends ItsNatNormalE
         super(itsNatDoc,clientDoc,element,listener,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }
 
+    @Override
     public boolean getUseCapture()
     {
         return false;

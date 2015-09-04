@@ -15,21 +15,20 @@
 */
 package org.itsnat.impl.core.resp.shared.bybrow.web;
 
-import java.io.Serializable;
 import org.itsnat.core.ClientDocument;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulLoadDocImpl;
 import org.itsnat.impl.core.resp.shared.ResponseDelegateStfulWebLoadDocImpl;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public class RewriteClientUIControlPropsOperaOldLoadListenerImpl implements EventListener,Serializable
+public class RewriteClientUIControlPropsOperaOldLoadListenerImpl implements EventListenerSerializableInternal
 {
     protected ClientDocumentStfulImpl clientDoc;
 
@@ -38,6 +37,7 @@ public class RewriteClientUIControlPropsOperaOldLoadListenerImpl implements Even
         this.clientDoc = clientDoc;
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         StringBuilder code = new StringBuilder();

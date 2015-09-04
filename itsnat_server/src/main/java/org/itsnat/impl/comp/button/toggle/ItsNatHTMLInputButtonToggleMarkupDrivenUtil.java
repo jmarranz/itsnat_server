@@ -19,14 +19,13 @@ package org.itsnat.impl.comp.button.toggle;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import javax.swing.JToggleButton.ToggleButtonModel;
 import org.itsnat.impl.comp.ItsNatHTMLFormCompMarkupDrivenUtil;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.MutationEvent;
 import org.w3c.dom.html.HTMLInputElement;
 
@@ -34,7 +33,7 @@ import org.w3c.dom.html.HTMLInputElement;
  *
  * @author jmarranz
  */
-public class ItsNatHTMLInputButtonToggleMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListener,Serializable  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
+public class ItsNatHTMLInputButtonToggleMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListenerSerializableInternal  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
 {
     public ItsNatHTMLInputButtonToggleMarkupDrivenUtil(ItsNatHTMLInputButtonToggleImpl comp)
     {
@@ -66,6 +65,7 @@ public class ItsNatHTMLInputButtonToggleMarkupDrivenUtil extends ItsNatHTMLFormC
         return (ItsNatHTMLInputButtonToggleImpl)comp;
     }
 
+    @Override
     public void preSetDefaultDataModel(Object dataModel)
     {
         HTMLInputElement elem = getItsNatHTMLInputButtonToggle().getHTMLInputElement();
@@ -75,12 +75,14 @@ public class ItsNatHTMLInputButtonToggleMarkupDrivenUtil extends ItsNatHTMLFormC
         buttonModel.setSelected(checked);
     }
 
+    @Override
     public void initialSyncUIWithDataModel()
     {
         Element elem = comp.getElement();
         ((ItsNatNodeInternal)elem).addEventListenerInternal("DOMAttrModified",this, false);
     }
 
+    @Override
     public void dispose()
     {
         Element elem = comp.getElement();
@@ -104,6 +106,7 @@ public class ItsNatHTMLInputButtonToggleMarkupDrivenUtil extends ItsNatHTMLFormC
         }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         if (comp.isServerUpdatingFromClient())

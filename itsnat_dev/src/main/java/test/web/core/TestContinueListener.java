@@ -43,6 +43,10 @@ public class TestContinueListener implements EventListener,Serializable
         load();
     }
 
+    public TestContinueListener() // Para probar con RelProxy
+    {
+    }    
+    
     public void load()
     {
         Document doc = itsNatDoc.getDocument();
@@ -50,6 +54,7 @@ public class TestContinueListener implements EventListener,Serializable
         ((EventTarget)link).addEventListener("click",this,false);
     }
 
+    @Override
     public void handleEvent(final Event evt)
     {
         ItsNatDOMStdEvent itsNatEvent = (ItsNatDOMStdEvent)evt;
@@ -57,6 +62,7 @@ public class TestContinueListener implements EventListener,Serializable
 
         EventListener listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;

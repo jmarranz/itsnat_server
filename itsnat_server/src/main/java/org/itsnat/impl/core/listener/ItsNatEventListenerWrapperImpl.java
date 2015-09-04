@@ -46,11 +46,13 @@ public abstract class ItsNatEventListenerWrapperImpl implements HasUniqueId,Seri
         return itsNatDoc;
     }
 
+    @Override
     public String getId()
     {
         return idObj.getId();
     }
 
+    @Override
     public UniqueId getUniqueId()
     {
         return idObj;

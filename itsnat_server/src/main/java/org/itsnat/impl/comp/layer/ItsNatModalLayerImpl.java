@@ -40,7 +40,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulMapImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.event.ItsNatEventImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
@@ -153,7 +153,7 @@ public abstract class ItsNatModalLayerImpl extends ItsNatElementComponentImpl im
 
     protected void registerUnexpectedEventListenerDetection()
     {
-        this.detectUnexpectedEventListener = new EventListenerInternal()
+        this.detectUnexpectedEventListener = new EventListenerSerializableInternal()
         {
             public void handleEvent(Event evt)
             {

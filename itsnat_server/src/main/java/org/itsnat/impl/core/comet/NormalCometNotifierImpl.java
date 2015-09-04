@@ -22,7 +22,7 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.CommModeImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.event.client.dom.domext.ClientItsNatNormalCometEventImpl;
 import org.itsnat.impl.core.listener.EventListenerUtil;
@@ -57,7 +57,7 @@ public class NormalCometNotifierImpl extends CometNotifierImpl
         this.preSendCode = preSendCode;
         this.eventTimeout = eventTimeout;
 
-        this.listenerDispatcher = new EventListenerInternal()
+        this.listenerDispatcher = new EventListenerSerializableInternal()
         {
             public void handleEvent(Event evt)
             {

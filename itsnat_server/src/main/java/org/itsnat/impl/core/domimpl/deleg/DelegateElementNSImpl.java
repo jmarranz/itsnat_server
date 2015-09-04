@@ -21,15 +21,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.domimpl.ElementNSImpl;
+import org.itsnat.impl.core.listener.EventListenerInternal;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class DelegateElementNSImpl extends DelegateNotDocWithtParentNodeImpl
-        implements EventListener
+public abstract class DelegateElementNSImpl extends DelegateNotDocWithtParentNodeImpl implements EventListenerInternal
 {
     protected boolean disconnectedChildNodesFromClient = false;
     
@@ -43,11 +42,13 @@ public abstract class DelegateElementNSImpl extends DelegateNotDocWithtParentNod
         return (ElementNSImpl)node;
     }
     
+    @Override
     public void checkHasSenseDisconnectedChildNodesFromClient()
     {
         checkHasSenseDisconnectedFromClient();
     }
         
+    @Override
     public boolean isDisconnectedChildNodesFromClient()
     {
         checkHasSenseDisconnectedChildNodesFromClient();
@@ -58,6 +59,7 @@ public abstract class DelegateElementNSImpl extends DelegateNotDocWithtParentNod
         return disconnectedChildNodesFromClient;
     }
 
+    @Override
     public void setDisconnectedChildNodesFromClient(boolean disconnectedChildNodesFromClient)
     {
         checkHasSenseDisconnectedChildNodesFromClient();
@@ -84,6 +86,7 @@ public abstract class DelegateElementNSImpl extends DelegateNotDocWithtParentNod
         }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // El evento es disparado también al eliminar del documento nodos hijo de este elemento

@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.core.registry;
 
-import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
@@ -30,7 +29,7 @@ import org.itsnat.impl.core.util.MapUniqueId;
  *
  * @author jmarranz
  */
-public abstract class CometTaskRegistryImpl extends EventListenerRegistryImpl implements Serializable
+public abstract class CometTaskRegistryImpl extends EventListenerRegistryImpl
 {
     protected MapUniqueId<ItsNatEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;

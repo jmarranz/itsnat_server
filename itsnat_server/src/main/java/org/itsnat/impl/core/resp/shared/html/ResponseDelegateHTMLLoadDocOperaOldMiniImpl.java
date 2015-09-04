@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.shared.html;
 
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.itsnat.impl.core.resp.ResponseLoadStfulDocumentValid;
 import org.w3c.dom.Document;
 import org.w3c.dom.events.Event;
@@ -57,7 +57,7 @@ public class ResponseDelegateHTMLLoadDocOperaOldMiniImpl extends ResponseDelegat
 
         Document doc = clientDoc.getItsNatStfulDocument().getDocument();
         AbstractView view = ((DocumentView)doc).getDefaultView();
-        EventListener listener = new EventListenerInternal()
+        EventListener listener = new EventListenerSerializableInternal()
         {
             public void handleEvent(Event evt) {}
         };

@@ -86,6 +86,7 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         else return false; // No estoy seguro
     }
 
+    @Override
     public boolean canReceiveNormalEvents(EventListener listener)
     {
         if (canReceiveALLNormalEvents()) return true; // Como puede recibir todos los eventos el listener del parámetro está incluido sea cual sea

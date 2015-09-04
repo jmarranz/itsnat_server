@@ -24,7 +24,7 @@ import org.itsnat.impl.core.browser.web.BrowserSVGPlugin;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
@@ -114,7 +114,7 @@ public class ItsNatCompNormalEventListenersJoystickSharedImpl
             // En tiempo de carga en modo fast load el acceso a nodos no tolera cambios en el DOM de elementos eliminados/cambiados de posición
             // y eso puede ocurrir mientras se construye la lista
             // Tenemos que delegar el proceso a después de la carga
-            EventListener listener = new EventListenerInternal()
+            EventListener listener = new EventListenerSerializableInternal()
             {
                 @Override
                 public void handleEvent(Event evt)

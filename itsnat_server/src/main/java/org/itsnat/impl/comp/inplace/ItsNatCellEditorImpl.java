@@ -16,7 +16,6 @@
 
 package org.itsnat.impl.comp.inplace;
 
-import java.io.Serializable;
 import javax.swing.AbstractCellEditor;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.core.event.ItsNatEvent;
@@ -25,7 +24,7 @@ import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
@@ -35,7 +34,7 @@ import org.w3c.dom.events.EventListener;
  *
  * @author jmarranz
  */
-public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements EventListener,Serializable
+public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements EventListenerSerializableInternal
 {
     protected DelegateComponentEditorImpl delegate;
     protected ItsNatStfulDocComponentManagerImpl componentMgr;
@@ -52,7 +51,7 @@ public abstract class ItsNatCellEditorImpl extends AbstractCellEditor implements
 
         this.delegate = DelegateComponentEditorImpl.createDelegateComponentEditor(compEditor,this);
 
-        this.globalEventListener = new EventListenerInternal()
+        this.globalEventListener = new EventListenerSerializableInternal()
         {
             public void handleEvent(Event evt)
             {

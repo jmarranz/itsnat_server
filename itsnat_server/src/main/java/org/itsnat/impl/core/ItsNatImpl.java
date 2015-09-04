@@ -85,6 +85,7 @@ public class ItsNatImpl implements ItsNat
         return itsNatContext;
     }
 
+    @Override
     public ItsNatServlet createItsNatServlet(Servlet servlet)
     {
         // No se conoce otro tipo de Servlet que el Http
@@ -105,11 +106,13 @@ public class ItsNatImpl implements ItsNat
         }
     }
 
+    @Override
     public Object getFeature(String name)
     {
         return features.get(name);
     }
 
+    @Override
     public Object setFeature(String name, Object value)
     {
         if (value == null) throw new ItsNatException("Null value is not allowed",this);
@@ -174,31 +177,37 @@ public class ItsNatImpl implements ItsNat
     }
 */
 
+    @Override
     public boolean containsUserValueName(String name)
     {
         return userData.containsUserValueName(name);
     }
 
+    @Override
     public Object getUserValue(String name)
     {
         return userData.getUserValue(name);
     }
 
+    @Override
     public Object setUserValue(String name, Object value)
     {
         return userData.setUserValue(name,value);
     }
 
+    @Override
     public Object removeUserValue(String name)
     {
         return userData.removeUserValue(name);
     }
 
+    @Override
     public String[] getUserValueNames()
     {
         return userData.getUserValueNames();
     }
 
+    @Override
     public JProxyScriptEngine getJProxyScriptEngine()
     {
         if (jProxyEngine == null) jProxyEngine = (JProxyScriptEngine)JProxyScriptEngineFactory.create().getScriptEngine(); 

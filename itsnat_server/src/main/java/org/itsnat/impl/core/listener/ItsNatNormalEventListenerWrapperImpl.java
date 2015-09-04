@@ -16,11 +16,14 @@
 
 package org.itsnat.impl.core.listener;
 
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.WeakReference;
+import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
@@ -59,6 +62,13 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         this.currTargetWeakRef = currTarget != null ? new WeakReference<EventTarget>(currTarget) : null; // currTargetWeakRef puede ser null
         this.extraParams = extraParams;
         this.preSendCode = preSendCode;
+        
+        if (listener != null && !(listener instanceof EventListenerInternal)) // EventListenerInternal son listeners internos del framework, obviamente no van a cambiar en caliente (EventListenerSerializableInternal deriva de EventListenerInternal)
+        {
+            JProxyScriptEngine jProxy = itsNatDoc.getItsNatServlet().getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+            if (jProxy != null) listener = jProxy.create(listener,EventListener.class); // Ver el manual de RelProxy sobre el uso de equals y proxies
+        }        
+        
         this.listener = listener;
         this.bindToCustomFunc = bindToCustomFunc;
         
@@ -85,6 +95,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         in.defaultReadObject();
     }    
     
+    @Override
     public long getEventTimeout()
     {
         return eventTimeout;
@@ -136,9 +147,8 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
             return null;
 
         StringBuilder code = new StringBuilder();
-        for(int i = 0; i < extraParams.length; i++)
+        for (ParamTransport param : extraParams) 
         {
-            ParamTransport param = extraParams[i];
             JSAndBSRenderParamTransport paramRender = JSAndBSRenderParamTransport.getSingleton(param);
             String paramCode = paramRender.getCodeToSend(param,clientDoc);
             if (paramCode != null)

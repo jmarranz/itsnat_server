@@ -18,7 +18,6 @@ package org.itsnat.impl.core.registry;
 
 import org.itsnat.impl.core.listener.dom.domext.AsyncTaskImpl;
 import org.itsnat.impl.core.listener.dom.domext.ItsNatAsyncTaskEventListenerWrapperImpl;
-import java.io.Serializable;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
@@ -33,7 +32,7 @@ import org.w3c.dom.events.EventTarget;
  *
  * @author jmarranz
  */
-public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl implements Serializable
+public class ItsNatAsyncTaskRegistryImpl extends EventListenerRegistryImpl
 {
     protected MapUniqueId<ItsNatAsyncTaskEventListenerWrapperImpl> tasks;
     protected ClientDocumentStfulImpl clientDoc;

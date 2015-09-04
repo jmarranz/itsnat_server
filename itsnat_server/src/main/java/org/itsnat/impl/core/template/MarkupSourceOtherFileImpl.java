@@ -38,11 +38,13 @@ public class MarkupSourceOtherFileImpl extends MarkupSourceFromFileImpl
         this.timeStamp = System.currentTimeMillis();
     }
 
+    @Override
     public long getCurrentTimestamp(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return timeStamp;
     }
 
+    @Override
     public boolean isMustReload(long currentTimestamp,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         // Decidimos no recargar para cada request de carga de template,
@@ -50,6 +52,7 @@ public class MarkupSourceOtherFileImpl extends MarkupSourceFromFileImpl
         return false;
     }
 
+    @Override
     public InputSource createInputSource(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         try
@@ -63,6 +66,7 @@ public class MarkupSourceOtherFileImpl extends MarkupSourceFromFileImpl
         }
     }
 
+    @Override
     public Object getSource()
     {
         return url.toExternalForm(); // Devuelve la URL al menos en el caso HTTP, comprobado

@@ -31,6 +31,7 @@ public abstract class DelegateNotDocWithtParentNodeImpl extends DelegateNotDocum
         super(node);
     }
 
+    @Override
     public boolean isDisconnectedFromClient()
     {
         checkHasSenseDisconnectedFromClient();

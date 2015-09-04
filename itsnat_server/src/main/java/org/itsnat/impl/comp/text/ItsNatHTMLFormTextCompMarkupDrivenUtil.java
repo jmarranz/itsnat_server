@@ -19,22 +19,21 @@ package org.itsnat.impl.comp.text;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import org.itsnat.impl.comp.ItsNatHTMLFormCompMarkupDrivenUtil;
 import org.itsnat.impl.comp.ItsNatHTMLFormComponentImpl;
 import javax.swing.text.Document;
 import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.MutationEvent;
 
 /**
  *
  * @author jmarranz
  */
-public class ItsNatHTMLFormTextCompMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListener,Serializable  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
+public class ItsNatHTMLFormTextCompMarkupDrivenUtil extends ItsNatHTMLFormCompMarkupDrivenUtil implements EventListenerSerializableInternal  // Yo creo que el Serializable no se necesita porque el EventListener es para mutation events internos
 {
     public ItsNatHTMLFormTextCompMarkupDrivenUtil(ItsNatHTMLFormTextComponentInternal comp)
     {
@@ -66,6 +65,7 @@ public class ItsNatHTMLFormTextCompMarkupDrivenUtil extends ItsNatHTMLFormCompMa
         return (ItsNatHTMLFormTextComponentInternal)comp;
     }
 
+    @Override
     public void preSetDefaultDataModel(Object dataModel)
     {
         Element elem = comp.getElement();
@@ -73,12 +73,14 @@ public class ItsNatHTMLFormTextCompMarkupDrivenUtil extends ItsNatHTMLFormCompMa
         ItsNatHTMLFormTextCompSharedImpl.setText((Document)dataModel, str);
     }
 
+    @Override
     public void initialSyncUIWithDataModel()
     {
         Element elem = comp.getElement();
         ((ItsNatNodeInternal)elem).addEventListenerInternal("DOMAttrModified",this, false);
     }
 
+    @Override
     public void dispose()
     {
         Element elem = comp.getElement();
@@ -102,6 +104,7 @@ public class ItsNatHTMLFormTextCompMarkupDrivenUtil extends ItsNatHTMLFormCompMa
         }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // Ojo, se espera un evento interno (mutation event) no remoto.

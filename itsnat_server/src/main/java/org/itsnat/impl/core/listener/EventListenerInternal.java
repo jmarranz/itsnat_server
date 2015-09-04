@@ -14,18 +14,16 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.event;
+package org.itsnat.impl.core.listener;
 
-import java.io.Serializable;
 import org.w3c.dom.events.EventListener;
 
 /**
- * Interface de utilidad para añadir el Serializable en listeners
- * creados como anonymous inner classes (new EventListener() { ...}; )
- *
+ * Interface de utilidad para identificar los EventListener internos de ItsNat (es necesario un instanceof EventListenerInternal para JProxy) respecto a los del usuario, puesto que EventListenerInternal NO es público
+ * 
  * @author jmarranz
  */
-public interface EventListenerInternal extends EventListener,Serializable
+public interface EventListenerInternal extends EventListener
 {
 
 }

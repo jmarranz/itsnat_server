@@ -136,6 +136,7 @@ public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener
         targetList.addItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener(),listenerWrapper);
     }
 
+    @Override
     public void processExpunged(Object value)
     {
         ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)value;

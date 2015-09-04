@@ -35,6 +35,10 @@ public class TestAddRowListener implements EventListener,Serializable
         load(itsNatDoc);
     }
 
+    public TestAddRowListener() // Necesario para probar con RelProxy
+    {
+    }    
+    
     public void load(ItsNatDocument itsNatDoc)
     {
         Element addRowElem = itsNatDoc.getDocument().getElementById("add-row");

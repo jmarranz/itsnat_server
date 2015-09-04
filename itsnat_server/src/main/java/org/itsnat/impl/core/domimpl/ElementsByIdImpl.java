@@ -18,18 +18,17 @@ package org.itsnat.impl.core.domimpl;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.batik.dom.AbstractAttr;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
 
 /**
  *
@@ -58,7 +57,7 @@ import org.w3c.dom.events.EventListener;
 
  * @author jmarranz
  */
-public class ElementsByIdImpl implements EventListener,Serializable
+public class ElementsByIdImpl implements EventListenerSerializableInternal
 {
     protected DocumentImpl doc;
     protected Map<String,Object> elementsById;

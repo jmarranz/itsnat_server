@@ -38,7 +38,7 @@ import org.itsnat.impl.core.dompath.DOMPathResolver;
 import org.itsnat.impl.core.dompath.NodeLocationImpl;
 import org.itsnat.impl.core.dompath.NodeLocationWithParentImpl;
 import org.itsnat.impl.core.event.EventInternal;
-import org.itsnat.impl.core.event.EventListenerInternal;
+import org.itsnat.impl.core.listener.EventListenerSerializableInternal;
 import org.w3c.dom.Node;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventException;
@@ -285,8 +285,9 @@ public abstract class ClientDocumentStfulDelegateImpl implements Serializable
             // A los clientes control remoto no hay que enviar (sólo un posible cacheado del nodo lo cual ya se ha hecho antes indirectamente en getNodeLocationWithParent)
             clientDoc.addCodeToSend( getCodeDispatchEvent(target,evt,"res",this) );
 
-            EventListener listener = new EventListenerInternal()
+            EventListener listener = new EventListenerSerializableInternal()
             {
+                @Override
                 public void handleEvent(Event evt)
                 {
                     ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;

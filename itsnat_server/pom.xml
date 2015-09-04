@@ -6,7 +6,7 @@
     <version>1.4</version>
     <packaging>jar</packaging>
     
-    <name>ItsNat Server</name>
+    <name>itsnat_server</name>
     <description>ItsNat : Natural AJAX. Component Based Java Web Application Framework</description>
     <url>http://www.itsnat.org</url>
     <licenses>
