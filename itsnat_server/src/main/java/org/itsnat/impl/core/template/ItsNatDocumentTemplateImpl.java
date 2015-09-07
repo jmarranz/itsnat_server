@@ -530,21 +530,29 @@ public abstract class ItsNatDocumentTemplateImpl extends MarkupTemplateImpl impl
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
 
-        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();          
+        JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+        if (jProxy != null)
+        {      
+            listener = jProxy.create(listener,ItsNatAttachedClientEventListener.class);
+        }
         
         LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
-        attachedEventListeners.add(jProxy == null ? listener : jProxy.create(listener,ItsNatAttachedClientEventListener.class));
+        attachedEventListeners.add(listener);
     }
 
     @Override
     public void removeItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar la lista pues si es sólo lectura admite múltiples hilos
-
+       
         JProxyScriptEngine jProxy = servlet.getItsNatImpl().getJProxyScriptEngineIfConfigured();        
+        if (jProxy != null)
+        {      
+            listener = jProxy.create(listener,ItsNatAttachedClientEventListener.class);
+        }                
         
         LinkedList<ItsNatAttachedClientEventListener> attachedEventListeners = getItsNatAttachedClientEventListenerList();
-        attachedEventListeners.remove(jProxy == null ? listener : jProxy.create(listener,ItsNatAttachedClientEventListener.class));
+        attachedEventListeners.remove(listener);
     }
 
     public boolean hasGlobalEventListenerListeners()

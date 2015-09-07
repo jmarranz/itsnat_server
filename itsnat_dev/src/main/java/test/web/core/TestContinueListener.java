@@ -43,7 +43,7 @@ public class TestContinueListener implements EventListener,Serializable
         load();
     }
 
-    public TestContinueListener() // Para probar con RelProxy
+    public TestContinueListener() // Necesario para probar con RelProxy
     {
     }    
     

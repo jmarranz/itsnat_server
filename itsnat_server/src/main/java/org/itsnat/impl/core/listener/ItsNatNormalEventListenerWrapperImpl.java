@@ -56,19 +56,21 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
     {
         super(itsNatDoc);
 
+        if (listener != null && !(listener instanceof EventListenerInternal)) // EventListenerInternal son listeners internos del framework, obviamente no van a cambiar en caliente (EventListenerSerializableInternal deriva de EventListenerInternal)
+        {
+            JProxyScriptEngine jProxy = itsNatDoc.getItsNatServlet().getItsNatImpl().getJProxyScriptEngineIfConfigured();
+            if (jProxy != null)
+            {
+                listener = jProxy.create(listener,EventListener.class);
+            }            
+        }        
+        
         this.clientDoc = clientDoc; // A día de hoy no lo necesitamos, puede ser nulo (listener a nivel de documento)
         this.eventTimeout = eventTimeout;
 
         this.currTargetWeakRef = currTarget != null ? new WeakReference<EventTarget>(currTarget) : null; // currTargetWeakRef puede ser null
         this.extraParams = extraParams;
-        this.preSendCode = preSendCode;
-        
-        if (listener != null && !(listener instanceof EventListenerInternal)) // EventListenerInternal son listeners internos del framework, obviamente no van a cambiar en caliente (EventListenerSerializableInternal deriva de EventListenerInternal)
-        {
-            JProxyScriptEngine jProxy = itsNatDoc.getItsNatServlet().getItsNatImpl().getJProxyScriptEngineIfConfigured();        
-            if (jProxy != null) listener = jProxy.create(listener,EventListener.class); // Ver el manual de RelProxy sobre el uso de equals y proxies
-        }        
-        
+        this.preSendCode = preSendCode;   
         this.listener = listener;
         this.bindToCustomFunc = bindToCustomFunc;
         
@@ -157,7 +159,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         return code.toString();
     }
 
-    public EventListener getEventListener()
+    public EventListener getEventListenerOrProxy()
     {
         return listener;
     }

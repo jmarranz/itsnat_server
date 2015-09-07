@@ -94,13 +94,13 @@ public abstract class ItsNatCompNormalEventListenersImpl implements Serializable
         if (before)
         {
             if (userNormalEventListenersBefore == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userNormalEventListenersBefore = new ItsNatNormalEventListenerListSameTarget();
+                this.userNormalEventListenersBefore = new ItsNatNormalEventListenerListSameTarget(getItsNatDocumentImpl());
             return userNormalEventListenersBefore;
         }
         else
         {
             if (userNormalEventListenersAfter == null) // Para ahorrar memoria si no se usa (ej. Labels)
-                this.userNormalEventListenersAfter = new ItsNatNormalEventListenerListSameTarget();
+                this.userNormalEventListenersAfter = new ItsNatNormalEventListenerListSameTarget(getItsNatDocumentImpl());
             return userNormalEventListenersAfter;
         }
     }

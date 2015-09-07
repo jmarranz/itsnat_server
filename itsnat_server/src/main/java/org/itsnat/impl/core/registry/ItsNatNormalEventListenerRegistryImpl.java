@@ -58,6 +58,11 @@ public abstract class ItsNatNormalEventListenerRegistryImpl extends EventListene
         this.eventListenersById = new MapUniqueId<ItsNatNormalEventListenerWrapperImpl>(itsNatDoc.getUniqueIdGenerator());
     }
 
+    public ItsNatStfulDocumentImpl getItsNatStfulDocumentImpl()
+    {
+        return itsNatDoc;
+    }
+    
     public ClientDocumentStfulImpl getClientDocumentStfulTarget()
     {
         return clientDocTarget; // puede ser null

@@ -35,11 +35,13 @@ public class JSRenderItsNatDOMStdEventListenerSVGWebRootImpl extends JSRenderIts
     {
     }
 
+    @Override
     public boolean needsAddListenerReturnElement()
     {
         return false;
     }
 
+    @Override
     public boolean needsRemoveListenerReturnElement()
     {
         return false;
@@ -49,7 +51,7 @@ public class JSRenderItsNatDOMStdEventListenerSVGWebRootImpl extends JSRenderIts
     protected String addItsNatDOMStdEventListenerCode(ItsNatDOMStdEventListenerWrapperImpl itsNatListener,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         if (itsNatListener.getType().equals("SVGLoad") && 
-            !(itsNatListener.getEventListener() instanceof WaitForEventListenerImpl))
+            !(itsNatListener.getEventListenerOrProxy() instanceof WaitForEventListenerImpl))
         {
             // Es un SVGLoad del usuario vinculado
             EventTarget currTarget = itsNatListener.getCurrentTarget();

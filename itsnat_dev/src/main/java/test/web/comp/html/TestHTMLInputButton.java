@@ -9,6 +9,9 @@
 
 package test.web.comp.html;
 
+import java.lang.reflect.Constructor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.itsnat.core.event.ItsNatDOMStdEvent;
 import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
@@ -21,6 +24,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.html.HTMLInputElement;
 import test.shared.TestUtil;
 import test.web.comp.TestButtonBase;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -38,6 +42,13 @@ public class TestHTMLInputButton extends TestButtonBase implements EventListener
         initButton();
     }
 
+
+    public TestHTMLInputButton() // Necesario para probar con RelProxy  
+    {
+        super(null);
+    }     
+    
+    
     public void initButton()
     {
         Document doc = itsNatDoc.getDocument();
@@ -60,8 +71,20 @@ public class TestHTMLInputButton extends TestButtonBase implements EventListener
 
         dataModel.addChangeListener(this);
         dataModel.addActionListener(this);
+        
+        // Test RelProxy
+        if (false)
+        {
+        input.addEventListener("click",new EventListenerSerial() {
+            @Override
+            public void handleEvent(Event evt) {
+                itsNatDoc.addCodeToSend("alert('OK 3');");            
+            }
+        });        
+        }
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         ItsNatDOMStdEvent itsNatEvent = (ItsNatDOMStdEvent)evt;
@@ -70,7 +93,7 @@ public class TestHTMLInputButton extends TestButtonBase implements EventListener
         ItsNatHTMLInputButton input = (ItsNatHTMLInputButton)componentMgr.findItsNatComponent((Node)evt.getCurrentTarget());
         outText("OK " + evt.getType() + " "); // Para que se vea
 
-        input.setLabelValue("Button " + evt.getType());
+        input.setLabelValue("Button " + evt.getType()); //  + " HOLA"
     }
 
 }

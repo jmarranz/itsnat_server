@@ -36,25 +36,33 @@ public class TestEventCapture implements Serializable
         load();
     }
 
+    public TestEventCapture() // Needed by RelProxy
+    {
+    }    
+    
     public void load()
     {
         this.element = itsNatDoc.getDocument().getElementById("eventCaptureId"); // <a>
         Element parent = (Element)element.getParentNode(); // parent
 
+        // Test RelProxy anonymous inner class: modify the text in addToChild() 
         EventListener listener;
 
         listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 addToChild(" At Target");
             }
         };
-
         ((EventTarget)element).addEventListener("click",listener,false);
 
+        // ((EventTarget)element).removeEventListener("click",listener,false);        
+        
         listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 addToChild(" Captured");
@@ -64,6 +72,7 @@ public class TestEventCapture implements Serializable
 
         listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 addToChild(" Bubble");

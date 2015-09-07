@@ -18,6 +18,7 @@ package org.itsnat.impl.core.registry;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.ItsNatNormalEventListenerListSameTarget.Pair;
 import org.itsnat.impl.core.util.WeakMapExpungeableImpl;
@@ -51,6 +52,12 @@ public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener
         this.parentRegistry = parentRegistry;
     }
 
+    public ItsNatStfulDocumentImpl getItsNatStfulDocumentImpl()
+    {
+        return parentRegistry.getItsNatStfulDocumentImpl();
+    }
+    
+    
     public boolean containsItsNatNormalEventListener(EventTarget target,String type,EventListener listener,boolean useCapture)
     {
         ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
@@ -130,10 +137,10 @@ public class WeakMapItsNatNormalEventListenerByTarget implements ExpungeListener
         ItsNatNormalEventListenerListSameTarget targetList = (ItsNatNormalEventListenerListSameTarget)eventListenersByTarget.get(target);
         if (targetList == null)
         {
-            targetList = new ItsNatNormalEventListenerListSameTarget();
+            targetList = new ItsNatNormalEventListenerListSameTarget(getItsNatStfulDocumentImpl());
             eventListenersByTarget.put(target,targetList);
         }
-        targetList.addItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener(),listenerWrapper);
+        targetList.addItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper);
     }
 
     @Override

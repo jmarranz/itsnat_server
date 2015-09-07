@@ -31,7 +31,7 @@ public class MapListImpl<K,V> implements Serializable
     public Map<K,LinkedList<V>> map = new HashMap<K,LinkedList<V>>();
 
     /**
-     * Creates a new instance of EventTargetListenerList
+     * Creates a new instance of MapListImpl
      */
     public MapListImpl()
     {

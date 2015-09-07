@@ -16,10 +16,14 @@
 
 package org.itsnat.impl.core.registry;
 
+import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
+import org.itsnat.core.event.ItsNatServletRequestListener;
+import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
+import org.itsnat.impl.core.listener.EventListenerInternal;
 import org.itsnat.impl.core.listener.ItsNatNormalEventListenerWrapperImpl;
 import org.itsnat.impl.core.util.MapListImpl;
 import org.w3c.dom.events.EventListener;
@@ -30,15 +34,22 @@ import org.w3c.dom.events.EventListener;
  */
 public class ItsNatNormalEventListenerListSameTarget implements Serializable
 {
+    protected ItsNatDocumentImpl itsNatDoc;
     protected MapListImpl<String,Pair> listeners = new MapListImpl<String,Pair>();
 
     /**
      * Creates a new instance of ItsNatNormalEventListenerListSameTarget
      */
-    public ItsNatNormalEventListenerListSameTarget()
+    public ItsNatNormalEventListenerListSameTarget(ItsNatDocumentImpl itsNatDoc)
     {
+        this.itsNatDoc = itsNatDoc;
     }
 
+    public ItsNatDocumentImpl getItsNatDocumentImpl()
+    {
+        return itsNatDoc;
+    }
+    
     public static String getKey(String type,boolean useCapture)
     {
         return useCapture + "_" + type;
@@ -53,7 +64,7 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
     {
         // El id puede ser null, hay ámbitos en los que no se utiliza
         String key = getKey(type,useCapture);
-        Pair value = new Pair(listener,null);
+        Pair value = new Pair(listener,getItsNatDocumentImpl());
         return listeners.contains(key,value);
     }
 
@@ -62,18 +73,23 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
         addItsNatNormalEventListener(type,useCapture,listener,null);
     }
 
-    public void addItsNatNormalEventListener(String type,boolean useCapture,EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
+    public void addItsNatNormalEventListener(String type,boolean useCapture,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
+    {
+        addItsNatNormalEventListener(type,useCapture,null,listenerWrapper);
+    }    
+    
+    private void addItsNatNormalEventListener(String type,boolean useCapture,EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
         // El id puede ser null, hay ámbitos en los que no se utiliza
         String key = getKey(type,useCapture);
-        Pair value = new Pair(listener,listenerWrapper);
+        Pair value = new Pair(listener,listenerWrapper,getItsNatDocumentImpl());
         listeners.add(key,value);
     }
 
     public ItsNatNormalEventListenerWrapperImpl removeItsNatNormalEventListener(String type,boolean useCapture,EventListener listener)
     {
         String key = getKey(type,useCapture);
-        Pair removed = listeners.remove(key,new Pair(listener,null));
+        Pair removed = listeners.remove(key,new Pair(listener,null,getItsNatDocumentImpl()));
         if (removed == null)
             return null;
         return removed.getListenerWrapper();
@@ -81,7 +97,7 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
 
     public boolean removeItsNatNormalEventListener(ItsNatNormalEventListenerWrapperImpl listenerWrapper)
     {
-        ItsNatNormalEventListenerWrapperImpl listenerRes = removeItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListener());
+        ItsNatNormalEventListenerWrapperImpl listenerRes = removeItsNatNormalEventListener(listenerWrapper.getType(),listenerWrapper.getUseCapture(),listenerWrapper.getEventListenerOrProxy());
         if (listenerRes == null) return false; // Ya se eliminó probablemente
         if (listenerWrapper != listenerRes)
             throw new ItsNatException("INTERNAL ERROR");
@@ -121,7 +137,7 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
         LinkedList<EventListener> evtListeners = new LinkedList<EventListener>();
         for(Pair currPair : list)
         {
-            evtListeners.add(currPair.getListener());
+            evtListeners.add(currPair.getEventListenerOrProxy());
         }
         
         chain.addFirstListenerList(evtListeners);
@@ -143,7 +159,7 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
         int i = 0;
         for(Pair currPair : list)
         {
-            listeners[i] = currPair.getListener();
+            listeners[i] = currPair.getEventListenerOrProxy();
             i++;
         }
         return listeners;
@@ -154,14 +170,42 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
         private final EventListener listener;
         private final ItsNatNormalEventListenerWrapperImpl listenerWrapper; // puede ser null en el caso de búsqueda
 
-        public Pair(EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper)
+        private Pair(ItsNatNormalEventListenerWrapperImpl listenerWrapper,ItsNatDocumentImpl itsNatDoc)
+        {        
+            this(null,listenerWrapper,itsNatDoc);
+        }
+        
+        private Pair(EventListener listener,ItsNatDocumentImpl itsNatDoc)
+        {        
+            this(listener,null,itsNatDoc);
+        }        
+        
+        private Pair(EventListener listener,ItsNatNormalEventListenerWrapperImpl listenerWrapper,ItsNatDocumentImpl itsNatDoc)
         {
-            this.listener = listener;
-            this.listenerWrapper = listenerWrapper; // puede ser null en el caso de que no se conozca
+            if (listenerWrapper == null)
+            {
+                if (listener == null) throw new ItsNatException("INTERNAL ERROR");
+                if (!(listener instanceof EventListenerInternal)) // EventListenerInternal son listeners internos del framework, obviamente no van a cambiar en caliente (EventListenerSerializableInternal deriva de EventListenerInternal)
+                {
+                    JProxyScriptEngine jProxy = itsNatDoc.getItsNatServlet().getItsNatImpl().getJProxyScriptEngineIfConfigured();
+                    if (jProxy != null)
+                    {
+                        listener = jProxy.create(listener,EventListener.class);
+                    }            
+                }
+                this.listener = listener; 
+                this.listenerWrapper = null;
+            }
+            else
+            {
+                this.listener = null; 
+                this.listenerWrapper = listenerWrapper; // puede ser null en el caso de que no se conozca (búsqueda de listener)
+            }
         }
 
-        public EventListener getListener()
+        public EventListener getEventListenerOrProxy()
         {
+            if (listenerWrapper != null) return listenerWrapper.getEventListenerOrProxy();
             return listener;
         }
 
@@ -178,7 +222,7 @@ public class ItsNatNormalEventListenerListSameTarget implements Serializable
             if (other == null) return false;
             // El listenerWrapper no cuenta pues puede ser null
             // listener no puede ser null, pero puede ser un Proxy creado por JProxy, no usar ==
-            return listener.equals(((Pair)other).listener);
+            return getEventListenerOrProxy().equals(((Pair)other).getEventListenerOrProxy());
         }
 
         @Override

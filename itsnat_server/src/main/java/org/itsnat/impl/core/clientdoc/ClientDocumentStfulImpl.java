@@ -113,7 +113,7 @@ public abstract class ClientDocumentStfulImpl extends ClientDocumentImpl
         if (evtListener instanceof ItsNatDOMEventStatelessListenerWrapperImpl)
             return true; // Es una excepción
         
-        return canReceiveNormalEvents(evtListener.getEventListener());
+        return canReceiveNormalEvents(evtListener.getEventListenerOrProxy());
     }
     
     
