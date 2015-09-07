@@ -41,6 +41,7 @@ public class ItsNatSVGDocumentImpl extends ItsNatOtherNSDocumentImpl
             this.scriptingEnabled = false; // MSIE no tiene ni idea de SVG, para ello están los plugins (ASV)
     }
 
+    @Override
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()
     {
         return new ItsNatSVGDocComponentManagerImpl(this);

@@ -20,14 +20,11 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.core.browser.Browser;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedClientImpl;
 import org.itsnat.impl.core.doc.ItsNatStfulDocumentImpl;
-import org.itsnat.impl.core.event.server.dom.domstd.ServerItsNatDOMStdEventImpl;
 import org.itsnat.impl.core.listener.dom.domstd.ItsNatDOMStdEventListenerWrapperImpl;
 import org.itsnat.impl.core.registry.dom.domstd.ItsNatDOMStdEventListenerRegistryImpl;
 import org.itsnat.impl.core.servlet.ItsNatSessionImpl;
 import org.itsnat.impl.core.template.ItsNatDocumentTemplateVersionImpl;
 import org.w3c.dom.Document;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventException;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
@@ -53,6 +50,7 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         return getDOMStdEventListenerRegistry().getItsNatDOMStdEventListenerById(listenerId);
     }    
     
+    @Override
     public void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         addDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
@@ -63,6 +61,7 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         getDOMStdEventListenerRegistry().addItsNatDOMStdEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }    
     
+    @Override
     public void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         removeDOMStdEventListener(target,type,listener,useCapture,updateClient);
@@ -73,16 +72,19 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         getDOMStdEventListenerRegistry().removeItsNatDOMStdEventListener(target,type,listener,useCapture,updateClient);
     }    
     
+    @Override
     public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         getDOMStdEventListenerRegistry().addMutationEventListener(target,listener,useCapture,commMode,preSendCode,eventTimeout,bindToCustomFunc);
     }
     
+    @Override
     public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
     {
         getDOMStdEventListenerRegistry().addMutationEventListener(nodeTarget,mutationListener,useCapture,getCommMode(),getEventTimeout());
     }
 
+    @Override
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
     {
         getDOMStdEventListenerRegistry().removeMutationEventListener(target,listener,useCapture,true);
@@ -102,12 +104,14 @@ public abstract class ItsNatStfulWebDocumentImpl extends ItsNatStfulDocumentImpl
         return domStdListenerRegistry;
     }
     
+    @Override
     public void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc)    
     {
         if (hasDOMStdEventListeners())
             getDOMStdEventListenerRegistry().renderItsNatNormalEventListeners(clientDoc);        
     }
     
+    @Override
     public int removeAllPlatformEventListeners(EventTarget target,boolean updateClient)
     {
         if (!hasDOMStdEventListeners()) return 0;

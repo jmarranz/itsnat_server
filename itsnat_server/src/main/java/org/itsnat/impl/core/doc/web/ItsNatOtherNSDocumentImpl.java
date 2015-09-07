@@ -41,6 +41,7 @@ public abstract class ItsNatOtherNSDocumentImpl extends ItsNatStfulWebDocumentIm
         super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
+    @Override
     public DocMutationEventListenerImpl createInternalMutationEventListener()
     {
         return new DocMutationEventListenerOtherNSImpl(this);
@@ -56,16 +57,19 @@ public abstract class ItsNatOtherNSDocumentImpl extends ItsNatStfulWebDocumentIm
         return (ItsNatOtherNSDocumentTemplateVersionImpl)docTemplateVersion;
     }
 
+    @Override
     public ElementGroupManagerImpl createElementGroupManager()
     {
         return new DefaultElementGroupManagerImpl(this);
     }
     
+    @Override
     public Element getVisualRootElement()
     {
         return getDocument().getDocumentElement();
     }
 
+    @Override
     public boolean isNewNodeDirectChildOfContentRoot(Node newNode)
     {
         Node parentNode = newNode.getParentNode();

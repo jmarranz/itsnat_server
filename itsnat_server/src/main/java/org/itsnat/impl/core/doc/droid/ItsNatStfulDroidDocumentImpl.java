@@ -106,6 +106,7 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         return new ItsNatStfulDroidDocComponentManagerImpl(this);
     }
     
+    @Override
     public int removeAllPlatformEventListeners(EventTarget target,boolean updateClient)
     {
         if (!hasDroidEventListeners()) return 0;
@@ -120,6 +121,7 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         return getDroidEventListenerRegistry().getItsNatDroidEventListenerById(listenerId);
     }    
     
+    @Override
     public void addPlatformEventListener(EventTarget nodeTarget,String type,EventListener listener,boolean useCapture,int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         addDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
@@ -130,6 +132,7 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         getDroidEventListenerRegistry().addItsNatDroidEventListener(nodeTarget,type,listener,useCapture,commMode,extraParams,preSendCode,eventTimeout,bindToCustomFunc);
     }    
     
+    @Override
     public void removePlatformEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         removeDroidEventListener(target,type,listener,useCapture, updateClient);
@@ -140,16 +143,19 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         getDroidEventListenerRegistry().removeItsNatDroidEventListener(target,type,listener,useCapture,updateClient);
     }    
     
+    @Override
     public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
     }
     
+    @Override
     public void addMutationEventListener(EventTarget nodeTarget,EventListener mutationListener,boolean useCapture)
     {
         throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
     }
 
+    @Override
     public void removeMutationEventListener(EventTarget target,EventListener listener,boolean useCapture)
     {
         throw new ItsNatException("Mutation events are not supported in Droid ItsNat documents");
@@ -169,6 +175,7 @@ public class ItsNatStfulDroidDocumentImpl extends ItsNatStfulDocumentImpl
         return droidEvtListenerRegistry;
     }
     
+    @Override
     public void renderPlatformEventListeners(ClientDocumentAttachedClientImpl clientDoc)    
     {
         if (hasDroidEventListeners())

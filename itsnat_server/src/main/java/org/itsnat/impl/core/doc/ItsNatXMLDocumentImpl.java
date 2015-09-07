@@ -57,232 +57,278 @@ public class ItsNatXMLDocumentImpl extends ItsNatDocumentImpl
         super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
+    @Override
     public DocMutationEventListenerImpl createInternalMutationEventListener()
     {
         return new DocMutationEventListenerXMLImpl(this);
     }
 
+    @Override
     public ClientDocumentImpl createClientDocumentOwner(Browser browser,ItsNatSessionImpl ownerSession)
     {
         return new ClientDocumentXMLImpl(this,browser,ownerSession);
     }
 
+    @Override
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()
     {
         return new ItsNatXMLDocComponentManagerImpl(this);
     }
 
     
+    @Override
     public ScriptUtil getScriptUtil()
     {
         throw new ItsNatException("JavaScript utilities are not available for XML documents",this);
     }
 
+    @Override
     public int getCommMode()
     {
         return 0; // Ignored
     }
 
+    @Override
     public void setCommMode(int commMode)
     {
         // Ignored
     }
 
+    @Override
     public long getEventTimeout()
     {
         return 0;
     }
 
+    @Override
     public void setEventTimeout(long timeout)
     {
         // Ignored
     }
 
+    @Override
     public long getEventDispatcherMaxWait()
     {
         return 0;
     }
 
+    @Override
     public void setEventDispatcherMaxWait(long wait)
     {
         // Ignored
     }
 
+    @Override
     public int getMaxOpenClientsByDocument()
     {
         return 0;
     }
 
+    @Override
     public void setMaxOpenClientsByDocument(int value)
     {
         // Ignored
     }
 
+    @Override
     public ClientDocumentImpl[] getAllClientDocumentsCopy()
     {
         return new ClientDocumentImpl[] { getClientDocumentOwnerImpl() };
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture)
     {
         // Ignored
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode)
     {
         // Ignored
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, ParamTransport extraParam)
     {
         // Ignored
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, ParamTransport[] extraParams)
     {
         // Ignored
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, String preSendCode)
     {
         // Ignored
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         // Ignored
     }
 
+    @Override
     public void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture)
     {
         // Ignored
     }
 
+    @Override
     public void removeEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         // Ignored
     }
 
+    @Override
     public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture)
     {
         // Ignored
     }
 
+    @Override
     public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout)
     {
         // Ignored
     }
 
+    @Override
     public void removeMutationEventListener(EventTarget target, EventListener listener, boolean useCapture)
     {
         // Ignored
     }
 
+    @Override
     public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         // Ignored
     }
 
+    @Override
     public void addUserEventListener(EventTarget target, String name, EventListener listener)
     {
         // Ignored
     }
 
+    @Override
     public void removeUserEventListener(EventTarget target, String name, EventListener listener)
     {
         // Ignored
     }
 
+    @Override
     public void addCodeToSend(Object code)
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public boolean isSendCodeEnabled()
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public void disableSendCode()
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public void enableSendCode()
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public void addCodeToSendListener(CodeToSendListener listener)
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public void removeCodeToSendListener(CodeToSendListener listener)
     {
         throw new ItsNatException("XML documents have not JavaScript sent from server",this);
     }
 
+    @Override
     public void addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public void removeItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public void addEventListener(EventListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public void removeEventListener(EventListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public boolean dispatchEvent(EventTarget target, Event evt) throws EventException
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public boolean dispatchEventLocally(EventTarget target, Event evt) throws EventException
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public void addReferrerItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public void removeReferrerItsNatServletRequestListener(ItsNatServletRequestListener listener)
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public Event createEvent(String eventType) throws DOMException
     {
         throw new ItsNatException("XML documents have not events",this);
     }
 
+    @Override
     public ElementGroupManagerImpl createElementGroupManager()
     {
         return new DefaultElementGroupManagerImpl(this);
     }
 
+    @Override
     public boolean isDisconnectedChildNodesFromClient(Node node)
     {
         throw new ItsNatException("This feature has no sense in XML documents",this);
     }
 
+    @Override
     public Node disconnectChildNodesFromClient(Node node)
     {
         throw new ItsNatException("This feature has no sense in XML documents",this);
     }
 
+    @Override
     public void reconnectChildNodesToClient(Node node)
     {
         throw new ItsNatException("This feature has no sense in XML documents",this);

@@ -45,6 +45,7 @@ public class ItsNatHTMLDocumentImpl extends ItsNatStfulWebDocumentImpl implement
         super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
+    @Override
     public DocMutationEventListenerImpl createInternalMutationEventListener()
     {
         return new DocMutationEventListenerHTMLImpl(this);
@@ -55,11 +56,13 @@ public class ItsNatHTMLDocumentImpl extends ItsNatStfulWebDocumentImpl implement
         return (ItsNatHTMLDocComponentManagerImpl) getItsNatComponentManagerImpl();
     }
 
+    @Override
     public ItsNatHTMLComponentManager getItsNatHTMLComponentManager()
     {
         return getItsNatHTMLComponentManagerImpl();
     }
 
+    @Override
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()
     {
         return new ItsNatHTMLDocComponentManagerImpl(this);
@@ -70,22 +73,26 @@ public class ItsNatHTMLDocumentImpl extends ItsNatStfulWebDocumentImpl implement
         return (ItsNatHTMLDocumentTemplateVersionImpl)docTemplateVersion;
     }
 
+    @Override
     public HTMLDocument getHTMLDocument()
     {
         return (HTMLDocument)doc;
     }
 
+    @Override
     public ElementGroupManagerImpl createElementGroupManager()
     {
         // Leer comentarios en HTMLElementGroupManagerImpl
         return new HTMLElementGroupManagerImpl(this);
     }
 
+    @Override
     public Element getVisualRootElement()
     {
         return getHTMLDocument().getBody();
     }
 
+    @Override
     public boolean isNewNodeDirectChildOfContentRoot(Node newNode)
     {
         Node parentNode = newNode.getParentNode();

@@ -36,6 +36,7 @@ public class ItsNatXULDocumentImpl extends ItsNatOtherNSDocumentImpl
         super(doc,docLoader,browser,requestURL,parentSession,stateless);
     }
 
+    @Override
     public ItsNatDocComponentManagerImpl createItsNatComponentManager()
     {
         return new ItsNatXULDocComponentManagerImpl(this);

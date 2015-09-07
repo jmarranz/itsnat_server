@@ -501,9 +501,8 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         }
 
         ClientDocumentStfulImpl[] allClient = getAllClientDocumentStfulsCopy();
-        for(int i = 0; i < allClient.length; i++)
+        for (ClientDocumentStfulImpl clientDoc : allClient) 
         {
-            ClientDocumentStfulImpl clientDoc = allClient[i];
             if (clientDoc.isSendCodeEnabled())
                 clientDoc.addCodeToSend(code);
         }
@@ -544,9 +543,8 @@ public abstract class ItsNatStfulDocumentImpl extends ItsNatDocumentImpl
         super.setInvalidInternal();
 
         ClientDocumentStfulImpl[] allClient = getAllClientDocumentStfulsCopy();
-        for(int i = 0; i < allClient.length; i++)
+        for (ClientDocumentStfulImpl clientDoc : allClient) 
         {
-            ClientDocumentStfulImpl clientDoc = allClient[i];
             clientDoc.setInvalid();
         }
     }

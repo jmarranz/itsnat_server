@@ -20,7 +20,6 @@ import com.innowhere.relproxy.jproxy.JProxyScriptEngine;
 import java.io.Serializable;
 import java.util.LinkedList;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.event.ItsNatEventListenerChainImpl;
 import org.itsnat.impl.core.listener.EventListenerInternal;
