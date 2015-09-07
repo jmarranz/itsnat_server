@@ -47,7 +47,7 @@ public class CustomServletContextListener implements ServletContextListener
         boolean gaeEnabled = context.getServerInfo().startsWith("Google App Engine");
         if (gaeEnabled)
         {
-            // In GAE we can't call to new File(inputPath).exists() if inputPath is a parent directorpues GAE detecta un intento de acceder a directorios superiores
+            // In GAE we can't call to new File(inputPath).exists() if inputPath is a parent directory of the web app
             System.out.println("WARNING: MOST OF EXAMPLES ARE NOT GOING TO WORK IN GOOGLE APP ENGINE IF SESSION SERIALIZATION IS ENABLED...");
             System.out.println("WARNING: ...BECAUSE STACK SIZE IS TOO SMALL AND SERIALIZING A SINGLE NODE (LIKE IN NodeCacheRegistryImpl)...");
             System.out.println("WARNING: ...USUALLY SERIALIZES A LOT OF RELATED NODES CONSUMING A LOT OF STACK MEMORY (EXPECTED StackOverflowException)...");
