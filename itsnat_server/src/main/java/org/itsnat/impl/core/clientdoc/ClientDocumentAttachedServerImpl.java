@@ -59,6 +59,7 @@ public abstract class ClientDocumentAttachedServerImpl extends ClientDocumentWit
         session.removeClientDocumentAttachedServer(this);
     }
 
+    @Override
     public void registerInSession()
     {
         session.addClientDocumentAttachedServer(this);
@@ -116,6 +117,7 @@ public abstract class ClientDocumentAttachedServerImpl extends ClientDocumentWit
         
         DeserialPendingTask task = new DeserialPendingTask()
         {
+            @Override
             public void process(ItsNatServletImpl itsNatServlet,ItsNatServletRequest request, ItsNatServletResponse response)
             {
                 ClientDocumentAttachedServerImpl.this.docTemplate = (ItsNatStfulDocumentTemplateAttachedServerImpl)MarkupTemplateImpl.getMarkupTemplate(itsNatServlet,templateVerId);

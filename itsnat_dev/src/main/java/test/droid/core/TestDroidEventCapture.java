@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -32,7 +33,7 @@ public class TestDroidEventCapture extends TestDroidBase implements EventListene
     {     
        
         Element child = getDocument().getElementById("eventCaptureChildId");          
-        ((EventTarget)child).addEventListener("click", new EventListener() {
+        ((EventTarget)child).addEventListener("click", new EventListenerSerial() {
 
             public void handleEvent(Event evt)
             {
@@ -41,7 +42,7 @@ public class TestDroidEventCapture extends TestDroidBase implements EventListene
         }, true); // Notar que capture ES TRUE
         
         Element parent = getDocument().getElementById("eventCaptureParentId");          
-        ((EventTarget)parent).addEventListener("click", new EventListener() {
+        ((EventTarget)parent).addEventListener("click", new EventListenerSerial() {
 
             public void handleEvent(Event evt)
             {

@@ -15,11 +15,13 @@
 */
 package org.itsnat.impl.core.template.droid;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jmarranz
  */
-public abstract class ScriptCode
+public abstract class ScriptCode implements Serializable
 {
     protected String code;
     

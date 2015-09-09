@@ -21,6 +21,7 @@ import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLButtonElement;
 import org.w3c.dom.html.HTMLDocument;
 import test.web.shared.EventListenerSerial;
+import test.web.shared.RunnableSerial;
 import test.web.shared.TestBaseHTMLDocument;
 
 /**
@@ -69,7 +70,7 @@ public class TestAsyncServerTask extends TestBaseHTMLDocument implements EventLi
             }
         };
 
-        Runnable task = new Runnable()
+        Runnable task = new RunnableSerial()
         {
             public void run()
             {

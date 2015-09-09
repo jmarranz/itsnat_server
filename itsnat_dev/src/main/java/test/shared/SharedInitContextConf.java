@@ -7,9 +7,7 @@ package test.shared;
 
 import javax.servlet.ServletContext;
 import org.itsnat.core.ItsNat;
-import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.ItsNatServletContext;
-import org.itsnat.core.http.ItsNatHttpServlet;
 
 /**
  *

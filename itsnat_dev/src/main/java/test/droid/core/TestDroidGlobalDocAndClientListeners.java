@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -36,7 +37,7 @@ public class TestDroidGlobalDocAndClientListeners extends TestDroidBase implemen
     {     
         if (global_doc == null)
         {
-            this.global_doc = new EventListener()
+            this.global_doc = new EventListenerSerial()
             {
                 public void handleEvent(Event evt)
                 {
@@ -48,7 +49,7 @@ public class TestDroidGlobalDocAndClientListeners extends TestDroidBase implemen
             itsNatDoc.addEventListener(global_doc);
 
 
-            this.global_client = new EventListener()
+            this.global_client = new EventListenerSerial()
             {
                 public void handleEvent(Event evt)
                 {

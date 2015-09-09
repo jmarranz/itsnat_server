@@ -62,6 +62,7 @@ public abstract class ClientDocumentImpl extends ItsNatUserDataImpl implements C
         return browser;
     }
 
+    @Override
     public ItsNatSession getItsNatSession()
     {
         return session;
@@ -72,11 +73,13 @@ public abstract class ClientDocumentImpl extends ItsNatUserDataImpl implements C
         return session;
     }
 
+    @Override
     public String getId()
     {
         return idObj.getId();
     }
 
+    @Override
     public UniqueId getUniqueId()
     {
         return idObj;
@@ -102,16 +105,19 @@ public abstract class ClientDocumentImpl extends ItsNatUserDataImpl implements C
     public abstract ItsNatDocumentImpl getItsNatDocumentImpl();
 
 
+    @Override
     public ItsNatDocument getItsNatDocument()
     {
         return getItsNatDocumentImpl();
     }
 
+    @Override
     public long getCreationTime()
     {
         return creationTime;
     }
 
+    @Override
     public long getLastRequestTime()
     {
         return lastEventTime;

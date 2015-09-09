@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -61,7 +62,7 @@ public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements
             BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
         }
         
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){
+        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);

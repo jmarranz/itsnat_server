@@ -34,6 +34,7 @@ public class ClientDocumentAttachedClientErrorImpl extends ClientDocumentWithout
         super(itsNatSession);
     }
 
+    @Override
     public void registerInSession()
     {
         // No se guarda

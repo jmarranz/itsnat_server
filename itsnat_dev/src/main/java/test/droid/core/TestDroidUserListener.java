@@ -17,10 +17,10 @@ import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.event.ItsNatUserEvent;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -49,7 +49,7 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
 
         Element testLauncherHidden = getDocument().getElementById("testUserEventHiddenId");        
         
-        EventListener listener = new EventListener()
+        EventListener listener = new EventListenerSerial()
         {
             public void handleEvent(Event evt)
             {

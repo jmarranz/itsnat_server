@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -47,7 +48,7 @@ public class TestDroidViewTreeRemoving extends TestDroidBase implements EventLis
 
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
         
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){
+        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);

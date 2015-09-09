@@ -30,6 +30,7 @@ public class ClientDocumentWithoutDocumentDefaultImpl extends ClientDocumentWith
         super(session);
     }
 
+    @Override
     public void registerInSession()
     {
         // No se guarda

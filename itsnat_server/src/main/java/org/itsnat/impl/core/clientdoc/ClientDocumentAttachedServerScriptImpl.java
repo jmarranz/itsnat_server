@@ -32,6 +32,7 @@ public class ClientDocumentAttachedServerScriptImpl extends ClientDocumentAttach
         super(session,docTemplate);
     }
 
+    @Override
     public boolean isOnLoadHanderUsed()
     {
         return false;

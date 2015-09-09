@@ -52,26 +52,31 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
 
     public abstract String getAttachType();
     
+    @Override
     public void registerInSession()
     {
         getItsNatSessionImpl().registerClientDocumentAttachedClient(this);
     }
 
+    @Override
     public boolean isScriptingEnabled()
     {
         return true; // De otra manera no podríamos hacer control remoto
     }
 
+    @Override
     public boolean isEventsEnabled()
     {
         return true; // De otra manera no podríamos hacer control remoto
     }
 
+    @Override
     public boolean canReceiveALLNormalEvents()
     {
         return !isReadOnly();
     }
 
+    @Override
     public boolean canReceiveSOMENormalEvents()
     {
         if (canReceiveALLNormalEvents()) return true;
@@ -171,6 +176,7 @@ public abstract class ClientDocumentAttachedClientImpl extends ClientDocumentStf
         this.lastEventTime = System.currentTimeMillis();
     }
 
+    @Override
     protected void setInvalidInternal()
     {
         super.setInvalidInternal();

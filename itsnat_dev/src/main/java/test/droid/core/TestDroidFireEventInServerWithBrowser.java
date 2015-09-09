@@ -22,6 +22,7 @@ import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import test.shared.TestUtil;
+import test.web.shared.RunnableSerial;
 
 /**
  *
@@ -68,7 +69,7 @@ public class TestDroidFireEventInServerWithBrowser extends TestDroidBase impleme
     {
         final Document doc = itsNatDoc.getDocument();
 
-        Runnable thread = new Runnable()
+        Runnable thread = new RunnableSerial()
         {
             public void run()
             {

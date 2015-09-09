@@ -52,6 +52,7 @@ public class ClientDocumentAttachedServerFormImpl extends ClientDocumentAttached
         return timeoutLoadMarkup;
     }
 
+    @Override
     public boolean isOnLoadHanderUsed()
     {
         // En el caso de SessionReplicationCapable, por ejemplo en GAE, no podemos

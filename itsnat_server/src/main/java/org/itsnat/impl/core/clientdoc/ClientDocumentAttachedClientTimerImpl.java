@@ -39,11 +39,13 @@ public class ClientDocumentAttachedClientTimerImpl extends ClientDocumentAttache
         this.interval = interval;
     }
 
+    @Override
     public String getAttachType()
     {
         return "attach_timer";
     }    
     
+    @Override
     public void startAttachedClient()
     {
         this.listener = new ItsNatAttachedClientTimerEventListenerWrapperImpl(this);
@@ -67,6 +69,7 @@ public class ClientDocumentAttachedClientTimerImpl extends ClientDocumentAttache
         addCodeToSend(JSAndBSRenderItsNatAttachedClientTimerEventListenerImpl.stopAttachTimerRefresh()); 
     }
 
+    @Override
     public String getRefreshMethod()
     {
         return "timer";

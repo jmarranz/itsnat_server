@@ -16,6 +16,7 @@
 package manual.core.svgxul;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.domutil.ElementGroupManager;
@@ -32,8 +33,9 @@ import org.w3c.dom.html.HTMLDocument;
 import org.w3c.dom.html.HTMLInputElement;
 import org.w3c.dom.views.AbstractView;
 import org.w3c.dom.views.DocumentView;
+import test.web.shared.EventListenerSerial;
 
-public class SVGInHTMLMimeSVGWebDocument implements EventListener
+public class SVGInHTMLMimeSVGWebDocument implements EventListener,Serializable
 {
     protected ItsNatDocument itsNatDoc;
     protected Element svgElem;
@@ -54,7 +56,7 @@ public class SVGInHTMLMimeSVGWebDocument implements EventListener
     public void load()
     {
         Document doc = itsNatDoc.getDocument();
-        EventListener listener = new EventListener()
+        EventListener listener = new EventListenerSerial()
         {
             public void handleEvent(Event evt)
             {
@@ -131,7 +133,7 @@ public class SVGInHTMLMimeSVGWebDocument implements EventListener
 
             if (useSVGLoadElem.getChecked())
             {
-                EventListener listener = new EventListener()
+                EventListener listener = new EventListenerSerial()
                 {
                     public void handleEvent(Event evt)
                     {

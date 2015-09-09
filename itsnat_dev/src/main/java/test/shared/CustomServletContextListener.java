@@ -19,6 +19,7 @@ import javax.tools.DiagnosticCollector;
 import javax.tools.JavaFileObject;
 import org.itsnat.core.ItsNat;
 import org.itsnat.core.ItsNatBoot;
+import org.itsnat.core.ItsNatServletContext;
 import test.AnyThingServlet;
 import test.ItsNatDroidServletExample;
 import test.ItsNatDroidServletNoItsNat;
@@ -52,9 +53,18 @@ public class CustomServletContextListener implements ServletContextListener
             System.out.println("WARNING: ...BECAUSE STACK SIZE IS TOO SMALL AND SERIALIZING A SINGLE NODE (LIKE IN NodeCacheRegistryImpl)...");
             System.out.println("WARNING: ...USUALLY SERIALIZES A LOT OF RELATED NODES CONSUMING A LOT OF STACK MEMORY (EXPECTED StackOverflowException)...");
             System.out.println("WARNING: ...OTHER PROBLEMS ARE RESTRICTED CLASSES (FOR INSTANCE INTERNAL SWING CLASSES)");
+            
+            System.out.println("RelProxy disabled, production mode (Google App Engine) detected");            
             return;
         }
 
+        ItsNatServletContext itsNatCtx = itsNat.getItsNatServletContext(context);        
+        if (itsNatCtx.isSessionReplicationCapable())
+        {
+            System.out.println("RelProxy disabled, serialization is enabled (not compatible with RelProxy)");            
+            return;
+        }
+        
         if (new File(inputPath).exists())
         {
             System.out.println("RelProxy to be enabled, development mode detected");

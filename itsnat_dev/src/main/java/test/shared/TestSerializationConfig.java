@@ -12,5 +12,5 @@ package test.shared;
  */
 public class TestSerializationConfig {
     
-    public static boolean enable = false; // Este test produce una enorme pérdida de rendimiento    
+    public static boolean enable; // Este test produce una enorme pérdida de rendimiento    
 }

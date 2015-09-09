@@ -16,11 +16,16 @@
 
 package org.itsnat.impl.core.listener.dom.domext;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.itsnat.impl.core.listener.*;
 import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulImpl;
 import org.itsnat.impl.core.doc.ItsNatDocSynchronizerImpl;
 import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
+import org.itsnat.impl.core.domimpl.ItsNatNodeInternal;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -30,7 +35,7 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
 {
     protected boolean lockDoc;
     protected long maxWait;
-    protected Thread thread;
+    protected transient Thread thread;
     protected boolean started = false;
     protected Runnable task;
     protected ClientDocumentStfulImpl clientDoc;
@@ -52,6 +57,18 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
         this.thread = new Thread(this);
     }
 
+    private void writeObject(ObjectOutputStream out) throws IOException
+    {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+    {
+        in.defaultReadObject();
+
+        this.thread = new Thread(this); // No se puede propagar, esto es simplemente para que no de error al de-serializar
+    }    
+    
     public ItsNatDocumentImpl getItsNatDocument()
     {
         return clientDoc.getItsNatStfulDocument();
@@ -85,16 +102,19 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
         }
     }
 
+    @Override
     public void dispose()
     {
         this.thread = null;
     }
 
+    @Override
     public boolean isDisposed()
     {
         return (thread == null);
     }
 
+    @Override
     public boolean mustWait()
     {
         Thread thread = this.thread;
@@ -102,6 +122,7 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
         return thread.isAlive();
     }
 
+    @Override
     public void run()
     {
         this.started = true;
@@ -113,6 +134,7 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
             // Es una rutina del usuario, no sabemos si accederá a los documentos padre así que por si acaso sincronizamos los padres
             ItsNatDocSynchronizerImpl syncTask = new ItsNatDocSynchronizerImpl()
             {
+                @Override
                 protected void syncMethod()
                 {
                     task.run();
@@ -131,6 +153,7 @@ public class AsyncTaskImpl extends GenericTaskImpl implements Runnable
         return thread;
     }
 
+    @Override
     public void waitToFinish()
     {
         Thread thread = this.thread;

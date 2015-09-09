@@ -6,6 +6,7 @@
 
 package test.droid.shared;
 
+import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,7 +15,7 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public abstract class TestDroidBase
+public abstract class TestDroidBase implements Serializable
 {
     public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     

@@ -46,11 +46,13 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         super(session.getBrowser(),session);
     }
 
+    @Override
     public ItsNatDocumentImpl getItsNatDocumentImpl()
     {
         return null;
     }
 
+    @Override
     public boolean isScriptingEnabled()
     {
         return true;
@@ -61,11 +63,13 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         return codeToSend;
     }
 
+    @Override
     public String getCodeToSendAndReset()
     {
         return getCodeToSendRegistry().getCodeToSendAndReset();
     }
 
+    @Override
     public void addCodeToSend(Object code)
     {
         getCodeToSendRegistry().addCodeToSend(code);
@@ -78,182 +82,218 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
     }
 */
 
+    @Override
     public boolean isSendCodeEnabled()
     {
         return getCodeToSendRegistry().isSendCodeEnabled();
     }
 
+    @Override
     public void disableSendCode()
     {
         getCodeToSendRegistry().disableSendCode();
     }
 
+    @Override
     public void enableSendCode()
     {
         getCodeToSendRegistry().enableSendCode();
     }
 
+    @Override
     public void addCodeToSendListener(CodeToSendListener listener)
     {
         getCodeToSendRegistry().addCodeToSendListener(listener);
     }
 
+    @Override
     public void removeCodeToSendListener(CodeToSendListener listener)
     {
         getCodeToSendRegistry().removeCodeToSendListener(listener);
     }
 
+    @Override
     public CometNotifier createCometNotifier()
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public CometNotifier createCometNotifier(long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public CometNotifier createCometNotifier(int commMode,long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout)    
     {
         throw new ItsNatException("Not supported in this context");
     }    
             
+    @Override
     public void startEventDispatcherThread(Runnable task)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public boolean dispatchEvent(EventTarget target, Event evt) throws EventException
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public boolean dispatchEvent(EventTarget target, Event evt, int commMode, long eventTimeout) throws EventException
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addContinueEventListener(EventTarget target, EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addContinueEventListener(EventTarget target, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public ItsNatTimer createItsNatTimer()
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addAsynchronousTask(Runnable task, boolean lockDoc, int maxWait, EventTarget target, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addAsynchronousTask(Runnable task, EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, ParamTransport extraParam)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, ParamTransport[] extraParams)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, String preSendCode)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addEventListener(EventTarget target, String type, EventListener listener, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void removeEventListener(EventTarget target, String type, EventListener listener, boolean useCapture)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void removeEventListener(EventTarget target,String type,EventListener listener,boolean useCapture,boolean updateClient)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addMutationEventListener(EventTarget target,EventListener listener,boolean useCapture,int commMode,String preSendCode,long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addMutationEventListener(EventTarget target, EventListener listener, boolean useCapture, int commMode, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void removeMutationEventListener(EventTarget target, EventListener listener, boolean useCapture)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout,String bindToCustomFunc)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addUserEventListener(EventTarget target, String name, EventListener listener, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void addUserEventListener(EventTarget target, String name, EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void removeUserEventListener(EventTarget target, String name, EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public boolean hasGlobalEventListenerListeners()
     {
         // ver notas en el get
         return false;
     }     
     
+    @Override
     public void getGlobalEventListenerList(LinkedList<EventListener> list)
     {
         // Este es un cliente temporal por lo que no tiene sentido los global event listeners
@@ -266,6 +306,7 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         // caso de los de error).
     }
 
+    @Override
     public void addEventListener(EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
@@ -276,11 +317,13 @@ public abstract class ClientDocumentWithoutDocumentImpl extends ClientDocumentIm
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public void removeEventListener(EventListener listener)
     {
         throw new ItsNatException("Not supported in this context");
     }
 
+    @Override
     public ScriptUtil getScriptUtil()
     {
         throw new ItsNatException("Not supported in this context");

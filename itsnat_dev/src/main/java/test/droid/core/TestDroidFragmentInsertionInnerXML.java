@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -58,7 +59,7 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) alert(\"FAIL TEST\"); ");
         
         
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListener(){
+        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);

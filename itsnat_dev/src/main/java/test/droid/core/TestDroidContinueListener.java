@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -43,7 +44,7 @@ public class TestDroidContinueListener extends TestDroidBase implements EventLis
         ItsNatEvent itsNatEvent = (ItsNatEvent)evt;
         ClientDocument clientDoc = itsNatEvent.getClientDocument();
 
-        EventListener listener = new EventListener()
+        EventListener listener = new EventListenerSerial()
         {
             @Override
             public void handleEvent(Event evt)

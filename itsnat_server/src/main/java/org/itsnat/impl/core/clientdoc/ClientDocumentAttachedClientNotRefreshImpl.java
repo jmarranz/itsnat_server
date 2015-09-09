@@ -35,11 +35,13 @@ public class ClientDocumentAttachedClientNotRefreshImpl extends ClientDocumentAt
         super(readOnly,commMode,eventTimeout,waitDocTimeout,browser,session,itsNatDoc);
     }
 
+    @Override
     public String getAttachType()
     {
         return "attach_none";
     }    
     
+    @Override
     public void startAttachedClient()
     {
         this.listener = new ItsNatAttachedClientNotRefreshEventListenerWrapperImpl(this);
@@ -50,6 +52,7 @@ public class ClientDocumentAttachedClientNotRefreshImpl extends ClientDocumentAt
         return listener;
     }
 
+    @Override
     public String getRefreshMethod()
     {
         return "none";

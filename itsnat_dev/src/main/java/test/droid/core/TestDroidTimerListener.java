@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
 
 /**
  *
@@ -45,7 +46,7 @@ public class TestDroidTimerListener extends TestDroidBase implements EventListen
         ((EventTarget)addTimerElem).addEventListener("click",this,false);
 
         this.checkBoxElem = doc.getElementById("testTimerFixedRateId");
-        EventListener fixedRateListener = new EventListener()
+        EventListener fixedRateListener = new EventListenerSerial()
         {
             public void handleEvent(Event evt)
             {

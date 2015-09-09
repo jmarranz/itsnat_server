@@ -15,6 +15,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import test.web.shared.EventListenerSerial;
+import test.web.shared.RunnableSerial;
 
 /**
  *
@@ -39,7 +41,7 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
         ItsNatEvent evt2 = (ItsNatEvent)evt;
         ClientDocument clientDoc = evt2.getClientDocument(); 
         
-        final EventListener listener = new EventListener()
+        final EventListener listener = new EventListenerSerial()
         {
             public void handleEvent(final Event evt)
             {
@@ -47,7 +49,7 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
             }
         };
 
-        Runnable task = new Runnable()
+        Runnable task = new RunnableSerial()
         {
             public void run()
             {
