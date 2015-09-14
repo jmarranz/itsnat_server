@@ -126,21 +126,25 @@ public abstract class ItsNatStfulDocComponentManagerImpl extends ItsNatDocCompon
     }
 
 
+    @Override
     public ItsNatLabelEditor createDefaultItsNatLabelEditor(ItsNatComponent compEditor)
     {
         return new ItsNatLabelEditorDefaultImpl(compEditor,this);
     }
 
+    @Override
     public ItsNatListCellEditor createDefaultItsNatListCellEditor(ItsNatComponent compEditor)
     {
         return new ItsNatListCellEditorDefaultImpl(compEditor,this);
     }
 
+    @Override
     public ItsNatTableCellEditor createDefaultItsNatTableCellEditor(ItsNatComponent compEditor)
     {
         return new ItsNatTableCellEditorDefaultImpl(compEditor,this);
     }
 
+    @Override
     public ItsNatTreeCellEditor createDefaultItsNatTreeCellEditor(ItsNatComponent compEditor)
     {
         return new ItsNatTreeCellEditorDefaultImpl(compEditor,this);

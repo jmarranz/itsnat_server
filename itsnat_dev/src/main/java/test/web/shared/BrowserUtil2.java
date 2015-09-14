@@ -16,27 +16,25 @@ import org.itsnat.core.ItsNatServletRequest;
 public class BrowserUtil2
 {
 
-    public static boolean isS60WebKit(ItsNatServletRequest request)
+    public static boolean isOperaOld(ItsNatServletRequest request)
     {
         HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
         String userAgent = httpReq.getHeader("User-Agent");
-        return (userAgent.indexOf("AppleWebKit") != -1) && (userAgent.indexOf("Symbian") != -1);
+        return (userAgent.contains("Opera") && !isWebKit(userAgent));
     }
 
-
-    public static boolean isOpera(ItsNatServletRequest request)
+    public static boolean isWebKit(String userAgent)
     {
-        HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
-        String userAgent = httpReq.getHeader("User-Agent");
-        return (userAgent.indexOf("Opera") != -1);
-    }
-
+        // Podría usarse "Safari" pero algún navegador antiguo no la tenía
+        return (userAgent.contains("WebKit"));
+    }    
+    
     public static boolean isMSIE(ItsNatServletRequest request)
     {
         HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
         String userAgent = httpReq.getHeader("User-Agent");
-        return (userAgent.indexOf("MSIE") != -1) &&
-                !isOpera(request);
+        return (userAgent.contains("MSIE")) &&
+                !isOperaOld(request);
     }
 
     public static boolean isMSIE6(ItsNatServletRequest request)
@@ -45,7 +43,7 @@ public class BrowserUtil2
         {
             HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
             String userAgent = httpReq.getHeader("User-Agent");
-            return (userAgent.indexOf("MSIE 6.0;") != -1);
+            return (userAgent.contains("MSIE 6.0;"));
         }
         return false;
     }
@@ -54,6 +52,6 @@ public class BrowserUtil2
     {
         HttpServletRequest httpReq = (HttpServletRequest) request.getServletRequest();
         String userAgent = httpReq.getHeader("User-Agent");
-        return (userAgent.indexOf("Batik") != -1);
+        return (userAgent.contains("Batik"));
     }
 }

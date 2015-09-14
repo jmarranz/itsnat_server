@@ -43,6 +43,7 @@ public class TestSyncNewAttrListener implements EventListener,Serializable
         itsNatDoc.addEventListener((EventTarget)newAttrSyncOnClick,"click",this,false,new ParamTransport[]{new NodeAllAttribTransport()});
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         Element target = (Element)evt.getCurrentTarget();
@@ -53,9 +54,9 @@ public class TestSyncNewAttrListener implements EventListener,Serializable
 
         String styleValue = target.getAttribute("style"); // Atributo problemático
 //System.out.println(styleValue);
-        TestUtil.checkError((styleValue.indexOf("red") != -1) ||
-                (styleValue.indexOf("#ff0000") != -1) ||  // Opera lo convierte a formato RGB
-                (styleValue.indexOf("#FF0000") != -1) // Idem BlackBerry 4.6 pero en mayúsculas.
+        TestUtil.checkError((styleValue.contains("red")) ||
+                (styleValue.contains("#ff0000")) ||  // Opera lo convierte a formato RGB
+                (styleValue.contains("#FF0000")) // Idem BlackBerry 4.6 pero en mayúsculas.
                 );
     }
 

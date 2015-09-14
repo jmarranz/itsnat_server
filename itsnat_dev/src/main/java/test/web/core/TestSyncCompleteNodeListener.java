@@ -62,9 +62,9 @@ public class TestSyncCompleteNodeListener implements EventListener,Serializable
         child.appendChild(text);
 
         String styleValue = target.getAttribute("style"); // Atributo problemático
-        TestUtil.checkError((styleValue.indexOf("red") != -1) ||
-                (styleValue.indexOf("#ff0000") != -1) ||  // Opera lo convierte a formato RGB
-                (styleValue.indexOf("#FF0000") != -1) // Idem BlackBerry 4.6 pero en mayúsculas.
+        TestUtil.checkError((styleValue.contains("red")) ||
+                (styleValue.contains("#ff0000")) ||  // Opera lo convierte a formato RGB
+                (styleValue.contains("#FF0000")) // Idem BlackBerry 4.6 pero en mayúsculas.
                 );
     }
 

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+
+<div class="explanation">
+    <p>This is not the first we build a user defined component, this
+        example goes beyond, the new component type is registered in the framework
+        and can be instanced by ItsNat for instance with a call
+        <code>ItsNatComponentManager.createItsNatComponentById</code>.
+    </p>
+    <p>This feature is achieved registering a user defined component factory/filter
+        implementing <code>CreateItsNatComponentListener</code> and registering it
+        calling <code>ItsNatDocumentTemplate.addCreateItsNatComponentListener</code>.
+        The registered factory/filter object is called when a new component is requested
+        by a call to a normal ItsNat factory method like <code>ItsNatComponentManager.createItsNatComponentById</code>.
+        The factory/filter has the opportunity to create new component types, replace a just
+        created component or reject it.
+    </p>
+    <p>This example shows how we can register a new component type <code>LoginComponent</code>
+        with name "login" using a registered factory/filter object <code>LoginCreationItsNatComponentListener</code>.
+        This new login component defines a listener type <code>ValidateLoginListener</code>,
+        this listener is called when the login must be validated.
+    </p>
+</div>
+
+</body>
+</html>

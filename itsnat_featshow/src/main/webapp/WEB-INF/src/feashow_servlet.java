@@ -37,6 +37,7 @@ import org.itsnat.feashow.features.comp.other.custom.LoginCreationItsNatComponen
 import org.itsnat.feashow.features.comp.layers.ModalLayerSVGLoadListener;
 import org.itsnat.feashow.features.comp.layers.ModalLayerXULLoadListener;
 import org.itsnat.feashow.features.comp.lists.FreeListSVGLoadListener;
+import org.itsnat.feashow.features.comp.other.customtag.LoginTagCreationItsNatComponentListener;
 import org.itsnat.feashow.features.comp.tables.FreeTableSVGLoadListener;
 import org.itsnat.feashow.features.comp.xmlcomp.XMLAndCompLoadListener;
 import org.itsnat.feashow.features.core.misc.remctrl.RemoteControlSupervision;
@@ -117,7 +118,8 @@ public class feashow_servlet extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new FeatureShowcaseDocumentLoadListener());
         docTemplate.setAutoBuildComponents(false);
         docTemplate.addCreateItsNatComponentListener(new LoginCreationItsNatComponentListener());
-
+        docTemplate.addCreateItsNatComponentListener(new LoginTagCreationItsNatComponentListener());
+        
         docTemplate = registerItsNatDocumentTemplate("feashow.docNotFound","text/html",pathPrefix,pages);
         docTemplate.setScriptingEnabled(false);
 
@@ -254,7 +256,9 @@ public class feashow_servlet extends HttpServletWrapper
             String name = (String)fragmentNames.nextElement();
             docFragTemplate = registerItsNatDocFragmentTemplate(name,"text/html",pathPrefix,htmlFragments);
         }
-
+        
+        LoginTagCreationItsNatComponentListener.registerLayouts(itsNatServlet, pathPrefix);        
+        
         // XML fragments
 
         Properties xmlFragments = loadProperties(pathPrefix + "xml_fragments.properties");

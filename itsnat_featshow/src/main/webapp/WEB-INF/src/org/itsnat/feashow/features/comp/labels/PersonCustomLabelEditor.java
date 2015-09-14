@@ -45,6 +45,7 @@ public class PersonCustomLabelEditor extends AbstractCellEditor implements ItsNa
     }
 
 
+    @Override
     public ItsNatComponent getLabelEditorComponent(ItsNatLabel label, Object value, Element labelElem)
     {       
         ItsNatComponentManager compMgr = label.getItsNatComponentManager();
@@ -72,11 +73,13 @@ public class PersonCustomLabelEditor extends AbstractCellEditor implements ItsNa
         return editorComp;
     }
 
+    @Override
     public Object getCellEditorValue()
     {
         return editorComp.getPerson();
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         if (evt.getCurrentTarget() == editorComp.getOKButton().getHTMLInputElement())
@@ -95,6 +98,7 @@ public class PersonCustomLabelEditor extends AbstractCellEditor implements ItsNa
         ClientDocument clientDoc = ((ItsNatEvent)evt).getClientDocument();
         EventListener listener = new EventListener()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 // Executed as a "continue" event to avoid registering in the client a new event listener

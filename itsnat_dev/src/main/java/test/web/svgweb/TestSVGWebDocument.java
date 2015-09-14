@@ -67,7 +67,7 @@ public class TestSVGWebDocument implements EventListener,Serializable
     public TestSVGWebDocument(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         this.itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
-        this.opera = BrowserUtil2.isOpera(request);
+        this.opera = BrowserUtil2.isOperaOld(request);
 
         Document doc = itsNatDoc.getDocument();
         

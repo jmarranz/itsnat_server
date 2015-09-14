@@ -29,6 +29,7 @@ public class TestSVGScriptInsertion extends TestScriptInsertion
         addLoadEventListener();
     }
 
+    @Override
     public void addLoadEventListener()
     {
         // FireFox por ejemplo no soporta SVGLoad
@@ -45,12 +46,14 @@ public class TestSVGScriptInsertion extends TestScriptInsertion
         }
     }
 
+    @Override
     public Element getScriptParentElement()
     {
         Document doc = itsNatDoc.getDocument();
         return doc.getDocumentElement();
     }
 
+    @Override
     public Element createScriptElement()
     {
         Document doc = itsNatDoc.getDocument();

@@ -128,13 +128,13 @@ public class ItsNatHttpServletResponseImpl extends ItsNatServletResponseImpl imp
 
             if (acceptEncoding != null)
             {
-                if (acceptEncoding.indexOf("gzip") != -1)
+                if (acceptEncoding.contains("gzip"))
                 {
                    response.addHeader("Content-Encoding","gzip");
                    out = new GZIPOutputStream(response.getOutputStream());
                 }
                 /* // Ni FireFox ni MSIE por defecto aceptan "compress", no lo soportamos
-                else if (acceptEncoding.indexOf("compress") != -1)
+                else if (acceptEncoding.contains("compress"))
                 {
                    response.addHeader("Content-Encoding","compress");
                    out = new ZipOutputStream(response.getOutputStream());

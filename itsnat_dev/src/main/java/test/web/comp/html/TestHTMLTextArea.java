@@ -56,14 +56,13 @@ public class TestHTMLTextArea extends TestBaseHTMLDocument implements EventListe
         comp.setText("Initial Text");
 
         comp.addEventListener("change",this);
-        if (!BrowserUtil2.isS60WebKit(request)) // Symbian detecta como teclas los movimientos del cursor, al final no se envía el change
-            comp.addEventListener("keydown",this);
         comp.addEventListener("keyup",this);
         comp.addEventListener("keypress",this);
         
         dataModel.addDocumentListener(this);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // Evento "change" o "keyup" o "keydown"

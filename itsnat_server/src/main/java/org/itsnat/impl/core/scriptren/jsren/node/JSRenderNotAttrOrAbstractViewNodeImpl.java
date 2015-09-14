@@ -58,7 +58,7 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
             case Node.ENTITY_REFERENCE_NODE:
                 return JSRenderEntityReferenceImpl.SINGLETON;
             case Node.PROCESSING_INSTRUCTION_NODE:
-                return JSRenderProcessingInstructionImpl.SINGLETON;
+                return JSRenderProcessingInstructionImpl.getJSRenderProcessingInstruction(clientDoc);
             case Node.DOCUMENT_NODE:
                 throw new ItsNatDOMException("Unexpected Document node",node);
             case Node.DOCUMENT_TYPE_NODE:

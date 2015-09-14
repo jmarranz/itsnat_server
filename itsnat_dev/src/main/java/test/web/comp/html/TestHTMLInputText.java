@@ -48,8 +48,6 @@ public class TestHTMLInputText extends TestHTMLInputTextBased implements EventLi
         input.setText("Initial Text");
 
         input.addEventListener("change",this);
-        if (!BrowserUtil2.isS60WebKit(request)) // Symbian detecta como teclas los movimientos del cursor, al final no se envía el change
-            input.addEventListener("keydown",this);
         input.addEventListener("keyup",this);
         input.addEventListener("keypress", this);
         

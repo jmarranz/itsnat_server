@@ -198,12 +198,12 @@ public abstract class ResponseDelegateHTMLLoadDocImpl extends ResponseDelegateSt
         // El valor de svg.render.forceflash en el URL manda sobre el valor del <meta>
         String queryString = getResponseLoadDoc().getRequest().getItsNatServletRequest().getQueryStringInternal();
         if (queryString == null) return; // No hay query string, caso por ejemplo de Pretty URLs
-        if (queryString.indexOf("svg.render.forceflash=true") != -1)
+        if (queryString.contains("svg.render.forceflash=true"))
         {
             svgWeb = true;
             forceFlash = true;
         }
-        else if (queryString.indexOf("svg.render.forceflash=false") != -1)
+        else if (queryString.contains("svg.render.forceflash=false"))
         {
             svgWeb = true;
             forceFlash = false;

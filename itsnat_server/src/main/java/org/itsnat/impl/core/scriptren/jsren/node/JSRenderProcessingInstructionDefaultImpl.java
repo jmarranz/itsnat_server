@@ -17,10 +17,7 @@
 package org.itsnat.impl.core.scriptren.jsren.node;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLProcessingInstructionMSIEOldImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 
@@ -28,20 +25,24 @@ import org.w3c.dom.ProcessingInstruction;
  *
  * @author jmarranz
  */
-public abstract class JSRenderProcessingInstructionImpl extends JSRenderNotChildrenNodeImpl
+public class JSRenderProcessingInstructionDefaultImpl extends JSRenderProcessingInstructionImpl
 {
+    public static final JSRenderProcessingInstructionDefaultImpl SINGLETON = new JSRenderProcessingInstructionDefaultImpl();
+
     /** Creates a new instance of JSProcessingInstructionRender */
-    public JSRenderProcessingInstructionImpl()
+    public JSRenderProcessingInstructionDefaultImpl()
     {
     }
     
-    public static JSRenderProcessingInstructionImpl getJSRenderProcessingInstruction(ClientDocumentStfulDelegateWebImpl clientDoc)
+
+    
+    @Override
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        // No funciona en MSIE 8, con innerHTML sí pero 
+        ProcessingInstruction nodeProcInst = (ProcessingInstruction)node;
         Browser browser = clientDoc.getClientDocumentStful().getBrowser();
-        if (browser instanceof BrowserMSIEOld)        
-            return JSRenderHTMLProcessingInstructionMSIEOldImpl.SINGLETON;        
-        else
-            return JSRenderProcessingInstructionDefaultImpl.SINGLETON; 
+        return "itsNatDoc.doc.createProcessingInstruction(\"" + nodeProcInst.getTarget() + "\"," + toTransportableStringLiteral(nodeProcInst.getData(),true,browser) + ")";
     }
 
 }

@@ -14,13 +14,10 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.jsren.node;
+package org.itsnat.impl.core.scriptren.jsren.node.html.msie;
 
-import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
+import org.itsnat.impl.core.scriptren.jsren.node.*;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
-import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
-import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLProcessingInstructionMSIEOldImpl;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 
@@ -28,20 +25,21 @@ import org.w3c.dom.ProcessingInstruction;
  *
  * @author jmarranz
  */
-public abstract class JSRenderProcessingInstructionImpl extends JSRenderNotChildrenNodeImpl
+public class JSRenderHTMLProcessingInstructionMSIEOldImpl extends JSRenderProcessingInstructionImpl
 {
+    public static final JSRenderHTMLProcessingInstructionMSIEOldImpl SINGLETON = new JSRenderHTMLProcessingInstructionMSIEOldImpl();
+
     /** Creates a new instance of JSProcessingInstructionRender */
-    public JSRenderProcessingInstructionImpl()
+    public JSRenderHTMLProcessingInstructionMSIEOldImpl()
     {
     }
-    
-    public static JSRenderProcessingInstructionImpl getJSRenderProcessingInstruction(ClientDocumentStfulDelegateWebImpl clientDoc)
+
+    @Override
+    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
-        Browser browser = clientDoc.getClientDocumentStful().getBrowser();
-        if (browser instanceof BrowserMSIEOld)        
-            return JSRenderHTMLProcessingInstructionMSIEOldImpl.SINGLETON;        
-        else
-            return JSRenderProcessingInstructionDefaultImpl.SINGLETON; 
+        // No funciona en MSIE 8, con innerHTML sí aunque no hace nada. Se usa en la declaración del Adobe SVG
+        ProcessingInstruction nodeProcInst = (ProcessingInstruction)node;
+        return "itsNatDoc.doc.createTextNode(\"\")"; // Por poner algo que no influya en el cálculo de paths
     }
 
 }

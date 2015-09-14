@@ -22,6 +22,7 @@ import org.itsnat.core.event.ItsNatUserEvent;
 import org.itsnat.core.event.NodePropertyTransport;
 import org.itsnat.core.html.ItsNatHTMLEmbedElement;
 import org.itsnat.core.http.ItsNatHttpSession;
+import org.itsnat.feashow.BrowserUtil;
 import org.itsnat.feashow.FeatureTreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,6 +48,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
     {
     }
 
+    @Override
     public void startExamplePanel()
     {
         ItsNatDocument itsNatDoc = getItsNatDocument();
@@ -59,7 +61,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
         this.url = container.getAttribute("data");
 
         ItsNatHttpSession session = (ItsNatHttpSession)itsNatDoc.getClientDocumentOwner().getItsNatSession();
-        if (session.getUserAgent().indexOf("MSIE") != -1)
+        if (BrowserUtil.isMSIEOld(session.getUserAgent()))
         {
             // URL must be absolute when used with Savarese Ssrc
             this.url = getRequestURLOfDocument() + this.url + "#p=n,c=n"; // For communication parent/child (p=parent, c=child, n=no, y=yes pending update)
@@ -94,6 +96,8 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
         itsNatDoc.addEventListener((EventTarget)selectContainer,"change",this,false,new NodePropertyTransport("selectedIndex"));
     }
 
+    
+    @Override
     public void endExamplePanel()
     {
         ItsNatDocument itsNatDoc = getItsNatDocument();
@@ -121,6 +125,7 @@ public class ObjEmbSVGSsrcAutoBindingTreeNode extends FeatureTreeNode implements
         return inputRadio;
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         EventTarget currTarget = evt.getCurrentTarget();

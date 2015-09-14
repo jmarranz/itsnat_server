@@ -47,11 +47,13 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
         super(parent,servlet);
     }
 
+    @Override
     public HttpServlet getHttpServlet()
     {
         return (HttpServlet)servlet;
     }
 
+    @Override
     public ItsNatServletRequestImpl createItsNatServletRequest(ServletRequest request,ServletResponse response,ItsNatSessionImpl itsNatSession)
     {
         return createItsNatHttpServletRequest((HttpServletRequest)request,(HttpServletResponse)response,(ItsNatHttpSessionImpl)itsNatSession);
@@ -102,6 +104,7 @@ public class ItsNatHttpServletImpl extends ItsNatServletImpl implements ItsNatHt
         return itsNatReq;
     }
     
+    @Override
     public ServletRequest createServletRequest(ServletRequest request,Map<String,String[]> params)
     {
         // Nota: los tipos genéricos <String,String[]> son ya los claramente definidos en la spec servlet 

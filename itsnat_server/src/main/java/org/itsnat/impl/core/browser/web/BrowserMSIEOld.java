@@ -81,7 +81,7 @@ public class BrowserMSIEOld extends BrowserWeb
         {
             // Puede ser la versión mobile en modo "desktop", el User Agent es exacto al de desktop
             String os = itsNatRequest.getHeader("UA-OS");
-            boolean mobile = ((os != null) && (os.indexOf("Windows CE") != -1));
+            boolean mobile = ((os != null) && (os.contains("Windows CE")));
             return new BrowserMSIEOld(userAgent,version,mobile);
         }
     }

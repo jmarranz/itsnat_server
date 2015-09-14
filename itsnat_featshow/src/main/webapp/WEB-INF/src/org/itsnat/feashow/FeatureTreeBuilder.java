@@ -49,6 +49,7 @@ import org.itsnat.feashow.features.comp.lists.FreeListTreeNode;
 import org.itsnat.feashow.features.comp.lists.SelectComboBoxTreeNode;
 import org.itsnat.feashow.features.comp.lists.SelectListTreeNode;
 import org.itsnat.feashow.features.comp.other.FileUploadTreeNode;
+import org.itsnat.feashow.features.comp.other.customtag.CustomTagComponentTreeNode;
 import org.itsnat.feashow.features.comp.tables.FreeTableTreeNode;
 import org.itsnat.feashow.features.comp.tables.TableRowSpanTreeNode;
 import org.itsnat.feashow.features.comp.tables.TableTreeNode;
@@ -884,6 +885,12 @@ public class FeatureTreeBuilder
                         "Custom Components",
                         new CustomComponentTreeNode(),childNodeL2);
 
+                childNodeL3 = addNode(true,true,true,
+                        "feashow.comp.other.customTagComponent",
+                        "Custom Tag Components",
+                        "Custom Tag Components",
+                        new CustomTagComponentTreeNode(),childNodeL2);                
+                
             childNodeL2 = addNode(false,true,false,
                     "feashow.comp.autobuild",
                     "Auto. Component Build",

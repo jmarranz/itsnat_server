@@ -12,19 +12,21 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.custom;
+package org.itsnat.feashow.features.comp.other.customtag;
 
+import java.io.File;
+import javax.servlet.http.HttpServlet;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.feashow.FeatureTreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class CustomComponentTreeNode extends FeatureTreeNode
+public class CustomTagComponentTreeNode extends FeatureTreeNode
 {
-    protected LoginComponent loginComp;
+    protected LoginTagComponent loginComp;
 
-    public CustomComponentTreeNode()
+    public CustomTagComponentTreeNode()
     {
     }
 
@@ -34,8 +36,10 @@ public class CustomComponentTreeNode extends FeatureTreeNode
         final ItsNatDocument itsNatDoc = getItsNatDocument();
         ItsNatComponentManager compMgr = itsNatDoc.getItsNatComponentManager();
 
-        this.loginComp = (LoginComponent)compMgr.createItsNatComponentById("loginCompId","login",null);
+        this.loginComp = (LoginTagComponent)compMgr.createItsNatComponentById("loginTagCompId","loginTag",null);
 
+
+        
         ValidateLoginListener validator = new ValidateLoginListener()
         {
             @Override

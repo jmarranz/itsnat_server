@@ -12,19 +12,21 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.custom;
+package org.itsnat.feashow.features.comp.other.customtag;
 
+import java.io.File;
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.CreateItsNatComponentListener;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.NameValue;
+import org.itsnat.core.http.ItsNatHttpServlet;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class LoginCreationItsNatComponentListener implements CreateItsNatComponentListener
+public class LoginTagCreationItsNatComponentListener implements CreateItsNatComponentListener
 {
 
-    public LoginCreationItsNatComponentListener()
+    public LoginTagCreationItsNatComponentListener()
     {
     }
 
@@ -38,8 +40,8 @@ public class LoginCreationItsNatComponentListener implements CreateItsNatCompone
 
         Element elem = (Element)node;
 
-        if ((componentType != null) && componentType.equals("login"))
-            return new LoginComponent(elem,compMgr);
+        if ((componentType != null) && componentType.equals("loginTag"))
+            return new LoginTagComponent(elem,compMgr);
 
         return null;
     }
@@ -50,4 +52,16 @@ public class LoginCreationItsNatComponentListener implements CreateItsNatCompone
         return comp;
     }
 
+
+    public static void registerLayouts(ItsNatHttpServlet itsNatServlet,String pathPrefix)
+    {
+        registerLayout(itsNatServlet,"loginTag","text/html",pathPrefix,"main/comp/other/custom_tag_component_logintag_frag.html");
+    }
+
+    private static void registerLayout(ItsNatHttpServlet itsNatServlet,String name,String mime,String pathPrefix,String relPath)
+    {
+        String path = pathPrefix + relPath;
+        if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
+        itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, path);
+    }
 }

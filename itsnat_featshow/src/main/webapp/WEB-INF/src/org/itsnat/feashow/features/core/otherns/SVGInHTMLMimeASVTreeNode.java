@@ -22,6 +22,7 @@ import org.itsnat.core.event.CustomParamTransport;
 import org.itsnat.core.event.ItsNatEvent;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.core.http.ItsNatHttpSession;
+import org.itsnat.feashow.BrowserUtil;
 import org.itsnat.feashow.FeatureTreeNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -47,6 +48,7 @@ public class SVGInHTMLMimeASVTreeNode extends FeatureTreeNode implements EventLi
     {
     }
 
+    @Override
     public void startExamplePanel()
     {
         ItsNatDocument itsNatDoc = getItsNatDocument();
@@ -55,7 +57,7 @@ public class SVGInHTMLMimeASVTreeNode extends FeatureTreeNode implements EventLi
        ItsNatHttpSession session = (ItsNatHttpSession)itsNatDoc.getClientDocumentOwner().getItsNatSession();
         if (itsNatDoc.isLoading() &&
            itsNatDoc.getItsNatDocumentTemplate().isFastLoadMode() &&
-           session.getUserAgent().indexOf("MSIE") != -1)
+           BrowserUtil.isMSIEOld(session.getUserAgent()))                
         {
             // Removing <!DOCTYPE> sets Internet Explorer in Quirks Mode.
             // Quirks mode is mandatory with SVG inline and ASV
@@ -89,6 +91,7 @@ public class SVGInHTMLMimeASVTreeNode extends FeatureTreeNode implements EventLi
         ((EventTarget)smallerCircleElem).addEventListener("click",this,false);
     }
 
+    @Override
     public void endExamplePanel()
     {
         ((EventTarget)svgElem).removeEventListener("click",this,false);
@@ -106,6 +109,7 @@ public class SVGInHTMLMimeASVTreeNode extends FeatureTreeNode implements EventLi
         this.smallerCircleElem = null;
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         EventTarget target = evt.getTarget();
