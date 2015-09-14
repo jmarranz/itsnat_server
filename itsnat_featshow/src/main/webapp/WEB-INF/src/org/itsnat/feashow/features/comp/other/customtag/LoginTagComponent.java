@@ -17,46 +17,42 @@ package org.itsnat.feashow.features.comp.other.customtag;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.itsnat.comp.ItsNatComponentManager;
-import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
-import org.itsnat.comp.text.ItsNatHTMLInputPassword;
-import org.itsnat.comp.text.ItsNatHTMLInputText;
-import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.ItsNatServlet;
-import org.itsnat.core.domutil.ItsNatTreeWalker;
-import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.itsnat.core.domutil.ItsNatDOMUtil;
+import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.feashow.features.comp.shared.MyCustomComponentBase;
-import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
 public class LoginTagComponent extends MyCustomComponentBase implements ActionListener
 {
-    protected ItsNatHTMLInputText userComp;
-    protected ItsNatHTMLInputPassword passwordComp;
-    protected ItsNatHTMLInputButton validateComp;
+    protected LoginUserComponent userComp;
+    protected LoginPasswordComponent passwordComp;
+    protected LoginValidateComponent validateComp;
     protected Element logElem;
     protected ValidateLoginListener validateListener;
 
     public LoginTagComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(doLayout(parentElem,compMgr),compMgr);
+        super(LoginUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a <login> element 
 
-        this.userComp = (ItsNatHTMLInputText)compMgr.createItsNatComponentById("userId");
-        this.passwordComp = (ItsNatHTMLInputPassword)compMgr.createItsNatComponentById("passwordId");
-        this.validateComp = (ItsNatHTMLInputButton)compMgr.createItsNatComponentById("validateId");
+        parentElem = (Element)getNode();
+        
+        Element userElem = ItsNatDOMUtil.getElementById("userId", parentElem);
+        userElem.removeAttribute("id"); // Good practice to avoid duplicity
+        Element passElem = ItsNatDOMUtil.getElementById("passwordId", parentElem);
+        passElem.removeAttribute("id");        
+        Element validateElem = ItsNatDOMUtil.getElementById("validateId", parentElem);        
+        validateElem.removeAttribute("id");
+        
+        this.userComp = (LoginUserComponent)compMgr.createItsNatComponent(userElem,"loginUser",null);
+        this.passwordComp = (LoginPasswordComponent)compMgr.createItsNatComponent(passElem,"loginPassword",null);
+        this.validateComp = (LoginValidateComponent)compMgr.createItsNatComponent(validateElem,"loginValidate",null);
 
-        validateComp.getButtonModel().addActionListener(this);
+        validateComp.getItsNatHTMLInputButton().getButtonModel().addActionListener(this);
     }
-
-    private static Element doLayout(Element parentElem,ItsNatComponentManager compMgr)
+    
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String pathPrefix,String relPath)
     {
-        // parentElem is a <login> element        
-        ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();        
-        ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
-        ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate("loginTag");
-        DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);
-        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag);        
-        parentElem.getParentNode().replaceChild(newParentElem,parentElem);
-        return newParentElem;
+        LoginUtil.registerTemplate(itsNatServlet,"loginTag","text/html",pathPrefix,relPath);
     }
     
     @Override
@@ -67,6 +63,21 @@ public class LoginTagComponent extends MyCustomComponentBase implements ActionLi
         validateComp.dispose();
     }
 
+    public LoginUserComponent getLoginUserComponent()
+    {
+        return userComp;
+    }
+    
+    public LoginPasswordComponent getLoginPasswordComponent()
+    {
+        return passwordComp;
+    }    
+    
+    public LoginValidateComponent getLoginValidateComponent()
+    {
+        return validateComp;
+    }      
+    
     public ValidateLoginListener getValidateLoginListener()
     {
         return validateListener;
@@ -88,12 +99,12 @@ public class LoginTagComponent extends MyCustomComponentBase implements ActionLi
 
     public String getUser()
     {
-        return userComp.getText();
+        return userComp.getItsNatHTMLInputText().getText();
     }
 
     public String getPassword()
     {
-        return passwordComp.getText();
+        return passwordComp.getItsNatHTMLInputPassword().getText();
     }
 }
 

@@ -14,8 +14,6 @@
 
 package org.itsnat.feashow.features.comp.other.customtag;
 
-import java.io.File;
-import javax.servlet.http.HttpServlet;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.feashow.FeatureTreeNode;
@@ -38,8 +36,7 @@ public class CustomTagComponentTreeNode extends FeatureTreeNode
 
         this.loginComp = (LoginTagComponent)compMgr.createItsNatComponentById("loginTagCompId","loginTag",null);
 
-
-        
+       
         ValidateLoginListener validator = new ValidateLoginListener()
         {
             @Override

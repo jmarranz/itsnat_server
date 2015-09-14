@@ -3,17 +3,17 @@
 <head>
     <title>Login Component Layout</title>
 </head>
-<body>
+<body itsnat:nocache="true">
     
-    <div id="loginId" itsnat:nocache="true">
+    <div>
         <table>
             <tbody>
-                <tr><td>User:</td><td><input type="text" id="userId" value="User" size="25"  /></td></tr>
-                <tr><td>Password:</td><td><input type="password" id="passwordId" value="Password" size="25" /></td></tr>
+                <tr><td>User:</td><td><custom:loginUser id="userId" xmlns:custom="http://example.com/custom" /></td></tr>
+                <tr><td>Password:</td><td><custom:loginPassword id="passwordId" xmlns:custom="http://example.com/custom" /></td></tr>
             </tbody>
         </table>
-         <br />
-        <input type="button" id="validateId" value="Login" />
+        <br />
+        <custom:loginValidate id="validateId" xmlns:custom="http://example.com/custom" />
     </div>
 
 </body>

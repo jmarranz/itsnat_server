@@ -37,7 +37,11 @@ import org.itsnat.feashow.features.comp.other.custom.LoginCreationItsNatComponen
 import org.itsnat.feashow.features.comp.layers.ModalLayerSVGLoadListener;
 import org.itsnat.feashow.features.comp.layers.ModalLayerXULLoadListener;
 import org.itsnat.feashow.features.comp.lists.FreeListSVGLoadListener;
+import org.itsnat.feashow.features.comp.other.customtag.LoginPasswordComponent;
+import org.itsnat.feashow.features.comp.other.customtag.LoginTagComponent;
 import org.itsnat.feashow.features.comp.other.customtag.LoginTagCreationItsNatComponentListener;
+import org.itsnat.feashow.features.comp.other.customtag.LoginUserComponent;
+import org.itsnat.feashow.features.comp.other.customtag.LoginValidateComponent;
 import org.itsnat.feashow.features.comp.tables.FreeTableSVGLoadListener;
 import org.itsnat.feashow.features.comp.xmlcomp.XMLAndCompLoadListener;
 import org.itsnat.feashow.features.core.misc.remctrl.RemoteControlSupervision;
@@ -83,14 +87,14 @@ public class feashow_servlet extends HttpServletWrapper
         itsNatCtx.setSessionReplicationCapable(gaeEnabled);
         //itsNatCtx.setSessionSerializeCompressed(false);
         //itsNatCtx.setSessionExplicitSerialize(false);
-        
+
         itsNatConfig.setMaxOpenClientsByDocument(5); // To avoid abusive users in remote/view control
         itsNatConfig.setClientErrorMode(ClientErrorMode.NOT_CATCH_ERRORS); // ClientErrorMode.NOT_CATCH_ERRORS, SHOW_SERVER_AND_CLIENT_ERRORS
         itsNatConfig.setEventTimeout(10*60*1000); // 10 minutes
         itsNatConfig.setDefaultDateFormat(DateFormat.getDateInstance(DateFormat.DEFAULT,Locale.US));
         itsNatConfig.setDefaultNumberFormat(NumberFormat.getInstance(Locale.US));
         itsNatConfig.setEventDispatcherMaxWait(10*60*1000);  // 10 minutes
-        
+
         itsNatServlet.addItsNatServletRequestListener(new GlobalItsNatServletRequestListener());
         itsNatServlet.addEventListener(new GlobalEventListener());
         itsNatServlet.addItsNatAttachedClientEventListener(new RemoteControlSupervision());
@@ -119,7 +123,7 @@ public class feashow_servlet extends HttpServletWrapper
         docTemplate.setAutoBuildComponents(false);
         docTemplate.addCreateItsNatComponentListener(new LoginCreationItsNatComponentListener());
         docTemplate.addCreateItsNatComponentListener(new LoginTagCreationItsNatComponentListener());
-        
+
         docTemplate = registerItsNatDocumentTemplate("feashow.docNotFound","text/html",pathPrefix,pages);
         docTemplate.setScriptingEnabled(false);
 
@@ -240,12 +244,12 @@ public class feashow_servlet extends HttpServletWrapper
         docTemplate = registerItsNatDocumentTemplate("feashow.ext.comp.xmlAndCompExample","text/xml",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new XMLAndCompLoadListener());
 
-        // Stateless        
-        
+        // Stateless
+
         docTemplate = registerItsNatDocumentTemplate("feashow.ext.stless.comp.freeListExample","text/html",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new StlessFreeListExampleInitialDocLoadListener());
-        docTemplate.setEventsEnabled(false);                 
-        
+        docTemplate.setEventsEnabled(false);
+
         // HTML fragments
 
         ItsNatDocFragmentTemplate docFragTemplate;
@@ -256,9 +260,12 @@ public class feashow_servlet extends HttpServletWrapper
             String name = (String)fragmentNames.nextElement();
             docFragTemplate = registerItsNatDocFragmentTemplate(name,"text/html",pathPrefix,htmlFragments);
         }
-        
-        LoginTagCreationItsNatComponentListener.registerLayouts(itsNatServlet, pathPrefix);        
-        
+
+        LoginTagComponent.registerTemplate(itsNatServlet, pathPrefix,"main/comp/other/custom_tag_component_logintag_frag.html");
+        LoginUserComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_user_frag.html");
+        LoginPasswordComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_password_frag.html");
+        LoginValidateComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_validate_frag.html");
+
         // XML fragments
 
         Properties xmlFragments = loadProperties(pathPrefix + "xml_fragments.properties");
@@ -281,13 +288,13 @@ public class feashow_servlet extends HttpServletWrapper
         ItsNatDocumentTemplate docTemplate;
         docTemplate = registerItsNatDocumentTemplate("manual.core.example", "text/html", pathPrefix, "core_example.html");
         docTemplate = registerItsNatDocumentTemplate("manual.core.xmlExample","text/xml",  pathPrefix, "xml_example.xml");
-        docTemplate = registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix, "comp_example.html");        
+        docTemplate = registerItsNatDocumentTemplate("manual.comp.example",   "text/html", pathPrefix, "comp_example.html");
         docTemplate = registerItsNatDocumentTemplate("manual.stless.example", "text/xml",  pathPrefix, "stless_example.html");
-        docTemplate = registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml", pathPrefix, "stless_example_event_receiver.html");        
-        
+        docTemplate = registerItsNatDocumentTemplate("manual.stless.example.eventReceiver", "text/xml", pathPrefix, "stless_example_event_receiver.html");
+
         ItsNatDocFragmentTemplate docFragTemplate;
         docFragTemplate = registerItsNatDocFragmentTemplate("manual.core.xmlFragExample","text/xml",pathPrefix, "xml_fragment_example.xml");
-        docFragTemplate = registerItsNatDocFragmentTemplate("manual.stless.example.fragment","text/xml",pathPrefix, "stless_example_fragment.html"); 
+        docFragTemplate = registerItsNatDocFragmentTemplate("manual.stless.example.fragment","text/xml",pathPrefix, "stless_example_fragment.html");
     }
 
     public Properties loadProperties(String path)
@@ -318,8 +325,8 @@ public class feashow_servlet extends HttpServletWrapper
         String path = pathPrefix + relPath;
         if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
         return getItsNatHttpServlet().registerItsNatDocumentTemplate(name,mime, path);
-    }    
-    
+    }
+
     public ItsNatDocFragmentTemplate registerItsNatDocFragmentTemplate(String name,String mime,String pathPrefix,Properties paths)
     {
         String relPath = paths.getProperty(name);
@@ -332,8 +339,8 @@ public class feashow_servlet extends HttpServletWrapper
         String path = pathPrefix + relPath;
         if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
         return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, path);
-    }    
-    
+    }
+
     public ItsNatDocumentTemplate registerItsNatDocumentTemplateAttachedServer(String name,String mime)
     {
         return getItsNatHttpServlet().registerItsNatDocumentTemplateAttachedServer(name,mime);
