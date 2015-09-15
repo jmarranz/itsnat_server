@@ -14,7 +14,6 @@
 
 package org.itsnat.web.customcomp.logintag;
 
-import java.io.InputStream;
 import org.itsnat.web.customcomp.shared.CustomCompUtil;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputText;

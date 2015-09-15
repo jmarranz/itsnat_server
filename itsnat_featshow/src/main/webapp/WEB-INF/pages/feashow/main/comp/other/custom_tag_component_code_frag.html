@@ -11,30 +11,683 @@
         <textarea name="feashow.comp.other.customTagComponent.ex" class="html" style="display:none" />
     </span>
 
-    <p>Java: CustomComponentTreeNode</p>
+    <p>Java: CustomTagComponentTreeNode</p>
     <span>
         <textarea name="org.itsnat.feashow.features.comp.other.customtag.CustomTagComponentTreeNode" class="java" style="display:none" />
     </span>
 
-    <p>Java: MyCustomComponentBase</p>
+
+    <p><b>The source of the following Java classes and HTML files are copied from <code>itsnat_web_custom_comp</code> Java demo project
+          imported through itsnat_web_custom_comp-1.0.jar containing the custom component classes and templates</b>
+    </p>
+
+    <p>Java: CustomComponentBase</p>
+
     <span>
-        <textarea name="org.itsnat.feashow.features.comp.shared.MyCustomComponentBase" class="java" style="display:none" />
+        <textarea name="org.itsnat.web.customcomp.shared.CustomComponentBase" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.shared;
+
+import java.beans.PropertyChangeListener;
+import java.beans.VetoableChangeListener;
+import org.itsnat.comp.ItsNatComponent;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.core.ClientDocument;
+import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.event.ParamTransport;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.events.EventListener;
+
+public abstract class CustomComponentBase implements ItsNatComponent
+{
+    protected Element parentElement;
+    protected ItsNatComponentManager compMgr;
+
+    public CustomComponentBase(Element parentElement,ItsNatComponentManager compMgr)
+    {
+        this.parentElement = parentElement;
+        this.compMgr = compMgr;
+    }
+
+    @Override
+    public Node getNode()
+    {
+        return parentElement;
+    }
+
+    @Override
+    public void setNode(Node node)
+    {
+        throw new RuntimeException("REATTACHMENT IS NOT SUPPORTED");
+    }
+
+    @Override
+    public ItsNatDocument getItsNatDocument()
+    {
+        return compMgr.getItsNatDocument();
+    }
+
+    @Override
+    public ItsNatComponentManager getItsNatComponentManager()
+    {
+        return compMgr;
+    }
+
+    @Override
+    public boolean isDisposed()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addEventListener(String type, EventListener listener,boolean before)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removeEventListener(String type, EventListener listener,boolean before)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addEventListener(String type, EventListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removeEventListener(String type, EventListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void enableEventListener(String type)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void disableEventListener(String type)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public ItsNatComponentUI getItsNatComponentUI()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public PropertyChangeListener[] getPropertyChangeListeners()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public PropertyChangeListener[] getPropertyChangeListeners(String propertyName)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addVetoableChangeListener(VetoableChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removeVetoableChangeListener(VetoableChangeListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public VetoableChangeListener[] getVetoableChangeListeners()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void registerArtifact(String name, Object value)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object getArtifact(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object getArtifact(String name,boolean cascade)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object removeArtifact(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    public String[] getArtifactNames(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object removeUserValue(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object getUserValue(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public Object setUserValue(String name, Object value)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public String[] getUserValueNames()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public boolean containsUserValueName(String name)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void setEventListenerParams(String type, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void setEnabled(boolean b)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addEventListener(ClientDocument clientDoc, String type, EventListener listener, boolean before)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removeEventListener(ClientDocument clientDoc, String type, EventListener listener, boolean before)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void addEventListener(ClientDocument clientDoc, String type, EventListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void removeEventListener(ClientDocument clientDoc, String type, EventListener listener)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void enableEventListener(ClientDocument clientDoc, String type)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void disableEventListener(ClientDocument clientDoc, String type)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+
+    @Override
+    public void setEventListenerParams(ClientDocument clientDoc, String type, boolean useCapture, int commMode, ParamTransport[] extraParams, String preSendCode, long eventTimeout)
+    {
+        throw new RuntimeException("NOT IMPLEMENTED");
+    }
+}
+
+        </textarea>
     </span>
 
-    <p>Java: LoginComponent</p>
+    <p>Java: LoginTagCreationItsNatComponentListener</p>
+
     <span>
-        <textarea name="org.itsnat.feashow.features.comp.other.customtag.LoginComponent" class="java" style="display:none" />
+        <textarea name="org.itsnat.web.customcomp.logintag.LoginTagCreationItsNatComponentListener" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+import org.itsnat.comp.ItsNatComponent;
+import org.itsnat.comp.CreateItsNatComponentListener;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.core.NameValue;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+public class LoginTagCreationItsNatComponentListener implements CreateItsNatComponentListener
+{
+    public LoginTagCreationItsNatComponentListener()
+    {
+    }
+
+    @Override
+    public ItsNatComponent before(Node node, String componentType, NameValue[] artifacts, ItsNatComponentManager compMgr)
+    {
+        if (node == null) return null;
+
+        if (node.getNodeType() != Node.ELEMENT_NODE)
+            return null;
+
+        Element elem = (Element)node;
+
+        if (componentType != null)
+        {
+            if ("loginTag".equals(componentType))
+                return new LoginTagComponent(elem,compMgr);
+            else if ("loginUser".equals(componentType))
+                return new LoginUserComponent(elem,compMgr);
+            else if ("loginPassword".equals(componentType))
+                return new LoginPasswordComponent(elem,compMgr);
+            else if ("loginValidate".equals(componentType))
+                return new LoginValidateComponent(elem,compMgr);
+            else
+                return null;
+        }
+
+        return null;
+    }
+
+    @Override
+    public ItsNatComponent after(ItsNatComponent comp)
+    {
+        return comp;
+    }
+}
+        </textarea>
     </span>
 
-    <p>Java: LoginCreationItsNatComponentListener</p>
+    <p>Java: LoginTagComponent</p>
+
     <span>
-        <textarea name="org.itsnat.feashow.features.comp.other.customtag.LoginCreationItsNatComponentListener" class="java" style="display:none" />
+        <textarea name="org.itsnat.web.customcomp.logintag.LoginTagComponent" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.core.domutil.ItsNatDOMUtil;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
+import org.w3c.dom.Element;
+
+public class LoginTagComponent extends CustomComponentBase implements ActionListener
+{
+    protected LoginUserComponent userComp;
+    protected LoginPasswordComponent passwordComp;
+    protected LoginValidateComponent validateComp;
+    protected Element logElem;
+    protected ValidateLoginListener validateListener;
+
+    public LoginTagComponent(Element parentElem,ItsNatComponentManager compMgr)
+    {
+        super(CustomCompUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a <login> element
+
+        parentElem = (Element)getNode();
+
+        Element userElem = ItsNatDOMUtil.getElementById("userId", parentElem);
+        userElem.removeAttribute("id"); // Good practice to avoid duplicity
+        Element passElem = ItsNatDOMUtil.getElementById("passwordId", parentElem);
+        passElem.removeAttribute("id");
+        Element validateElem = ItsNatDOMUtil.getElementById("validateId", parentElem);
+        validateElem.removeAttribute("id");
+
+        this.userComp = (LoginUserComponent)compMgr.createItsNatComponent(userElem,"loginUser",null);
+        this.passwordComp = (LoginPasswordComponent)compMgr.createItsNatComponent(passElem,"loginPassword",null);
+        this.validateComp = (LoginValidateComponent)compMgr.createItsNatComponent(validateElem,"loginValidate",null);
+
+        validateComp.getItsNatHTMLInputButton().getButtonModel().addActionListener(this);
+    }
+
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
+    {
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_frag.html");
+
+        LoginUserComponent.registerTemplate(itsNatServlet);
+        LoginPasswordComponent.registerTemplate(itsNatServlet);
+        LoginValidateComponent.registerTemplate(itsNatServlet);
+    }
+
+    @Override
+    public void dispose()
+    {
+        userComp.dispose();
+        passwordComp.dispose();
+        validateComp.dispose();
+    }
+
+    public LoginUserComponent getLoginUserComponent()
+    {
+        return userComp;
+    }
+
+    public LoginPasswordComponent getLoginPasswordComponent()
+    {
+        return passwordComp;
+    }
+
+    public LoginValidateComponent getLoginValidateComponent()
+    {
+        return validateComp;
+    }
+
+    public ValidateLoginListener getValidateLoginListener()
+    {
+        return validateListener;
+    }
+
+    public void setValidateLoginListener(ValidateLoginListener listener)
+    {
+        this.validateListener = listener;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if (validateListener != null)
+        {
+            validateListener.validate(getUser(),getPassword());
+        }
+    }
+
+    public String getUser()
+    {
+        return userComp.getItsNatHTMLInputText().getText();
+    }
+
+    public String getPassword()
+    {
+        return passwordComp.getItsNatHTMLInputPassword().getText();
+    }
+}
+        </textarea>
     </span>
 
-    <p>Java: ValidateLoginListener</p>
+    <p>Java: LoginUserComponent</p>
+
     <span>
-        <textarea name="org.itsnat.feashow.features.comp.other.customtag.ValidateLoginListener" class="java" style="display:none" />
+        <textarea name="org.itsnat.web.customcomp.logintag.LoginUserComponent" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.text.ItsNatHTMLInputText;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
+import org.w3c.dom.Element;
+
+public class LoginUserComponent extends CustomComponentBase
+{
+    protected ItsNatHTMLInputText inputComp;
+
+    public LoginUserComponent(Element parentElem,ItsNatComponentManager compMgr)
+    {
+        super(CustomCompUtil.doTemplateLayout("loginUserTag",parentElem,compMgr),compMgr);  // parentElem is a <loginUser> element
+
+        parentElem = (Element)getNode();
+
+        this.inputComp = (ItsNatHTMLInputText)compMgr.createItsNatComponent(parentElem);
+    }
+
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
+    {
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginUserTag","text/html",LoginUserComponent.class,"custom_tag_component_logintag_user_frag.html");
+    }
+
+    @Override
+    public void dispose()
+    {
+        inputComp.dispose();
+    }
+
+    public ItsNatHTMLInputText getItsNatHTMLInputText()
+    {
+        return inputComp;
+    }
+}
+        </textarea>
     </span>
+
+
+    <p>Java: LoginPasswordComponent</p>
+
+    <span>
+        <textarea name="org.itsnat.web.customcomp.logintag.LoginPasswordComponent" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.text.ItsNatHTMLInputPassword;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
+import org.w3c.dom.Element;
+
+public class LoginPasswordComponent extends CustomComponentBase
+{
+    protected ItsNatHTMLInputPassword inputComp;
+
+    public LoginPasswordComponent(Element parentElem,ItsNatComponentManager compMgr)
+    {
+        super(CustomCompUtil.doTemplateLayout("loginPasswordTag",parentElem,compMgr),compMgr);
+
+        parentElem = (Element)getNode();
+
+        this.inputComp = (ItsNatHTMLInputPassword)compMgr.createItsNatComponent(parentElem);
+    }
+
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
+    {
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginPasswordTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_password_frag.html");
+    }
+
+    @Override
+    public void dispose()
+    {
+        inputComp.dispose();
+    }
+
+    public ItsNatHTMLInputPassword getItsNatHTMLInputPassword()
+    {
+        return inputComp;
+    }
+}
+        </textarea>
+    </span>
+
+
+    <p>Java: LoginValidateComponent</p>
+
+    <span>
+        <textarea name="org.itsnat.web.customcomp.logintag.LoginValidateComponent" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
+import org.w3c.dom.Element;
+
+public class LoginValidateComponent extends CustomComponentBase
+{
+    protected ItsNatHTMLInputButton inputComp;
+
+    public LoginValidateComponent(Element parentElem,ItsNatComponentManager compMgr)
+    {
+        super(CustomCompUtil.doTemplateLayout("loginValidateTag",parentElem,compMgr),compMgr);
+
+        parentElem = (Element)getNode();
+
+        this.inputComp = (ItsNatHTMLInputButton)compMgr.createItsNatComponent(parentElem);
+    }
+
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
+    {
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginValidateTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_validate_frag.html");
+    }
+
+    @Override
+    public void dispose()
+    {
+        inputComp.dispose();
+    }
+
+    public ItsNatHTMLInputButton getItsNatHTMLInputButton()
+    {
+        return inputComp;
+    }
+}
+        </textarea>
+    </span>
+
+    <p>Java: LoginValidateComponent</p>
+
+    <span>
+        <textarea name="org.itsnat.web.customcomp.logintag.ValidateLoginListener" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.logintag;
+
+public interface ValidateLoginListener
+{
+    public boolean validate(String user,String password);
+}
+        </textarea>
+    </span>
+
+    <p>Java: CustomCompUtil</p>
+
+    <span>
+        <textarea name="org.itsnat.web.customcomp.shared.CustomCompUtil" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.shared;
+
+import java.io.InputStream;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatServlet;
+import org.itsnat.core.domutil.ItsNatTreeWalker;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.Element;
+
+public class CustomCompUtil
+{
+
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class<?> cls,String templateResPath)
+    {
+        InputStream input = cls.getResourceAsStream(templateResPath);
+        itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, new InputStreamTemplateSource(input));
+    }
+
+    public static Element doTemplateLayout(String templateName,Element parentElem,ItsNatComponentManager compMgr)
+    {
+        // parentElem is a <login> element
+        ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();
+        ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
+        ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate(templateName);
+        DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);
+        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag);
+        parentElem.getParentNode().replaceChild(newParentElem,parentElem);
+        return newParentElem;
+    }
+}
+        </textarea>
+    </span>
+
+    <p>Java: InputStreamTemplateSource</p>
+
+    <span>
+        <textarea name="org.itsnat.web.customcomp.shared.InputStreamTemplateSource" class="java" loaded="true" style="display:none">
+package org.itsnat.web.customcomp.shared;
+
+import java.io.InputStream;
+import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.ItsNatServletResponse;
+import org.itsnat.core.tmpl.TemplateSource;
+
+public class InputStreamTemplateSource implements TemplateSource
+{
+    protected InputStream input;
+    
+    public InputStreamTemplateSource(InputStream input)
+    {
+        this.input = input;        
+    }
+    
+    @Override
+    public boolean isMustReload(ItsNatServletRequest request, ItsNatServletResponse response) 
+    {
+        return false;
+    }
+
+    @Override
+    public InputStream getInputStream(ItsNatServletRequest request, ItsNatServletResponse response) 
+    {
+        return input;
+    }   
+}
+        </textarea>
+    </span>
+
+
+
 </div>
 
 </body>

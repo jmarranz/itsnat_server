@@ -1,17 +1,3 @@
-package org.itsnat.web.customcomp.shared;
-
-import java.io.File;
-import java.io.InputStream;
-import org.itsnat.comp.ItsNatComponentManager;
-import org.itsnat.core.ItsNatDocument;
-import org.itsnat.core.ItsNatServlet;
-import org.itsnat.core.domutil.ItsNatTreeWalker;
-import org.itsnat.core.http.ItsNatHttpServlet;
-import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
-import org.itsnat.web.customcomp.logintag.LoginUserComponent;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-
 /*
  * This file is not part of the ItsNat framework.
  *
@@ -25,6 +11,18 @@ import org.w3c.dom.Element;
  *
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
+
+package org.itsnat.web.customcomp.shared;
+
+import java.io.InputStream;
+import org.itsnat.comp.ItsNatComponentManager;
+import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatServlet;
+import org.itsnat.core.domutil.ItsNatTreeWalker;
+import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.Element;
 
 /**
  *

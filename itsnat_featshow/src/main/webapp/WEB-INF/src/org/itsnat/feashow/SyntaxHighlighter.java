@@ -37,34 +37,51 @@ public class SyntaxHighlighter
 
     public static void highlightJava(HTMLTextAreaElement textAreaElem,ItsNatDocument itsNatDoc)
     {
-        String javaPath = textAreaElem.getAttribute("name");
-        String path = javaPath.replace('.','/') + ".java";
+        String javaPath = textAreaElem.getAttribute("name"); 
+        
+        String loaded = textAreaElem.getAttribute("loaded");
+        if (loaded.equals("true"))
+        {
+            highlight(javaPath,textAreaElem,itsNatDoc); // Renderizar tal y como está
+        }
+        else
+        {
+            String path = javaPath.replace('.','/') + ".java";
 
-        ServletContext context = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet().getItsNatServletContext().getServletContext();
-        String pathPrefix = context.getRealPath("/");
-        path = pathPrefix + "/WEB-INF/src/" + path;
+            ServletContext context = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet().getItsNatServletContext().getServletContext();
+            String pathPrefix = context.getRealPath("/");
+            path = pathPrefix + "/WEB-INF/src/" + path;
 
-        highlightFile(javaPath,path,"UTF-8",textAreaElem,itsNatDoc);
+            highlightFile(javaPath,path,"UTF-8",textAreaElem,itsNatDoc);
+        }
     }
 
     public static void highlightMarkup(HTMLTextAreaElement textAreaElem,ItsNatDocument itsNatDoc)
     {
         String markupName = textAreaElem.getAttribute("name");
 
-        ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
+        String loaded = textAreaElem.getAttribute("loaded");
+        if (loaded.equals("true"))
+        {
+            highlight(markupName,textAreaElem,itsNatDoc); // Renderizar tal y como está
+        }        
+        else
+        {
+            ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
 
-        MarkupTemplate template;
-        template = servlet.getItsNatDocFragmentTemplate(markupName);
-        if (template == null)
-            template = servlet.getItsNatDocumentTemplate(markupName);
-        if (template == null)
-            throw new RuntimeException("Template not found: " + markupName);
+            MarkupTemplate template;
+            template = servlet.getItsNatDocFragmentTemplate(markupName);
+            if (template == null)
+                template = servlet.getItsNatDocumentTemplate(markupName);
+            if (template == null)
+                throw new RuntimeException("Template not found: " + markupName);
 
-        String url = (String)template.getSource();
-        String path = url.substring("file:".length());
-        String encoding = template.getEncoding();
+            String url = (String)template.getSource();
+            String path = url.substring("file:".length());
+            String encoding = template.getEncoding();
 
-        highlightFile(markupName,path,encoding,textAreaElem,itsNatDoc);
+            highlightFile(markupName,path,encoding,textAreaElem,itsNatDoc);
+        }
     }
 
     private static void highlightFile(String name,String path,String encoding,HTMLTextAreaElement textAreaElem,ItsNatDocument itsNatDoc)
@@ -88,11 +105,16 @@ public class SyntaxHighlighter
 
         ItsNatDOMUtil.setTextContent(textAreaElem,code.toString());
 
+        highlight(name,textAreaElem,itsNatDoc);
+    }
+
+    private static void highlight(String name,HTMLTextAreaElement textAreaElem,ItsNatDocument itsNatDoc)
+    {
         Document doc = itsNatDoc.getDocument();
         Element script = doc.createElement("script");
         ItsNatDOMUtil.setTextContent(script,"window.dp.SyntaxHighlighter.HighlightAll(\"" + name + "\"); \n");
 
         textAreaElem.getParentNode().appendChild(script);
-    }
-
+    }    
+    
 }

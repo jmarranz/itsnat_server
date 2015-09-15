@@ -14,9 +14,7 @@
 
 package org.itsnat.web.customcomp.shared;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.tmpl.TemplateSource;

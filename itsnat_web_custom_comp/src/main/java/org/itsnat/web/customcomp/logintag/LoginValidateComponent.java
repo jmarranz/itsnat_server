@@ -49,6 +49,5 @@ public class LoginValidateComponent extends CustomComponentBase
     {
         return inputComp;
     }
-
 }
 

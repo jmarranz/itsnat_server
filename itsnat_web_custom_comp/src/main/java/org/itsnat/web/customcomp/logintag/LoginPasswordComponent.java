@@ -49,6 +49,5 @@ public class LoginPasswordComponent extends CustomComponentBase
     {
         return inputComp;
     }
-
 }
 
