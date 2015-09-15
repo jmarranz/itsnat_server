@@ -60,6 +60,7 @@ import org.itsnat.feashow.BrowserAdaptor;
 import org.itsnat.feashow.FeatureTreeNode;
 import org.itsnat.feashow.features.comp.other.custom.LoginComponent;
 import org.itsnat.feashow.features.comp.lists.CityListCustomStructure;
+import org.itsnat.web.customcomp.logintag.LoginTagComponent;
 import org.w3c.dom.Element;
 
 public class AutoCompBuildAllTypesTreeNode extends FeatureTreeNode
@@ -248,6 +249,11 @@ public class AutoCompBuildAllTypesTreeNode extends FeatureTreeNode
         LoginComponent customComp = (LoginComponent)compMgr.findItsNatComponentById("customCompId");
         check(customComp);
 
+        LoginTagComponent customTagComp = (LoginTagComponent)compMgr.findItsNatComponentById("loginTagCompId"); // remember the element with loginTagCompId is NO longer the <login> element, is the new component root in normal HTML
+        check(customTagComp);        
+        
+        
+        
         ItsNatFreeListMultSel listCustomStruc = (ItsNatFreeListMultSel)compMgr.findItsNatComponentById("listCustomStructureId");
         check(listCustomStruc);
         check(listCustomStruc.getItsNatListStructure() instanceof CityListCustomStructure);
@@ -271,6 +277,7 @@ public class AutoCompBuildAllTypesTreeNode extends FeatureTreeNode
 
     public static void check(boolean eval)
     {
-        if (!eval) throw new RuntimeException("Unexpected Error");
+        if (!eval) 
+            throw new RuntimeException("Unexpected Error");
     }
 }

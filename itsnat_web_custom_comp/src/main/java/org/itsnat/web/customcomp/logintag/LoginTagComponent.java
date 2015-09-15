@@ -38,7 +38,7 @@ public class LoginTagComponent extends CustomComponentBase implements ActionList
         parentElem = (Element)getNode();
         
         Element userElem = ItsNatDOMUtil.getElementById("userId", parentElem);
-        userElem.removeAttribute("id"); // Good practice to avoid duplicity
+        userElem.removeAttribute("id"); // Good practice to avoid duplicity with other components in the page, we don't need it and we can get the Element parent of the component through this component (and by the way the element is changed)
         Element passElem = ItsNatDOMUtil.getElementById("passwordId", parentElem);
         passElem.removeAttribute("id");        
         Element validateElem = ItsNatDOMUtil.getElementById("validateId", parentElem);        

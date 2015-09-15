@@ -31,20 +31,21 @@ import org.w3c.dom.Element;
 public class CustomCompUtil 
 {
     
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class<?> cls,String templateResPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class cls,String templateResPath)
     {
         InputStream input = cls.getResourceAsStream(templateResPath);        
         itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, new InputStreamTemplateSource(input));
     }        
     
     public static Element doTemplateLayout(String templateName,Element parentElem,ItsNatComponentManager compMgr)
-    {
-        // parentElem is a <login> element        
+    {       
         ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();        
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate(templateName);
         DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);
-        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag);        
+        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag); 
+        String id = parentElem.getAttribute("id");
+        if (!id.isEmpty()) newParentElem.setAttribute("id",id); // The root element is replaced, maybe we want to keep access to the new root element 
         parentElem.getParentNode().replaceChild(newParentElem,parentElem);
         return newParentElem;
     }    

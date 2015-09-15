@@ -2,6 +2,7 @@
 <html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title></title>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
 
 
     <p><b>The source of the following Java classes and HTML files are copied from <code>itsnat_web_custom_comp</code> Java demo project
-          imported through itsnat_web_custom_comp-1.0.jar containing the custom component classes and templates</b>
+          imported through itsnat_web_custom_comp-1.0.jar containing the custom component classes and templates:</b>
     </p>
 
     <p>Java: CustomComponentBase</p>
@@ -379,7 +380,7 @@ public class LoginTagComponent extends CustomComponentBase implements ActionList
 
     public LoginTagComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(CustomCompUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a <login> element
+        super(CustomCompUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a login element
 
         parentElem = (Element)getNode();
 
@@ -480,7 +481,7 @@ public class LoginUserComponent extends CustomComponentBase
 
     public LoginUserComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(CustomCompUtil.doTemplateLayout("loginUserTag",parentElem,compMgr),compMgr);  // parentElem is a <loginUser> element
+        super(CustomCompUtil.doTemplateLayout("loginUserTag",parentElem,compMgr),compMgr);  // parentElem is a loginUser element
 
         parentElem = (Element)getNode();
 
@@ -627,26 +628,27 @@ import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
-public class CustomCompUtil
+public class CustomCompUtil 
 {
-
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class<?> cls,String templateResPath)
+    
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class cls,String templateResPath)
     {
-        InputStream input = cls.getResourceAsStream(templateResPath);
+        InputStream input = cls.getResourceAsStream(templateResPath);        
         itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, new InputStreamTemplateSource(input));
-    }
-
+    }        
+    
     public static Element doTemplateLayout(String templateName,Element parentElem,ItsNatComponentManager compMgr)
-    {
-        // parentElem is a <login> element
-        ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();
+    {       
+        ItsNatDocument itsNatDoc = compMgr.getItsNatDocument();        
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate(templateName);
         DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);
-        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag);
+        Element newParentElem = ItsNatTreeWalker.getFirstChildElement(docFrag); 
+        String id = parentElem.getAttribute("id");
+        if (!id.isEmpty()) newParentElem.setAttribute("id",id); // The root element is replaced, maybe we want to keep access to the new root element 
         parentElem.getParentNode().replaceChild(newParentElem,parentElem);
         return newParentElem;
-    }
+    }    
 }
         </textarea>
     </span>
@@ -686,7 +688,87 @@ public class InputStreamTemplateSource implements TemplateSource
         </textarea>
     </span>
 
+    <p>HTML fragment: custom_tag_component_logintag_frag.html</p>
 
+    <span>
+        <textarea name="custom_tag_component_logintag_frag.html" class="xml" loaded="true" style="display:none">
+<!DOCTYPE html>
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Login Component Layout</title>
+</head>
+<body itsnat:nocache="true">
+    
+    <div>
+        <table>
+            <tbody>
+                <tr><td>User:</td><td><custom:loginUser id="userId" xmlns:custom="http://example.com/custom" /></td></tr>
+                <tr><td>Password:</td><td><custom:loginPassword id="passwordId" xmlns:custom="http://example.com/custom" /></td></tr>
+            </tbody>
+        </table>
+        <br />
+        <custom:loginValidate id="validateId" xmlns:custom="http://example.com/custom" />
+    </div>
+
+</body>
+</html>            
+        </textarea>
+    </span>    
+    
+    <p>HTML fragment: custom_tag_component_logintag_user_frag.html</p>
+
+    <span>
+        <textarea name="custom_tag_component_logintag_user_frag.html" class="xml" loaded="true" style="display:none">
+<!DOCTYPE html>
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>User Component Layout</title>
+</head>
+<body itsnat:nocache="true">
+    
+    <input type="text" value="User" style="width:200px; border-color:red"  />
+    
+</body>
+</html>
+        </textarea>
+    </span>    
+    
+    <p>HTML fragment: custom_tag_component_logintag_password_frag.html</p>
+
+    <span>
+        <textarea name="custom_tag_component_logintag_password_frag.html" class="xml" loaded="true" style="display:none">
+<!DOCTYPE html>
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Password Component Layout</title>
+</head>
+<body itsnat:nocache="true">
+    
+    <input type="password" value="Password" style="width:200px; border-color:red;"  />
+    
+</body>
+</html>
+        </textarea>
+    </span>    
+    
+    <p>HTML fragment: custom_tag_component_logintag_validate_frag.html</p>
+
+    <span>
+        <textarea name="custom_tag_component_logintag_validate_frag.html" class="xml" loaded="true" style="display:none">
+<!DOCTYPE html>
+<html xmlns:itsnat="http://itsnat.org/itsnat" xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Validate Component Layout</title>
+</head>
+<body itsnat:nocache="true">
+    
+    <input type="button" value="Login" style="width:100px; border-color:red;"  />
+    
+</body>
+</html>
+        </textarea>
+    </span>    
+    
 
 </div>
 

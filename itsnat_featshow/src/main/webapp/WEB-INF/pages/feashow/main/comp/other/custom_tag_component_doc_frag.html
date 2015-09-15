@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <title></title>
 </head>
 <body>
 
 <div class="explanation">
-    <p>This is not the first we build a user defined component, this
-        example goes beyond, the new component type is registered in the framework
-        and can be instanced by ItsNat for instance with a call
-        <code>ItsNatComponentManager.createItsNatComponentById</code>.
+    
+    <p>This example shows how to use a self-contained custom component in a jar and in the same time how to encapsulate a HTML layout into a single custom tag,
+       for instance this example shows how a simple &lt;login&gt; element is finally converted by the component to conventional HTML with user, 
+       password and enter controls, and how single components can be composed to build a more complex one. Java code and HTML layouts are built into a Java jar 
+       (more custom components could be included in the same jar).
     </p>
-    <p>This feature is achieved registering a user defined component factory/filter
-        implementing <code>CreateItsNatComponentListener</code> and registering it
-        calling <code>ItsNatDocumentTemplate.addCreateItsNatComponentListener</code>.
-        The registered factory/filter object is called when a new component is requested
-        by a call to a normal ItsNat factory method like <code>ItsNatComponentManager.createItsNatComponentById</code>.
-        The factory/filter has the opportunity to create new component types, replace a just
-        created component or reject it.
-    </p>
-    <p>This example shows how we can register a new component type <code>LoginComponent</code>
-        with name "login" using a registered factory/filter object <code>LoginCreationItsNatComponentListener</code>.
-        This new login component defines a listener type <code>ValidateLoginListener</code>,
-        this listener is called when the login must be validated.
-    </p>
+       
+    <p>Component registering is necessary in <code>feashow_servlet</code> initialization, there you can find code like:</p>
+    
+    <p><code>docTemplate.addCreateItsNatComponentListener(new LoginTagCreationItsNatComponentListener()); </code></p>
+    <p><code>... </code></p>    
+    <p><code>LoginTagComponent.registerTemplate(itsNatServlet);</code></p>        
+
 </div>
 
 </body>
