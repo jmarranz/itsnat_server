@@ -42,26 +42,31 @@ public class MarkupTemplateNormalDelegateImpl extends MarkupTemplateDelegateImpl
         return source;
     }
 
+    @Override
     public boolean isItsNatTagsAllowed()
     {
         return true;
     }
 
+    @Override
     public MarkupSourceImpl getMarkupSource(RequestNormalLoadDocImpl request)
     {
         return source;
     }
 
+    @Override
     public Object getSource()
     {
         return source.getSource();
     }
 
+    @Override
     public MarkupTemplateVersionImpl getNewestMarkupTemplateVersion(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return getNewestMarkupTemplateVersion(source,request,response);
     }
 
+    @Override
     public MarkupTemplateVersionImpl getNewestMarkupTemplateVersion(MarkupSourceImpl source,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         if (currentTemplateVersion == null)
@@ -102,6 +107,7 @@ public class MarkupTemplateNormalDelegateImpl extends MarkupTemplateDelegateImpl
         return currentTemplateVersion;
     }
 
+    @Override
     public boolean isTemplateAlreadyUsed()
     {
         // Esto es para detectar un mal uso de ItsNat en tiempo de desarrollo
@@ -109,6 +115,7 @@ public class MarkupTemplateNormalDelegateImpl extends MarkupTemplateDelegateImpl
         return (currentTemplateVersion != null);
     }
 
+    @Override
     public boolean canVersionBeSharedBetweenDocs()
     {
         return true;

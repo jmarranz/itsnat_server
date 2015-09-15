@@ -18,11 +18,13 @@ import org.itsnat.core.tmpl.TemplateSource;
  */
 public class GoogleResultTemplateSource implements TemplateSource
 {
+    @Override
     public boolean isMustReload(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return true;
     }
 
+    @Override
     public InputStream getInputStream(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         String query = request.getServletRequest().getParameter("q");

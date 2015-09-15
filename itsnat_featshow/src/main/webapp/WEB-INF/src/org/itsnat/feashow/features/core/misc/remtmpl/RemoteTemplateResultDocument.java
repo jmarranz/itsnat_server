@@ -18,10 +18,6 @@ import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.html.HTMLAnchorElement;
-import org.w3c.dom.html.HTMLImageElement;
-import org.w3c.dom.html.HTMLInputElement;
 
 /**
  *

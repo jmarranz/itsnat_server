@@ -14,6 +14,14 @@
       
         <dependency>
             <groupId>org.itsnat</groupId>
+            <artifactId>itsnat_web_custom_comp</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/itsnat_web_custom_comp-1.0.jar</systemPath>
+        </dependency>      
+      
+        <dependency>
+            <groupId>org.itsnat</groupId>
             <artifactId>itsnat_server</artifactId>
             <version>1.4</version>
         </dependency>

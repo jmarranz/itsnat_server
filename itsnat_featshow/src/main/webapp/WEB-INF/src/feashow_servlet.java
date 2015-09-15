@@ -37,11 +37,8 @@ import org.itsnat.feashow.features.comp.other.custom.LoginCreationItsNatComponen
 import org.itsnat.feashow.features.comp.layers.ModalLayerSVGLoadListener;
 import org.itsnat.feashow.features.comp.layers.ModalLayerXULLoadListener;
 import org.itsnat.feashow.features.comp.lists.FreeListSVGLoadListener;
-import org.itsnat.feashow.features.comp.other.customtag.LoginPasswordComponent;
-import org.itsnat.feashow.features.comp.other.customtag.LoginTagComponent;
-import org.itsnat.feashow.features.comp.other.customtag.LoginTagCreationItsNatComponentListener;
-import org.itsnat.feashow.features.comp.other.customtag.LoginUserComponent;
-import org.itsnat.feashow.features.comp.other.customtag.LoginValidateComponent;
+import org.itsnat.web.customcomp.logintag.LoginTagComponent;
+import org.itsnat.web.customcomp.logintag.LoginTagCreationItsNatComponentListener;
 import org.itsnat.feashow.features.comp.tables.FreeTableSVGLoadListener;
 import org.itsnat.feashow.features.comp.xmlcomp.XMLAndCompLoadListener;
 import org.itsnat.feashow.features.core.misc.remctrl.RemoteControlSupervision;
@@ -261,10 +258,8 @@ public class feashow_servlet extends HttpServletWrapper
             docFragTemplate = registerItsNatDocFragmentTemplate(name,"text/html",pathPrefix,htmlFragments);
         }
 
-        LoginTagComponent.registerTemplate(itsNatServlet, pathPrefix,"main/comp/other/custom_tag_component_logintag_frag.html");
-        LoginUserComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_user_frag.html");
-        LoginPasswordComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_password_frag.html");
-        LoginValidateComponent.registerTemplate(itsNatServlet,pathPrefix,"main/comp/other/custom_tag_component_logintag_validate_frag.html");
+        LoginTagComponent.registerTemplate(itsNatServlet);
+
 
         // XML fragments
 

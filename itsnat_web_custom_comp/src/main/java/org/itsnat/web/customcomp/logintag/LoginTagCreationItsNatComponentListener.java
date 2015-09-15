@@ -12,7 +12,7 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.logintag;
 
 import org.itsnat.comp.ItsNatComponent;
 import org.itsnat.comp.CreateItsNatComponentListener;

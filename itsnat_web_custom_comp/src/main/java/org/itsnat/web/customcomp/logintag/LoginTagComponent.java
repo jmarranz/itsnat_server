@@ -12,17 +12,18 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.logintag;
 
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.domutil.ItsNatDOMUtil;
 import org.itsnat.core.http.ItsNatHttpServlet;
-import org.itsnat.feashow.features.comp.shared.MyCustomComponentBase;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
 import org.w3c.dom.Element;
 
-public class LoginTagComponent extends MyCustomComponentBase implements ActionListener
+public class LoginTagComponent extends CustomComponentBase implements ActionListener
 {
     protected LoginUserComponent userComp;
     protected LoginPasswordComponent passwordComp;
@@ -32,7 +33,7 @@ public class LoginTagComponent extends MyCustomComponentBase implements ActionLi
 
     public LoginTagComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(LoginUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a <login> element 
+        super(CustomCompUtil.doTemplateLayout("loginTag",parentElem,compMgr),compMgr); // parentElem is a <login> element 
 
         parentElem = (Element)getNode();
         
@@ -50,10 +51,14 @@ public class LoginTagComponent extends MyCustomComponentBase implements ActionLi
         validateComp.getItsNatHTMLInputButton().getButtonModel().addActionListener(this);
     }
     
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String pathPrefix,String relPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
     {
-        LoginUtil.registerTemplate(itsNatServlet,"loginTag","text/html",pathPrefix,relPath);
-    }
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_frag.html");
+
+        LoginUserComponent.registerTemplate(itsNatServlet);
+        LoginPasswordComponent.registerTemplate(itsNatServlet);
+        LoginValidateComponent.registerTemplate(itsNatServlet);        
+    }    
     
     @Override
     public void dispose()

@@ -12,30 +12,32 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.logintag;
 
+import java.io.InputStream;
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputText;
 import org.itsnat.core.http.ItsNatHttpServlet;
-import org.itsnat.feashow.features.comp.shared.MyCustomComponentBase;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
 import org.w3c.dom.Element;
 
-public class LoginUserComponent extends MyCustomComponentBase
+public class LoginUserComponent extends CustomComponentBase
 {
     protected ItsNatHTMLInputText inputComp;
 
     public LoginUserComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(LoginUtil.doTemplateLayout("loginUserTag",parentElem,compMgr),compMgr);  // parentElem is a <loginUser> element 
+        super(CustomCompUtil.doTemplateLayout("loginUserTag",parentElem,compMgr),compMgr);  // parentElem is a <loginUser> element 
 
         parentElem = (Element)getNode();
         
         this.inputComp = (ItsNatHTMLInputText)compMgr.createItsNatComponent(parentElem);
     }
     
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String pathPrefix,String relPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
     {
-        LoginUtil.registerTemplate(itsNatServlet,"loginUserTag","text/html",pathPrefix,relPath);
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginUserTag","text/html",LoginUserComponent.class,"custom_tag_component_logintag_user_frag.html");
     }     
     
     @Override

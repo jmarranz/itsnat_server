@@ -1,12 +1,14 @@
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.shared;
 
 import java.io.File;
+import java.io.InputStream;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
 import org.itsnat.core.http.ItsNatHttpServlet;
 import org.itsnat.core.tmpl.ItsNatDocFragmentTemplate;
+import org.itsnat.web.customcomp.logintag.LoginUserComponent;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
@@ -28,14 +30,13 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class LoginUtil 
+public class CustomCompUtil 
 {
     
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,String pathPrefix,String relPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String name,String mime,Class<?> cls,String templateResPath)
     {
-        String path = pathPrefix + relPath;
-        if (!new File(path).exists()) throw new RuntimeException("Not found file:" + path);
-        itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, path);
+        InputStream input = cls.getResourceAsStream(templateResPath);        
+        itsNatServlet.registerItsNatDocFragmentTemplate(name,mime, new InputStreamTemplateSource(input));
     }        
     
     public static Element doTemplateLayout(String templateName,Element parentElem,ItsNatComponentManager compMgr)

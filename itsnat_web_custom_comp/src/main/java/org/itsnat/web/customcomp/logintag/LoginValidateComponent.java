@@ -12,30 +12,31 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.logintag;
 
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.button.normal.ItsNatHTMLInputButton;
 import org.itsnat.core.http.ItsNatHttpServlet;
-import org.itsnat.feashow.features.comp.shared.MyCustomComponentBase;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
 import org.w3c.dom.Element;
 
-public class LoginValidateComponent extends MyCustomComponentBase
+public class LoginValidateComponent extends CustomComponentBase
 {   
     protected ItsNatHTMLInputButton inputComp;
 
     public LoginValidateComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(LoginUtil.doTemplateLayout("loginValidateTag",parentElem,compMgr),compMgr);
+        super(CustomCompUtil.doTemplateLayout("loginValidateTag",parentElem,compMgr),compMgr);
 
         parentElem = (Element)getNode();
         
         this.inputComp = (ItsNatHTMLInputButton)compMgr.createItsNatComponent(parentElem);
     }
 
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String pathPrefix,String relPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
     {
-        LoginUtil.registerTemplate(itsNatServlet,"loginValidateTag","text/html",pathPrefix,relPath);
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginValidateTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_validate_frag.html");
     }    
     
     @Override

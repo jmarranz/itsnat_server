@@ -17,7 +17,6 @@ package org.itsnat.feashow.features.core.misc.remtmpl;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatServletRequest;
 import org.itsnat.core.ItsNatServletResponse;
@@ -29,11 +28,13 @@ import org.itsnat.core.tmpl.TemplateSource;
  */
 public class GoogleResultTemplateSource implements TemplateSource
 {
+    @Override
     public boolean isMustReload(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         return true;
     }
 
+    @Override
     public InputStream getInputStream(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         String query = request.getServletRequest().getParameter("q");

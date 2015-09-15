@@ -38,12 +38,14 @@ public class ItsNatStfulDocumentTemplateAttachedServerDelegateImpl extends Marku
         super(parent);
     }
 
+    @Override
     public boolean isItsNatTagsAllowed()
     {
         // No tiene sentido usar <itsnat:include> <itsnat:comment> etc
         return false;
     }
 
+    @Override
     public MarkupSourceImpl getMarkupSource(RequestNormalLoadDocImpl request)
     {
         RequestAttachedServerLoadDocImpl parentRequest =
@@ -52,11 +54,13 @@ public class ItsNatStfulDocumentTemplateAttachedServerDelegateImpl extends Marku
         return new MarkupSourceStringMarkupImpl(clientMarkup);
     }
 
+    @Override
     public Object getSource()
     {
         return null;
     }
 
+    @Override
     public MarkupTemplateVersionImpl getNewestMarkupTemplateVersion(MarkupSourceImpl source,ItsNatServletRequest request, ItsNatServletResponse response)
     {
         // Cada request es siempre un MarkupTemplateVersionImpl nuevo.
@@ -74,16 +78,19 @@ public class ItsNatStfulDocumentTemplateAttachedServerDelegateImpl extends Marku
         return templateVer;
     }
 
+    @Override
     public MarkupTemplateVersionImpl getNewestMarkupTemplateVersion(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         throw new ItsNatException("INTERNAL ERROR");
     }
 
+    @Override
     public boolean isTemplateAlreadyUsed()
     {
         return templateAlreadyUsed;
     }
 
+    @Override
     public boolean canVersionBeSharedBetweenDocs()
     {
         return false; // Sólo estará asociado a un documento

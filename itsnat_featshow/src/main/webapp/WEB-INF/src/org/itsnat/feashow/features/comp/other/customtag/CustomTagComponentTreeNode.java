@@ -17,6 +17,8 @@ package org.itsnat.feashow.features.comp.other.customtag;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.feashow.FeatureTreeNode;
+import org.itsnat.web.customcomp.logintag.LoginTagComponent;
+import org.itsnat.web.customcomp.logintag.ValidateLoginListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

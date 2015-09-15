@@ -12,31 +12,32 @@
  * (C) Innowhere Software a service of Jose Maria Arranz Santamaria, Spanish citizen.
  */
 
-package org.itsnat.feashow.features.comp.other.customtag;
+package org.itsnat.web.customcomp.logintag;
 
+import org.itsnat.web.customcomp.shared.CustomCompUtil;
 import org.itsnat.comp.ItsNatComponentManager;
 import org.itsnat.comp.text.ItsNatHTMLInputPassword;
 import org.itsnat.core.http.ItsNatHttpServlet;
-import org.itsnat.feashow.features.comp.shared.MyCustomComponentBase;
+import org.itsnat.web.customcomp.shared.CustomComponentBase;
 import org.w3c.dom.Element;
 
-public class LoginPasswordComponent extends MyCustomComponentBase
+public class LoginPasswordComponent extends CustomComponentBase
 { 
     protected ItsNatHTMLInputPassword inputComp;
 
     public LoginPasswordComponent(Element parentElem,ItsNatComponentManager compMgr)
     {
-        super(LoginUtil.doTemplateLayout("loginPasswordTag",parentElem,compMgr),compMgr);
+        super(CustomCompUtil.doTemplateLayout("loginPasswordTag",parentElem,compMgr),compMgr);
 
         parentElem = (Element)getNode();
         
         this.inputComp = (ItsNatHTMLInputPassword)compMgr.createItsNatComponent(parentElem);
     }
 
-    public static void registerTemplate(ItsNatHttpServlet itsNatServlet,String pathPrefix,String relPath)
+    public static void registerTemplate(ItsNatHttpServlet itsNatServlet)
     {
-        LoginUtil.registerTemplate(itsNatServlet,"loginPasswordTag","text/html",pathPrefix,relPath);
-    }    
+        CustomCompUtil.registerTemplate(itsNatServlet,"loginPasswordTag","text/html",LoginTagComponent.class,"custom_tag_component_logintag_password_frag.html");
+    }     
     
     @Override
     public void dispose()
