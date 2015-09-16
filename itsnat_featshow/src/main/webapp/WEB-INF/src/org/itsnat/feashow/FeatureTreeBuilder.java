@@ -888,7 +888,7 @@ public class FeatureTreeBuilder
                 childNodeL3 = addNode(true,true,true,
                         "feashow.comp.other.customTagComponent",
                         "Custom Tag Components",
-                        "Custom Tag Components",
+                        "Custom Tag Components in external JAR",
                         new CustomTagComponentTreeNode(),childNodeL2);                
                 
             childNodeL2 = addNode(false,true,false,
