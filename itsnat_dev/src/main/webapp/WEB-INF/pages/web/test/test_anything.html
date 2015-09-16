@@ -14,12 +14,16 @@ function init()
 }
 </script>
 
+<style>
+    
+</style>
+
 </head>
-<body onloadNO="init()"  onbeforeunload="return 'salir'" xmlns:itsnat="http://itsnat.org/itsnat"  itsnat:nocache="true">
+<body onloadNO="init()"  onbeforeunloadNO="return 'salir'" xmlns:itsnat="http://itsnat.org/itsnat"  itsnat:nocache="true">
 
     <h1>Test Anything</h1>
 
-
+    
     <div  style="width: 100px; height:50px" onclick="alert(event.target.nodeName)">
         <a id="elemId" href="javascript:;" >Test</a></div>
     <div id="logId" />
@@ -46,22 +50,6 @@ function init()
    //alert(typeof div.style.webkitColumnWidth);     
    //alert(typeof div.style.oColumnWidth);    
    //alert(typeof div.style.columnWidth);    
-    
-      var func = function ()
-      {
-          div.innerHTML = arguments.callee.nodeEditor;
-      };
-      func.nodeEditor = "Hola";    
-      func();
-    
-    div.style.webkitColumnCount = 2;
-    div.style.webkitColumnWidth = "20px";;   
-    div.style.webkitColumnGap = "100px";
-   
-    div.style.columnCount = 2;
-    div.style.columnWidth = "20px";;   
-    div.style.columnGap = "100px";   
-
    
     var elem = document.getElementById("pruebaId");
     function mostrar()
@@ -83,7 +71,7 @@ function init()
     // window.setTimeout(mostrar,4000);
 </script>
 
-    
+
     <br />
     <a href="javascript:window.location.href=window.location.href">RELOAD</a>
     <br /><br />

@@ -21,7 +21,7 @@ import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
-import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9Up;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
@@ -63,7 +63,7 @@ public class JSRenderHTMLElementAllBrowsersImpl extends JSRenderHTMLElementImpl
 
         addBrowser(BrowserWebKit.getJSRenderHTMLElementSingletonStatic());
         
-        addBrowser(BrowserMSIE9.getJSRenderHTMLElementSingletonStatic());
+        addBrowser(BrowserMSIE9Up.getJSRenderHTMLElementSingletonStatic());
     }
 
     private void addBrowser(JSRenderHTMLElementImpl renderer)

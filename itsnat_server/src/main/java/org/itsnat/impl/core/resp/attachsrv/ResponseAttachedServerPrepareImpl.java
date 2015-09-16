@@ -17,7 +17,7 @@
 package org.itsnat.impl.core.resp.attachsrv;
 
 import org.itsnat.impl.core.browser.Browser;
-import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9Up;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.clientdoc.ClientDocumentAttachedServerImpl;
 import org.itsnat.impl.core.req.attachsrv.RequestAttachedServerPrepareImpl;
@@ -62,7 +62,7 @@ public abstract class ResponseAttachedServerPrepareImpl extends ResponseAttached
         Browser browser = clientDoc.getBrowser();
 
         StringBuilder code = new StringBuilder();
-        if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserMSIE9)) // IE 9 no tiene XMLSerializer
+        if ((browser instanceof BrowserMSIEOld)||(browser instanceof BrowserMSIE9Up)) // IE 9 no tiene XMLSerializer
         {
             // MSIE ve el <!DOCTYPE> como un comentario, en el texto del mismo está
             // la declaración de forma correcta. El elemento no puede ser otro que el <html>

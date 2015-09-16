@@ -18,7 +18,7 @@ package org.itsnat.impl.core.scriptren.jsren.event.domstd.w3c;
 
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
-import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9Up;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
@@ -45,7 +45,7 @@ public abstract class JSRenderW3CKeyEventImpl extends JSRenderW3CUIEventImpl
             return JSRenderW3CKeyEventGeckoImpl.SINGLETON;
         else if (browser instanceof BrowserWebKit)
             return JSRenderW3CKeyEventWebKitImpl.getJSRenderW3CKeyEventWebKit((BrowserWebKit)browser);
-        else if (browser instanceof BrowserMSIE9)
+        else if (browser instanceof BrowserMSIE9Up)
             return JSRenderW3CKeyEventMSIE9Impl.SINGLETON;
         else if (browser instanceof BrowserOperaOld)
             return JSRenderW3CKeyEventOperaOldImpl.SINGLETON;

@@ -77,7 +77,7 @@ public abstract class BrowserWeb extends Browser
             if (version <= 8)
                 return BrowserMSIEOld.createBrowserMSIEOld(userAgent,itsNatRequest,version);
             else
-                return new BrowserMSIE9(userAgent,version);
+                return new BrowserMSIE9Up(userAgent,version);
         }
         else if (BrowserGecko.isGecko(userAgent,itsNatRequest))
             return BrowserGecko.createBrowserGecko(userAgent,itsNatRequest);

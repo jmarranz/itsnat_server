@@ -19,7 +19,7 @@ package org.itsnat.impl.core.scriptren.jsren.node.html.w3c;
 import org.itsnat.impl.core.browser.web.BrowserAdobeSVG;
 import org.itsnat.impl.core.browser.web.BrowserBatik;
 import org.itsnat.impl.core.browser.web.BrowserGecko;
-import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9Up;
 import org.itsnat.impl.core.browser.web.BrowserW3C;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
 import org.itsnat.impl.core.browser.web.webkit.BrowserWebKit;
@@ -90,7 +90,7 @@ public abstract class JSRenderHTMLElementW3CImpl extends JSRenderHTMLElementImpl
             return JSRenderHTMLElementWebKitImpl.getJSRenderHTMLElementWebKit((BrowserWebKit)browser);
         else if (browser instanceof BrowserOperaOld)
             return JSRenderHTMLElementOperaOldImpl.getJSRenderHTMLElementOperaOld((BrowserOperaOld)browser);
-        else if (browser instanceof BrowserMSIE9)
+        else if (browser instanceof BrowserMSIE9Up)
             return JSRenderHTMLElementMSIE9Impl.SINGLETON;
         else if (browser instanceof BrowserAdobeSVG)
             return JSRenderHTMLElementAdobeSVGImpl.SINGLETON;

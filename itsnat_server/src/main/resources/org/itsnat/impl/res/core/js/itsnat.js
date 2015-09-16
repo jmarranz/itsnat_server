@@ -222,7 +222,7 @@ function Browser(type,subType)
     this.isOperaOldMini = isOperaOldMini;
     this.isAdobeSVG = isAdobeSVG;
     this.isBatik = isBatik;
-    this.isMSIE9 = isMSIE9;
+    this.isMSIE9Up = isMSIE9Up;
 
     /* UNKNOWN=0,MSIE_OLD=1,GECKO=2,WEBKIT=3,OPERA_OLD=4,BLACKBERRY_OLD=5,ADOBE_SVG=6,BATIK=7,MSIE_9=8 */
     this.type = type;
@@ -236,7 +236,7 @@ function Browser(type,subType)
     function isOperaOldMini() { return this.isOperaOld() && (this.subType == 2); }
     function isAdobeSVG() { return this.type == 6; }
     function isBatik() { return this.type == 7; }
-    function isMSIE9() { return this.type == 8; }
+    function isMSIE9Up() { return this.type == 8; }
 }
 
 function DOMPathResolver(itsNatDoc)

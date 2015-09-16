@@ -46,6 +46,7 @@ public class ItsNatModalLayerHTMLImpl extends ItsNatModalLayerImpl implements It
         init();
     }
 
+    @Override
     public String getDefaultBackground()
     {
         return "black";
@@ -66,6 +67,7 @@ public class ItsNatModalLayerHTMLImpl extends ItsNatModalLayerImpl implements It
         }
     }
 
+    @Override
     public Node createDefaultNode()
     {
         return getItsNatDocument().getDocument().createElementNS(NamespaceUtil.XHTML_NAMESPACE,"div");

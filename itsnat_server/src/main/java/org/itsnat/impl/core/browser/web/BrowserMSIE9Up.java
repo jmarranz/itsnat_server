@@ -40,12 +40,12 @@ import org.w3c.dom.html.HTMLElement;
  * 
  * @author jmarranz
  */
-public class BrowserMSIE9 extends BrowserW3C
+public class BrowserMSIE9Up extends BrowserW3C
 {
     protected int version; // Por ahora no lo usamos, será 9 o mayor (futuras versiones
 
     /** Creates a new instance of BrowserMSIE9 */
-    public BrowserMSIE9(String userAgent,int version)
+    public BrowserMSIE9Up(String userAgent,int version)
     {
         super(userAgent);
 
@@ -59,6 +59,11 @@ public class BrowserMSIE9 extends BrowserW3C
         return false;
     }
 
+    public int getVersion()
+    {
+        return version;
+    }
+    
     @Override
     public boolean hasBeforeUnloadSupportHTML()
     {

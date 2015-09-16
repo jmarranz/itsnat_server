@@ -135,7 +135,7 @@ public abstract class ItsNatModalLayerClientDocImpl implements Serializable
 
         if (browser.isMobile())
         {
-            return 10000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
+            return 1000; // Hay que tener en cuenta que si se crean varios layers hay más frecuencia de parpadeos
         }
         else return 500; // 250 10000
     }

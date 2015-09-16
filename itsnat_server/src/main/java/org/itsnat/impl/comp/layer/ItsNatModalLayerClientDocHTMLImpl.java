@@ -16,7 +16,7 @@
 
 package org.itsnat.impl.comp.layer;
 
-import org.itsnat.impl.core.browser.web.BrowserMSIE9;
+import org.itsnat.impl.core.browser.web.BrowserMSIE9Up;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.browser.web.opera.BrowserOperaOld;
@@ -30,6 +30,7 @@ import org.w3c.dom.Element;
  */
 public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayerClientDocImpl
 {
+
     public ItsNatModalLayerClientDocHTMLImpl(ItsNatModalLayerHTMLImpl comp,ClientDocumentStfulDelegateWebImpl clientDoc)
     {
         super(comp,clientDoc);
@@ -40,12 +41,12 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         return (ItsNatModalLayerHTMLImpl)parentComp;
     }
 
-/*    
+/*
     public DelegateClientDocumentStfulWebImpl getDelegateClientDocumentStfulWeb()
     {
         return clientDoc.getDelegateClientDocumentStful();
-    }    
-*/    
+    }
+*/
     @Override
     public void initModalLayer()
     {
@@ -66,8 +67,9 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         {
             if (background == null) // Transparente (valor por defecto normal)
             {
-                // Vemos qué casos el fondo transparente no es válido             
-                if ((browser instanceof BrowserMSIEOld) /*||(browser instanceof BrowserMSIE9)*/) // Al parecer el MSIE 9 tenía este problema pero en el 11 no y consideramos el IE 9 en vias de extinción considerando el más moderno y Windows 7 admite IE 11
+                // Vemos qué casos el fondo transparente no es válido
+                if ((browser instanceof BrowserMSIEOld) ||
+                    ((browser instanceof BrowserMSIE9Up) && (((BrowserMSIE9Up)browser)).getVersion() == 9)) // Al parecer el MSIE 9 tiene este problema pero en el 11 no, aunque el IE 9 está en vias de extinción (Windows 7 se actualiza a IE 11) aún tiene cuota significativa
                 {
                     // El fondo transparente ignora el z-index, los elementos por debajo son pulsables,
                     // evitamos así esto.
@@ -87,7 +89,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
 
         {
             StringBuilder styleCode = new StringBuilder();
-            styleCode.append( "position:absolute; top:0px; left:0px; width:1px; height:1px; margin:0px; padding:0px; border:0px; " ); // border:1px red solid; para testear
+            styleCode.append( "position:absolute; top:0px; left:0px; width:100%; height:100%; margin:0px; padding:0px; border:0px; " ); // Usar border:1px red solid; para testear. Lo del width/height:100% no vale para nada, se cambia enseguida por el timer a valores concretos, en position absolute el 100% es respecto al viewport, si la página sale por abajo al hacer scroll no cubre la parte de abajo, por ello necesitamos recalcular.
             styleCode.append( "z-index:" + zIndex + "; " );
 
             styleCode.append( "opacity:" + opacity + "; " );
@@ -140,6 +142,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         // width/height = '1px'; antes de obtener la nueva dimensión conseguimos
         // que htmlElem.scrollWidth/scrollHeight se calculen sin contar con la capa modal.
 
+
         String methodName = "initModalLayerHTML";
         if (!clientDoc.isClientMethodBounded(methodName))
             code.append(bindInitModalLayerMethod(methodName));
@@ -175,7 +178,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         code.append("      var currH = elem.scrollHeight;\n");
         code.append("      currW = parseInt((currW*49)/50);\n");
         code.append("      currH = parseInt((currH*49)/50);\n");
-        
+
         code.append("      style.width =  currW + 'px';\n");
         code.append("      style.height = currH + 'px';\n");
 
@@ -191,11 +194,12 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         code.append("      maxW = Math.max(top1.scrollWidth,top2.scrollWidth);\n");
         code.append("      maxH = Math.max(top1.scrollHeight,top2.scrollHeight);\n");
     }
-
+    else
+    {
         code.append("      var top = itsNatDoc.doc.documentElement;\n");
         code.append("      maxW = top.scrollWidth;\n");
-        code.append("      maxH = top.scrollHeight;\n");    
-
+        code.append("      maxH = top.scrollHeight;\n");
+    }
         code.append("      if ((currW<maxW)&&(currH<maxH)) break; \n");
         code.append("    }\n");
         code.append("    style.width  = maxW + 'px';\n");
@@ -218,6 +222,7 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
         return code.toString();
      }
 
+    @Override
     public void preRemoveLayer()
     {
         if (getTimeout() > 0)
@@ -227,5 +232,4 @@ public abstract class ItsNatModalLayerClientDocHTMLImpl extends ItsNatModalLayer
             clientDoc.addCodeToSend("itsNatDoc.clearTimeout(" + elemLayerRef + ".itsNatModalLayerTimer);");
         }
     }
-
 }

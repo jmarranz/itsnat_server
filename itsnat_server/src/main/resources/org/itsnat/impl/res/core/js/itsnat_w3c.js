@@ -284,8 +284,8 @@ function SafariRejectDOMNodeRemoved(evt)
 function W3CDocument()
 {
     this.setInnerXML = setInnerXML;
-    this.setInnerXMLMSIE9 = setInnerXMLMSIE9;
-    this.importNodeMSIE9 = importNodeMSIE9;
+    this.setInnerXMLMSIE9Up = setInnerXMLMSIE9Up;
+    this.importNodeMSIE9Up = importNodeMSIE9Up;
     this.addDOMEL2 = addDOMEL2;
     this.removeDOMEL2 = removeDOMEL2;
     this.addEventListener = addEventListener;
@@ -295,7 +295,7 @@ function W3CDocument()
 
     function setInnerXML(elem,value)
     {
-        if (this.browser.isMSIE9()) { this.setInnerXMLMSIE9(elem,value); return; } // DOMParser no soportado
+        if (this.browser.isMSIE9Up()) { this.setInnerXMLMSIE9Up(elem,value); return; } // DOMParser no soportado
 
         var svgweb = this.isSVGWebNode(elem);
         var rootElem;
@@ -325,7 +325,7 @@ function W3CDocument()
         }
     }
 
-    function setInnerXMLMSIE9(elem,value)
+    function setInnerXMLMSIE9Up(elem,value)
     {
         // Estudiar para SVGWeb cuando soporte IE 9
         var xmlDoc = new ActiveXObject("Msxml2.DOMDocument.3.0");
@@ -335,13 +335,13 @@ function W3CDocument()
         var child = rootElem.firstChild;
         while (child != null)
         {
-            var newChild = this.importNodeMSIE9(child,true);
+            var newChild = this.importNodeMSIE9Up(child,true);
             if (newChild != null) elem.appendChild(newChild);
             child = child.nextSibling;
         }
     }
 
-    function importNodeMSIE9(node,deep)
+    function importNodeMSIE9Up(node,deep)
     {
         switch(node.nodeType)
         {
@@ -357,7 +357,7 @@ function W3CDocument()
             if (deep)
               for (var i = 0; i < node.childNodes.length; i++)
               {
-                var child = this.importNodeMSIE9(node.childNodes[i],true);
+                var child = this.importNodeMSIE9Up(node.childNodes[i],true);
                 if (child != null) newNode.appendChild(child);
               }
             return newNode;
@@ -488,7 +488,7 @@ function W3CHTMLDocument()
     function setAttribute(elem,name,value)
     {
         this.W3CHTMLDocument_super_setAttribute(elem,name,value);
-        if (this.browser.isMSIE9() && (name == "style") && (value == ""))
+        if (this.browser.isMSIE9Up() && (name == "style") && (value == ""))
             elem.style.cssText = "";
     }
 
