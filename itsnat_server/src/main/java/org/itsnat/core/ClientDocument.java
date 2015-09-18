@@ -159,7 +159,7 @@ public interface ClientDocument extends ItsNatUserData
     /**
      * Creates a COMET notifier bound to this client and to the server document associated.
      *
-     * <p>The communication mode is the pure asynchronous mode of the default communication mode 
+     * <p>The communication mode is the pure asynchronous mode of the default communication mode
      * ({@link CommMode#XHR_ASYNC} or {@link CommMode#SCRIPT})
      * </p>
      *
@@ -184,13 +184,13 @@ public interface ClientDocument extends ItsNatUserData
      *
      * @param commMode the communication mode, must be pure asynchronous.
      * @param extraParams optional client to server data transport and synchronization rules. May be null.
-     * @param preSendCode custom JavaScript code to execute before an event of this listener type is fired. May be null.      
+     * @param preSendCode custom JavaScript code to execute before an event of this listener type is fired. May be null.
      * @param eventTimeout the timeout for any event used to notify the client. If negative no timeout is defined.
      * @return a new COMET notifier.
      * @see CommMode
      */
-    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout);    
-    
+    public CometNotifier createCometNotifier(int commMode,ParamTransport[] extraParams,String preSendCode,long eventTimeout);
+
     /**
      * Executes the specified task in a new thread, this code is ready to
      * call <code>EventTarget.dispatchEvent(Event)</code> or
@@ -212,7 +212,7 @@ public interface ClientDocument extends ItsNatUserData
      * calling dispatchEvent (W3C browsers) or fireEvent (MSIE) on the browser.
      * The call returns when the event is processed by the browser.
      *
-     * <p>Used the default communication mode of the document ({@link ItsNatDocument#getCommMode()}) and 
+     * <p>Used the default communication mode of the document ({@link ItsNatDocument#getCommMode()}) and
     * event timeout ({@link ItsNatDocument#getEventTimeout()}).
      * </p>
      *
@@ -564,7 +564,7 @@ public interface ClientDocument extends ItsNatUserData
      * @see #removeEventListener(EventListener)
      * @see ItsNatServlet#addEventListener(EventListener)
      * @see org.itsnat.core.tmpl.ItsNatDocumentTemplate#addEventListener(EventListener)
-     * @see ItsNatDocument#addEventListener(org.w3c.dom.events.EventListener) 
+     * @see ItsNatDocument#addEventListener(org.w3c.dom.events.EventListener)
      */
     public void addEventListener(EventListener listener);
 

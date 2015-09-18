@@ -24,5 +24,5 @@ import org.itsnat.comp.ItsNatElementComponent;
  */
 public interface View extends ItsNatElementComponent
 {
-    
+
 }

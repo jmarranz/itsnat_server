@@ -24,16 +24,16 @@ public interface Checkable
 {
     /**
      * @TODO
-     * @return 
+     * @return
      */
     public boolean isChecked();
 
     /**
      * @TODO
-     * @param checked 
+     * @param checked
      */
-    public void setChecked(boolean checked);    
-    
+    public void setChecked(boolean checked);
+
     /**
      * @TODO
      */

@@ -24,5 +24,5 @@ import org.itsnat.comp.android.view.View;
  */
 public interface TextView extends View
 {
-    
+
 }

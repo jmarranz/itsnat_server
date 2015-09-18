@@ -75,7 +75,7 @@ public interface ItsNatDocument extends ItsNatUserData
 
     /**
      * Returns the node containing this document.
-     * 
+     *
      * <p>This method returns a non-null object if this document was loaded
      * using an &lt;iframe&gt; or &lt;object&gt; or &lt;embed&gt; following the automatic binding technique
      * (the data or src attribute has the format "?itsnat_doc_name=docName&...").
@@ -274,15 +274,15 @@ public interface ItsNatDocument extends ItsNatUserData
      * @see #isJoystickMode()
      */
     public void setJoystickMode(boolean value);
-    
+
     /**
-     * If this document was created when processing a stateless event, that is, it was loaded as the result of processing a stateless event fired with a JavaScript call 
+     * If this document was created when processing a stateless event, that is, it was loaded as the result of processing a stateless event fired with a JavaScript call
      * document.getItsNatDoc().dispatchEventStateless(...); provided a <code>itsnat_doc_name</code> parameter.
-     * 
-     * @return true if is a stateless document.     
+     *
+     * @return true if is a stateless document.
      */
     public boolean isCreatedByStatelessEvent();
-    
+
     /**
      * Parses and converts to DOM the specified string containing markup
      * usually to be inserted into the document.
@@ -317,7 +317,7 @@ public interface ItsNatDocument extends ItsNatUserData
     public ItsNatDocumentTemplate getItsNatDocumentTemplate();
 
     /**
-     * Returns the <code>org.w3c.dom.Document</code> wrapped by this object. 
+     * Returns the <code>org.w3c.dom.Document</code> wrapped by this object.
      *
      * @return the wrapped DOM Document object.
      */
@@ -866,7 +866,7 @@ public interface ItsNatDocument extends ItsNatUserData
      * @return the new event.
      */
     public Event createEvent(String eventType) throws DOMException;
-    
+
     /**
      * Dispatches the specified event to the specified node target.
      *
@@ -926,7 +926,7 @@ public interface ItsNatDocument extends ItsNatUserData
 
     /**
      * Informs whether the specified node is marked as "child nodes disconnected"
-     * 
+     *
      * @param node the node to ask.
      * @return true if the specified node is marked as "child nodes disconnected"
      * @see #disconnectChildNodesFromClient(Node)
