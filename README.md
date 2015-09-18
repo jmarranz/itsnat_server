@@ -23,6 +23,15 @@ Distribution file includes binaries, examples, manual and javadocs.
 
 Artefacts are uploaded to [JCenter](https://bintray.com/jmarranz/maven/itsnat_server/view) ([direct](https://jcenter.bintray.com/org/itsnat/itsnat_server/)) and [Maven Central](http://mvnrepository.com/artifact/org.itsnat/itsnat_server) ([direct](https://oss.sonatype.org/content/repositories/releases/org/itsnat/itsnat_server/)) repositories
 
+Maven: 
+
+```xml
+<groupId>org.itsnat</groupId>
+<artifactId>itsnat_server</artifactId>
+<version>(version)</version>
+<type>jar</type>
+```
+
 
 Core features
 ------
