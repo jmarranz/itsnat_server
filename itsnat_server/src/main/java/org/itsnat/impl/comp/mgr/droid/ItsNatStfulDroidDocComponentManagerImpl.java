@@ -72,6 +72,7 @@ public class ItsNatStfulDroidDocComponentManagerImpl extends ItsNatStfulDocCompo
         return DROID_FACTORIES.get(key);
     }    
     
+    @Override
     public ItsNatModalLayer createItsNatModalLayer(Element element,boolean clean,int zIndex,float opacity, String background, NameValue[] artifacts)
     {
         throw new ItsNatException("Not supported.");

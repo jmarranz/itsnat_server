@@ -23,5 +23,5 @@ package org.itsnat.comp.android.widget;
 public interface CompoundButton extends Button,Checkable
 {
 
-            
+
 }

@@ -44,12 +44,12 @@ public interface ItsNat extends ItsNatUserData
     /**
      * Returns the ItsNat application context wrapper of the provided ServletContext.
      *
-     * @param context the ServletContext of the web application 
+     * @param context the ServletContext of the web application
      * @return the context object.
-     * @see ItsNatServlet#getItsNatServletContext(javax.servlet.ServletContext) 
-     */    
-    public ItsNatServletContext getItsNatServletContext(ServletContext context);   
-    
+     * @see ItsNatServlet#getItsNatServletContext(javax.servlet.ServletContext)
+     */
+    public ItsNatServletContext getItsNatServletContext(ServletContext context);
+
     /**
      * Returns the feature value of given name.
      *
@@ -78,14 +78,14 @@ public interface ItsNat extends ItsNatUserData
      * @see org.itsnat.core.http.HttpServletWrapper#init(javax.servlet.ServletConfig)
      */
     public ItsNatServlet createItsNatServlet(Servlet servlet);
-    
+
     /**
      * Gets a not configured <code>JProxyScriptEngine</code> object to be used for hot class reloading in development or production time.
-     * 
+     *
      * <p>The returned object is ever the same.</p>
      * <p>See <a href="https://github.com/jmarranz/relproxy/">RelProxy project</a> for more info.</p>
-     * 
+     *
      * @return returns a not configured <code>JProxyScriptEngine</code> object.
      */
-    public JProxyScriptEngine getJProxyScriptEngine();   
+    public JProxyScriptEngine getJProxyScriptEngine();
 }

@@ -22,5 +22,5 @@ package org.itsnat.comp.android.widget;
  */
 public interface Button extends TextView
 {
-    
+
 }

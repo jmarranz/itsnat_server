@@ -107,7 +107,7 @@ public interface ItsNatComponent extends ItsNatUserData
      */
     public void removeEventListener(String type,EventListener listener);
 
-            
+
     /**
      * Registers the specified event listener to the component node for the specific client.
      *
@@ -233,7 +233,7 @@ public interface ItsNatComponent extends ItsNatUserData
     /**
      * Sets the parameters used to fire and receive AJAX/SCRIPT events by this component and specified client.
      *
-     * <p>All current registered event listeners are affected.</p>     
+     * <p>All current registered event listeners are affected.</p>
      *
      * @param clientDoc the client source of events.
      * @param type the DOM event type name (click, change etc).

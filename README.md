@@ -14,7 +14,18 @@ Project web site: http://www.itsnat.org
 
 Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat_featshow/) (inline documentation and sample code)
 
+Download Binaries and Docs
+------
+
+[Download](https://sourceforge.net/projects/itsnat/files/)
+
+Distribution file includes binaries, examples, manual and javadocs.
+
+Artefacts are uploaded to [JCenter](https://bintray.com/jmarranz/maven/itsnat_server/view) ([direct](https://jcenter.bintray.com/org/itsnat/itsnat_server/)) and [Maven Central](http://mvnrepository.com/artifact/org.itsnat/itsnat_server) ([direct](https://oss.sonatype.org/content/repositories/releases/org/itsnat/itsnat_server/)) repositories
+
+
 Core features
+------
 
 ItsNat provides many more (core) features:
 
