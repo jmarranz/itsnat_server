@@ -15,16 +15,16 @@
 <h2>ItsNat - Release Notes</h2>
 
 
-<h3>Version 1.5</h3>
+<h3>Version 1.4</h3>
 <ul>
-    <li>Goodbye Symbian, all BlackBerries and Internet Explorer 6/7, only IE 8 is still supported. Minimum version Android stock browser is 4.0.4. 
+    <li>Goodbye Symbian, all BlackBerries and Internet Explorer 6/7, only IE 8 is still supported. Minimum version Android stock browser is 4.0.4.
         Minimum version of Safari iPhone/iPad/iPod is iOS 7.1. Minimum version of Safari Mac OS/X is 6.0.5. Detected MSIE Edge (v12).
-    </li>  
-    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Opera browsers based on Presto (desktop, Opera Mobile Classic Android and Opera Mini) 
+    </li>
+    <li>Supported current Opera and Opera Mobile Android based on WebKit, old Opera browsers based on Presto (desktop, Opera Mobile Classic Android and Opera Mini)
         are still supported, the only reason is because Opera Mini is still a supported browser by Opera company and is based on Presto.
     </li>
     <li>HTML 5 DOCTYPE is detected in a page template and now is correctly shown in rendered page.
-    </li>    
+    </li>
     <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
         and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
         You must enable and configure it by using a ServletContextListener.
@@ -36,66 +36,66 @@
         <ul>
             <li>Added classes/interfaces
                <ul>
-                   <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>             
-                   <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>             
+                   <li>New package for ItsNat Droid events: org.itsnat.core.event.droid </li>
+                   <li>New package for ItsNat Droid components: org.itsnat.comp.android </li>
                </ul>
             </li>
             <li>Added methods
                <ul>
-                   <li>ItsNatServletConfig.getBitmapDensityReference()</li>             
+                   <li>ItsNatServletConfig.getBitmapDensityReference()</li>
                    <li>ItsNatServletConfig.setBitmapDensityReference(int)</li>
-                   <li>ItsNatDroidDocumentTemplate.getBitmapDensityReference()</li>             
-                   <li>ItsNatDroidDocumentTemplate.setBitmapDensityReference(int)</li>            
+                   <li>ItsNatDroidDocumentTemplate.getBitmapDensityReference()</li>
+                   <li>ItsNatDroidDocumentTemplate.setBitmapDensityReference(int)</li>
                    <li>ItsNatDroidDocumentTemplate is implemented by ItsNatDocumentTemplate objects registered with mime android/layout</li>
                </ul>
             </li>
         </ul>
     </li>
     <li>Bug fixes and improvements
-    </li>    
+    </li>
     <li>Feature Showcase:
         <ul>
             <li>Fixed some SVG examples</li>
-            <li>Use of HTML 5 DOCTYPE in text/html served pages examples</li>            
+            <li>Use of HTML 5 DOCTYPE in text/html served pages examples</li>
             <li>Added a new example "Other Components / Custom Tag Components", and also added to "Auto. Comp. Build: All Types"</li>
-        </ul>     
+        </ul>
     </li>
 </ul>
 
 <h3>Version 1.3.1</h3>
 <ul>
-    <li>Fixed bugs: 
+    <li>Fixed bugs:
         <ul>
-            <li>Regression: &lt;script&gt; elements in plain text are not correctly managed in some cases</li>             
+            <li>Regression: &lt;script&gt; elements in plain text are not correctly managed in some cases</li>
         </ul>
     </li>
     <li>Feature Showcase:
         <ul>
             <li>Fixed a bug removing data in "Stateless Free List Example" example</li>
         </ul>
-    </li>    
+    </li>
 </ul>
 
 <h3>Version 1.3</h3>
 <ul>
-    <li>New stateless mode</li>    
+    <li>New stateless mode</li>
     <li>Updated to Java 1.5 (source and binary) as minimum (compiled with Oracle JDK 1.6), generics have been added to some public method</li>
     <li>Added methods
         <ul>
-            <li>ItsNatDocument.isCreatedByStatelessEvent()</li>             
+            <li>ItsNatDocument.isCreatedByStatelessEvent()</li>
             <li>ItsNatEvent.getExtraParamMultiple(String)</li>
-        </ul>       
-    </li>
-    <li>Fixed bugs: 
-        <ul>
-            <li>Sent data is not decoded with UTF-8 (regression introduced when GAE was supported)</li> 
-            <li>SVGWeb doesn't work in MSIE 8 (because SVGWeb works different in MSIE 8)</li>
-            <li>ItsNatDocument.getAttributeNames() returns values instead of names</li>
-            <li>ElementTable.setTableValues(List&lt;List&lt;Object&gt;&gt;) provided data is not correctly copied</li> 
-            <li>ElementTable.setTableValues(Object[][] values) provided data is not correctly copied</li>             
         </ul>
     </li>
-    <li>Removed support of many old browsers.</li>    
+    <li>Fixed bugs:
+        <ul>
+            <li>Sent data is not decoded with UTF-8 (regression introduced when GAE was supported)</li>
+            <li>SVGWeb doesn't work in MSIE 8 (because SVGWeb works different in MSIE 8)</li>
+            <li>ItsNatDocument.getAttributeNames() returns values instead of names</li>
+            <li>ElementTable.setTableValues(List&lt;List&lt;Object&gt;&gt;) provided data is not correctly copied</li>
+            <li>ElementTable.setTableValues(Object[][] values) provided data is not correctly copied</li>
+        </ul>
+    </li>
+    <li>Removed support of many old browsers.</li>
     <li>Feature Showcase:
         <ul>
             <li>Added two examples working in stateless mode</li>
@@ -161,7 +161,7 @@
             <li>New methods:
                 <ul>
                     <li>ItsNatServletContext.isSessionSerializeCompressed()</li>
-                    <li>ItsNatServletContext.setSessionSerializeCompressed(boolean)</li>                    
+                    <li>ItsNatServletContext.setSessionSerializeCompressed(boolean)</li>
                     <li>ItsNatServletContext.isSessionExplicitSerialize()</li>
                     <li>ItsNatServletContext.setSessionExplicitSerialize(boolean)</li>
                 </ul>

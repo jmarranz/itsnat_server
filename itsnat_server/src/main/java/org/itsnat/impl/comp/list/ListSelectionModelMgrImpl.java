@@ -185,7 +185,7 @@ public class ListSelectionModelMgrImpl implements Serializable
     {
         ListSelectionModel sm = getListSelectionModel();
 
-        // Es como está en JTable (1.4/1.5) y similar a http://developer.classpath.org/doc/javax/swing/JTable-source.html#line.4945
+        // Es como está en JTable (Java 1.4/1.5) y similar a http://developer.classpath.org/doc/javax/swing/JTable-source.html#line.4945
         // pero el comportamiento también es válido para los List (con selección múltiple sobre todo)
         if (extend && toggle) // shift+ctrl-click
         {

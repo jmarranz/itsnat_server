@@ -1,6 +1,8 @@
 News
 ======
-- Nov 16 2014 ItsNat Droid is a new project inside ItsNat, [more info](https://github.com/jmarranz/itsnat_droid).
+
+- Sept. 18 2015. ItsNat Server 1.4 released! First version in JCenter/Maven. [Release Notes](http://www.itsnat.org/static/download/RELEASE_NOTES.html)
+- Nov.  16 2014. ItsNat Droid is a new project inside ItsNat, [more info](https://github.com/jmarranz/itsnat_droid).
 
 
 ItsNat
@@ -10,7 +12,7 @@ ItsNat : Natural AJAX. Component Based Java Web Application Framework
 
 Project web site: http://www.itsnat.org
 
-Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat/feashow_servlet?itsnat_doc_name=feashow.main) (inline documentation and sample code)
+Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat_featshow/) (inline documentation and sample code)
 
 Core features
 
@@ -86,18 +88,131 @@ ItsNat provides many more (core) features:
 
 As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
 
-### Repository of Open Source Examples
+Repository of Open Source Examples
+------
 
 Take a look here:
 
 https://github.com/jmarranz/itsnat_server_examples_web
 
 
-### Hello World
+Hello World
+------
 
-1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat" .
-2. Copy the following jars to the WEB-INF/lib (these jars are located in fw_dist/lib in the ItsNat distribution): ItsNat.jar, batik-dom.jar, batik-util.jar, batik-xml.jar, nekohtml.jar, serializer.jar, xercesImpl.jar, xml-apis.jar
-3. Create a new servlet using the wizard of your IDE. In this example it is named "servlet", but this name is not mandatory. The default web.xml is valid as is. Remove any code and add the following:
+1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat". The default web.xml is valid as is.
+2. Use Maven (seen later) or copy the jars located in /itsnat_featshow/target/itsnat_featshow-1.0-SNAPSHOT/WEB-INF/lib in the ItsNat distribution to the WEB-INF/lib folder of your project.
+
+
+POM example if you use Maven (ItsNat 1.4):
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.itsnat</groupId>
+  <artifactId>itsnat_example</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>itsnat_example</name>
+  <url>http://www.itsnat.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+  <dependencies>
+      
+        <dependency>
+            <groupId>org.itsnat</groupId>
+            <artifactId>itsnat_server</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.innowhere</groupId>
+            <artifactId>relproxy</artifactId>
+            <version>0.8.6</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-dom</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-xml</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-util</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.nekohtml</groupId>
+            <artifactId>nekohtml</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>serializer</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+      
+      
+      
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>servlet-api</artifactId>
+          <version>2.5</version>
+          <scope>provided</scope>
+        </dependency>
+    
+        <dependency>
+          <groupId>javax.servlet.jsp</groupId>
+          <artifactId>jsp-api</artifactId>
+          <version>2.1</version>
+          <scope>provided</scope>
+        </dependency>
+    
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+            <source>1.6</source>
+            <target>1.6</target>
+            <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>2.4.3</version>
+            <configuration>
+                <encoding>${project.build.sourceEncoding}</encoding>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+
+</project>
+
+```
+
+3. Create a new servlet using the wizard of your IDE. In this example it is named "servlet", but this name is not mandatory. Remove any code and add the following:
 
 ```
 import javax.servlet.*;
@@ -114,7 +229,7 @@ public class servlet extends HttpServletWrapper
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
 
         String pathPrefix = getServletContext().getRealPath("/");
-        pathPrefix += "WEB-INF/pages/manual/";
+        pathPrefix += "/WEB-INF/pages/manual/";
        
         DocumentTemplate docTemplate;
         docTemplate = itsNatServlet.registerDocumentTemplate("manual.core.example","text/html",pathPrefix + "core_example.xhtml");
@@ -276,5 +391,5 @@ The method ItsNatHTMLDocument.removeEventListener is used to unregister a listen
 Now run the application. The following image shows the client page state after the user clicks the first element:
 
 
+This tutorial is also here: http://www.itsnat.org/support-tutorial-core
 
-Source: http://itsnat.sourceforge.net/index.php?_page=support.tutorial.core
