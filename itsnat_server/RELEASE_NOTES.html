@@ -31,8 +31,8 @@
     </li>
     <li>HTML 5 DOCTYPE is detected in a page template and now is correctly shown in rendered page.
     </li>
-    <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener).
-        and ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener)
+    <li>RelProxy hot reload is built in when registering a ItsNatServletRequestListener calling ItsNatDocumentTemplate.addItsNatServletRequestListener(ItsNatServletRequestListener),
+        ItsNatDocumentTemplate.addItsNatAttachedClientEventListener(ItsNatAttachedClientEventListener) and registering org.w3c.dom.events.EventListener.
         You must enable and configure it by using a ServletContextListener.
     </li>
     <li>Added a new method: <code>ItsNat.getItsNatServletContext(ServletContext context)</code>. If you use several ItsNat servlets use this method in a
