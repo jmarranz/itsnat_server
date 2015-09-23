@@ -232,13 +232,15 @@ POM example if you use Maven (ItsNat 1.4):
 
 ```
 
-3. Create a new servlet using the wizard of your IDE. In this example it is named "servlet", but this name is not mandatory. Remove any code and add the following:
+3. Create a new servlet using the wizard of your IDE. In this example it is named "servlet" in "org.itsnat.manual.core" package, but this name is not mandatory. Remove any code and add the following:
 
-```
+```java
+package org.itsnat.manual.core;
+
 import javax.servlet.*;
-import org.itsnat.core.DocumentTemplate;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
+import org.itsnat.core.tmpl.ItsNatDocumentTemplate;
 
 public class servlet extends HttpServletWrapper
 {
@@ -247,12 +249,14 @@ public class servlet extends HttpServletWrapper
         super.init(config);
 
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
+        ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
 
         String pathPrefix = getServletContext().getRealPath("/");
         pathPrefix += "/WEB-INF/pages/manual/";
-       
-        DocumentTemplate docTemplate;
-        docTemplate = itsNatServlet.registerDocumentTemplate("manual.core.example","text/html",pathPrefix + "core_example.xhtml");
+
+        ItsNatDocumentTemplate docTemplate;
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplate("manual.core.example","text/html",
+                    pathPrefix + "core_example.html");
         docTemplate.addItsNatServletRequestListener(new CoreExampleLoadListener());
 
     }
@@ -287,7 +291,6 @@ Create a new XHTML file with name "core_example.xhtml" in a new folder "WEB-INF/
     </body>
 
 </html>
-
 ```
 
 Add a new Java class with name CoreExampleLoadListener (the package/location is not important and the class name is only an example) and the following code:
@@ -302,14 +305,16 @@ import org.itsnat.core.html.ItsNatHTMLDocument;
 
 public class CoreExampleLoadListener implements ItsNatServletRequestListener
 {
-    public CoreExampleLoadListener() {}
+    public CoreExampleLoadListener()
+    {
+    }
 
+    @Override
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
         ItsNatHTMLDocument itsNatDoc = (ItsNatHTMLDocument)request.getItsNatDocument();
-        new CoreExampleProcessor(itsNatDoc);
+        new CoreExampleDocument(itsNatDoc);
     }
-
 }
 ```
 
@@ -321,11 +326,16 @@ http://<host>:<port>/<yourapp>/servlet?itsnat_doc_name=manual.core.example
 
 
 ItsNat creates automatically an ItsNatHTMLDocument object when a new page is loaded, this object wraps the org.w3c.dom.Document object build using the specified page template (manual.core.example), this object is got calling ItsNatHTMLDocument.getDocument(). This DOM document represents the client page, any change performed to the DOM tree will be propagated to the client.
-The CoreExampleLoadListener delegates to a new CoreExampleProcessor instance:
+The CoreExampleLoadListener delegates to a new CoreExampleDocument (concrete class name is not impossed) instance:
 
-```
-package org.itsnat.manual.coreimport org.itsnat.core.html.ItsNatHTMLDocument;
+```java
+package org.itsnat.manual.core;
 
+import java.io.Serializable;
+import org.itsnat.core.ItsNatDocument;
+import org.itsnat.core.ItsNatServletRequest;
+import org.itsnat.core.event.ItsNatEvent;
+import org.itsnat.core.html.ItsNatHTMLDocument;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
@@ -333,13 +343,13 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 import org.w3c.dom.html.HTMLDocument;
 
-public class CoreExampleProcessor implements EventListener
+public class CoreExampleDocument implements EventListener,Serializable
 {
     protected ItsNatHTMLDocument itsNatDoc;
     protected Element clickElem1;
     protected Element clickElem2;
 
-    public CoreExampleProcessor(ItsNatHTMLDocument itsNatDoc)
+    public CoreExampleDocument(ItsNatHTMLDocument itsNatDoc)
     {
         this.itsNatDoc = itsNatDoc;
         load();
@@ -350,17 +360,22 @@ public class CoreExampleProcessor implements EventListener
         HTMLDocument doc = itsNatDoc.getHTMLDocument();
         this.clickElem1 = doc.getElementById("clickableId1");
         this.clickElem2 = doc.getElementById("clickableId2");
+
         clickElem1.setAttribute("style","color:red;");
         Text text1 = (Text)clickElem1.getFirstChild();
         text1.setData("Click Me!");
+
         Text text2 = (Text)clickElem2.getFirstChild();
         text2.setData("Cannot be clicked");
+
         Element noteElem = doc.createElement("p");
         noteElem.appendChild(doc.createTextNode("Ready to receive clicks..."));
         doc.getBody().appendChild(noteElem);
-  	itsNatDoc.addEventListener((EventTarget)clickElem1,"click",this,false);
+
+        ((EventTarget)clickElem1).addEventListener("click",this,false);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         EventTarget currTarget = evt.getCurrentTarget();
@@ -374,9 +389,15 @@ public class CoreExampleProcessor implements EventListener
             setAsClickable(clickElem1);
             removeClickable(clickElem2);
         }
+
+        ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
+        ItsNatServletRequest itsNatReq = itsNatEvt.getItsNatServletRequest();
+        ItsNatDocument itsNatDoc = itsNatReq.getItsNatDocument();
+
         HTMLDocument doc = (HTMLDocument)itsNatDoc.getDocument();
         Element noteElem = doc.createElement("p");
-        noteElem.appendChild(doc.createTextNode("Clicked " + ((Element)currTarget).getAttribute("id")));
+        noteElem.appendChild(
+                doc.createTextNode("Clicked " + ((Element)currTarget).getAttribute("id")));
         doc.getBody().appendChild(noteElem);
     }
 
@@ -384,31 +405,44 @@ public class CoreExampleProcessor implements EventListener
     {
         elem.setAttribute("style","color:red;");
         Text text = (Text)elem.getFirstChild();
-        text.setData("Click Me!"); 
-	itsNatDoc.addEventListener((EventTarget)elem,"click",this,false);
+        text.setData("Click Me!");
+        ((EventTarget)elem).addEventListener("click",this,false);
     }
 
     public void removeClickable(Element elem)
     {
         elem.removeAttribute("style");
         Text text = (Text)elem.getFirstChild();
-        text.setData("Cannot be clicked"); 
-	itsNatDoc.removeEventListener((EventTarget)elem,"click",this,false);
+        text.setData("Cannot be clicked");
+        ((EventTarget)elem).removeEventListener("click",this,false);
     }
-
 }
-```
-
-
-As you can see, the page view is changed using standard W3C DOM methods at load time, when an event is received. To listen to events, the method ItsNatHTMLDocument.addEventListener is called, this method is very similar to org.w3c.dom.events.EventTarget.addEventListener:
 
 ```
-itsNatDoc.addEventListener((EventTarget)clickElem1,"click",this,false)
+
+
+As you can see, the page view is changed using standard W3C DOM methods at load time, when an event is received. To listen to events, the method EventTarget.addEventListener(EventListener) is called:
+
+```java
+    ((EventTarget)elem).addEventListener("click",this,false);
 ```
 
-This method adds the CoreExampleProcessor instance as a listener, because this class implements org.w3c.dom.events.EventListener, ready to receive mouse click events. When the user clicks the specified element in the client an event is sent to the server using AJAX techniques and converted to a W3C DOM MouseEvent, and the method handleEvent(Event) is called, any change is transparently propagated to the client as the event result.
-The method ItsNatHTMLDocument.removeEventListener is used to unregister a listener, again mimics org.w3c.dom.events.EventTarget.removeEventListener.
-Now run the application. The following image shows the client page state after the user clicks the first element:
+This method adds the CoreExampleDocument instance as a listener of DOM events sent by client, because this class implements org.w3c.dom.events.EventListener, ready to receive mouse click events in this case. 
+When the user clicks the specified element in the client, an event is sent to the server using AJAX techniques and converted to a W3C DOM MouseEvent, and the method
+handleEvent(Event) is called, any change is transparently propagated to the client as the event result.
+The method EventTarget.removeEventListener is used to unregister a listener.
+
+The following code block can be removed, is just to show (for "educative" reasons) how the Event object received is implemented by ItsNat, the returned ItsNatDocument is the same as the
+attribute itsNatDoc of the CoreExampleDocument:
+
+```java
+    ItsNatEvent itsNatEvt = (ItsNatEvent)evt;
+    ItsNatServletRequest itsNatReq = itsNatEvt.getItsNatServletRequest();
+    ItsNatDocument itsNatDoc = itsNatReq.getItsNatDocument();
+```
+
+Now run the application, you are going to see a link in red with the text "Click Me!" and the other link with text "Cannot be clicked" in black, clicking in the
+clickable link the roles change and a new log sentence is added to the end.
 
 
 This tutorial is also here: http://www.itsnat.org/support-tutorial-core
