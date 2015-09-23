@@ -14,6 +14,8 @@ Project web site: http://www.itsnat.org
 
 Full interactive demo of features here: [ItsNat Feature Showcase](http://www.innowhere.com/itsnat_featshow/) (inline documentation and sample code)
 
+This README file is just a summary of ItsNat features including an example, for a complete a deep documentation and example go to the official project web site.
+
 Download Binaries and Docs
 ------
 
