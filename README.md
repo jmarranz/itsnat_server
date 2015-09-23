@@ -106,7 +106,24 @@ ItsNat provides many more (core) features:
 
 - Remote Templates
 
+- RelProxy built-in
+
 As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
+
+A Component System
+------
+
+ItsNat also provides a Component system (constructed over the Core level). These components are AJAX based from the scratch inspired in Swing and reusing Swing 
+as far as possible such as data and selection models (but ItsNat does not want to be a Swing forced clone in web, is not a pixel based web framework).
+
+ItsNat provides several button types, text based components, labels, lists, tables, trees (all of them with content editable "in place"), file upload based on AJAX...
+
+The most interesting feature is: any element can be a component, for instance any element can be a normal button, a check box, a radio button, any element list may be a combo or a list component, for instance a group of SVG circles may be a multiple selection list component. Furthermore components can be used to generate XML!!
+
+ItsNat components are not intrusive, they are not "black boxes", you can customize and control every element used, every attribute. Components are highly extensible and customizable, for instance there is no default decoration when selection ItsNat tells you when and what has been selected, ItsNat may be seen as a meta-framework.
+
+Making user defined components, for instance compound components, is amazingly easy.
+
 
 Repository of Open Source Examples
 ------
