@@ -106,7 +106,12 @@ ItsNat provides many more (core) features:
 
 - Remote Templates
 
-- RelProxy built-in
+- Single Page Interface SEO COMPATIBLE Web Sites!!  
+
+- Hot class reload without redeploys using RelProxy!!  
+
+- Use Groovy instead of Java if you want and with hot class reload using RelProxy  
+
 
 As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
 
