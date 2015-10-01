@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.innowhere</groupId>
             <artifactId>relproxy</artifactId>
-            <version>0.8.6</version>
+            <version>0.8.7</version>
             <type>jar</type>
         </dependency>    
     

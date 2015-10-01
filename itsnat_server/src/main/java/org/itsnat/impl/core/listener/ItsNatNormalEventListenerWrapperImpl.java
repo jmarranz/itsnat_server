@@ -46,9 +46,9 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
     protected transient WeakReference<EventTarget> currTargetWeakRef;  // EventTarget
     protected ParamTransport[] extraParams;
     protected String preSendCode;
-    protected String bindToCustomFunc;    
-    protected long eventTimeout;    
-    
+    protected String bindToCustomFunc;
+    protected long eventTimeout;
+
     /**
      * Creates a new instance of ItsNatNormalEventListenerWrapperImpl
      */
@@ -62,19 +62,19 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
             if (jProxy != null)
             {
                 listener = jProxy.create(listener,EventListener.class);
-            }            
-        }        
-        
+            }
+        }
+
         this.clientDoc = clientDoc; // A día de hoy no lo necesitamos, puede ser nulo (listener a nivel de documento)
         this.eventTimeout = eventTimeout;
 
         this.currTargetWeakRef = currTarget != null ? new WeakReference<EventTarget>(currTarget) : null; // currTargetWeakRef puede ser null
         this.extraParams = extraParams;
-        this.preSendCode = preSendCode;   
+        this.preSendCode = preSendCode;
         this.listener = listener;
         this.bindToCustomFunc = bindToCustomFunc;
-        
-        checkClient();                
+
+        checkClient();
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException
@@ -92,11 +92,11 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
     {
         EventTarget currTarget = (EventTarget)in.readObject();
         if (currTarget != null)
-            this.currTargetWeakRef = new WeakReference<EventTarget>(currTarget);        
+            this.currTargetWeakRef = new WeakReference<EventTarget>(currTarget);
 
         in.defaultReadObject();
-    }    
-    
+    }
+
     @Override
     public long getEventTimeout()
     {
@@ -149,7 +149,7 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
             return null;
 
         StringBuilder code = new StringBuilder();
-        for (ParamTransport param : extraParams) 
+        for (ParamTransport param : extraParams)
         {
             JSAndBSRenderParamTransport paramRender = JSAndBSRenderParamTransport.getSingleton(param);
             String paramCode = paramRender.getCodeToSend(param,clientDoc);
@@ -207,8 +207,8 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
     public void handleEvent(ClientItsNatNormalEventImpl event)
     {
         EventListenerUtil.handleEventIncludingGlobalListeners(listener, event);
-    }    
-    
+    }
+
     public static boolean canAddItsNatNormalEventListenerWrapper(EventListener listener,ItsNatStfulDocumentImpl itsNatDoc,ClientDocumentStfulImpl clientDoc)
     {
         if (clientDoc != null)
@@ -220,9 +220,9 @@ public abstract class ItsNatNormalEventListenerWrapperImpl extends ItsNatEventLi
         }
         else  // Si clientDoc es null es que es un registro a nivel de documento (umm yo creo que YA nunca clientDoc es null)
             return itsNatDoc.isEventsEnabled();
-    }    
-    
+    }
+
     public abstract String getType();
-    public abstract boolean getUseCapture();    
+    public abstract boolean getUseCapture();
     public abstract ClientItsNatNormalEventImpl createClientItsNatNormalEvent(RequestNormalEventImpl request);
 }
