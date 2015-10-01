@@ -177,7 +177,7 @@ POM example if you use Maven (ItsNat 1.4):
         <dependency>
             <groupId>com.innowhere</groupId>
             <artifactId>relproxy</artifactId>
-            <version>0.8.6</version>
+            <version>0.8.7</version>
             <type>jar</type>
         </dependency>
 
