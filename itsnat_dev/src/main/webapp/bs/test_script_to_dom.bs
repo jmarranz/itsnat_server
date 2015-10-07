@@ -1,2 +1,2 @@
 
-alert("Inserted by toDOM \\n(OK testing <script src=\"...\"> in toDOM)");
+alert("OK Inserted <script src=\"...\"> by toDOM)");

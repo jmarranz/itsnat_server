@@ -9,8 +9,6 @@ import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
-import org.itsnat.core.ItsNatVariableResolver;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class TestDroidCoreDocument implements Serializable
@@ -52,7 +50,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidParamTransport(itsNatDoc);
         new TestDroidEventCapture(itsNatDoc);   
         new TestDroidFragmentInsertionInnerXML(itsNatDoc);
-        new TestDroidFragmentInsertionUsingAPI(itsNatDoc);
+        new TestDroidFragmentInsertionUsingDOMAPI(itsNatDoc);
         new TestDroidContinueListener(itsNatDoc);
         new TestDroidUserListener(itsNatDoc);
         new TestDroidToDOM(itsNatDoc);

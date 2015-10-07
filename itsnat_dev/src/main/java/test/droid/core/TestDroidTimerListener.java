@@ -64,6 +64,7 @@ public class TestDroidTimerListener extends TestDroidBase implements EventListen
         this.outElem = getDocument().getElementById("testTimer_text_Id");        
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         

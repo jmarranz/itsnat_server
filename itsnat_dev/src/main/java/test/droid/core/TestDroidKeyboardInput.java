@@ -45,9 +45,10 @@ public class TestDroidKeyboardInput extends TestDroidBase implements EventListen
         ((EventTarget)processElement).addEventListener("click", this, false);        
         
         
-        this.outElem = getDocument().getElementById("testKeyboardInput_text_Id");        
+        this.outElem = getDocument().getElementById("testKeyboardInputLogId");        
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         EventTarget currTarget = evt.getCurrentTarget();

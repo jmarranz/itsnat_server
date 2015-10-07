@@ -30,6 +30,7 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         ((EventTarget)testStyleAttr).addEventListener("click", this, false);
     }
     
+    @Override
     public void handleEvent(Event evt)
     {
         ((EventTarget)testStyleAttr).removeEventListener("click", this, false); // Evitamos ejecutar varias veces para evitar que falle textView.setAttributeNS(ANDROID_NS,"android:id","@+id/testStyleAttrTextId"); pues al reutilizarse el id varios elementos tendrán el mismo id (lo cual es correcto) y se devuelve el primero en el test y por tanto fallará

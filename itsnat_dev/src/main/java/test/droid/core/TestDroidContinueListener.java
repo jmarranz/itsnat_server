@@ -28,13 +28,16 @@ import test.web.shared.EventListenerSerial;
  */
 public class TestDroidContinueListener extends TestDroidBase implements EventListener
 {
-   
+    protected Element testLog;
+    
     public TestDroidContinueListener(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
         Element testLauncher = getDocument().getElementById("testContinueEvtListenerId");        
         ((EventTarget)testLauncher).addEventListener("click", this, false);
+     
+        this.testLog = getDocument().getElementById("testContinueEvtListenerLogId");          
     }
 
 
@@ -43,7 +46,7 @@ public class TestDroidContinueListener extends TestDroidBase implements EventLis
     {
         ItsNatEvent itsNatEvent = (ItsNatEvent)evt;
         ClientDocument clientDoc = itsNatEvent.getClientDocument();
-
+        
         EventListener listener = new EventListenerSerial()
         {
             @Override
@@ -52,7 +55,7 @@ public class TestDroidContinueListener extends TestDroidBase implements EventLis
                 ItsNatContinueEvent contEvt = (ItsNatContinueEvent)evt;
                 String manufacturer = (String)contEvt.getExtraParam("manufacturer");
                 String model = (String)contEvt.getExtraParam("model");
-                itsNatDoc.addCodeToSend("alert(\"OK " + manufacturer + " " + model + "\");");                
+                logToTextView(testLog,"OK manufacturer/model: " + manufacturer + "/" + model + "\"");               
             }
         };
 

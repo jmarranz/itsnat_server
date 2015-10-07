@@ -36,19 +36,23 @@ public class TestDroidParamTransport extends TestDroidBase implements EventListe
         itsNatDoc.addEventListener((EventTarget)testLauncher,"click",this,false,new ParamTransport[]{ manufacturerParam,modelParam,multivalue,visibility });        
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         ItsNatEvent evt2 = (ItsNatEvent)evt;
         
-        Element logElem = getDocument().getElementById("testEventParamTransport_text_Id");         
+        Element logElem = getDocument().getElementById("testEventParamTransportLogId");         
 
         StringBuilder msg = new StringBuilder();
-        msg.append("OK model: " + evt2.getExtraParam("manufacturer") + " " + evt2.getExtraParam("model") + "\n"); 
+        msg.append("OK manufacturer/model: " + evt2.getExtraParam("manufacturer") + "/" + evt2.getExtraParam("model") + "\n"); 
         
-        String[] multivalue = (String[])evt2.getExtraParamMultiple("multivalue");        
+        String[] multivalue = (String[])evt2.getExtraParamMultiple("multivalue");
+        if (!"one".equals(multivalue[0])) throw new RuntimeException("Unexpected " + multivalue[0]);
+        if (!"2".equals(multivalue[1])) throw new RuntimeException("Unexpected " + multivalue[1]);        
         msg.append("OK multivalue (expected: one 2): " + multivalue[0] + " " + multivalue[1] + "\n");        
         
         int visibility = Integer.parseInt((String)evt2.getExtraParam("getVisibility()"));   
+        if (visibility != 0) throw new RuntimeException("Unexpected " + visibility);        
         msg.append("OK visibility (expected: 0): " + visibility + "\n");        
       
         

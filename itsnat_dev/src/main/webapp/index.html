@@ -26,13 +26,47 @@
 
     </script>
 
+<script src="http://cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>    
 
 </head>
 <body onloadNO="alert('LOAD');" onclickNO="log('inline body,')" onunloadNO="descarga()" onbeforeunloadNO="alert('SI'); return false;" ><!-- Comentario -->
 
-
+    
 <br /><br />
 
+<span id="ckeditorId">
+        <form>
+            <textarea name="editor1" id="editor1" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+            </textarea>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                // CKEDITOR.replace( 'editor1' );
+            </script>
+        </form>   
+        <br /><br />
+        <button onclick="alert(CKEDITOR.instances.editor1.getData())">READ</button>    
+        <br /><br />
+        <button onclick="CKEDITOR.instances.editor1.setData('<h1>HELLO WORLD</h1>')">WRITE</button>        
+        <br /><br />
+</span>        
+<script>
+    function reinsert()
+    {
+        var elem = document.getElementById('ckeditorId');
+        var parent = elem.parentNode;
+        var div = document.createElement('div'); 
+        parent.replaceChild(div,elem);
+        parent.replaceChild(elem,div);
+        CKEDITOR.replace( 'editor1' );        
+    }
+</script>
+<button onclick="reinsert()">REINSERT</button>
+
+
+<br /><br />
+        
 <a href="." >RELOAD</a><br />
 
 <p id="logId"></p>

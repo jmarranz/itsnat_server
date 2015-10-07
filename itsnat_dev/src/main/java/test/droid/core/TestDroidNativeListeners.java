@@ -28,6 +28,7 @@ public class TestDroidNativeListeners extends TestDroidBase implements EventList
         ((EventTarget)testLauncher).addEventListener("click", this, false);        
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
 

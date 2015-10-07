@@ -24,21 +24,22 @@ import test.web.shared.EventListenerSerial;
  *
  * @author jmarranz
  */
-public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements EventListener
+public class TestDroidFragmentInsertionUsingDOMAPI extends TestDroidBase implements EventListener
 {
    
-    public TestDroidFragmentInsertionUsingAPI(ItsNatDocument itsNatDoc)
+    public TestDroidFragmentInsertionUsingDOMAPI(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testFragmentInsertionUsingAPIId");        
+        Element testLauncher = getDocument().getElementById("testFragmentInsertionUsingDOMAPIId");        
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         Document doc = getDocument();
-        Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingAPIHiddenId");  
+        Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingDOMAPIHiddenId");  
         
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc); 
@@ -63,6 +64,7 @@ public class TestDroidFragmentInsertionUsingAPI extends TestDroidBase implements
         }
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+            @Override
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);

@@ -20,23 +20,27 @@ import org.w3c.dom.events.EventTarget;
  */
 public class TestDroidTouchEvent extends TestDroidBase implements EventListener
 {
-   
+    protected Element testLog;
+
     public TestDroidTouchEvent(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testTouchEventId");        
+        Element testLauncher = getDocument().getElementById("testTouchEventId");
         ((EventTarget)testLauncher).addEventListener("touchstart", this, false);
-        ((EventTarget)testLauncher).addEventListener("touchmove", this, false);        
-        ((EventTarget)testLauncher).addEventListener("touchend", this, false);         
+        ((EventTarget)testLauncher).addEventListener("touchmove", this, false);
+        ((EventTarget)testLauncher).addEventListener("touchend", this, false);
+
+        this.testLog = getDocument().getElementById("testTouchEventLogId");
     }
-    
+
+    @Override
     public void handleEvent(Event evt)
-    {     
+    {
         DroidMotionEvent evt2 = (DroidMotionEvent)evt;
-        String data = "rawX: " + evt2.getRawX() + " rawY: " + evt2.getRawY() + " x: " + evt2.getX() + " y: " + evt2.getY();        
-        
-        itsNatDoc.addCodeToSend("alert(\"OK " + evt.getType() + " " + data + "\");");  
+        String data = "rawX: " + evt2.getRawX() + " rawY: " + evt2.getRawY() + " x: " + evt2.getX() + " y: " + evt2.getY();
+
+        logToTextView(testLog,"OK " + evt.getType() + " " + data + "\n");
     }
-    
+
 }

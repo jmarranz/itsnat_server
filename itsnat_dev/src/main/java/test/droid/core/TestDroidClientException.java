@@ -28,6 +28,7 @@ public class TestDroidClientException extends TestDroidBase implements EventList
         ((EventTarget)testLauncher).addEventListener("touchstart", this, false);        
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         itsNatDoc.addCodeToSend("BAD_CODE();");       

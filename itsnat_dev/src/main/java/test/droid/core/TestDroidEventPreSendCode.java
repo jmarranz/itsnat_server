@@ -10,7 +10,6 @@ import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -32,13 +31,13 @@ public class TestDroidEventPreSendCode extends TestDroidBase implements EventLis
         itsNatDoc.addEventListener((EventTarget)testLauncher, "click", this, false, preSendCode);
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         String res = (String)((ItsNatEvent)evt).getExtraParam("in_client");   
         
-        Element logElem = getDocument().getElementById("testEventPreSend_text_Id");        
+        Element logElem = getDocument().getElementById("testEventPreSendLogId");        
         logToTextView(logElem,  res + " => OK Click Received (Server)");
-
     }
     
 }

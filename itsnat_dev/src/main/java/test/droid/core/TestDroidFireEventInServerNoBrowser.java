@@ -51,10 +51,11 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
         if (false) ((EventTarget)testLauncherHidden).addEventListener("itsnat:user:test",this,false);                 // Los dos modos valen
         else itsNatDoc.getClientDocumentOwner().addUserEventListener((EventTarget)testLauncherHidden, "test", this);  //    "
             
-        this.logElem = doc.getElementById("testFireEventInServerNoBrowser_text_Id");
+        this.logElem = doc.getElementById("testFireEventInServerNoBrowserLogId");
     }
     
 
+    @Override
     public void handleEvent(Event evt)
     {
         if (evt.getCurrentTarget() == testLauncher)
@@ -140,38 +141,37 @@ public class TestDroidFireEventInServerNoBrowser extends TestDroidBase implement
         if (type.equals("click"))
         {
             DroidMotionEvent evt2 = (DroidMotionEvent)evt;
-            msg = " click: x: " + evt2.getX() + " rawX:" + evt2.getRawX();
+            msg = "click: x: " + evt2.getX() + " rawX:" + evt2.getRawX() + "\n";
             TestUtil.checkError(evt2.getX() == 3 && evt2.getRawX() == 3); // RawX e Y se obtienen nativamente de Android y en el caso de click serán los mismos que X e Y
         }
         if (type.equals("touchend"))
         {
             DroidMotionEvent evt2 = (DroidMotionEvent)evt;
-            msg = " touchend: x: " + evt2.getX() + " rawX:" + evt2.getRawX();
+            msg = "touchend: x: " + evt2.getX() + " rawX:" + evt2.getRawX() + "\n";
             TestUtil.checkError(evt2.getX() == 5 && evt2.getRawX() == 5); // RawX e Y se obtienen nativamente de Android y en el caso de click serán los mismos que X e Y
         }        
         else if (type.equals("keydown"))
         {
             DroidKeyEvent evt2 = (DroidKeyEvent)evt;
-            msg = " keydown: keyCode: " + evt2.getKeyCode();
+            msg = "keydown: keyCode: " + evt2.getKeyCode() + "\n";
             TestUtil.checkError(evt2.getKeyCode() == 32); 
         }
         else if (type.equals("blur"))
         {
             DroidFocusEvent evt2 = (DroidFocusEvent)evt;
-            msg = " blur: hasFocus: " + evt2.hasFocus();
+            msg = "blur: hasFocus: " + evt2.hasFocus() + "\n";
             TestUtil.checkError(evt2.hasFocus() == true); 
         }
         else if (type.equals("change"))
         {
             DroidTextChangeEvent evt2 = (DroidTextChangeEvent)evt;
-            msg = " change: newText: " + evt2.getNewText();
+            msg = "change: newText: " + evt2.getNewText() + "\n";
             TestUtil.checkError(evt2.getNewText().equals("Text changed")); 
         }        
         else if (evt instanceof ItsNatUserEvent)
-            msg = " " + evt.getType() + " " + ((ItsNatUserEvent)evt).getExtraParam("extra");
+            msg = evt.getType() + " " + ((ItsNatUserEvent)evt).getExtraParam("extra") + "\n";
 
         logToTextView(logElem,msg);
-
     }
     
 }

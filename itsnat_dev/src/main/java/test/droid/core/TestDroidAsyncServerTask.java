@@ -33,9 +33,10 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
         Element testLauncher = getDocument().getElementById("testAsyncTaskId");    
         itsNatDoc.addEventListener((EventTarget)testLauncher,"click", this, false, CommMode.XHR_ASYNC);        
         
-        this.outElem = getDocument().getElementById("testAsyncTask_text_Id");         
+        this.outElem = getDocument().getElementById("testAsyncTaskLogId");         
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         ItsNatEvent evt2 = (ItsNatEvent)evt;
@@ -43,6 +44,7 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
         
         final EventListener listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(final Event evt)
             {
                 logToTextView(outElem,"OK 2/2 ");             
@@ -51,6 +53,7 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
 
         Runnable task = new RunnableSerial()
         {
+            @Override
             public void run()
             {
                 try
@@ -65,7 +68,8 @@ public class TestDroidAsyncServerTask extends TestDroidBase implements EventList
                 }
             }
         };
-        boolean lockDoc = false; int maxWait = 0;
+        boolean lockDoc = false; 
+        int maxWait = 0;
         clientDoc.addAsynchronousTask(task,lockDoc,maxWait,null,listener,CommMode.XHR_ASYNC,null,null,-1);  
     }
     

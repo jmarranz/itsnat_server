@@ -7,11 +7,8 @@
 package test.droid.core;
 
 import test.droid.shared.TestDroidBase;
-import org.itsnat.core.ClientDocument;
-import org.itsnat.core.CommMode;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
-import org.itsnat.core.event.ItsNatEvent;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;

@@ -36,9 +36,10 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
         Element testLauncher = getDocument().getElementById("testCometNotifierId");        
         ((EventTarget)testLauncher).addEventListener("click", this, false);
         
-        this.outElem = getDocument().getElementById("testCometNotifier_text_Id");        
+        this.outElem = getDocument().getElementById("testCometNotifierLogId");        
     }
 
+    @Override
     public void handleEvent(final Event evt)
     {
         DroidEvent itsNatEvent = (DroidEvent)evt;        
@@ -56,6 +57,7 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
 
             EventListener listener = new EventListenerSerial()
             {
+                @Override
                 public void handleEvent(Event evt)
                 {
                     String model = (String)((ItsNatCometEvent)evt).getExtraParam("model");
@@ -68,6 +70,7 @@ public class TestDroidCometNotifier extends TestDroidBase implements EventListen
             final CometNotifier comet = this.comet;
             Thread task = new Thread()
             {
+                @Override
                 public void run()
                 {
                     long t1 = System.currentTimeMillis();

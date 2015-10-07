@@ -29,6 +29,7 @@ public class TestDroidCustomViewInsertion extends TestDroidBase implements Event
         ((EventTarget)testLauncher).addEventListener("click", this, false);      
     }
     
+    @Override
     public void handleEvent(Event evt)
     {
         Document doc = getDocument();

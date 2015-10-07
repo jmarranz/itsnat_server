@@ -25,6 +25,11 @@ import org.w3c.dom.events.EventTarget;
 public class TestDroidMiscAutomatic extends TestDroidBase implements EventListener
 {
    
+    public TestDroidMiscAutomatic() // For RelProxy
+    {
+        super(null);
+    }    
+    
     public TestDroidMiscAutomatic(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {
         super(itsNatDoc);
@@ -69,6 +74,7 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");           
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         String type = evt.getType();

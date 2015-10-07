@@ -42,6 +42,7 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
     }
 
 
+    @Override
     public void handleEvent(final Event evt)
     {
         ItsNatNormalEvent itsNatEvent = (ItsNatNormalEvent)evt;
@@ -49,8 +50,11 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
 
         Element testLauncherHidden = getDocument().getElementById("testUserEventHiddenId");        
         
+        final Element testLog = getDocument().getElementById("testUserEventLogId");        
+        
         EventListener listener = new EventListenerSerial()
         {
+            @Override
             public void handleEvent(Event evt)
             {
                 ItsNatUserEvent userEvt = (ItsNatUserEvent)evt;
@@ -58,7 +62,16 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
 
                 String model = (String)userEvt.getExtraParam("model");                
                 if (model == null || model.isEmpty()) throw new RuntimeException("Failed test");
-                itsNatDoc.addCodeToSend("alert(\"OK " + (currTarget != null ? ((Element)currTarget).getTagName() : null)  + " Model: " + model + "\");");
+                
+                String tagName = (currTarget != null ? ((Element)currTarget).getTagName() : null);                
+
+                int count;
+                if ("ScrollView".equals(tagName)) count = 1;
+                else if (tagName == null) count = 2;
+                else if ("TextView".equals(tagName)) count = 3;
+                else throw new RuntimeException("Unexpected " + tagName);                
+
+                logToTextView(testLog,"OK " + count + "/3 " + tagName  + " Model: " + model + "\"\n");                 
 
                 String name = userEvt.getName();
                 

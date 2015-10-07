@@ -20,37 +20,47 @@ import test.web.shared.EventListenerSerial;
  */
 public class TestDroidEventCapture extends TestDroidBase implements EventListener
 {
-   
+
     public TestDroidEventCapture(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testEventCaptureId");        
+        Element testLauncher = getDocument().getElementById("testEventCaptureId");
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
-    
-    public void handleEvent(Event evt)
-    {     
-       
-        Element child = getDocument().getElementById("eventCaptureChildId");          
-        ((EventTarget)child).addEventListener("click", new EventListenerSerial() {
 
+    @Override
+    public void handleEvent(Event evt)
+    {
+        final Element logElem = getDocument().getElementById("testEventCaptureLogId");
+
+        Element child = getDocument().getElementById("eventCaptureChildId");
+        ((EventTarget)child).addEventListener("click", new EventListenerSerial() {
+            @Override
             public void handleEvent(Event evt)
             {
-                itsNatDoc.addCodeToSend("toast(\"CHILD at target: " + (evt.getEventPhase() == Event.AT_TARGET) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
+                if (evt.getEventPhase() != Event.AT_TARGET) throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+                Element target = (Element)evt.getTarget();
+                String tagName = target.getTagName();
+                if (!"TextView".equals(tagName)) throw new RuntimeException("Unexpected element " + tagName);
+                logToTextView(logElem,"OK 2/2 CHILD at target: " + tagName + " " + target.getAttribute("id"));
             }
         }, true); // Notar que capture ES TRUE
-        
-        Element parent = getDocument().getElementById("eventCaptureParentId");          
-        ((EventTarget)parent).addEventListener("click", new EventListenerSerial() {
 
+        Element parent = getDocument().getElementById("eventCaptureParentId");
+        ((EventTarget)parent).addEventListener("click", new EventListenerSerial() {
+            @Override
             public void handleEvent(Event evt)
             {
-                itsNatDoc.addCodeToSend("toast(\"PARENT capturing: " + (evt.getEventPhase() == Event.CAPTURING_PHASE) + " target: " + ((Element)evt.getTarget()).getTagName() + "\");");
+                if (evt.getEventPhase() != Event.CAPTURING_PHASE) throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+                Element currTarget = (Element)evt.getCurrentTarget();
+                String tagName = currTarget.getTagName();                
+                if (!"FrameLayout".equals(tagName)) throw new RuntimeException("Unexpected element " + tagName);                
+                logToTextView(logElem,"OK 1/2 PARENT capturing in current target: " + tagName + " " + currTarget.getAttribute("id") + "\n");
             }
-        }, false);        
-        
+        }, false);
+
         parent.setAttributeNS(ANDROID_NS,"android:visibility","visible");
     }
-    
+
 }
