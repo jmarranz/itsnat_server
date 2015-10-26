@@ -46,6 +46,7 @@ public class TestDroidCheckBox extends TestDroidBase implements EventListener
         checkBox.addEventListener("click",this);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         Element logElem = getDocument().getElementById("checkBox_text_Id");

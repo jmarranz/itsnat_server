@@ -13,29 +13,18 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-
-package org.itsnat.comp.android.view;
-
-import org.itsnat.comp.ItsNatElementComponent;
-import org.itsnat.comp.android.graphics.drawable.Drawable;
+package org.itsnat.comp.android.graphics.drawable;
 
 /**
  *
  * @author jmarranz
  */
-public interface View extends ItsNatElementComponent
+public interface Drawable
 {
     /**
-     * 
-     * @param clasz
+     * @TODO
+     * @param level
      * @return 
      */
-    public Drawable getBackground(Class<? extends Drawable> clasz);
-    
-    /**
-     * 
-     * @param clasz
-     * @return 
-     */
-    public Drawable getForeground(Class<? extends Drawable> clasz);    
+    public boolean setLevel(int level);
 }

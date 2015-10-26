@@ -19,7 +19,6 @@ package org.itsnat.impl.comp.android.widget;
 import org.itsnat.comp.android.widget.CheckBox;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
-import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 

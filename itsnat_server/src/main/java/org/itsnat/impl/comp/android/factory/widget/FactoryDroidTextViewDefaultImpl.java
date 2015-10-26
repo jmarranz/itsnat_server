@@ -17,9 +17,13 @@
 package org.itsnat.impl.comp.android.factory.widget;
 
 import org.itsnat.comp.ItsNatElementComponent;
-import org.itsnat.comp.android.widget.CheckBox;
+import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.NameValue;
-import org.itsnat.impl.comp.android.widget.CheckBoxImpl;
+import org.itsnat.impl.comp.android.widget.TextViewDefaultImpl;
+import static org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl.hasBeforeAfterCreateItsNatComponentListener;
+import static org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl.processAfterCreateItsNatComponentListener;
+import static org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl.processBeforeCreateItsNatComponentListener;
+import static org.itsnat.impl.comp.factory.FactoryItsNatComponentImpl.registerItsNatComponent;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
 import org.w3c.dom.Element;
 
@@ -27,29 +31,29 @@ import org.w3c.dom.Element;
  *
  * @author jmarranz
  */
-public class FactoryDroidCheckBoxImpl extends FactoryDroidCompoundButtonImpl
+public class FactoryDroidTextViewDefaultImpl extends FactoryDroidTextViewImpl
 {
-    public final static FactoryDroidCheckBoxImpl SINGLETON = new FactoryDroidCheckBoxImpl();
+    public final static FactoryDroidTextViewDefaultImpl SINGLETON = new FactoryDroidTextViewDefaultImpl();
 
     /** Creates a new instance of FactoryItsNatHTMLInputTextImpl */
-    public FactoryDroidCheckBoxImpl()
+    public FactoryDroidTextViewDefaultImpl()
     {
     }
     
     @Override
     protected ItsNatElementComponent createItsNatDroidComponent(Element element, String compType, NameValue[] artifacts, boolean execCreateFilters, ItsNatStfulDroidDocComponentManagerImpl compMgr)    
     {
-        return createCheckBox(element,artifacts,execCreateFilters,compMgr);
+        return createTextView(element,artifacts,execCreateFilters,compMgr);
     }        
 
-    public CheckBox createCheckBox(Element element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDroidDocComponentManagerImpl compMgr)
+    public TextView createTextView(Element element,NameValue[] artifacts,boolean execCreateFilters,ItsNatStfulDroidDocComponentManagerImpl compMgr)
     {
-        CheckBox comp = null;
+        TextView comp = null;
         boolean doFilters = hasBeforeAfterCreateItsNatComponentListener(execCreateFilters,compMgr);
-        if (doFilters) comp = (CheckBox)processBeforeCreateItsNatComponentListener(element,getCompType(),null,artifacts,compMgr);
+        if (doFilters) comp = (TextView)processBeforeCreateItsNatComponentListener(element,getCompType(),null,artifacts,compMgr);
         if (comp == null)
-            comp = new CheckBoxImpl(element,artifacts,compMgr);
-        if (doFilters) comp = (CheckBox)processAfterCreateItsNatComponentListener(comp,compMgr);
+            comp = new TextViewDefaultImpl(element,artifacts,compMgr);
+        if (doFilters) comp = (TextView)processAfterCreateItsNatComponentListener(comp,compMgr);
         registerItsNatComponent(execCreateFilters,comp,compMgr);
         return comp;
     }    
@@ -63,6 +67,6 @@ public class FactoryDroidCheckBoxImpl extends FactoryDroidCompoundButtonImpl
     @Override
     public String getLocalName()
     {
-        return "CheckBox";
+        return "TextView";
     }    
 }

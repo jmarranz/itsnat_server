@@ -6,6 +6,7 @@
 package test.droid.remres;
 
 import java.io.Serializable;
+import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
@@ -14,7 +15,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import static test.droid.shared.TestDroidBase.ANDROID_NS;
 
 public class TestDroidRemoteResourcesDocument implements EventListener,Serializable
 {
@@ -41,7 +41,17 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
     {
         Document doc = itsNatDoc.getDocument();     
         
-        Element testClipDrawable = doc.getElementById("testClipDrawableId");
+        Element testClipDrawableElem = doc.getElementById("testClipDrawableId");        
+        TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);
+        ClipDrawable clipDrawable = (ClipDrawable)testClipDrawableComp.getBackground(ClipDrawable.class);
+        clipDrawable.setLevel(5000); // La mitad se verá
+        
+        Element testClipDrawableElem2 = doc.getElementById("testClipDrawableId2");        
+        TextView testClipDrawableComp2 = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem2);
+        ClipDrawable clipDrawable2 = (ClipDrawable)testClipDrawableComp2.getBackground(ClipDrawable.class);
+        clipDrawable2.setLevel(5000); // La mitad se verá    
+        
+        /*
         String testClipDrawableRef = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable);
         itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef + ";");
         itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // La mitad se verá
@@ -50,7 +60,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         String testClipDrawableRef2 = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable2);
         itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef2 + ";");
         itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // La mitad se verá        
-        
+        */
     }
 
 }

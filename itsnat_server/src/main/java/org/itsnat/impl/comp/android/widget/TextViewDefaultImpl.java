@@ -16,44 +16,50 @@
 
 package org.itsnat.impl.comp.android.widget;
 
-import org.itsnat.comp.android.widget.CompoundButton;
+import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.NameValue;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
-import org.itsnat.impl.core.domutil.NamespaceUtil;
 import org.w3c.dom.Element;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class CompoundButtonImpl extends ButtonImpl implements CompoundButton
+public class TextViewDefaultImpl extends CompoundButtonImpl implements TextView
 {
-    /** Creates a new instance of CheckBoxImpl */
-    public CompoundButtonImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
+    /** Creates a new instance of TextViewDefaultImpl */
+    public TextViewDefaultImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
     {
         super(element,artifacts,componentMgr);
+
+        init();
+    }
+
+    @Override
+    public String getClassName()
+    {
+        return "TextView";
     }
     
+    /*
     @Override
-    public boolean isChecked()
+    public void enableEventListenersByDoc()
     {
-        Element elem = getElement();
-        return "true".equals( elem.getAttributeNS(NamespaceUtil.ANDROID_NAMESPACE, "checked") );
-    }
-    
-    @Override
-    public void setChecked(boolean checked)
-    {
-        if (isChecked() == checked) return;
-        
-        Element elem = getElement();
-        elem.setAttributeNS(NamespaceUtil.ANDROID_NAMESPACE,getAndroidNamespacePrefix() + ":" + "checked","" + checked);       
+        super.enableEventListenersByDoc();
+
+        enableEventListener("click"); // Por defecto se procesa, pues es lo importante
     }    
-        
+
     @Override
-    public void toggle()
-    {   
-        setChecked(!isChecked());        
+    public void processNormalEvent(Event evt)
+    {
+        String type = evt.getType();
+        if (type.equals("click"))
+        {
+            toggle();
+        }
     }
+*/
+
 
 }

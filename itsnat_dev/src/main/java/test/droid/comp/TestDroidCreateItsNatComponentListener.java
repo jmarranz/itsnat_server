@@ -27,12 +27,14 @@ public class TestDroidCreateItsNatComponentListener implements CreateItsNatCompo
     {
     }
 
+    @Override
     public ItsNatComponent before(Node node,String compType,NameValue[] artifacts, ItsNatComponentManager compMgr)
     {
         // No hacemos nada es por probar el registro/desregistro
         return null;
     }
 
+    @Override
     public ItsNatComponent after(ItsNatComponent comp)
     {
         return comp;

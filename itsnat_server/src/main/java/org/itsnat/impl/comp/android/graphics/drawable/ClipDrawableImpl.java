@@ -13,39 +13,19 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
+package org.itsnat.impl.comp.android.graphics.drawable;
 
-package org.itsnat.impl.comp.android.widget;
-
-import org.itsnat.comp.android.widget.TextView;
-import org.itsnat.core.NameValue;
+import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.impl.comp.android.view.ViewImpl;
-import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
-import org.w3c.dom.Element;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class TextViewImpl extends ViewImpl implements TextView
+public class ClipDrawableImpl extends DrawableWrapperImpl implements ClipDrawable
 {
-    protected boolean enabled = true; // Por defecto
-    
-    /** Creates a new instance of TextViewImpl */
-    public TextViewImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
+    public ClipDrawableImpl(ViewImpl parentView,String methodCalled)
     {
-        super(element,artifacts,componentMgr);
-    }
-    
-    @Override
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-    
-    @Override
-    public void setEnabled(boolean b)
-    {
-        getItsNatDocumentImpl().addCodeToSend(getNodeReference() + ".setEnabled(" + b + ");");
-        this.enabled = b;
+        super(parentView,methodCalled);
     }    
 }

@@ -17,17 +17,20 @@
 package org.itsnat.impl.comp.android.view;
 
 import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
+import org.itsnat.comp.android.graphics.drawable.Drawable;
 import org.itsnat.comp.android.view.View;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.ClipDrawableImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.DrawableImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocImpl;
 import org.itsnat.impl.comp.mgr.droid.ItsNatStfulDroidDocComponentManagerImpl;
 import org.itsnat.impl.core.clientdoc.ClientDocumentImpl;
-import org.itsnat.impl.core.doc.ItsNatDocumentImpl;
 import org.itsnat.impl.core.doc.droid.ItsNatStfulDroidDocumentImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,7 +41,7 @@ import org.w3c.dom.Node;
  * @author jmarranz
  */
 public abstract class ViewImpl extends ItsNatElementComponentImpl implements View
-{
+{   
     /** Creates a new instance of CheckBoxImpl */
     public ViewImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
     {
@@ -55,6 +58,7 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
         return (ItsNatStfulDroidDocumentImpl)getItsNatDocumentImpl();
     }
     
+    @Override
     public Object createDefaultStructure()
     {
         return null;
@@ -78,6 +82,7 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
         return null;
     }
 
+    @Override
     public ParamTransport[] getInternalParamTransports(String type, ClientDocumentImpl clientDoc)
     {
         return null;
@@ -93,10 +98,12 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     {
     }
 
+    @Override
     public void initialSyncUIWithDataModel()
     {
     }
 
+    @Override
     public Object createDefaultModelInternal()
     {
         return null;
@@ -120,4 +127,23 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     }    
     
     public abstract String getClassName();
+
+    @Override
+    public Drawable getBackground(Class<? extends Drawable> clasz)
+    {
+        return getDrawable(clasz,"getBackground");
+    }
+    
+    @Override
+    public Drawable getForeground(Class<? extends Drawable> clasz)
+    {
+        return getDrawable(clasz,"getForeground");
+    }   
+    
+    private Drawable getDrawable(Class<? extends Drawable> clasz,String methodCalled)
+    {
+        if (ClipDrawable.class.equals(clasz))
+            return new ClipDrawableImpl(this,methodCalled);
+        return null;
+    }    
 }
