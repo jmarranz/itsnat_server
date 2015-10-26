@@ -24,8 +24,6 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
 
     public TestDroidRemoteResourcesDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {      
-        // HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();       
-        
         this.itsNatDoc = itsNatDoc;
       
         Document doc = itsNatDoc.getDocument();
@@ -44,22 +42,23 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         Element testClipDrawableElem = doc.getElementById("testClipDrawableId");        
         TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);
         ClipDrawable clipDrawable = (ClipDrawable)testClipDrawableComp.getBackground(ClipDrawable.class);
-        clipDrawable.setLevel(5000); // La mitad se verá
+        clipDrawable.setLevel(5000); // Half of the image is shown
         
         Element testClipDrawableElem2 = doc.getElementById("testClipDrawableId2");        
         TextView testClipDrawableComp2 = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem2);
         ClipDrawable clipDrawable2 = (ClipDrawable)testClipDrawableComp2.getBackground(ClipDrawable.class);
-        clipDrawable2.setLevel(5000); // La mitad se verá    
+        clipDrawable2.setLevel(5000); // Half of the image is shown
         
         /*
+        Element testClipDrawable = doc.getElementById("testClipDrawableId");        
         String testClipDrawableRef = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable);
         itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef + ";");
-        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // La mitad se verá
+        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // Half of the image is shown
 
         Element testClipDrawable2 = doc.getElementById("testClipDrawableId2");
         String testClipDrawableRef2 = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable2);
         itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef2 + ";");
-        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // La mitad se verá        
+        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // Half of the image is shown    
         */
     }
 
