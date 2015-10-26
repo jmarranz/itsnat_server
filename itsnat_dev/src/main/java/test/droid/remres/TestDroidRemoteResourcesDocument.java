@@ -41,12 +41,12 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         
         Element testClipDrawableElem = doc.getElementById("testClipDrawableId");        
         TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);
-        ClipDrawable clipDrawable = (ClipDrawable)testClipDrawableComp.getBackground(ClipDrawable.class);
+        ClipDrawable clipDrawable = testClipDrawableComp.getBackground(ClipDrawable.class);
         clipDrawable.setLevel(5000); // Half of the image is shown
         
         Element testClipDrawableElem2 = doc.getElementById("testClipDrawableId2");        
         TextView testClipDrawableComp2 = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem2);
-        ClipDrawable clipDrawable2 = (ClipDrawable)testClipDrawableComp2.getBackground(ClipDrawable.class);
+        ClipDrawable clipDrawable2 = testClipDrawableComp2.getBackground(ClipDrawable.class);
         clipDrawable2.setLevel(5000); // Half of the image is shown
         
         /*

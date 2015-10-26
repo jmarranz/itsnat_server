@@ -129,18 +129,18 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     public abstract String getClassName();
 
     @Override
-    public Drawable getBackground(Class<? extends Drawable> clasz)
+    public <T extends Drawable> T getBackground(Class<T> clasz)     
     {
-        return getDrawable(clasz,"getBackground");
+        return (T)getDrawable(clasz,"getBackground");
     }
     
     @Override
-    public Drawable getForeground(Class<? extends Drawable> clasz)
+    public <T extends Drawable> T getForeground(Class<T> clasz)    
     {
-        return getDrawable(clasz,"getForeground");
+        return (T)getDrawable(clasz,"getForeground");
     }   
     
-    private Drawable getDrawable(Class<? extends Drawable> clasz,String methodCalled)
+    private Drawable getDrawable(Class clasz,String methodCalled)
     {
         if (ClipDrawable.class.equals(clasz))
             return new ClipDrawableImpl(this,methodCalled);

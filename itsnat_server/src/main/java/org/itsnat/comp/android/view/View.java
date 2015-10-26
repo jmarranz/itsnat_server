@@ -27,15 +27,17 @@ public interface View extends ItsNatElementComponent
 {
     /**
      * 
+     * @param <T>
      * @param clasz
      * @return 
      */
-    public Drawable getBackground(Class<? extends Drawable> clasz);
+    public <T extends Drawable> T getBackground(Class<T> clasz);
     
     /**
      * 
+     * @param <T>
      * @param clasz
      * @return 
      */
-    public Drawable getForeground(Class<? extends Drawable> clasz);    
+    public <T extends Drawable> T getForeground(Class<T> clasz);    
 }
