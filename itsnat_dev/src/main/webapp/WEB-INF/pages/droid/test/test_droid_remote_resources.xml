@@ -125,5 +125,14 @@
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_state_list_drawable_remote.xml" />
 
+        <TextView
+            id="testLevelListDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="LevelListDrawable (green rect, press to change to a bot in center)"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_level_list_drawable_remote.xml" />        
+        
     </LinearLayout>
 </ScrollView>

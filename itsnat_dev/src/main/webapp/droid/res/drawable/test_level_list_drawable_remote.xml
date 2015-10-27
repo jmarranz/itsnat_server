@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@remote:drawable/list_selector_background_focused_light_remote.9.png"
+        android:minLevel="0"
+        android:maxLevel="2"
+        />
+
+    <item
+        android:minLevel="3"
+        android:maxLevel="5"
+        >
+            <bitmap android:src="@remote:drawable/droid_remote.png"
+                android:gravity="center" />
+
+    </item>
+
+</level-list>
+

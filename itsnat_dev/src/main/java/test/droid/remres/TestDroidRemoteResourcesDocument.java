@@ -7,6 +7,7 @@ package test.droid.remres;
 
 import java.io.Serializable;
 import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
+import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
 import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
@@ -60,6 +61,20 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef2 + ";");
         itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // Half of the image is shown    
         */
+        
+        Element testLevelListDrawableElem = doc.getElementById("testLevelListDrawableId");        
+        TextView testLevelListDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testLevelListDrawableElem);
+        final LevelListDrawable levelListDrawable = testLevelListDrawableComp.getBackground(LevelListDrawable.class);
+        levelListDrawable.setLevel(1);        
+        ((EventTarget)testLevelListDrawableElem).addEventListener("click", new EventListener()
+        {
+            @Override
+            public void handleEvent(Event evt)
+            {
+                levelListDrawable.setLevel(4); 
+            }
+        }, false);        
+        
     }
 
 }
