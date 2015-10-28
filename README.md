@@ -5,7 +5,7 @@ News
 - Nov.  16 2014. ItsNat Droid is a new project inside ItsNat, [more info](https://github.com/jmarranz/itsnat_droid).
 
 
-ItsNat
+ItsNat Server 
 ======
 
 ItsNat : Natural AJAX. Component Based Java Web Application Framework
@@ -16,8 +16,19 @@ Full interactive demo of features here: [ItsNat Feature Showcase](http://www.inn
 
 This README file is just a summary of ItsNat features including an example, for a complete a deep documentation and example go to the official project web site.
 
-Download Binaries and Docs
+ItsNat Droid
 ------
+
+ItsNat Droid Client SDK is a Java based Android development library to develop dynamic Android applications on demand downloading native Android UI layouts 
+and native resources similar to the web paradigm.
+
+In spite ItsNat Droid Client SDK can run without ItsNat Server, it has been designed to leverage the power of ItsNat Server.
+
+ItsNat Droid Client SDK is not here, it lives in its own [repository](https://github.com/jmarranz/itsnat_droid).
+
+
+Download Binaries and Docs
+======
 
 [Download](https://sourceforge.net/projects/itsnat/files/)
 
@@ -36,7 +47,7 @@ Maven:
 
 
 Core features
-------
+======
 
 ItsNat provides many more (core) features:
 
@@ -118,7 +129,7 @@ ItsNat provides many more (core) features:
 As of v1.3 ItsNat provides a new stateless mode avoiding any use of session and no need of server affinity.
 
 A Component System
-------
+======
 
 ItsNat also provides a Component system (constructed over the Core level). These components are AJAX based from the scratch inspired in Swing and reusing Swing 
 as far as possible such as data and selection models (but ItsNat does not want to be a Swing forced clone in web, is not a pixel based web framework).
@@ -133,7 +144,7 @@ Making user defined components, for instance compound components, is amazingly e
 
 
 Repository of Open Source Examples
-------
+======
 
 Take a look here:
 
@@ -141,7 +152,7 @@ https://github.com/jmarranz/itsnat_server_examples_web
 
 
 Hello World
-------
+======
 
 1. Create a new Java web project with your preferred IDE, the name is not important we will use "itsnat". The default web.xml is valid as is.
 2. Use Maven (seen later) or copy the jars located in /itsnat_featshow/target/itsnat_featshow-1.0-SNAPSHOT/WEB-INF/lib in the ItsNat distribution to the WEB-INF/lib folder of your project.
