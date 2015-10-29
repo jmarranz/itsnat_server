@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -13,13 +13,27 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.comp.android.graphics.drawable;
+package org.itsnat.impl.comp.android.graphics.drawable;
+
+import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
+import org.itsnat.impl.comp.android.view.ViewImpl;
 
 /**
  *
  * @author jmarranz
  */
-public interface Drawable
+public class TransitionDrawableImpl extends LayerDrawableImpl implements TransitionDrawable
 {
-    public boolean setLevel(int level);
+    public TransitionDrawableImpl(ViewImpl parentView,String methodCalled)
+    {
+        super(parentView,methodCalled);
+    }    
+
+    @Override
+    public void startTransition(int durationMillis)
+    {
+        String code = getThisReference() + ".startTransition(" + durationMillis + ");";
+        getItsNatStfulDroidDocument().addCodeToSend(code);        
+    }
+
 }

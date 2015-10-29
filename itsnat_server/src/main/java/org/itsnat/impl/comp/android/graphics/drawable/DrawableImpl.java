@@ -40,14 +40,20 @@ public abstract class DrawableImpl implements Drawable
         return parentView.getItsNatStfulDroidDocument();
     }
     
-    @Override
-    public boolean setLevel(int level)
+    protected String getThisReference()
     {
         ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();
         ScriptUtil srcUtil = itsNatDoc.getScriptUtil();
         String viewRef = srcUtil.getNodeReference(parentView.getNode());
-        String code = viewRef + "." + methodCalled + "().setLevel(" + level + ");";
-        itsNatDoc.addCodeToSend(code);
+        String code = viewRef + "." + methodCalled + "()";
+        return code;
+    }
+    
+    @Override
+    public boolean setLevel(int level)
+    {
+        String code = getThisReference() + ".setLevel(" + level + ");";
+        getItsNatStfulDroidDocument().addCodeToSend(code);
         return false; // Por devolver algo
     }    
 }

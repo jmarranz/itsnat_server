@@ -34,6 +34,7 @@ public class TestDroidRemoteResFragmentInsertionInnerXML extends TestDroidBase i
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         Document doc = getDocument();
@@ -51,6 +52,7 @@ public class TestDroidRemoteResFragmentInsertionInnerXML extends TestDroidBase i
         
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+            @Override
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);

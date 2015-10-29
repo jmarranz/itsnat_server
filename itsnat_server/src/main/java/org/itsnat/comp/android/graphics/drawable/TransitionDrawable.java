@@ -19,7 +19,7 @@ package org.itsnat.comp.android.graphics.drawable;
  *
  * @author jmarranz
  */
-public interface Drawable
+public interface TransitionDrawable extends LayerDrawable
 {
-    public boolean setLevel(int level);
+    public void startTransition (int durationMillis);    
 }

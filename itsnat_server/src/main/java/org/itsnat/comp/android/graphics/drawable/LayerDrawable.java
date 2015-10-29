@@ -19,7 +19,7 @@ package org.itsnat.comp.android.graphics.drawable;
  *
  * @author jmarranz
  */
-public interface Drawable
+public interface LayerDrawable extends Drawable
 {
-    public boolean setLevel(int level);
+    
 }

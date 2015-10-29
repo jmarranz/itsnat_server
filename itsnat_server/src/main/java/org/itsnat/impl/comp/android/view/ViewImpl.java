@@ -19,13 +19,17 @@ package org.itsnat.impl.comp.android.view;
 import org.itsnat.comp.ItsNatComponentUI;
 import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.graphics.drawable.Drawable;
+import org.itsnat.comp.android.graphics.drawable.LayerDrawable;
 import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
+import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
 import org.itsnat.comp.android.view.View;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.ClipDrawableImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.LayerDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.LevelListDrawableImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.TransitionDrawableImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByDocDefaultImpl;
@@ -145,8 +149,12 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     {
         if (ClipDrawable.class.equals(clasz))
             return new ClipDrawableImpl(this,methodCalled);
+        else if (LayerDrawable.class.equals(clasz))
+            return new LayerDrawableImpl(this,methodCalled);        
         else if (LevelListDrawable.class.equals(clasz))
-            return new LevelListDrawableImpl(this,methodCalled);        
+            return new LevelListDrawableImpl(this,methodCalled);                
+        else if (TransitionDrawable.class.equals(clasz))
+            return new TransitionDrawableImpl(this,methodCalled);        
         return null;
     }    
 }

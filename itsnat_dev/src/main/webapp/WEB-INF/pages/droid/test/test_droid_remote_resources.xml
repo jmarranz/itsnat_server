@@ -117,6 +117,16 @@
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_layer_drawable_remote.xml" />
   
+        <TextView
+            id="testTransitionDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="TransitionDrawable (green rect padded, press adds a centered bot"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_transition_drawable_remote.xml" />
+        
+        
         <Button
             android:layout_width="match_parent"
             android:layout_height="80dp"

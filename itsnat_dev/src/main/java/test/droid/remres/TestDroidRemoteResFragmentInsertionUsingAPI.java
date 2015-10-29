@@ -58,6 +58,7 @@ public class TestDroidRemoteResFragmentInsertionUsingAPI extends TestDroidBase i
         }
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+            @Override
             public void handleEvent(Event evt)
             {
                 frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);
