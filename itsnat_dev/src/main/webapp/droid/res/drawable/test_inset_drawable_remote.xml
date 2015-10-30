@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<inset xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@remote:drawable/list_selector_background_focused_light_remote.9.png"
+    android:insetTop="5.3dp"
+    android:insetRight="6.3dp"
+    android:insetBottom="7.3dp"
+    android:insetLeft="8.3dp"
+    android:visible="false"
+    >
+</inset>

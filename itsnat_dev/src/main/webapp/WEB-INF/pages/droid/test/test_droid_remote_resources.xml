@@ -62,7 +62,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="20dp"
             android:text="BitmapDrawable (partial img in center)"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:background="@remote:drawable/droid/res/drawable/test_bitmap_drawable_remote.xml" />        
         
         <TextView
@@ -70,7 +70,7 @@
             android:layout_height="25dp"
             android:layout_marginTop="20dp"
             android:text="BitmapDrawable 2 (partial img repeated)"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:background="@remote:drawable/droid/res/drawable/test_bitmap_drawable_remote_2.xml" />        
             
         
@@ -143,6 +143,14 @@
             android:text="LevelListDrawable (green rect, press to change to a bot in center)"
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_level_list_drawable_remote.xml" />        
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="InsetDrawable (green rect with insets, text inside)"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_inset_drawable_remote.xml" />        
         
     </LinearLayout>
 </ScrollView>
