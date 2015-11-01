@@ -152,5 +152,14 @@
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_inset_drawable_remote.xml" />        
         
+        <TextView
+            id="testScaleDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="ScaleDrawable (green, small and centered rect)"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_scale_drawable_remote.xml" />        
+        
     </LinearLayout>
 </ScrollView>

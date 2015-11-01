@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scale xmlns:android="http://schemas.android.com/apk/res/android"
+        android:drawable="@remote:drawable/list_selector_background_focused_light_remote.9.png"
+        android:scaleGravity="center_vertical|center_horizontal"
+        android:scaleHeight="60.3%"
+        android:scaleWidth="60.3%"
+    />
+

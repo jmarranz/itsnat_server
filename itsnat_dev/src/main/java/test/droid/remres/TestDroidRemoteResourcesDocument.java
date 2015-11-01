@@ -8,6 +8,7 @@ package test.droid.remres;
 import java.io.Serializable;
 import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
+import org.itsnat.comp.android.graphics.drawable.ScaleDrawable;
 import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
 import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.ItsNatDocument;
@@ -88,6 +89,12 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
             }
         }, false);        
         
+        Element testScaleDrawableElem = doc.getElementById("testScaleDrawableId");        
+        TextView testScaleDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testScaleDrawableElem);
+        ScaleDrawable scaleDrawable = testScaleDrawableComp.getBackground(ScaleDrawable.class);
+        scaleDrawable.setLevel(1);        
+        
+    
     }
 
 }
