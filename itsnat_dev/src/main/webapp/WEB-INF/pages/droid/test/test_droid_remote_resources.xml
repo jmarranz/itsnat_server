@@ -56,7 +56,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp" />         
         
-        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:text="BitmapDrawable (green rect, using itsnat_doc_name)"
+            android:textSize="18dp"
+            android:background="@remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable" />     
+           
         <TextView
             android:layout_width="match_parent"
             android:layout_height="25dp"
@@ -160,6 +167,39 @@
             android:text="ScaleDrawable (green, small and centered rect)"
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_scale_drawable_remote.xml" />        
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_gradient_drawable_remote.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 2"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_gradient_drawable_remote_2.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 3"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_gradient_drawable_remote_3.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 4"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_gradient_drawable_remote_4.xml" />
+        
         
     </LinearLayout>
 </ScrollView>

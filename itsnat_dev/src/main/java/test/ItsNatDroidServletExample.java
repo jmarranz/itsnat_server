@@ -107,7 +107,7 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setEventsEnabled(false);        
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
         
-        
+    
         
         
         // Attached server
