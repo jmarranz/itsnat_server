@@ -49,7 +49,7 @@ public abstract class ItsNatStfulDocumentTemplateVersionImpl extends ItsNatDocum
             return new ItsNatHTMLDocumentTemplateVersionImpl(docTemplate,source,timeStamp,request,response);
         else if (docTemplate.isMIME_OTHERNS())
             return ItsNatOtherNSDocumentTemplateVersionImpl.createItsNatOtherNSDocumentTemplateVersion(docTemplate, source, timeStamp,request,response);
-        if (docTemplate.isMIME_ANDROID_LAYOUT())
+        else if (docTemplate.isMIME_ANDROID())
             return new ItsNatStfulDroidDocumentTemplateVersionImpl(docTemplate,source,timeStamp,request,response);        
         else
             return null; // No ocurre nunca.

@@ -200,6 +200,14 @@
             android:textSize="20dp"
             android:background="@remote:drawable/droid/res/drawable/test_gradient_drawable_remote_4.xml" />
         
+        <TextView
+            id="testAnimationDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="AnimationDrawable (green rect and bot switching)"
+            android:textSize="20dp"
+            android:background="@remote:drawable/droid/res/drawable/test_animation_drawable_remote.xml" />        
         
     </LinearLayout>
 </ScrollView>

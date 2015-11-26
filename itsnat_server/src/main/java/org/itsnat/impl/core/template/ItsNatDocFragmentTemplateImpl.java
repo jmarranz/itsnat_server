@@ -58,6 +58,7 @@ public abstract class ItsNatDocFragmentTemplateImpl extends MarkupTemplateImpl i
             return new ItsNatXMLDocFragmentTemplateImpl(name,mime,markupSource,servlet);
     }
 
+    @Override
     public boolean isDocFragment()
     {
         return true;
@@ -86,17 +87,20 @@ public abstract class ItsNatDocFragmentTemplateImpl extends MarkupTemplateImpl i
         return (ItsNatDocFragmentTemplateVersionImpl)getNewestMarkupTemplateVersion(request,response);
     }
 
+    @Override
     public DocumentFragment loadDocumentFragment(ItsNatDocument docTarget)
     {
         return loadDocumentFragment(docTarget,null,null);
     }
 
+    @Override
     public DocumentFragment loadDocumentFragment(ItsNatDocument docTarget,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         ItsNatDocumentImpl itsNatDocTarget = (ItsNatDocumentImpl)docTarget;
         return getNewestItsNatDocFragmentTemplateVersion(itsNatDocTarget,request,response).loadDocumentFragment(itsNatDocTarget);
     }
 
+    @Override
     public MarkupTemplateDelegateImpl createMarkupTemplateDelegate(MarkupSourceImpl source)
     {
         return new MarkupTemplateNormalDelegateImpl(this,source);

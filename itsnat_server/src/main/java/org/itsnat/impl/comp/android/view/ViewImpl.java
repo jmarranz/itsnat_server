@@ -17,6 +17,7 @@
 package org.itsnat.impl.comp.android.view;
 
 import org.itsnat.comp.ItsNatComponentUI;
+import org.itsnat.comp.android.graphics.drawable.AnimationDrawable;
 import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.graphics.drawable.Drawable;
 import org.itsnat.comp.android.graphics.drawable.LayerDrawable;
@@ -27,6 +28,7 @@ import org.itsnat.comp.android.view.View;
 import org.itsnat.core.NameValue;
 import org.itsnat.core.event.ParamTransport;
 import org.itsnat.impl.comp.ItsNatElementComponentImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.AnimationDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.ClipDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.LayerDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.LevelListDrawableImpl;
@@ -149,7 +151,9 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     
     private Drawable getDrawable(Class clasz,String methodCalled)
     {
-        if (ClipDrawable.class.equals(clasz))
+        if (AnimationDrawable.class.equals(clasz))
+            return new AnimationDrawableImpl(this,methodCalled);        
+        else if (ClipDrawable.class.equals(clasz))
             return new ClipDrawableImpl(this,methodCalled);
         else if (LayerDrawable.class.equals(clasz))
             return new LayerDrawableImpl(this,methodCalled);        

@@ -56,7 +56,8 @@ public class NamespaceUtil
     public static final int SVG   = 3;
     public static final int XUL   = 4;
     public static final int ANDROID_LAYOUT = 5;
-
+    public static final int ANDROID_DRAWABLE = 6;
+    
     public static boolean isXMLNamespace(String namespaceURI)
     {
         // Es el namespace implícito de atributos tipo: xml:lang etc
@@ -249,9 +250,14 @@ public class NamespaceUtil
          return namespaceOfMIME == NamespaceUtil.XML;
     }
     
-    public static boolean isMIME_ANDROID_LAYOUT(int namespaceOfMIME)
+    public static boolean isMIME_ANDROID(int namespaceOfMIME)
     {
-         return namespaceOfMIME == NamespaceUtil.ANDROID_LAYOUT;
+        switch(namespaceOfMIME)
+        {
+            case NamespaceUtil.ANDROID_LAYOUT: return true;
+            case NamespaceUtil.ANDROID_DRAWABLE: return true;
+            default: return false;
+        }
     }        
     
     public static int getNamespaceCode(String mime)
@@ -267,20 +273,22 @@ public class NamespaceUtil
         {
             if (isSVGMime(mime)) return SVG;
             else if (isXULMime(mime)) return XUL;
-            if (isAndroidLayoutMime(mime)) return ANDROID_LAYOUT;
+            else if (isAndroidLayoutMime(mime)) return ANDROID_LAYOUT; 
             else return XML;
         }
     }
 
-    public static String getNamespace(int namespace)
+    public static String getNamespace(int namespaceCode)
     {
-        switch(namespace)
+        switch(namespaceCode)
         {
             case HTML:  return XHTML_NAMESPACE;  // No es muy exacto pero es conveniente pues lo habitual es usar XHTML en documentos cuyo MIME es HTML (es el mime el que decide el tipo del documento, es decir el valor del código entero namespace)
             case XHTML: return XHTML_NAMESPACE;
             case SVG:   return SVG_NAMESPACE;
             case XUL:   return XUL_NAMESPACE;
-            case ANDROID_LAYOUT: return ANDROID_NAMESPACE;
+            case ANDROID_LAYOUT: 
+            case ANDROID_DRAWABLE: 
+                return ANDROID_NAMESPACE;                
         }
         return null;
     }

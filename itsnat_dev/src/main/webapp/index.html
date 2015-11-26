@@ -9,172 +9,18 @@
     <meta http-equiv="Pragma" content="no-cache" />
     
     <script>
-    function carga(evt)
-    {
-        alert("SI load");
-        //document.body.bgColor = "yellow";
-        //document.body.style.background = "yellow";
-    }
-
-    function descarga()
-    {
-        //document.body.bgColor = "red";
-        //alert("DESCARGA");
-    }
-
-//alert("HOLA");
-
     </script>
 
-<script src="http://cdn.ckeditor.com/4.5.4/full/ckeditor.js"></script>    
-
 </head>
-<body onloadNO="alert('LOAD');" onclickNO="log('inline body,')" onunloadNO="descarga()" onbeforeunloadNO="alert('SI'); return false;" ><!-- Comentario -->
+<body onloadNO="alert('LOAD');" onclickNO="log('inline body,')" onunloadNO="descarga()" onbeforeunloadNO="alert('SI'); return false;" >
 
     
-<br /><br />
-
-<span id="ckeditorId">
-        <form>
-            <textarea name="editor1" id="editor1" rows="10" cols="80">
-                This is my textarea to be replaced with CKEditor.
-            </textarea>
-            <script>
-                // Replace the <textarea id="editor1"> with a CKEditor
-                // instance, using default configuration.
-                // CKEDITOR.replace( 'editor1' );
-            </script>
-        </form>   
-        <br /><br />
-        <button onclick="alert(CKEDITOR.instances.editor1.getData())">READ</button>    
-        <br /><br />
-        <button onclick="CKEDITOR.instances.editor1.setData('<h1>HELLO WORLD</h1>')">WRITE</button>        
-        <br /><br />
-</span>        
-<script>
-    function reinsert()
-    {
-        var elem = document.getElementById('ckeditorId');
-        var parent = elem.parentNode;
-        var div = document.createElement('div'); 
-        parent.replaceChild(div,elem);
-        parent.replaceChild(elem,div);
-        CKEDITOR.replace( 'editor1' );        
-    }
-</script>
-<button onclick="reinsert()">REINSERT</button>
-
-
 <br /><br />
         
 <a href="." >RELOAD</a><br />
 
-<p id="logId"></p>
-
-<div id="pruebaId" ><!-- HOLA --></div>
-
-
-<script>
-//alert(document.body.tagName && document.body.tagName.toLowerCase());
-
-    var elem = document.getElementById("pruebaId");
-    var logelem = document.getElementById("logId");
-
-//swindow.addEventListener("DOMContentLoaded",function(){alert("MOLA");},false);
-
-    function log(txt) { logelem.appendChild(document.createTextNode(txt)); }
-
-    function test(evt)
-    {
-        log(evt.type + " " + evt.currentTarget + " ");
-    }
-
-    function mostrar(object)
-    {
-        var str = "";
-        for(var name in object)
-        {
-            if (name.indexOf("on") == 0) continue;
-            if (name == "innerHTML") continue;
-            if (name == "outerHTML") continue;
-            //alert(name + " " + object[name]);
-            str += " " + name  + "-" + object[name];
-        }
-        alert(str);
-    }
-
-    log("FIN");
-
-    function IteratorLinkedList(node)
-    {
-        this.child = node.firstChild;
-
-        this.hasNext = hasNext;
-        function hasNext() { return this.child != null; }
-
-        this.next = next;
-        function next()
-        {
-            var nextChild = this.child;
-            this.child = this.child.nextSibling;
-            return nextChild;
-        }
-    }
-
-    function IteratorChildNodes(node)
-    {
-        this.childNodes = node.childNodes;
-        this.index = 0;
-
-        this.hasNext = hasNext;
-        function hasNext() { return this.index < this.childNodes.length; }
-
-        this.next = next;
-        function next()
-        {
-            var nextChild = this.childNodes.item(this.index);
-            this.index++;
-            return nextChild;
-        }
-    }
-
-    function testPrueba()
-    {
-
-        var withIt = confirm("With Iterator (YES) or Without Iterator (NO)");
-        var elem = document.getElementById("tableId");
-        var start = new Date().getTime();
-
-        for(var k = 0; k < 10000000; k++)
-        {
-            if (withIt)
-            {
-                var it = new IteratorLinkedList(elem);
-                while (it.hasNext())
-                {
-                    var node = it.next();
-                }
-            }
-            else
-            {
-                var child = elem.firstChild;
-                while (child != null)
-                {
-                    var node = child;
-                    child = child.nextSibling;
-                }
-            }
-
-        }
-
-        var end = new Date().getTime();
-        alert(withIt + " " + (end - start));
-    }
-
-</script>
-
 <br />
-<p><button onclick="testPrueba()">Test</button> &nbsp;</p>
+<!-- <p><button onclick="testPrueba()">Test</button> &nbsp;</p> -->
 
 <br />
 <h1>ItsNat</h1>

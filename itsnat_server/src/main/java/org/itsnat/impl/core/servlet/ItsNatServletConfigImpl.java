@@ -82,15 +82,16 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         cacheDOMNodesByMime.put(NamespaceUtil.MIME_SVG,Boolean.TRUE);
         cacheDOMNodesByMime.put(NamespaceUtil.MIME_XUL,Boolean.TRUE);
         cacheDOMNodesByMime.put(NamespaceUtil.MIME_XML,Boolean.FALSE); // No tiene mucho sentido cachear nodos pues si generamos un XML todo seguramente será contenido generado y nada estático
-        cacheDOMNodesByMime.put(NamespaceUtil.MIME_ANDROID_LAYOUT, Boolean.FALSE); // No es imaginable rollos de texto etc cacheables
-        
+        cacheDOMNodesByMime.put(NamespaceUtil.MIME_ANDROID_LAYOUT, Boolean.FALSE); // No es imaginable rollos de texto etc cacheables      
     }
 
+    @Override
     public ServletConfig getServletConfig()
     {
         return servletConfig;
     }
 
+    @Override
     public ItsNatServletContext getItsNatServletContext()
     {
         return servletContext;
@@ -114,6 +115,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         return artifacts;
     }
 
+    @Override
     public Object getArtifact(String name)
     {
         if (!hasArtifacts()) return null;
@@ -122,6 +124,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         return artifacts.get(name);
     }
 
+    @Override
     public void registerArtifact(String name,Object value)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
@@ -130,6 +133,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         artifacts.put(name,value);
     }
 
+    @Override
     public Object removeArtifact(String name)
     {
         checkIsAlreadyUsed(); // Así evitamos sincronizar (sólo lectura)
@@ -143,11 +147,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         servlet.checkIsAlreadyUsed();
     }
 
+    @Override
     public int getCommMode()
     {
         return commMode;
     }
 
+    @Override
     public void setCommMode(int commMode)
     {
         checkIsAlreadyUsed();
@@ -156,11 +162,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.commMode = commMode;
     }
 
+    @Override
     public long getEventTimeout()
     {
         return eventTimeout;
     }
 
+    @Override
     public void setEventTimeout(long timeout)
     {
         checkIsAlreadyUsed();
@@ -168,11 +176,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.eventTimeout = timeout; // Un valor 0 o negativo es no usar el timeout
     }
 
+    @Override
     public int getUseGZip()
     {
         return useGZip;
     }
 
+    @Override
     public void setUseGZip(int value)
     {
         checkIsAlreadyUsed();
@@ -180,6 +190,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.useGZip = value;
     }
 
+    @Override
     public boolean isOnLoadCacheStaticNodes(String mime)
     {
         Boolean value = cacheDOMNodesByMime.get(mime);
@@ -188,6 +199,7 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         return value.booleanValue();
     }
 
+    @Override
     public void setOnLoadCacheStaticNodes(String mime,boolean cache)
     {
         checkIsAlreadyUsed();
@@ -195,11 +207,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         cacheDOMNodesByMime.put(mime,Boolean.valueOf(cache));
     }
 
+    @Override
     public String getDefaultEncoding()
     {
         return defaultEncoding;
     }
 
+    @Override
     public void setDefaultEncoding(String defaultEncoding)
     {
         checkIsAlreadyUsed();
@@ -207,11 +221,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.defaultEncoding = defaultEncoding;
     }
 
+    @Override
     public boolean isLoadScriptInline()
     {
         return loadScriptInline;
     }
 
+    @Override
     public void setLoadScriptInline(boolean value)
     {
         checkIsAlreadyUsed();
@@ -219,11 +235,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.loadScriptInline = value;
     }
 
+    @Override
     public boolean isDebugMode()
     {
         return debugMode;
     }
 
+    @Override
     public void setDebugMode(boolean debugMode)
     {
         checkIsAlreadyUsed();
@@ -231,11 +249,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.debugMode = debugMode;
     }
 
+    @Override
     public int getClientErrorMode()
     {
         return clientErrorMode;
     }
 
+    @Override
     public void setClientErrorMode(int mode)
     {
         checkIsAlreadyUsed();
@@ -243,11 +263,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.clientErrorMode = mode;
     }
 
+    @Override
     public boolean isFastLoadMode()
     {
         return fastLoadMode;
     }
 
+    @Override
     public void setFastLoadMode(boolean fastLoadMode)
     {
         checkIsAlreadyUsed();
@@ -255,11 +277,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.fastLoadMode = fastLoadMode;
     }
 
+    @Override
     public boolean isNodeCacheEnabled()
     {
         return nodeCacheEnabled;
     }
 
+    @Override
     public void setNodeCacheEnabled(boolean nodeCacheEnabled)
     {
         checkIsAlreadyUsed();
@@ -267,11 +291,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.nodeCacheEnabled = nodeCacheEnabled;
     }
 
+    @Override
     public boolean isAutoBuildComponents()
     {
         return autoBuildComponents;
     }
 
+    @Override
     public void setAutoBuildComponents(boolean autoBuildComponents)
     {
         checkIsAlreadyUsed();
@@ -279,11 +305,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.autoBuildComponents = autoBuildComponents;
     }
 
+    @Override
     public DateFormat getDefaultDateFormat()
     {
         return dateFormat;
     }
 
+    @Override
     public void setDefaultDateFormat(DateFormat dateFormat)
     {
         checkIsAlreadyUsed();
@@ -291,33 +319,39 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.dateFormat = dateFormat;
     }
 
+    @Override
     public NumberFormat getDefaultNumberFormat()
     {
         return numberFormat;
     }
 
+    @Override
     public void setDefaultNumberFormat(NumberFormat numberFormat)
     {
         checkIsAlreadyUsed();
         this.numberFormat = numberFormat;
     }
 
+    @Override
     public long getEventDispatcherMaxWait()
     {
         return evtDispMaxWait;
     }
 
+    @Override
     public void setEventDispatcherMaxWait(long wait)
     {
         checkIsAlreadyUsed();
         this.evtDispMaxWait = wait;
     }
 
+    @Override
     public int getMaxOpenClientsByDocument()
     {
         return maxOpenClients;
     }
 
+    @Override
     public void setMaxOpenClientsByDocument(int value)
     {
         checkIsAlreadyUsed();
@@ -330,11 +364,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         if (value == 0) throw new ItsNatException("Max number of open clients cannot be 0");
     }
 
+    @Override
     public boolean isReferrerEnabled()
     {
         return referrerEnabled;
     }
 
+    @Override
     public void setReferrerEnabled(boolean referrerEnabled)
     {
         checkIsAlreadyUsed();
@@ -342,11 +378,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.referrerEnabled = referrerEnabled;
     }
 
+    @Override
     public boolean isReferrerPushEnabled()
     {
         return referrerPushEnabled;
     }
 
+    @Override
     public void setReferrerPushEnabled(boolean referrerPushEnabled)
     {
         checkIsAlreadyUsed();
@@ -354,11 +392,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.referrerPushEnabled = referrerPushEnabled;
     }
 
+    @Override
     public boolean isEventsEnabled()
     {
         return eventsEnabled;
     }
 
+    @Override
     public void setEventsEnabled(boolean enable)
     {
         checkIsAlreadyUsed();
@@ -366,11 +406,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.eventsEnabled = enable;
     }
 
+    @Override
     public boolean isScriptingEnabled()
     {
         return scriptEnabled;
     }
 
+    @Override
     public void setScriptingEnabled(boolean enabled)
     {
         checkIsAlreadyUsed();
@@ -384,11 +426,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         }
     }
 
+    @Override
     public boolean isAutoCleanEventListeners()
     {
         return autoCleanEventListeners;
     }
 
+    @Override
     public void setAutoCleanEventListeners(boolean enable)
     {
         checkIsAlreadyUsed();
@@ -396,11 +440,13 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
         this.autoCleanEventListeners = enable;
     }
 
+    @Override
     public boolean isUseXHRSyncOnUnloadEvent()
     {
         return useXHRSyncOnUnloadEvent;
     }
 
+    @Override
     public void setUseXHRSyncOnUnloadEvent(boolean enable)
     {
         checkIsAlreadyUsed();
@@ -409,55 +455,65 @@ public class ItsNatServletConfigImpl extends ItsNatUserDataImpl implements ItsNa
     }
  
 
+    @Override
     public boolean isUsePatternMarkupToRender()
     {
         return usePatternMarkupToRender;
     }
 
+    @Override
     public void setUsePatternMarkupToRender(boolean usePatternMarkupToRender)
     {
         checkIsAlreadyUsed();
         this.usePatternMarkupToRender = usePatternMarkupToRender;
     }
 
+    @Override
     public boolean isSelectionOnComponentsUsesKeyboard()
     {
         return selectionOnComponentsUsesKeyboard;
     }
 
+    @Override
     public void setSelectionOnComponentsUsesKeyboard(boolean value)
     {
         checkIsAlreadyUsed();
         this.selectionOnComponentsUsesKeyboard = value;
     }
 
+    @Override
     public boolean isJoystickMode()
     {
         return joystickMode;
     }
 
+    @Override
     public void setJoystickMode(boolean value)
     {
         checkIsAlreadyUsed();
         this.joystickMode = value;
     }
 
+    @Override
     public boolean isMarkupDrivenComponents()
     {
         return markupDrivenComponents;
     }
 
+    @Override
     public void setMarkupDrivenComponents(boolean value)
     {
         checkIsAlreadyUsed();
         this.markupDrivenComponents = value;
     }
 
+    @Override
     public int getBitmapDensityReference()
     {
         return bitmapDensityReference;
     }
 
+    @Override
     public void setBitmapDensityReference(int density)
     {
         checkIsAlreadyUsed();        

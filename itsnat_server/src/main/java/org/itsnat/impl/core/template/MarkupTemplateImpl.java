@@ -124,9 +124,9 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
          return NamespaceUtil.isMIME_XML(namespaceOfMIME);
     }
     
-    public boolean isMIME_ANDROID_LAYOUT()
+    public boolean isMIME_ANDROID()
     {
-         return NamespaceUtil.isMIME_ANDROID_LAYOUT(namespaceOfMIME);
+         return NamespaceUtil.isMIME_ANDROID(namespaceOfMIME);
     }    
 
     public String getNamespace()
@@ -134,39 +134,46 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
         return NamespaceUtil.getNamespace(namespaceOfMIME);
     }
 
+    @Override
     public String getName()
     {
         return name;
     }
 
+    @Override
     public String getMIME()
     {
         // No hacemos método set porque el dato se suministra ya por el constructor explícitamente
         return mime;
     }
 
+    @Override
     public String getEncoding()
     {
         return encoding;
     }
 
+    @Override
     public void setEncoding(String encoding)
     {
         checkIsAlreadyUsed();
         this.encoding = encoding;
     }
 
+    @Override
     public boolean isOnLoadCacheStaticNodes()
     {
         return onLoadCachingDOMNodes;
     }
 
+    @Override
     public void setOnLoadCacheStaticNodes(boolean value)
     {
         checkIsAlreadyUsed();
         this.onLoadCachingDOMNodes = value;
     }
 
+    @Override
     public Object getSource()
     {
         return delegate.getSource();
@@ -177,6 +184,7 @@ public abstract class MarkupTemplateImpl extends ItsNatUserDataImpl implements M
         return delegate.getNewestMarkupTemplateVersion(request,response);
     }
 
+    @Override
     public ItsNatServlet getItsNatServlet()
     {
         return servlet;

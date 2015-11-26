@@ -45,11 +45,13 @@ public class ItsNatXMLDocumentTemplateImpl extends ItsNatDocumentTemplateImpl
         this.eventsEnabled = false;
     }
     
+    @Override
     public MarkupTemplateVersionImpl createMarkupTemplateVersion(InputSource source,long timeStamp,ItsNatServletRequest request,ItsNatServletResponse response)
     {
         return new ItsNatXMLDocumentTemplateVersionImpl(this,source,timeStamp,request,response);
     }
 
+    @Override
     public void setReferrerEnabled(boolean enabled)
     {
         if (enabled) throw new ItsNatException("Referrer does not work with XML documents because needs events",this);
@@ -57,6 +59,7 @@ public class ItsNatXMLDocumentTemplateImpl extends ItsNatDocumentTemplateImpl
         super.setReferrerEnabled(false);
     }
 
+    @Override
     public void setEventsEnabled(boolean enabled)
     {
         if (enabled) throw new ItsNatException("Events cannot be enabled in XML documents",this);
@@ -64,6 +67,7 @@ public class ItsNatXMLDocumentTemplateImpl extends ItsNatDocumentTemplateImpl
         super.setEventsEnabled(false);
     }    
   
+    @Override
     public MarkupTemplateDelegateImpl createMarkupTemplateDelegate(MarkupSourceImpl source)
     {
         return new MarkupTemplateNormalDelegateImpl(this,source);
