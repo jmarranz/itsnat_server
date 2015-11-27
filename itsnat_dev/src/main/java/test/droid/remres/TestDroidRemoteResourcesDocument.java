@@ -9,6 +9,7 @@ import java.io.Serializable;
 import org.itsnat.comp.android.graphics.drawable.AnimationDrawable;
 import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
+import org.itsnat.comp.android.graphics.drawable.RotateDrawable;
 import org.itsnat.comp.android.graphics.drawable.ScaleDrawable;
 import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
 import org.itsnat.comp.android.widget.TextView;
@@ -100,7 +101,10 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         AnimationDrawable animationDrawable = testAnimationDrawableComp.getBackground(AnimationDrawable.class);
         animationDrawable.start();        
   
-        
+        Element testRotateDrawableElem = doc.getElementById("testRotateDrawableId");        
+        TextView testRotateDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testRotateDrawableElem);
+        RotateDrawable rotateDrawable = testRotateDrawableComp.getBackground(RotateDrawable.class);
+        rotateDrawable.setLevel(10000);         
         
     }
 

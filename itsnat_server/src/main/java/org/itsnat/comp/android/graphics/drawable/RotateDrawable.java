@@ -1,6 +1,6 @@
 /*
   ItsNat Java Web Application Framework
-  Copyright (C) 2007-2011 Jose Maria Arranz Santamaria, Spanish citizen
+  Copyright (C) 2007-2014 Jose Maria Arranz Santamaria, Spanish citizen
 
   This software is free software; you can redistribute it and/or modify it
   under the terms of the GNU Lesser General Public License as
@@ -13,19 +13,13 @@
   a copy of the GNU Lesser General Public License along with this program.
   If not, see <http://www.gnu.org/licenses/>.
 */
-package org.itsnat.impl.comp.android.graphics.drawable;
-
-import org.itsnat.comp.android.graphics.drawable.DrawableContainer;
-import org.itsnat.impl.comp.android.view.ViewImpl;
+package org.itsnat.comp.android.graphics.drawable;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class DrawableContainerImpl extends DrawableImpl implements DrawableContainer
+public interface RotateDrawable extends DrawableWrapper
 {
-    public DrawableContainerImpl(ViewImpl parentView,String methodCalled)
-    {
-        super(parentView,methodCalled);
-    }    
+    
 }

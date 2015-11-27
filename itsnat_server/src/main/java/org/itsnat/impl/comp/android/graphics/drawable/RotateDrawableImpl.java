@@ -15,16 +15,16 @@
 */
 package org.itsnat.impl.comp.android.graphics.drawable;
 
-import org.itsnat.comp.android.graphics.drawable.DrawableContainer;
+import org.itsnat.comp.android.graphics.drawable.RotateDrawable;
 import org.itsnat.impl.comp.android.view.ViewImpl;
 
 /**
  *
  * @author jmarranz
  */
-public abstract class DrawableContainerImpl extends DrawableImpl implements DrawableContainer
+public class RotateDrawableImpl extends DrawableWrapperImpl implements RotateDrawable
 {
-    public DrawableContainerImpl(ViewImpl parentView,String methodCalled)
+    public RotateDrawableImpl(ViewImpl parentView,String methodCalled)
     {
         super(parentView,methodCalled);
     }    

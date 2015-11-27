@@ -22,6 +22,7 @@ import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
 import org.itsnat.comp.android.graphics.drawable.Drawable;
 import org.itsnat.comp.android.graphics.drawable.LayerDrawable;
 import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
+import org.itsnat.comp.android.graphics.drawable.RotateDrawable;
 import org.itsnat.comp.android.graphics.drawable.ScaleDrawable;
 import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
 import org.itsnat.comp.android.view.View;
@@ -32,6 +33,7 @@ import org.itsnat.impl.comp.android.graphics.drawable.AnimationDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.ClipDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.LayerDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.LevelListDrawableImpl;
+import org.itsnat.impl.comp.android.graphics.drawable.RotateDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.ScaleDrawableImpl;
 import org.itsnat.impl.comp.android.graphics.drawable.TransitionDrawableImpl;
 import org.itsnat.impl.comp.listener.ItsNatCompNormalEventListenersByClientDefaultImpl;
@@ -50,7 +52,7 @@ import org.w3c.dom.Node;
  * @author jmarranz
  */
 public abstract class ViewImpl extends ItsNatElementComponentImpl implements View
-{   
+{
     /** Creates a new instance of CheckBoxImpl */
     public ViewImpl(Element element,NameValue[] artifacts,ItsNatStfulDroidDocComponentManagerImpl componentMgr)
     {
@@ -61,17 +63,17 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     {
         return getItsNatDocument().getDocument();
     }
-    
-    public ItsNatStfulDroidDocumentImpl getItsNatStfulDroidDocument()            
+
+    public ItsNatStfulDroidDocumentImpl getItsNatStfulDroidDocument()
     {
         return (ItsNatStfulDroidDocumentImpl)getItsNatDocumentImpl();
     }
-    
+
     @Override
     public Object createDefaultStructure()
     {
         return null;
-    }    
+    }
 
     @Override
     public ItsNatCompNormalEventListenersByDocImpl createItsNatCompNormalEventListenersByDoc()
@@ -122,47 +124,49 @@ public abstract class ViewImpl extends ItsNatElementComponentImpl implements Vie
     {
         return getItsNatDocument().getScriptUtil().getNodeReference(getElement());
     }
-    
+
     @Override
     public Node createDefaultNode()
     {
         return getDocument().createElement(getClassName());
     }
-    
+
     public String getAndroidNamespacePrefix()
     {
         ItsNatStfulDroidDocumentImpl itsNatDoc = getItsNatStfulDroidDocument();
         return itsNatDoc.getItsNatStfulDroidDocumentTemplateVersion().getAndroidNamespacePrefix();
-    }    
-    
+    }
+
     public abstract String getClassName();
 
     @Override
-    public <T extends Drawable> T getBackground(Class<T> clasz)     
+    public <T extends Drawable> T getBackground(Class<T> clasz)
     {
         return (T)getDrawable(clasz,"getBackground");
     }
-    
+
     @Override
-    public <T extends Drawable> T getForeground(Class<T> clasz)    
+    public <T extends Drawable> T getForeground(Class<T> clasz)
     {
         return (T)getDrawable(clasz,"getForeground");
-    }   
-    
+    }
+
     private Drawable getDrawable(Class clasz,String methodCalled)
     {
         if (AnimationDrawable.class.equals(clasz))
-            return new AnimationDrawableImpl(this,methodCalled);        
+            return new AnimationDrawableImpl(this,methodCalled);
         else if (ClipDrawable.class.equals(clasz))
             return new ClipDrawableImpl(this,methodCalled);
         else if (LayerDrawable.class.equals(clasz))
-            return new LayerDrawableImpl(this,methodCalled);        
+            return new LayerDrawableImpl(this,methodCalled);
         else if (LevelListDrawable.class.equals(clasz))
-            return new LevelListDrawableImpl(this,methodCalled);                
+            return new LevelListDrawableImpl(this,methodCalled);
         else if (ScaleDrawable.class.equals(clasz))
-            return new ScaleDrawableImpl(this,methodCalled);        
+            return new ScaleDrawableImpl(this,methodCalled);
+        else if (RotateDrawable.class.equals(clasz))
+            return new RotateDrawableImpl(this,methodCalled);
         else if (TransitionDrawable.class.equals(clasz))
-            return new TransitionDrawableImpl(this,methodCalled);        
+            return new TransitionDrawableImpl(this,methodCalled);
         return null;
-    }    
+    }
 }

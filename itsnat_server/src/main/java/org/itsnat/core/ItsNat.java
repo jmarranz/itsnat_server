@@ -46,7 +46,7 @@ public interface ItsNat extends ItsNatUserData
      *
      * @param context the ServletContext of the web application
      * @return the context object.
-     * @see ItsNatServlet#getItsNatServletContext(javax.servlet.ServletContext)
+     * @see ItsNatServlet#getItsNatServletContext()
      */
     public ItsNatServletContext getItsNatServletContext(ServletContext context);
 
