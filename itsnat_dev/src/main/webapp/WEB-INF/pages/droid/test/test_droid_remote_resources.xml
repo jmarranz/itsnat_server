@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools" >
+    android:orientation="vertical" >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -13,8 +12,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+            android:paddingBottom="@dimen/activity_vertical_margin">
 
         <TextView
             android:layout_width="match_parent"
@@ -57,10 +55,19 @@
                 android:layout_height="0dp" />         
         
         <TextView
+            id="testChangeDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="Press to change drawable (bot to green rect)"
+            android:textSize="18dp"
+            android:background="@remote:drawable/droid/res/drawable/test_bitmap_drawable_remote.xml" />        
+        
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:text="BitmapDrawable (green rect, using itsnat_doc_name)"
+            android:text="BitmapDrawable (green rect, got using itsnat_doc_name)"
             android:textSize="18dp"
             android:background="@remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable" />     
            
@@ -78,8 +85,8 @@
             android:layout_marginTop="20dp"
             android:text="BitmapDrawable 2 (partial img repeated)"
             android:textSize="18dp"
-            android:background="@remote:drawable/droid/res/drawable/test_bitmap_drawable_remote_2.xml" />        
-            
+            android:background="@remote:drawable/droid/res/drawable/test_bitmap_drawable_remote_2.xml" />                          
+        
         
         <TextView
             id="testClipDrawableId"

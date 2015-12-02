@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:itsnat="http://itsnat.org/itsnat"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -44,6 +46,10 @@
         <script src="bs/test_script_loading.bs" />
         <script src="${scheme}://${host}:${port}${contextPath}/bs/test_script_loading_2.bs" />
 
+        <!-- test <include> -->
+        <!-- NO FUNCIONA SI HAY ESTADO: <include layout="@remote:layout/droid/res/layout/test_include_2_remote.xml" />  -->
+        <itsnat:include name="test_droid_include_fragment" />      
+        
         <!-- Test load event inline -->
         <TextView id="testLoadInlineHandlerId"
                 android:layout_width="match_parent"

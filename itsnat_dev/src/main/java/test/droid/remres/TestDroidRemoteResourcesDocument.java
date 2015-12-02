@@ -20,6 +20,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
+import static test.droid.shared.TestDroidBase.ANDROID_NS;
+import test.web.shared.EventListenerSerial;
 
 public class TestDroidRemoteResourcesDocument implements EventListener,Serializable
 {
@@ -36,13 +38,30 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         ((EventTarget)rootElem).addEventListener("load", this, false);         
         
         new TestDroidRemoteResFragmentInsertionInnerXML(itsNatDoc);
-        new TestDroidRemoteResFragmentInsertionUsingAPI(itsNatDoc);        
+        new TestDroidRemoteResFragmentInsertionUsingAPI(itsNatDoc); 
+        
+        final Element testChangeDrawableElem = doc.getElementById("testChangeDrawableId"); 
+        ((EventTarget)testChangeDrawableElem).addEventListener("click", new EventListenerSerial() {
+            @Override
+            public void handleEvent(Event evt)
+            {
+                testChangeDrawableElem.setAttributeNS(ANDROID_NS,"android:background", "@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml");
+            }
+        }, false);
+        
+        
+        //TextView testChangeDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testChangeDrawableElem);
+        //ClipDrawable clipDrawable = testChangeDrawableComp.getBackground(ClipDrawable.class);        
+       
     }
 
     @Override
     public void handleEvent(Event evt)
     {
         Document doc = itsNatDoc.getDocument();     
+       
+        
+        
         
         Element testClipDrawableElem = doc.getElementById("testClipDrawableId");        
         TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);

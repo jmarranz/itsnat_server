@@ -69,6 +69,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setScriptingEnabled(false);        
         //docTemplate.setCommMode(CommMode.XHR_SYNC);
         
+        
+        docTemplate = registerDocument("test_droid_include_layout","android/layout",pathPrefix,pages);         
+        docTemplate.setScriptingEnabled(false);
+        
         docTemplate = registerDocument("test_droid_remote_resources","android/layout",pathPrefix,pages);        
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
@@ -131,6 +135,8 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
 
         docFragDesc = registerDocFragment("test_droid_core_fragment","android/layout",pathPrefix,pages);        
         docFragDesc = registerDocFragment("test_droid_remote_resources_fragment","android/layout",pathPrefix,pages);         
+        docFragDesc = registerDocFragment("test_droid_include_fragment","android/layout",pathPrefix,pages);        
+        
     }
   
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)

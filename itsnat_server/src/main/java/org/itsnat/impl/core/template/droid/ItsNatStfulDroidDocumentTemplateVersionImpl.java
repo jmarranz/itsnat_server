@@ -88,16 +88,11 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO        
     }
     
+    @Override
     public String wrapBodyAsDocument(String source)
     {
-        // Es curioso porque "source" puede contener elementos propios
-        // del <head> como <title> <link> etc y el parser de Xerces se lo traga
-        // y los elementos HTMLElement son del tipo adecuado así que
-        // no hacemos métodos específicos para parsear elementos destinados
-        // al <head>.
-
         StringBuilder code = new StringBuilder();
-        code.append( "<root" );
+        code.append( "<merge" );
         for(Map.Entry<String,String> entry : namespacesDeclared)
         {
             code.append( " xmlns:" + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -105,7 +100,7 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
 
         code.append( ">" );
         code.append( source );
-        code.append( "</root>" );
+        code.append( "</merge>" );
 
         return code.toString();
     }
