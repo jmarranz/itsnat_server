@@ -39,7 +39,29 @@
         <!-- Just a test comment (will be filtered) -->
 
         <!-- test <include> -->
-        <include layout="@remote:layout/droid/res/layout/test_include_layout_remote.xml" />
+        <include layout="@layout/test_include"
+                 android:id="@+id/testIncludeId1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+            />
 
+        <include layout="@remote:layout/droid/res/layout/test_include_2_remote.xml"
+                 android:id="@+id/testIncludeId2"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="10dp"
+            />
+
+        <include layout="@remote:layout/droid/res/layout/test_include_3_remote.xml"/>        
+        
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Some Text"
+            android:textSize="18dp">
+        </TextView>        
+        
     </LinearLayout>
 </ScrollView>

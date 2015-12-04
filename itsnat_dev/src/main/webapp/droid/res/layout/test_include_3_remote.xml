@@ -4,7 +4,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Included 1"
+        android:text="Included 3"
         android:background="#aaaaaa"/>
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Included 2"
+        android:text="Included 4"
         android:background="#aaaaaa"/>
 
 </merge>
