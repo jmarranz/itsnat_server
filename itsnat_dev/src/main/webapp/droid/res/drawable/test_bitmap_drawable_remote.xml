@@ -6,7 +6,7 @@
         android:filter="true"
         android:gravity="center"
         android:tileMode="disabled"
-        android:tileModeX="disabled"
-        android:tileModeY="disabled"
     />
-
+<!--    android:tileModeX="disabled"
+        android:tileModeY="disabled"
+-->

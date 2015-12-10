@@ -2,8 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:orientation="vertical" >
+    android:fillViewport="true" >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -17,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TEST REMOTE RESOURCES"
+            android:text="TEST REMOTE DRAWABLES"
             android:textSize="25dp"
             android:background="#00ff00">
         </TextView>
@@ -67,9 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:text="BitmapDrawable (green rect, got using itsnat_doc_name)"
+            android:text="NinePatchDrawable got using itsnat_doc_name (green rect)"
             android:textSize="18dp"
-            android:background="@remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable" />     
+            android:background="@remote:drawable/ItsNatDroidServletExample?itsnat_doc_name=test_droid_remote_drawable_ninepatch" />     
            
         <TextView
             android:layout_width="match_parent"
