@@ -100,8 +100,21 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:textSize=\"20dp\"  ");
         res.append("        android:background=\"@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml\" />  ");
 
-        res.append("    <script src=\"bs/test_script_loading.bs\" /> " );
-        res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/bs/test_script_loading_2.bs\" /> " );
+        
+        res.append("    <TextView id=\"testOnLoadScriptWithSrcId\"  ");
+        res.append("        android:layout_width=\"match_parent\"  ");
+        res.append("        android:layout_height=\"wrap_content\"  ");
+        res.append("        android:text=\"test loading &lt;script src=&gt;: \" />  ");
+        
+        res.append("    <script src=\"droid/bs/test_script_loading.bs\" />  ");
+       
+        res.append("    <TextView id=\"testOnLoadScriptWithSrc2Id\"  ");
+        res.append("        android:layout_width=\"match_parent\"  ");
+        res.append("        android:layout_height=\"wrap_content\"  ");
+        res.append("        android:text=\"test loading &lt;script src=&gt; 2: \" />  ");        
+
+        res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/droid/bs/test_script_loading_2.bs\" /> " );
+        
         res.append("    <script>"
                         + "void addItem() { "
                         + "  itsNatDoc.createGenericHttpClient()"
