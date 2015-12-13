@@ -2,5 +2,5 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginTop="100dp"
-          android:text="Included 2"
+          android:text="Included 2 w:match_parent by include"
           android:background="#aaaaaa"/>

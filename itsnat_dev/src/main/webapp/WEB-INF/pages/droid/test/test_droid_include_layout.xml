@@ -54,7 +54,9 @@
 
         <include layout="@remote:layout/droid/res/layout/test_include_3_remote.xml"/>        
         
-        
+      
+        <include layout="@remote:layout/ItsNatDroidServletExample?itsnat_doc_name=test_layout_included"/>           
+          
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

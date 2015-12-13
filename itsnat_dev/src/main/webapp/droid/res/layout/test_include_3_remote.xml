@@ -4,7 +4,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Included 3"
+        android:text="Included 3 w:wrap_content"
         android:background="#aaaaaa"/>
 
     <TextView
@@ -12,7 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Included 4"
+        android:text="Included 4 w:match_parent"
         android:background="#aaaaaa"/>
+
+    
+    <TextView id="testIncludedScript4Id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Included &lt;script&gt; (3-4): " />    
+       
+    <script><![CDATA[ var view = itsNatDoc.findViewByXMLId("testIncludedScript4Id"); view.setText(view.getText() + "OK");  ]]></script>
 
 </merge>

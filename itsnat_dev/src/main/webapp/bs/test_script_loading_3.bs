@@ -1,2 +1,0 @@
-
-toast("LOADING \n(OK testing on load <script src=\"...\"> test 3)");

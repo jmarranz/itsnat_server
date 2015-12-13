@@ -5,7 +5,6 @@ package test;
  * Created on 5 de octubre de 2006, 9:56
  */
 
-import test.shared.SharedInitContextConf;
 import test.web.shared.TestRemoteControlListener;
 import test.web.shared.TestGlobalRemoteControlListener;
 import test.web.shared.TestGlobalDocumentLoadListener;
@@ -95,11 +94,11 @@ public class ItsNatServletExample extends HttpServletWrapper
         boolean joystickMode = false;
 
         TestSerializationConfig.enable = false; // Al estar en shared funciona con RelProxy pues no se recarga
-        
+
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
-        
+
         ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
-        
+
         itsNatConfig.setMaxOpenClientsByDocument(maxOpenClientsByDocument);
         itsNatConfig.setDebugMode(debugMode);
         itsNatConfig.setLoadScriptInline(loadScriptInline);
@@ -121,7 +120,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         itsNatConfig.setDefaultDateFormat(DateFormat.getTimeInstance(DateFormat.LONG,Locale.US));
         itsNatConfig.setDefaultNumberFormat(NumberFormat.getNumberInstance(Locale.US));
 
-        
+
         itsNatServlet.addItsNatServletRequestListener(new TestGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestGlobalEventListener(itsNatServlet));
         itsNatServlet.addItsNatAttachedClientEventListener(new TestGlobalRemoteControlListener());
@@ -325,7 +324,7 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate = itsNatServlet.registerItsNatDocumentTemplateAttachedServer("test_xul_attached_server","application/vnd.mozilla.xul+xml");
         docTemplate.addItsNatServletRequestListener(new TestXULDocLoadListener());
         docTemplate.setCommMode(CommMode.SCRIPT_HOLD);  // SCRIPT_HOLD será lo normal en attached server
-        
+
 
         docTemplate = registerDocument("test_iframe","text/html",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestIFrameHTMLDocLoadListener());
@@ -352,20 +351,20 @@ public class ItsNatServletExample extends HttpServletWrapper
         docTemplate.setEventsEnabled(false); // No tiene estado esta página
 
         // Stateless main
-        
+
         docTemplate = registerDocument("test_stateless_core_initial","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
-        docTemplate.addItsNatServletRequestListener(new TestStatelessCoreInitialDocLoadListener());       
+        docTemplate.addItsNatServletRequestListener(new TestStatelessCoreInitialDocLoadListener());
         docTemplate.setEventsEnabled(false);
-        
-        // Stateless to load fragment       
+
+        // Stateless to load fragment
         docTemplate = registerDocument("test_stateless_core_event","text/html",pathPrefix,pages); // "application/xhtml+xml"  "text/html"
         docTemplate.addItsNatServletRequestListener(new TestStatelessCoreEventDocLoadListener());
-        docTemplate.addEventListener(new TestStatelessCoreTemplateLevelEventListener(docTemplate));        
-        docTemplate.setEventsEnabled(false);        
-        
-        
+        docTemplate.addEventListener(new TestStatelessCoreTemplateLevelEventListener(docTemplate));
+        docTemplate.setEventsEnabled(false);
+
+
         // FRAGMENTS
-        
+
         ItsNatDocFragmentTemplate docFragDesc;
 
         docFragDesc = registerDocFragment("test_html_fragment","text/html",pathPrefix,pages);
@@ -399,9 +398,9 @@ public class ItsNatServletExample extends HttpServletWrapper
     public ItsNatDocFragmentTemplate registerDocFragment(String name,String mime,String pathPrefix, Properties pages)
     {
         String fileName = pages.getProperty(name);
-        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");        
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");
         return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + fileName);
-    }    
+    }
 
     public Properties loadProperties(String path)
     {

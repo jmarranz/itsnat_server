@@ -43,64 +43,69 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         super.init(config);
 
         ItsNatHttpServlet itsNatServlet = getItsNatHttpServlet();
-        ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();        
-        
+        ItsNatServletConfig itsNatConfig = itsNatServlet.getItsNatServletConfig();
+
         itsNatConfig.setBitmapDensityReference(320);
-        
+
         itsNatServlet.addItsNatServletRequestListener(new TestDroidGlobalDocumentLoadListener());
         itsNatServlet.addEventListener(new TestDroidGlobalEventListener(itsNatServlet));
-        itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());        
-      
-        
+        itsNatServlet.addItsNatAttachedClientEventListener(new TestDroidGlobalRemoteControlListener());
+
+
         String pathPrefix = getServletContext().getRealPath("/") + "/WEB-INF/pages/droid/test/";
-        Properties pages = loadProperties(pathPrefix + "pages.properties");        
-        
-        ItsNatDocumentTemplate docTemplate;        
-        
-        docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages); 
+        Properties pages = loadProperties(pathPrefix + "pages.properties");
+
+        ItsNatDocumentTemplate docTemplate;
+
+        docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidCoreDocLoadListener());
-        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));              
-        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));        
-        docTemplate.setFastLoadMode(true);    
+        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));
+        docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));
+        docTemplate.setFastLoadMode(true);
         docTemplate.setReferrerEnabled(true);
         //docTemplate.setReferrerPushEnabled(true);
         //docTemplate.setLoadScriptInline(false);
         //docTemplate.setEventsEnabled(false);
-        //docTemplate.setScriptingEnabled(false);        
+        //docTemplate.setScriptingEnabled(false);
         //docTemplate.setCommMode(CommMode.XHR_SYNC);
-        
-        
-        docTemplate = registerDocument("test_droid_include_layout","android/layout",pathPrefix,pages);         
+
+
+        docTemplate = registerDocument("test_droid_include_layout","android/layout",pathPrefix,pages);
+        // docTemplate.setEventsEnabled(false);
         docTemplate.setScriptingEnabled(false);
-        
-        docTemplate = registerDocument("test_droid_remote_drawables","android/layout",pathPrefix,pages);        
-        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());        
+
+        docTemplate = registerDocument("test_layout_included","android/layout",pathPrefix,pages);
+        docTemplate.setScriptingEnabled(false);
+
+
+        docTemplate = registerDocument("test_droid_remote_drawables","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
-        
-        docTemplate = registerDocument("test_droid_remote_drawable_ninepatch","text/xml",pathPrefix,pages);        
-        docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());              
-                
-        
+
+        docTemplate = registerDocument("test_droid_remote_drawable_ninepatch","text/xml",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());
+
+
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
-        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
-        
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
+
         // Stateless main
-        
+
         docTemplate = registerDocument("test_droid_stateless_core_initial","android/layout",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreInitialDocLoadListener());       
+        docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreInitialDocLoadListener());
         docTemplate.setEventsEnabled(false);
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
-        
-        // Stateless to load fragment       
+
+        // Stateless to load fragment
         docTemplate = registerDocument("test_droid_stateless_core_event","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidStatelessCoreEventDocLoadListener());
-        docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));        
+        docTemplate.addEventListener(new TestDroidStatelessCoreTemplateLevelEventListener(docTemplate));
         docTemplate.setEventsEnabled(false);
-        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
-        
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
+
         // Components
-        docTemplate = registerDocument("test_droid_components","android/layout",pathPrefix,pages); 
+        docTemplate = registerDocument("test_droid_components","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidComponentsDocLoadListener());
         docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));
         docTemplate.addCreateItsNatComponentListener(new TestDroidCreateItsNatComponentListener());
@@ -108,37 +113,37 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.registerArtifact("tableComplexStructure",new TestComplexHTMLTableStructure());
         //docTemplate.setJoystickMode(joystickMode);
         //docTemplate.setScriptingEnabled(false);
-        //docTemplate.setEventsEnabled(false);        
-        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
-        
-    
-        
-        
+        //docTemplate.setEventsEnabled(false);
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
+
+
+
+
         // Attached server
-        
+
         /*
         docTemplate = registerDocument("test_droid_core_attached_server_launcher","android/layout",pathPrefix,pages);  // El motivo de este template es para poder generar una página con un template complejo evitando hacer una copia como estático
         docTemplate.addItsNatServletRequestListener(new TestDroidCoreAttachServerLauncherDocLoadListener());
         docTemplate.setScriptingEnabled(false);
-        docTemplate.setFastLoadMode(true); // REVISAR ?????? FUNDAMENTAL para añadir los <script> de attachment a la página inicial        
-        
-        docTemplate = itsNatServlet.registerItsNatDocumentTemplateAttachedServer("test_droid_core_attached_server","android/layout");  
+        docTemplate.setFastLoadMode(true); // REVISAR ?????? FUNDAMENTAL para añadir los <script> de attachment a la página inicial
+
+        docTemplate = itsNatServlet.registerItsNatDocumentTemplateAttachedServer("test_droid_core_attached_server","android/layout");
         docTemplate.addItsNatServletRequestListener(new TestCoreDocLoadListener());
         docTemplate.addItsNatAttachedClientEventListener(new TestRemoteControlListener(false));
         docTemplate.addEventListener(new TestGlobalEventListener(docTemplate));
-        //docTemplate.setCommMode(CommMode.SCRIPT_HOLD);        
+        //docTemplate.setCommMode(CommMode.SCRIPT_HOLD);
         */
-        
-        // Fragments 
-        
+
+        // Fragments
+
         ItsNatDocFragmentTemplate docFragDesc;
 
-        docFragDesc = registerDocFragment("test_droid_core_fragment","android/layout",pathPrefix,pages);        
-        docFragDesc = registerDocFragment("test_droid_remote_resources_fragment","android/layout",pathPrefix,pages);         
-        docFragDesc = registerDocFragment("test_droid_include_fragment","android/layout",pathPrefix,pages);        
-        
+        docFragDesc = registerDocFragment("test_droid_core_fragment","android/layout",pathPrefix,pages);
+        docFragDesc = registerDocFragment("test_droid_remote_resources_fragment","android/layout",pathPrefix,pages);
+        docFragDesc = registerDocFragment("test_droid_include_fragment","android/layout",pathPrefix,pages);
+
     }
-  
+
     public ItsNatDocumentTemplate registerDocument(String name,String mime,String pathPrefix, Properties pages)
     {
         String fileName = pages.getProperty(name);
@@ -149,10 +154,10 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
     public ItsNatDocFragmentTemplate registerDocFragment(String name,String mime,String pathPrefix, Properties pages)
     {
         String fileName = pages.getProperty(name);
-        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");        
+        if (fileName == null) throw new RuntimeException("Template with name " + name + " not found");
         return getItsNatHttpServlet().registerItsNatDocFragmentTemplate(name,mime, pathPrefix + fileName);
-    }    
-    
+    }
+
     public Properties loadProperties(String path)
     {
         Properties pages = new Properties();
@@ -167,5 +172,5 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
             throw new RuntimeException(ex);
         }
         return pages;
-    }    
+    }
 }

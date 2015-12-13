@@ -52,7 +52,7 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
 
         markup.append("<script><![CDATA[ alert(\"OK Inserted <script> by toDOM\"); ]]></script> ");
         // El \\n con dos barras es necesario en este caso por estar metido en una ""
-        markup.append("<script src=\"bs/test_script_to_dom.bs\" /> ");
+        markup.append("<script src=\"droid/bs/test_script_to_dom.bs\" /> ");
 
         markup.append("<TextView ");
         markup.append("  android:layout_width=\"match_parent\" \n");

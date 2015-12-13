@@ -41,10 +41,34 @@
 
         <!-- Just a test comment (will be filtered) -->
 
-        <script><![CDATA[ toast("LOADING \n(OK testing on load <script> )"); ]]></script>
-        <script src="bs/test_script_loading.bs" />
-        <script src="${scheme}://${host}:${port}${contextPath}/bs/test_script_loading_2.bs" />
+        <TextView id="testOnLoadInlineScriptId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading inline &lt;script&gt;: " />           
+        <script><![CDATA[ var view = itsNatDoc.findViewByXMLId("testOnLoadInlineScriptId"); view.setText(view.getText() + "OK");  ]]></script>
 
+        <TextView id="testOnLoadInlineScript2Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading inline &lt;script&gt; 2: " /> <!-- for a <script> added in Java code --> 
+
+        <TextView id="testOnLoadScriptWithSrcId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading &lt;script src=&gt;: " />
+        <script src="droid/bs/test_script_loading.bs" />
+        
+        <TextView id="testOnLoadScriptWithSrc2Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading &lt;script src=&gt; 2: " />        
+        <script src="${scheme}://${host}:${port}${contextPath}/droid/bs/test_script_loading_2.bs" />
+
+        <TextView id="testOnLoadScriptWithSrc3Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading &lt;script src=&gt; 3: " /> <!-- for a <script> added in Java code -->       
+        
         <!-- test <include> -->
         <!-- NO FUNCIONA SI HAY ESTADO: <include layout="@remote:layout/droid/res/layout/test_include_2_remote.xml" />  -->
         <itsnat:include name="test_droid_include_fragment" />      

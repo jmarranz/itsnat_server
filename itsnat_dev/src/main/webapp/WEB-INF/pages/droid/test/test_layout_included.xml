@@ -4,7 +4,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Included 1 w:wrap_content"
+        android:text="Included 5 w:wrap_content (with itsnat_doc_name)"
         android:background="#aaaaaa"/>
 
     <TextView
@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:text="Included 2 w:match_parent"
+        android:text="Included 6 w:match_parent (with itsnat_doc_name)"
         android:background="#aaaaaa"/>
-
-    <TextView id="testIncludedScript2Id"
+ 
+        
+    <TextView id="testIncludedScript6Id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Included &lt;script&gt;: " />
-
-    <script><![CDATA[ var view = itsNatDoc.findViewByXMLId("testIncludedScript2Id"); view.setText(view.getText() + "OK");  ]]></script>
-
-
+            android:text="Included &lt;script&gt; (5-6): " />    
+                  
+    <script><![CDATA[ var view = itsNatDoc.findViewByXMLId("testIncludedScript6Id"); view.setText(view.getText() + "OK");  ]]></script>        
+        
 </merge>

@@ -1,0 +1,3 @@
+
+var view = itsNatDoc.findViewByXMLId("testOnLoadScriptWithSrc2Id"); view.setText(view.getText() + "OK");
+
