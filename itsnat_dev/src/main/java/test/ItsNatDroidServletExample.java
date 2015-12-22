@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Properties;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import org.itsnat.core.ClientErrorMode;
 import org.itsnat.core.ItsNatServletConfig;
 import org.itsnat.core.http.HttpServletWrapper;
 import org.itsnat.core.http.ItsNatHttpServlet;
@@ -63,6 +64,8 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));
         docTemplate.setFastLoadMode(true);
         docTemplate.setReferrerEnabled(true);
+        docTemplate.setClientErrorMode(ClientErrorMode.SHOW_SERVER_AND_CLIENT_ERRORS); // Sólo actúa si no usamos un error listener en Android
+        
         //docTemplate.setReferrerPushEnabled(true);
         //docTemplate.setLoadScriptInline(false);
         //docTemplate.setEventsEnabled(false);

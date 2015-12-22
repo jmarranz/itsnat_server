@@ -22,15 +22,15 @@ public class TestDroidCoreDocument implements Serializable
         HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();
               
         String model = httpReq.getHeader("ItsNat-model");        
-        if (model == null) throw new RuntimeException("Unexpected"); 
+        if (model == null) throw new RuntimeException("Expected header: ItsNat-model"); 
         String sdk_int = httpReq.getHeader("ItsNat-sdk-int");        
-        if (sdk_int == null) throw new RuntimeException("Unexpected");        
+        if (sdk_int == null) throw new RuntimeException("Expected header: ItsNat-sdk-int");        
         String widthPixels = httpReq.getHeader("ItsNat-display-width");
-        if (widthPixels == null) throw new RuntimeException("Unexpected");         
+        if (widthPixels == null) throw new RuntimeException("Expected header: ItsNat-display-width");         
         String heightPixels = httpReq.getHeader("ItsNat-display-height");        
-        if (heightPixels == null) throw new RuntimeException("Unexpected");        
+        if (heightPixels == null) throw new RuntimeException("Expected header: ItsNat-display-height");        
         String density = httpReq.getHeader("ItsNat-display-density");            
-        if (density == null) throw new RuntimeException("Unexpected");        
+        if (density == null) throw new RuntimeException("Expected header: ItsNat-display-density");        
         
         this.itsNatDoc = itsNatDoc;
       

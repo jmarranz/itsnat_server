@@ -118,7 +118,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("    <script>"
                         + "void addItem() { "
                         + "  itsNatDoc.createGenericHttpClient()"
-                        + "  .setMethod(\"GET\")"
+                        + "  .setRequestMethod(\"GET\")"
                         + "  .setOnHttpRequestListener(new OnHttpRequestListener(){"
                         + "     void onRequest(Page page,HttpRequestResult response){"
                         + "        var viewRoot = itsNatDoc.getRootView();"
@@ -135,7 +135,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
                         + "         alert(\"addItem error:\" + ex.getMessage() );"
                         + "     }"
                         + "   })"
-                        + "  .addParam(\"addItem\",\"true\") "
+                        + "  .addParameter(\"addItem\",\"true\") "
                         + "  .requestAsync(); "
                         + "}"
                      + "</script> ");

@@ -65,13 +65,14 @@ public class TestDroidUserListener extends TestDroidBase implements EventListene
                 
                 String tagName = (currTarget != null ? ((Element)currTarget).getTagName() : null);                
 
+                String tagNameMsg = tagName;
                 int count;
                 if ("ScrollView".equals(tagName)) count = 1;
-                else if (tagName == null) count = 2;
+                else if (tagName == null) { count = 2; tagNameMsg = "(no curr target)"; }
                 else if ("TextView".equals(tagName)) count = 3;
                 else throw new RuntimeException("Unexpected " + tagName);                
 
-                logToTextView(testLog,"OK " + count + "/3 " + tagName  + " Model: " + model + "\"\n");                 
+                logToTextView(testLog,"OK " + count + "/3 " + tagNameMsg  + " Model: " + model + "\"\n");                 
 
                 String name = userEvt.getName();
                 
