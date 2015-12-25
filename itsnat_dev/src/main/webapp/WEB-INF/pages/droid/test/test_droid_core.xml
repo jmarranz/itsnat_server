@@ -173,6 +173,11 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
 
+            <TextView id="testViewTreeInsertionLogId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Script inserted by normal DOM test: " />
+            
         <!-- Test view tree removing -->
         <Button id="testViewTreeRemovingId"
                 android:layout_width="wrap_content"
@@ -213,6 +218,16 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
 
+            <TextView id="testToDOMLogId1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inserted &lt;script&gt; by toDOM: " />            
+            
+            <TextView id="testToDOMLogId2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inserted &lt;script src=... &gt; by toDOM: " />             
+            
         <!-- Test ScriptUtil -->
         <Button id="testScriptUtilId"
                 android:layout_width="wrap_content"

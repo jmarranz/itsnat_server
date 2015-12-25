@@ -63,7 +63,7 @@ public class TestDroidViewTreeInsertion extends TestDroidBase implements EventLi
         frameLayoutView.appendChild(frameLayoutViewInner);
 
         Element scriptElem = doc.createElement("script");
-        CDATASection scriptCode = doc.createCDATASection("alert(\"OK Inserted <script> by normal DOM\");");
+        CDATASection scriptCode = doc.createCDATASection("var view = itsNatDoc.findViewByXMLId(\"testViewTreeInsertionLogId\"); view.setText(view.getText() + \"OK\");");
         scriptElem.appendChild(scriptCode);
         frameLayoutView.appendChild(scriptElem);
 
