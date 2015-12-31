@@ -46,7 +46,7 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         markup.append("  android:layout_width=\"match_parent\" \n");
         markup.append("  android:layout_height=\"25dp\" \n");
         markup.append("  android:background=\"#ddddff\" \n");
-        markup.append("  style=\"@style/test\" \n");
+        markup.append("  style=\"@style/test_style2\" \n");
         markup.append("  android:text=\"OK if purple and left/right padding\"> \n");
         markup.append("</TextView>");
 
@@ -58,7 +58,7 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         markup.append("  android:layout_width=\"match_parent\" \n");
         markup.append("  android:layout_height=\"25dp\" \n");
         markup.append("  android:background=\"#ddffdd\" \n");
-        markup.append("  style=\"@style/test\" \n");
+        markup.append("  style=\"@style/test_style2\" \n");
         markup.append("  android:text=\"OK if green and left/right padding\"> \n");
         markup.append("</TextView>");
 

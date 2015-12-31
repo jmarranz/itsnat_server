@@ -42,7 +42,7 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         Element textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
         textView.setAttributeNS(ANDROID_NS,"android:text", "OK if text has left/right padding, background pink and width is match_parent");         
-        textView.setAttribute("style","@style/test");
+        textView.setAttribute("style","@style/test_style2");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, testStyleAttrHidden);
         
