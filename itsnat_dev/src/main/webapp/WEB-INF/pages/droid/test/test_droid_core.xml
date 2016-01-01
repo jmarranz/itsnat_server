@@ -238,6 +238,12 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
 
+            <TextView id="testScriptUtilLogId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="getNodeReference: " />              
+           
+            
         <!-- Test Touch Events -->
         <Button id="testTouchEventId"
                 android:layout_width="wrap_content"
