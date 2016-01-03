@@ -116,7 +116,7 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("    <script src=\"http://" + host + ":" + port + "/itsnat_dev/droid/bs/test_script_loading_2.bs\" /> " );
         
         res.append("    <script>"
-                        + "void addItem() { "
+                        + "void addItem() {"
                         + "  itsNatDoc.createGenericHttpClient()"
                         + "  .setRequestMethod(\"GET\")"
                         + "  .setOnHttpRequestListener(new OnHttpRequestListener(){"

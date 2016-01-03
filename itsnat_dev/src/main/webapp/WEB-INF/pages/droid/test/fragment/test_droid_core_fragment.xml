@@ -21,13 +21,18 @@
         
         <script src="droid/bs/test_script_fragment.bs" />       
         
-        <TextView
+        <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
             android:layout_width="200dp"
             android:layout_height="20dp"
-            android:text="Just another text"
-            android:background="#dddddd">
-        </TextView>                
+            android:text="Custom View 1 (bg. gray)"
+            android:background="#dddddd" />               
              
+        <view class="org.itsnat.itsnatdroidtest.testact.util.CustomTextView"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:text="Custom View 2 (bg. gray)"
+            android:background="#dddddd" />
+
         
     </LinearLayout>
 </merge>
