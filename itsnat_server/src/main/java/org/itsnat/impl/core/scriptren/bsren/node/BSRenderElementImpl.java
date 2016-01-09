@@ -70,6 +70,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
 
     protected abstract String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc);
 
+    @Override
     public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // En Droid la renderización de atributos se hace con una única instancia de BSRenderAttributeImpl por lo que hay una única forma compartida
@@ -77,7 +78,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         // podemos considerar una estrategia de definir atributos con una sóla sentencia a modo de batch, se enviará mucho menos código y será más rápido de parsear en beanshell
         
         Element elem = (Element)node;
-        BSRenderAttributeImpl render = BSRenderAttributeImpl.getBSRenderAttribute();          
+        BSRenderAttributeImpl renderAttr = BSRenderAttributeImpl.getBSRenderAttribute();          
         StringBuilder code = new StringBuilder();
         
         NamedNodeMap attribList = elem.getAttributes();    
@@ -87,7 +88,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
             for(int i = 0; i < attribList.getLength(); i++)
             {
                 Attr attr = (Attr)attribList.item(i);
-                code.append( render.setAttributeCode(attr,elem,elemVarName,clientDoc) );
+                code.append(renderAttr.setAttributeCode(attr,elem,elemVarName,clientDoc) );
             }
        }
        else
@@ -114,12 +115,12 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
             
             if (!mapByNamespace.isEmpty())
             {
-                code.append( render.setAttributeCodeBatchNS(elem,elemVarName,mapByNamespace,clientDoc) );
+                code.append(renderAttr.setAttributeCodeBatchNS(elem,elemVarName,mapByNamespace,clientDoc) );
             }
            
             if (!listNoNamespace.isEmpty())
             {
-                code.append( render.setAttributeCodeBatch(elem,elemVarName,listNoNamespace,clientDoc) );                
+                code.append(renderAttr.setAttributeCodeBatch(elem,elemVarName,listNoNamespace,clientDoc) );                
             }
        }
            
@@ -172,11 +173,13 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         }
     }
     
+    @Override
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
          return false;
     }    
     
+    @Override
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String parentNodeLocator = innerMarkupRender.getParentNodeLocator();
@@ -202,6 +205,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         return JSAndBSRenderElementImpl.appendChildrenAsMarkup(parentVarName,parentNode,clientDoc,this);
     }
 
+    @Override
     public boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         // En principio todos los elementos tienen capacidad de insertar nodos hijos como markup
@@ -209,6 +213,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         return true;
     }
 
+    @Override
     public boolean match(Node node, Object context)
     {
         // Esto es por claridad pues "match" no nos dice mucho sobre lo que tenemos que hacer
@@ -221,6 +226,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         return false;
     }
 
+    @Override
     public CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
     {
         return JSAndBSRenderElementImpl.canInsertChildNodeAsMarkupIgnoringOther(parent, childNode, template, this);
@@ -237,11 +243,13 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         return JSAndBSRenderElementImpl.canInsertAllChildrenAsMarkup(parent,template,insertMarkupInfo,this);
     }
 
+    @Override
     public Node getFirstChildIsNotValidInsertedAsMarkup(Element parent,MarkupTemplateVersionImpl template)
     {
         return DOMUtilInternal.getFirstContainedNodeMatching(parent,this,template);
     }
 
+    @Override
     public InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderElementImpl.createInnerMarkupCode(parentVarName, parentNode, childrenCode, clientDoc, this);

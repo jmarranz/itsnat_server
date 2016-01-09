@@ -38,16 +38,19 @@ public class JSRenderDocumentFragmentImpl extends JSRenderHasChildrenNodeImpl
     {
     }
 
+    @Override
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "itsNatDoc.doc.createDocumentFragment()";
     }
 
+    @Override
     public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return "";
     }
 
+    @Override
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return false;
