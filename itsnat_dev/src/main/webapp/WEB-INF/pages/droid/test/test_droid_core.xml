@@ -152,7 +152,17 @@
             <TextView id="testStyleAttrHiddenId"
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
+            
+        <!-- Test style attr and dynamic insertion 2 -->
+        <Button id="testStyleAttrId2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test style attr and dynamic insertion 2" />
 
+            <TextView id="testStyleAttrHiddenId2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+            
         <!-- Test custom view insertion -->
         <Button id="testCustomViewInsertionId"
                 android:layout_width="wrap_content"

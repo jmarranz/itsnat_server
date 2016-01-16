@@ -41,6 +41,7 @@ public class TestDroidCoreDocument implements Serializable
         new TestDroidClientException(itsNatDoc);        
         new TestDroidNativeListeners(itsNatDoc); 
         new TestDroidStyleAttrAndViewInsertion(itsNatDoc);
+        new TestDroidStyleAttrAndViewInsertion2(itsNatDoc);
         new TestDroidCustomViewInsertion(itsNatDoc);
         new TestDroidViewTreeInsertion(itsNatDoc);
         new TestDroidViewTreeRemoving(itsNatDoc);

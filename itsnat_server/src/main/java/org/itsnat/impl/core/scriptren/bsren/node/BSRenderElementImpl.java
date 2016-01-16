@@ -108,7 +108,6 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
                         mapByNamespace.put(ns,list);
                     }
                     list.add(attr);
-                    mapByNamespace.put(ns,list);
                 }
                 else listNoNamespace.add(attr);
             }       

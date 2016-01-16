@@ -33,17 +33,17 @@ import org.w3c.dom.Element;
 public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAttribute
 {
     private static final BSRenderAttributeImpl SINGLETON = new BSRenderAttributeImpl();
-    
+
     public static BSRenderAttributeImpl getBSRenderAttribute()
     {
         return SINGLETON;
-    }    
-    
+    }
+
     public boolean isIgnored(Attr attr,Element elem)
     {
         return false; // Por ahora nada
     }
-    
+
     public String setAttributeCode(Attr attr,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         if (isIgnored(attr,elem))
@@ -51,18 +51,23 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         String attrName = attr.getName();
         String bsValue = toBSAttrValue(attr,elem,clientDoc);
         return setAttributeCode(attr,attrName,bsValue,elem,clientDoc);
-    }    
-    
+    }
+
     protected String toBSAttrValue(Attr attr,Element elem,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String value = attr.getValue();
         return toBSAttrValue(value,clientDoc);
-    }    
-    
+    }
+
     protected String toBSAttrValue(String value,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return toTransportableStringLiteral(value,clientDoc.getBrowser());
-    }    
+    }
+
+    private static boolean isAttrRemote(Attr attr) 
+    {
+        return attr.getValue().startsWith("@remote:");
+    }
     
     public String setAttributeCode(Attr attr,Element elem,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
@@ -71,13 +76,13 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         String attrName = attr.getName();
         String bsValue = toBSAttrValue(attr,elem,clientDoc);
         return setAttributeCode(attr,attrName,bsValue,elem,elemVarName,clientDoc);
-    }    
-    
+    }
+
     protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
         return setAttributeCode(attr,attrName,bsValue,new NodeScriptRefImpl(nodeLoc));
-    }    
+    }
 
     protected String setAttributeCode(Attr attr,String attrName,String bsValue,Element elem,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
@@ -86,81 +91,139 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
 
     public String setAttributeCode(Attr attr,String attrName,String bsValue,NodeScriptRefImpl nodeRef)
     {
+        StringBuilder code = new StringBuilder();
+        
+        boolean isAttrRemote = isAttrRemote(attr);
+        String metadataPrefix = "";
+        String metadataSuffix = "";
+        if (isAttrRemote)
+        {
+            metadataPrefix = "/*{*/";
+            metadataSuffix = "/*}*/";        
+        }
+        
         String namespaceURI = attr.getNamespaceURI();
+        String bsAttrName;
         if (namespaceURI != null)
-        {        
+        {
             String namespaceURIScript = shortNamespaceURI(namespaceURI);
+            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS
+            bsAttrName = "\"" + attrName + "\"";            
             
-            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS            
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + "," + namespaceURIScript + ",\"" + attrName + "\"," + bsValue + ");\n";
+                code.append("itsNatDoc.setAttributeNS2(" + nodeLoc.toScriptNodeLocation(true) + "," + metadataPrefix + namespaceURIScript + "," + bsAttrName + "," + bsValue + metadataSuffix + ");\n");
             }
             else
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttributeNS(" + elemVarName + "," + namespaceURIScript + ",\"" + attrName + "\"," + bsValue + ");\n";
-            }                
+                code.append("itsNatDoc.setAttributeNS(" + elemVarName + "," + metadataPrefix + namespaceURIScript + "," + bsAttrName + "," + bsValue + metadataSuffix + ");\n");
+            }
         }
         else
         {
+            bsAttrName = "\"" + attrName + "\"";            
+            
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttribute2(" + nodeLoc.toScriptNodeLocation(true) + ",\"" + attrName + "\"," + bsValue + ");\n";
+                code.append("itsNatDoc.setAttribute2(" + nodeLoc.toScriptNodeLocation(true) + "," + metadataPrefix + bsAttrName + "," + bsValue + metadataSuffix + ");\n");
             }
             else
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
-                return "itsNatDoc.setAttribute(" + elemVarName + ",\"" + attrName + "\"," + bsValue + ");\n";
+                code.append("itsNatDoc.setAttribute(" + elemVarName + "," + metadataPrefix + bsAttrName + "," + bsValue + metadataSuffix + ");\n");
             }
         }
 
-    }        
-    
-    private void toArraysForBatch(Element elem,List<Attr> attrList,boolean namespaceBased,StringBuilder attrNameArr,StringBuilder attrValueArr,ClientDocumentStfulDelegateImpl clientDoc)
+        return code.toString();
+    }
+
+    private void toArraysForBatch(Element elem,List<Attr> attrList,boolean namespaceBased,StringBuilder bsAttrNameBuilder,StringBuilder bsAttrValueBuilder,boolean[] someAttrRemote,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        int len = attrList.size();
+        String[] bsAttrNameArray = new String[len];
+        String[] bsAttrValueArray = new String[len];
+        
         int i = 0;
         for(Attr attr : attrList)
         {
-            String name = namespaceBased ? attr.getLocalName() : attr.getName(); // Usamos getLocalName() y no getName() cuando el namespace va aparte como dato y no tiene sentido prefix, si no tiene namespace hay que usar getName() porque getLocalName() devuelve null
-            String bsValue = toBSAttrValue(attr,elem,clientDoc);
-            attrNameArr.append("\"" + name + "\"");
-            attrValueArr.append(bsValue);
+            boolean isAttrRemote = isAttrRemote(attr);
+            String metadataKeyPrefix = "";
+            String metadataKeySuffix = "";
+            String metadataValuePrefix = "";
+            String metadataValueSuffix = "";            
+            if (isAttrRemote)
+            {
+                someAttrRemote[0] = true;
+                
+                metadataKeyPrefix = "/*[k*/"; // k = key
+                metadataKeySuffix =  "/*k]*/";        
+                metadataValuePrefix = "/*[v*/"; // v = value
+                metadataValueSuffix =  "/*v]*/";                
+            }                    
+            
+            String name = namespaceBased ? attr.getLocalName() : attr.getName(); // Usamos getLocalName() y no getName() cuando el namespace va aparte como dato y no tiene sentido prefix, si no tiene namespace hay que usar getName() porque getLocalName() devuelve null            
+            String bsAttrName = metadataKeyPrefix + "\"" + name + "\"" + metadataKeySuffix;             
+            String bsValue = metadataValuePrefix + toBSAttrValue(attr,elem,clientDoc) + metadataValueSuffix;
+            bsAttrNameArray[i] = bsAttrName;
+            bsAttrValueArray[i] = bsValue;
             i++;
+        }
+        
+        for(i = 0; i < bsAttrNameArray.length; i++)
+        {
+            bsAttrNameBuilder.append(bsAttrNameArray[i]);
+            bsAttrValueBuilder.append(bsAttrValueArray[i]);
 
-            if (i < attrList.size()) { attrNameArr.append(','); attrValueArr.append(','); }                
-        }                
+            if (i < bsAttrNameArray.length - 1) { bsAttrNameBuilder.append(','); bsAttrValueBuilder.append(','); }
+        }        
     }
-    
-    public String setAttributeCodeBatchNS(Element elem,String elemVarName,Map<String,List<Attr>> mapByNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
+
+    public String setAttributeCodeBatchNS(Element elem,String elemVarName,Map<String,List<Attr>> mapByNamespace,ClientDocumentStfulDelegateImpl clientDoc)
     {
         StringBuilder code = new StringBuilder();
         for(Map.Entry<String,List<Attr>> entry : mapByNamespace.entrySet())
         {
             String namespaceURI = entry.getKey();
-            String namespaceURIScript = shortNamespaceURI(namespaceURI);  
-            List<Attr> attribList =  entry.getValue();
-            StringBuilder attrNameArr = new StringBuilder();
-            StringBuilder attrValueArr = new StringBuilder();  
-            toArraysForBatch(elem,attribList,true,attrNameArr,attrValueArr,clientDoc);
-            
-           code.append( "itsNatDoc.setAttrBatch(" + elemVarName + "," + namespaceURIScript + ",new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" );             
+            String namespaceURIScript = shortNamespaceURI(namespaceURI);
+            List<Attr> attribList =  entry.getValue();           
+            code.append( setAttributeCodeBatch(elem,elemVarName,namespaceURIScript,attribList,clientDoc) );
         }
-                                    
-        return code.toString();                     
+      
+        return code.toString();
     }
-    
-    public String setAttributeCodeBatch(Element elem,String elemVarName,List<Attr> attrListNoNamespace,ClientDocumentStfulDelegateImpl clientDoc)    
-    {
-        StringBuilder attrNameArr = new StringBuilder();
-        StringBuilder attrValueArr = new StringBuilder();            
-        toArraysForBatch(elem,attrListNoNamespace,false,attrNameArr,attrValueArr,clientDoc);
 
-        String code =  "itsNatDoc.setAttrBatch(" + elemVarName + ",null,new String[]{" + attrNameArr.toString() + "},new String[]{" + attrValueArr.toString() + "});\n" ; 
-        return code;                     
+    public String setAttributeCodeBatch(Element elem,String elemVarName,List<Attr> attrListNoNamespace,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return setAttributeCodeBatch(elem,elemVarName,null,attrListNoNamespace,clientDoc);
+    }
+
+    private String setAttributeCodeBatch(Element elem,String elemVarName,String namespaceURIScript,List<Attr> attrList,ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        // namespaceURIScript puede ser null
+        
+        StringBuilder code = new StringBuilder();        
+        
+        boolean[] someAttrRemote = new boolean[1];
+        StringBuilder bsAttrNameBuilder = new StringBuilder();
+        StringBuilder bsAttrValueBuilder = new StringBuilder();
+        toArraysForBatch(elem,attrList,namespaceURIScript != null,bsAttrNameBuilder,bsAttrValueBuilder,someAttrRemote,clientDoc);
+        
+        String metadataNSPrefix = "";
+        String metadataNSSuffix = "";          
+        if (someAttrRemote[0])
+        {
+            metadataNSPrefix = "/*[n*/"; // n = namespace
+            metadataNSSuffix =  "/*n]*/";                       
+        }                         
+        
+        code.append("itsNatDoc.setAttrBatch(" + elemVarName + "," + metadataNSPrefix + namespaceURIScript + metadataNSSuffix + ",new String[]{" + bsAttrNameBuilder.toString() + "},new String[]{" + bsAttrValueBuilder.toString() + "});\n");       
+            
+        return code.toString();
     }    
+
     
     public String removeAttributeCode(Attr attr,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
@@ -168,8 +231,8 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
             return "";
         String attrName = attr.getName();
         return removeAttributeCode(attr,attrName,elem,clientDoc);
-    }    
-    
+    }
+
     protected String removeAttributeCode(Attr attr,String attrName,Element elem,ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
         NodeLocationImpl nodeLoc = clientDoc.getNodeLocation(elem,true);
@@ -181,8 +244,8 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         String namespaceURI = attr.getNamespaceURI();
         if (namespaceURI != null)
         {
-            String namespaceURIScript = shortNamespaceURI(namespaceURI);            
-            
+            String namespaceURIScript = shortNamespaceURI(namespaceURI);
+
             attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
@@ -193,7 +256,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
                 return "itsNatDoc.removeAttributeNS(" + elemVarName + "," + namespaceURIScript + ",\"" + attrName + "\");\n";
-            }            
+            }
         }
         else
         {
@@ -206,10 +269,10 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
             {
                 String elemVarName = (String)nodeRef.getNodeRef();
                 return "itsNatDoc.removeAttribute(" + elemVarName + ",\"" + attrName + "\");\n";
-            }        
-        }        
-        
-    }    
-    
+            }
+        }
+
+    }
+
 
 }
