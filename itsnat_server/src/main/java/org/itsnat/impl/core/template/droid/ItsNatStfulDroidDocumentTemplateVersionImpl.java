@@ -47,19 +47,19 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
 {
     protected String androidNamespacePrefix;
     protected LinkedList<Map.Entry<String,String>> namespacesDeclared = new LinkedList<Map.Entry<String,String>>();
-    
+
     public ItsNatStfulDroidDocumentTemplateVersionImpl(ItsNatStfulDocumentTemplateImpl docTemplate, InputSource source, long timeStamp, ItsNatServletRequest request, ItsNatServletResponse response)
     {
         super(docTemplate, source, timeStamp, request, response);
-               
+
         readNamespaces();
     }
-    
+
     public String getAndroidNamespacePrefix()
     {
         return androidNamespacePrefix;
     }
-    
+
     protected void readNamespaces()
     {
         Element rootElem = templateDoc.getDocumentElement();
@@ -73,10 +73,10 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
                 if (name.startsWith("xmlns:")) // Esperamos prefijo si o si por eso incluimos los ":". getPrefix en este caso NO devuelve "xmlns"
                 {
                     int pos = name.indexOf(':');
-                    String prefix = name.substring(pos + 1);    
+                    String prefix = name.substring(pos + 1);
                     String namespaceURI = attr.getValue();
                     namespacesDeclared.add(new MapEntryImpl<String,String>(prefix,namespaceURI));
-                    
+
                     if (NamespaceUtil.ANDROID_NAMESPACE.equals(namespaceURI))
                     {
                         this.androidNamespacePrefix = prefix;
@@ -84,10 +84,10 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
                 }
             }
         }
-        
-        if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO        
+
+        if (androidNamespacePrefix == null) this.androidNamespacePrefix = "android"; // MUY RARO
     }
-    
+
     @Override
     public String wrapBodyAsDocument(String source)
     {
@@ -105,12 +105,12 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
         return code.toString();
     }
 
-    @Override    
+    @Override
     public Element getBodyParentElement(Document doc)
     {
-        return doc.getDocumentElement(); 
+        return doc.getDocumentElement();
     }
-    
+
     @Override
     protected ItsNatDocumentImpl createItsNatDocument(Document doc, Browser browser, String requestURL, ItsNatSessionImpl session, boolean stateless)
     {
@@ -120,21 +120,22 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
-        return new StfulDroidTemplateVersionDelegateImpl(this);        
+        return new StfulDroidTemplateVersionDelegateImpl(this);
     }
-    
+
     @Override
     public Document parseDocumentOrFragment(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
     {
         Document doc = super.parseDocumentOrFragment(input,parser,isFragment);
-                
-        // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments 
+
+        // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments
         NodeConstraints rule = new NodeConstraints()
         {
+            @Override
             public boolean match(Node node, Object context)
             {
                 return node.getNodeType() == Node.COMMENT_NODE;
-            }            
+            }
         };
         LinkedList<Node> commentList = DOMUtilInternal.getChildNodeListMatching(doc,rule,true,null);
         if (commentList != null)
@@ -142,8 +143,11 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
             for(Node comment : commentList)
                 comment.getParentNode().removeChild(comment);
         }
+
+        // fixDocumentOrFragmentAttribs(doc);
         
         return doc;
-    }    
-    
+    }
+
+
 }

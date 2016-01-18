@@ -45,6 +45,7 @@ public class OtherNSDocumentImpl extends DocumentImpl
         return new OtherNSDocumentImpl(null,getImplementation());
     }
 
+    @Override
     public Element createElementInternal(String localName)
     {
         return new ElementNSDefaultImpl(null,localName,this);

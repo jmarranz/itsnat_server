@@ -18,7 +18,6 @@ package org.itsnat.impl.core.markup.parse;
 
 import org.itsnat.core.ItsNatException;
 import org.apache.xerces.parsers.DOMParser;
-import org.apache.xerces.parsers.SAXParser;
 import org.itsnat.impl.core.domimpl.otherns.OtherNSDocumentImpl;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;

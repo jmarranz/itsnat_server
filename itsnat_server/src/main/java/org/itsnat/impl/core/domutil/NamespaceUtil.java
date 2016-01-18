@@ -56,7 +56,7 @@ public class NamespaceUtil
     public static final int SVG   = 3;
     public static final int XUL   = 4;
     public static final int ANDROID_LAYOUT = 5;
-    public static final int ANDROID_DRAWABLE = 6;
+    //public static final int ANDROID_DRAWABLE = 6;
     
     public static boolean isXMLNamespace(String namespaceURI)
     {
@@ -255,7 +255,7 @@ public class NamespaceUtil
         switch(namespaceOfMIME)
         {
             case NamespaceUtil.ANDROID_LAYOUT: return true;
-            case NamespaceUtil.ANDROID_DRAWABLE: return true;
+            //case NamespaceUtil.ANDROID_DRAWABLE: return true;
             default: return false;
         }
     }        
@@ -287,7 +287,7 @@ public class NamespaceUtil
             case SVG:   return SVG_NAMESPACE;
             case XUL:   return XUL_NAMESPACE;
             case ANDROID_LAYOUT: 
-            case ANDROID_DRAWABLE: 
+            //case ANDROID_DRAWABLE: 
                 return ANDROID_NAMESPACE;                
         }
         return null;

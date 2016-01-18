@@ -36,6 +36,7 @@ public class TestNamespacedAttribute implements EventListener,Serializable
         ((EventTarget)elem).addEventListener("click",this,false);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
         // Testeamos el método ItsNat JavaScript setTextNode

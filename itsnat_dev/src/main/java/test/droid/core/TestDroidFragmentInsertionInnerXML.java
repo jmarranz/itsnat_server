@@ -54,11 +54,18 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         if (!BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP) throw new RuntimeException("CANNOT TEST");
 
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);
+       
+        
+        Element frameLayoutViewToRemove2 = (Element)testLauncherHidden.getPreviousSibling();
+        if (frameLayoutViewToRemove != frameLayoutViewToRemove2) throw new RuntimeException("TEST ERROR");
 
+        String layout_width = frameLayoutViewToRemove.getAttributeNS(ANDROID_NS,"layout_width");
+        if (!"250dp".equals(layout_width))
+            throw new RuntimeException("TEST FAIL");        
+        
         if (doc.getElementById("fragmentTestId") == null) throw new RuntimeException("FAIL");
 
         itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) alert(\"FAIL TEST\"); ");
-
 
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             @Override

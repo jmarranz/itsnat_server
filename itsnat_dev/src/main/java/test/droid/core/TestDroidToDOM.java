@@ -67,9 +67,8 @@ public class TestDroidToDOM extends TestDroidBase implements EventListener
         testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);
 
         Element textView = (Element)testLauncherHidden.getPreviousSibling();
-        String layout_width;
 
-        layout_width = textView.getAttributeNS(ANDROID_NS,"layout_width");
+        String layout_width = textView.getAttributeNS(ANDROID_NS,"layout_width");
         if (!"match_parent".equals(layout_width))
             throw new RuntimeException("TEST FAIL");
 

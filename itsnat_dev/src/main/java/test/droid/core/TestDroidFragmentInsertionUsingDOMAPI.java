@@ -63,6 +63,13 @@ public class TestDroidFragmentInsertionUsingDOMAPI extends TestDroidBase impleme
             BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
         }
         
+        Element frameLayoutViewToRemove2 = (Element)testLauncherHidden.getPreviousSibling();
+        if (frameLayoutViewToRemove != frameLayoutViewToRemove2) throw new RuntimeException("TEST ERROR");
+
+        String layout_width = frameLayoutViewToRemove.getAttributeNS(ANDROID_NS,"layout_width");
+        if (!"250dp".equals(layout_width))
+            throw new RuntimeException("TEST FAIL");            
+        
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             @Override
             public void handleEvent(Event evt)

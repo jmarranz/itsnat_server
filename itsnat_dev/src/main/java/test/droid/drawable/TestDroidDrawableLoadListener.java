@@ -14,7 +14,6 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import sun.net.www.content.image.png;
 import static test.droid.shared.TestDroidBase.ANDROID_NS;
 
 /**
@@ -34,10 +33,8 @@ public class TestDroidDrawableLoadListener implements ItsNatServletRequestListen
     {
         Document doc = request.getItsNatDocument().getDocument();
         Element ninePatchElem = doc.getDocumentElement();
-        String src = ninePatchElem.getAttributeNS(ANDROID_NS,"src");        
-        if (src.equals(""))
-            ninePatchElem.setAttributeNS(ANDROID_NS, "android:src", "@remote:drawable/droid/res/drawable/list_selector_background_focused_light_remote.9.png");
+        ninePatchElem.setAttribute("android:src", "@remote:drawable/droid/res/drawable/list_selector_background_focused_light_remote.9.png");
+        // Alternativa (también vale):        
+        // ninePatchElem.setAttributeNS(ANDROID_NS,"android:src", "@remote:drawable/droid/res/drawable/list_selector_background_focused_light_remote.9.png");        
     }
-
-
 }

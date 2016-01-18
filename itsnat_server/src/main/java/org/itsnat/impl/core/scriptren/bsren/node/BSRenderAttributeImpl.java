@@ -107,7 +107,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         if (namespaceURI != null)
         {
             String namespaceURIScript = shortNamespaceURI(namespaceURI);
-            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS
+            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS, así admitimos que el programador use "android:localname" si quiere
             bsAttrName = "\"" + attrName + "\"";            
             
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
@@ -164,7 +164,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
                 metadataValueSuffix =  "/*v]*/";                
             }                    
             
-            String name = namespaceBased ? attr.getLocalName() : attr.getName(); // Usamos getLocalName() y no getName() cuando el namespace va aparte como dato y no tiene sentido prefix, si no tiene namespace hay que usar getName() porque getLocalName() devuelve null            
+            String name = namespaceBased ? attr.getLocalName() : attr.getName(); // Usamos getLocalName() y no getName() cuando el namespace va aparte como dato y no tiene sentido prefix aunque lo tenga, si no tiene namespace hay que usar getName() porque getLocalName() devuelve null            
             String bsAttrName = metadataKeyPrefix + "\"" + name + "\"" + metadataKeySuffix;             
             String bsValue = metadataValuePrefix + toBSAttrValue(attr,elem,clientDoc) + metadataValueSuffix;
             bsAttrNameArray[i] = bsAttrName;
@@ -246,7 +246,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         {
             String namespaceURIScript = shortNamespaceURI(namespaceURI);
 
-            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS
+            attrName = attr.getLocalName(); // Es el localName de acuerdo a la documentación oficial de removeAttributeNS, ver notas en setAttributeCode(Attr attr,String attrName,String bsValue,NodeScriptRefImpl nodeRef)
             if (nodeRef.getNodeRef() instanceof NodeLocationImpl)
             {
                 NodeLocationImpl nodeLoc = (NodeLocationImpl)nodeRef.getNodeRef();

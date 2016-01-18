@@ -33,7 +33,7 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
     @Override
     public void handleEvent(Event evt)
     {
-        ((EventTarget)testStyleAttr).removeEventListener("click", this, false); // Evitamos ejecutar varias veces para evitar que falle textView.setAttributeNS(ANDROID_NS,"android:id","@+id/testStyleAttrTextId"); pues al reutilizarse el id varios elementos tendrán el mismo id (lo cual es correcto) y se devuelve el primero en el test y por tanto fallará
+        ((EventTarget)testStyleAttr).removeEventListener("click", this, false); // Evitamos ejecutar varias veces para evitar que falle textView.setAttribute("android:id","@+id/testStyleAttrTextId"); pues al reutilizarse el id varios elementos tendrán el mismo id (lo cual es correcto) y se devuelve el primero en el test y por tanto fallará
         
         
         Document doc = itsNatDoc.getDocument();        
@@ -41,18 +41,18 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         
         Element textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
-        textView.setAttributeNS(ANDROID_NS,"android:text", "OK if left/right padding, background=pink, width=match_parent, text size small, text color=red");         
+        // Podemos usar "android:text" o "text", es indiferente
+        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, text size small, text color=red");         
         textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_remote");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, testStyleAttrHidden);
         
         // Test definir atributos después de insertar            
-        textView.setAttributeNS(ANDROID_NS,"android:layout_width", "match_parent");        
-        textView.setAttributeNS(ANDROID_NS,"android:layout_height", "wrap_content");        
-        textView.setAttributeNS(ANDROID_NS,"android:background", "#ffdddd");         
-        textView.setAttributeNS(ANDROID_NS,"android:textSize", "@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize");  
-        textView.setAttributeNS(ANDROID_NS,"android:textColor", "@remote:color/droid/res/values/test_values_remote.xml:test_color_textColor");        
-        
+        textView.setAttribute("android:layout_width", "match_parent");        
+        textView.setAttribute("android:layout_height", "wrap_content");        
+        textView.setAttribute("android:background", "#ffdddd");         
+        textView.setAttribute("android:textSize", "@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize");  
+        textView.setAttribute("android:textColor", "@remote:color/droid/res/values/test_values_remote.xml:test_color_textColor");                
        
     }
     

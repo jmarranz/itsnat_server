@@ -33,13 +33,13 @@ public abstract class TestDroidBase implements Serializable
     
     public void logToTextView(Element outElem,String msg)
     {
-        String text = outElem.getAttributeNS(ANDROID_NS,"text");
+        String text = outElem.getAttribute("android:text"); // Usamos getAttribute("android:text") y no getAttributeNS(ANDROID_NS,"text") o getAttributeNS(ANDROID_NS,"android:text") porque estamos logando con setAttribute("android:text",text), NO con setAttributeNS
         text += msg;
-        outElem.setAttributeNS(ANDROID_NS,"android:text",text);         
+        outElem.setAttribute("android:text",text);         
     }
     
     public String getLogTextView(Element outElem)
     {
-        return outElem.getAttributeNS(ANDROID_NS,"text");        
+        return outElem.getAttribute("android:text");  // Ver nota de logToTextView   
     }    
 }

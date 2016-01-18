@@ -3,7 +3,7 @@
     
     <LinearLayout id="fragmentTestId"
         android:layout_width="250dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:background="#dd0000"
         android:orientation="vertical"
         onclick="alert(&quot;Removed (OK testing onclick inline handler in fragment)&quot;);"> 

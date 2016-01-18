@@ -77,10 +77,10 @@ public class TestDroidStatelessCoreEventDocument extends TestDroidBase implement
         Element fragmentRoot = doc.getElementById("fragmentTestId");
         fragmentRoot.removeAttribute("onclick");         
         Element textView = ItsNatTreeWalker.getFirstChildElement(fragmentRoot);
-        textView.setAttributeNS(ANDROID_NS,"android:text","Some Text");
+        textView.setAttribute("android:text","Some Text");
         
         Element testElemContainer = doc.getElementById("testElemContainerId");        
-        testElemContainer.setAttributeNS(ANDROID_NS, "android:visibility","visible");
+        testElemContainer.setAttribute("android:visibility","visible");
         
         logToTextView(logElem, "\nOK"); 
     }    

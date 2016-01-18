@@ -39,7 +39,8 @@ public class TestDroidEventCapture extends TestDroidBase implements EventListene
             @Override
             public void handleEvent(Event evt)
             {
-                if (evt.getEventPhase() != Event.AT_TARGET) throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+                if (evt.getEventPhase() != Event.AT_TARGET)  throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+
                 Element target = (Element)evt.getTarget();
                 String tagName = target.getTagName();
                 if (!"TextView".equals(tagName)) throw new RuntimeException("Unexpected element " + tagName);
@@ -47,12 +48,21 @@ public class TestDroidEventCapture extends TestDroidBase implements EventListene
             }
         }, true); // Notar que capture ES TRUE
 
-        Element parent = getDocument().getElementById("eventCaptureParentId");
+        final Element parent = getDocument().getElementById("eventCaptureParentId");
         ((EventTarget)parent).addEventListener("click", new EventListenerSerial() {
             @Override
             public void handleEvent(Event evt)
             {
-                if (evt.getEventPhase() != Event.CAPTURING_PHASE) throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+                if (evt.getEventPhase() != Event.CAPTURING_PHASE)
+                {
+                    Element currTarget = (Element)evt.getCurrentTarget();
+                    if (currTarget == parent)
+                    {
+                        itsNatDoc.addCodeToSend("alert(\"Unexpected event phase " + evt.getEventPhase() + " or you are clicking in the read zone (parent elem)\");");
+                        return;
+                    }
+                    throw new RuntimeException("Unexpected event phase " + evt.getEventPhase());
+                }                    
                 Element currTarget = (Element)evt.getCurrentTarget();
                 String tagName = currTarget.getTagName();                
                 if (!"FrameLayout".equals(tagName)) throw new RuntimeException("Unexpected element " + tagName);                
@@ -60,7 +70,7 @@ public class TestDroidEventCapture extends TestDroidBase implements EventListene
             }
         }, false);
 
-        parent.setAttributeNS(ANDROID_NS,"android:visibility","visible");
+        parent.setAttribute("android:visibility","visible");
     }
 
 }
