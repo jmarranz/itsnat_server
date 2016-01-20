@@ -24,17 +24,19 @@ import org.w3c.dom.events.EventTarget;
 import test.web.shared.EventListenerSerial;
 
 /**
- *
+ * Este test únicamente difiere del TestDroidFragmentInsertionInnerXML (sin 2) en que hay un atributo con valor "@remote:..." lo cual IMPIDE usar
+ * setInnerXML pues necesitamos usar DOM normal para poder parsear el código BS generado extrayendo los atributos @remote:, si se usa setInnerXML no podemos parsear
+ * 
  * @author jmarranz
  */
-public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements EventListener
+public class TestDroidFragmentInsertionInnerXML2 extends TestDroidBase implements EventListener
 {
 
-    public TestDroidFragmentInsertionInnerXML(ItsNatDocument itsNatDoc)
+    public TestDroidFragmentInsertionInnerXML2(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testFragmentInsertionInnerXMLId");
+        Element testLauncher = getDocument().getElementById("testFragmentInsertionInnerXMLId2");
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
 
@@ -42,10 +44,10 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
     public void handleEvent(Event evt)
     {
         Document doc = getDocument();
-        Element testLauncherHidden = doc.getElementById("testFragmentInsertionInnerXMLHiddenId");
+        Element testLauncherHidden = doc.getElementById("testFragmentInsertionInnerXMLHiddenId2");
 
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
-        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc);
+        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment_2").loadDocumentFragment(itsNatDoc);
 
         final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
 
@@ -58,12 +60,11 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
 
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);
        
-        // Verificamos que el último código generado es un objeto InnerMarkupCodeImpl, lo que significa que se usa setInnerXML
+        // Verificamos que el último código generado NO es un objeto InnerMarkupCodeImpl, lo que significa que NO se usa setInnerXML, pues NO debemos usarlo 
         ClientDocumentStfulOwnerImpl clientTmp = (ClientDocumentStfulOwnerImpl)itsNatDoc.getClientDocumentOwner();
         CodeToSendRegistryImpl codeToSendRegistry = clientTmp.getCodeToSendRegistry();
         Object lastCodeToSend = codeToSendRegistry.getLastCodeToSend();
-        if (!(lastCodeToSend instanceof InnerMarkupCodeImpl)) throw new RuntimeException("NOT USING setInnerXML TEST FAILED");
-        
+        if (lastCodeToSend instanceof InnerMarkupCodeImpl) throw new RuntimeException("IS USING setInnerXML TEST FAILED");        
         
         Element frameLayoutViewToRemove2 = (Element)testLauncherHidden.getPreviousSibling();
         if (frameLayoutViewToRemove != frameLayoutViewToRemove2) throw new RuntimeException("TEST ERROR");

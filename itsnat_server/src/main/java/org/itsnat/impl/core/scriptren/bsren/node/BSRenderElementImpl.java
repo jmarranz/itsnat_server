@@ -209,6 +209,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
     {
         // En principio todos los elementos tienen capacidad de insertar nodos hijos como markup
         // a través de nuestro setInnerXML 
+        
         return true;
     }
 
@@ -222,6 +223,22 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
     public boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template)
     {
         // Realmente sólo hay elementos pues los nodos de texto son como mucho de espacios
+        
+        // Sin embargo si usamos setInnerXML y no DOM normal perdemos la capacidad de parsear los atributos remotos a partir del código fuente DOM generado
+        // Por ello parseamos si hay atributos remotos en los nodos que van a renderizarse para setInnerXML
+
+        if (!childNode.hasAttributes()) return false; // No hay problema en meter en el setInnerXML
+        
+        NamedNodeMap attribList = childNode.getAttributes();
+        int len = attribList.getLength();
+        for(int i = 0; i < len; i++)
+        {
+            Attr attr = (Attr)attribList.item(i);
+            String value = attr.getValue();
+            if (value.startsWith("@remote:"))
+                return true; // NO es válido
+        }
+        
         return false;
     }
 

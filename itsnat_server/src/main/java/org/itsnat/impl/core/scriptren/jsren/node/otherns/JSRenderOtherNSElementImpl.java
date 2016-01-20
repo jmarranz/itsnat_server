@@ -58,6 +58,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
             return JSRenderOtherNSElementNativeImpl.getJSRenderOtherNSElementNative(clientDoc.getBrowserWeb());
     }
 
+    @Override
     public boolean isInsertChildNodesAsMarkupCapable(Element parent,MarkupTemplateVersionImpl template)
     {
         // En principio todos los elementos tienen capacidad de insertar nodos hijos como markup
@@ -65,6 +66,7 @@ public abstract class JSRenderOtherNSElementImpl extends JSRenderElementImpl
         return true;
     }
 
+    @Override
     public boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template)
     {
         // Para detectar si el nodo puede ser insertado como markup

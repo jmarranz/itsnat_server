@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <LinearLayout id="fragmentTestId"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:background="#dd0000"
+        android:orientation="vertical"
+        onclick="alert(&quot;Removed (OK testing onclick inline handler in fragment)&quot;);"> 
+        
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_layout_height=" 
+            android:layout_marginTop="10dp"
+            android:text="Click Here to Remove"
+            android:background="#00dd00">
+        </TextView>           
+               
+                
+        <script><![CDATA[ alert("Inserted Fragment \n(OK testing <script> in fragment)"); ]]></script>        
+        
+        <script src="droid/bs/test_script_fragment.bs" />       
+        
+        <org.itsnat.itsnatdroidtest.testact.util.CustomTextView
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:text="Custom View 1 (bg. gray)"
+            android:background="#dddddd" />               
+             
+        <view class="org.itsnat.itsnatdroidtest.testact.util.CustomTextView"
+            android:layout_width="200dp"
+            android:layout_height="20dp"
+            android:text="Custom View 2 (bg. gray)"
+            android:background="#dddddd" />
+
+        
+    </LinearLayout>
+</merge>
