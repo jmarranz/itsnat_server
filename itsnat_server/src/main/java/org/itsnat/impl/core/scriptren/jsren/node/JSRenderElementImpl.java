@@ -24,6 +24,7 @@ import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.scriptren.jsren.node.html.JSRenderHTMLElementImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderOtherNSElementImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderElementImpl;
@@ -41,7 +42,15 @@ import org.w3c.dom.Node;
  */
 public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl implements RenderElement
 {
-
+    protected final NodeConstraints isChildNotValidInsertedAsMarkupListener = new NodeConstraints()
+    {
+        @Override
+        public boolean match(Node node, Object context)
+        {
+            return isChildNotValidInsertedAsMarkup(node,(MarkupTemplateVersionImpl)context);
+        }
+    };
+            
     /** Creates a new instance of JSElementRender */
     public JSRenderElementImpl()
     {
@@ -55,6 +64,13 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             return JSRenderOtherNSElementImpl.getJSRenderOtherNSElement(elem,clientDoc);
     }
 
+    @Override    
+    public NodeConstraints getIsChildNotValidInsertedAsMarkupListener()
+    {
+        return isChildNotValidInsertedAsMarkupListener;
+    }
+    
+    @Override
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Element nodeElem = (Element)node;
@@ -73,6 +89,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         return "itsNatDoc.doc.createElement(\"" + tagName + "\")";
     }
 
+    @Override
     public String addAttributesBeforeInsertNode(Node node,String elemVarName,ClientDocumentStfulDelegateImpl clientDoc)
     {
         ClientDocumentStfulDelegateWebImpl clientDocWeb = (ClientDocumentStfulDelegateWebImpl)clientDoc;
@@ -134,14 +151,9 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         return JSAndBSRenderElementImpl.appendChildrenAsMarkup(parentVarName,parentNode,clientDoc,this);
     }
 
-    public boolean match(Node node, Object context)
-    {
-        // Esto es por claridad pues "match" no nos dice mucho sobre lo que tenemos que hacer
-        return isChildNotValidInsertedAsMarkup(node,(MarkupTemplateVersionImpl)context);
-    }
-
     public abstract boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template);
 
+    @Override
     public CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template)
     {
         return JSAndBSRenderElementImpl.canInsertChildNodeAsMarkupIgnoringOther(parent, childNode, template, this);
@@ -158,11 +170,13 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
         return JSAndBSRenderElementImpl.canInsertAllChildrenAsMarkup(parent,template,insertMarkupInfo,this);
     }
 
+    @Override
     public Node getFirstChildIsNotValidInsertedAsMarkup(Element parent,MarkupTemplateVersionImpl template)
     {
-        return DOMUtilInternal.getFirstContainedNodeMatching(parent,this,template);
+        return DOMUtilInternal.getFirstContainedNodeMatching(parent,isChildNotValidInsertedAsMarkupListener,template);
     }
 
+    @Override
     public InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderElementImpl.createInnerMarkupCode(parentVarName, parentNode, childrenCode, clientDoc, this);        
@@ -346,6 +360,7 @@ public abstract class JSRenderElementImpl extends JSRenderHasChildrenNodeImpl im
             return super.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);
     }
 
+    @Override
     public boolean isAddChildNodesBeforeNode(Node parent,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Algunos navegadores WebKit tal y como el primer S60WebKit 

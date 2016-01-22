@@ -36,6 +36,7 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
     {
     }
 
+    @Override
     public boolean isCreateComplete(Node node)
     {
         return !node.hasAttributes() && !node.hasChildNodes();
@@ -47,6 +48,7 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
         return JSAndBSRenderHasChildrenNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }    
     
+    @Override
     public Object getAppendNewNodeCode(Node parent,Node newNode,String parentVarName,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderHasChildrenNodeImpl.getAppendNewNodeCode(parent, newNode, parentVarName, insertMarkupInfo,clientDoc,this);        
@@ -57,6 +59,7 @@ public abstract class BSRenderHasChildrenNodeImpl extends BSRenderNotAttrOrAbstr
         return JSAndBSRenderHasChildrenNodeImpl.getInsertNewNodeCode(newNode,insertMarkupInfo,clientDoc,this);        
     }
 
+    @Override
     public Object appendChildNodes(Node parent, String parentVarName,boolean beforeParent,InsertAsMarkupInfoImpl insertMarkupInfo,ClientDocumentStfulDelegateImpl clientDoc)
     {
         // Sólo es llamado si hay algún hijo

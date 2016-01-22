@@ -37,7 +37,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         ((EventTarget)rootElem).addEventListener("load", this, false);
 
         new TestDroidRemoteResFragmentInsertionInnerXML(itsNatDoc);
-        new TestDroidRemoteResFragmentInsertionUsingAPI(itsNatDoc);
+        new TestDroidRemoteResFragmentInsertionUsingDOMAPI(itsNatDoc);
 
         final Element testChangeDrawableElem = doc.getElementById("testChangeDrawableId");
         ((EventTarget)testChangeDrawableElem).addEventListener("click", new EventListenerSerial() {

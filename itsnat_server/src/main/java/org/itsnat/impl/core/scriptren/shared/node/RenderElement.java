@@ -26,8 +26,9 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public interface RenderElement extends RenderHasChildrenNode,NodeConstraints
+public interface RenderElement extends RenderHasChildrenNode //,NodeConstraints
 {
+    public NodeConstraints getIsChildNotValidInsertedAsMarkupListener();    
     public CannotInsertAsMarkupCauseImpl canInsertChildNodeAsMarkupIgnoringOther(Element parent,Node childNode,MarkupTemplateVersionImpl template);    
     public InnerMarkupCodeImpl appendChildrenCodeAsMarkup(String parentVarName,Element parentNode,String childrenCode,ClientDocumentStfulDelegateImpl clientDoc);    
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc);

@@ -8,6 +8,9 @@ package test.droid.shared;
 
 import java.io.Serializable;
 import org.itsnat.core.ItsNatDocument;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
+import org.itsnat.impl.core.clientdoc.CodeToSendRegistryImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -42,4 +45,22 @@ public abstract class TestDroidBase implements Serializable
     {
         return outElem.getAttribute("android:text");  // Ver nota de logToTextView   
     }    
+    
+    protected void checkUsingSetInnerXML(boolean mustUseInnerXML)
+    {
+        // Verificamos que el último código generado es un objeto InnerMarkupCodeImpl, lo que significa que se usa setInnerXML
+        ClientDocumentStfulOwnerImpl clientTmp = (ClientDocumentStfulOwnerImpl)itsNatDoc.getClientDocumentOwner();
+        CodeToSendRegistryImpl codeToSendRegistry = clientTmp.getCodeToSendRegistry();
+        Object lastCodeToSend = codeToSendRegistry.getLastCodeToSend();
+        
+        if (lastCodeToSend instanceof InnerMarkupCodeImpl) // Usando setInnerXML
+        {
+            boolean doNotUseInnerXML = !mustUseInnerXML;
+            if (doNotUseInnerXML) throw new RuntimeException("IS USING setInnerXML, TEST FAILED");
+        }
+        else // No usando setInnerXML
+        {
+            if (mustUseInnerXML) throw new RuntimeException("IS NOT USING setInnerXML, TEST FAILED");
+        }        
+    }
 }

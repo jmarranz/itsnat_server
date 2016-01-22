@@ -10,7 +10,10 @@ import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
+import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
+import org.itsnat.impl.core.clientdoc.CodeToSendRegistryImpl;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -50,6 +53,7 @@ public class TestDroidRemoteResFragmentInsertionInnerXML extends TestDroidBase i
         
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
         
+        checkUsingSetInnerXML(true);  // Debe de usarse porque no hay un atribute "@remote:..."              
         
         ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
             @Override

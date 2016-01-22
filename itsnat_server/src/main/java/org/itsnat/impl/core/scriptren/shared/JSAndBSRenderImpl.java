@@ -124,7 +124,7 @@ public class JSAndBSRenderImpl
                             encoded.insert(i,"\\\\");
                             i++;
                             break;
-                case '\t':  encoded.deleteCharAt(i);
+                case '\t':  encoded.deleteCharAt(i);  // TAB
                             encoded.insert(i,"\\t");
                             i++;
                             break;
@@ -141,14 +141,21 @@ public class JSAndBSRenderImpl
 
         if (addQuotation)
         {
-            if (encoded.indexOf("</script>") != -1) // Raro pero puede ocurrir por ejemplo si el texto es el contenido de un comentario y se procesa por JavaScript como en BlackBerry y S60WebKit en carga o está en el valor inicial en carga de un input o similar
+            if (browser instanceof BrowserDroid)
             {
-                String encoded2 = encoded.toString().replaceAll("</script>", "</\" + \"script>");
-                //String encoded2 = encoded.toString().replaceAll("</script>", "<\\/script>"); NO VALE, genera un </script> normal
-                return "\"" + encoded2 + "\"";
+                return "\"" + encoded + "\""; // No hay necesidad de procesar el </script> en Android, es simplemente XML y nos complica un poco la vida en el parseado por metadatos de código beanshell
             }
             else
-                return "\"" + encoded + "\"";
+            {
+                if (encoded.indexOf("</script>") != -1) // Raro pero puede ocurrir por ejemplo si el texto es el contenido de un comentario y se procesa por JavaScript como en BlackBerry y S60WebKit en carga o está en el valor inicial en carga de un input o similar
+                {
+                    String encoded2 = encoded.toString().replaceAll("</script>", "</\" + \"script>");
+                    //String encoded2 = encoded.toString().replaceAll("</script>", "<\\/script>"); NO VALE, genera un </script> normal
+                    return "\"" + encoded2 + "\"";
+                }
+                else
+                    return "\"" + encoded + "\"";
+            }
         }
         else
             return encoded.toString();

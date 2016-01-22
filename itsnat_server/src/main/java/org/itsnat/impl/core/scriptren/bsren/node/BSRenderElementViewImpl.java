@@ -28,6 +28,7 @@ public class BSRenderElementViewImpl extends BSRenderElementImpl
 {
     public static final BSRenderElementViewImpl SINGLETON = new BSRenderElementViewImpl();    
     
+    @Override
     protected String createElement(Element nodeElem,String tagName,ClientDocumentStfulDelegateImpl clientDoc)
     {       
         String namespaceURI = nodeElem.getNamespaceURI();

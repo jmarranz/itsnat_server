@@ -98,8 +98,8 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         String metadataSuffix = "";
         if (isAttrRemote)
         {
-            metadataPrefix = "/*{*/";
-            metadataSuffix = "/*}*/";        
+            metadataPrefix = "/*[s*/";  // s = single attribute
+            metadataSuffix = "/*s]*/";        
         }
         
         String namespaceURI = attr.getNamespaceURI();

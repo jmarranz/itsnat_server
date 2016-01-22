@@ -17,11 +17,9 @@
 package org.itsnat.impl.core.scriptren.bsren.node;
 
 import org.itsnat.core.ItsNatDOMException;
-import org.itsnat.core.ItsNatException;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
-import org.itsnat.impl.core.domimpl.AbstractViewImpl;
 import org.itsnat.impl.core.scriptren.shared.node.JSAndBSRenderNotAttrOrAbstractViewNodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.RenderNotAttrOrAbstractViewNode;
 import org.w3c.dom.Element;

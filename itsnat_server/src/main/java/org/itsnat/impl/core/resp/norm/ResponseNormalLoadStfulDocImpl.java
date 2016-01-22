@@ -259,6 +259,7 @@ public abstract class ResponseNormalLoadStfulDocImpl extends ResponseNormalLoadD
         // Elementos que implementan ElementDocContainer: <object>, <iframe> y <embed>
         NodeConstraints rules = new NodeConstraints()
         {
+            @Override
             public boolean match(Node node, Object context)
             {
                 return (node instanceof ElementDocContainer); // <iframe> y <object>

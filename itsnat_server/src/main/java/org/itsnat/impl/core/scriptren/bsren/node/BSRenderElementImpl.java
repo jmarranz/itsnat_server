@@ -24,6 +24,7 @@ import java.util.Map;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
 import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.scriptren.shared.node.CannotInsertAsMarkupCauseImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
@@ -42,7 +43,40 @@ import org.w3c.dom.Node;
 public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements RenderElement
 {
     public static boolean SUPPORT_INSERTION_AS_MARKUP = true;
-        
+    
+    protected final NodeConstraints isChildNotValidInsertedAsMarkupListener = new NodeConstraints()
+    {
+        @Override
+        public boolean match(Node node, Object context)
+        {
+            return isChildNotValidInsertedAsMarkup(node,(MarkupTemplateVersionImpl)context);
+        }
+    };
+            
+    protected final NodeConstraints isElementWithRemoteAttributeListener = new NodeConstraints()
+    {
+        @Override
+        public boolean match(Node node, Object context)
+        {
+            if (!(node instanceof Element))
+                return false; // No es un element
+
+            if (!node.hasAttributes()) return false; // No hay problema en meter en el setInnerXML
+          
+            NamedNodeMap attribList = node.getAttributes();
+            int len = attribList.getLength();
+            for(int i = 0; i < len; i++)
+            {
+                Attr attr = (Attr)attribList.item(i);
+                String value = attr.getValue();
+                if (value.startsWith("@remote:"))
+                    return true; // Es un Element con un atributo remoto
+            }            
+            
+            return false;
+        }
+    };    
+    
     /** Creates a new instance of BSRenderElementImpl */
     public BSRenderElementImpl()
     {
@@ -56,6 +90,13 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
             return BSRenderElementViewImpl.SINGLETON;
     }
 
+    @Override    
+    public NodeConstraints getIsChildNotValidInsertedAsMarkupListener()
+    {
+        return isChildNotValidInsertedAsMarkupListener;
+    }    
+    
+    @Override
     public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
     {
         Element nodeElem = (Element)node;
@@ -181,12 +222,26 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
     @Override
     public String getAppendChildrenCodeAsMarkupSentence(InnerMarkupCodeImpl innerMarkupRender,ClientDocumentStfulDelegateImpl clientDoc)
     {
+        Element parent = innerMarkupRender.getParentNode();
+        Node elemWithRemAttr = DOMUtilInternal.getFirstContainedNodeMatching(parent,isElementWithRemoteAttributeListener,null);
+
+        boolean isAttrRemote = elemWithRemAttr != null;
+        String metadataPrefix = "";
+        String metadataSuffix = "";
+        String className = "";
+        if (isAttrRemote)
+        {
+            metadataPrefix = "/*[i*/";  // i = innerXML
+            metadataSuffix = "/*i]*/"; 
+            className = "\"" + parent.getTagName() + "\","; // Nuevo param
+        }        
+        
         String parentNodeLocator = innerMarkupRender.getParentNodeLocator();
         String valueBS = toTransportableStringLiteral(innerMarkupRender.getInnerMarkup(),clientDoc.getBrowser());
         if (innerMarkupRender.isUseNodeLocation())
-            return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + valueBS + ");\n";
+            return "itsNatDoc.setInnerXML2(" + parentNodeLocator + "," + metadataPrefix + className + valueBS + metadataSuffix + ");\n";
         else // Es directamente una variable
-            return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + valueBS + ");\n";
+            return "itsNatDoc.setInnerXML(" + parentNodeLocator + "," + metadataPrefix + className + valueBS + metadataSuffix + ");\n";
     }
 
     private CannotInsertAsMarkupCauseImpl canInsertSingleChildNodeAsMarkup(Node newChildNode,ClientDocumentStfulDelegateDroidImpl clientDoc)
@@ -213,15 +268,9 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
         return true;
     }
 
-    @Override
-    public boolean match(Node node, Object context)
-    {
-        // Esto es por claridad pues "match" no nos dice mucho sobre lo que tenemos que hacer
-        return isChildNotValidInsertedAsMarkup(node,(MarkupTemplateVersionImpl)context);
-    }
-
     public boolean isChildNotValidInsertedAsMarkup(Node childNode,MarkupTemplateVersionImpl template)
     {
+        /*
         // Realmente sólo hay elementos pues los nodos de texto son como mucho de espacios
         
         // Sin embargo si usamos setInnerXML y no DOM normal perdemos la capacidad de parsear los atributos remotos a partir del código fuente DOM generado
@@ -238,8 +287,9 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
             if (value.startsWith("@remote:"))
                 return true; // NO es válido
         }
+        */
         
-        return false;
+        return false; // Todos son válidos
     }
 
     @Override
@@ -262,7 +312,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
     @Override
     public Node getFirstChildIsNotValidInsertedAsMarkup(Element parent,MarkupTemplateVersionImpl template)
     {
-        return DOMUtilInternal.getFirstContainedNodeMatching(parent,this,template);
+        return DOMUtilInternal.getFirstContainedNodeMatching(parent,isChildNotValidInsertedAsMarkupListener,template);
     }
 
     @Override

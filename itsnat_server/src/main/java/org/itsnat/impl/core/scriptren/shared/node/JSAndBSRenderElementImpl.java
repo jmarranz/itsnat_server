@@ -127,7 +127,7 @@ public class JSAndBSRenderElementImpl extends JSAndBSRenderHasChildrenNodeImpl
             return new CannotInsertAsMarkupCauseImpl(parent);
 
         // Preguntamos si puede insertarse como markup si fuera el único nodo hijo
-        Node badChildNode = DOMUtilInternal.getNodeOrFirstContainedNodeMatching(childNode,render,template);
+        Node badChildNode = DOMUtilInternal.getNodeOrFirstContainedNodeMatching(childNode,render.getIsChildNotValidInsertedAsMarkupListener(),template);
         if (badChildNode != null)
             return new CannotInsertAsMarkupCauseImpl(parent,badChildNode);
 

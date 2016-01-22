@@ -207,16 +207,7 @@
             <TextView id="testFragmentInsertionInnerXMLHiddenId"
                     android:layout_width="0dp"
                     android:layout_height="0dp" />
-
-        <!-- Test Fragment Insertion using InnerXML -->
-        <Button id="testFragmentInsertionInnerXMLId2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test Fragment Insertion cannot use setInnerXML" />
-
-            <TextView id="testFragmentInsertionInnerXMLHiddenId2"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp" />            
+     
             
         <!-- Test Fragment Insertion using API -->
         <Button id="testFragmentInsertionUsingDOMAPIId"

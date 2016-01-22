@@ -298,6 +298,7 @@ public class DOMUtilInternal
         NodeConstraints rules = new NodeConstraints()
         {
             protected int elemCount = 0;
+            @Override
             public boolean match(Node node, Object context)
             {
                 if (!(node instanceof Element)) return false;
@@ -321,6 +322,7 @@ public class DOMUtilInternal
         NodeConstraints rules = new NodeConstraints()
         {
             protected int elemCount = 0;
+            @Override
             public boolean match(Node node, Object context)
             {
                 if (!(node instanceof Element)) return false;
@@ -393,6 +395,7 @@ public class DOMUtilInternal
     {
         NodeConstraints rules = new NodeConstraints()
         {
+            @Override
             public boolean match(Node node, Object context)
             {
                 if (!(node instanceof Element)) return false;
@@ -409,6 +412,7 @@ public class DOMUtilInternal
     {
         NodeConstraints rules = new NodeConstraints()
         {
+            @Override            
             public boolean match(Node node, Object context)
             {
                 if (!(node instanceof Element)) return false;
@@ -429,6 +433,7 @@ public class DOMUtilInternal
         
         NodeConstraints rules = new NodeConstraints()
         {
+            @Override
             public boolean match(Node node, Object context)
             {
                 if (!(node instanceof Element)) return false;

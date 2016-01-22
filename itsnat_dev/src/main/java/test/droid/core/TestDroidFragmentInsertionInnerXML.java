@@ -58,11 +58,7 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
 
         testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);
        
-        // Verificamos que el último código generado es un objeto InnerMarkupCodeImpl, lo que significa que se usa setInnerXML
-        ClientDocumentStfulOwnerImpl clientTmp = (ClientDocumentStfulOwnerImpl)itsNatDoc.getClientDocumentOwner();
-        CodeToSendRegistryImpl codeToSendRegistry = clientTmp.getCodeToSendRegistry();
-        Object lastCodeToSend = codeToSendRegistry.getLastCodeToSend();
-        if (!(lastCodeToSend instanceof InnerMarkupCodeImpl)) throw new RuntimeException("NOT USING setInnerXML TEST FAILED");
+        checkUsingSetInnerXML(true); 
         
         
         Element frameLayoutViewToRemove2 = (Element)testLauncherHidden.getPreviousSibling();

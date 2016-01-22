@@ -23,10 +23,10 @@ import test.web.shared.EventListenerSerial;
  *
  * @author jmarranz
  */
-public class TestDroidRemoteResFragmentInsertionUsingAPI extends TestDroidBase implements EventListener
+public class TestDroidRemoteResFragmentInsertionUsingDOMAPI extends TestDroidBase implements EventListener
 {
    
-    public TestDroidRemoteResFragmentInsertionUsingAPI(ItsNatDocument itsNatDoc)
+    public TestDroidRemoteResFragmentInsertionUsingDOMAPI(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
@@ -34,6 +34,7 @@ public class TestDroidRemoteResFragmentInsertionUsingAPI extends TestDroidBase i
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
     
+    @Override
     public void handleEvent(Event evt)
     {     
         Document doc = getDocument();
