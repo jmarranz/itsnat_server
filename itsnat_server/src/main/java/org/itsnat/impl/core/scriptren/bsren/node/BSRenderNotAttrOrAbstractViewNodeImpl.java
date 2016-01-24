@@ -42,7 +42,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
         int nodeType = node.getNodeType();
         switch(nodeType)
         {
-            // Está primero los más habituales (Element y Text nodes)
+            // Están primero los más habituales (Element y Text nodes)
             case Node.ELEMENT_NODE:
                 return BSRenderElementImpl.getBSRenderElement((Element)node);
             case Node.TEXT_NODE:
@@ -50,7 +50,7 @@ public abstract class BSRenderNotAttrOrAbstractViewNodeImpl extends BSRenderNode
             case Node.CDATA_SECTION_NODE:
                 throw new ItsNatDOMException("Unexpected CDATA section node",node);
             case Node.COMMENT_NODE:
-                throw new ItsNatDOMException("Unexpected comment node",node);                
+                return BSRenderCommentImpl.getBSRenderComment();                
             case Node.DOCUMENT_FRAGMENT_NODE:
                 throw new ItsNatDOMException("Unexpected document fragment node",node);
             case Node.ENTITY_REFERENCE_NODE:

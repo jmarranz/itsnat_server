@@ -10,13 +10,12 @@ import test.droid.shared.TestDroidBase;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServlet;
 import org.itsnat.core.domutil.ItsNatTreeWalker;
-import org.itsnat.impl.core.clientdoc.ClientDocumentStfulOwnerImpl;
-import org.itsnat.impl.core.clientdoc.CodeToSendRegistryImpl;
 import org.itsnat.impl.core.scriptren.bsren.node.BSRenderElementImpl;
-import org.itsnat.impl.core.scriptren.shared.node.InnerMarkupCodeImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
@@ -44,22 +43,24 @@ public class TestDroidRemoteResFragmentInsertionInnerXML extends TestDroidBase i
         Element testLauncherHidden = doc.getElementById("testFragmentInsertionInnerXMLHiddenId");  
         
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
-        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_remote_resources_fragment").loadDocumentFragment(itsNatDoc); 
+        final DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_remote_resources_fragment").loadDocumentFragment(itsNatDoc); 
                     
-        final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
+        final Element elemToRemove = ItsNatTreeWalker.getLastChildElement(docFrag);
        
         // Sabemos con seguridad que el fragment se insertará (parcialmente) via markup, nos aseguramos de todas formas que está activado
         if (!BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP) throw new RuntimeException("CANNOT TEST");
         
-        testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
+        testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);        
         
         checkUsingSetInnerXML(true);  // Debe de usarse porque no hay un atribute "@remote:..."              
         
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+        ((EventTarget)elemToRemove).addEventListener("click",new EventListenerSerial(){
             @Override
             public void handleEvent(Event evt)
             {
-                frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);
+                Element firstElem = ItsNatTreeWalker.getPreviousSiblingElement(elemToRemove);
+                elemToRemove.getParentNode().removeChild(firstElem);
+                elemToRemove.getParentNode().removeChild(elemToRemove);                
             }            
         },false);   
           

@@ -86,6 +86,7 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getAppendCompleteChildNode(parentVarName, newNode, newNodeCode, clientDoc);
     }
 
+    @Override
     public String getInsertCompleteNodeCode(Node newNode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         String newNodeCode = createNodeCode(newNode,clientDoc);
@@ -99,6 +100,7 @@ public abstract class JSRenderNotAttrOrAbstractViewNodeImpl extends JSRenderNode
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getRemoveNodeCode(removedNode, clientDoc);
     }
 
+    @Override
     public String getInsertCompleteNodeCode(Node newNode,String newNodeCode,ClientDocumentStfulDelegateImpl clientDoc)
     {
         return JSAndBSRenderNotAttrOrAbstractViewNodeImpl.getInsertCompleteNodeCode(newNode,newNodeCode,clientDoc);

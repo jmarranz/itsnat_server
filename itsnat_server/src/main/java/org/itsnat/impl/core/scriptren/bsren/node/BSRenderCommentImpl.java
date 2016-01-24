@@ -14,16 +14,19 @@
   If not, see <http://www.gnu.org/licenses/>.
 */
 
-package org.itsnat.impl.core.scriptren.jsren.node;
+package org.itsnat.impl.core.scriptren.bsren.node;
 
+import org.itsnat.impl.core.scriptren.jsren.node.*;
 import org.itsnat.impl.core.browser.web.BrowserMSIEOld;
 import org.itsnat.impl.core.browser.web.BrowserWeb;
 import org.itsnat.impl.core.clientdoc.ClientDocumentStfulDelegateImpl;
+import org.itsnat.impl.core.clientdoc.droid.ClientDocumentStfulDelegateDroidImpl;
 import org.itsnat.impl.core.clientdoc.web.SVGWebInfoImpl;
 import org.itsnat.impl.core.clientdoc.web.ClientDocumentStfulDelegateWebImpl;
 import org.itsnat.impl.core.domutil.DOMUtilHTML;
 import org.itsnat.impl.core.scriptren.jsren.node.html.msie.JSRenderHTMLCommentMSIEOldImpl;
 import org.itsnat.impl.core.scriptren.jsren.node.otherns.JSRenderSVGCommentSVGWebImpl;
+import org.itsnat.impl.core.scriptren.shared.node.InsertAsMarkupInfoImpl;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Node;
@@ -32,40 +35,36 @@ import org.w3c.dom.Node;
  *
  * @author jmarranz
  */
-public abstract class JSRenderCommentImpl extends JSRenderCharacterDataImpl
+public class BSRenderCommentImpl extends BSRenderNotAttrOrAbstractViewNodeImpl
 {
-
-    /** Creates a new instance of JSCommentRender */
-    public JSRenderCommentImpl()
+    public static final BSRenderCommentImpl SINGLETON = new BSRenderCommentImpl();
+    
+    /** Creates a new instance of BSRenderCommentImpl */
+    public BSRenderCommentImpl()
     {
     }
 
-    public static JSRenderCommentImpl getJSRenderComment(Comment node,ClientDocumentStfulDelegateWebImpl clientDoc)
+    public static BSRenderCommentImpl getBSRenderComment()
     {
-        if (DOMUtilHTML.isHTMLCharacterData(node))
-        {
-            BrowserWeb browser = clientDoc.getBrowserWeb();
-            if (browser instanceof BrowserMSIEOld)
-                return JSRenderHTMLCommentMSIEOldImpl.getJSRenderHTMLCommentMSIEOld((BrowserMSIEOld)browser);
-            else
-                return JSRenderCommentDefaultImpl.SINGLETON;
-        }
-        else if (SVGWebInfoImpl.isSVGNodeProcessedBySVGWebFlash(node,clientDoc))
-            return JSRenderSVGCommentSVGWebImpl.SINGLETON;
-        else
-            return JSRenderCommentDefaultImpl.SINGLETON;
+        return SINGLETON;
+    }
+    
+    @Override
+    public Object getAppendNewNodeCode(Node parent, Node newNode, String parentVarName, InsertAsMarkupInfoImpl insertMarkupInfo, ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        return "";
     }
 
     @Override
-    public String createNodeCode(Node node,ClientDocumentStfulDelegateImpl clientDoc)
+    public Object getInsertNewNodeCode(Node newNode, ClientDocumentStfulDelegateDroidImpl clientDoc)
     {
-        Comment nodeComm = (Comment)node;
-        return "itsNatDoc.doc.createComment(" + dataTextToJS(nodeComm,clientDoc) + ")";
+        return "";
+    }
+
+    @Override
+    public String createNodeCode(Node node, ClientDocumentStfulDelegateImpl clientDoc)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @Override    
-    public String getCharacterDataModifiedCode(CharacterData node,ClientDocumentStfulDelegateWebImpl clientDoc)
-    {
-        return getCharacterDataModifiedCodeDefault(node,clientDoc);
-    }
 }

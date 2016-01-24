@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+    
     <TextView 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Test nine-patch (border must be green). Click me to remove"
-            android:textSize="15dp"                
-            android:background="@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml" />
+            android:layout_width="0dp"
+            android:layout_height="0dp" />  <!-- just to test several top level children under merge -->
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"> 
+           
+        <TextView 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Test nine-patch (border must be green). Click me to remove"
+                android:textSize="15dp"                
+                android:background="@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml" />
+    </LinearLayout>  
+  
+
 </merge>

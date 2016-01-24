@@ -44,25 +44,27 @@ public class TestDroidRemoteResFragmentInsertionUsingDOMAPI extends TestDroidBas
         DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_remote_resources_fragment").loadDocumentFragment(itsNatDoc); 
         
         
-        final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
+        final Element elemToRemove = ItsNatTreeWalker.getLastChildElement(docFrag);
            
         boolean old = BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP;
         BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = false;
         
         try
         {
-            testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);        
+            testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);        
         }
         finally
         {
             BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
         }
         
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+        ((EventTarget)elemToRemove).addEventListener("click",new EventListenerSerial(){
             @Override
             public void handleEvent(Event evt)
             {
-                frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);
+                Element firstElem = ItsNatTreeWalker.getPreviousSiblingElement(elemToRemove);
+                elemToRemove.getParentNode().removeChild(firstElem);
+                elemToRemove.getParentNode().removeChild(elemToRemove);
             }            
         },false);   
        
