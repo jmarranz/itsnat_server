@@ -21,6 +21,7 @@ import org.itsnat.core.tmpl.ItsNatDroidDocumentTemplate;
 import test.droid.comp.TestDroidComponentsDocLoadListener;
 import test.droid.comp.TestDroidCreateItsNatComponentListener;
 import test.droid.core.TestDroidCoreDocLoadListener;
+import test.droid.include.TestDroidIncludeSlowLoadModeLayoutDocLoadListener;
 import test.droid.drawable.TestDroidDrawableLoadListener;
 import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
@@ -60,7 +61,6 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
 
         docTemplate = registerDocument("test_droid_core","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidCoreDocLoadListener());
-        //docTemplate.addEventListener(new TestCoreStatelessTemplateLevelEventListener(docTemplate));
         docTemplate.addItsNatAttachedClientEventListener(new TestDroidRemoteControlListener(false));
         docTemplate.setFastLoadMode(true);
         docTemplate.setReferrerEnabled(true);
@@ -73,9 +73,9 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         //docTemplate.setCommMode(CommMode.XHR_SYNC);
 
 
-        docTemplate = registerDocument("test_droid_include_layout","android/layout",pathPrefix,pages);
-        // docTemplate.setEventsEnabled(false);
-        docTemplate.setScriptingEnabled(false);
+        docTemplate = registerDocument("test_droid_include_slowloadmode_layout","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidIncludeSlowLoadModeLayoutDocLoadListener());        
+        docTemplate.setFastLoadMode(false);
 
         docTemplate = registerDocument("test_layout_included","android/layout",pathPrefix,pages);
         docTemplate.setScriptingEnabled(false);

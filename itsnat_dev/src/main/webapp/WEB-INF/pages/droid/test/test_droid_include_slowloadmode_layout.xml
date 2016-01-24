@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TEST REMOTE INCLUDE LAYOUT (SCRIPTING DISABLED)"
+            android:text="TEST REMOTE INCLUDE-SLOWLOADMODE LAYOUT"
             android:textSize="25dp"
             android:background="#00ff00">
         </TextView>
@@ -57,6 +57,10 @@
       
         <include layout="@remote:layout/ItsNatDroidServletExample?itsnat_doc_name=test_layout_included"/>           
           
+        <TextView id="testViewTreeRemovingHiddenId"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />        
+        
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

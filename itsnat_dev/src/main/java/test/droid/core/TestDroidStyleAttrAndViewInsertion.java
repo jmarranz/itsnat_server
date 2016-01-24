@@ -54,12 +54,32 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         // Test definir atributos después de insertar
         textView.setAttribute("android:layout_width", "match_parent");
         textView.setAttribute("android:layout_height","wrap_content");
+        
         textView.setAttribute("android:background", "#000000");
-        itsNatDoc.addCodeToSend("if (view.getBackground() == null) alert(\"FAIL setAttribute\");");       
+        itsNatDoc.addCodeToSend("if (view.getBackground() == null) alert(\"FAIL setAttribute android:background\");");       
+        if (!"#000000".equals(textView.getAttribute("android:background"))) throw new RuntimeException("TEST ERROR");               
         textView.removeAttribute("android:background");
-
-        itsNatDoc.addCodeToSend("if (view.getBackground() != null) alert(\"FAIL removeAttribute\");");
-        textView.setAttribute("android:background", "#ffdddd");  // Rosa
+        itsNatDoc.addCodeToSend("if (view.getBackground() != null) alert(\"FAIL removeAttribute android:background\");");
+        if (!"".equals(textView.getAttribute("android:background"))) throw new RuntimeException("TEST ERROR");        
+        
+        textView.setAttributeNS(ANDROID_NS,"background", "#000001");  
+        itsNatDoc.addCodeToSend("if (view.getBackground() == null) alert(\"FAIL setAttributeNS background\");");        
+        if (!"#000001".equals(textView.getAttributeNS(ANDROID_NS, "background"))) throw new RuntimeException("TEST ERROR");
+        textView.removeAttributeNS(ANDROID_NS,"background");        
+        itsNatDoc.addCodeToSend("if (view.getBackground() != null) alert(\"FAIL removeAttributeNS background\");");        
+        if (!"".equals(textView.getAttributeNS(ANDROID_NS, "background"))) throw new RuntimeException("TEST ERROR");
+        
+        textView.setAttributeNS(ANDROID_NS,"android:background", "#000002");  
+        itsNatDoc.addCodeToSend("if (view.getBackground() == null) alert(\"FAIL setAttributeNS android:background\");");        
+        if (!"#000002".equals(textView.getAttributeNS(ANDROID_NS, "background"))) throw new RuntimeException("TEST ERROR");     // NO VALE con el prefijo "android:"        
+        textView.removeAttributeNS(ANDROID_NS,"background");   // NO VALE con el prefijo "android:"
+        itsNatDoc.addCodeToSend("if (view.getBackground() != null) alert(\"FAIL removeAttributeNS background (2)\");");        
+        if (!"".equals(textView.getAttributeNS(ANDROID_NS, "background"))) throw new RuntimeException("TEST ERROR");         
+        if (!"".equals(textView.getAttributeNS(ANDROID_NS, "android:background"))) throw new RuntimeException("TEST ERROR");   // Por si acaso
+        
+        // Conclusión: si se usa get/set/removeAttributeNS no usar el prefijo "android:" para el DOM, respecto al código beanshell da igual puesto que se detecta el prefijo y da igual
+        
+        textView.setAttribute("android:background", "#ffdddd");  // Rosa        
         
         // Test uso del atributo DOM id
         textView.setAttribute("id", "BAD_ID");

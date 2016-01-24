@@ -47,24 +47,24 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
         DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc);
 
-        final Element frameLayoutViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
+        final Element elementViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);
 
         // En el template fragment hay un <script> que DEBE desaparecer
-        NodeList scripts = frameLayoutViewToRemove.getElementsByTagName("script");
+        NodeList scripts = elementViewToRemove.getElementsByTagName("script");
         if (scripts.getLength() != 2) throw new RuntimeException("Expected 2 <string> elements");
 
         // Sabemos con seguridad que el fragment se insertará (parcialmente) via markup, nos aseguramos de todas formas que está activado
         if (!BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP) throw new RuntimeException("CANNOT TEST");
 
-        testLauncherHidden.getParentNode().insertBefore(frameLayoutViewToRemove, testLauncherHidden);
+        testLauncherHidden.getParentNode().insertBefore(elementViewToRemove, testLauncherHidden);
        
         checkUsingSetInnerXML(true); 
         
         
         Element frameLayoutViewToRemove2 = (Element)testLauncherHidden.getPreviousSibling();
-        if (frameLayoutViewToRemove != frameLayoutViewToRemove2) throw new RuntimeException("TEST ERROR");
+        if (elementViewToRemove != frameLayoutViewToRemove2) throw new RuntimeException("TEST ERROR");
 
-        String layout_width = frameLayoutViewToRemove.getAttributeNS(ANDROID_NS,"layout_width");
+        String layout_width = elementViewToRemove.getAttributeNS(ANDROID_NS,"layout_width");
         if (!"250dp".equals(layout_width))
             throw new RuntimeException("TEST FAIL");        
         
@@ -72,11 +72,11 @@ public class TestDroidFragmentInsertionInnerXML extends TestDroidBase implements
 
         itsNatDoc.addCodeToSend(" if (null == itsNatDoc.findViewByXMLId(\"fragmentTestId\")) alert(\"FAIL TEST\"); ");
 
-        ((EventTarget)frameLayoutViewToRemove).addEventListener("click",new EventListenerSerial(){
+        ((EventTarget)elementViewToRemove).addEventListener("click",new EventListenerSerial(){
             @Override
             public void handleEvent(Event evt)
             {
-                frameLayoutViewToRemove.getParentNode().removeChild(frameLayoutViewToRemove);
+                elementViewToRemove.getParentNode().removeChild(elementViewToRemove);
             }
         },false);
 
