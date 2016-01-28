@@ -51,11 +51,13 @@ public class ItsNatXMLDocumentTemplateVersionImpl extends ItsNatDocumentTemplate
         return new ItsNatXMLDocumentImpl(doc,this,browser,requestURL,session,stateless);
     }
 
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new XMLTemplateVersionDelegateImpl(this);
     }
 
+    @Override
     public DocumentFragment parseFragmentToDocFragment(String source,ItsNatDocumentImpl docTarget)
     {
         // No está implementado porque sólo se usa en el caso de mutation events recibidos

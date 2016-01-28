@@ -67,6 +67,7 @@ public abstract class ItsNatStfulDocumentTemplateVersionImpl extends ItsNatDocum
 
     public abstract String wrapBodyAsDocument(String source);
 
+    @Override
     public DocumentFragment parseFragmentToDocFragment(String fragCode,ItsNatDocumentImpl itsNatDoc)
     {
         // En un futuro podría plantearse el cacheado

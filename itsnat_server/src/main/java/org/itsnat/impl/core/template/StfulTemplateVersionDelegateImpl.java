@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import org.itsnat.core.ItsNatException;
-import org.itsnat.impl.comp.mgr.ItsNatStfulDocComponentManagerImpl;
 import org.itsnat.impl.core.domutil.DOMUtilInternal;
 import org.itsnat.impl.core.markup.render.DOMRenderImpl;
 import org.w3c.dom.Document;
@@ -129,13 +128,14 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
     {
         super.normalizeDocument(doc);
 
-        cleanDocumentChildren(doc);
+        cleanInmediateDocumentChildren(doc);
     }
 
-    protected static void cleanDocumentChildren(Document doc)
+    protected static void cleanInmediateDocumentChildren(Document doc)
     {
         /* Eliminamos los nodos bajo el Document que no sean
          * el DocumentType, processing instructions (útil en XUL), el root (<html>) y nodos de texto, por ejemplo comentarios.
+         * OJO usamos getNextSibling() QUE NO BAJA DE NIVEL, por lo que no entramos dentro del root (dentro de <html> por ejemplo)
          * La razón NO es por un problema de cálculo de paths pues el cálculo
          * de paths empieza desde <html> (usando "de") y es rarísimo que queramos
          * acceder a los elementos de esa zona, tampoco el problema es los nodos
@@ -174,7 +174,5 @@ public abstract class StfulTemplateVersionDelegateImpl extends MarkupTemplateVer
             }
         }
     }
-
-
 
 }

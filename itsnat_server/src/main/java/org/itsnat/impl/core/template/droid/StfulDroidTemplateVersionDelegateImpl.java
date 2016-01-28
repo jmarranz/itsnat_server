@@ -16,8 +16,13 @@
 
 package org.itsnat.impl.core.template.droid;
 
+import java.util.LinkedList;
+import org.itsnat.impl.core.domutil.DOMUtilInternal;
+import org.itsnat.impl.core.domutil.NodeConstraints;
 import org.itsnat.impl.core.template.MarkupTemplateVersionImpl;
 import org.itsnat.impl.core.template.StfulTemplateVersionDelegateImpl;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 /**
@@ -32,4 +37,26 @@ public class StfulDroidTemplateVersionDelegateImpl extends StfulTemplateVersionD
         super(parent);
     }
     
+    @Override
+    public void normalizeDocument(Document doc)
+    {
+        super.normalizeDocument(doc);
+
+        // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments
+        // y se llama en el Document antes de guardarlo como template
+        NodeConstraints rule = new NodeConstraints()
+        {
+            @Override
+            public boolean match(Node node, Object context)
+            {
+                return node.getNodeType() == Node.COMMENT_NODE;
+            }
+        };
+        LinkedList<Node> commentList = DOMUtilInternal.getChildNodeListMatching(doc,rule,true,null);
+        if (commentList != null)
+        {
+            for(Node comment : commentList)
+                comment.getParentNode().removeChild(comment);
+        }     
+    }    
 }

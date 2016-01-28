@@ -42,6 +42,7 @@ public class ItsNatXMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTe
         this.templateDoc = null; // Para que no se vuelva a usar y para salvar memoria
     }
 
+    @Override
     public Element getContainerElement()
     {
         // El nodo padre puede ser cualquiera, por ejemplo <root>
@@ -50,6 +51,7 @@ public class ItsNatXMLDocFragmentTemplateVersionImpl extends ItsNatDocFragmentTe
         return getDocument().getDocumentElement();       
     }    
 
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new XMLTemplateVersionDelegateImpl(this);

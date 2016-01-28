@@ -9,6 +9,7 @@
         onclick="alert(&quot;Removed (OK testing onclick inline handler in fragment)&quot;);">
 
         <!-- provocamos con el atributo @remote: que se parsee la llamada beanshell setInnerXML para extraer el contenido para cargar remótamente en tiempo de carga no hilo UI -->
+
         <TextView
             android:layout_width="200dp"
             android:layout_height="@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_layout_height"

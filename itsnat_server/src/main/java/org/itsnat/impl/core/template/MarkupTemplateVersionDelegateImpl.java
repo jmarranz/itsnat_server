@@ -52,7 +52,7 @@ public abstract class MarkupTemplateVersionDelegateImpl
 
     public void normalizeDocument(Document doc)
     {
-        // Derivar si hay que hacer más cosas (caso HTML)
+        // Derivar si hay que hacer más cosas 
     }
 
     public boolean declaredAsComponent(Element elem)

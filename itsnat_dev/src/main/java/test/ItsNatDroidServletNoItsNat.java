@@ -99,7 +99,13 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:text=\"Test nine-patch (border must be green)\"  ");
         res.append("        android:textSize=\"20dp\"  ");
         res.append("        android:background=\"@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml\" />  ");
-
+      
+        res.append("    <TextView id=\"testOnLoadScriptInline\"  ");
+        res.append("        android:layout_width=\"match_parent\"  ");
+        res.append("        android:layout_height=\"wrap_content\"  ");
+        res.append("        android:text=\"test loading &lt;script&gt; inline: \" />  ");        
+        
+        res.append("    <script><![CDATA[ var view = itsNatDoc.findViewByXMLId(\"testOnLoadScriptInline\"); view.setText(view.getText() + \"OK\"); ]]></script>  ");   
         
         res.append("    <TextView id=\"testOnLoadScriptWithSrcId\"  ");
         res.append("        android:layout_width=\"match_parent\"  ");
@@ -203,6 +209,8 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
         res.append("        android:textSize=\"20dp\"  ");
         res.append("        android:background=\"@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml\" />  ");
 
+        res.append("    <script><![CDATA[ alert(\"OK Inserted <script> inline in Fragment\"); ]]></script>  ");        
+        res.append("    <script src=\"droid/bs/test_script_fragment.bs\" />  ");        
         return res;
     }
 

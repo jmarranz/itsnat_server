@@ -61,6 +61,7 @@ public class ItsNatHTMLDocumentTemplateVersionImpl extends ItsNatStfulWebDocumen
         return new ItsNatHTMLDocumentImpl((HTMLDocument)doc,this,browser,requestURL,session,stateless);
     }
     
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new HTMLTemplateVersionDelegateImpl(this);

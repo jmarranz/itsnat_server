@@ -112,6 +112,7 @@ public class ItsNatHTMLDocFragmentTemplateVersionImpl extends ItsNatWebOnlyDocFr
             return loadDocumentFragment(target);
     }
     
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new HTMLTemplateVersionDelegateImpl(this);

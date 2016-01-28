@@ -49,11 +49,13 @@ public abstract class ItsNatOtherNSDocumentTemplateVersionImpl extends ItsNatStf
             return null; // No ocurre nunca.
     }
 
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new OtherNSTemplateVersionDelegateImpl(this);
     }
 
+    @Override
     public Element getBodyParentElement(Document doc)
     {
         return doc.getDocumentElement(); // <svg> o <window>

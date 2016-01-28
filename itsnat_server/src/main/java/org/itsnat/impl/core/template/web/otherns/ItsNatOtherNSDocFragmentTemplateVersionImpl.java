@@ -44,11 +44,13 @@ public class ItsNatOtherNSDocFragmentTemplateVersionImpl extends ItsNatWebOnlyDo
         this.templateDoc = null; // Para que no se vuelva a usar y para salvar memoria
     }
 
+    @Override
     public Element getContainerElement()
     {
         return getDocument().getDocumentElement();       
     }
         
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new OtherNSTemplateVersionDelegateImpl(this);

@@ -40,6 +40,7 @@ public class ItsNatDroidDocFragmentTemplateVersionImpl extends ItsNatDocFragment
     }
 
     
+    @Override
     public Element getContainerElement()
     {
         // El nodo padre puede ser cualquiera, por ejemplo <root>
@@ -48,6 +49,7 @@ public class ItsNatDroidDocFragmentTemplateVersionImpl extends ItsNatDocFragment
         return getDocument().getDocumentElement();       
     }    
 
+    @Override
     protected MarkupTemplateVersionDelegateImpl createMarkupTemplateVersionDelegate()
     {
         return new StfulDroidTemplateVersionDelegateImpl(this);

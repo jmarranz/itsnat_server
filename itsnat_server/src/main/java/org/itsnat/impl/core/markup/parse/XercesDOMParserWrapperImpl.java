@@ -127,17 +127,20 @@ public abstract class XercesDOMParserWrapperImpl implements ErrorHandler
         return parser.getDocument();
     }
 
+    @Override
     public void error(org.xml.sax.SAXParseException ex) throws org.xml.sax.SAXException
     {
         printError("Error", ex);
     }
 
+    @Override
     public void fatalError(org.xml.sax.SAXParseException ex) throws org.xml.sax.SAXException
     {
         printError("Fatal Error", ex);
         throw ex;
     }
 
+    @Override
     public void warning(org.xml.sax.SAXParseException ex) throws org.xml.sax.SAXException
     {
         printError("Warning", ex);

@@ -122,32 +122,4 @@ public class ItsNatStfulDroidDocumentTemplateVersionImpl extends ItsNatStfulDocu
     {
         return new StfulDroidTemplateVersionDelegateImpl(this);
     }
-
-    @Override
-    public Document parseDocumentOrFragment(InputSource input,XercesDOMParserWrapperImpl parser,boolean isFragment)
-    {
-        Document doc = super.parseDocumentOrFragment(input,parser,isFragment);
-
-        // Filtramos los comentarios, son incordio y total no se manifiestan en el arbol de View, este método también se usa para los fragments
-        NodeConstraints rule = new NodeConstraints()
-        {
-            @Override
-            public boolean match(Node node, Object context)
-            {
-                return node.getNodeType() == Node.COMMENT_NODE;
-            }
-        };
-        LinkedList<Node> commentList = DOMUtilInternal.getChildNodeListMatching(doc,rule,true,null);
-        if (commentList != null)
-        {
-            for(Node comment : commentList)
-                comment.getParentNode().removeChild(comment);
-        }
-
-        // fixDocumentOrFragmentAttribs(doc);
-        
-        return doc;
-    }
-
-
 }

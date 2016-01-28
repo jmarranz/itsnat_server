@@ -47,10 +47,10 @@ public class TestDroidStatelessCoreEventDocument extends TestDroidBase implement
         itsNatDoc.addEventListener(this);
     }
 
+    @Override
     public void handleEvent(Event evt)
     {
-
-        
+  
         ItsNatEventDOMStateless itsNatEvt = (ItsNatEventDOMStateless)evt;
         
         ItsNatDocument itsNatDoc = itsNatEvt.getItsNatDocument();
