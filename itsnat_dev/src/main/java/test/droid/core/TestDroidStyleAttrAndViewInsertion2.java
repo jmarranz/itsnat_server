@@ -41,7 +41,6 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         
         Element textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
-        // Podemos usar "android:text" o "text", es indiferente
         textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, text size small, text color=red");         
         textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_remote");
         
@@ -54,6 +53,21 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         textView.setAttribute("android:textSize", "@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize");  
         textView.setAttribute("android:textColor", "@remote:color/droid/res/values/test_values_remote.xml:test_color_textColor");                
        
+        Element textViewPrevious = textView;
+        
+        textView = doc.createElement("TextView");        
+        // Test definir atributos antes de insertar
+        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, text size=default, text color=red");         
+        textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_remote");
+        
+        testStyleAttrHidden.getParentNode().insertBefore(textView, textViewPrevious);
+        
+        // Test definir atributos después de insertar            
+        textView.setAttribute("android:layout_width", "match_parent");        
+        textView.setAttribute("android:layout_height", "wrap_content");        
+        textView.setAttribute("android:background", "#ffdddd");         
+        // textView.setAttribute("android:textSize", "@remote:dimen/droid/res/values/test_values_remote.xml:test_dimen_textSize");  
+        textView.setAttribute("android:textColor", "@remote:color/droid/res/values/test_values_remote.xml:test_color_textColor");         
     }
     
 }

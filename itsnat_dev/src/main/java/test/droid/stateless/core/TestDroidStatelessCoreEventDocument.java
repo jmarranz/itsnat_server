@@ -66,7 +66,7 @@ public class TestDroidStatelessCoreEventDocument extends TestDroidBase implement
         logToTextView(logElem, "Removed current children before insertion");    
                 
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();  
-        ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment");  
+        ItsNatDocFragmentTemplate docFragTemplate = servlet.getItsNatDocFragmentTemplate("test_droid_core_and_stateless_fragment");  
 
         DocumentFragment docFrag = docFragTemplate.loadDocumentFragment(itsNatDoc);  
   

@@ -42,7 +42,7 @@ public class TestDroidFragmentInsertionUsingDOMAPI extends TestDroidBase impleme
         Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingDOMAPIHiddenId");  
         
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
-        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_fragment").loadDocumentFragment(itsNatDoc); 
+        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_core_and_stateless_fragment").loadDocumentFragment(itsNatDoc); 
         
         
         final Element elementViewToRemove = ItsNatTreeWalker.getFirstChildElement(docFrag);

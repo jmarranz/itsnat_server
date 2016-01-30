@@ -4,7 +4,7 @@
     <dimen name="test_dimen_layout_height">20dp</dimen>    
     
     
-    <style name="test_style_remote">
+    <style name="test_style_remote" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
