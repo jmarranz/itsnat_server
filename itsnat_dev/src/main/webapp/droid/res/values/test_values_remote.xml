@@ -1,15 +1,19 @@
 <resources>
     <dimen name="test_dimen_textSize">10.3dp</dimen>
-    <color name="test_color_textColor">#ff0000</color>
-    <dimen name="test_dimen_layout_height">20dp</dimen>    
-    
-    
-    <style name="test_style_remote" parent="android:Widget.DeviceDefault.TextView">
+    <color name="test_color_textColor">@remote:color/test_values_remote.xml:test_color_textColor_ref</color>
+    <dimen name="test_dimen_layout_height">20dp</dimen>
+
+    <color name="test_color_textColor_ref">#ff0000</color>
+
+    <style name="test_style_textview_remote" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
         <item name="android:paddingLeft">21.3dp</item>
-        <item name="android:paddingRight">21.3dp</item>
-    </style>    
+        <item name="android:paddingRight">@remote:dimen/:test_dimen_paddingRight</item> <!-- implicit path: test_values_remote.xml -->
+    </style>
+
+    <dimen name="test_dimen_paddingRight">50.3dp</dimen>
+
 </resources>
 

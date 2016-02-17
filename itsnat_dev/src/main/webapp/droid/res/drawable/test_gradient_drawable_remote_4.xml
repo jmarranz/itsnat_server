@@ -11,7 +11,7 @@
         android:centerX="@dimen/centerX"
         android:centerY="@dimen/centerY"
         android:endColor="#80FF00FF"
-        android:gradientRadius="@dimen/gradient_radius"
+        android:gradientRadius="@remote:dimen/../values{-v21}/gradient.xml:gradient_radius"
         android:startColor="#FFFF0000"
         android:type="radial"
         android:useLevel="false"

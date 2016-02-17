@@ -1,0 +1,4 @@
+<resources>
+    <!-- ver notas en values/gradient.xml -->
+    <item name="gradient_radius" type="dimen">50.3%p</item>
+</resources>

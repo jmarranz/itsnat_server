@@ -41,8 +41,8 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         
         Element textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
-        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, text size small, text color=red");         
-        textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_remote");
+        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, textSize=10.3dp, textColor=red");         
+        textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_textview_remote");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, testStyleAttrHidden);
         
@@ -57,8 +57,8 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         
         textView = doc.createElement("TextView");        
         // Test definir atributos antes de insertar
-        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, text size=default, text color=red");         
-        textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_remote");
+        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, textSize=default, textColor=red");         
+        textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_textview_remote");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, textViewPrevious);
         

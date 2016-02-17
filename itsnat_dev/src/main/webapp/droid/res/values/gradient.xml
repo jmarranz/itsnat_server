@@ -1,0 +1,5 @@
+<resources>
+    <!-- En LOLLIPOP (5.0) se usa este archivo pero en values-v21  -->
+    <!-- http://stackoverflow.com/questions/21605877/illegalargumentexception-radius-must-be-0 -->    
+    <item name="gradient_radius" type="dimen">5000.3%</item> 
+</resources>
