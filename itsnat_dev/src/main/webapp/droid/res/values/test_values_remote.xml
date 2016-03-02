@@ -1,4 +1,7 @@
 <resources>
+    
+    <item name="test_id" type="id">testTextViewStyleAttrHiddenId2</item>
+    
     <dimen name="test_dimen_textSize">10.3dp</dimen>
     <color name="test_color_textColor">@remote:color/test_values_remote.xml:test_color_textColor_ref</color>
     <dimen name="test_dimen_layout_height">20dp</dimen>
