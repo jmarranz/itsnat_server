@@ -68,8 +68,7 @@ public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl im
             for(int i = 0; i < len; i++)
             {
                 Attr attr = (Attr)attribList.item(i);
-                String value = attr.getValue();
-                if (value.startsWith("@remote:"))
+                if (BSRenderAttributeImpl.isAttrRemote(attr))
                     return true; // Es un Element con un atributo remoto
             }            
             

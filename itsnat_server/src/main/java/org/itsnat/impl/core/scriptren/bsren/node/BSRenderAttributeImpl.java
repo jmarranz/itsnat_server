@@ -64,7 +64,7 @@ public class BSRenderAttributeImpl extends BSRenderNodeImpl implements RenderAtt
         return toTransportableStringLiteral(value,clientDoc.getBrowser());
     }
 
-    private static boolean isAttrRemote(Attr attr) 
+    public static boolean isAttrRemote(Attr attr) 
     {
         return attr.getValue().startsWith("@remote:");
     }
