@@ -12,11 +12,11 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 
 
-public class TestDroidRemoteResourcesDocLoadListener implements ItsNatServletRequestListener
+public class TestDroidRemoteDrawablesDocLoadListener implements ItsNatServletRequestListener
 {
     @Override
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
-        new TestDroidRemoteResourcesDocument((ItsNatDocument)request.getItsNatDocument(),request);
+        new TestDroidRemoteDrawablesDocument((ItsNatDocument)request.getItsNatDocument(),request);
     }
 }

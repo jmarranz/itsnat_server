@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:indres="http://itsnat.org/itsnatdroid/resource"
+    indres:valueAnimatorTest="@remote:animator/droid/res/animator/test_value_animator_remote.xml"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >  
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK" />
+
+        <Button
+            android:id="@id/buttonReload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_reload" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="ObjectAnimator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+
+        <AdapterViewFlipper
+            id="objectAnimatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@animator/object_animator_test"
+            android:loopViews="true"
+            android:outAnimation="@animator/object_animator_test"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+        <AdapterViewFlipper
+            id="objectAnimatorTestId2"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@remote:animator/droid/res/animator/test_object_animator_remote.xml"
+            android:loopViews="true"
+            android:outAnimation="@remote:animator/droid/res/animator/test_object_animator_remote.xml"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+        <AdapterViewFlipper
+            id="objectAnimatorTestId3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:animateFirstView="true"
+            android:inAnimation="@remote:animator/droid/res/values/test_values_remote.xml:test_animator_object_animator_values"
+            android:loopViews="true"
+            android:outAnimation="@remote:animator/droid/res/values/test_values_remote.xml:test_animator_object_animator_values"
+            android:autoStart="true"
+            android:flipInterval="2000"  />
+
+        <AdapterViewFlipper
+            id="objectAnimatorTestId4"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/white"
+            android:animateFirstView="true"
+            android:inAnimation="@remote:animator/droid/res/animator/test_object_animator_2_remote.xml"
+            android:loopViews="true"
+            android:autoStart="true"
+            android:flipInterval="2000"  /> 
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="ValueAnimator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            id="valueAnimatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ValueAnimator Test 1"
+            android:textSize="15dp"
+            android:background="@android:color/white"/>
+       
+        
+    </LinearLayout>
+
+    <script><![CDATA[
+        import org.itsnat.itsnatdroidtest.R;
+        import org.itsnat.itsnatdroidtest.testact.TestActivity;
+        import android.animation.*;
+        
+        void defineObjectAnimatorTests(TestActivity act, View rootView)
+        {
+            AdapterViewFlipper viewFlipper;
+            ArrayAdapter adapter;
+
+            viewFlipper = (AdapterViewFlipper) itsNatDoc.findViewByXMLId("objectAnimatorTestId1");
+            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            viewFlipper.setAdapter(adapter);
+
+            viewFlipper = (AdapterViewFlipper) itsNatDoc.findViewByXMLId("objectAnimatorTestId2");
+            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            viewFlipper.setAdapter(adapter);
+
+            viewFlipper = (AdapterViewFlipper) itsNatDoc.findViewByXMLId("objectAnimatorTestId3");
+            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            viewFlipper.setAdapter(adapter);
+
+            viewFlipper = (AdapterViewFlipper) itsNatDoc.findViewByXMLId("objectAnimatorTestId4");
+            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            viewFlipper.setAdapter(adapter);
+        }
+
+
+        void defineValueAnimatorTests(TestActivity act, View rootView)
+        {
+            TextView textView = (TextView) itsNatDoc.findViewByXMLId("valueAnimatorTestId1");
+      
+            ValueAnimator valueAnimator = (ValueAnimator)itsNatDoc.getItsNatResources().getAnimator("@remote:animator/droid/res/animator/test_value_animator_remote.xml");
+        
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    Integer value = (Integer) animation.getAnimatedValue();
+                    textView.setBackgroundColor(value);
+                }
+            });   
+        
+            valueAnimator.start();
+        
+            if (valueAnimator.getDuration() != 2000) alert("TEST FAILED duration: " + valueAnimator.getDuration());
+            if (valueAnimator.getRepeatCount() != -1) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatCount());        
+            if (valueAnimator.getRepeatMode() != 2) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatMode()); 
+            if (valueAnimator.getStartDelay() != 11) alert("TEST FAILED repeatCount: " + valueAnimator.getStartDelay());
+
+        }
+
+        TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
+        View rootView = itsNatDoc.getRootView();
+
+        defineObjectAnimatorTests(act,rootView);
+        defineValueAnimatorTests(act,rootView);
+    ]]></script>
+
+</ScrollView>

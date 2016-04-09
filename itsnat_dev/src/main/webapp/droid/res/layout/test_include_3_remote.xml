@@ -1,4 +1,7 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:indres="http://itsnat.org/itsnatdroid/resource"
+    indres:valueAnimatorTest="@remote:animator/../animator/test_value_animator_remote.xml"
+    indres:valueAnimatorTest2="@remote:animator//itsnat_dev/droid/res/animator/test_value_animator_remote.xml">
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,5 +25,20 @@
             android:text="Included &lt;script&gt; (3-4): " />    
        
     <script><![CDATA[ var view = itsNatDoc.findViewByXMLId("testIncludedScript4Id"); view.setText(view.getText() + "OK");  ]]></script>
+
+    <script><![CDATA[
+        import android.animation.*;
+             
+        Animator animator;
+        String res;
+        
+        res = "@remote:animator/../animator/test_value_animator_remote.xml";
+        animator = itsNatDoc.getItsNatResources().getAnimator(res);
+        if (animator == null) alert("FAILED TEST " + res + " not found" );
+        
+        res = "@remote:animator//itsnat_dev/droid/res/animator/test_value_animator_remote.xml";
+        animator = itsNatDoc.getItsNatResources().getAnimator(res);
+        if (animator == null) alert("FAILED TEST " + res + " not found");        
+    ]]></script>        
 
 </merge>

@@ -6,13 +6,6 @@
 package test.droid.remres;
 
 import java.io.Serializable;
-import org.itsnat.comp.android.graphics.drawable.AnimationDrawable;
-import org.itsnat.comp.android.graphics.drawable.ClipDrawable;
-import org.itsnat.comp.android.graphics.drawable.LevelListDrawable;
-import org.itsnat.comp.android.graphics.drawable.RotateDrawable;
-import org.itsnat.comp.android.graphics.drawable.ScaleDrawable;
-import org.itsnat.comp.android.graphics.drawable.TransitionDrawable;
-import org.itsnat.comp.android.widget.TextView;
 import org.itsnat.core.ItsNatDocument;
 import org.itsnat.core.ItsNatServletRequest;
 import org.w3c.dom.Document;
@@ -20,15 +13,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
-import test.web.shared.EventListenerSerial;
 
-public class TestDroidRemoteResourcesDocument implements EventListener,Serializable
+public class TestDroidRemoteAnimationsDocument implements EventListener,Serializable
 {
     protected ItsNatDocument itsNatDoc;
     protected Element rootElem;
 
 
-    public TestDroidRemoteResourcesDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
+    public TestDroidRemoteAnimationsDocument(ItsNatDocument itsNatDoc,ItsNatServletRequest request)
     {
         this.itsNatDoc = itsNatDoc;
 
@@ -36,6 +28,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         this.rootElem = doc.getDocumentElement();
         ((EventTarget)rootElem).addEventListener("load", this, false);
 
+/*        
         new TestDroidRemoteResFragmentInsertionInnerXML(itsNatDoc);
         new TestDroidRemoteResFragmentInsertionUsingDOMAPI(itsNatDoc);
 
@@ -47,11 +40,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
                 testChangeDrawableElem.setAttribute("android:background", "@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml");
             }
         }, false);
-
-
-        //TextView testChangeDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testChangeDrawableElem);
-        //ClipDrawable clipDrawable = testChangeDrawableComp.getBackground(ClipDrawable.class);
-
+*/        
     }
 
     @Override
@@ -59,7 +48,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
     {
         Document doc = itsNatDoc.getDocument();
 
-
+/*
         Element testClipDrawableElem = doc.getElementById("testClipDrawableId");
         TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);
         ClipDrawable clipDrawable = testClipDrawableComp.getBackground(ClipDrawable.class);
@@ -70,17 +59,6 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         ClipDrawable clipDrawable2 = testClipDrawableComp2.getBackground(ClipDrawable.class);
         clipDrawable2.setLevel(5000); // Half of the image is shown
 
-        /*
-        Element testClipDrawable = doc.getElementById("testClipDrawableId");
-        String testClipDrawableRef = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable);
-        itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef + ";");
-        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // Half of the image is shown
-
-        Element testClipDrawable2 = doc.getElementById("testClipDrawableId2");
-        String testClipDrawableRef2 = itsNatDoc.getScriptUtil().getNodeReference(testClipDrawable2);
-        itsNatDoc.addCodeToSend("var view = " + testClipDrawableRef2 + ";");
-        itsNatDoc.addCodeToSend("view.getBackground().setLevel(5000);"); // Half of the image is shown
-        */
 
         Element testTransitionDrawableElem = doc.getElementById("testTransitionDrawableId");
         TextView testTransitionDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testTransitionDrawableElem);
@@ -121,7 +99,7 @@ public class TestDroidRemoteResourcesDocument implements EventListener,Serializa
         TextView testRotateDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testRotateDrawableElem);
         RotateDrawable rotateDrawable = testRotateDrawableComp.getBackground(RotateDrawable.class);
         rotateDrawable.setLevel(10000);
-
+*/
     }
 
 }

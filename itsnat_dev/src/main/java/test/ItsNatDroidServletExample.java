@@ -26,7 +26,8 @@ import test.droid.drawable.TestDroidDrawableLoadListener;
 import test.droid.shared.TestDroidGlobalEventListener;
 import test.droid.remotectrl.TestDroidRemoteControlListener;
 import test.droid.remotectrl.TestDroidRemoteCtrlLauncherDocLoadListener;
-import test.droid.remres.TestDroidRemoteResourcesDocLoadListener;
+import test.droid.remres.TestDroidRemoteAnimationsDocLoadListener;
+import test.droid.remres.TestDroidRemoteDrawablesDocLoadListener;
 import test.droid.shared.TestDroidGlobalDocumentLoadListener;
 import test.droid.shared.TestDroidGlobalRemoteControlListener;
 import test.droid.stateless.core.TestDroidStatelessCoreEventDocLoadListener;
@@ -82,12 +83,15 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
 
 
         docTemplate = registerDocument("test_droid_remote_drawables","android/layout",pathPrefix,pages);
-        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteResourcesDocLoadListener());
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteDrawablesDocLoadListener());
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
 
         docTemplate = registerDocument("test_droid_remote_drawable_ninepatch","text/xml",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());
 
+        docTemplate = registerDocument("test_droid_remote_animations","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteAnimationsDocLoadListener());
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
 
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());

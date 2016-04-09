@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:valueFrom="#FFFF8000"
+    android:valueTo="#FFFF80FF"
+    android:duration="2000"
+    android:repeatCount="-1"
+    android:repeatMode="reverse"
+    android:startOffset="10"
+    />  <!-- valueType is not needed with colors -->

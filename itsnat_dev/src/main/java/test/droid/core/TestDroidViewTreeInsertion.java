@@ -22,7 +22,7 @@ import org.w3c.dom.events.EventTarget;
  */
 public class TestDroidViewTreeInsertion extends TestDroidBase implements EventListener
 {
-
+   
     public TestDroidViewTreeInsertion(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);

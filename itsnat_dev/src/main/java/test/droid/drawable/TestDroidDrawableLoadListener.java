@@ -14,7 +14,6 @@ import org.itsnat.core.ItsNatServletResponse;
 import org.itsnat.core.event.ItsNatServletRequestListener;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import static test.droid.shared.TestDroidBase.ANDROID_NS;
 
 /**
  *

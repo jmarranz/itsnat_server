@@ -22,6 +22,7 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
 {
     protected Element testStyleAttr;
     
+    
     public TestDroidStyleAttrAndViewInsertion2(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
@@ -43,7 +44,7 @@ public class TestDroidStyleAttrAndViewInsertion2 extends TestDroidBase implement
         // Test definir atributos antes de insertar
         textView.setAttribute("id", "testTextViewStyleAttrHiddenId2");        
         textView.setAttribute("android:id", "@remote:+id/droid/res/values/test_values_remote.xml:test_id");        
-        textView.setAttribute("android:text", "OK if left/right padding, background=pink, width=match_parent, textSize=10.3dp, textColor=red");         
+        textView.setAttribute("android:text", "HOLA OK if left/right padding, background=pink, width=match_parent, textSize=10.3dp, textColor=red");         
         textView.setAttribute("style","@remote:style/droid/res/values/test_values_remote.xml:test_style_textview_remote");
         
         testStyleAttrHidden.getParentNode().insertBefore(textView, testStyleAttrHidden);

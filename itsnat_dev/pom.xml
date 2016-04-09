@@ -25,10 +25,21 @@
         <dependency>
             <groupId>com.innowhere</groupId>
             <artifactId>relproxy</artifactId>
-            <version>0.8.7</version>
+            <version>0.8.8</version>
             <type>jar</type>
         </dependency>
 
+<!--
+        <dependency>
+            <groupId>com.innowhere</groupId>
+            <artifactId>relproxy</artifactId>
+            <version>0.8.8</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/relproxy-0.8.8.jar</systemPath>
+        </dependency>
+-->
+
+    
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>batik-dom</artifactId>

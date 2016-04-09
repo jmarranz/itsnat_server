@@ -8,6 +8,9 @@
 
     <color name="test_color_textColor_ref">#ff0000</color>
 
+    <item name="test_animator_object_animator_values" type="animator">@remote:animator/../animator/test_object_animator_remote.xml</item>
+    <!-- Alternative: @remote:animator//itsnat_dev/droid/res/animator/test_object_animator_remote.xml -->
+
     <style name="test_style_textview_remote" parent="android:Widget.DeviceDefault.TextView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
