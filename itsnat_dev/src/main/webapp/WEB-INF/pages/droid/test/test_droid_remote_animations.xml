@@ -140,8 +140,7 @@
             if (valueAnimator.getDuration() != 2000) alert("TEST FAILED duration: " + valueAnimator.getDuration());
             if (valueAnimator.getRepeatCount() != -1) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatCount());        
             if (valueAnimator.getRepeatMode() != 2) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatMode()); 
-            if (valueAnimator.getStartDelay() != 11) alert("TEST FAILED repeatCount: " + valueAnimator.getStartDelay());
-
+            if (valueAnimator.getStartDelay() != 10) alert("TEST FAILED repeatCount: " + valueAnimator.getStartDelay());
         }
 
         TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
