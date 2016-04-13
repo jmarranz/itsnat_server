@@ -29,6 +29,11 @@ public abstract class TestDroidBase implements Serializable
         this.itsNatDoc = itsNatDoc;
     }
     
+    public TestDroidBase() // Required for RelProxy 
+    {   
+        this.itsNatDoc = null;
+    }    
+    
     public Document getDocument()
     {
         return itsNatDoc.getDocument();

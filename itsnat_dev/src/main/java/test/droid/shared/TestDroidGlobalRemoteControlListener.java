@@ -29,10 +29,24 @@ public class TestDroidGlobalRemoteControlListener implements ItsNatAttachedClien
     {
     }
 
+    @Override
     public void handleEvent(ItsNatAttachedClientEvent event)
     {
         // Este sólo lo usamos para procesar casos de error
-        if (event.getItsNatDocument() != null) return;
+        if (event.getItsNatDocument() != null)
+        {
+            event.getItsNatEventListenerChain().continueChain(); // executed user listeners
+            if (!event.isAccepted())
+            {          
+                ServletRequest request = event.getItsNatServletRequest().getServletRequest();
+                String sessionId = request.getParameter("itsnat_session_id");
+                String docId = request.getParameter("itsnat_doc_id");                
+                throw new RuntimeException("Session/document " + sessionId + "/" + docId + " cannot be attached, is not accepted (behavior expected by default, user code accepting attach requests for the template or globally is needed)");
+            }
+
+            return;
+        }
+
 
         ItsNatServletResponse response = event.getItsNatServletResponse();
         if (event.getPhase() == ItsNatAttachedClientEvent.REQUEST)
@@ -42,17 +56,17 @@ public class TestDroidGlobalRemoteControlListener implements ItsNatAttachedClien
             String docId = request.getParameter("itsnat_doc_id");
             try
             {
-                response.getServletResponse().setContentType("android/layout;charset=UTF-8");                
+                response.getServletResponse().setContentType("android/layout;charset=UTF-8");
                 Writer out = response.getServletResponse().getWriter();
-                
+
                 out.write("  <TextView xmlns:android=\"http://schemas.android.com/apk/res/android\" ");
                 out.write("      android:layout_width=\"match_parent\" ");
                 out.write("      android:layout_height=\"wrap_content\" ");
                 out.write("      android:text=\"Session/document not found with id: " + sessionId + "/" + docId + "\" ");
-                out.write("      android:textSize=\"25dp\" "); 
+                out.write("      android:textSize=\"25dp\" ");
                 out.write("      android:background=\"#00dd00\">");
-                out.write("  </TextView>");                 
-                
+                out.write("  </TextView>");
+
             }
             catch(IOException ex) { throw new RuntimeException(ex); }
         }

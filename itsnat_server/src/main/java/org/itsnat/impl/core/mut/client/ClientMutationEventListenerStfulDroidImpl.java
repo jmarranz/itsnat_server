@@ -75,7 +75,8 @@ public class ClientMutationEventListenerStfulDroidImpl extends ClientMutationEve
             {
                 for(Node script : scriptList)
                 {
-                    script.getParentNode().removeChild(script);
+                    if (script.getParentNode() != null) // Esto es debido a que en Droid eliminamos explícitamente los <script>, es posible que nos esperemos un <script> ya eliminado
+                        script.getParentNode().removeChild(script);
                 }
             }
         }

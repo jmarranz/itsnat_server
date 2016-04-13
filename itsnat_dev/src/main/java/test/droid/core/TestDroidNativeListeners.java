@@ -28,6 +28,10 @@ public class TestDroidNativeListeners extends TestDroidBase implements EventList
         ((EventTarget)testLauncher).addEventListener("click", this, false);        
     }
     
+    public TestDroidNativeListeners() // Required for RelProxy
+    {    
+    }
+    
     @Override
     public void handleEvent(Event evt)
     {     

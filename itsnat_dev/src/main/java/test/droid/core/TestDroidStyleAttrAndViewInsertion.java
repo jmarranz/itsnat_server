@@ -30,6 +30,11 @@ public class TestDroidStyleAttrAndViewInsertion extends TestDroidBase implements
         ((EventTarget)testStyleAttr).addEventListener("click", this, false);
     }
 
+    public TestDroidStyleAttrAndViewInsertion() // Required for RelProxy 
+    {   
+
+    }
+    
     @Override
     public void handleEvent(Event evt)
     {

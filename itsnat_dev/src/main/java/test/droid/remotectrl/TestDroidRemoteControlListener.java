@@ -35,6 +35,11 @@ public class TestDroidRemoteControlListener implements ItsNatAttachedClientEvent
         this.refreshMsg = refreshMsg;
     }
 
+    public TestDroidRemoteControlListener() // Required by RelProxy
+    {
+    }    
+    
+    @Override
     public void handleEvent(ItsNatAttachedClientEvent event)
     {
         //ItsNatDocument itsNatDoc = event.getItsNatDocument();
