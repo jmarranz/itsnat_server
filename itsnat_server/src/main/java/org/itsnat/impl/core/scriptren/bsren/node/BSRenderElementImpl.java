@@ -42,7 +42,7 @@ import org.w3c.dom.Node;
  */
 public abstract class BSRenderElementImpl extends BSRenderHasChildrenNodeImpl implements RenderElement
 {
-    public static boolean SUPPORT_INSERTION_AS_MARKUP = true;
+    public static volatile boolean SUPPORT_INSERTION_AS_MARKUP = true;
     
     protected final NodeConstraints isChildNotValidInsertedAsMarkupListener = new NodeConstraints()
     {

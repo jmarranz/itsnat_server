@@ -25,39 +25,42 @@ import test.web.shared.EventListenerSerial;
  */
 public class TestDroidRemoteResFragmentInsertionUsingDOMAPI extends TestDroidBase implements EventListener
 {
-   
+
     public TestDroidRemoteResFragmentInsertionUsingDOMAPI(ItsNatDocument itsNatDoc)
     {
         super(itsNatDoc);
 
-        Element testLauncher = getDocument().getElementById("testFragmentInsertionUsingDOMAPIId");        
+        Element testLauncher = getDocument().getElementById("testFragmentInsertionUsingDOMAPIId");
         ((EventTarget)testLauncher).addEventListener("click", this, false);
     }
-    
+
     @Override
     public void handleEvent(Event evt)
-    {     
+    {
         Document doc = getDocument();
-        Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingDOMAPIHiddenId");  
-        
+        Element testLauncherHidden = doc.getElementById("testFragmentInsertionUsingDOMAPIHiddenId");
+
         ItsNatServlet servlet = itsNatDoc.getItsNatDocumentTemplate().getItsNatServlet();
-        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_remote_resources_fragment").loadDocumentFragment(itsNatDoc); 
-        
-        
+        DocumentFragment docFrag = servlet.getItsNatDocFragmentTemplate("test_droid_remote_resources_fragment").loadDocumentFragment(itsNatDoc);
+
+
         final Element elemToRemove = ItsNatTreeWalker.getLastChildElement(docFrag);
-           
-        boolean old = BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP;
-        BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = false;
-        
-        try
+
+        synchronized(BSRenderElementImpl.class)
         {
-            testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);        
+            boolean old = BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP;
+            BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = false;
+
+            try
+            {
+                testLauncherHidden.getParentNode().insertBefore(docFrag, testLauncherHidden);
+            }
+            finally
+            {
+                BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
+            }
         }
-        finally
-        {
-            BSRenderElementImpl.SUPPORT_INSERTION_AS_MARKUP = old;
-        }
-        
+
         ((EventTarget)elemToRemove).addEventListener("click",new EventListenerSerial(){
             @Override
             public void handleEvent(Event evt)
@@ -65,9 +68,9 @@ public class TestDroidRemoteResFragmentInsertionUsingDOMAPI extends TestDroidBas
                 Element firstElem = ItsNatTreeWalker.getPreviousSiblingElement(elemToRemove);
                 elemToRemove.getParentNode().removeChild(firstElem);
                 elemToRemove.getParentNode().removeChild(elemToRemove);
-            }            
-        },false);   
-       
+            }
+        },false);
+
     }
-    
+
 }
