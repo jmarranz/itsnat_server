@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:indres="http://itsnat.org/itsnatdroid/resource"
+
     indres:valueAnimatorTest="@remote:animator/droid/res/animator/test_value_animator_remote.xml"
+    indres:animatorSetTest="@remote:animator/droid/res/animator/test_animator_set_remote.xml"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true" >  
+    android:fillViewport="true" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +77,7 @@
             android:inAnimation="@remote:animator/droid/res/animator/test_object_animator_2_remote.xml"
             android:loopViews="true"
             android:autoStart="true"
-            android:flipInterval="2000"  /> 
+            android:flipInterval="2000"  />
 
         <TextView
             android:layout_width="match_parent"
@@ -90,15 +93,29 @@
             android:text="ValueAnimator Test 1"
             android:textSize="15dp"
             android:background="@android:color/white"/>
-       
-        
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="AnimatorSet Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            id="animatorSetTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimatorSet Test 1"
+            android:textSize="15dp"
+            android:background="@android:color/holo_green_light" />
+
     </LinearLayout>
 
     <script><![CDATA[
         import org.itsnat.itsnatdroidtest.R;
         import org.itsnat.itsnatdroidtest.testact.TestActivity;
         import android.animation.*;
-        
+
         void defineObjectAnimatorTests(TestActivity act, View rootView)
         {
             AdapterViewFlipper viewFlipper;
@@ -125,29 +142,58 @@
         void defineValueAnimatorTests(TestActivity act, View rootView)
         {
             TextView textView = (TextView) itsNatDoc.findViewByXMLId("valueAnimatorTestId1");
-      
+
             ValueAnimator valueAnimator = (ValueAnimator)itsNatDoc.getItsNatResources().getAnimator("@remote:animator/droid/res/animator/test_value_animator_remote.xml");
-        
+
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     Integer value = (Integer) animation.getAnimatedValue();
                     textView.setBackgroundColor(value);
                 }
-            });   
-        
+            });
+
             valueAnimator.start();
-        
+
             if (valueAnimator.getDuration() != 2000) alert("TEST FAILED duration: " + valueAnimator.getDuration());
-            if (valueAnimator.getRepeatCount() != -1) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatCount());        
-            if (valueAnimator.getRepeatMode() != 2) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatMode()); 
+            if (valueAnimator.getRepeatCount() != -1) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatCount());
+            if (valueAnimator.getRepeatMode() != 2) alert("TEST FAILED repeatCount: " + valueAnimator.getRepeatMode());
             if (valueAnimator.getStartDelay() != 10) alert("TEST FAILED repeatCount: " + valueAnimator.getStartDelay());
         }
+
+        void defineSetAnimatorTests(TestActivity act, View rootView)
+        {
+            final TextView textView = (TextView) itsNatDoc.findViewByXMLId("animatorSetTestId1");
+
+            AnimatorSet animatorSet = (AnimatorSet)itsNatDoc.getItsNatResources().getAnimator("@remote:animator/droid/res/animator/test_animator_set_remote.xml");
+
+            animatorSet.setTarget(textView);
+
+            animatorSet.addListener(new Animator.AnimatorListener()
+            {
+                public void onAnimationStart(Animator animation)  { }
+
+                public void onAnimationEnd(Animator animation)
+                {
+                    animatorSet.start();
+                }
+
+                public void onAnimationCancel(Animator animation) { }
+
+                 public void onAnimationRepeat(Animator animation) { }
+            });
+
+            animatorSet.start();
+        
+            // No testing of AnimatorSet here, many tests are executed as assets
+        }
+
 
         TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
         View rootView = itsNatDoc.getRootView();
 
         defineObjectAnimatorTests(act,rootView);
         defineValueAnimatorTests(act,rootView);
+        defineSetAnimatorTests(act,rootView);
     ]]></script>
 
 </ScrollView>
