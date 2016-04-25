@@ -97,6 +97,9 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
 
+        docTemplate = registerDocument("test_droid_sports_array","text/xml",pathPrefix,pages);
+       
+        
         // Stateless main
 
         docTemplate = registerDocument("test_droid_stateless_core_initial","android/layout",pathPrefix,pages);
