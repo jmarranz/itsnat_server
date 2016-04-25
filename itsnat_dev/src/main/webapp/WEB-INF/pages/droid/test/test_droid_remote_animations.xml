@@ -4,6 +4,7 @@
 
     indres:valueAnimatorTest="@remote:animator/droid/res/animator/test_value_animator_remote.xml"
     indres:animatorSetTest="@remote:animator/droid/res/animator/test_animator_set_remote.xml"
+    indres:sportArray="@remote:array/droid/res/values/arrays_remote.xml:sports_array"    
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -134,7 +135,15 @@
             viewFlipper.setAdapter(adapter);
 
             viewFlipper = (AdapterViewFlipper) itsNatDoc.findViewByXMLId("objectAnimatorTestId4");
-            adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            if (layout == null)
+            {
+                adapter = ArrayAdapter.createFromResource(act, R.array.sports_array, android.R.layout.simple_list_item_1);
+            }
+            else
+            {
+                CharSequence[] sportsArray = itsNatDoc.getItsNatResources().getTextArray("@remote:array/droid/res/values/arrays_remote.xml:sports_array");
+                adapter = new ArrayAdapter(act,android.R.layout.simple_list_item_1,sportsArray); // Beanshell does not support generics
+            }
             viewFlipper.setAdapter(adapter);
         }
 
@@ -183,7 +192,7 @@
             });
 
             animatorSet.start();
-        
+
             // No testing of AnimatorSet here, many tests are executed as assets
         }
 

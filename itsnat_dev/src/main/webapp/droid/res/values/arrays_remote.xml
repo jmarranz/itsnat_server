@@ -1,0 +1,13 @@
+<resources>
+
+    <string-array name="sports_array">
+        <item><i><b>Shuttle Badminton</b></i></item>
+        <item>Tennis</item>
+        <item>FootBall</item>
+        <item>Basket Ball</item>
+        <item>Table Tennis</item>
+        <item>Chess</item>
+        <item>Hockey</item>
+    </string-array>
+
+</resources>
