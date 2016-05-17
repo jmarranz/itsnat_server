@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:indres="http://itsnat.org/itsnatdroid/resource"
+    indres:animTFI="@remote:anim/droid/res/anim/test_animation_translate_for_interpolators_remote.xml"
+    indres:animAccInter="@remote:anim/droid/res/anim/test_interpolator_accelerate_remote.xml"
+    indres:animAccDecInter="@remote:anim/droid/res/anim/test_interpolator_acceleratedecelerate_remote.xml"
+    indres:animAnticipInter="@remote:anim/droid/res/anim/test_interpolator_anticipate_remote.xml"
+    indres:animAntiOverInter="@remote:anim/droid/res/anim/test_interpolator_anticipateovershoot_remote.xml"
+    indres:animBounceInter="@remote:anim/droid/res/anim/test_interpolator_bounce_remote.xml"
+    indres:animCycleInter="@remote:anim/droid/res/anim/test_interpolator_cycle_remote.xml"
+    indres:animDeceInter="@remote:anim/droid/res/anim/test_interpolator_decelerate_remote.xml"
+    indres:animLinearInter="@remote:anim/droid/res/anim/test_interpolator_linear_remote.xml"
+    indres:animOvershootInter="@remote:anim/droid/res/anim/test_interpolator_overshoot_remote.xml"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+    <!--
+        "#dddddd" gris claro
+        "#ffdddd" rosa
+        "#aaaaaa" gris oscuro
+        "#55ddffdd" verde claro
+        "#eeee55" amarillo
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK" />
+
+        <Button
+            android:id="@id/buttonReload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_reload" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="layoutAnimation / gridLayoutAnimation Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="layoutAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffdddd"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
+            android:animationCache="true"
+            android:layoutAnimation="@anim/test_layoutanimation_compiled"
+        >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestView Child 1"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestView Child 2"
+                android:background="#ddddff" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="gridLayoutAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <GridView android:id="@+id/gridViewAnimationTestId"
+                  android:layout_width="match_parent"
+                  android:layout_height="150dp"
+                  android:background="#ffdddd"
+                  android:columnWidth="30.3dp"
+                  android:gravity="center_vertical|center_horizontal"
+                  android:horizontalSpacing="5.3dp"
+                  android:numColumns="3"
+                  android:stretchMode="columnWidth"
+                  android:verticalSpacing="5.3dp"
+                  android:layoutAnimation="@anim/test_gridlayoutanimation_compiled">
+        </GridView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Interpolator Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateDecelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/acDecInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateDecelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/acInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="accelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/anticipateInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateOvershootInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/antOverInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="anticipateOvershootInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="bounceInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/bounceInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="bounceInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cycleInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/cycleInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cycleInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="decelerateInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/decelerateInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="decelerateInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="linearInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/linearInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="linearInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="overshootInterpolator Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/overshootInterpolatorTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="overshootInterpolator Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+    </LinearLayout>
+
+    <script><![CDATA[
+        import org.itsnat.itsnatdroidtest.R;
+        import org.itsnat.itsnatdroidtest.testact.TestActivity;
+        import android.view.animation.*;
+        import android.content.res.Resources;
+
+        void initialConfiguration(TestActivity act, View rootView)
+        {
+            initGridView(act, rootView);
+            initInterpolatorTests(act, rootView);
+        }
+
+        void initGridView(TestActivity act, View rootView)
+        {
+            Resources res = act.getResources();
+            GridView gridView = (GridView) rootView.findViewById(R.id.gridViewAnimationTestId);
+            CharSequence[] entries = res.getTextArray(R.array.sports_array);
+            gridView.setAdapter(new ArrayAdapter(act, android.R.layout.simple_list_item_1, entries));
+        }
+
+        void initInterpolatorTests(TestActivity act, View rootView)
+        {
+            initInterpolatorAccelerateTest(act,rootView);
+            initInterpolatorAccelerateDecelerateTest(act,rootView);
+            initInterpolatorAnticipateTest(act,rootView);
+            initInterpolatorAnticipateOvershootTest(act,rootView);
+            initInterpolatorBounceTest(act,rootView);
+            initInterpolatorCycleTest(act,rootView);
+            initInterpolatorDecelerateTest(act,rootView);
+            initInterpolatorLinearTest(act,rootView);
+            initInterpolatorOvershootTest(act,rootView);
+        }
+
+        TextView getTextView(View rootView,int id)
+        {
+            return (TextView) rootView.findViewById(id);
+        }
+
+        Animation getAnimation(TestActivity act)
+        {
+            return (TranslateAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_translate_for_interpolators_remote.xml");
+        }
+
+        Interpolator getInterpolator(String assetRef,TestActivity act)
+        {
+            return itsNatDoc.getItsNatResources().getInterpolator(assetRef);
+        }
+
+        void initInterpolatorAccelerateTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.acInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            AccelerateInterpolator interpolator = (AccelerateInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_accelerate_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorAccelerateDecelerateTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.acDecInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            AccelerateDecelerateInterpolator interpolator = (AccelerateDecelerateInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_acceleratedecelerate_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorAnticipateTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.anticipateInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            AnticipateInterpolator interpolator = (AnticipateInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_anticipate_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorAnticipateOvershootTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.antOverInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            AnticipateOvershootInterpolator interpolator = (AnticipateOvershootInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_anticipateovershoot_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorBounceTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.bounceInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            BounceInterpolator interpolator = (BounceInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_bounce_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorCycleTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.cycleInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            CycleInterpolator interpolator = (CycleInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_cycle_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorDecelerateTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.decelerateInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            DecelerateInterpolator interpolator = (DecelerateInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_decelerate_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorLinearTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.linearInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            LinearInterpolator interpolator = (LinearInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_linear_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }
+
+        void initInterpolatorOvershootTest(TestActivity act, View rootView)
+        {
+            TextView textView = getTextView(rootView,R.id.overshootInterpolatorTestId1);
+            Animation animation = getAnimation(act);
+
+            OvershootInterpolator interpolator = (OvershootInterpolator)getInterpolator(
+                    "@remote:anim/droid/res/anim/test_interpolator_overshoot_remote.xml",act);
+
+            animation.setInterpolator(interpolator);
+            textView.startAnimation(animation);
+        }        
+
+
+        TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
+        View rootView = itsNatDoc.getRootView();
+
+        initialConfiguration(act,rootView);
+    ]]></script>
+
+</ScrollView>

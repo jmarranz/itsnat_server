@@ -6,6 +6,12 @@
     indres:animatorSetTest="@remote:animator/droid/res/animator/test_animator_set_remote.xml"
     indres:sportArrayByServlet="@remote:array/ItsNatDroidServletExample?itsnat_doc_name=test_droid_sports_array:sports_array"
     indres:sportArrayByStaticFile="@remote:array/droid/res/values/arrays_remote.xml:sports_array"
+    indres:animAlphaTest="@remote:anim/droid/res/anim/test_animation_alpha_remote.xml"
+    indres:animRotateTest="@remote:anim/droid/res/anim/test_animation_rotate_remote.xml"
+    indres:animScaleTest="@remote:anim/droid/res/anim/test_animation_scale_remote.xml"
+    indres:animTranslateTest1="@remote:anim/droid/res/anim/test_animation_translate_1_remote.xml"
+    indres:animTranslateTest2="@remote:anim/droid/res/anim/test_animation_translate_2_remote.xml"
+    indres:animSetTest="@remote:anim/droid/res/anim/test_animation_set_remote.xml"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -31,7 +37,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="ObjectAnimator Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -83,7 +89,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="ValueAnimator Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -98,7 +104,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="AnimatorSet Tests"
             android:textSize="15dp"
             android:background="#00ff00"/>
@@ -111,12 +117,118 @@
             android:textSize="15dp"
             android:background="@android:color/holo_green_light" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Animation Tests"
+            android:textSize="20dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AlphaAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/alphaAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AlphaAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RotateAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/rotateAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RotateAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ScaleAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/scaleAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ScaleAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/translateAnimationTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:id="@+id/translateAnimationTestId2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TranslateAnimation Test 2"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimationSet Tests"
+            android:textSize="15dp"
+            android:background="#00ff00"/>
+
+        <TextView
+            android:id="@+id/animationSetTestId1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AnimationSet Test 1"
+            android:textSize="15dp"
+            android:background="#cccccc"/>
+
     </LinearLayout>
 
     <script><![CDATA[
         import org.itsnat.itsnatdroidtest.R;
         import org.itsnat.itsnatdroidtest.testact.TestActivity;
         import android.animation.*;
+        import android.view.animation.*;
+
+        void initialConfiguration(TestActivity act, View rootView)
+        {
+            defineObjectAnimatorTests(act,rootView);
+            defineValueAnimatorTests(act,rootView);
+            defineSetAnimatorTests(act,rootView);
+
+            defineAlphaAnimationTests(act,rootView);
+            defineRotateAnimationTests(act,rootView);
+            defineScaleAnimationTests(act,rootView);
+            defineTranslateAnimationTests(act,rootView);
+            defineAnimationSetTests(act,rootView);
+        }
 
         void defineObjectAnimatorTests(TestActivity act, View rootView)
         {
@@ -193,13 +305,53 @@
             // No testing of AnimatorSet here, many tests are executed as assets
         }
 
+        void defineAlphaAnimationTests(TestActivity act, View rootView)
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.alphaAnimationTestId1);
+            AlphaAnimation alphaAnimation = (AlphaAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_alpha_remote.xml");
+            textView.startAnimation(alphaAnimation);
+        }
 
+        void defineRotateAnimationTests(TestActivity act, View rootView)
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.rotateAnimationTestId1);
+            RotateAnimation rotateAnimation = (RotateAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_rotate_remote.xml");
+            textView.startAnimation(rotateAnimation);
+        }
+
+        void defineScaleAnimationTests(TestActivity act, View rootView)
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.scaleAnimationTestId1);
+            ScaleAnimation animation = (ScaleAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_scale_remote.xml");
+            textView.startAnimation(animation);
+        }
+
+        void defineTranslateAnimationTests(TestActivity act, View rootView)
+        {
+            {
+                TextView textView = (TextView) rootView.findViewById(R.id.translateAnimationTestId1);
+                TranslateAnimation animation = (TranslateAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_translate_1_remote.xml");
+                textView.startAnimation(animation);
+            }
+
+            {
+                TextView textView = (TextView) rootView.findViewById(R.id.translateAnimationTestId2);
+                TranslateAnimation animation = (TranslateAnimation) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_translate_2_remote.xml");
+                textView.startAnimation(animation);
+            }
+        }        
+        
+        void defineAnimationSetTests(TestActivity act, View rootView)
+        {
+            TextView textView = (TextView) rootView.findViewById(R.id.animationSetTestId1);
+            AnimationSet animation = (AnimationSet) itsNatDoc.getItsNatResources().getAnimation("@remote:anim/droid/res/anim/test_animation_set_remote.xml");
+            textView.startAnimation(animation);
+        }        
+        
         TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
         View rootView = itsNatDoc.getRootView();
 
-        defineObjectAnimatorTests(act,rootView);
-        defineValueAnimatorTests(act,rootView);
-        defineSetAnimatorTests(act,rootView);
+        initialConfiguration(act,rootView);
     ]]></script>
 
 </ScrollView>

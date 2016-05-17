@@ -27,79 +27,13 @@ public class TestDroidRemoteAnimationsDocument implements EventListener,Serializ
         Document doc = itsNatDoc.getDocument();
         this.rootElem = doc.getDocumentElement();
         ((EventTarget)rootElem).addEventListener("load", this, false);
-
-/*        
-        new TestDroidRemoteResFragmentInsertionInnerXML(itsNatDoc);
-        new TestDroidRemoteResFragmentInsertionUsingDOMAPI(itsNatDoc);
-
-        final Element testChangeDrawableElem = doc.getElementById("testChangeDrawableId");
-        ((EventTarget)testChangeDrawableElem).addEventListener("click", new EventListenerSerial() {
-            @Override
-            public void handleEvent(Event evt)
-            {
-                testChangeDrawableElem.setAttribute("android:background", "@remote:drawable/droid/res/drawable/test_nine_patch_remote.xml");
-            }
-        }, false);
-*/        
     }
 
     @Override
     public void handleEvent(Event evt)
     {
         Document doc = itsNatDoc.getDocument();
-
-/*
-        Element testClipDrawableElem = doc.getElementById("testClipDrawableId");
-        TextView testClipDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem);
-        ClipDrawable clipDrawable = testClipDrawableComp.getBackground(ClipDrawable.class);
-        clipDrawable.setLevel(5000); // Half of the image is shown
-
-        Element testClipDrawableElem2 = doc.getElementById("testClipDrawableId2");
-        TextView testClipDrawableComp2 = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testClipDrawableElem2);
-        ClipDrawable clipDrawable2 = testClipDrawableComp2.getBackground(ClipDrawable.class);
-        clipDrawable2.setLevel(5000); // Half of the image is shown
-
-
-        Element testTransitionDrawableElem = doc.getElementById("testTransitionDrawableId");
-        TextView testTransitionDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testTransitionDrawableElem);
-        final TransitionDrawable transitionDrawable = testTransitionDrawableComp.getBackground(TransitionDrawable.class);
-        ((EventTarget)testTransitionDrawableElem).addEventListener("click", new EventListener()
-        {
-            @Override
-            public void handleEvent(Event evt)
-            {
-                transitionDrawable.startTransition(1000);
-            }
-        }, false);
-
-        Element testLevelListDrawableElem = doc.getElementById("testLevelListDrawableId");
-        TextView testLevelListDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testLevelListDrawableElem);
-        final LevelListDrawable levelListDrawable = testLevelListDrawableComp.getBackground(LevelListDrawable.class);
-        levelListDrawable.setLevel(1);
-        ((EventTarget)testLevelListDrawableElem).addEventListener("click", new EventListener()
-        {
-            @Override
-            public void handleEvent(Event evt)
-            {
-                levelListDrawable.setLevel(4);
-            }
-        }, false);
-
-        Element testScaleDrawableElem = doc.getElementById("testScaleDrawableId");
-        TextView testScaleDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testScaleDrawableElem);
-        ScaleDrawable scaleDrawable = testScaleDrawableComp.getBackground(ScaleDrawable.class);
-        scaleDrawable.setLevel(1);
-
-        Element testAnimationDrawableElem = doc.getElementById("testAnimationDrawableId");
-        TextView testAnimationDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testAnimationDrawableElem);
-        AnimationDrawable animationDrawable = testAnimationDrawableComp.getBackground(AnimationDrawable.class);
-        animationDrawable.start();
-
-        Element testRotateDrawableElem = doc.getElementById("testRotateDrawableId");
-        TextView testRotateDrawableComp = (TextView)itsNatDoc.getItsNatComponentManager().createItsNatComponent(testRotateDrawableElem);
-        RotateDrawable rotateDrawable = testRotateDrawableComp.getBackground(RotateDrawable.class);
-        rotateDrawable.setLevel(10000);
-*/
+        // Nothing to do
     }
 
 }

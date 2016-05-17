@@ -89,10 +89,14 @@ public class ItsNatDroidServletExample extends HttpServletWrapper
         docTemplate = registerDocument("test_droid_remote_drawable_ninepatch","text/xml",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidDrawableLoadListener());
 
-        docTemplate = registerDocument("test_droid_remote_animations","android/layout",pathPrefix,pages);
+        docTemplate = registerDocument("test_droid_remote_animations_1","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteAnimationsDocLoadListener());
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);        
 
+        docTemplate = registerDocument("test_droid_remote_animations_2","android/layout",pathPrefix,pages);
+        docTemplate.addItsNatServletRequestListener(new TestDroidRemoteAnimationsDocLoadListener());
+        ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);         
+        
         docTemplate = registerDocument("test_droid_remote_ctrl","android/layout",pathPrefix,pages);
         docTemplate.addItsNatServletRequestListener(new TestDroidRemoteCtrlLauncherDocLoadListener());
         ((ItsNatDroidDocumentTemplate)docTemplate).setBitmapDensityReference(320);
