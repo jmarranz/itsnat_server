@@ -1,0 +1,5 @@
+<resources>
+
+<item name="test_drawable_scaledrawable_scaleWidth" type="dimen">60.3%</item> <!-- Alternative in this case:  <string name="test_drawable_scaledrawable_scaleWidth">60.3%</string> -->
+    
+</resources>

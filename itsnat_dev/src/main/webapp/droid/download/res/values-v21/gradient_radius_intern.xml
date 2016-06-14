@@ -1,0 +1,5 @@
+<resources>
+    <!-- http://stackoverflow.com/questions/21605877/illegalargumentexception-radius-must-be-0 -->
+    <!-- ver notas en values/gradient_radius_compiled.xml -->
+    <item name="gradient_radius" type="dimen">50.3%p</item>
+</resources>

@@ -1,0 +1,185 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.itsnat.itsnatdroidtest.MainActivity">
+    <!--
+        "#dddddd" gris claro
+        "#ffdddd" rosa
+        "#aaaaaa" gris oscuro
+        "#55ddffdd" verde claro
+        "#eeee55" amarillo
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK" />
+
+        <Button
+            android:id="@id/buttonReload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_reload" 
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="20dp"
+            android:text="BitmapDrawable (partial img in center)"
+            android:textSize="18dp"
+            android:background="@intern:drawable/res/drawable/test_bitmap_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginTop="20dp"
+            android:text="BitmapDrawable 2 (partial img repeated)"
+            android:textSize="18dp"
+            android:background="@intern:drawable/res/drawable/test_bitmap_drawable_intern_2.xml" />
+
+        <TextView
+            android:id="@+id/testClipDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="ClipDrawable (half img)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_clip_drawable_intern.xml" />
+
+        <TextView
+            android:id="@+id/testClipDrawableId2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="ClipDrawable 2 (half img)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_clip_drawable_intern_2.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:text="ColorDrawable (gray)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_color_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="NinePatchDrawable (border must be green)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_nine_patch_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="LayerDrawable (2 green rects and centered img)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_layer_drawable_intern.xml" />
+
+        <TextView
+            android:id="@+id/testTransitionDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="TransitionDrawable (green rect padded, press adds a centered bot"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_transition_drawable_intern.xml" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:text="StateListDrawable (green rect, press to change to a bot in center)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_state_list_drawable_intern.xml" />
+
+        <TextView
+            android:id="@+id/testLevelListDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="LevelListDrawable (green rect, press to change to a bot in center)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_level_list_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="InsetDrawable (green rect with insets, text inside)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_inset_drawable_intern.xml" />
+
+        <TextView
+            android:id="@+id/testScaleDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="ScaleDrawable (green, small and centered rect)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_scale_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_gradient_drawable_intern.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 2"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_gradient_drawable_intern_2.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 3"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_gradient_drawable_intern_3.xml" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="GradientDrawable 4"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_gradient_drawable_intern_4.xml" />
+
+        <TextView
+            android:id="@+id/testAnimationDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="AnimationDrawable (green rect and bot switching)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_animation_drawable_intern.xml" />
+
+        <TextView android:id="@+id/testRotateDrawableId"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:text="RotateDrawable (bot rotated 10 degrees, level 10000, pivot (15.3%,40.3%)"
+            android:textSize="20dp"
+            android:background="@intern:drawable/res/drawable/test_rotate_drawable_intern.xml" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@intern:drawable/res/drawable/list_selector_background_focused_light_intern.9.png"
+        android:id="@+id/layer_list_item_0"
+        android:top="0dp"
+        android:right="0dp"
+        android:bottom="0dp"
+        android:left="0dp"
+    />
+
+    <item
+        android:drawable="@intern:drawable/res/drawable/list_selector_background_focused_light_intern.9.png"
+        android:id="@+id/layer_list_item_1"
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp">
+    </item>
+
+    <item
+        android:id="@+id/layer_list_item_2"
+        android:top="5.3dp"
+        android:right="6.3dp"
+        android:bottom="7.3dp"
+        android:left="8.3dp">
+            <bitmap android:src="@intern:drawable/res/drawable/droid_intern.png"
+                    android:gravity="center" />
+    </item>
+
+</layer-list>

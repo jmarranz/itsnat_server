@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:drawable="@intern:drawable/res/drawable/list_selector_background_focused_light_intern.9.png"
+        android:minLevel="0"
+        android:maxLevel="2"
+        />
+
+    <item
+        android:minLevel="3"
+        android:maxLevel="5"
+        >
+            <bitmap android:src="@intern:drawable/res/drawable/droid_intern.png"
+                android:gravity="center" />
+
+    </item>
+
+</level-list>

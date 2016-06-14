@@ -40,6 +40,7 @@ public class TestDroidRemoteCtrlLauncherDocLoadListener implements ItsNatServlet
     {
     }
 
+    @Override
     public void processRequest(ItsNatServletRequest request, ItsNatServletResponse response)
     {
 
@@ -104,14 +105,20 @@ public class TestDroidRemoteCtrlLauncherDocLoadListener implements ItsNatServlet
 
                 for(int j = 0; j < remDocs.length; j++)
                 {
-                    Element docInfoElem = (Element)docNodeList.addElement();
-
                     ItsNatDocument remDoc = remDocs[j];
+                    String docId = remDoc.getId();
+                    String docName = remDoc.getItsNatDocumentTemplate().getName();
+                    if (!docName.equals("test_droid_core"))                     
+                        continue; // Los demás templates no están autorizados
+                                                                
+                    Element docInfoElem = (Element)docNodeList.addElement();                    
+                    
                     ItsNatVariableResolver level2 = level1.createItsNatVariableResolver();
-                    level2.setLocalVariable("docId",remDoc.getId());
-                    level2.setLocalVariable("docName",remDoc.getItsNatDocumentTemplate().getName());
+                    level2.setLocalVariable("docId",docId);
+                    level2.setLocalVariable("docName",docName);
                     level2.resolve(docInfoElem);
-                }
+                }                
+                
             }
             else
             {

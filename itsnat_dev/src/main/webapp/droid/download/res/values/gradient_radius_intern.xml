@@ -1,0 +1,8 @@
+<resources>
+    <!-- Notas sobre gradient_radius:
+        En versiones previas a LOLLIPOP (5.0) un valor 5000.3% tiene sentido, se divide entre 100 y el resultado son pixels (es raro pero creo que es así), y no se distingue
+        si se añade la p
+        En versions post LOLLIPOP 5000.3% NO tiene sentido y es preferible usar algo como 50.3%p, ya se distingue la "p"
+    -->
+    <item name="gradient_radius" type="dimen">5000.3%</item> <!-- Añadir format="float" para un valor concreto no dimensión (serán pixels) ej "100.3" -->
+</resources>

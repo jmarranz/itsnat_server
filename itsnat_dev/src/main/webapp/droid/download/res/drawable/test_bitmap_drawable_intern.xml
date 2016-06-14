@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+        android:src="@intern:drawable/res/drawable/droid_intern.png"
+        android:antialias="true"
+        android:dither="false"
+        android:filter="true"
+        android:gravity="center"
+        android:tileMode="disabled"
+    />
+

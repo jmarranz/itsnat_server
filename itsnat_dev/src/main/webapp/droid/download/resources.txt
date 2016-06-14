@@ -1,0 +1,35 @@
+# resource list
+
+res/layout/test_local_layout_drawables_intern.xml
+
+# drawables
+
+res/drawable/droid_intern.png
+res/drawable/list_selector_background_focused_light_intern.9.png
+res/drawable/test_animation_drawable_intern.xml
+res/drawable/test_bitmap_drawable_intern.xml
+res/drawable/test_bitmap_drawable_intern_2.xml
+res/drawable/test_clip_drawable_intern.xml
+res/drawable/test_clip_drawable_intern_2.xml
+res/drawable/test_color_drawable_intern.xml
+res/drawable/test_drawable_textview_drawableleft_intern.xml
+res/drawable/test_gradient_drawable_intern.xml
+res/drawable/test_gradient_drawable_intern_2.xml
+res/drawable/test_gradient_drawable_intern_3.xml
+res/drawable/test_gradient_drawable_intern_4.xml
+res/drawable/test_inset_drawable_intern.xml
+res/drawable/test_layer_drawable_intern.xml
+res/drawable/test_level_list_drawable_intern.xml
+res/drawable/test_nine_patch_drawable_intern.xml
+res/drawable/test_rotate_drawable_intern.xml
+res/drawable/test_scale_drawable_intern.xml
+res/drawable/test_state_list_drawable_intern.xml
+res/drawable/test_transition_drawable_intern.xml
+
+# values
+
+res/values/gradient_radius_intern.xml
+res/values/test_values_intern.xml
+
+res/values-v21/gradient_radius_intern.xml
+

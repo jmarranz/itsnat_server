@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:constantSize="false"
+
+        android:drawable="@intern:drawable/res/drawable/list_selector_background_focused_light_intern.9.png"
+
+        android:state_pressed="false"
+
+        android:variablePadding="false"
+        android:visible="false"
+        /> <!--  -->
+
+    <item
+        android:constantSize="false"
+
+        android:state_pressed="true"
+        android:state_focused="false"
+
+        android:variablePadding="false"
+        android:visible="false"
+        >
+
+            <bitmap android:src="@intern:drawable/res/drawable/droid_intern.png"
+                android:gravity="center" />
+    </item>  <!--  -->
+
+</selector>
