@@ -12,6 +12,9 @@
     indres:animTranslateTest1="@remote:anim/droid/res/anim/test_animation_translate_1_remote.xml"
     indres:animTranslateTest2="@remote:anim/droid/res/anim/test_animation_translate_2_remote.xml"
     indres:animSetTest="@remote:anim/droid/res/anim/test_animation_set_remote.xml"
+    indres:layoutTest="@remote:layout/droid/res/layout/auto_complete_text_view_hint_view_remote.xml"
+    
+
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -214,9 +217,11 @@
     <script><![CDATA[
         import org.itsnat.itsnatdroidtest.R;
         import org.itsnat.itsnatdroidtest.testact.TestActivity;
+        import org.itsnat.itsnatdroidtest.testact.util.*;
         import android.animation.*;
         import android.view.animation.*;
 
+        
         void initialConfiguration(TestActivity act, View rootView)
         {
             defineObjectAnimatorTests(act,rootView);
@@ -228,6 +233,7 @@
             defineScaleAnimationTests(act,rootView);
             defineTranslateAnimationTests(act,rootView);
             defineAnimationSetTests(act,rootView);
+            itsNatResourcesOtherTests(act,rootView);
         }
 
         void defineObjectAnimatorTests(TestActivity act, View rootView)
@@ -348,6 +354,15 @@
             textView.startAnimation(animation);
         }        
         
+        void itsNatResourcesOtherTests(TestActivity act, View rootView)
+        {     
+            // Test ItsNatResources.getLayout()                  
+            TextView textView = itsNatDoc.getItsNatResources().getLayout("@remote:layout/droid/res/layout/auto_complete_text_view_hint_view_remote.xml", null, -1);              
+            Assert.assertNotNull(textView);           
+            Assert.assertNotNull(textView.getId());        
+        }       
+        
+                
         TestActivity act = (TestActivity)itsNatDoc.getPage().getContext();
         View rootView = itsNatDoc.getRootView();
 
