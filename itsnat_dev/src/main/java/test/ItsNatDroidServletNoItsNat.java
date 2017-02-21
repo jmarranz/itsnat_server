@@ -145,7 +145,18 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
                         + "  .requestAsync(); "
                         + "}"
                      + "</script> ");
-
+        
+        res.append("    <script><![CDATA[ "           
+                        + " import android.widget.*; "
+                        + " import org.itsnat.itsnatdroidtest.testact.util.*; "                                
+                        + " \n"                
+                        + "// Test ItsNatResources.getLayout() and how to access to Android objects \n"                
+        
+                        + " TextView textView = itsNatDoc.getItsNatResources().getLayout(\"@remote:layout/droid/res/layout/auto_complete_text_view_hint_view_remote.xml\", null, -1);   "                        
+                        + " Assert.assertNotNull(textView);   "        
+                        + " Assert.assertNotNull(textView.getId()); " 
+                        + " ]]></script>  ");        
+        
         res.append("    <Button ");
         res.append("        android:layout_width=\"wrap_content\" ");
         res.append("        android:layout_height=\"wrap_content\" ");
@@ -175,11 +186,10 @@ public class ItsNatDroidServletNoItsNat extends HttpServlet
 
         res.append("        </LinearLayout> ");
 
-        res.append("    </ScrollView> ");
-
-
-        res.append(" </LinearLayout> ");
-
+        res.append("    </ScrollView> ");            
+        
+        res.append(" </LinearLayout> "); 
+        
         return res;
     }
 
