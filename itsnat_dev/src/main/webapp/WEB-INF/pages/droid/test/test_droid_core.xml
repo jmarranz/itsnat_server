@@ -50,7 +50,13 @@
         <TextView id="testOnLoadInlineScript2Id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="test loading inline &lt;script&gt; 2: " /> <!-- for a <script> added in Java code --> 
+                android:text="test loading inline &lt;script&gt; from Java code in server 2: " /> <!-- for a <script> added in Java code in server --> 
+
+        <TextView id="testOnLoadInlineScript3Id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="test loading inline &lt;script&gt; from Java code in client 3: " />
+
 
         <TextView id="testOnLoadScriptWithSrcId"
                 android:layout_width="match_parent"

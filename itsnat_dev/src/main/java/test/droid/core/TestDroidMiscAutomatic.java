@@ -58,11 +58,11 @@ public class TestDroidMiscAutomatic extends TestDroidBase implements EventListen
         NodeList scripts = doc.getElementsByTagName("script");
         if (scripts.getLength() > 0) throw new RuntimeException("Unexpected <string> element");        
         
-        Element elemTemp = itsNatDoc.getDocument().createElement("script");
+        Element elemTemp = doc.createElement("script");
         elemTemp.setTextContent("var view = itsNatDoc.findViewByXMLId(\"testOnLoadInlineScript2Id\"); view.setText(view.getText() + \"OK\");");
         rootElem.appendChild(elemTemp);  // Da igual donde se inserte pues se elimina inmediatamente      
         
-        elemTemp = itsNatDoc.getDocument().createElement("script");
+        elemTemp = doc.createElement("script");
         
         HttpServletRequest httpReq = (HttpServletRequest)request.getServletRequest();
         String host = httpReq.getLocalAddr();
